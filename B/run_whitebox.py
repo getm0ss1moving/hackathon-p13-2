@@ -56,7 +56,8 @@ def main(argv=None):
 
     # 只加载列出的配置项，不执行 shell，不输出密钥。
     local = HERE / ".env.local"
-    allowed = {"DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL", "RUNBOOK_LLM_TIMEOUT"}
+    allowed = {"DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL", "RUNBOOK_LLM_TIMEOUT",
+               "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS"}
     if local.is_file():
         for line in local.read_text().splitlines():
             name, sep, value = line.partition("=")
@@ -93,6 +94,7 @@ def main(argv=None):
         "requests_spent_before_run": args.spent_requests, "max_output_tokens": args.max_output_tokens,
         "sdk_max_retries": 0, "thinking": "provider default", "temperature": "provider default",
         "template_count": len(runbook_items.RUNBOOK_ITEMS),
+        "preserve_template_columns": os.environ.get("RUNBOOK_PRESERVE_TEMPLATE_COLUMNS") == "1",
         "cache_policy": "new system process; schema warmup excluded; executor cache shared across cases",
         "score_policy": "original evaluate_case; one pass; no official weighting or template adjustment",
         "blackbox": "missing; not tested", "generation_requests_before_run": len(matcher.get_llm_events()),

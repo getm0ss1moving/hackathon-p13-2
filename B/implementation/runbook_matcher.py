@@ -758,7 +758,7 @@ def match_runbook(user_question: str, runbook_items: list,
     if selected.get("sql"):
         original_sql = selected["sql"]
         schemas = _get_table_schemas(original_sql)
-        refined = _refine_sql(user_question, original_sql, schemas)
+        refined = _refine_sql(user_question, original_sql, schemas, diagnostics)
         if refined:
             selected["sql"] = refined
         diagnostics["sql_before_refine"] = original_sql
@@ -772,7 +772,41 @@ def _sql_structure(sql: str) -> str:
     return re.sub(r"'(?:''|[^'])*'|--[^\n]*|/\*[\s\S]*?\*/", " ", sql)
 
 
-def _validated_refinement(candidate: str, original: str, question: str) -> str:
+
+def _query_signature(sql):
+    text = _sql_structure(sql)
+    group = re.search(r"\bGROUP\s+BY\s+(.+?)(?=\bHAVING\b|\bORDER\s+BY\b|\bLIMIT\b|$)", text, re.I | re.S)
+    grouping = re.sub(r"\s+", "", group[1]).casefold() if group else ""
+    aggregations = sorted(set(re.findall(r"\b(COUNT|SUM|AVG|MAX|MIN)\s*\(", text, re.I)))
+    return grouping, tuple(word.casefold() for word in aggregations)
+
+
+def _projection_contract(original, refined):
+    if _query_signature(original) != _query_signature(refined):
+        return {"reject": False, "reason": "query_structure_changed"}
+    tables = _extract_sql_tables(original)
+    schemas = {table: _schema_columns.get(_ORIG_TO_DESENS.get(table, table)) for table in tables}
+    if not all(schemas.values()):
+        return {"reject": False, "reason": "schema_unknown"}
+    try:
+        with closing(sqlite3.connect(":memory:")) as conn:
+            for table, columns in schemas.items():
+                fields = ['"' + column.replace('"', '""') + '" TEXT' for column in columns]
+                conn.execute('CREATE TABLE "' + table.replace('"', '""') + '" (' + ','.join(fields) + ')')
+            def columns(sql):
+                cursor = conn.execute("SELECT * FROM (" + sql.strip().rstrip(";") + ") LIMIT 0")
+                return [column[0] for column in cursor.description]
+            before, after = columns(original), columns(refined)
+    except sqlite3.Error:
+        return {"reject": False, "reason": "projection_unknown"}
+    normalize = lambda name: re.sub(r"[_\-\s]", "", name.casefold())
+    after_keys = {normalize(name) for name in after}
+    missing = [name for name in before if normalize(name) not in after_keys]
+    return {"reject": bool(missing), "reason": "missing_template_columns" if missing else "columns_preserved",
+            "original_columns": before, "refined_columns": after, "missing_columns": missing}
+
+
+def _validated_refinement(candidate: str, original: str, question: str, diagnostics: dict = None) -> str:
     structure = _sql_structure(candidate).strip()
     body = structure[:-1].rstrip() if structure.endswith(";") else structure
     if not re.match(r"^SELECT\b", body, re.I) or ";" in body:
@@ -804,10 +838,16 @@ def _validated_refinement(candidate: str, original: str, question: str) -> str:
             conn.execute("EXPLAIN " + candidate)
     except sqlite3.Error:
         return original
+    if os.environ.get("RUNBOOK_PRESERVE_TEMPLATE_COLUMNS") == "1":
+        decision = _projection_contract(original, candidate)
+        if diagnostics is not None:
+            diagnostics["projection_contract"] = decision
+        if decision["reject"]:
+            return original
     return candidate
 
 
-def _refine_sql(question: str, sql: str, schemas: str = "") -> str:
+def _refine_sql(question: str, sql: str, schemas: str = "", diagnostics: dict = None) -> str:
     """保留精调环节，不合法或不可编译的模型SQL回退到原模板。"""
     prompt = REFINE_SQL_PROMPT.format(
         question=question, sql=sql, schemas=schemas or "(无)", join_relations=JOIN_RELATIONS)
@@ -816,7 +856,7 @@ def _refine_sql(question: str, sql: str, schemas: str = "") -> str:
         fence = chr(96) * 3
         if refined.startswith(fence) and refined.endswith(fence):
             refined = re.sub("^" + fence + r"(?:sql)?\s*", "", refined, flags=re.I)[:-3].strip()
-        return _validated_refinement(refined, sql, question)
+        return _validated_refinement(refined, sql, question, diagnostics)
     except Exception as exc:
         logger.warning("SQL精调失败，保留原SQL：%s", type(exc).__name__)
         return sql
