@@ -1,6 +1,6 @@
 # B：模板选择、参数填充与查询流程
 
-本目录是 `hackathon-p13-2/B`，按仓库 `TEAM.md` 的 B 角色独立开发。负责人是本聊天的用户，由 Codex 协助。开发分支为 `simple/official-starter`。
+本目录是 `hackathon-p13-2/B`，按仓库 `TEAM.md` 的 B 角色独立开发。负责人是本聊天的用户，由 Codex 协助。开发分支为 `simple/official-starter`。当前成果、集成边界、对 A 的问题和下一轮顺序见 [交接清单](HANDOFF.md)。
 
 已完成一次历史版本真实模型全量白盒测试：**448.9/1000，116 题完全正确、20 题部分正确、23 题错误、41 题拒答**。随后完成资源门禁修复的八题真实诊断，并将 [A 的缓存检索器](experiments/a_cache_20261029_handoff.md)独立验证后原样接入 B。当前版本本地回归 56 项通过，尚未重新跑真实模型全量测试。仍使用“BM25 → LLM 选择 → 参数填充 → SQL 精调 → 原执行器”。结果属于 deepseek-flash 开发自测；完整证据见 [全量报告](experiments/whitebox_20261029_summary.md)、[资源修复报告](experiments/resource_gate_20261029_summary.md)及 [PROGRESS.md](PROGRESS.md)。
 
