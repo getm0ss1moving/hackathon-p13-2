@@ -1,4 +1,4 @@
-"""检查本地环境、原始文件与可选的数据服务；不调用大模型。"""
+"""检查本地环境、只读快照与可选的数据服务；不调用大模型。"""
 
 import argparse
 import hashlib
@@ -31,10 +31,12 @@ def main():
         if not path.is_file():
             errors.append(f"缺少文件：{relative}")
         elif hashlib.sha256(path.read_bytes()).hexdigest() != expected:
-            errors.append(f"原始文件内容发生变化：{relative}")
+            errors.append(f"只读快照内容发生变化：{relative}")
         else:
             checked += 1
-    print(f"原始文件校验：{checked}/{len(manifest['readonly_files'])}")
+    print(f"只读快照校验：{checked}/{len(manifest['readonly_files'])}")
+    for relative, source in manifest.get("component_sources", {}).items():
+        print(f"已交接组件：{relative} ← {source['source_commit'][:7]}")
     print("DEEPSEEK_API_KEY：" + ("已配置（不显示）" if os.environ.get("DEEPSEEK_API_KEY") else "未配置"))
     try:
         import httpx

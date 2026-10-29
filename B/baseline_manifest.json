@@ -12,7 +12,7 @@
     "implementation/quick_eval.py": "34c53b82b0bc3ff0ad9b84a2b3a0f6547a5db0be9051dcbc3643bbf05140362d",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
     "implementation/runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
-    "implementation/runbook_retriever.py": "834b1062bac69687939d33c1e9d4198238517f03a939847c384c8a67212ae9bb",
+    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
     "output-server/CI+md数据-脱敏-最终-0924/AZONE-1.json": "ccff5535ed66b4ead8e0d6a227693b92312ce1a39c346c4bc32591f501972e8b",
     "output-server/CI+md数据-脱敏-最终-0924/Application-1.json": "9cfbc5748dbfddf77c6f0e0d52539b4c4ca2738f5d71ca78e6121d036e06156e",
     "output-server/CI+md数据-脱敏-最终-0924/ApplicationModule-1.json": "d22bd11f44a45a976285bccb357528b3a814c877e076547907480b416d110f1c",
@@ -246,5 +246,14 @@
     "output-server/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "output-server/data_server.py": "8cdb84922267446e7632d763e236eca9120fd5f1d84fd255b0d5ec590b002fa7",
     "output-server/verify_server.py": "b3c12ddd3d9cee353ea15788faccd3a640673d99d70046459dfb994d277b36fe"
+  },
+  "component_sources": {
+    "implementation/runbook_retriever.py": {
+      "source_commit": "1928514a1f2c722286ecb98463ad6425b4100dc7",
+      "repository_path": "implementation/runbook_retriever.py",
+      "sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+      "handoff_evidence": "experiments/a_cache_20261029_integration.json",
+      "note": "A 原样快照；B 未改写该文件；其他只读文件仍以 source_commit 为准"
+    }
   }
 }

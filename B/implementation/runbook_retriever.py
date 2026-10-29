@@ -117,6 +117,8 @@ class RunbookRetriever:
         self._tau = median
         self._unseen_weight = self._tau * self._unseen_ratio
         self._generic_df_limit = GENERIC_DF_RATIO * self._doc_count
+        # 文档在索引生命周期内不变，词频只构造一次，避免每次查询重复计数。
+        self._doc_tfs = [Counter(doc.tokens) for doc in self._docs]
 
     @staticmethod
     def _build_docs(items: list) -> list:
@@ -161,8 +163,7 @@ class RunbookRetriever:
 
     def _aggregate_items(self, query_tokens: set, content: list, denominator: float) -> list:
         items = {}
-        for doc in self._docs:
-            tf = Counter(doc.tokens)
+        for doc, tf in zip(self._docs, self._doc_tfs):
             score = self._bm25_score(query_tokens, tf, len(doc.tokens))
             entry = items.setdefault(doc.item_id, {"score": 0.0, "matched": set()})
             entry["score"] = max(entry["score"], score)

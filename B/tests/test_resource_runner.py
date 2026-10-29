@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+import subprocess
 import unittest
 from unittest.mock import Mock, patch
 
@@ -23,7 +24,16 @@ import runbook_system as system_module
 class ResourceRunnerTests(unittest.TestCase):
     def setUp(self):
         self.scope = json.loads((HERE / "experiments/resource_gate_20261029_plan.json").read_text())
+        # 历史计划固定旧源码；入口测试使用当前源码的临时计划，不改写历史授权或结果。
+        self.scope["candidate_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip()
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.plan_file = Path(temp.name) / "fixture_plan.json"
+        self.plan_file.write_text(json.dumps(self.scope))
         self.original_read = Path.read_text
+
+    def args(self, *values):
+        return ["--plan", str(self.plan_file), *values]
 
     def safe_read(self, path, *args, **kwargs):
         if path == HERE / ".env.local":
@@ -53,15 +63,26 @@ class ResourceRunnerTests(unittest.TestCase):
             scope[field] = value
 
             def read(path, *args, **kwargs):
-                if path == HERE / "experiments/resource_gate_20261029_plan.json":
+                if path == self.plan_file:
                     return json.dumps(scope)
                 return self.safe_read(path, *args, **kwargs)
 
             with self.subTest(field=field, value=value), patch.object(Path, "read_text", read), \
                  patch.object(matcher, "llm_ask", side_effect=AssertionError("不得调用模型")) as llm, \
                  contextlib.redirect_stderr(io.StringIO()):
-                with self.assertRaises(SystemExit): runner.main([])
+                with self.assertRaises(SystemExit): runner.main(self.args())
                 llm.assert_not_called()
+
+    def test_source_drift_stops_before_model_call(self):
+        scope = copy.deepcopy(self.scope)
+        scope["candidate_commit"] = "3b99aaf"
+        self.plan_file.write_text(json.dumps(scope))
+        with patch.object(Path, "read_text", lambda path, *a, **k: self.safe_read(path, *a, **k)), \
+             patch.dict(os.environ, {}), patch.object(matcher, "_llm_events", []), \
+             patch.object(matcher, "llm_ask", side_effect=AssertionError("不得调用模型")) as llm, \
+             contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit): runner.main(self.args())
+            llm.assert_not_called()
 
     def test_preflight_has_no_model_requests_and_fixes_runtime_bounds(self):
         captured = io.StringIO()
@@ -69,7 +90,7 @@ class ResourceRunnerTests(unittest.TestCase):
              patch.object(matcher, "_llm_events", []), \
              patch.object(matcher, "llm_ask", side_effect=AssertionError("不得调用模型")) as llm, \
              contextlib.redirect_stdout(captured):
-            self.assertEqual(runner.main([]), 0)
+            self.assertEqual(runner.main(self.args()), 0)
             self.assertEqual(os.environ["RUNBOOK_MAX_LLM_CALLS"], "24")
             self.assertEqual(os.environ["RUNBOOK_MAX_OUTPUT_TOKENS"], "1024")
             self.assertEqual(os.environ["RUNBOOK_PRESERVE_TEMPLATE_COLUMNS"], "0")
@@ -83,7 +104,7 @@ class ResourceRunnerTests(unittest.TestCase):
              patch.object(matcher, "_llm_events", []), patch.object(matcher, "_llm_client", None), \
              patch.object(matcher, "llm_ask", side_effect=AssertionError("不得调用模型")) as llm, \
              patch.object(system_module, "RunbookQuerySystem", factory), contextlib.redirect_stdout(captured):
-            status = runner.main(["--run", "--output", str(output)])
+            status = runner.main(self.args("--run", "--output", str(output)))
             llm.assert_not_called()
         self.assertEqual(logging.root.manager.disable, previous_logging)
         return status, [json.loads(line) for line in output.read_text().splitlines()]

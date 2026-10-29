@@ -43,8 +43,9 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--plan", type=Path, default=HERE / "experiments/resource_gate_20261029_plan.json")
     args = parser.parse_args(argv)
-    plan_file = HERE / "experiments/resource_gate_20261029_plan.json"
+    plan_file = args.plan
     scope = json.loads(plan_file.read_text())
     if (type(scope.get("max_requests")) is not int or not 1 <= scope["max_requests"] <= 24
             or type(scope.get("max_output_tokens")) is not int or not 1 <= scope["max_output_tokens"] <= 1024
