@@ -1,0 +1,26 @@
+{
+  "kind": "out_of_library_rejection_diagnostic",
+  "cases": [
+    {
+      "id": "negative_timeseries",
+      "question": "查询ECS过去七天每分钟的CPU利用率时间序列",
+      "review": "静态CMDB没有历史监控时序数据"
+    },
+    {
+      "id": "negative_delete",
+      "question": "删除region_guian4下面所有ECS实例",
+      "review": "模板为只读查询，不支持资源删除"
+    },
+    {
+      "id": "negative_forecast",
+      "question": "预测下个月所有云资源的人民币账单",
+      "review": "没有账单计价或成本预测能力"
+    },
+    {
+      "id": "negative_personal",
+      "question": "查询租户联系人的身份证号和银行卡号",
+      "review": "当前资源模板无此人员敏感字段"
+    }
+  ],
+  "score_policy": "单独统计拒答，不虚构每题+5的官方答案"
+}

@@ -1,0 +1,115 @@
+{
+  "status": "complete",
+  "integrity_issues": [],
+  "completed_cases": 6,
+  "planned_cases": 6,
+  "score": 21,
+  "untimed_score": 25,
+  "max_score_completed": 30,
+  "answer_reason_counts": {
+    "correct": 5,
+    "abstained": 1
+  },
+  "full_credit_answers_untimed": 5,
+  "time_penalty_points": 4,
+  "correct_but_timed": 4,
+  "over_4s": 4,
+  "over_6s": 0,
+  "p50_seconds": 4.08,
+  "p95_seconds": 4.94,
+  "max_seconds": 4.94,
+  "mean_seconds": 3.6350000000000002,
+  "requests": 15,
+  "request_count_semantics": "original generation event stream; inspect sdk_max_retries before comparing",
+  "prompt_tokens": 13914,
+  "completion_tokens": 1924,
+  "request_stages": {
+    "fill": {
+      "requests": 4,
+      "seconds": 5.4417,
+      "time_observed_requests": 4
+    },
+    "refine": {
+      "requests": 5,
+      "seconds": 8.7259,
+      "time_observed_requests": 5
+    },
+    "select": {
+      "requests": 6,
+      "seconds": 7.1799,
+      "time_observed_requests": 6
+    }
+  },
+  "model_config": {
+    "model": "deepseek-flash",
+    "base_url": "https://api.deepseek.com",
+    "max_output_tokens": 1024,
+    "sdk_max_retries": 0,
+    "thinking": "provider default",
+    "temperature": "provider default",
+    "cache_policy": "new system process; schema warmup excluded; executor cache shared across cases"
+  },
+  "template_count": null,
+  "cpu_seconds": null,
+  "peak_evaluation_memory_mib": 253.34,
+  "memory_scope": "未记录；不认定为系统总内存",
+  "official_total": null,
+  "limitations": [
+    "单轮开发结果；不同目录或模型不能直接归并",
+    "阈值附近的舍入耗时不能用于重算罚分；罚分来自原记录",
+    "没有黑盒与正式重复合同，不计算官方总分"
+  ],
+  "source": "B/experiments/whitebox_20261029_projection_live.jsonl",
+  "source_sha256": "f75968e0e1ea97d9cbda7921c2f86f09c16b5418eb7cb54eaec04c92a4f8e3a5",
+  "dataset_sha256": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
+  "source_sha256_modules": {
+    "runbook_matcher.py": "0cdd1b183d01095cb1fcc7714d3af918e53b25743b814c414b3fdfb43af0d5e4",
+    "runbook_system.py": "19e62309fa201a5d27ad0fc00f2e594bf7f7c74382d0d66ef97ad8f38b5506fc",
+    "runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+    "runbook_retriever.py": "834b1062bac69687939d33c1e9d4198238517f03a939847c384c8a67212ae9bb",
+    "evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+    "runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92"
+  },
+  "failure_categories": {
+    "correct_but_timed": 4,
+    "resource_gate": 1
+  },
+  "templates": {
+    "rb_001": {
+      "selected": 1,
+      "answered": 1,
+      "score": 5,
+      "timed": 0
+    },
+    "rb_002": {
+      "selected": 1,
+      "answered": 1,
+      "score": 4,
+      "timed": 1
+    },
+    "rb_009": {
+      "selected": 1,
+      "answered": 1,
+      "score": 4,
+      "timed": 1
+    },
+    "rb_010": {
+      "selected": 1,
+      "answered": 1,
+      "score": 4,
+      "timed": 1
+    },
+    "rb_023": {
+      "selected": 1,
+      "answered": 0,
+      "score": 0,
+      "timed": 0
+    },
+    "rb_166": {
+      "selected": 1,
+      "answered": 1,
+      "score": 4,
+      "timed": 1
+    }
+  }
+}

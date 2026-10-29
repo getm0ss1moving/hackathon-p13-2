@@ -1,85 +1,76 @@
-# C：评估、回归与交接
+# C：完整实验与验收工具
 
-负责人：本聊天用户，Codex 协助。工作分支 `simple/official-starter`，起点提交 `c068cd313df95405d41c5dd861d3f382186bf220`。
+C 的目标是交付可复现的基线、失败证据、版本对照和最终验收结论。完整合同见 [DESIGN.md](DESIGN.md)，当前数值、交接队列与剩余验收项见 [STATUS.md](STATUS.md)。实现都位于 C/，原评分器、执行器、数据与 A/B 代码保持原样。
 
-本轮只修改 `C/` 下的评估工作副本；不修改根目录评估入口、A/B 实现、官方执行器、评分器、数据或用例。根目录协作文档仍由集成人负责，本文件记录 C 自身交接。
+## 已有功能
 
-## 目录与数据
+- 冻结原200题及189个组：开发166、回归34、代表性开发20；复用团队固定分组，不按结果重新选题。
+- 独立泛化输入：12条已复核改写、4条已用参考查询重算答案的实体控制；另4条库外拒答控制单列。
+- 读取 C 报告、B 的 JSONL 与根 round3 报告，核对完成数、唯一题号、总分与请求数；生成逐题CSV、失败交接队列和Markdown。
+- 配对比较默认要求完整且合同一致；六题对200题须显式 --subset，只汇总这六题。模型/配置不一致时仅能显式 --descriptive 展示差值，不称受控提升。
+- 审计原文件、模板数量/大小/容器深度、建索引与检索耗时。模型CPU与总内存未测时明确写未测。
+- 实际运行入口支持冻结子集、独立轮次、派生题、真实HTTP请求上限、SDK重试计数、模型返回名/usage、最少匹配诊断、进程CPU/峰值内存和逐题检查点。
+- 公式核算仅接收白盒200与黑盒100各两份独立完整记录；缺黑盒时拒绝计算，不补零。
 
-- `implementation/quick_eval.py`：从已交接版本复制的白盒评估入口。
-- `implementation/blackbox_eval.py`：黑盒入口；缺少官方黑盒文件时明确退出。
-- `reports/`：本机评估记录，不自动提交。
-- `tests/test_eval_reports.py`：使用合成夹具与原评分函数验证报告功能，全程禁止网络连接。
+本目录依赖完整仓库。不要把 C 的整个 implementation 覆盖根目录；根集成文件交由集成人明确交接后迁移。
 
-两个入口读取仓库根目录的用例和官方 `implementation/evaluator.py`。待评测实现默认选择根目录 `implementation/`；通过 `--implementation-dir` 可指定 B 的独立实现。评分不随实现目录切换，始终使用根目录原评分函数。
+## 无模型操作
 
-本目录依赖完整仓库，不是可单独搬走运行的工程；不复制约 250MB 数据或其他成员代码。后续整合只交接 C 的两个评估入口和报告，不整份覆盖他人目录。
-
-## 评估入口功能
-
-原两个评估入口固定测试其同目录实现，无法选择 B 的独立工作区，且只输出终端汇总。C 的副本增加实现目录选择和逐题报告；评分仍调用根目录原函数，每题运行一次。
-
-每次运行默认在 `C/reports` 下生成唯一文件名，也可通过 `--report` 指定新的 JSON 文件名。已有 JSON 或配套 CSV 时拒绝覆盖。
-
-- `*.json`：记录提交、源码与用例哈希、Python/依赖版本、模板数量、测试范围，以及逐题得分、原评分原因、耗时、命中模板、API、SQL、结果行数和可用的 B 阶段诊断。
-- `*-failures.csv`：列出得分未满 5 分的已完成题目，包含拒答和答对但超时的题；UTF-8 BOM 编码便于 Excel 打开。
-- 答案分类与时间扣分分开统计。答对但超时扣分仍为 `correct`，不是 `partial`；弃权是否扣时延分严格沿用官方函数。
-- 每题后保存检查点，写报告不计入单题查询耗时。查询异常、评分异常或 Ctrl-C 会保存已完成结果并标为 `aborted`，不能当作完整基线；写报告失败会停止后续查询。
-- 不存模型提示词、原始模型响应或完整结果集；只保存查询计划、行数和选定的阶段诊断。已配置的模型密钥在报告与逐题原因中会被屏蔽。
-
-`status=completed` 才表示所请求题目全部执行完；中止报告的 `score_percent_completed` 仅针对已完成题，不能与完整评估百分比直接比较。失败分类来自官方评分原因，不能仅凭“拒答”认定是 A 的召回问题，或仅凭“答错”认定是 B 的问题；仍需结合查询计划人工定位。
-
-普通根目录实现未提供模型阶段诊断时，`recorded_llm_calls` 为 null，不能解释为模型调用 0 次。当前没有实现自动比较两份报告，也没有正式黑白加权或模板数量总分。
-
-## Windows 下启动
-
-在仓库根目录 `D:\huwwei\hackathon-p13-2` 执行，无模型调用的入口检查：
+在仓库根目录执行，以下命令不会调用模型：
 
 ```powershell
-python -B C/implementation/quick_eval.py --help
-python -B C/implementation/blackbox_eval.py --help
+python -B -m unittest discover -s C/tests -v
+python -B C/benchmark.py build --out C/reports/new-frozen
+python -B C/benchmark.py analyze B/experiments/whitebox_20261029_full.jsonl --out C/reports/b-review
+python -B C/benchmark.py analyze experiments/round3/model20.json --out C/reports/root-review
+python -B C/benchmark.py compare B/experiments/whitebox_20261029_full.jsonl B/experiments/whitebox_20261029_projection_live.jsonl --subset --out C/reports/projection-pair.json
+python -B C/benchmark.py audit --implementation-dir B/implementation --out C/reports/b-audit.json
 ```
 
-数据服务仍只启动一份：
+工具已生成的冻结清单在 experiments/frozen-v1，现有证据分析在 experiments/assessment-v1。复现分析请选择新的输出目录；原始模型记录永不覆盖。源码/用例哈希变化时不能把旧模型记录认定为当前版本实测。
+
+失败分类按证据处理：候选为空不证明库内无能力，资源门禁不证明一定误拒，SQL变化不证明一定退化。队列保留待复核项和责任人；模板频次只作描述。
+
+## 真实模型运行
+
+以下是后续执行方法，本轮没有执行。先确认模型、实际被测版本和当轮请求额度，并将密钥仅配置在运行进程的 DEEPSEEK_API_KEY 中。依赖沿用已有 openai/httpx/requests，不自动安装。
+
+数据服务只启动一份：
 
 ```powershell
 python -B output-server/data_server.py --host 127.0.0.1 --port 8080
 ```
 
-以下命令会调用真实模型，需要先确认调用范围和费用，并在本机配置密钥；本轮没有执行：
+将 $approvedRequestLimit 设置为本轮已明确批准的正整数后，在另一个终端运行：
 
 ```powershell
-# 评估根目录实现，前 3 题
-python -B C/implementation/quick_eval.py 3 --report C/reports/root-before.json
+# 固定代表性20题；不是临时取前20题
+python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/representative20.json --max-requests $approvedRequestLimit --report C/reports/b-representative.json
 
-# 评估 B 的实现，前 3 题
-# 此预算变量仅由当前 B 的模型客户端识别；不是根目录实现的限额。
-$env:RUNBOOK_MAX_LLM_CALLS = '9'
-python -B C/implementation/quick_eval.py 3 --implementation-dir B/implementation --report C/reports/b-before.json
+# 固定回归清单计划两轮：每轮单独进程和文件，两轮预算合计也需明确
+python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/regression.json --round 1 --max-requests $approvedRequestLimit --report C/reports/b-regression-r1.json
+python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/regression.json --round 2 --max-requests $approvedRequestLimit --report C/reports/b-regression-r2.json
+
+# 已重算/复核的16题；与原白盒成绩分开
+python -B C/implementation/quick_eval.py 16 --implementation-dir B/implementation --cases-file C/experiments/frozen-v1/generalization.json --max-requests $approvedRequestLimit --report C/reports/b-derived.json
 ```
 
-使用具备 openai/httpx/requests 的 Python 环境。其他成员机器上的 `.venv` 不会随 Git 克隆；不要直接执行 README 中别人的 macOS 绝对路径。本轮没有安装依赖。
+--max-requests 按实际被允许进入传输的HTTP尝试计数，失败和SDK重试也占用。超额停止继承BaseException，穿透业务层异常回退，保存中止记录。该上限只约束当前进程；不代表token或账单上限，不代表其他轮次也获准。请求目标异常也会停止。无法核实模型客户端时不启动生成。
 
-## C 的下一轮交付
+C 只观察请求中的模型/生成设置和响应usage，不修改选择、填参、提示词或SQL。响应钩子会读取响应体以保存usage，存在少量采集开销；不保存完整提示词、响应文本、认证头或密钥。root原实例未设置输出token上限时记录为provider default，不能猜成1024。
 
-1. 记录被测实现的提交、工作区改动、模板数量、依赖和测试范围。
-2. 获得真实模型调用授权后先做小样本，再建立可复现白盒基线。
-3. 输出逐题得分、耗时、错误/拒答及失败分类；分别交 A 处理模板/召回，交 B 处理选择/填参/SQL/流程。
-4. 用相同用例范围回归队友修改，单列实体替换验证；不把 mock、公开题变体或缺失的黑盒冒充正式评测。
+## 报告与验收
 
-正式计分与本地诊断的差异见根 README。不得修改原评分器来提高分数。
+- JSON：提交/源码/数据/评分器哈希、模型请求与响应身份、配置、缓存、轮次、实际HTTP、阶段诊断、逐题得分、原reason、API/SQL、结果形状、CPU和进程峰值内存。
+- failures.csv：已完成但得分未满5的题。UTF-8 BOM，可用Excel打开；答对超时仍保留正确类别和罚分。
+- status=completed 只表示这一轮所请求题目完整执行。异常、中断、额度耗尽为aborted；已完成部分单列，不能把未完成题补0。
+- 多轮清单通过 --round 分别执行，当前单个报告始终每题一次。正式公式由 aggregate 检查两轮后计算参考值；不是主办认证成绩。
+- 同一JSON或配套CSV已存在时拒绝覆盖，保留前后版本。写盘时间不计入query，写盘失败停止后续生成。
 
-## 本轮检查与交接（2026-10-29）
+C 评估进程的峰值RSS/Working Set不含单独的数据服务。Windows/Mac本机通过不证明正式环境合规。模板深度的具体官方定义待确认，不能自动给“提交合规”结论。
 
-- 实测通过 13 项检查：2 项语法检查、8 项真实 CLI 启动/边界检查、3 项无网络 mock 流程检查。覆盖待评测目录选择、官方评分调用、100% 百分比显示和查询异常中止。
-- 结果见本机 `reports/setup-checks.json`；未调用真实模型，未运行真实白盒或黑盒评分。
-- 根目录实现、B 目录、官方执行器/评分器、数据、用例和根协作文档均无改动，Git 当前仅新增 `C/`。
-- 初始准备阶段未提交或推送；报告功能已在下一节完成，后续按授权范围建立真实模型基线。
+## 本轮交付验证
 
-## 报告功能检查与交接（2026-10-29）
+35项无模型测试通过，含真实已安装SDK配合内存HTTP传输验证重试计数、超额停止及usage采集。已有B200题、root20题、B候选6题证据均已离线核验并输出结果；本轮新增真实模型请求0。具体结果见 STATUS.md。
 
-- 已完成两个 C 评估入口的逐题报告、失败 CSV、中止保留和复现信息；根目录原脚本不修改。
-- `python -B -m unittest discover -s C/tests -v`：12 个测试全部通过，包含白盒/黑盒合成夹具、答对超时、部分正确、拒答、API 条件缺失、异常中止、初始化失败、报告不可写、密钥屏蔽和 CSV 输出。测试中禁止网络连接，不代表模型准确率或官方黑盒成绩。
-- 另外 8 项真实 CLI 启动检查通过，覆盖帮助、N 范围、实现目录、缺密钥及缺黑盒；记录见本机 `reports/report-feature-checks.json`。
-- 真实模型白盒和黑盒评估仍未运行，未安装依赖，未产生模型调用费用。下一步在明确模型调用范围后生成首份真实小样本报告，再扩展至白盒基线。
-- 交付前已快进同步开发分支至 `b4deba0`，保留队友全部提交；同步后 12 项报告测试再次通过。本次 Git 提交仅包含 C 的代码、测试和说明，不包含本地运行报告。
+协作分支为 simple/official-starter。只提交C的设计、工具、冻结实验、分析与测试；C/reports下本机记录被忽略，不提交虚拟环境或密钥。

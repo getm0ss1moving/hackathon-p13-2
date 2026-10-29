@@ -1,0 +1,31 @@
+{
+  "profile": "representative20",
+  "case_ids": [
+    "CMDB-258",
+    "CMDB-259",
+    "CMDB-249",
+    "CMDB-284",
+    "CMDB-288",
+    "CMDB-262",
+    "CMDB-291",
+    "CMDB-297",
+    "CMDB-108",
+    "CMDB-299",
+    "CMDB-300",
+    "CMDB-104",
+    "CMDB-167",
+    "CMDB-187",
+    "CMDB-089",
+    "CMDB-207",
+    "CMDB-114",
+    "CMDB-237",
+    "CMDB-229",
+    "CMDB-199"
+  ],
+  "repeats": 1,
+  "dataset_sha256": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
+  "groups_sha256": "753daf53fd419a2a12069138faffbb45976e7737de7724dffda77a440974cfda",
+  "model_execution_authorized": false,
+  "seed": 20261029,
+  "note": "执行预算需另行确认；分组不证明真正未见泛化"
+}

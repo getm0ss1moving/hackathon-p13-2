@@ -90,11 +90,13 @@ class ReportTests(unittest.TestCase):
                 patch.object(module.http.client, "HTTPConnection") as connection, \
                 patch.object(module.time, "perf_counter", side_effect=times), \
                 patch.object(module, "_git", return_value="fixture-revision"), \
+                patch.object(module, "_install_guard", return_value=types.SimpleNamespace(events=[], detach=lambda: None)), \
                 contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             response = connection.return_value.getresponse.return_value
             response.status = 200
             response.read.return_value = b'{"ci_name":"VM_NOVA","columns":["id"],"row_count":1}'
-            code = module.main([str(len(outputs)), "--report", str(report_path), *extra])
+            count_args = [] if '--case-set' in extra else [str(len(outputs))]
+            code = module.main([*count_args, "--max-requests", "9", "--report", str(report_path), *extra])
         self.assertTrue(report_path.exists(), (code, stdout.getvalue(), stderr.getvalue()))
         report = json.loads(report_path.read_text(encoding="utf-8"))
         return code, report, report_path, events, stdout.getvalue() + stderr.getvalue()
@@ -203,7 +205,7 @@ class ReportTests(unittest.TestCase):
             response = connection.return_value.getresponse.return_value
             response.status = 200
             response.read.return_value = b'{"ci_name":"VM_NOVA","columns":["id"],"row_count":1}'
-            code = module.main(["1", "--report", str(path)])
+            code = module.main(["1", "--max-requests", "9", "--report", str(path)])
             sys.modules["runbook_system"].RunbookQuerySystem.assert_not_called()
         self.assertEqual(code, 1)
 
@@ -232,6 +234,35 @@ class ReportTests(unittest.TestCase):
             .replace('_DATASET = "white"', '_DATASET = "black"')
             .replace('_DEFAULT_N = 20', '_DEFAULT_N = 100')
             .replace('_CASE_FILE = "CMDB用例集-白盒200.json"', '_CASE_FILE = "CMDB用例集-黑盒100.json"'))
+
+    def test_frozen_case_order_and_independent_round_are_preserved(self):
+        path = self.root / 'selection.json'
+        ids = [self.cases[1]['case_id'], self.cases[0]['case_id']]
+        data_path = self.root / 'CMDB用例集-白盒200.json'
+        path.write_text(json.dumps({'case_ids': ids, 'repeats': 2,
+            'dataset_sha256': hashlib.sha256(data_path.read_bytes()).hexdigest()}), encoding='utf-8')
+        code, report, _, _, _ = self.run_entry([self.correct(), self.correct()],
+            extra=['--case-set', str(path), '--round', '1'])
+        self.assertEqual(code, 0)
+        self.assertEqual(report['case_ids'], ids)
+        self.assertEqual(report['round_index'], 1)
+        self.assertEqual(report['planned_rounds'], 2)
+
+    def test_frozen_data_mismatch_is_rejected_before_model_setup(self):
+        path = self.root / 'selection.json'
+        path.write_text(json.dumps({'case_ids': [self.cases[0]['case_id']],
+            'dataset_sha256': 'wrong'}), encoding='utf-8')
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as exc:
+            self.entry().main(['--case-set', str(path)])
+        self.assertEqual(exc.exception.code, 2)
+
+    def test_frozen_multi_round_plan_requires_explicit_round(self):
+        path = self.root / 'selection.json'
+        path.write_text(json.dumps({'case_ids': [self.cases[0]['case_id']], 'repeats': 2,
+            'dataset_sha256': hashlib.sha256((self.root/'CMDB用例集-白盒200.json').read_bytes()).hexdigest()}), encoding='utf-8')
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as exc:
+            self.entry().main(['--case-set', str(path)])
+        self.assertEqual(exc.exception.code, 2)
 
 
 if __name__ == "__main__":
