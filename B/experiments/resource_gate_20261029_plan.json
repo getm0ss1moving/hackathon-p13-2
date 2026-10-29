@@ -1,0 +1,119 @@
+{
+  "status": "prepared before repeat-scope approval",
+  "baseline": "whitebox_20261029_full.jsonl",
+  "baseline_sha256": "2442e1442da2f553f26fc72d6924860e9ae46bf88fde9a5b0b48abbe40ea9223",
+  "candidate_commit": "07cc224da54a8a48f8b11cc2be1e9c7fc0cf1099",
+  "purpose": "资源门禁单因素开发诊断；6 道官方白盒子集与 2 道派生检查分别报告",
+  "official_case_ids": [
+    "CMDB-001",
+    "CMDB-004",
+    "CMDB-036",
+    "CMDB-139",
+    "CMDB-147",
+    "CMDB-161"
+  ],
+  "derived_cases": [
+    {
+      "case_id": "DEV-HOST-REPLACED",
+      "question": "宿主机\"2CAF8CF9-63F0-E3B9-EE11-23831AA47C1A\"上处于ACTIVE状态的虚拟机有多少台",
+      "query_method": "查 `CLOUD_VM_NOVA WHERE hostId AND status=ACTIVE` `COUNT(*)`",
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "2CAF8CF9-63F0-E3B9-EE11-23831AA47C1A",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "hostId",
+                  "value": "{{id from step 1}}",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "active",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA",
+      "answer": {
+        "columns": [
+          "total"
+        ],
+        "rows": [
+          {
+            "total": 7
+          }
+        ],
+        "row_count": 1
+      },
+      "error": null
+    },
+    {
+      "case_id": "DEV-NONEXISTENT-HOST",
+      "question": "宿主机nonexistent-host-resource-gate-probe上ACTIVE状态的虚拟机数量",
+      "api_call": [],
+      "sql": "",
+      "answer": {
+        "columns": [],
+        "rows": [],
+        "row_count": 0
+      },
+      "error": null
+    }
+  ],
+  "case_order": [
+    "CMDB-001",
+    "CMDB-004",
+    "CMDB-036",
+    "DEV-HOST-REPLACED",
+    "DEV-NONEXISTENT-HOST",
+    "CMDB-139",
+    "CMDB-147",
+    "CMDB-161"
+  ],
+  "expected_match": {
+    "CMDB-001": true,
+    "CMDB-004": true,
+    "CMDB-036": true,
+    "DEV-HOST-REPLACED": true,
+    "DEV-NONEXISTENT-HOST": false,
+    "CMDB-139": false,
+    "CMDB-147": false,
+    "CMDB-161": false
+  },
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "repeats": 1,
+  "max_requests": 24,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "thinking": "provider default",
+  "temperature": "provider default",
+  "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "0",
+  "prior_round_requests_used": 594,
+  "budget_note": "新一轮独立授权上限；不自动复用之前剩余 6 次",
+  "limitation": "单轮开发诊断，非泛化/黑盒；固定选择资源审计与真实模型诊断分开；阴性题期望拒答，不能计为答案正确 5 分"
+}
