@@ -1,4 +1,5 @@
 """A 的文档词频缓存独立验收；只加载检索/模板快照，不导入执行器或评分器。"""
+import argparse
 import ast
 from collections import Counter
 import gc
@@ -16,9 +17,10 @@ import tracemalloc
 import types
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = Path(__file__).with_name('result.json')
+OUT = Path(__file__).with_name('result-rerun.json')
 BASE, PARENT, CANDIDATE = '3b99aaf', '1a72007', '1928514'
-INPUT = ROOT / '.a-vocab-gt4hyfg2/queries.json'
+# 与历史A输入逐字节相同的交付副本；原本机输入和旧result.json保持原样。
+INPUT = Path(__file__).with_name('queries.json')
 INPUT_SHA = '37bf913bfe3c25ed8950634792a16549a780aca8f1f71026aa5b5cad06f440a0'
 CAPS = [None, 0, 3, 5, 10, 15]
 EXPECTED_FIXED = {
@@ -87,14 +89,23 @@ def latency_summary(values):
 
 
 def main():
+    parser = argparse.ArgumentParser(description='历史缓存版本复测；输入变化时停止，不覆盖已有报告')
+    parser.add_argument('--output', type=Path, default=OUT, help='新的结果JSON路径')
+    out = parser.parse_args().output.resolve()
     if Path.cwd().resolve() != ROOT:
         raise RuntimeError('必须在指定仓库根目录执行')
+    # 不把新实现误写成旧缓存版本的复测，也不覆盖历史证据。
+    frozen_sources = {'implementation/runbook_retriever.py': CANDIDATE,
+                      'implementation/runbook_items.py': PARENT}
+    changed = [path for path, commit in frozen_sources.items()
+               if (ROOT / path).read_bytes() != snapshot(commit, path)]
+    if changed:
+        print('历史验收输入已变化；未执行检索/性能测试，未写报告：' + ', '.join(changed), file=sys.stderr)
+        return 2
+    if out.exists():
+        print('复测结果已存在；请先保留既有证据并选择新的输出文件名', file=sys.stderr)
+        return 2
     history = []
-    if OUT.exists():
-        previous = json.loads(OUT.read_text())
-        history = previous.get('prior_attempts', [])
-        if previous.get('status') == 'FAIL':
-            history.append({k: v for k, v in previous.items() if k != 'prior_attempts'})
     report = {'prior_attempts': history, 'status': 'FAIL', 'cwd': str(ROOT), 'python': platform.python_version(),
               'platform': platform.platform(), 'script_sha256': digest(Path(__file__).read_bytes()),
               'revisions': {key: git('rev-parse', value).decode().strip()
@@ -126,7 +137,7 @@ def main():
         assert len(queries) == 1075
         report['input'] = {'path': str(INPUT.relative_to(ROOT)), 'sha256': INPUT_SHA, 'n': len(queries),
                            'scopes': dict(Counter(q['scope'] for q in queries)),
-                           'dependency': 'A-owned untracked frozen input; retain it for reproduction'}
+                           'dependency': 'tracked byte-identical frozen input; original A-owned input preserved'}
         baseline, candidate = module(BASE), module(CANDIDATE)
         templates = items(PARENT)
         assert len(templates) == 200
@@ -255,7 +266,8 @@ def main():
         report['not_run'] = ['model selection/parameter filling/SQL refinement/end-to-end scoring',
                              'official blackbox and total score', 'lexical/alias/198-template paired model evaluation',
                              'old capability.py or fixed-module monkeypatch', 'network/service/API/install/push/deploy']
-        OUT.write_text(json.dumps(report, ensure_ascii=False, separators=(',', ':')) + '\n')
+        with out.open('x', encoding='utf-8') as handle:
+            handle.write(json.dumps(report, ensure_ascii=False, separators=(',', ':')) + '\n')
         print(json.dumps({k: report.get(k) for k in ['status', 'fixed_comparisons', 'edge_comparisons', 'checks', 'failures']}, ensure_ascii=False))
     return 0 if report['status'] == 'PASS' else 1
 

@@ -1,0 +1,220 @@
+{
+  "status": "PASS_SCOPED_OFFLINE_INTEGRATION",
+  "checked_at_utc": "2026-10-29T18:02:50.105358+00:00",
+  "cwd": "/Users/duanzeyu/Downloads/hackathon-p13-2",
+  "head": "01f48f5479e0666a237810be144a62fa64d624ac",
+  "remote_snapshot": "aecdc09112477052f65b5627275c6cc9cd5171c2",
+  "script_sha256": "55c35267cf40a30edae8328e94402f95efc52274622a8be9bce54d8e95517ea4",
+  "checks": {
+    "protected_236_match_original": true,
+    "current_root_syntax": true,
+    "saved_20_scores_and_request_totals": true,
+    "current_report_complete_incomplete_and_no_overwrite": true,
+    "changed_entrypoints_fail_safely_without_network": true,
+    "tracked_cache_input_matches_frozen_hash": true,
+    "protected_and_business_sources_unchanged": true,
+    "historical_evidence_unchanged": true,
+    "network_attempts_zero": true
+  },
+  "new_model_http_requests": 0,
+  "service_started": false,
+  "key_file_read": false,
+  "score_scope": "historical saved-output replay only; no current-version model score",
+  "protected": {
+    "count": 236,
+    "mismatches": [],
+    "manifest_sha256": "28993ff1f813e7a1b20c274ee9e07bca09d9c6f84a07bb8114fd09da2962ebb2",
+    "fixed_modules": {
+      "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+      "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92"
+    }
+  },
+  "syntax_paths": [
+    "implementation/blackbox_eval.py",
+    "implementation/eval_report.py",
+    "implementation/evaluator.py",
+    "implementation/quick_eval.py",
+    "implementation/runbook_executor.py",
+    "implementation/runbook_items.py",
+    "implementation/runbook_matcher.py",
+    "implementation/runbook_retriever.py",
+    "implementation/runbook_system.py",
+    "output-server/__init__.py",
+    "output-server/data_server.py",
+    "output-server/verify_server.py"
+  ],
+  "source_sha256": {
+    "implementation/blackbox_eval.py": "bff923a0572a88bc13b2258fbbd2a04cd5a1fa5d28c32348a0c23c59a195ec04",
+    "implementation/eval_report.py": "d7b44c0bad53b1b0c96b0369092f540b5efd6285fce7a8dc896967aebac26a07",
+    "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+    "implementation/quick_eval.py": "211ea890b74b2586e77402c37402f316a5c4b44e292ad4977f1b04321615071b",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/runbook_items.py": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+    "implementation/runbook_matcher.py": "f18c345960a7b297e6f06033c1683b30208a1ad0c05c57f8c023136e867148d9",
+    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "implementation/runbook_system.py": "a2f78c0f5ac02d156cabf9d177e7b5dcbb907daf6cb3634217e8b33f4885af95"
+  },
+  "historical_model20": {
+    "base_commit": "d534a08709738f3cf83ccda78ae0a05727adac84",
+    "complete": true,
+    "cases": 20,
+    "replayed_score": 75.5,
+    "full_evaluation_dicts_equal": true,
+    "case_order_equal": true,
+    "frozen_sources_match_git_objects": true,
+    "case_file_sha256_equal": true,
+    "http_attempts": 53,
+    "http_limit": 60,
+    "http_status_counts": {
+      "200": 53
+    },
+    "requested_model": "deepseek-chat",
+    "reported_model_counts": {
+      "deepseek-flash": 53
+    },
+    "total_tokens_recounted": 51505,
+    "tls_verified": true,
+    "current_implementation_differs": true,
+    "official_score": false,
+    "new_model_requests": 0
+  },
+  "report_writer_replay": {
+    "complete_records": 22,
+    "summary": {
+      "type": "summary",
+      "status": "complete",
+      "completed_cases": 20,
+      "total_score": 75.5,
+      "max_score": 100
+    },
+    "incomplete_summary": {
+      "type": "summary",
+      "status": "incomplete",
+      "completed_cases": 1,
+      "total_score": 5,
+      "max_score": 5,
+      "stop_reason": "offline_replay_stop_test"
+    },
+    "existing_report_preserved": true,
+    "recorded_evaluations_equal": true,
+    "temporary_reports_removed": true,
+    "current_model_run": false
+  },
+  "cli": [
+    {
+      "path": "implementation/quick_eval.py",
+      "args": [
+        "--help"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout": "usage: quick_eval.py [-h] [--report REPORT] [N]\n\n白盒单次本地诊断，不代表正式成绩\n\npositional arguments:\n  N                运行前 N 题，默认 20\n\noptions:\n  -h, --help       show this help message and exit\n  --report REPORT  可选 JSONL 详细结果路径；不覆盖旧文件\n",
+      "stderr": ""
+    },
+    {
+      "path": "implementation/blackbox_eval.py",
+      "args": [
+        "--help"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout": "usage: blackbox_eval.py [-h] [--report REPORT] [N]\n\n黑盒单次本地诊断，不代表正式成绩\n\npositional arguments:\n  N                运行前 N 题，默认 100\n\noptions:\n  -h, --help       show this help message and exit\n  --report REPORT  可选 JSONL 详细结果路径；不覆盖旧文件\n",
+      "stderr": ""
+    },
+    {
+      "path": "implementation/quick_eval.py",
+      "args": [
+        "0"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout": "",
+      "stderr": "usage: quick_eval.py [-h] [--report REPORT] [N]\nquick_eval.py: error: N 必须为正整数\n"
+    },
+    {
+      "path": "implementation/quick_eval.py",
+      "args": [
+        "201"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout": "",
+      "stderr": "usage: quick_eval.py [-h] [--report REPORT] [N]\nquick_eval.py: error: N=201 超过实际用例数 200\n"
+    },
+    {
+      "path": "implementation/quick_eval.py",
+      "args": [
+        "20"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout": "",
+      "stderr": "usage: quick_eval.py [-h] [--report REPORT] [N]\nquick_eval.py: error: 请先在本机配置 DEEPSEEK_API_KEY；不要在聊天、代码或日志中发送密钥\n"
+    },
+    {
+      "path": "implementation/blackbox_eval.py",
+      "args": [
+        "1"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout": "",
+      "stderr": "usage: blackbox_eval.py [-h] [--report REPORT] [N]\nblackbox_eval.py: error: 黑盒用例文件缺失: /Users/duanzeyu/Downloads/hackathon-p13-2/CMDB用例集-黑盒100.json；当前不能运行黑盒评估\n"
+    },
+    {
+      "path": "experiments/a_cache_acceptance_20261029/verify.py",
+      "args": [],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout": "",
+      "stderr": "历史验收输入已变化；未执行检索/性能测试，未写报告：implementation/runbook_items.py\n"
+    }
+  ],
+  "cache_input_archive": {
+    "path": "experiments/a_cache_acceptance_20261029/queries.json",
+    "sha256": "37bf913bfe3c25ed8950634792a16549a780aca8f1f71026aa5b5cad06f440a0",
+    "rows": 1075,
+    "original_input_untouched": true,
+    "old_result_preserved": true,
+    "performance_reexecuted": false
+  },
+  "historical_sha256": {
+    "experiments/round3/README.md": "d58b30a28a50be9c3ff773025610c3c7a8c4f812cea356557d1f5502ac992c35",
+    "experiments/round3/controls.json": "7c52f224b443f21fd15685d66d71d2653fe917435ce49ac50e1cbcc021080c0e",
+    "experiments/round3/groups.json": "753daf53fd419a2a12069138faffbb45976e7737de7724dffda77a440974cfda",
+    "experiments/round3/integration_checks.json": "e97c536797d435bfa7110057165429434cc3c8b2a5081fa3f8cdfd038a61d5fd",
+    "experiments/round3/manifest.json": "c82681379f7285047fa8cb37b804dc600b2214a2a3f590c3e81dc6aedc45708f",
+    "experiments/round3/model20.json": "e9f76a1f47ccff0ea8bfb61abcb572f98770c7c3f46e433742b6b8437fddf92e",
+    "experiments/round3/model20.txt": "b43623f1110d1455f1e5d82120f2b6df72f69a26f084a7f870f32c5f9a0e0c9a",
+    "experiments/round3/model20_cases.csv": "e774265c8c4cea7fbd7445b7de8317276b2456a8365e26fdc07f1f2401a0a850",
+    "experiments/round3/model20_summary.json": "dda9b84ff03dbb9849167598ca950676ddddc7c9bb80b7a71e932f98eb0e92ee",
+    "experiments/round3/offline_summary.json": "686c73beadb3a637211d70affb75c4a37f538949970076f004008d75c3f5691e",
+    "experiments/round3/queries.json": "e6f73d915d6c1912e64917141a365060e0499e725dfb1a75bba2fe8451bbd484",
+    "experiments/round3/reference_checks.json": "d49dc3dcd101bb744796f4c8a865f95ef4d40762ce01366f14c145bd2aa07184",
+    "experiments/round3/reproduce_offline.py": "4acd0735e7294cf7d08260fdc3647ff1b40676711160843ed4912b2e41d9a5d0",
+    "experiments/round3/retrieval.csv": "33b229dab90540b51fe128bc0e0743c3a597ba4b5c5ff460deac07001261191b",
+    "experiments/round3/retrieval_summary.json": "ac5a51618920e6898a687e6804d385885af35527c89075642236f265886e6882",
+    "experiments/round3/run_model_baseline.py": "24b306b6849e7dcaef4538077f8ad39428c4c38a0f61f3f2c60123163332de72",
+    "experiments/round3/run_offline.py": "8bd17b734d48d6f69bdd96c4a84dff89f7ceb20434819676c2669a8f79718875",
+    "experiments/a_cache_acceptance_20261029/result.json": "71f310538ca2e6e105b13dcc39b05258e30c94b47b1822a29cac0d21a34c990c",
+    "experiments/a_merge_086_check_20261029.json": "536d7e3ad5ca8a5278946cb090ab64ebf8a6e4a45883b4e41b57e77c44abd272",
+    "experiments/a_merge_086_check_20261029.jsonl": "30cffe6870afbf36eb088030d2cae1bffcc7a1afa2c049e73e122ccd47b5509a",
+    "experiments/a_merge_086_negative_region_20261029.json": "b3f9f61a58517826c8e80497f903024975b99312e3c6df5860f0bfd50ff84dce"
+  },
+  "network_events": [],
+  "not_run": [
+    "current-version model evaluation",
+    "full 200 model questions",
+    "official blackbox",
+    "new retrieval/performance suite",
+    "service/API tests",
+    "official score aggregation"
+  ]
+}
