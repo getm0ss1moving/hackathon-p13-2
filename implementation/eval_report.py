@@ -44,14 +44,18 @@ class EvaluationReport:
                 raise
         return self
 
-    def record(self, case, output, evaluation, elapsed):
+    def record(self, case, output, evaluation, elapsed, diagnostics=None):
         # 在原 query 计时和原评分完成后写盘，不改变评分输入。
         self._write({'type': 'case', 'case_id': case['case_id'], 'question': case['question'],
-                     'elapsed_seconds': elapsed, 'evaluation': evaluation,
+                     'elapsed_seconds': elapsed, 'evaluation': evaluation, 'diagnostics': diagnostics,
                      'output': {k: (output or {}).get(k) for k in
                                 ('matched_runbook', 'api_call', 'sql', 'result', 'error')}})
         self.count += 1
         self.score += evaluation['score']
+
+    def query_error(self, case, error, diagnostics):
+        self._write({'type': 'query_error', 'case_id': case['case_id'], 'question': case['question'],
+                     'error_type': type(error).__name__, 'diagnostics': diagnostics})
 
     def complete(self):
         self._write({'type': 'summary', 'status': 'complete', 'completed_cases': self.count,

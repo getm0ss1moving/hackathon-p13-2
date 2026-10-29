@@ -493,16 +493,49 @@ def _cleanup_sql_empty_where(sql: str) -> str:
     return sql
 
 
+def _diagnose(diagnostics, section, **facts):
+    """仅填充本次查询传入的诊断字典，不影响选择或执行。"""
+    if diagnostics is not None:
+        diagnostics.setdefault(section, {}).update(facts)
+
+
+def _parameter_changes(diagnostics, before, after, source):
+    if diagnostics is None:
+        return
+    info = diagnostics.setdefault('parameters', {})
+    sources = info.setdefault('sources', {})
+    original_sources = dict(sources)
+    changes = info.setdefault('changes', [])
+    for name in dict.fromkeys([*before, *after]):
+        if before.get(name) != after.get(name):
+            changes.append({'name': name, 'before': before.get(name),
+                            'after': after.get(name), 'source': source})
+            if source in ('question_rule', 'template_default'):
+                sources[name] = source
+            elif source == 'region_to_azone_rule' and name == 'azoneName':
+                sources[name] = original_sources.get('logicalRegionName', 'rule') + '+' + source
+            else:
+                sources[name] = sources.get(name, 'rule') + '+' + source
+
+
 def match_runbook(user_question: str, runbook_items: list,
-                  retriever: RunbookRetriever) -> Optional[dict]:
+                  retriever: RunbookRetriever, diagnostics: Optional[dict] = None) -> Optional[dict]:
     """
     完整的 runbook 匹配流程：BM25 检索 → LLM 选择 → 参数填充。
 
     返回已填好参数的 runbook item（深拷贝），或 None（未命中）。
+    diagnostics 为可选的单次查询记录，不改变原匹配策略。
     """
+    if diagnostics is not None:
+        diagnostics.clear()
     # 1. BM25 检索
     candidates = retriever.retrieve(user_question)
+    if diagnostics is not None:
+        _diagnose(diagnostics, 'retrieval', candidates=[
+            {'rank': i + 1, 'id': c.id, 'tier': c.tier, 'score': c.score, 'coverage': c.coverage}
+            for i, c in enumerate(candidates)])
     if not candidates:
+        _diagnose(diagnostics, 'rejection', stage='retrieval', reason='no_candidates')
         logger.info("BM25 无候选，跳过 runbook")
         return None
 
@@ -515,7 +548,9 @@ def match_runbook(user_question: str, runbook_items: list,
             candidate_items.append(raw)
 
     if not candidate_items:
+        _diagnose(diagnostics, 'rejection', stage='retrieval', reason='candidate_ids_not_in_library')
         return None
+    _diagnose(diagnostics, 'selection', offered_ids=[item['id'] for item in candidate_items])
 
     # 2. LLM 选择
     runbook_str = _format_runbook_list(candidate_items)
@@ -523,24 +558,31 @@ def match_runbook(user_question: str, runbook_items: list,
         user_question=user_question, runbook_list=runbook_str)
     answer = llm_ask(prompt).strip("`").strip()
     logger.info(f"LLM select runbook answer: {answer}")
+    _diagnose(diagnostics, 'selection', model_answer=answer[:128])
 
     try:
         index = int(answer)
     except ValueError:
+        _diagnose(diagnostics, 'rejection', stage='selection', reason='invalid_selector_output')
         logger.error(f"LLM 返回非数字: {answer}")
         return None
 
+    _diagnose(diagnostics, 'selection', model_index=index, method='llm')
     if index == 0 or index < 0 or index > len(candidate_items):
         # LLM返回0，回退到BM25 top1（如果有强候选）
         if candidates and candidates[0].tier == "strong":
             logger.info(f"LLM未命中，回退BM25 top1: {candidate_items[0]['name']}")
             selected = copy.deepcopy(candidate_items[0])
+            _diagnose(diagnostics, 'selection', method='strong_top1_fallback')
         else:
+            _diagnose(diagnostics, 'rejection', stage='selection', reason='selector_declined_or_out_of_range')
             logger.info(f"未命中，index={index}")
             return None
     else:
         selected = copy.deepcopy(candidate_items[index - 1])
     logger.info(f"命中 runbook: {selected['name']}")
+    _diagnose(diagnostics, 'selection', selected_id=selected['id'], selected_name=selected['name'])
+    _diagnose(diagnostics, 'sql', template=selected.get('sql'))
 
     # 3.0 弃权检查：资源类型不匹配或问题问的字段不在SQL中（在参数填充前检查）
     if selected.get("sql"):
@@ -561,6 +603,8 @@ def match_runbook(user_question: str, runbook_items: list,
         ]
         for keywords, table_name in _res_checks:
             if any(k in q_lower for k in keywords) and table_name not in sql_upper:
+                _diagnose(diagnostics, 'rejection', stage='resource_gate', reason='resource_mismatch',
+                          required_table=table_name)
                 logger.info(f"资源类型不匹配: 问题提到{keywords[0]}但SQL无{table_name}，弃权")
                 return None
         _field_checks = [
@@ -569,12 +613,17 @@ def match_runbook(user_question: str, runbook_items: list,
         ]
         for keywords, field in _field_checks:
             if any(k in q_lower for k in keywords) and field.lower() not in sql_upper.lower():
+                _diagnose(diagnostics, 'rejection', stage='field_gate', reason='requested_field_missing',
+                          required_field=field)
                 logger.info(f"问题问{field}但SQL无此字段，弃权")
                 return None
 
     # 3. 参数填充
     placeholders = _get_placeholders(selected)
+    _diagnose(diagnostics, 'parameters', placeholders=placeholders)
     if not placeholders:
+        _diagnose(diagnostics, 'sql', before_refine=selected.get('sql'), after_refine=selected.get('sql'),
+                  final=selected.get('sql'), refine_status='skipped_no_placeholders')
         return selected
 
     examples_str = "\n".join(f"- {ex}" for ex in selected.get("examples", []))
@@ -596,6 +645,10 @@ def match_runbook(user_question: str, runbook_items: list,
         if val:
             parsed[key] = val
 
+    if diagnostics is not None:
+        _diagnose(diagnostics, 'parameters', llm_extracted=dict(parsed),
+                  sources={key: 'llm' for key in parsed})
+    before_normalization = dict(parsed) if diagnostics is not None else None
     # 后处理：去除名称类参数中的常见前缀（ECS/VM/虚拟机/VPC/ELB等）
     for k, v in list(parsed.items()):
         # 清除垃圾值（含"的"、"各"等非实体词）
@@ -640,8 +693,12 @@ def match_runbook(user_question: str, runbook_items: list,
         elif '闲置' in v:
             parsed['assetStatus'] = 'idle'
 
+    _parameter_changes(diagnostics, before_normalization, parsed, 'normalization')
+    before_rules = dict(parsed) if diagnostics is not None else None
     # 自动填充常见参数（LLM未提取的从用户问题中自动匹配）
     _auto_fill_params(user_question, parsed, placeholders)
+    _parameter_changes(diagnostics, before_rules, parsed, 'question_rule')
+    before_region_fix = dict(parsed) if diagnostics is not None else None
 
     # 后处理：logicalRegionName的值像azone(az\d+.dc\d+)时，迁移到azoneName
     if 'logicalRegionName' in parsed:
@@ -655,6 +712,8 @@ def match_runbook(user_question: str, runbook_items: list,
                 del parsed['logicalRegionName']
                 logger.info(f"logicalRegionName值({val})像azone但模板无azoneName占位，清除")
 
+    _parameter_changes(diagnostics, before_region_fix, parsed, 'region_to_azone_rule')
+    before_defaults = dict(parsed) if diagnostics is not None else None
     # 兜底：仅在问题中提到相关关键词时才用default_params
     default_params = selected.get("default_params", {})
     _param_keywords = {
@@ -674,13 +733,23 @@ def match_runbook(user_question: str, runbook_items: list,
                     logger.info(f"问题提及关键词，使用默认参数: {p}={default_params[p]}")
 
     logger.info(f"最终参数: {parsed}")
+    _parameter_changes(diagnostics, before_defaults, parsed, 'template_default')
+    if diagnostics is not None:
+        _diagnose(diagnostics, 'parameters', final=dict(parsed),
+                  unfilled=[name for name in placeholders if not parsed.get(name)])
 
     if not _fill_params(selected, parsed, user_question):
+        _diagnose(diagnostics, 'rejection', stage='parameters', reason='parameter_fill_failed')
         logger.error(f"参数填充不完整: {parsed}")
         return None
 
     # 3.5 后处理：nativeId值不像UUID时，改为name条件
+    if diagnostics is not None:
+        _diagnose(diagnostics, 'parameters', api_after_fill=copy.deepcopy(selected.get('api_call')))
     _fix_native_id_to_name(selected, parsed)
+    _diagnose(diagnostics, 'sql', after_fill=selected.get('sql'))
+    if diagnostics is not None:
+        _diagnose(diagnostics, 'parameters', effective_api=copy.deepcopy(selected.get('api_call')))
 
     # 3.55 弃权检查：问题提到关键过滤条件但API无对应条件 → 弃权
     _api_cond_names = set()
@@ -708,25 +777,37 @@ def match_runbook(user_question: str, runbook_items: list,
     for patterns, cond_name in _missing_checks:
         if cond_name not in _api_cond_names:
             if any(_re.search(p, _q_lower) for p in patterns):
+                _diagnose(diagnostics, 'rejection', stage='api_condition_gate',
+                          reason='required_api_condition_missing', required_condition=cond_name)
                 logger.info(f"问题提到{cond_name}相关条件但API无{cond_name}，弃权")
                 return None
 
     # 4. SQL精调 — 根据用户问题调整SELECT/GROUP BY/聚合函数
     if selected.get("sql"):
         original_sql = selected["sql"]
+        _diagnose(diagnostics, 'sql', before_refine=original_sql)
         schemas = _get_table_schemas(original_sql)
-        refined = _refine_sql(user_question, original_sql, schemas)
+        if diagnostics is None:
+            refined = _refine_sql(user_question, original_sql, schemas)
+        else:
+            refined = _refine_sql(user_question, original_sql, schemas,
+                                  diagnostics=diagnostics.setdefault('sql', {}))
+        _diagnose(diagnostics, 'sql', after_refine=refined)
         if refined and refined != original_sql:
             # 精调后表集合变了（增减JOIN），说明模板结构不匹配，宁可不答
             orig_tables = _extract_sql_tables(original_sql)
             refined_tables = _extract_sql_tables(refined)
             if orig_tables != refined_tables:
+                _diagnose(diagnostics, 'rejection', stage='sql_refinement', reason='refinement_changed_tables',
+                          original_tables=sorted(orig_tables), refined_tables=sorted(refined_tables))
                 logger.info(f"SQL精调改变了表集合({orig_tables}→{refined_tables})，放弃回答")
                 return None
             selected["sql"] = refined
             logger.info(f"SQL refined: {refined[:120]}")
         else:
             logger.info("SQL unchanged")
+    else:
+        _diagnose(diagnostics, 'sql', refine_status='skipped_no_sql')
 
     # 5. 后处理：禁止LIMIT（标准答案通常返回全量结果）
     if selected.get("sql"):
@@ -736,6 +817,8 @@ def match_runbook(user_question: str, runbook_items: list,
     if selected.get("sql"):
         # UNION ALL通常导致多资源混合结果，与标准答案不匹配
         if "UNION" in selected["sql"].upper():
+            _diagnose(diagnostics, 'sql', final=selected['sql'])
+            _diagnose(diagnostics, 'rejection', stage='sql_postprocess', reason='union_not_allowed')
             logger.info("SQL包含UNION，弃权")
             return None
         # COUNT(*) AS count → COUNT(*) AS total（标准答案常用total列名）
@@ -746,10 +829,11 @@ def match_runbook(user_question: str, runbook_items: list,
                 selected["sql"],
                 flags=re.IGNORECASE)
 
+    _diagnose(diagnostics, 'sql', final=selected.get('sql'))
     return selected
 
 
-def _refine_sql(question: str, sql: str, schemas: str = "") -> str:
+def _refine_sql(question: str, sql: str, schemas: str = "", diagnostics: Optional[dict] = None) -> str:
     """用LLM根据用户问题精调SQL。返回调整后的SQL，失败时返回原SQL。"""
     prompt = REFINE_SQL_PROMPT.format(
         question=question, sql=sql, schemas=schemas or "(无)",
@@ -759,16 +843,24 @@ def _refine_sql(question: str, sql: str, schemas: str = "") -> str:
         refined = refined.strip().strip("`").strip()
         if refined.lower().startswith("sql"):
             refined = refined[3:].strip()
+        if diagnostics is not None:
+            diagnostics.update(model_proposal=refined, refine_status='pending')
         # 必须以SELECT开头，且是单条SQL（不含换行后的自然语言）
         if not refined.upper().startswith("SELECT"):
+            if diagnostics is not None:
+                diagnostics['refine_status'] = 'kept_original_not_select'
             logger.warning(f"LLM refine不以SELECT开头，保留原SQL: {refined[:80]}")
             return sql
         # 禁止包含WHERE
         if re.search(r"\bWHERE\b", refined, re.IGNORECASE):
+            if diagnostics is not None:
+                diagnostics['refine_status'] = 'kept_original_where'
             logger.warning("LLM refine包含WHERE，保留原SQL")
             return sql
         # 禁止包含UNION ALL（容易产生错误结果）
         if "UNION" in refined.upper():
+            if diagnostics is not None:
+                diagnostics['refine_status'] = 'kept_original_union'
             logger.warning("LLM refine包含UNION，保留原SQL")
             return sql
         # 禁止包含LIMIT
@@ -776,9 +868,15 @@ def _refine_sql(question: str, sql: str, schemas: str = "") -> str:
             refined = re.sub(r'\s+LIMIT\s+\d+', '', refined, flags=re.IGNORECASE)
         # 必须包含FROM
         if "FROM" not in refined.upper():
+            if diagnostics is not None:
+                diagnostics['refine_status'] = 'kept_original_no_from'
             logger.warning(f"LLM refine无FROM，保留原SQL: {refined[:80]}")
             return sql
+        if diagnostics is not None:
+            diagnostics['refine_status'] = 'changed' if refined != sql else 'unchanged'
         return refined
     except Exception as e:
+        if diagnostics is not None:
+            diagnostics.update(refine_status='kept_original_exception', error_type=type(e).__name__)
         logger.warning(f"LLM refine SQL异常: {e}")
         return sql

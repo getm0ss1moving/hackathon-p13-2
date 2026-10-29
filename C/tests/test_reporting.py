@@ -28,8 +28,10 @@ class ReportingTests(unittest.TestCase):
         fake = types.ModuleType('runbook_system')
 
         class System:
-            def query(self, question):
+            def query(self, question, diagnostics=None):
                 case = next(answers)
+                if diagnostics is not None:
+                    diagnostics['selection'] = {'selected_id': 'fixture', 'method': 'llm'}
                 return {'matched_runbook': 'test-only', 'api_call': case['api_call'],
                         'sql': case['sql'], 'result': case['answer'], 'error': None}
 
@@ -51,6 +53,8 @@ class ReportingTests(unittest.TestCase):
                 self.assertEqual(result['status'], 'complete')
                 self.assertEqual(result['observed_score'], 10)
                 self.assertEqual(result['cases'][1]['api_call'], cases[1]['api_call'])
+                self.assertEqual(result['cases'][0]['selected_id'], 'fixture')
+                self.assertEqual(result['diagnostics_cases'], 2)
                 self.assertEqual(result['comparison']['score_delta'], 0)
                 self.assertTrue((output / 'comparison.csv').is_file())
                 self.assertTrue((output / 'failures.csv').read_bytes().startswith(b'\xef\xbb\xbf'))

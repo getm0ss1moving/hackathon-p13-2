@@ -30,9 +30,10 @@ class RunbookQuerySystem:
         self.retriever = RunbookRetriever(self.items)
         _warm_schema_cache()
 
-    def query(self, user_question: str) -> dict:
+    def query(self, user_question: str, diagnostics: dict = None) -> dict:
         """
         查询入口：用户问题 → 结果。
+        diagnostics 为可选的本次查询诊断字典；默认用法和返回结构不变。
 
         返回：
           {
@@ -44,7 +45,11 @@ class RunbookQuerySystem:
           }
         """
         # 1. BM25 检索 + LLM 选择 + 参数填充
-        runbook_item = match_runbook(user_question, self.items, self.retriever)
+        if diagnostics is None:
+            runbook_item = match_runbook(user_question, self.items, self.retriever)
+        else:
+            runbook_item = match_runbook(user_question, self.items, self.retriever,
+                                        diagnostics=diagnostics)
 
         if runbook_item is None:
             return {
@@ -58,7 +63,11 @@ class RunbookQuerySystem:
         logger.info(f"命中 runbook: {runbook_item['name']}")
 
         # 2. 执行
+        if diagnostics is not None:
+            diagnostics['execution'] = {'status': 'started', 'input_sql': runbook_item.get('sql')}
         result = execute(runbook_item)
+        if diagnostics is not None:
+            diagnostics['execution'].update(status='finished', sql=result['sql'], error=result['error'])
 
         return {
             "question": user_question,

@@ -73,16 +73,21 @@ def main(argv=None):
             total_score = 0
             correct = wrong = no_answer = partial = 0
             for index, case in enumerate(cases):
+                diagnostics = {} if args.report else None
                 t0 = time.perf_counter()
                 try:
-                    output = system.query(case["question"])
+                    if diagnostics is None:
+                        output = system.query(case["question"])
+                    else:
+                        output = system.query(case["question"], diagnostics=diagnostics)
                 except Exception as exc:
                     report.stop_reason = f"{case['case_id']}: 查询异常（{type(exc).__name__}）"
+                    report.query_error(case, exc, diagnostics)
                     print(f"{case['case_id']}: 查询异常（{type(exc).__name__}）；评估中止，已完成 {index}/{len(cases)} 题，未生成完整基线", file=sys.stderr)
                     return 1
                 elapsed = time.perf_counter() - t0
                 result = evaluate_case(case, output, elapsed)
-                report.record(case, output, result, elapsed)
+                report.record(case, output, result, elapsed, diagnostics)
                 total_score += result["score"]
                 if result["score"] == 5:
                     correct += 1

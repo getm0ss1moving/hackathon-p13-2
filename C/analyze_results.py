@@ -15,7 +15,11 @@ CASE = re.compile(r'^([\w-]+):\s*([+-]?\d+(?:\.\d+)?)\s+\((.*)\)\s+\[(\d+(?:\.\d
 FOOTER = re.compile(r'^===\s*(\d+)\s+cases:\s*score=([+-]?[\d.eE+-]+)/(\d+)')
 HEADER = re.compile(r'本地诊断：[白黑]盒前\s*(\d+)\s*题')
 CSV_FIELDS = ['case_id', 'question', 'score', 'elapsed_seconds', 'category', 'reason',
-              'matched_runbook', 'api_call', 'sql', 'error', 'review_hint']
+              'matched_runbook', 'api_call', 'sql', 'error', 'candidates', 'selected_id',
+              'selection_method', 'parameter_values', 'parameter_sources', 'parameter_changes',
+              'unfilled_parameters', 'api_after_fill', 'api_after_field_fix',
+              'sql_before_refine', 'sql_model_proposal', 'sql_after_refine',
+              'sql_final', 'refine_status', 'rejection_stage', 'rejection_reason', 'review_hint']
 
 
 def redact(text):
@@ -44,13 +48,51 @@ def category(reason):
 
 
 def review_hint(row):
+    rejection = (row.get('diagnostics') or {}).get('rejection', {})
+    if rejection:
+        return {'no_candidates': 'A：BM25候选为空；检查检索门禁与模板覆盖，不等于已证明库内无能力',
+                'candidate_ids_not_in_library': 'A/B：候选ID无法映射到当前模板库',
+                'invalid_selector_output': 'B：模型选择输出不能解析为序号',
+                'selector_declined_or_out_of_range': 'B：有候选但模型未选中，且未触发强候选回退',
+                'resource_mismatch': 'B：资源门禁拒答，核对问题资源与所选模板',
+                'requested_field_missing': 'B：字段门禁拒答，核对所需字段',
+                'parameter_fill_failed': 'B：填参流程返回失败，检查参数来源与变更',
+                'required_api_condition_missing': 'B：API条件门禁拒答，检查所缺条件与填参',
+                'refinement_changed_tables': 'B：精调改变表集合，触发拒答；对照精调前后SQL',
+                'union_not_allowed': 'B：SQL后处理因UNION拒答'}.get(rejection.get('reason'), 'C：按已记录的拒答阶段复核')
     if row['category'] == '答案正确' and row['score'] < 5:
         return 'B/C：答案正确但失分，检查耗时和超时扣分'
+    sql = (row.get('diagnostics') or {}).get('sql', {})
+    if row['score'] < 5 and sql.get('refine_status') == 'changed':
+        return 'B：精调SQL有变化；对照前后结果验证，尚不能仅凭变化认定精调退化'
     return {'部分正确': 'B：核对结果列、行数、过滤条件和SQL',
             '答案错误': 'A/B：核对选中模板、API参数和SQL；不能仅凭分数认定召回失败',
             '执行错误': 'B：检查实际API、SQL、错误和数据服务',
             '拒答': 'A/B：检查候选、选择与门禁；未记录候选时不能区分召回和选择问题',
             'API条件不合规': 'B：检查API条件与填参'}.get(row['category'], 'C：结合详细结果复核原因')
+
+
+def diagnostic_fields(diagnostics):
+    diagnostics = diagnostics or {}
+    parameters = diagnostics.get('parameters', {})
+    selection = diagnostics.get('selection', {})
+    sql = diagnostics.get('sql', {})
+    rejection = diagnostics.get('rejection', {})
+    final = parameters.get('final', {})
+    return {'candidates': diagnostics.get('retrieval', {}).get('candidates', ''),
+            'selected_id': selection.get('selected_id', ''),
+            'selection_method': selection.get('method', ''),
+            'parameter_values': final,
+            'parameter_sources': {name: parameters.get('sources', {}).get(name, 'unknown') for name in final},
+            'parameter_changes': parameters.get('changes', []),
+            'unfilled_parameters': parameters.get('unfilled', []),
+            'api_after_fill': parameters.get('api_after_fill', ''),
+            'api_after_field_fix': parameters.get('effective_api', ''),
+            'sql_before_refine': sql.get('before_refine', ''),
+            'sql_model_proposal': sql.get('model_proposal', ''),
+            'sql_after_refine': sql.get('after_refine', ''), 'sql_final': sql.get('final', ''),
+            'refine_status': sql.get('refine_status', ''),
+            'rejection_stage': rejection.get('stage', ''), 'rejection_reason': rejection.get('reason', '')}
 
 
 def percentile(values, fraction):
@@ -67,6 +109,7 @@ def parse(text, expected=None, exit_code=None, questions=None):
     """保持原评分；中止、缺题或汇总不一致均不作为完整成绩。"""
     text = redact(text)
     rows, issues, header, footer, metadata = [], [], None, None, {}
+    query_errors = []
     detailed = text.lstrip().startswith('{')
     for line in text.splitlines():
         line = line.strip()
@@ -87,7 +130,10 @@ def parse(text, expected=None, exit_code=None, questions=None):
                 output = record.get('output') or {}
                 rows.append({'case_id': record['case_id'], 'question': record['question'],
                              'score': float(evaluation['score']), 'reason': evaluation['reason'],
-                             'elapsed_seconds': float(record['elapsed_seconds']), **output})
+                             'elapsed_seconds': float(record['elapsed_seconds']), **output,
+                             'diagnostics': record.get('diagnostics')})
+            elif kind == 'query_error':
+                query_errors.append(record)
             elif kind == 'summary':
                 footer = {'count': record['completed_cases'], 'score': record['total_score'],
                           'max_score': record['max_score']}
@@ -116,6 +162,7 @@ def parse(text, expected=None, exit_code=None, questions=None):
         if not math.isfinite(row['score']) or not math.isfinite(row['elapsed_seconds']) or row['elapsed_seconds'] < 0:
             raise ValueError('分数或耗时不是有效数值')
         row['category'] = category(row['reason'])
+        row.update(diagnostic_fields(row.get('diagnostics')))
         row['review_hint'] = review_hint(row)
     planned = expected if expected is not None else header if header is not None else footer['count'] if footer else None
     if len({r['case_id'] for r in rows}) != len(rows):
@@ -134,6 +181,8 @@ def parse(text, expected=None, exit_code=None, questions=None):
         issues.append('原汇总与逐题记录不一致')
     if exit_code not in (None, 0):
         issues.append(f'原进程退出码为{exit_code}')
+    if query_errors:
+        issues.append('存在未评分的查询异常，详见query_errors')
     complete = not issues
     times = [r['elapsed_seconds'] for r in rows]
     return {'status': 'complete' if complete else 'incomplete', 'issues': issues,
@@ -150,7 +199,10 @@ def parse(text, expected=None, exit_code=None, questions=None):
             'p50_seconds': percentile(times, .5), 'p95_seconds': percentile(times, .95),
             'timeout_penalty_cases': sum('超时' in r['reason'] for r in rows),
             'timing_precision': 'query原始计时' if detailed else '原文本显示值，通常只有一位小数',
-            'run_metadata': metadata, 'cases': rows}
+            'diagnostics_cases': sum(bool(r.get('diagnostics')) for r in rows),
+            'rejection_stages': dict(Counter(r['rejection_stage'] for r in rows if r['rejection_stage'])),
+            'refinement_statuses': dict(Counter(r['refine_status'] for r in rows if r['refine_status'])),
+            'run_metadata': metadata, 'query_errors': query_errors, 'cases': rows}
 
 
 def load(path, expected=None, exit_code=None, case_file=None):
@@ -222,9 +274,12 @@ def analyze(log_path, output_dir=None, expected=None, exit_code=None, case_file=
              f'平均 / P50 / P95：{result["mean_seconds"]} / {result["p50_seconds"]} / {result["p95_seconds"]} 秒',
              f'计时精度：{result["timing_precision"]}；评分原因含超时扣分：{result["timeout_penalty_cases"]}题',
              f'答对但失分：{result["correct_but_lost_points"]}题；需复核失分题：{len(failures)}题',
+             f'含链路诊断：{result["diagnostics_cases"]}题；拒答阶段：{result["rejection_stages"]}',
+             f'SQL精调状态：{result["refinement_statuses"]}；未评分查询异常：{len(result["query_errors"])}题',
              f'完整性问题：{result["issues"] or "无"}',
              'cases.csv 是逐题表；failures.csv 含失分题、实际模板/API/SQL/错误和排查提示；完整执行结果在 results.json。',
-             '排查提示不是已证明的根因；未记录候选和中间SQL时不能确定召回失败或精调退化。',
+             '详细记录包含候选ID/分数/覆盖率、选择结果、参数来源与变更、精调前/模型建议/精调后/最终SQL及拒答原因。旧日志没有诊断时字段留空。',
+             '候选coverage是检索器的词覆盖率，不是正确召回率；SQL发生变化不证明导致退化，仍需验证前后结果。',
              '分数来自原评分器，C不重新评分；未完成题不补零。本地单次诊断不等于正式成绩。',
              '此入口未采集模型请求数、token、CPU和内存，不推测这些数据。']
     if comparison is not None:
