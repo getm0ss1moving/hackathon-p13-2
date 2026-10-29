@@ -1,0 +1,291 @@
+{
+  "started_at": "2026-10-29T17:37:33.098875+08:00",
+  "finished_at": "2026-10-29T17:37:43.578351+08:00",
+  "code_commit": "2ed7c0e864095235062161b1331e66728ee35572",
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "thinking_setting": "provider_default",
+  "max_requests": 9,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "scope": "whitebox first 3, one pass, development only",
+  "dataset_sha256": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
+  "cache": "new process; schema warmup excluded from per-case timer; executor cache shared across cases",
+  "status": "complete",
+  "exit_code": 0,
+  "wall_seconds": 10.464,
+  "total_score": 14,
+  "generation_requests": 8,
+  "template_count": 200,
+  "correct_answers": 3,
+  "max_possible_score": 15,
+  "prompt_tokens": 7480,
+  "completion_tokens": 650,
+  "request_errors": [],
+  "llm_events": [
+    {
+      "stage": "select",
+      "status": "ok",
+      "seconds": 1.67,
+      "prompt_tokens": 839,
+      "completion_tokens": 99
+    },
+    {
+      "stage": "refine",
+      "status": "ok",
+      "seconds": 0.948,
+      "prompt_tokens": 1425,
+      "completion_tokens": 34
+    },
+    {
+      "stage": "select",
+      "status": "ok",
+      "seconds": 0.8566,
+      "prompt_tokens": 906,
+      "completion_tokens": 13
+    },
+    {
+      "stage": "fill",
+      "status": "ok",
+      "seconds": 1.5826,
+      "prompt_tokens": 146,
+      "completion_tokens": 129
+    },
+    {
+      "stage": "refine",
+      "status": "ok",
+      "seconds": 1.6379,
+      "prompt_tokens": 1432,
+      "completion_tokens": 154
+    },
+    {
+      "stage": "select",
+      "status": "ok",
+      "seconds": 0.7528,
+      "prompt_tokens": 1156,
+      "completion_tokens": 52
+    },
+    {
+      "stage": "fill",
+      "status": "ok",
+      "seconds": 1.3228,
+      "prompt_tokens": 142,
+      "completion_tokens": 91
+    },
+    {
+      "stage": "refine",
+      "status": "ok",
+      "seconds": 1.1375,
+      "prompt_tokens": 1434,
+      "completion_tokens": 78
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "CMDB-001",
+      "elapsed": 2.81,
+      "score": 5,
+      "reason": "答案正确",
+      "matched_runbook": "tpl_001_CMDB-001",
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY status",
+      "diagnostics": {
+        "match_seconds": 2.6313,
+        "execute_seconds": 0.1755,
+        "llm_calls": [
+          {
+            "stage": "select",
+            "status": "ok",
+            "seconds": 1.67,
+            "prompt_tokens": 839,
+            "completion_tokens": 99
+          },
+          {
+            "stage": "refine",
+            "status": "ok",
+            "seconds": 0.948,
+            "prompt_tokens": 1425,
+            "completion_tokens": 34
+          }
+        ],
+        "matching": {
+          "retrieval_seconds": 0.001254,
+          "candidate_ids": [
+            "rb_001",
+            "rb_002",
+            "rb_154",
+            "rb_026",
+            "rb_063",
+            "rb_050",
+            "rb_053",
+            "rb_164",
+            "rb_105",
+            "rb_083",
+            "rb_010",
+            "rb_089"
+          ],
+          "selected_template": "rb_001",
+          "filled_parameter_names": [],
+          "reason": "matched"
+        }
+      }
+    },
+    {
+      "case_id": "CMDB-004",
+      "elapsed": 4.24,
+      "score": 4,
+      "reason": "答案正确 [超时>4s, -1]",
+      "matched_runbook": "tpl_002_CMDB-004",
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY status",
+      "diagnostics": {
+        "match_seconds": 4.0823,
+        "execute_seconds": 0.1594,
+        "llm_calls": [
+          {
+            "stage": "select",
+            "status": "ok",
+            "seconds": 0.8566,
+            "prompt_tokens": 906,
+            "completion_tokens": 13
+          },
+          {
+            "stage": "fill",
+            "status": "ok",
+            "seconds": 1.5826,
+            "prompt_tokens": 146,
+            "completion_tokens": 129
+          },
+          {
+            "stage": "refine",
+            "status": "ok",
+            "seconds": 1.6379,
+            "prompt_tokens": 1432,
+            "completion_tokens": 154
+          }
+        ],
+        "matching": {
+          "retrieval_seconds": 0.001803,
+          "candidate_ids": [
+            "rb_002",
+            "rb_001",
+            "rb_081",
+            "rb_053",
+            "rb_164",
+            "rb_105",
+            "rb_154",
+            "rb_176",
+            "rb_026",
+            "rb_114",
+            "rb_063",
+            "rb_050",
+            "rb_181"
+          ],
+          "selected_template": "rb_002",
+          "filled_parameter_names": [
+            "logicalRegionName"
+          ],
+          "reason": "matched"
+        }
+      }
+    },
+    {
+      "case_id": "CMDB-005",
+      "elapsed": 3.31,
+      "score": 5,
+      "reason": "答案正确",
+      "matched_runbook": "tpl_003_CMDB-005",
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT azoneName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY azoneName",
+      "diagnostics": {
+        "match_seconds": 3.2213,
+        "execute_seconds": 0.0845,
+        "llm_calls": [
+          {
+            "stage": "select",
+            "status": "ok",
+            "seconds": 0.7528,
+            "prompt_tokens": 1156,
+            "completion_tokens": 52
+          },
+          {
+            "stage": "fill",
+            "status": "ok",
+            "seconds": 1.3228,
+            "prompt_tokens": 142,
+            "completion_tokens": 91
+          },
+          {
+            "stage": "refine",
+            "status": "ok",
+            "seconds": 1.1375,
+            "prompt_tokens": 1434,
+            "completion_tokens": 78
+          }
+        ],
+        "matching": {
+          "retrieval_seconds": 0.001684,
+          "candidate_ids": [
+            "rb_003",
+            "rb_168",
+            "rb_049",
+            "rb_174",
+            "rb_018",
+            "rb_189",
+            "rb_070",
+            "rb_120",
+            "rb_196",
+            "rb_133",
+            "rb_182",
+            "rb_197",
+            "rb_157",
+            "rb_179",
+            "rb_112"
+          ],
+          "selected_template": "rb_003",
+          "filled_parameter_names": [
+            "logicalRegionName"
+          ],
+          "reason": "matched"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Development model authorized by user; official evaluation model unconfirmed",
+    "One pass over first 3 public cases only; not a full whitebox or blackbox result",
+    "No paired baseline/candidate experiment; no performance improvement claim",
+    "Elapsed time depends on provider load and process-local cache state"
+  ]
+}
