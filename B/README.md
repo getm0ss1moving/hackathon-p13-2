@@ -116,6 +116,27 @@ RUNBOOK_TEST_LOCAL_API=1 .venv/bin/python -m unittest discover -s tests -v
 
 31 项测试覆盖模型请求合同、调用预算、实体替换、缺参保护、类型、枚举、拒答、SQL 校验和本地流水线。本地流水线使用真实数据 API、原执行器和原评分器，仅模型响应为测试夹具；还执行原 `quick_eval.py` 的前三题入口。该结果用于证明链路和逻辑约束，不能作为模型准确率或真实时延成绩。不设置 `RUNBOOK_TEST_LOCAL_API=1` 时会跳过两项数据服务测试。
 
+## 整体白盒测试入口
+
+`run_whitebox.py` 在原 `quick_eval.main()` 上记录单份 JSONL，继续调用原 `evaluate_case()`。默认只预检文件、模型配置、只读哈希与运行范围，不发起模型请求：
+
+```bash
+.venv/bin/python run_whitebox.py --limit 200 --max-requests 600 --max-output-tokens 1024
+```
+
+获得当轮预算授权并启动数据服务后，执行一次完整白盒：
+
+```bash
+.venv/bin/python run_whitebox.py --run --limit 200 --max-requests 600 \
+  --max-output-tokens 1024 --output experiments/whitebox_20261029_full.jsonl
+```
+
+该入口加载本机 `.env.local`，不需要在命令中填写密钥。每题最多选择、填参和精调三次请求，无 SDK 自动重试；原文件顺序、单轮、全量 200 题，黑盒缺失不运行。输出文件以独占方式创建，不能覆盖已有实验。
+
+JSONL 包含配置和代码/数据哈希、初始化、每次模型请求、逐题得分/耗时/候选/参数来源/API/精调前后 SQL/结果预览，以及完整性和资源汇总。模型、网络或预算异常中止时标为 incomplete，不把未完成题补 0。记录的进程峰值内存只包含评估进程，数据服务需单独记录；不据本机单次测试宣称正式资源合规。
+
+本轮加的候选分数、参数来源和 SQL 记录均为诊断信息，选择、填参、SQL 处理策略保持全量测试前的状态。先取得完整失败分布，再按 TEAM.md 每轮选择一个因素做对照。
+
 ## 本轮改动与后续整合
 
 运行时改动集中在 B 的两个文件：

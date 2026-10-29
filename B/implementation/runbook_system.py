@@ -28,8 +28,15 @@ class RunbookQuerySystem:
     def __init__(self):
         get_llm()  # 仅检查客户端配置，不发送模型请求。
         self.items = RUNBOOK_ITEMS
+        started = time.perf_counter()
         self.retriever = RunbookRetriever(self.items)
+        indexed_at = time.perf_counter()
         _warm_schema_cache()
+        self.initialization_metrics = {
+            "index_seconds": round(indexed_at - started, 6),
+            "schema_warm_seconds": round(time.perf_counter() - indexed_at, 6),
+            "template_count": len(self.items),
+        }
 
     def query(self, user_question: str) -> dict:
         """

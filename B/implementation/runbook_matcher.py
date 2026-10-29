@@ -640,6 +640,10 @@ def match_runbook(user_question: str, runbook_items: list,
     candidates = retriever.retrieve(user_question)
     diagnostics["retrieval_seconds"] = round(time.perf_counter() - retrieved_at, 6)
     diagnostics["candidate_ids"] = [c.id for c in candidates]
+    diagnostics["candidates"] = [
+        {"id": c.id, "tier": getattr(c, "tier", None),
+         "score": getattr(c, "score", None), "coverage": getattr(c, "coverage", None)}
+        for c in candidates]
     if not candidates:
         logger.info("BM25 无候选，跳过 runbook")
         return reject("no_candidates")
@@ -672,6 +676,7 @@ def match_runbook(user_question: str, runbook_items: list,
         return reject("selector_refused" if index == 0 else "invalid_selection")
     selected = copy.deepcopy(candidate_items[index - 1])
     diagnostics["selected_template"] = selected["id"]
+    diagnostics["template_sql"] = selected.get("sql")
     logger.info(f"命中 runbook: {selected['name']}")
 
     # 资源类型检查；输出字段由后续精调处理。
@@ -706,8 +711,12 @@ def match_runbook(user_question: str, runbook_items: list,
         parsed = _parse_params_response(llm_ask(prompt, stage="fill"), placeholders)
         if parsed is None:
             return reject("invalid_parameters")
-        _auto_fill_params(user_question, parsed, placeholders, selected)
+        rule_values = {}
+        _auto_fill_params(user_question, rule_values, placeholders, selected)
+        parsed.update(rule_values)
         parsed = _ground_params(user_question, parsed, selected)
+        diagnostics["parameter_sources"] = {
+            p: "question_rule" if p in rule_values else "llm" for p in parsed}
     diagnostics["filled_parameter_names"] = sorted(parsed)
 
     logger.info(f"最终参数: {parsed}")
@@ -741,6 +750,8 @@ def match_runbook(user_question: str, runbook_items: list,
         refined = _refine_sql(user_question, original_sql, schemas)
         if refined:
             selected["sql"] = refined
+        diagnostics["sql_before_refine"] = original_sql
+        diagnostics["sql_after_refine"] = selected["sql"]
 
     diagnostics["reason"] = "matched"
     return selected
