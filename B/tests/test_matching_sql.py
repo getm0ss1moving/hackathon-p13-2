@@ -109,6 +109,22 @@ class MatchingSQLTests(unittest.TestCase):
         with patch.object(m, "llm_ask", side_effect=["1", "name=exporter-host-42", item["sql"]]):
             self.assertIsNotNone(m.match_runbook(question, [item], self.retriever))
 
+    def test_truncated_model_output_refuses_only_current_query(self):
+        for answers, item, reason in [
+            ([m.ModelOutputError("truncated")], template(), "invalid_model_output_select"),
+            (["1", m.ModelOutputError("truncated")], template("name"), "invalid_model_output_fill"),
+        ]:
+            with self.subTest(reason=reason), patch.object(m, "llm_ask", side_effect=answers):
+                details = {}
+                self.assertIsNone(m.match_runbook("查询ECS new-vm 的名称", [item], self.retriever, details))
+                self.assertEqual(details["reason"], reason)
+
+    def test_transport_and_budget_failures_still_propagate(self):
+        for error in [TimeoutError("network"), RuntimeError("budget")]:
+            with self.subTest(error=type(error).__name__), patch.object(m, "llm_ask", side_effect=error):
+                with self.assertRaises(type(error)):
+                    m.match_runbook("查询ECS名称", [template()], self.retriever)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -45,11 +45,14 @@ def main(argv=None):
     parser.add_argument("--run", action="store_true", help="显式执行已获授权的真实模型测试")
     parser.add_argument("--limit", type=int, default=200)
     parser.add_argument("--max-requests", type=int, default=600)
+    parser.add_argument("--spent-requests", type=int, default=0, help="本轮此前已用请求数，从总上限扣除")
     parser.add_argument("--max-output-tokens", type=int, default=1024)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     if args.limit < 1 or args.max_requests < 1 or args.max_output_tokens < 1:
         parser.error("题数、请求上限和输出 token 上限必须为正整数")
+    if args.spent_requests < 0 or args.spent_requests >= args.max_requests:
+        parser.error("此前已用请求数必须非负且小于本轮总上限")
 
     # 只加载列出的配置项，不执行 shell，不输出密钥。
     local = HERE / ".env.local"
@@ -59,7 +62,8 @@ def main(argv=None):
             name, sep, value = line.partition("=")
             if sep and name in allowed:
                 os.environ[name] = value
-    os.environ["RUNBOOK_MAX_LLM_CALLS"] = str(args.max_requests)
+    remaining_requests = args.max_requests - args.spent_requests
+    os.environ["RUNBOOK_MAX_LLM_CALLS"] = str(remaining_requests)
     os.environ["RUNBOOK_MAX_OUTPUT_TOKENS"] = str(args.max_output_tokens)
     test_file = HERE / "CMDB用例集-白盒200.json"
     cases = json.loads(test_file.read_text(encoding="utf-8"))["cases"]
@@ -85,7 +89,8 @@ def main(argv=None):
         "dataset_sha256": hashlib.sha256(test_file.read_bytes()).hexdigest(),
         "case_count": len(cases), "case_order": "original file order", "repeats": 1,
         "model": matcher.DEEPSEEK_MODEL, "base_url": matcher.DEEPSEEK_BASE_URL,
-        "max_requests": args.max_requests, "max_output_tokens": args.max_output_tokens,
+        "max_requests": remaining_requests, "authorized_total_max_requests": args.max_requests,
+        "requests_spent_before_run": args.spent_requests, "max_output_tokens": args.max_output_tokens,
         "sdk_max_retries": 0, "thinking": "provider default", "temperature": "provider default",
         "template_count": len(runbook_items.RUNBOOK_ITEMS),
         "cache_policy": "new system process; schema warmup excluded; executor cache shared across cases",
@@ -177,6 +182,7 @@ def main(argv=None):
                        "over_4s": sum(t > 4 for t in elapsed), "over_6s": sum(t > 6 for t in elapsed),
                        "elapsed_p50": percentile(elapsed, .5), "elapsed_p95": percentile(elapsed, .95),
                        "generation_requests": len(events), "failed_requests": sum(e["status"] != "ok" for e in events),
+                       "authorized_total_requests_used": args.spent_requests + len(events),
                        "prompt_tokens": sum(e["prompt_tokens"] for e in events),
                        "completion_tokens": sum(e["completion_tokens"] for e in events),
                        "wall_seconds": round(time.perf_counter() - started, 3),

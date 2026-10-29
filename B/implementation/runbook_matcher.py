@@ -180,6 +180,10 @@ _llm_client = None
 _llm_events = []
 
 
+class ModelOutputError(RuntimeError):
+    """模型响应不完整或不可使用；属于单题拒答，不是网络或预算故障。"""
+
+
 def get_llm_events() -> list:
     """返回不含密钥、提示词和模型回答的调用诊断。"""
     return [dict(event) for event in _llm_events]
@@ -228,12 +232,12 @@ def llm_ask(prompt: str, stage: str = "unknown") -> str:
             event["prompt_tokens"] = resp.usage.prompt_tokens
             event["completion_tokens"] = resp.usage.completion_tokens
         if not resp.choices:
-            raise RuntimeError("模型响应中没有候选回答。")
+            raise ModelOutputError("模型响应中没有候选回答。")
         if resp.choices[0].finish_reason == "length":
-            raise RuntimeError("模型输出达到 token 上限，未使用截断的回答。")
+            raise ModelOutputError("模型输出达到 token 上限，未使用截断的回答。")
         content = resp.choices[0].message.content
-        if not content:
-            raise RuntimeError("模型没有返回文本回答。")
+        if not isinstance(content, str) or not content:
+            raise ModelOutputError("模型没有返回文本回答。")
         event["status"] = "ok"
         return content.strip()
     finally:
@@ -663,7 +667,10 @@ def match_runbook(user_question: str, runbook_items: list,
     runbook_str = _format_runbook_list(candidate_items)
     prompt = SELECT_RUNBOOK_PROMPT.format(
         user_question=user_question, runbook_list=runbook_str)
-    answer = llm_ask(prompt, stage="select").strip("`").strip()
+    try:
+        answer = llm_ask(prompt, stage="select").strip("`").strip()
+    except ModelOutputError:
+        return reject("invalid_model_output_select")
     logger.info(f"LLM select runbook answer: {answer}")
 
     try:
@@ -708,7 +715,11 @@ def match_runbook(user_question: str, runbook_items: list,
         placeholder_list = "\n".join("{{" + p + "}}" for p in placeholders)
         prompt = FILL_PARAMS_PROMPT.format(
             examples=examples_str, placeholder_list=placeholder_list, user_question=user_question)
-        parsed = _parse_params_response(llm_ask(prompt, stage="fill"), placeholders)
+        try:
+            answer = llm_ask(prompt, stage="fill")
+        except ModelOutputError:
+            return reject("invalid_model_output_fill")
+        parsed = _parse_params_response(answer, placeholders)
         if parsed is None:
             return reject("invalid_parameters")
         rule_values = {}

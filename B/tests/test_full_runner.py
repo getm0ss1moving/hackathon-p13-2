@@ -29,6 +29,14 @@ class FullRunnerTests(unittest.TestCase):
         self.assertEqual(plan["generation_requests_before_run"], 0)
         self.assertIn("未调用模型", captured.getvalue())
 
+    def test_previous_attempts_are_deducted_from_total_budget(self):
+        captured = io.StringIO()
+        with contextlib.redirect_stdout(captured):
+            run_whitebox.main(["--limit", "200", "--max-requests", "600", "--spent-requests", "65"])
+        plan = json.loads(captured.getvalue().splitlines()[0])
+        self.assertEqual(plan["max_requests"], 535)
+        self.assertEqual(plan["requests_spent_before_run"], 65)
+
     def test_complete_and_incomplete_runs_are_distinct(self):
         cases = json.loads((HERE / "CMDB用例集-白盒200.json").read_text())["cases"][:3]
         for completed, exit_code, expected in [(3, 0, "complete"), (1, 1, "incomplete")]:
