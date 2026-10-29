@@ -716,6 +716,72 @@ def _validate_resource_lookup(item: dict, lookup: dict) -> dict:
             "rows": len(records), "seconds": round(time.perf_counter() - started, 6)}
 
 
+def _validate_api_dependencies(item: dict) -> Optional[dict]:
+    """在原执行器读取后续表前核验跨步值；不推断关系，不改写调用或空答案。"""
+    calls = item.get("api_call") or []
+    calls = calls if isinstance(calls, list) else [calls]
+    if not re.search(r"\{\{[^{}]*\}\}", json.dumps(calls, ensure_ascii=False)):
+        return None  # 无依赖的原链路不新增数据读取。
+    started = time.perf_counter()
+    checks = []
+
+    def outcome(valid, reason, **details):
+        return {"valid": valid, "reason": reason, "checks": checks,
+                "seconds": round(time.perf_counter() - started, 6), **details}
+
+    dependencies = {}
+    # 先静态核对所有引用。原执行器只读紧邻前步，并且 from step 的解析区分大小写。
+    for step, call in enumerate(calls, 1):
+        remaining = copy.deepcopy(call)
+        fields = set()
+        for constraint in remaining.get("condition", {}).get("constraint", []):
+            simple = constraint.get("simple", {})
+            value = simple.get("value")
+            if not re.search(r"\{\{[^{}]*\}\}", json.dumps(value, ensure_ascii=False)):
+                continue
+            reference = re.fullmatch(r"\{\{\s*([A-Za-z_]\w*)\s+from step\s+([1-9]\d*)\s*\}\}", value) if isinstance(value, str) else None
+            executor_field = re.sub(r"\s*from step.*", "", value[2:-2].strip()).strip() if reference else None
+            if not reference or executor_field != reference[1]:
+                return outcome(False, "unsupported_dependency_syntax", target_step=step)
+            if step == 1 or int(reference[2]) != step - 1:
+                return outcome(False, "nonadjacent_dependency_reference", target_step=step,
+                               declared_source_step=int(reference[2]), executor_source_step=step - 1)
+            fields.add(reference[1])
+            simple["value"] = None
+        if re.search(r"\{\{[^{}]*\}\}", json.dumps(remaining, ensure_ascii=False)):
+            return outcome(False, "unsupported_dependency_location", target_step=step)
+        if fields:
+            dependencies[step] = sorted(fields)
+    if not dependencies:
+        return None
+
+    # 只读取最后一个依赖的前缀；被检查的目标尚未读取。execute() 再走原流程时复用原缓存。
+    previous = None
+    previous_table = None
+    last_target = max(dependencies)
+    for step, call in enumerate(calls, 1):
+        if step in dependencies:
+            fields = dependencies[step]
+            counts = {field: sum(bool(record.get(field)) for record in previous or []) for field in fields}
+            check = {"source_step": step - 1, "target_step": step, "source_table": previous_table,
+                     "source_rows": len(previous or []), "source_fields": fields, "usable_rows_by_field": counts}
+            checks.append(check)
+            if not previous:
+                return outcome(False, "empty_dependency_source", target_step=step)
+            if not all(counts.values()):
+                return outcome(False, "missing_dependency_values", target_step=step)
+            try:
+                for field in fields:
+                    # 原执行器用 set() 汇总真值；列表/字典不能作为关联值，0/False 会被它忽略。
+                    {record[field] for record in previous if record.get(field)}
+            except TypeError:
+                return outcome(False, "unusable_dependency_value", target_step=step)
+        if step == last_target:
+            break
+        previous, previous_table = _execute_lookup_api(call, previous)
+    return outcome(True, "validated")
+
+
 def match_runbook(user_question: str, runbook_items: list,
                   retriever: RunbookRetriever, diagnostics: dict = None) -> Optional[dict]:
     """
@@ -833,6 +899,13 @@ def match_runbook(user_question: str, runbook_items: list,
         diagnostics["resource_lookup"] = validation
         if not validation["valid"]:
             return reject("invalid_resource_lookup")
+
+    if os.environ.get("RUNBOOK_VALIDATE_API_DEPENDENCIES") == "1":
+        dependencies = _validate_api_dependencies(selected)
+        if dependencies is not None:
+            diagnostics["api_dependencies"] = dependencies
+            if not dependencies["valid"]:
+                return reject("invalid_api_dependency")
 
     # 4. SQL精调 — 根据用户问题调整SELECT/GROUP BY/聚合函数
     if selected.get("sql"):
