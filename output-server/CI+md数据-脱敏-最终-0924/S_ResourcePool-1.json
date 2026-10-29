@@ -1,0 +1,52 @@
+{
+  "objList": [
+    {
+      "logicalRegionNativeId": "roma-guian-4",
+      "class_Id": 1076,
+      "creation_date": 1739172117179,
+      "type": "FUSION_CLOUD",
+      "created_by": "system",
+      "version": "8.5",
+      "resId": "24773DB545D9333ABAAB936E400D55B0",
+      "logicalRegionId": "9E2E3F0CCB4A3831A59B64A616AF10B9",
+      "is_Local": true,
+      "last_updated_by": "system",
+      "class_Name": "SYS_ResourcePool",
+      "modifyTime": "2026-09-24T01:57:48.365+0800",
+      "createTime": "2025-02-10T07:21:57.156+0800",
+      "name": "OpenStack_roma-guian-4",
+      "id": "24773DB545D9333ABAAB936E400D55B0",
+      "last_Modified": 1790215068393,
+      "accessStatus": "connected",
+      "nativeId": "FUSION_CLOUD_roma-guian-4",
+      "last_update_date": 1790215068393,
+      "status": "normal"
+    },
+    {
+      "logicalRegionNativeId": "roma-guian4-vr",
+      "class_Id": 1076,
+      "creation_date": 1767621760102,
+      "type": "FUSION_CLOUD",
+      "created_by": "system",
+      "version": "8.5",
+      "resId": "6511F25C06E03FC8AE4F317D72343397",
+      "logicalRegionId": "94824A182F4335EBB8109F74F1CB2001",
+      "is_Local": true,
+      "last_updated_by": "system",
+      "class_Name": "SYS_ResourcePool",
+      "modifyTime": "2026-09-24T01:57:57.404+0800",
+      "createTime": "2026-01-05T14:02:40.080+0800",
+      "name": "OpenStack_roma-guian4-vr",
+      "id": "6511F25C06E03FC8AE4F317D72343397",
+      "last_Modified": 1790215077418,
+      "accessStatus": "connected",
+      "nativeId": "FUSION_CLOUD_roma-guian4-vr",
+      "last_update_date": 1790215077418,
+      "status": "normal"
+    }
+  ],
+  "totalNum": 2,
+  "pageSize": 1000,
+  "totalPageNo": 1,
+  "currentPage": 1
+}
