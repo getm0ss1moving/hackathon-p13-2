@@ -53,6 +53,7 @@ class ResourceLookupTests(unittest.TestCase):
 
     def test_unproven_dependencies_never_relax_the_gate(self):
         for mutation in ["constant", "wrong_step", "unknown_source_field", "unknown_target_field",
+                         "unrelated_source_field", "unrelated_target_field",
                          "target_overwritten", "unfiltered_source", "unresolved_source", "unused_target"]:
             with self.subTest(mutation=mutation):
                 item = lookup_item()
@@ -61,6 +62,8 @@ class ResourceLookupTests(unittest.TestCase):
                 if mutation == "wrong_step": child["value"] = "{{id from step 2}}"
                 if mutation == "unknown_source_field": child["value"] = "{{missingField from step 1}}"
                 if mutation == "unknown_target_field": child["name"] = "missingField"
+                if mutation == "unrelated_source_field": child["value"] = "{{name from step 1}}"
+                if mutation == "unrelated_target_field": child["name"] = "status"
                 if mutation == "target_overwritten": item["api_call"].append(copy.deepcopy(item["api_call"][1]))
                 if mutation == "unfiltered_source": item["api_call"][0].pop("condition")
                 if mutation == "unresolved_source": item["api_call"][0]["condition"]["constraint"][0]["simple"]["value"] = "{{id from step 0}}"

@@ -641,6 +641,12 @@ _RESOURCE_CHECKS = [
     (["存储池", "storage_pool"], "STORAGE_POOL"),
 ]
 
+_API_DEPENDENCY_RELATIONS = {
+    frozenset((f"{left_table}.{left_field}".casefold(), f"{right_table}.{right_field}".casefold()))
+    for left_table, left_field, right_table, right_field in re.findall(
+        r"\b(\w+)\.(\w+)\s*=\s*(\w+)\.(\w+)", JOIN_RELATIONS)
+}
+
 
 def _direct_api_lookup(item: dict):
     """仅证明有过滤的首步查找直接约束 SQL 表；不推断任意多步依赖。"""
@@ -673,6 +679,10 @@ def _direct_api_lookup(item: dict):
         dependency = re.fullmatch(r"\{\{\s*([A-Za-z_]\w*)\s+from step\s+1\s*\}\}", value, re.I)
         if (not dependency or dependency[1] not in _schema_columns.get(source, [])
                 or simple.get("name") not in _schema_columns.get(target, [])):
+            return None
+        relation = frozenset((f"{reverse[source]}.{dependency[1]}".casefold(),
+                              f"{reverse[target]}.{simple['name']}".casefold()))
+        if relation not in _API_DEPENDENCY_RELATIONS:
             return None
         fields.add(dependency[1])
     if not fields:
