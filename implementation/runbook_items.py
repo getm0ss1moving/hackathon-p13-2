@@ -2672,7 +2672,7 @@ RUNBOOK_ITEMS = [
         ]
       }
     },
-    "sql": "SELECT SYS_X86Server.hostName AS name, SYS_X86Server.hostIpAddress AS ip_address, SYS_X86Server.hostType AS type FROM SYS_X86Server"
+    "sql": "SELECT x.hostName AS name, x.hostIpAddress AS ip_address, x.hostType AS type FROM (SELECT *, NULL AS hostName, NULL AS hostIpAddress, NULL AS hostType, NULL AS _empty FROM SYS_X86Server) AS x WHERE x._empty IS NULL"
   },
   {
     "id": "rb_072",
