@@ -26,6 +26,7 @@ import requests
 from openai import OpenAI
 
 from runbook_retriever import RunbookRetriever, Candidate
+from runbook_executor import _execute_single_api_call as _execute_lookup_api
 
 logger = logging.getLogger(__name__)
 
@@ -626,6 +627,85 @@ def _mentions_resource(question: str, keyword: str) -> bool:
     return keyword in text
 
 
+_RESOURCE_CHECKS = [
+    (["虚拟机", "ecs", "vm_", "vm实例"], "VM_NOVA"),
+    (["云硬盘", "volume", "磁盘"], "VOLUME"),
+    (["宿主机", "host", "物理机"], "HOST"),
+    (["vpc", "路由器", "router"], "ROUTER"),
+    (["elb", "负载均衡"], "ELB"),
+    (["子网", "subnet"], "SUBNET"),
+    (["端口", "port"], "PORT"),
+    (["安全组", "security_group"], "SECURITY_GROUP"),
+    (["gaussdb", " gauss"], "GAUSSDB"),
+    (["弹性ip", "floating", "eip"], "FLOATING_IPS"),
+    (["存储池", "storage_pool"], "STORAGE_POOL"),
+]
+
+
+def _direct_api_lookup(item: dict):
+    """仅证明有过滤的首步查找直接约束 SQL 表；不推断任意多步依赖。"""
+    calls = item.get("api_call")
+    if not isinstance(calls, list) or len(calls) < 2:
+        return None
+    reverse = {desens: original for original, desens in _ORIG_TO_DESENS.items()}
+
+    def resource(call):
+        if not isinstance(call, dict) or call.get("method", "GET") != "GET":
+            return ""
+        found = re.fullmatch(r"/rest/hackthon/db/(?:instances|relations)/([^/?]+)(?:\?[^#]*)?", call.get("url") or "")
+        return found[1] if found and found[1] in reverse else ""
+
+    source, target = resource(calls[0]), resource(calls[1])
+    if not source or not target:
+        return None
+    sql_tables = {table.upper() for table in _extract_sql_tables(_sql_structure(item.get("sql", "")))}
+    if reverse[target].upper() not in sql_tables or any(resource(c) == target for c in calls[2:]):
+        return None  # 原执行器同名表以后一次 API 的结果为准。
+    source_constraints = calls[0].get("condition", {}).get("constraint", [])
+    if not source_constraints or "from step" in json.dumps(source_constraints).lower():
+        return None
+    fields = set()
+    for constraint in calls[1].get("condition", {}).get("constraint", []):
+        simple = constraint.get("simple", {})
+        value = simple.get("value")
+        if not isinstance(value, str) or "from step" not in value.lower():
+            continue
+        dependency = re.fullmatch(r"\{\{\s*([A-Za-z_]\w*)\s+from step\s+1\s*\}\}", value, re.I)
+        if (not dependency or dependency[1] not in _schema_columns.get(source, [])
+                or simple.get("name") not in _schema_columns.get(target, [])):
+            return None
+        fields.add(dependency[1])
+    if not fields:
+        return None
+    return {"source_step": 1, "target_step": 2, "source_table": reverse[source],
+            "target_table": reverse[target], "source_fields": sorted(fields)}
+
+
+def _resource_coverage(question: str, item: dict) -> dict:
+    """保持原资源词门禁，仅为经过证明的 API 查找补充覆盖。"""
+    sql = (item.get("sql") or "").upper()
+    question = question.lower()
+    missing = [table for words, table in _RESOURCE_CHECKS
+               if sql and table not in sql and any(_mentions_resource(question, word) for word in words)]
+    lookup = _direct_api_lookup(item) if missing else None
+    covered = [table for table in missing if lookup and table in lookup["source_table"].upper()]
+    return {"missing_from_sql": missing, "covered_by_lookup": covered,
+            "unsupported": [table for table in missing if table not in covered], "lookup": lookup}
+
+
+def _validate_resource_lookup(item: dict, lookup: dict) -> dict:
+    """使用原执行器查询首步；空结果不能被后续执行器当作无筛选。"""
+    source = item["api_call"][0]
+    if re.search(r"\{\{[^}]+\}\}", json.dumps(source)):
+        return {"valid": False, "reason": "unresolved_lookup_parameters"}
+    started = time.perf_counter()
+    records, table = _execute_lookup_api(source)
+    valid = table == lookup["source_table"] and all(
+        any(record.get(field) for record in records) for field in lookup["source_fields"])
+    return {"valid": valid, "reason": "validated" if valid else "empty_lookup_or_missing_dependency",
+            "rows": len(records), "seconds": round(time.perf_counter() - started, 6)}
+
+
 def match_runbook(user_question: str, runbook_items: list,
                   retriever: RunbookRetriever, diagnostics: dict = None) -> Optional[dict]:
     """
@@ -686,27 +766,11 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["template_sql"] = selected.get("sql")
     logger.info(f"命中 runbook: {selected['name']}")
 
-    # 资源类型检查；输出字段由后续精调处理。
-    if selected.get("sql"):
-        sql_upper = selected["sql"].upper()
-        q_lower = user_question.lower()
-        _res_checks = [
-            (["虚拟机", "ecs", "vm_", "vm实例"], "VM_NOVA"),
-            (["云硬盘", "volume", "磁盘"], "VOLUME"),
-            (["宿主机", "host", "物理机"], "HOST"),
-            (["vpc", "路由器", "router"], "ROUTER"),
-            (["elb", "负载均衡"], "ELB"),
-            (["子网", "subnet"], "SUBNET"),
-            (["端口", "port"], "PORT"),
-            (["安全组", "security_group"], "SECURITY_GROUP"),
-            (["gaussdb", " gauss"], "GAUSSDB"),
-            (["弹性ip", "floating", "eip"], "FLOATING_IPS"),
-            (["存储池", "storage_pool"], "STORAGE_POOL"),
-        ]
-        for keywords, table_name in _res_checks:
-            if any(_mentions_resource(q_lower, k) for k in keywords) and table_name not in sql_upper:
-                logger.info(f"资源类型不匹配: 问题提到{keywords[0]}但SQL无{table_name}，弃权")
-                return reject("resource_mismatch")
+    # 先证明资源覆盖；查找结果在填参后核验，不能只凭 resources 元数据放行。
+    coverage = _resource_coverage(user_question, selected)
+    diagnostics["resource_coverage"] = coverage
+    if coverage["unsupported"]:
+        return reject("resource_mismatch")
     # 3. 参数填充
     placeholders = _get_placeholders(selected)
     parsed = {}
@@ -753,6 +817,12 @@ def match_runbook(user_question: str, runbook_items: list,
     for name, value in requested.items():
         if not any(value == v or isinstance(v, list) and value in v for v in actual.get(name, [])):
             return reject("missing_api_filter")
+
+    if coverage["covered_by_lookup"]:
+        validation = _validate_resource_lookup(selected, coverage["lookup"])
+        diagnostics["resource_lookup"] = validation
+        if not validation["valid"]:
+            return reject("invalid_resource_lookup")
 
     # 4. SQL精调 — 根据用户问题调整SELECT/GROUP BY/聚合函数
     if selected.get("sql"):
