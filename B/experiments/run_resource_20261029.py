@@ -19,12 +19,37 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main():
+def diagnostic_outcome(case_id, answer, untimed_score, scope):
+    """验证预登记路径；选择器提前拒答不能证明空查找保护已执行。"""
+    expected_match = scope["expected_match"][case_id]
+    matched = bool(answer.get("matched_runbook"))
+    matching = (answer.get("diagnostics") or {}).get("matching", {})
+    reason = matching.get("reason")
+    lookup = matching.get("resource_lookup") or {}
+    if case_id in {"CMDB-036", "DEV-HOST-REPLACED"}:
+        exercised = matched and reason == "matched" and lookup.get("valid") is True
+    elif case_id == "DEV-NONEXISTENT-HOST":
+        exercised = not matched and reason == "invalid_resource_lookup" and lookup.get("valid") is False
+    elif not expected_match:
+        exercised = not matched and reason == "resource_mismatch"
+    else:
+        exercised = matched and reason == "matched"
+    return {"expected_match": expected_match, "match_expectation_observed": matched == expected_match,
+            "expected_path_exercised": exercised,
+            "diagnostic_passed": exercised and (untimed_score == 5 if expected_match else untimed_score == 0)}
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", action="store_true")
-    args = parser.parse_args()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
     plan_file = HERE / "experiments/resource_gate_20261029_plan.json"
     scope = json.loads(plan_file.read_text())
+    if (type(scope.get("max_requests")) is not int or not 1 <= scope["max_requests"] <= 24
+            or type(scope.get("max_output_tokens")) is not int or not 1 <= scope["max_output_tokens"] <= 1024
+            or scope.get("sdk_max_retries") != 0 or scope.get("RUNBOOK_PRESERVE_TEMPLATE_COLUMNS") != "0"):
+        parser.error("计划超出本轮调用边界或混入输出列实验")
     baseline = HERE / "experiments" / scope["baseline"]
     if sha(baseline) != scope["baseline_sha256"]:
         parser.error("固定基线记录哈希不一致")
@@ -49,6 +74,10 @@ def main():
     baseline_plan = json.loads(baseline.read_text().splitlines()[0])
     if sha(test_file) != baseline_plan["dataset_sha256"]:
         parser.error("测试数据版本变化")
+    for name in baseline_plan["source_sha256"]:
+        expected = subprocess.check_output(["git", "show", scope["candidate_commit"] + ":B/implementation/" + name], cwd=HERE)
+        if sha(HERE / "implementation" / name) != hashlib.sha256(expected).hexdigest():
+            parser.error(f"源码与固定候选版本不同：{name}")
     for relative, expected in json.loads((HERE / "baseline_manifest.json").read_text())["readonly_files"].items():
         if sha(HERE / relative) != expected:
             parser.error(f"只读文件校验失败：{relative}")
@@ -65,12 +94,13 @@ def main():
         print("预检完成，未调用模型。")
         return 0
 
-    logging.disable(logging.CRITICAL)
     records = []
     started = time.perf_counter()
-    output = HERE / "experiments/resource_gate_20261029_live.jsonl"
+    output = args.output or HERE / "experiments/resource_gate_20261029_live.jsonl"
     completed = False
     with output.open("x", encoding="utf-8") as stream:
+        previous_logging = logging.root.manager.disable
+        logging.disable(logging.CRITICAL)
         def write(row):
             stream.write(json.dumps(row, ensure_ascii=False) + "\n")
             stream.flush()
@@ -89,11 +119,11 @@ def main():
                     for event in matcher.get_llm_events()[first_event:]:
                         write({"type": "request", "case_id": case["case_id"], **event})
                 scored = evaluate_case(case, answer, elapsed)
+                untimed = evaluate_case(case, answer, 0)["score"]
                 row = {"type": "case", **scored,
                        "group": "official_subset" if case["case_id"] in scope["official_case_ids"] else "derived_diagnostic",
-                       "expected_match": scope["expected_match"][case["case_id"]],
-                       "expected_behavior_observed": bool(answer.get("matched_runbook")) == scope["expected_match"][case["case_id"]],
-                       "score_without_time_penalty": evaluate_case(case, answer, 0)["score"],
+                       **diagnostic_outcome(case["case_id"], answer, untimed, scope),
+                       "score_without_time_penalty": untimed,
                        **{k: answer.get(k) for k in ["matched_runbook", "api_call", "sql", "diagnostics"]},
                        "result": result_preview(answer.get("result"))}
                 records.append(row)
@@ -109,8 +139,12 @@ def main():
                        "completed_cases": len(records), "planned_cases": len(cases),
                        "official_cases": len(official), "official_score": round(sum(r["score"] for r in official), 1),
                        "official_untimed_score": round(sum(r["score_without_time_penalty"] for r in official), 1),
-                       "expected_behavior_observed": sum(r["expected_behavior_observed"] for r in records),
-                       "generation_requests": len(events), "all_rounds_requests_so_far": scope["prior_round_requests_used"] + len(events),
+                       "match_expectation_observed": sum(r["match_expectation_observed"] for r in records),
+                       "expected_paths_exercised": sum(r["expected_path_exercised"] for r in records),
+                       "diagnostics_passed": sum(r["diagnostic_passed"] for r in records),
+                       "generation_requests": len(events),
+                       "previous_600_request_budget_used": scope["prior_round_requests_used"],
+                       "combined_requests_for_previous_budget_and_this_check": scope["prior_round_requests_used"] + len(events),
                        "failed_requests": sum(e["status"] != "ok" for e in events),
                        "prompt_tokens": sum(e["prompt_tokens"] for e in events), "completion_tokens": sum(e["completion_tokens"] for e in events),
                        "wall_seconds": round(time.perf_counter() - started, 3), "peak_evaluation_process_mib": peak_memory_mib(), "finished_at": now()}
@@ -118,6 +152,7 @@ def main():
             print(json.dumps(summary, ensure_ascii=False), flush=True)
             if matcher._llm_client:
                 matcher._llm_client.close()
+            logging.disable(previous_logging)
     return 0 if completed else 1
 
 
