@@ -2,7 +2,7 @@
   "status": "prepared before repeat-scope approval",
   "baseline": "whitebox_20261029_full.jsonl",
   "baseline_sha256": "2442e1442da2f553f26fc72d6924860e9ae46bf88fde9a5b0b48abbe40ea9223",
-  "candidate_commit": "07cc224da54a8a48f8b11cc2be1e9c7fc0cf1099",
+  "candidate_commit": "5b677ef6623241d38478352606c59af1637f882b",
   "purpose": "资源门禁单因素开发诊断；6 道官方白盒子集与 2 道派生检查分别报告",
   "official_case_ids": [
     "CMDB-001",

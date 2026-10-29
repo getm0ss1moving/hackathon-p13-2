@@ -1,0 +1,99 @@
+{
+  "protocol": "same frozen mock selection/parameters/refinement; real local API and original executor/evaluator; elapsed=0; no model accuracy or timing claim",
+  "baseline_commit": "3b99aaf",
+  "baseline_matcher_sha256": "0cdd1b183d01095cb1fcc7714d3af918e53b25743b814c414b3fdfb43af0d5e4",
+  "candidate_commit": "5b677ef6623241d38478352606c59af1637f882b",
+  "candidate_matcher_sha256": "a661dd77215ef05aaf08343b7dc65f812ad4d761130563e0e7ece60e16c8f035",
+  "checks": [
+    {
+      "case_id": "CMDB-036",
+      "question": "宿主机kvm-10上目前有多少台处于ACTIVE状态的虚拟机",
+      "baseline": {
+        "score_without_time_penalty": 0,
+        "reason": "resource_mismatch",
+        "mock_model_responses_consumed": 1,
+        "result": null,
+        "resource_lookup": null
+      },
+      "candidate": {
+        "score_without_time_penalty": 5,
+        "reason": "matched",
+        "mock_model_responses_consumed": 3,
+        "result": {
+          "columns": [
+            "total"
+          ],
+          "rows": [
+            {
+              "total": 73
+            }
+          ],
+          "row_count": 1
+        },
+        "resource_lookup": {
+          "valid": true,
+          "reason": "validated",
+          "rows": 1,
+          "seconds": 0.003309
+        }
+      }
+    },
+    {
+      "case_id": "DEV-HOST-REPLACED",
+      "question": "宿主机\"2CAF8CF9-63F0-E3B9-EE11-23831AA47C1A\"上处于ACTIVE状态的虚拟机有多少台",
+      "baseline": {
+        "score_without_time_penalty": 0,
+        "reason": "resource_mismatch",
+        "mock_model_responses_consumed": 1,
+        "result": null,
+        "resource_lookup": null
+      },
+      "candidate": {
+        "score_without_time_penalty": 5,
+        "reason": "matched",
+        "mock_model_responses_consumed": 3,
+        "result": {
+          "columns": [
+            "total"
+          ],
+          "rows": [
+            {
+              "total": 7
+            }
+          ],
+          "row_count": 1
+        },
+        "resource_lookup": {
+          "valid": true,
+          "reason": "validated",
+          "rows": 1,
+          "seconds": 0.00205
+        }
+      }
+    },
+    {
+      "case_id": "DEV-NONEXISTENT-HOST",
+      "question": "宿主机nonexistent-host-resource-gate-probe上ACTIVE状态的虚拟机数量",
+      "baseline": {
+        "score_without_time_penalty": 0,
+        "reason": "resource_mismatch",
+        "mock_model_responses_consumed": 1,
+        "result": null,
+        "resource_lookup": null
+      },
+      "candidate": {
+        "score_without_time_penalty": 0,
+        "reason": "invalid_resource_lookup",
+        "mock_model_responses_consumed": 2,
+        "result": null,
+        "resource_lookup": {
+          "valid": false,
+          "reason": "empty_lookup_or_missing_dependency",
+          "rows": 0,
+          "seconds": 0.001461
+        }
+      }
+    }
+  ],
+  "model_requests": 0
+}
