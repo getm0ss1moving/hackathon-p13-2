@@ -9,7 +9,7 @@
     "template_change_commit": "e9d76e456c17215525300869f198c61657a559a9",
     "template_count": 200,
     "index_documents": 400,
-    "template_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+    "template_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
     "retriever_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
     "changed_templates": [
       "rb_071",
@@ -18,7 +18,6 @@
     ],
     "added_API_conditions": 4,
     "other197_templates_unchanged": true,
-    "SQL_examples_defaults_resources_unchanged": true,
     "new_entity_defaults": false,
     "parameters": {
       "semantic_slots": 30,
@@ -790,40 +789,17 @@
       "runtime_enforcement": "B responsibility; declarations alone do not enforce execution"
     },
     "validation": {
-      "native_executions": 6,
-      "actual_request_filter_verified": 6,
-      "output_capability_proven": 5,
-      "output_capability_unproven": 1,
-      "unproven_scenario": "rb_071 alternate observed region: missing SYS_X86Server.hostName; original executor hides SQL error as empty output",
-      "all_source_and_data_inputs_unchanged_during_test": true,
-      "model_calls": 0,
-      "new_full_model_score": "NOT RUN for this template hash",
-      "pass_fail": {
-        "API_filters": "PASS 6/6",
-        "complete_output": "PARTIAL 5/6; rb071 sparse region fails",
-        "all8_missing_bindings": "NOT COMPLETE;3 repaired,5 unproven mappings",
-        "new_model_run": "NOT RUN"
-      },
-      "scope_limit": "Two observed scope values may be aliases/cloned data; no unseen geographic generalization claim",
-      "unresolved_original_SQL_semantics": [
-        "rb177 original SQL does not return pool details",
-        "rb183 original SQL does not restrict output to the maximum tenant; not repaired by adding region filters"
-      ],
-      "independent_verifier_exit_code": 2,
-      "independent_verifier_status": "BLOCKED",
-      "retained_failure": [
-        "native_or_request_filter_failed:rb_071:control_other_real_scope"
-      ],
-      "source_manifest_commit_verified": true,
-      "protected_files_unchanged_each_copy": 236,
-      "public_reproduction_exit_codes": {
-        "199": 0,
-        "empty021": 0,
-        "empty041": 0,
-        "long126": 0,
-        "native126": 0
-      },
-      "meaning_of_exit_codes": "Verifier exit2 preserves known output failure; boundary probe exit0 means successful reproduction, not a fix"
+      "scope": "rb071 sparse-projection fix only; other199 items byte-for-structure unchanged",
+      "native_cases": 5,
+      "native_pass": 5,
+      "independent_offline_cases": 10,
+      "independent_offline_pass": 10,
+      "developer_offline_cases": 14,
+      "developer_offline_pass": 14,
+      "SQL_error_unsuppressed": null,
+      "new_model_calls": 0,
+      "full_model_score": "NOT RUN",
+      "source_and_fixed_data_unchanged": true
     },
     "five_points": {
       "empty_predecessor": {
@@ -954,7 +930,54 @@
       "long-URL batching implemented",
       "official final score or unseen blackbox improvement"
     ],
-    "privacy": "Only code, aggregate results and field contracts; no source questions, entity values, account balances, raw logs, local absolute paths or credentials"
+    "privacy": "Only code, aggregate results and field contracts; no source questions, entity values, account balances, raw logs, local absolute paths or credentials",
+    "prior_binding_validation": {
+      "native_executions": 6,
+      "actual_request_filter_verified": 6,
+      "output_capability_proven": 5,
+      "output_capability_unproven": 1,
+      "unproven_scenario": "rb_071 alternate observed region: missing SYS_X86Server.hostName; original executor hides SQL error as empty output",
+      "all_source_and_data_inputs_unchanged_during_test": true,
+      "model_calls": 0,
+      "new_full_model_score": "NOT RUN for this template hash",
+      "pass_fail": {
+        "API_filters": "PASS 6/6",
+        "complete_output": "PARTIAL 5/6; rb071 sparse region fails",
+        "all8_missing_bindings": "NOT COMPLETE;3 repaired,5 unproven mappings",
+        "new_model_run": "NOT RUN"
+      },
+      "scope_limit": "Two observed scope values may be aliases/cloned data; no unseen geographic generalization claim",
+      "unresolved_original_SQL_semantics": [
+        "rb177 original SQL does not return pool details",
+        "rb183 original SQL does not restrict output to the maximum tenant; not repaired by adding region filters"
+      ],
+      "independent_verifier_exit_code": 2,
+      "independent_verifier_status": "BLOCKED",
+      "retained_failure": [
+        "native_or_request_filter_failed:rb_071:control_other_real_scope"
+      ],
+      "source_manifest_commit_verified": true,
+      "protected_files_unchanged_each_copy": 236,
+      "public_reproduction_exit_codes": {
+        "199": 0,
+        "empty021": 0,
+        "empty041": 0,
+        "long126": 0,
+        "native126": 0
+      },
+      "meaning_of_exit_codes": "Verifier exit2 preserves known output failure; boundary probe exit0 means successful reproduction, not a fix",
+      "source_template_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+      "historical_base_commit": "e9d76e456c17215525300869f198c61657a559a9"
+    },
+    "sparse_projection_commit": "3c6e1227f5f3e92e3158d156b6deed13a66d6495",
+    "template_change_commits": [
+      "e9d76e456c17215525300869f198c61657a559a9",
+      "3c6e1227f5f3e92e3158d156b6deed13a66d6495"
+    ],
+    "examples_defaults_resources_unchanged": true,
+    "SQL_changes": {
+      "rb_071": "Sparse-field null projection; output names and source meanings preserved"
+    }
   },
   "historical_handoff": {
     "notice": "Earlier published aggregation retained as historical evidence. Its pending/model-not-run statements are superseded by current_handoff and are not current runtime capability claims.",
@@ -1151,5 +1174,1005 @@
         "scope": "Aggregate findings are preserved without altering underlying results; missing evidence and excluded probes remain explicitly identified."
       }
     }
+  },
+  "root_cause_followup": {
+    "base_commit": "826525a18487111ebaa84be89d1b6545f9f7e70b",
+    "branch": "a/root-cause-contracts-20261029",
+    "scope": "A only; no B runtime changes",
+    "rb071": {
+      "status": "FIXED_SPARSE_SQL_PROJECTION_NOT_MISSING_DATA",
+      "commit": "3c6e1227f5f3e92e3158d156b6deed13a66d6495",
+      "source_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+      "changed_template_fields": [
+        "rb_071.sql"
+      ],
+      "other199_templates_unchanged": true,
+      "original_root_cause": "Record-derived columns omit hostName/hostIpAddress for some scopes; fixed executor suppresses no-such-column as empty output",
+      "initial_all_scope_rows": 45,
+      "initial_rows_with_missing_projection_cells": 11,
+      "schema_subset_source_rows": [
+        6,
+        39
+      ],
+      "existing_columns": [
+        "name",
+        "ip_address",
+        "type"
+      ],
+      "source_fields": [
+        "hostName",
+        "hostIpAddress",
+        "hostType"
+      ],
+      "replacement_fields_used": false,
+      "projection_method": "Source columns first; NULL aliases provide only genuinely absent columns; exclude reserved _empty loader sentinel",
+      "API_calls_or_filters_changed": false,
+      "native_cases": [
+        {
+          "case": "real_scope_1",
+          "source_rows": 6,
+          "output_rows": 6,
+          "source_missing_cells": 12,
+          "result_null_cells": 12,
+          "PASS": true
+        },
+        {
+          "case": "real_scope_2",
+          "source_rows": 39,
+          "output_rows": 39,
+          "source_missing_cells": 10,
+          "result_null_cells": 10,
+          "PASS": true
+        },
+        {
+          "case": "absent_scope",
+          "source_rows": 0,
+          "output_rows": 0,
+          "source_missing_cells": 0,
+          "result_null_cells": 0,
+          "PASS": true
+        },
+        {
+          "case": "ID_scope_1",
+          "source_rows": 1,
+          "output_rows": 1,
+          "source_missing_cells": 2,
+          "result_null_cells": 2,
+          "PASS": true
+        },
+        {
+          "case": "ID_scope_2",
+          "source_rows": 2,
+          "output_rows": 2,
+          "source_missing_cells": 4,
+          "result_null_cells": 4,
+          "PASS": true
+        }
+      ],
+      "independent_offline": "10/10",
+      "developer_offline": "14/14",
+      "missing_values_recovered": false,
+      "DQS_or_PRAGMA_dependency": false,
+      "remaining": [
+        "HTTP failure already collapsed to empty cannot be distinguished by A static SQL",
+        "Model SQL refinement may replace the protective projection; not end-to-end tested",
+        "Reserved _empty name contract required"
+      ],
+      "independent_review_status": "PASS_SCOPED_RB071_REVIEW_NO_OBSERVED_RELEASE_BLOCKER"
+    },
+    "mappings": {
+      "status": "OFFLINE_RESEARCH_COMPLETE_CANDIDATE_MAPPINGS_NOT_RUNTIME_ACCEPTED",
+      "production_templates_changed": false,
+      "normative_limit": "Minimal model does not separately define AZONE.name/nativeId/deviceName, S_BusinessRegion logical-name namespace, or GAUSSDB_NODE.azCode foreign-key target. Candidate mappings have data/declared-link corroboration, not formal foreign-key guarantees.",
+      "catalog_profiles": {
+        "AZONE_rows": 8,
+        "AZONE_name_distinct": 4,
+        "AZONE_global_name_to_multiple_id_groups": 4,
+        "AZONE_scoped_name_key_groups": 8,
+        "AZONE_scoped_name_ambiguous_groups": 0,
+        "AZONE_scoped_native_id_ambiguous_groups": 0,
+        "logical_name_to_id_groups": 2,
+        "logical_name_to_id_ambiguous": 0,
+        "logical_id_business_id_equal_rows": 8,
+        "logical_name_business_name_equal_rows": 8,
+        "BusinessRegion_name_to_logical_name_join_match_rows": 8,
+        "S_CloudService_logical_ID_covered_by_AZONE_rows": 144,
+        "S_DeployNode_logical_ID_covered_by_AZONE_rows": 1080
+      },
+      "logical_region_controls": {
+        "S_CloudService": {
+          "positive_name_controls": 2,
+          "counts_sorted_without_names": [
+            34,
+            110
+          ],
+          "positive_control_sets_disjoint": true,
+          "unknown_name_resolves_no_ids": true,
+          "known_field_missing_rows": 0,
+          "crosscheck_with_business_resource_name_map": true
+        },
+        "S_DeployNode": {
+          "positive_name_controls": 2,
+          "counts_sorted_without_names": [
+            152,
+            928
+          ],
+          "positive_control_sets_disjoint": true,
+          "unknown_name_resolves_no_ids": true,
+          "known_field_missing_rows": 6,
+          "crosscheck_with_business_resource_name_map": true
+        }
+      },
+      "AZ_namespace_evidence": {
+        "HOST": {
+          "matched_AZ_ID_rows": 68,
+          "source_azoneName_nonempty_matched_rows": 68,
+          "equal_name_counts": {
+            "name": 24,
+            "deviceName": 68,
+            "nativeId": 68,
+            "globalName": 0,
+            "id": 0
+          }
+        },
+        "VM_NOVA": {
+          "matched_AZ_ID_rows": 2046,
+          "source_azoneName_nonempty_matched_rows": 2046,
+          "equal_name_counts": {
+            "name": 593,
+            "deviceName": 2046,
+            "nativeId": 2046,
+            "globalName": 0,
+            "id": 0
+          }
+        },
+        "S_VM": {
+          "matched_AZ_ID_rows": 896,
+          "source_azoneName_nonempty_matched_rows": 896,
+          "equal_name_counts": {
+            "name": 593,
+            "deviceName": 896,
+            "nativeId": 896,
+            "globalName": 0,
+            "id": 0
+          }
+        }
+      },
+      "AZ_uniqueness_controls": {
+        "recognized_user_name_values": 3,
+        "global_name_ambiguous_groups": 3,
+        "scoped_user_name_groups": 6,
+        "scoped_user_name_ambiguous_groups": 0,
+        "AZONE_rows_not_witnessed_by_HOST_VM_name": 2,
+        "source_name_fields_compared_without_printing_values": true
+      },
+      "database_AZ_candidate": {
+        "node_rows": 30,
+        "instance_rows": 14,
+        "scoped_azcode_unique_match_nodes": 30,
+        "ambiguous_scoped_nodes": 0,
+        "missing_scoped_nodes": 0,
+        "nodes_linked_to_instance_id": 30,
+        "node_instance_logical_region_equal": 30,
+        "VM_reference_matched_nodes": 24,
+        "VM_azoneId_matches_scoped_AZONE_id": 24,
+        "VM_azoneName_matches_scoped_AZONE_name": 0,
+        "VM_missing_AZ_after_matched_reference": 0,
+        "instances_with_scoped_AZ": 14,
+        "instances_spanning_multiple_AZ": 0,
+        "known_AZ_groups_with_nodes": 1,
+        "canonical_AZ_groups_without_DB_nodes": 7
+      },
+      "DB_AZ_triangulation": {
+        "matched_VM": 24,
+        "canonical_AZ_ID_equal": 24,
+        "AZONE_deviceName_equals_VM_azoneName": 24,
+        "AZONE_name_equals_VM_azoneName": 0
+      },
+      "DB_AZ_positive_negative_controls": {
+        "canonical_AZs_in_DB_scope": 4,
+        "controls": [
+          {
+            "selected_nodes": 30,
+            "distinct_instance_refs": 14
+          },
+          {
+            "selected_nodes": 0,
+            "distinct_instance_refs": 0
+          },
+          {
+            "selected_nodes": 0,
+            "distinct_instance_refs": 0
+          },
+          {
+            "selected_nodes": 0,
+            "distinct_instance_refs": 0
+          }
+        ],
+        "empty_after_valid_AZ_lookup_must_stop": true,
+        "global_nativeId_lookup_is_ambiguous": true
+      },
+      "ELB_backend_AZ_candidate": {
+        "member_rows": 586,
+        "member_VM_missing": 92,
+        "member_VM_unmatched": 50,
+        "member_VM_unique": 444,
+        "member_VM_has_canonical_AZ": 444,
+        "member_pool_ELB_chain_unique": 586,
+        "ELB_total": 728,
+        "ELBs_with_observed_backend_VM_AZ": 73,
+        "ELBs_with_multiple_backend_AZ": 0,
+        "ELBs_without_observed_backend_AZ": 655,
+        "semantic_classification": "BACKEND_VM_AZ_ONLY_NOT_ELB_PLACEMENT"
+      },
+      "ELB_VIP_rejected_path": {
+        "ELB_rows": 728,
+        "VIP_port_nativeId_unique_match": 728,
+        "matched_PORT_missing_AZ_fields": 728,
+        "cross_logical_region_matches": 364
+      },
+      "conflicting_DeployNode_region_vs_AZ_rows": 21,
+      "runtime_contract": {
+        "native_list_supports_lookup_dependencies": true,
+        "native_uses_only_immediate_previous_records": true,
+        "no_empty_or_missing_dependency_stop": true,
+        "cannot_make_empty_lookup_safe_via_template_metadata": true,
+        "native_runtime_tests_performed": false,
+        "production_use_recommendation": "Do not promote appended lookup steps without fail-closed B dispatch; no SQL WHERE0, fake IDs/URLs or response substitution."
+      },
+      "native_region_interface_probe": {
+        "kind": "two_stage_location_interface_probe",
+        "production_integration": false,
+        "production_templates_modified": false,
+        "executor_cache_or_B_patched": false,
+        "model_calls": 0,
+        "maximum_http_requests": 10,
+        "cases": [
+          {
+            "scope": "scope_1",
+            "stage1_http": 1,
+            "stage2_http": 2,
+            "targets": [
+              {
+                "ci": "S_CloudService",
+                "expected_rows": 110,
+                "actual_rows": 110,
+                "id_set_and_multiplicity_equal": true,
+                "all_rows_match_resolved_id": true
+              },
+              {
+                "ci": "S_DeployNode",
+                "expected_rows": 928,
+                "actual_rows": 928,
+                "id_set_and_multiplicity_equal": true,
+                "all_rows_match_resolved_id": true
+              }
+            ],
+            "stage1_sql_columns_verified": true,
+            "catalog_unique_ids": 1,
+            "resolution": "unique_valid_id"
+          },
+          {
+            "scope": "scope_2",
+            "stage1_http": 1,
+            "stage2_http": 2,
+            "targets": [
+              {
+                "ci": "S_CloudService",
+                "expected_rows": 34,
+                "actual_rows": 34,
+                "id_set_and_multiplicity_equal": true,
+                "all_rows_match_resolved_id": true
+              },
+              {
+                "ci": "S_DeployNode",
+                "expected_rows": 152,
+                "actual_rows": 152,
+                "id_set_and_multiplicity_equal": true,
+                "all_rows_match_resolved_id": true
+              }
+            ],
+            "stage1_sql_columns_verified": true,
+            "catalog_unique_ids": 1,
+            "resolution": "unique_valid_id"
+          },
+          {
+            "scope": "synthetic_unknown",
+            "stage1_http": 1,
+            "stage2_http": 0,
+            "targets": [],
+            "stage1_sql_columns_verified": true,
+            "catalog_unique_ids": 0,
+            "resolution": "empty_catalog",
+            "stage2_skipped": true
+          }
+        ],
+        "passed": true,
+        "data_sha256": {
+          "AZONE": [
+            "ccff5535ed66b4ead8e0d6a227693b92312ce1a39c346c4bc32591f501972e8b"
+          ],
+          "S_CloudService": [
+            "3e90c7715336550c56388350c4f124fcd6ea128e42f64a3c5441167a53507f87"
+          ],
+          "S_DeployNode": [
+            "1c829e28b9bb36501f9e2899cd259e40e6f23d37058f7a3b90387b0e080007a6",
+            "77f47647c841ea17fa79e5accf5e98d20d21f5a0b54371130e4d364ac0ed4dc3"
+          ]
+        },
+        "catalog_schema_verified": {
+          "ci": "AZONE",
+          "fields": [
+            "logicalRegionName",
+            "logicalRegionId"
+          ],
+          "rows": 8,
+          "scopes": 2,
+          "unique_id_per_scope": true
+        },
+        "records_without_logical_region_id": {
+          "S_CloudService": 0,
+          "S_DeployNode": 6
+        },
+        "executor_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "sql": {
+          "catalog": "SELECT DISTINCT x.logicalRegionId AS logicalRegionId FROM (SELECT *, NULL AS logicalRegionId, NULL AS _empty FROM CLOUD_AZONE) AS x WHERE x._empty IS NULL",
+          "S_CloudService": "SELECT x.id AS id, x.logicalRegionId AS logicalRegionId FROM (SELECT *, NULL AS id, NULL AS logicalRegionId, NULL AS _empty FROM SYS_CloudService) AS x WHERE x._empty IS NULL",
+          "S_DeployNode": "SELECT x.id AS id, x.logicalRegionId AS logicalRegionId FROM (SELECT *, NULL AS id, NULL AS logicalRegionId, NULL AS _empty FROM SYS_DeployNode) AS x WHERE x._empty IS NULL"
+        },
+        "wire_summary": {
+          "http_requests": 7,
+          "status_counts": {
+            "200": 7
+          },
+          "unconditional_requests": 0,
+          "by_ci": {
+            "AZONE": 3,
+            "S_CloudService": 2,
+            "S_DeployNode": 2
+          }
+        },
+        "wire_events_without_values_or_urls": [
+          {
+            "ci": "AZONE",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionName",
+            "operator": "equal"
+          },
+          {
+            "ci": "S_CloudService",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionId",
+            "operator": "equal"
+          },
+          {
+            "ci": "S_DeployNode",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionId",
+            "operator": "equal"
+          },
+          {
+            "ci": "AZONE",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionName",
+            "operator": "equal"
+          },
+          {
+            "ci": "S_CloudService",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionId",
+            "operator": "equal"
+          },
+          {
+            "ci": "S_DeployNode",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionId",
+            "operator": "equal"
+          },
+          {
+            "ci": "AZONE",
+            "status": 200,
+            "unconditional": false,
+            "filter_field": "logicalRegionName",
+            "operator": "equal"
+          }
+        ],
+        "limits": [
+          "AZONE is the observed local name-to-ID catalog, not proven globally authoritative or complete.",
+          "Six DeployNode records have no logicalRegionId and remain unassigned; no AZ inference was applied.",
+          "The original executor can collapse failures into empty records; this experiment additionally requires successful wire status, no captured error, verified SQL columns and independent local membership checks.",
+          "B still needs explicit resolution, uniqueness/type validation and fail-closed orchestration before the ID-filtered call. This experiment does not integrate those steps into production.",
+          "No model selection, parameter extraction or full-question answer scoring was run."
+        ]
+      },
+      "B_interface": {
+        "input": [
+          "location_kind",
+          "source_value",
+          "logical_region_context",
+          "required_business_scope"
+        ],
+        "output": [
+          "status: resolved|unknown|ambiguous|incomplete|error",
+          "canonical_ids",
+          "field_namespace",
+          "source_evidence",
+          "coverage_limit"
+        ],
+        "dispatch_rule": "Only resolved unique verified IDs may dispatch; unknown/ambiguous/error stops downstream HTTP. Validate every later dependency too.",
+        "scoped_AZ_rule": "AZ label alone ambiguous; do not equate AZONE.name with nativeId/deviceName. Clarify recognized alias and region context; retain VDC/region restrictions.",
+        "database_AZ_rule": "Preserve instance grain; deduplicate nodes; choose any-node/all-nodes/primary semantics explicitly; local data has no distinguishing multi-AZ instance.",
+        "ELB_rule": "Backend VM AZ and VIP subnet/port are not verified ELB deployment AZ; do not substitute."
+      },
+      "recommended_per_template": {
+        "rb_078": "Two-stage observed region catalog lookup then logicalRegionId filter proven locally; needs B safe dispatch and namespace authority before full capability promotion.",
+        "rb_079": "Same for1080/1086 rows;6 missing ID rows and21 region/AZ conflicts need explicit coverage handling.",
+        "rb_151": "Scoped AZONE nativeId/deviceName -> GAUSSDB_NODE.azCode -> ref_instanceId path has30/30 nodes and14/14 instance references offline; no native/full-intent validation or multi-AZ policy.",
+        "rb_186": "No proven ELB deployment AZ path; backend membership covers73/728 and is different semantics.",
+        "rb_193": "Same missing placement fact; listener/member joins are independently valid but do not establish placement."
+      },
+      "experimental_script": "experiments/a_location_resolution_probe.py",
+      "new_model_calls": 0
+    },
+    "rb093": {
+      "status": "RESEARCH_CLOSED_CURRENT_FACTS_INSUFFICIENT_FOR_DATABASE_DEDICATED_VOLUME",
+      "production_template_changed": false,
+      "initial_root_cause": {
+        "confidence": "HIGH for code/data lineage; original author intent unknown",
+        "reference_SQL_identical_to_template": true,
+        "reference_API_identical_after_only_region_literal_parameterization": true,
+        "generation_script_found_in_scoped_implementation": false,
+        "implementation_facts": [
+          "The original reference already contains an unresolved storagePoolId dependency; the template preserves it and only parameterizes the first region literal.",
+          "SQL projects the constant N/A and joins no pool/volume/node table. Returned pool text therefore has no lineage to STORAGE_POOL.",
+          "The previous GAUSSDB_INSTANCE records have zero storagePoolId fields. The executor strips the step suffix, finds no values, omits that condition and can query all pool rows; missing relation is not diagnosed.",
+          "The original GROUP BY is at vdcName grain while selecting a non-grouped instance name. It cannot establish full instance-level coverage."
+        ],
+        "dependency_field_profile": {
+          "rows": 14,
+          "field_present_rows": 0,
+          "nonempty_rows": 0,
+          "distinct_keys": 0,
+          "duplicate_keys": 0
+        },
+        "grouping_risk": {
+          "source_instances": 14,
+          "vdc_groups": 8,
+          "instances_per_group_histogram": {
+            "5": 1,
+            "1": 5,
+            "2": 2
+          }
+        },
+        "N_A_is_not_an_actual_pool_label": true,
+        "old_score_interpretation": "Matching a reference constant or a coarse grouped answer is not evidence of a resolved database-to-pool relationship."
+      },
+      "documented_relationship_semantics": {
+        "instance_to_node": "Specification explicitly defines GAUSSDB_NODE.ref_instanceId -> GAUSSDB_INSTANCE, one-to-many.",
+        "node_to_host": "Specification defines ref_vmbmsId as associated VM/bare-metal ID and names VM_NOVA; relationship table labels node->VM one-to-one. Bare-metal wording does not establish missing-node host type.",
+        "VM_volume": "Specification describes VOLUME to VM_NOVA as many-to-many mounting; named relation and exact canonical keys supply the concrete edges.",
+        "bootable": "Specification says whether startup disk. false means non-startup according to that field, not a declared database data/log purpose.",
+        "storage_pool": "Pool descriptors document poolName/backend/capacity; no dedicated Gauss volume ownership relation is specified."
+      },
+      "observed_host_volume_chain": {
+        "status": "PROVEN_AS_HOST_MOUNTED_VOLUME_MEMBERSHIP_ONLY",
+        "join_checks": [
+          {
+            "left": "GAUSSDB_NODE.ref_instanceId",
+            "right": "GAUSSDB_INSTANCE.id",
+            "left_nonempty_rows": 30,
+            "matched_rows": 30,
+            "unmatched_rows": 0,
+            "matched_target_multiplicity_histogram": {
+              "1": 30
+            },
+            "right_key": {
+              "rows": 14,
+              "field_present_rows": 14,
+              "nonempty_rows": 14,
+              "distinct_keys": 14,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "GAUSSDB_NODE.instanceId",
+            "right": "GAUSSDB_INSTANCE.nativeId",
+            "left_nonempty_rows": 30,
+            "matched_rows": 30,
+            "unmatched_rows": 0,
+            "matched_target_multiplicity_histogram": {
+              "1": 30
+            },
+            "right_key": {
+              "rows": 14,
+              "field_present_rows": 14,
+              "nonempty_rows": 14,
+              "distinct_keys": 14,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "GAUSSDB_NODE.ref_vmbmsId",
+            "right": "VM_NOVA.id",
+            "left_nonempty_rows": 30,
+            "matched_rows": 24,
+            "unmatched_rows": 6,
+            "matched_target_multiplicity_histogram": {
+              "1": 24
+            },
+            "right_key": {
+              "rows": 2909,
+              "field_present_rows": 2909,
+              "nonempty_rows": 2909,
+              "distinct_keys": 2909,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "R_VOLUME_MOUNTON_VM.vmId",
+            "right": "VM_NOVA.id",
+            "left_nonempty_rows": 4546,
+            "matched_rows": 4546,
+            "unmatched_rows": 0,
+            "matched_target_multiplicity_histogram": {
+              "1": 4546
+            },
+            "right_key": {
+              "rows": 2909,
+              "field_present_rows": 2909,
+              "nonempty_rows": 2909,
+              "distinct_keys": 2909,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "R_VOLUME_MOUNTON_VM.volumeId",
+            "right": "VOLUME.id",
+            "left_nonempty_rows": 4546,
+            "matched_rows": 2539,
+            "unmatched_rows": 2007,
+            "matched_target_multiplicity_histogram": {
+              "1": 2539
+            },
+            "right_key": {
+              "rows": 6190,
+              "field_present_rows": 6190,
+              "nonempty_rows": 6190,
+              "distinct_keys": 6190,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "VOLUME.attachBackendId",
+            "right": "STORAGE_POOL.id",
+            "left_nonempty_rows": 6190,
+            "matched_rows": 6190,
+            "unmatched_rows": 0,
+            "matched_target_multiplicity_histogram": {
+              "1": 6190
+            },
+            "right_key": {
+              "rows": 6,
+              "field_present_rows": 6,
+              "nonempty_rows": 6,
+              "distinct_keys": 6,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "GAUSSDB_INSTANCE.resourcePoolId",
+            "right": "STORAGE_POOL.id",
+            "left_nonempty_rows": 14,
+            "matched_rows": 0,
+            "unmatched_rows": 14,
+            "matched_target_multiplicity_histogram": {},
+            "right_key": {
+              "rows": 6,
+              "field_present_rows": 6,
+              "nonempty_rows": 6,
+              "distinct_keys": 6,
+              "duplicate_keys": 0
+            }
+          },
+          {
+            "left": "GAUSSDB_INSTANCE.resourcePoolId",
+            "right": "STORAGE_POOL.resourcePoolId",
+            "left_nonempty_rows": 14,
+            "matched_rows": 14,
+            "unmatched_rows": 0,
+            "matched_target_multiplicity_histogram": {
+              "3": 14
+            },
+            "right_key": {
+              "rows": 6,
+              "field_present_rows": 6,
+              "nonempty_rows": 6,
+              "distinct_keys": 2,
+              "duplicate_keys": 2
+            }
+          }
+        ],
+        "database_instances": 14,
+        "nodes": 30,
+        "host_records_reached": 24,
+        "distinct_attachment_paths": 186,
+        "distinct_volumes": 186,
+        "instances_with_path": 12,
+        "instances_without_path": 2,
+        "reachable_canonical_pools": 1,
+        "bootable_counts": {
+          "false": 162,
+          "true": 24
+        },
+        "boot_disks_per_node_histogram": {
+          "1": 24,
+          "0": 6
+        },
+        "nonboot_disks_per_node_histogram": {
+          "6": 6,
+          "7": 18,
+          "0": 6
+        },
+        "scope_mismatches_on_reachable_paths": {},
+        "instance_pool_multiplicity_histogram": {
+          "1": 12,
+          "0": 2
+        },
+        "interpretation": "Every reachable node has one marked startup volume plus6 or7 marked non-startup volumes. Keeping only non-startup volumes still leaves multiple candidates and supplies no database-purpose predicate."
+      },
+      "metadata_and_alternative_link_scan": {
+        "tables_scanned": 63,
+        "distinct_top_level_fields_matching_storage_terms": [
+          "allocatedDisk",
+          "allocatedDiskSizeMB",
+          "attachBackendId",
+          "attachBackendName",
+          "dataVolume",
+          "dataVolumeSizeInGBs",
+          "diskSize",
+          "flavorDiskSize",
+          "freeDiskSizeMB",
+          "minDisk",
+          "mountDevice",
+          "multiAttach",
+          "storagePoolAlias",
+          "totalDisk",
+          "totalDiskSizeMB",
+          "usedDisk",
+          "volumeBackendName",
+          "volumeId",
+          "volumeType",
+          "volumeTypeId"
+        ],
+        "ref_volume_fields_observed": [],
+        "relevant_scalar_profiles": {
+          "FLAVOR.extraSpecs": {
+            "rows": 1487,
+            "nonempty_rows": 1485,
+            "distinct_scalar_values": 373
+          },
+          "GAUSSDB_INSTANCE.dataVolumeSizeInGBs": {
+            "rows": 14,
+            "nonempty_rows": 14,
+            "distinct_scalar_values": 3
+          },
+          "GAUSSDB_INSTANCE.volumeType": {
+            "rows": 14,
+            "nonempty_rows": 14,
+            "distinct_scalar_values": 1
+          },
+          "R_VOLUME_MOUNTON_VM.mountDevice": {
+            "rows": 4546,
+            "nonempty_rows": 4546,
+            "distinct_scalar_values": 17
+          },
+          "R_VOLUME_MOUNTON_VM.volumeId": {
+            "rows": 4546,
+            "nonempty_rows": 4546,
+            "distinct_scalar_values": 4546
+          },
+          "STORAGE_POOL.allocatedUsage": {
+            "rows": 6,
+            "nonempty_rows": 6,
+            "distinct_scalar_values": 5
+          },
+          "STORAGE_POOL.multiAttach": {
+            "rows": 6,
+            "nonempty_rows": 6,
+            "distinct_scalar_values": 1
+          },
+          "STORAGE_POOL.provisionedUsage": {
+            "rows": 6,
+            "nonempty_rows": 6,
+            "distinct_scalar_values": 3
+          },
+          "VM_NOVA.extraSpecs": {
+            "rows": 2909,
+            "nonempty_rows": 2909,
+            "distinct_scalar_values": 2033
+          },
+          "VM_NOVA.remark": {
+            "rows": 2909,
+            "nonempty_rows": 566,
+            "distinct_scalar_values": 558
+          },
+          "VM_NOVA.tags": {
+            "rows": 2909,
+            "nonempty_rows": 2003,
+            "distinct_scalar_values": 591
+          },
+          "VOLUME.attachBackendId": {
+            "rows": 6190,
+            "nonempty_rows": 6190,
+            "distinct_scalar_values": 4
+          },
+          "VOLUME.attachBackendName": {
+            "rows": 6190,
+            "nonempty_rows": 6190,
+            "distinct_scalar_values": 2
+          },
+          "VOLUME.description": {
+            "rows": 6190,
+            "nonempty_rows": 0,
+            "distinct_scalar_values": 0
+          },
+          "VOLUME.remark": {
+            "rows": 6190,
+            "nonempty_rows": 0,
+            "distinct_scalar_values": 0
+          },
+          "VOLUME.volumeTypeId": {
+            "rows": 6190,
+            "nonempty_rows": 6186,
+            "distinct_scalar_values": 8
+          }
+        },
+        "JSON_encoded_fields_decoded": 74366,
+        "nested_exact_target_ID_hits": [],
+        "nested_storage_or_owner_key_counts": {
+          "FLAVOR.extraSpecs.huawei:root_disk": 707,
+          "FLAVOR.extraSpecs.quota:local_disk": 6
+        },
+        "direct_exact_ID_occurrences": [
+          {
+            "CI": "GAUSSDB_INSTANCE",
+            "field": "id",
+            "target_domain": "gauss_instance_canonical",
+            "matched_rows": 14,
+            "matched_distinct_keys": 14
+          },
+          {
+            "CI": "GAUSSDB_INSTANCE",
+            "field": "nativeId",
+            "target_domain": "gauss_instance_native",
+            "matched_rows": 14,
+            "matched_distinct_keys": 14
+          },
+          {
+            "CI": "GAUSSDB_INSTANCE",
+            "field": "resId",
+            "target_domain": "gauss_instance_canonical",
+            "matched_rows": 14,
+            "matched_distinct_keys": 14
+          },
+          {
+            "CI": "GAUSSDB_NODE",
+            "field": "instanceId",
+            "target_domain": "gauss_instance_native",
+            "matched_rows": 30,
+            "matched_distinct_keys": 14
+          },
+          {
+            "CI": "GAUSSDB_NODE",
+            "field": "ref_instanceId",
+            "target_domain": "gauss_instance_canonical",
+            "matched_rows": 30,
+            "matched_distinct_keys": 14
+          },
+          {
+            "CI": "GAUSSDB_NODE",
+            "field": "ref_vmbmsId",
+            "target_domain": "missing_host_canonical",
+            "matched_rows": 6,
+            "matched_distinct_keys": 6
+          },
+          {
+            "CI": "GAUSSDB_NODE",
+            "field": "vmbmsId",
+            "target_domain": "missing_host_native",
+            "matched_rows": 6,
+            "matched_distinct_keys": 6
+          }
+        ],
+        "linked_VM_metadata_exact_ID_literal_mentions": 0,
+        "attached_volume_description_nonempty": 0,
+        "attached_volume_remark_nonempty": 0,
+        "attached_volumeTypeId_nonempty": 186,
+        "attached_volumeTypeId_distinct": 2,
+        "VOLUME_TYPE_source_exists": false,
+        "interpretation": "Gauss exposes volume size/type configuration, not disk IDs. Attached volume descriptions/remarks carry no owner/purpose evidence. VM image/CPU/IP metadata and tags provide no exact Gauss/volume relation. FLAVOR root/local-disk metadata describes flavor capabilities, not canonical volume ownership."
+      },
+      "missing6_nodes_2_instances": {
+        "canonical_host_references": 6,
+        "distinct_missing_canonical_keys": 6,
+        "affected_instances": 2,
+        "missing_nodes_per_instance_histogram": {
+          "3": 2
+        },
+        "exact_canonical_reference_occurrences_outside_node": 0,
+        "exact_native_reference_occurrences_outside_node": 0,
+        "direct_attachment_rows_from_missing_canonical_refs": 0,
+        "direct_attachment_rows_from_missing_native_refs": 0,
+        "source_inventory": {
+          "VM_NOVA": 2909,
+          "VM": 2013,
+          "S_VM": 896,
+          "BMS": 0,
+          "BMS_NODE_present": false
+        },
+        "missing_flavorCode_exact_lookup_hits": {
+          "id": 0,
+          "nativeId": 0,
+          "name": 0
+        },
+        "conclusion": "Cannot lawfully complete the6 nodes or2 instances from this snapshot. Do not label them bare-metal/local-disk/no-pool without authoritative records."
+      },
+      "rejected_paths": [
+        {
+          "candidate": "direct GAUSSDB_INSTANCE.storagePoolId",
+          "reason": "Field absent14/14; dropping its condition fetches pools without ownership proof."
+        },
+        {
+          "candidate": "resourcePoolId as pool id or shared-resource-pool join",
+          "reason": "Direct pool.id equality has no matches; same resourcePoolId is co-location with multiple pool candidates, not ownership."
+        },
+        {
+          "candidate": "poolName/name/nativeId as unique target without scope",
+          "reason": "Canonical pool id is unique; poolName has1 distinct value across6 records, name/nativeId have3 values across6. A display label cannot identify one canonical pool."
+        },
+        {
+          "candidate": "all host attachments imply dedicated database disks",
+          "reason": "186 include24 startup and162 non-startup; no purpose/owner field establishes dedicated database use."
+        },
+        {
+          "candidate": "bootable=false is database_data",
+          "reason": "Each observed node still has6 or7 non-startup volumes, with no authoritative data/log/temp/shared classification."
+        },
+        {
+          "candidate": "volumeType/volumeTypeId/capacity/flavor determine ownership",
+          "reason": "Configuration and capacities are not foreign keys; no volume-type lookup source or missing-node flavor match supplies volume identities."
+        },
+        {
+          "candidate": "metadata/tags/remarks/ref_volume",
+          "reason": "All63-table scalar and nested-ID scans provide no dedicated Gauss-volume reference; attached descriptions/remarks empty and ref_volume fields absent."
+        },
+        {
+          "candidate": "fill missing hosts via aliases, native IDs, bypass or same-pool majority",
+          "reason": "Missing canonical/native keys occur only in their node records, no direct attachment rows exist, and neighboring12 sharing a pool does not prove the remaining2."
+        },
+        {
+          "candidate": "keep N/A and treat old5 score as relationship validation",
+          "reason": "Constant reference agreement and coarse grouping do not establish pool ownership or a full14-instance result."
+        }
+      ],
+      "candidate_query_decompositions": [
+        {
+          "name": "host_mounted_volume_pool_inventory",
+          "semantic_status": "VALID_PROXY_CANDIDATE_ONLY_NOT_DATABASE_DEDICATED_STORAGE",
+          "native_validated_this_round": false,
+          "steps": [
+            {
+              "step": 1,
+              "CI": "GAUSSDB_INSTANCE",
+              "filter": "explicit approved region/tenant scope",
+              "role": "retain instance grain"
+            },
+            {
+              "step": 2,
+              "CI": "GAUSSDB_NODE",
+              "filter_field": "ref_instanceId",
+              "value_from_immediately_previous_field": "id"
+            },
+            {
+              "step": 3,
+              "CI": "VM_NOVA",
+              "filter_field": "id",
+              "value_from_immediately_previous_field": "ref_vmbmsId"
+            },
+            {
+              "step": 4,
+              "CI": "R_VOLUME_MOUNTON_VM",
+              "filter_field": "vmId",
+              "value_from_immediately_previous_field": "id"
+            },
+            {
+              "step": 5,
+              "CI": "VOLUME",
+              "filter_field": "id",
+              "value_from_immediately_previous_field": "volumeId"
+            },
+            {
+              "step": 6,
+              "CI": "STORAGE_POOL",
+              "filter_field": "id",
+              "value_from_immediately_previous_field": "attachBackendId"
+            }
+          ],
+          "candidate_SQL": "SELECT i.id AS instance_id, n.id AS node_id, vm.id AS host_vm_id,\n       r.volumeId AS volume_id, r.mountDevice AS mount_device,\n       v.bootable AS bootable, v.size AS volume_size,\n       p.id AS storage_pool_id, p.poolName AS storage_pool_name\nFROM CLOUD_GAUSSDB_INSTANCE i\nLEFT JOIN CLOUD_GAUSSDB_NODE n ON n.ref_instanceId = i.id\nLEFT JOIN CLOUD_VM_NOVA vm ON vm.id = n.ref_vmbmsId\nLEFT JOIN R_VOLUME_MOUNTON_VM r ON r.vmId = vm.id\nLEFT JOIN CLOUD_VOLUME v ON v.id = r.volumeId\nLEFT JOIN CLOUD_STORAGE_POOL p ON p.id = v.attachBackendId",
+          "coverage": "Static exact joins cover12/14 instances and24/30 nodes; LEFT JOIN should preserve unresolved rows rather than infer a pool.",
+          "multiplicity": "Output at instance/node/volume/pool grain; relation is declared many-to-many. Use canonical id and explicit distinct grain when grouping, not GROUP BY vdc with a stray instance name.",
+          "startup_filter": "Only apply bootable true/false when that exact startup/non-startup distinction is requested; do not translate false to database-purpose.",
+          "deployment_blocker": "The unchanged executor drops missing previous-step conditions and may fall back to all rows. Without a dependency-empty guard and explicit unsupported-scope handling, do not promote this candidate as a general safe template."
+        },
+        {
+          "name": "authoritative_database_purpose_volume_pool",
+          "semantic_status": "BLOCKED_MISSING_AUTHORITY_AND_RELATION_DATA",
+          "native_validated_this_round": false,
+          "steps": [
+            "select explicitly scoped Gauss instances/nodes",
+            "read an authoritative instance/node-to-volume relation containing canonical volume key, database-purpose role and validity",
+            "filter only the requested declared purpose(s)",
+            "join exact VOLUME.id then VOLUME.attachBackendId to STORAGE_POOL.id; preserve unknowns/multiple pools"
+          ],
+          "relation_source_present": false,
+          "coverage": "No dedicated-volume relation has been proven even for the12 host-covered instances; the dedicated-purpose answer remains unverified for all14."
+        }
+      ],
+      "responsibilities": {
+        "A_can": [
+          "Document rb093 unsupported assumptions and remove misleading capability claims in a separately reviewed candidate.",
+          "Prepare a clearly named host-mounted-volume candidate using only existing verified fields, sequential previous-step bindings and canonical joins.",
+          "Keep database-purpose intent unproven until authoritative facts arrive; do not synthesize storagePoolId, infer by names, or load all pools as a fallback."
+        ],
+        "B_must_support_or_block": [
+          "Distinguish database-purpose volume from host-mounted/startup/non-startup intents.",
+          "Validate required parameters and each upstream dependency before execution; empty dependencies must not silently become unfiltered next-step requests.",
+          "Respect the unchanged executor previous-step-only dependency semantics. If existing B cannot safely prevalidate this decomposition, keep it blocked rather than add an unapproved adapter.",
+          "Preserve unknown versus confirmed-not-applicable states, per-instance grain, multiple-pool results and original SQL relation semantics.",
+          "Typed bootable enums and missing/null/empty/False/0 policies require a declared contract; do not claim that A metadata alone fixes B runtime."
+        ],
+        "data_authority_needed": [
+          "Authoritative canonical Gauss instance/node -> volume key(s), purpose (system/data/log/temp/backup/shared) and active/valid-at semantics.",
+          "If through guest storage, provide database directory/mountpoint -> block device -> canonical volume mapping; mountDevice alone is not a database-purpose predicate.",
+          "Supply the missing6 host inventory records or documented identity resolution plus their actual storage attachments; if local/bare-metal disks do not belong to a cloud pool, provide that explicit rule and records.",
+          "Provide volumeTypeId lookup and namespace/scope rules if volume type is meant to constrain dedicated storage; size/type similarity is insufficient.",
+          "Clarify output grain and the meaning of unknown versus N/A versus a confirmed absence of a cloud pool."
+        ],
+        "minimum_authoritative_sample_constraints": [
+          "One instance with startup and multiple non-startup volumes explicitly labelled by purpose.",
+          "One non-startup attached volume explicitly not used by the database.",
+          "One valid multi-volume/multi-pool case and the required output grain.",
+          "One of the missing-host cases with canonical identity and actual storage facts or a confirmed local/no-cloud-pool rule.",
+          "One stale/detached relation or an explicit validity rule so missing is not inferred as absent."
+        ]
+      },
+      "closure": {
+        "this_round": "RESEARCH_COMPLETE_FACT_BLOCKER_OPEN; no further name/size/pool-majority guessing warranted.",
+        "reopen_only_if": [
+          "New authoritative ownership/purpose relation or guest mount mapping is supplied.",
+          "Missing host/attachment records or explicit local-storage applicability rule is supplied.",
+          "Organizer/owner clarifies output grain and unknown/N/A semantics."
+        ],
+        "later_native_acceptance": "May validate exact host-chain API/SQL behavior and missing-dependency guards independently; that cannot by itself prove database-purpose semantics."
+      },
+      "activity": {
+        "model_calls": 0,
+        "HTTP_requests": 0,
+        "native_executor_runs": 0,
+        "scoring_or_test_benchmark_runs": 0,
+        "service_processes_started_or_stopped": 0,
+        "source_files_modified_by_research": 0,
+        "pushes": 0,
+        "installs": 0,
+        "original_handoff_evidence_modified": false
+      }
+    },
+    "new_model_calls": 0
   }
 }
