@@ -1,0 +1,728 @@
+{
+  "baseline": {
+    "index_ms": 2.114709001034498,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 164,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.5507499920204282,
+        "retrieve_max_ms": 1.7721669864840806
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.3824579655192792,
+        "retrieve_max_ms": 1.4269999810494483
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 6,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.078291970770806,
+        "retrieve_max_ms": 1.078291970770806
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 1.0129999718628824,
+        "retrieve_max_ms": 1.0129999718628824
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.7194170029833913,
+        "retrieve_max_ms": 0.7194170029833913
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.945792009588331,
+        "retrieve_max_ms": 0.945792009588331
+      }
+    }
+  },
+  "index_count": {
+    "index_ms": 2.2469579707831144,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 166,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.4735839795321226,
+        "retrieve_max_ms": 1.7672499525360763
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.3700409908778965,
+        "retrieve_max_ms": 1.3822910259477794
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 5,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.0378750157542527,
+        "retrieve_max_ms": 1.0378750157542527
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 1.0062079527415335,
+        "retrieve_max_ms": 1.0062079527415335
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 3,
+        "recall_at_3": 4,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.6441670120693743,
+        "retrieve_max_ms": 0.6441670120693743
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9177909814752638,
+        "retrieve_max_ms": 0.9177909814752638
+      }
+    }
+  },
+  "query_count": {
+    "index_ms": 2.1416660165414214,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 166,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.4804579550400376,
+        "retrieve_max_ms": 1.7651669913902879
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.3514580205082893,
+        "retrieve_max_ms": 1.3607920263893902
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 6,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.0707080364227295,
+        "retrieve_max_ms": 1.0707080364227295
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.9532920084893703,
+        "retrieve_max_ms": 0.9532920084893703
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 3,
+        "recall_at_3": 4,
+        "recall_at_5": 4,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.659167009871453,
+        "retrieve_max_ms": 0.659167009871453
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9268329595215619,
+        "retrieve_max_ms": 0.9268329595215619
+      }
+    }
+  },
+  "both_count": {
+    "index_ms": 2.2410000092349946,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 166,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.4674169942736626,
+        "retrieve_max_ms": 1.8118750303983688
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 2.068375004455447,
+        "retrieve_max_ms": 2.3576250532642007
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 5,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.0630410397425294,
+        "retrieve_max_ms": 1.0630410397425294
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.9849580237641931,
+        "retrieve_max_ms": 0.9849580237641931
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 3,
+        "recall_at_3": 4,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.6399580161087215,
+        "retrieve_max_ms": 0.6399580161087215
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9430000209249556,
+        "retrieve_max_ms": 0.9430000209249556
+      }
+    }
+  },
+  "description_count": {
+    "index_ms": 2.21220898674801,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 163,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.5367500018328428,
+        "retrieve_max_ms": 1.7818750347942114
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.3686669990420341,
+        "retrieve_max_ms": 1.4020829694345593
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 5,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.0752499802038074,
+        "retrieve_max_ms": 1.0752499802038074
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 1.0095000034198165,
+        "retrieve_max_ms": 1.0095000034198165
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.7038329495117068,
+        "retrieve_max_ms": 0.7038329495117068
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9475420229136944,
+        "retrieve_max_ms": 0.9475420229136944
+      }
+    }
+  },
+  "examples_count": {
+    "index_ms": 2.443999983370304,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 163,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.5279590152204037,
+        "retrieve_max_ms": 1.7564170411787927
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.382292015478015,
+        "retrieve_max_ms": 1.5200420166365802
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 5,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.1026249849237502,
+        "retrieve_max_ms": 1.1026249849237502
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.9989169775508344,
+        "retrieve_max_ms": 0.9989169775508344
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.7055409951135516,
+        "retrieve_max_ms": 0.7055409951135516
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9464169852435589,
+        "retrieve_max_ms": 0.9464169852435589
+      }
+    }
+  },
+  "index_resource_alias": {
+    "index_ms": 2.2632500040344894,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 164,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.4892499893903732,
+        "retrieve_max_ms": 1.7593340016901493
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.3734999811276793,
+        "retrieve_max_ms": 1.4518749667331576
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 8,
+        "top1_in_label_set": 3,
+        "recall_at_3": 6,
+        "recall_at_5": 8,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.021042000502348,
+        "retrieve_max_ms": 1.021042000502348
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 1.1202499736100435,
+        "retrieve_max_ms": 1.1202499736100435
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.6794999935664237,
+        "retrieve_max_ms": 0.6794999935664237
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.8659160230308771,
+        "retrieve_max_ms": 0.8659160230308771
+      }
+    }
+  },
+  "index_status": {
+    "index_ms": 2.2560000070370734,
+    "index_docs": 400,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 164,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.5483750030398369,
+        "retrieve_max_ms": 1.759874983690679
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.4480830286629498,
+        "retrieve_max_ms": 1.4687500079162419
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 2,
+        "recall_at_3": 6,
+        "recall_at_5": 8,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 1.065584016032517,
+        "retrieve_max_ms": 1.065584016032517
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.985999999102205,
+        "retrieve_max_ms": 0.985999999102205
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 6,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.7213749922811985,
+        "retrieve_max_ms": 0.7213749922811985
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.9400419658049941,
+        "retrieve_max_ms": 0.9400419658049941
+      }
+    }
+  },
+  "without_description": {
+    "index_ms": 1.2034170213155448,
+    "index_docs": 200,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 163,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 0.9115830180235207,
+        "retrieve_max_ms": 1.076042011845857
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 0.8365410030819476,
+        "retrieve_max_ms": 0.9240839863196015
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 6,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 0.5919589893892407,
+        "retrieve_max_ms": 0.5919589893892407
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.5554999806918204,
+        "retrieve_max_ms": 0.5554999806918204
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.4027499817311764,
+        "retrieve_max_ms": 0.4027499817311764
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.5622500320896506,
+        "retrieve_max_ms": 0.5622500320896506
+      }
+    }
+  },
+  "without_examples": {
+    "index_ms": 1.264040998648852,
+    "index_docs": 200,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 163,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 0.8848749566823244,
+        "retrieve_max_ms": 1.099292014259845
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 34,
+        "top1_in_label_set": 33,
+        "recall_at_3": 34,
+        "recall_at_5": 34,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 0.815125007648021,
+        "retrieve_max_ms": 0.8468339801765978
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 7,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 0.5858750082552433,
+        "retrieve_max_ms": 0.5858750082552433
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 2,
+        "top1_in_label_set": 2,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.5453749909065664,
+        "retrieve_max_ms": 0.5453749909065664
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 5,
+        "top1_in_label_set": 2,
+        "recall_at_3": 4,
+        "recall_at_5": 5,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.39370794547721744,
+        "retrieve_max_ms": 0.39370794547721744
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.6477090064436197,
+        "retrieve_max_ms": 0.6477090064436197
+      }
+    }
+  },
+  "regression_text_holdout": {
+    "index_ms": 1.8578750314190984,
+    "index_docs": 334,
+    "subsets": {
+      "original_linkage:development": {
+        "n": 166,
+        "label_recalled": 166,
+        "top1_in_label_set": 164,
+        "recall_at_3": 166,
+        "recall_at_5": 166,
+        "candidate_nonempty": 166,
+        "retrieve_p95_ms": 1.3032089918851852,
+        "retrieve_max_ms": 1.5648329863324761
+      },
+      "original_linkage:regression": {
+        "n": 34,
+        "label_recalled": 2,
+        "top1_in_label_set": 1,
+        "recall_at_3": 2,
+        "recall_at_5": 2,
+        "candidate_nonempty": 34,
+        "retrieve_p95_ms": 1.1375420144759119,
+        "retrieve_max_ms": 1.1769999982789159
+      },
+      "paraphrase_linkage:development": {
+        "n": 10,
+        "label_recalled": 9,
+        "top1_in_label_set": 3,
+        "recall_at_3": 6,
+        "recall_at_5": 9,
+        "candidate_nonempty": 10,
+        "retrieve_p95_ms": 0.9074999834410846,
+        "retrieve_max_ms": 0.9074999834410846
+      },
+      "paraphrase_linkage:regression": {
+        "n": 2,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 2,
+        "retrieve_p95_ms": 0.8597920532338321,
+        "retrieve_max_ms": 0.8597920532338321
+      },
+      "fragment_family:diagnostic_control": {
+        "n": 6,
+        "label_recalled": 6,
+        "top1_in_label_set": 2,
+        "recall_at_3": 3,
+        "recall_at_5": 6,
+        "candidate_nonempty": 6,
+        "retrieve_p95_ms": 0.5920840194448829,
+        "retrieve_max_ms": 0.5920840194448829
+      },
+      "negative_candidate_proxy:diagnostic_control": {
+        "n": 4,
+        "label_recalled": 0,
+        "top1_in_label_set": 0,
+        "recall_at_3": 0,
+        "recall_at_5": 0,
+        "candidate_nonempty": 4,
+        "retrieve_p95_ms": 0.7809580420143902,
+        "retrieve_max_ms": 0.7809580420143902
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "syntax_passed": true,
+  "frozen_source_hashes_verified_against_commit": "d534a08709738f3cf83ccda78ae0a05727adac84",
+  "source_count": 11,
+  "data_count": 230,
+  "data_hashes_unchanged": true,
+  "input_hashes_verified": true,
+  "runner_matches_actual_model_run": true,
+  "model_requests": 53,
+  "model_http_limit": 60,
+  "case_order_and_completion_verified": true,
+  "retrieval_rows": 2442,
+  "credential_scan_passed": true,
+  "concurrent_source_changes_after_run": [
+    "implementation/runbook_retriever.py"
+  ],
+  "concurrent_changes_included_in_this_delivery": false,
+  "reproduction_guard_zero_network_check": "passed: changed input exits2 without overwriting JSON results"
+}

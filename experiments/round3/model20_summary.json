@@ -1,0 +1,44 @@
+{
+  "status": "complete",
+  "cases": 20,
+  "score_sum": 75.5,
+  "max_score": 100,
+  "score_bins": {
+    "score5": 15,
+    "partial_positive_below5": 1,
+    "score_negative": 2,
+    "score0": 2
+  },
+  "reason_bins": {
+    "correct": 14,
+    "partial": 2,
+    "wrong_or_error": 2,
+    "abstention": 2
+  },
+  "latency_s": {
+    "p50": 2.497545041522244,
+    "p95_nearest_rank": 2.87069870805135,
+    "max": 2.9625123339938,
+    "over4s": 0,
+    "over6s": 0
+  },
+  "http_attempts": 53,
+  "http_limit": 60,
+  "http_status_counts": {
+    "200": 53
+  },
+  "reported_model_counts": {
+    "deepseek-flash": 53
+  },
+  "requested_model": "deepseek-chat",
+  "token_usage": {
+    "prompt_tokens": 50326,
+    "completion_tokens": 1179,
+    "total_tokens": 51505,
+    "prompt_cache_hit_tokens": 20480,
+    "prompt_cache_miss_tokens": 29846
+  },
+  "bill_amount": "not read; token usage is not an invoice",
+  "official_score": false,
+  "peak_rss": "not measured for model run"
+}

@@ -1,0 +1,37 @@
+{
+  "seed": 20261029,
+  "paraphrases": [
+    {"source": "CMDB-001", "question": "请按运行状态分组，统计全部ECS实例各有几台。", "review": "全部ECS；status分组计数，不增加区域或状态过滤"},
+    {"source": "CMDB-004", "question": "仅看区域region_guian4，汇总ECS各状态的实例数。", "review": "原区域不变；status分组计数"},
+    {"source": "CMDB-005", "question": "region_guian4每个可用区各有几台ECS？", "review": "原区域不变；azoneName分组计数"},
+    {"source": "CMDB-010", "question": "在region_guian4的az0.dc0内，租户AdvanceService_System_VDC共有几台ECS？", "review": "租户、区域、可用区三条件不变；仅总数"},
+    {"source": "CMDB-017", "question": "ECS实例cse-engine-cluster-roma-guian-4-3-master-1当前是什么状态，其规格配置是什么？", "review": "实例名不变；状态及FLAVOR规格，多步查询"},
+    {"source": "CMDB-019", "question": "ECS实例cse-engine-cluster-roma-guian-4-3-master-1是在什么时候创建的？", "review": "实例名不变；创建时间"},
+    {"source": "CMDB-071", "question": "按照虚拟化类型分组，分别统计系统中宿主机的台数。", "review": "全量宿主机；虚拟化类型分组计数"},
+    {"source": "CMDB-121", "question": "全量云硬盘按状态及类型分组，各组合分别有几块？", "review": "不增加筛选；状态与类型联合分组计数"},
+    {"source": "CMDB-130", "question": "region_guian4中每个VDC有几块云硬盘，容量合计是多少？", "review": "原区域不变；各VDC数量及容量求和"},
+    {"source": "CMDB-163", "question": "在region_guian4内，分别统计每个VDC拥有的VPC个数。", "review": "原区域不变；VDC分组VPC计数"},
+    {"source": "CMDB-214", "question": "region_guian4内GaussDB各引擎版本分别有多少实例？", "review": "原区域不变；引擎版本分组计数"},
+    {"source": "CMDB-235", "question": "分别给出region_guian4的GaussDB实例总数和中间件实例总数。", "review": "原区域不变；两个资源分别计数，保留多结果语义"}
+  ],
+  "fragments": [
+    {"id": "fragment_vm_status", "question": "ECS 状态分布", "resources": ["VM_NOVA"], "sql_pattern": "GROUP\\s+BY\\s+(?:CLOUD_VM_NOVA\\.)?status\\b", "review": "未指定区域，允许全量和区域条件能力族，非唯一模板答案"},
+    {"id": "fragment_volume_capacity", "question": "云硬盘 数量 总容量", "resources": ["VOLUME"], "sql_pattern": "SUM\\(size\\)", "review": "未指定分组维度；接受同资源且包含容量求和的多个能力"},
+    {"id": "fragment_server_arch", "question": "物理服务器 CPU架构 统计", "resources": ["S_X86Server"], "sql_pattern": "GROUP\\s+BY\\s+cpuArch", "review": "允许多个区域条件模板"},
+    {"id": "fragment_vm_tenant", "question": "按租户 ECS 数量", "resources": ["VM_NOVA"], "sql_pattern": "GROUP\\s+BY\\s+tenantName", "review": "未指定区域或排序；接受租户分组能力族"},
+    {"id": "fragment_router_count", "question": "VPC 数量", "resources": ["ROUTER"], "sql_pattern": "COUNT\\(", "review": "未给完整筛选/分组条件；多个VPC计数模板均合理"},
+    {"id": "fragment_ambiguous_status", "question": "状态分布", "resources": null, "sql_pattern": "GROUP\\s+BY\\s+(?:[A-Z_]+\\.)?status\\b", "review": "资源未指定；跨资源状态分组模板均合理，不强设唯一ID"}
+  ],
+  "out_of_library": [
+    {"id": "negative_timeseries", "question": "查询ECS过去七天每分钟的CPU利用率时间序列", "review": "静态CMDB没有历史监控时序数据"},
+    {"id": "negative_delete", "question": "删除region_guian4下面所有ECS实例", "review": "模板为只读查询，不支持资源删除"},
+    {"id": "negative_forecast", "question": "预测下个月所有云资源的人民币账单", "review": "没有账单计价或成本预测能力"},
+    {"id": "negative_personal", "question": "查询租户联系人的身份证号和银行卡号", "review": "当前资源模板无此人员敏感字段"}
+  ],
+  "entity_controls": [
+    {"source": "CMDB-004", "field": "logicalRegionName", "review": "在同表选择另一个已存在区域；重算参考答案"},
+    {"source": "CMDB-010", "field": "tenantName", "review": "固定其他条件，从同表选择另一个已存在租户；重算参考答案"},
+    {"source": "CMDB-019", "field": "name", "review": "替换为同表另一个已存在实例名；重算参考答案"},
+    {"source": "CMDB-130", "field": "logicalRegionName", "review": "在云硬盘表选择另一个已存在区域；重算参考答案"}
+  ]
+}

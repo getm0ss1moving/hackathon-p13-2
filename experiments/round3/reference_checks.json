@@ -1,0 +1,1199 @@
+{
+  "reference_and_fixed": [
+    {
+      "case_id": "CMDB-001",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-001",
+        "question": "当前所有ECS实例按状态的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.13460266700712964,
+      "reference_result_sha256": "5b7bd64679731805bae8212ba4a7bd64a6caf9bdb439f9b0d9a7757edf10a74a",
+      "fixed_template_id": "rb_001",
+      "fixed_default_params": {},
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-001",
+        "question": "当前所有ECS实例按状态的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-004",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-004",
+        "question": "查询区域region_guian4下所有ECS实例按状态的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.11149508296512067,
+      "reference_result_sha256": "19382cd019dd4e7cd7102a3290b9edd161cc4342148fed5bf2ee0165060ac052",
+      "fixed_template_id": "rb_002",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-004",
+        "question": "查询区域region_guian4下所有ECS实例按状态的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-005",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-005",
+        "question": "查询区域region_guian4下各可用区的ECS数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.11050595802953467,
+      "reference_result_sha256": "5954e8f3919c9c8632319a1b54448b695ef7e9f109d06ce3bebe529ea75a5097",
+      "fixed_template_id": "rb_003",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-005",
+        "question": "查询区域region_guian4下各可用区的ECS数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-010",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-010",
+        "question": "查询租户AdvanceService_System_VDC在区域region_guian4可用区az0.dc0中的ECS",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.01462349999928847,
+      "reference_result_sha256": "5484572c0b8cfb4358469060780a13a256474d5ac3bb6e5cebbfdd07364e7c1c",
+      "fixed_template_id": "rb_004",
+      "fixed_default_params": {
+        "tenantName": "AdvanceService_System_VDC",
+        "logicalRegionName": "region_guian4",
+        "azoneName": "az0.dc0"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-010",
+        "question": "查询租户AdvanceService_System_VDC在区域region_guian4可用区az0.dc0中的ECS",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-017",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-017",
+        "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的状态和规格",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.0020420000073499978,
+      "reference_result_sha256": "fea6c4ff00c0a9b2cb093b3bba5ba36febb936f0b256499130ff636ad0e1b0e5",
+      "fixed_template_id": "rb_008",
+      "fixed_default_params": {
+        "name": "cse-engine-cluster-roma-guian-4-3-master-1"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-017",
+        "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的状态和规格",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-019",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-019",
+        "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的创建时间",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.0009271249873563647,
+      "reference_result_sha256": "8f8578f376cb9b12c3ef6870a58a76f3bd79cacfc67b87aa81d0c97e9162ed20",
+      "fixed_template_id": "rb_009",
+      "fixed_default_params": {
+        "name": "cse-engine-cluster-roma-guian-4-3-master-1"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-019",
+        "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的创建时间",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-071",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-071",
+        "question": "帮我统计系统中各虚拟化类型的宿主机数量分布",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.0033665840164758265,
+      "reference_result_sha256": "c4a427a6e2e1b77e24880e5495c9a492c30f03149da0670932780a29538fd9d6",
+      "fixed_template_id": "rb_048",
+      "fixed_default_params": {},
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-071",
+        "question": "帮我统计系统中各虚拟化类型的宿主机数量分布",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-121",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-121",
+        "question": "帮我统计所有云硬盘按状态和类型的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.1912935000145808,
+      "reference_result_sha256": "fe0b4cbbcbf914b7b2f13b54cc4786f9a2237a94480f446bad21e09e129ff0ff",
+      "fixed_template_id": "rb_081",
+      "fixed_default_params": {},
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-121",
+        "question": "帮我统计所有云硬盘按状态和类型的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-130",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-130",
+        "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.09562554099829867,
+      "reference_result_sha256": "7d53cce827110f9e08a5d95af73392a761a1b2d68f672bed73e99a0a186f5736",
+      "fixed_template_id": "rb_086",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-130",
+        "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-163",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-163",
+        "question": "查询区域region_guian4下各VDC的VPC数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.014055041945539415,
+      "reference_result_sha256": "6e91c7147366aa225493a8c2657ef0503eaeccf21e3f57bfa48e68f22dc4cb3d",
+      "fixed_template_id": "rb_109",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-163",
+        "question": "查询区域region_guian4下各VDC的VPC数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-214",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-214",
+        "question": "查询区域region_guian4下各引擎版本的GaussDB实例数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.0014516660012304783,
+      "reference_result_sha256": "fdb7268fedcdc60a7ef18931e5c039d91b3441f33e5962df067993a3a7f2515c",
+      "fixed_template_id": "rb_143",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-214",
+        "question": "查询区域region_guian4下各引擎版本的GaussDB实例数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-235",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-235",
+        "question": "查询区域region_guian4下GaussDB实例数量和中间件实例数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.005035292007960379,
+      "reference_result_sha256": "24faa86f3d365c08c245382f6c89ff9e82b6852fd1e5a384b1e452cc0cb188fb",
+      "fixed_template_id": "rb_157",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-235",
+        "question": "查询区域region_guian4下GaussDB实例数量和中间件实例数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-020",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-020",
+        "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例名、规格和状态",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.018291875021532178,
+      "reference_result_sha256": "1a7b270abf3108471b4b298a3dd336f77bfeda515ecf814c69c7e6bf7181b57a",
+      "fixed_template_id": "rb_010",
+      "fixed_default_params": {
+        "tenantName": "AdvanceService_System_VDC",
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-020",
+        "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例名、规格和状态",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-022",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-022",
+        "question": "查询区域region_guian4下ECS实例中使用最多的前10种规格",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.12498258298728615,
+      "reference_result_sha256": "673afd24390e0e4bf14fd8ee8140ab506740ed2155a056e336661eedc14614e3",
+      "fixed_template_id": "rb_012",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-022",
+        "question": "查询区域region_guian4下ECS实例中使用最多的前10种规格",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-027",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-027",
+        "question": "查询区域region_guian4下各VDC的ECS数量和运行中ECS数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.11368237499846146,
+      "reference_result_sha256": "f0fdb45cc771accee8973a71d0badb7afd681e444c7369ecc8e3f2f1d81db8b6",
+      "fixed_template_id": "rb_017",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-027",
+        "question": "查询区域region_guian4下各VDC的ECS数量和运行中ECS数量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-028",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-028",
+        "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.006978625024203211,
+      "reference_result_sha256": "b586e18add04344de65eee1da337101eb48594ef83711d18f34f7549c89f55cc",
+      "fixed_template_id": "rb_018",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4",
+        "status": "stopped"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-028",
+        "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    },
+    {
+      "case_id": "CMDB-029",
+      "reference_evaluation_at_elapsed0": {
+        "case_id": "CMDB-029",
+        "question": "查询区域region_guian4各租户的业务实例有哪些，要实例名、类型和IP",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "reference_elapsed_s_cold_executor_cache": 0.21629587502684444,
+      "reference_result_sha256": "cd49afa1ee0683a15181027afa1c04f0e7ad4e8497b198cf770ac4706d116f31",
+      "fixed_template_id": "rb_019",
+      "fixed_default_params": {
+        "logicalRegionName": "region_guian4"
+      },
+      "fixed_template_evaluation_at_elapsed0": {
+        "case_id": "CMDB-029",
+        "question": "查询区域region_guian4各租户的业务实例有哪些，要实例名、类型和IP",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "warning": "oracle template/defaults; no model selection or parameter accuracy; elapsed0 isolates answer comparison"
+    }
+  ],
+  "entity_derived": [
+    {
+      "source": "CMDB-004",
+      "field": "logicalRegionName",
+      "review": "在同表选择另一个已存在区域；重算参考答案",
+      "baseline_retrieval": {
+        "candidates": [
+          {
+            "id": "rb_002",
+            "tier": "strong",
+            "score": 29.14,
+            "coverage": 0.684
+          },
+          {
+            "id": "rb_001",
+            "tier": "strong",
+            "score": 25.694,
+            "coverage": 0.567
+          },
+          {
+            "id": "rb_081",
+            "tier": "strong",
+            "score": 17.819,
+            "coverage": 0.415
+          },
+          {
+            "id": "rb_055",
+            "tier": "weak",
+            "score": 16.373,
+            "coverage": 0.383
+          },
+          {
+            "id": "rb_154",
+            "tier": "weak",
+            "score": 10.223,
+            "coverage": 0.228
+          },
+          {
+            "id": "rb_026",
+            "tier": "weak",
+            "score": 9.977,
+            "coverage": 0.223
+          },
+          {
+            "id": "rb_053",
+            "tier": "weak",
+            "score": 9.947,
+            "coverage": 0.225
+          },
+          {
+            "id": "rb_164",
+            "tier": "weak",
+            "score": 9.689,
+            "coverage": 0.225
+          },
+          {
+            "id": "rb_063",
+            "tier": "weak",
+            "score": 9.439,
+            "coverage": 0.219
+          },
+          {
+            "id": "rb_050",
+            "tier": "weak",
+            "score": 9.2,
+            "coverage": 0.219
+          },
+          {
+            "id": "rb_105",
+            "tier": "weak",
+            "score": 9.156,
+            "coverage": 0.207
+          },
+          {
+            "id": "rb_176",
+            "tier": "weak",
+            "score": 8.458,
+            "coverage": 0.206
+          },
+          {
+            "id": "rb_178",
+            "tier": "weak",
+            "score": 8.061,
+            "coverage": 0.221
+          }
+        ],
+        "accepted_ids": [
+          "rb_002"
+        ],
+        "first_accepted_rank": 1
+      },
+      "status": "generated",
+      "old_value": "region_guian4",
+      "new_value": "贵安4虚拟",
+      "group_id": "group_6862f9d169d9",
+      "split": "development",
+      "case": {
+        "case_id": "entity_CMDB-004",
+        "question": "查询区域贵安4虚拟下所有ECS实例按状态的分布情况",
+        "query_method": "查 `CLOUD_VM_NOVA WHERE logicalRegionName=region_guian4` 按 `status` 分组 `COUNT(*)`",
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "贵安4虚拟",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY status",
+        "answer": {
+          "columns": [
+            "status",
+            "count"
+          ],
+          "rows": [
+            {
+              "status": "active",
+              "count": 79
+            }
+          ],
+          "row_count": 1
+        },
+        "error": null
+      },
+      "self_consistency_at_elapsed0": {
+        "case_id": "entity_CMDB-004",
+        "question": "查询区域贵安4虚拟下所有ECS实例按状态的分布情况",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "old_answer_reused": false,
+      "old_answer_equal": false
+    },
+    {
+      "source": "CMDB-010",
+      "field": "tenantName",
+      "review": "固定其他条件，从同表选择另一个已存在租户；重算参考答案",
+      "baseline_retrieval": {
+        "candidates": [
+          {
+            "id": "rb_004",
+            "tier": "strong",
+            "score": 31.172,
+            "coverage": 0.915
+          },
+          {
+            "id": "rb_038",
+            "tier": "strong",
+            "score": 24.114,
+            "coverage": 0.673
+          },
+          {
+            "id": "rb_042",
+            "tier": "strong",
+            "score": 18.118,
+            "coverage": 0.524
+          },
+          {
+            "id": "rb_039",
+            "tier": "strong",
+            "score": 16.054,
+            "coverage": 0.452
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 13.782,
+            "coverage": 0.378
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 13.608,
+            "coverage": 0.378
+          },
+          {
+            "id": "rb_191",
+            "tier": "weak",
+            "score": 13.608,
+            "coverage": 0.378
+          },
+          {
+            "id": "rb_051",
+            "tier": "weak",
+            "score": 13.17,
+            "coverage": 0.366
+          },
+          {
+            "id": "rb_169",
+            "tier": "weak",
+            "score": 13.112,
+            "coverage": 0.378
+          },
+          {
+            "id": "rb_085",
+            "tier": "weak",
+            "score": 13.006,
+            "coverage": 0.366
+          },
+          {
+            "id": "rb_058",
+            "tier": "weak",
+            "score": 11.963,
+            "coverage": 0.366
+          },
+          {
+            "id": "rb_060",
+            "tier": "weak",
+            "score": 11.963,
+            "coverage": 0.366
+          },
+          {
+            "id": "rb_155",
+            "tier": "weak",
+            "score": 11.849,
+            "coverage": 0.341
+          },
+          {
+            "id": "rb_034",
+            "tier": "weak",
+            "score": 11.827,
+            "coverage": 0.366
+          }
+        ],
+        "accepted_ids": [
+          "rb_004"
+        ],
+        "first_accepted_rank": 1
+      },
+      "status": "generated",
+      "old_value": "AdvanceService_System_VDC",
+      "new_value": "Governance_test",
+      "group_id": "group_291a4bcd3450",
+      "split": "development",
+      "case": {
+        "case_id": "entity_CMDB-010",
+        "question": "查询租户Governance_test在区域region_guian4可用区az0.dc0中的ECS有多少台",
+        "query_method": "查 `CLOUD_VM_NOVA WHERE tenantName AND logicalRegionName AND azoneName` `COUNT(*)`",
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "Governance_test",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        },
+        "sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA",
+        "answer": {
+          "columns": [
+            "total"
+          ],
+          "rows": [
+            {
+              "total": 1
+            }
+          ],
+          "row_count": 1
+        },
+        "error": null
+      },
+      "self_consistency_at_elapsed0": {
+        "case_id": "entity_CMDB-010",
+        "question": "查询租户Governance_test在区域region_guian4可用区az0.dc0中的ECS有多少台",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "old_answer_reused": false,
+      "old_answer_equal": false
+    },
+    {
+      "source": "CMDB-019",
+      "field": "name",
+      "review": "替换为同表另一个已存在实例名；重算参考答案",
+      "baseline_retrieval": {
+        "candidates": [
+          {
+            "id": "rb_009",
+            "tier": "weak",
+            "score": 16.011,
+            "coverage": 0.75
+          }
+        ],
+        "accepted_ids": [
+          "rb_009"
+        ],
+        "first_accepted_rank": 1
+      },
+      "status": "generated",
+      "old_value": "cse-engine-cluster-roma-guian-4-3-master-1",
+      "new_value": "04e06950-7004-490d-a196-e2a00474ab53",
+      "group_id": "group_7d27373d03c3",
+      "split": "development",
+      "case": {
+        "case_id": "entity_CMDB-019",
+        "question": "查询ECS04e06950-7004-490d-a196-e2a00474ab53的创建时间",
+        "query_method": "查 `CLOUD_VM_NOVA WHERE name=cse-engine-cluster-roma-guian-4-3-master-1`，返回 createdAt",
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "04e06950-7004-490d-a196-e2a00474ab53",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, createdAt FROM CLOUD_VM_NOVA",
+        "answer": {
+          "columns": [
+            "name",
+            "createdAt"
+          ],
+          "rows": [
+            {
+              "name": "04e06950-7004-490d-a196-e2a00474ab53",
+              "createdAt": ""
+            }
+          ],
+          "row_count": 1
+        },
+        "error": null
+      },
+      "self_consistency_at_elapsed0": {
+        "case_id": "entity_CMDB-019",
+        "question": "查询ECS04e06950-7004-490d-a196-e2a00474ab53的创建时间",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "old_answer_reused": false,
+      "old_answer_equal": false
+    },
+    {
+      "source": "CMDB-130",
+      "field": "logicalRegionName",
+      "review": "在云硬盘表选择另一个已存在区域；重算参考答案",
+      "baseline_retrieval": {
+        "candidates": [
+          {
+            "id": "rb_045",
+            "tier": "strong",
+            "score": 19.07,
+            "coverage": 0.575
+          },
+          {
+            "id": "rb_086",
+            "tier": "strong",
+            "score": 18.789,
+            "coverage": 0.575
+          },
+          {
+            "id": "rb_087",
+            "tier": "strong",
+            "score": 18.789,
+            "coverage": 0.575
+          },
+          {
+            "id": "rb_172",
+            "tier": "strong",
+            "score": 16.622,
+            "coverage": 0.523
+          },
+          {
+            "id": "rb_055",
+            "tier": "strong",
+            "score": 15.398,
+            "coverage": 0.478
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 12.354,
+            "coverage": 0.354
+          },
+          {
+            "id": "rb_183",
+            "tier": "weak",
+            "score": 12.321,
+            "coverage": 0.372
+          },
+          {
+            "id": "rb_102",
+            "tier": "weak",
+            "score": 11.543,
+            "coverage": 0.339
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 10.792,
+            "coverage": 0.352
+          },
+          {
+            "id": "rb_046",
+            "tier": "weak",
+            "score": 10.491,
+            "coverage": 0.301
+          },
+          {
+            "id": "rb_191",
+            "tier": "weak",
+            "score": 10.43,
+            "coverage": 0.364
+          },
+          {
+            "id": "rb_177",
+            "tier": "weak",
+            "score": 9.329,
+            "coverage": 0.289
+          },
+          {
+            "id": "rb_104",
+            "tier": "weak",
+            "score": 9.292,
+            "coverage": 0.267
+          },
+          {
+            "id": "rb_103",
+            "tier": "weak",
+            "score": 9.122,
+            "coverage": 0.301
+          },
+          {
+            "id": "rb_100",
+            "tier": "weak",
+            "score": 8.923,
+            "coverage": 0.263
+          }
+        ],
+        "accepted_ids": [
+          "rb_086",
+          "rb_087"
+        ],
+        "first_accepted_rank": 2
+      },
+      "status": "generated",
+      "old_value": "region_guian4",
+      "new_value": "贵安4虚拟",
+      "group_id": "group_04cf9c2de9e5",
+      "split": "development",
+      "case": {
+        "case_id": "entity_CMDB-130",
+        "question": "查询区域贵安4虚拟下各VDC的云硬盘数量和总容量",
+        "query_method": "查 `CLOUD_VOLUME WHERE logicalRegionName` 按 `vdcName` 分组 COUNT + `SUM(size)`",
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "贵安4虚拟",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName",
+        "answer": {
+          "columns": [
+            "vdcName",
+            "count",
+            "total_size"
+          ],
+          "rows": [
+            {
+              "vdcName": null,
+              "count": 1825,
+              "total_size": 163443
+            },
+            {
+              "vdcName": "AdvanceService_Manage_VDC",
+              "count": 819,
+              "total_size": 171500
+            },
+            {
+              "vdcName": "AdvanceService_Manage_VDC_vr",
+              "count": 39,
+              "total_size": 7430
+            },
+            {
+              "vdcName": "AppCube_FusionCare_Tenant",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "CodeArtsDeploy",
+              "count": 4,
+              "total_size": 180
+            },
+            {
+              "vdcName": "Governance_test",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "HR_云软件研发部",
+              "count": 1,
+              "total_size": 40
+            },
+            {
+              "vdcName": "ModelArts_Manage_VDC",
+              "count": 10,
+              "total_size": 2700
+            },
+            {
+              "vdcName": "OctopusTest",
+              "count": 1,
+              "total_size": 100
+            },
+            {
+              "vdcName": "Sichuan_XNS",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "astrozero02",
+              "count": 1,
+              "total_size": 40
+            },
+            {
+              "vdcName": "bcstest",
+              "count": 2,
+              "total_size": 150
+            },
+            {
+              "vdcName": "cpts_first_vdc",
+              "count": 18,
+              "total_size": 1260
+            },
+            {
+              "vdcName": "dcsdmsapig",
+              "count": 3,
+              "total_size": 130
+            },
+            {
+              "vdcName": "echotest_dl",
+              "count": 2,
+              "total_size": 90
+            },
+            {
+              "vdcName": "oneaccess_ciam_tenant_vdc",
+              "count": 12,
+              "total_size": 1200
+            },
+            {
+              "vdcName": "oneaccess_ciam_tenant_vdc3",
+              "count": 6,
+              "total_size": 500
+            },
+            {
+              "vdcName": "osn-roma-guian-4",
+              "count": 59,
+              "total_size": 9450
+            },
+            {
+              "vdcName": "paas-aom",
+              "count": 81,
+              "total_size": 4685
+            },
+            {
+              "vdcName": "paas-aom-autotest",
+              "count": 4,
+              "total_size": 300
+            },
+            {
+              "vdcName": "paas-autotest-apm",
+              "count": 3,
+              "total_size": 200
+            },
+            {
+              "vdcName": "paas-autotest-bcspaas",
+              "count": 24,
+              "total_size": 2030
+            },
+            {
+              "vdcName": "paas-autotest-codecheck",
+              "count": 2,
+              "total_size": 200
+            },
+            {
+              "vdcName": "paas-autotest-cse",
+              "count": 5,
+              "total_size": 350
+            },
+            {
+              "vdcName": "paas-autotest-functiongraph",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "paas-autotest-ss",
+              "count": 6,
+              "total_size": 450
+            },
+            {
+              "vdcName": "paas-bcs",
+              "count": 12,
+              "total_size": 920
+            },
+            {
+              "vdcName": "paas-connect",
+              "count": 26,
+              "total_size": 1111
+            },
+            {
+              "vdcName": "paas-cpts",
+              "count": 6,
+              "total_size": 450
+            },
+            {
+              "vdcName": "paas-cse",
+              "count": 1,
+              "total_size": 40
+            },
+            {
+              "vdcName": "paas-dcs",
+              "count": 2,
+              "total_size": 80
+            },
+            {
+              "vdcName": "paas-dcs-autotest",
+              "count": 2,
+              "total_size": 150
+            },
+            {
+              "vdcName": "paas-dms",
+              "count": 3,
+              "total_size": 150
+            },
+            {
+              "vdcName": "paas-ebs-autotest",
+              "count": 2,
+              "total_size": 150
+            },
+            {
+              "vdcName": "paas-lts-autotest",
+              "count": 4,
+              "total_size": 300
+            },
+            {
+              "vdcName": "paas-mas",
+              "count": 2,
+              "total_size": 80
+            },
+            {
+              "vdcName": "paas-mas-autotest",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "paas-oneaccess",
+              "count": 12,
+              "total_size": 1390
+            },
+            {
+              "vdcName": "paas-servicestage",
+              "count": 41,
+              "total_size": 2260
+            },
+            {
+              "vdcName": "paas-servicestage-500",
+              "count": 1,
+              "total_size": 50
+            },
+            {
+              "vdcName": "paas-vss",
+              "count": 3,
+              "total_size": 140
+            },
+            {
+              "vdcName": "pipeline_lsj",
+              "count": 9,
+              "total_size": 640
+            },
+            {
+              "vdcName": "qqqq",
+              "count": 25,
+              "total_size": 13000
+            },
+            {
+              "vdcName": "ss-broker",
+              "count": 5,
+              "total_size": 250
+            },
+            {
+              "vdcName": "test-ss-1778641069",
+              "count": 3,
+              "total_size": 180
+            },
+            {
+              "vdcName": "wtt_apitest",
+              "count": 2,
+              "total_size": 80
+            },
+            {
+              "vdcName": "zshtest",
+              "count": 2,
+              "total_size": 80
+            }
+          ],
+          "row_count": 47
+        },
+        "error": null
+      },
+      "self_consistency_at_elapsed0": {
+        "case_id": "entity_CMDB-130",
+        "question": "查询区域贵安4虚拟下各VDC的云硬盘数量和总容量",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "old_answer_reused": false,
+      "old_answer_equal": true
+    }
+  ],
+  "sql_counterfactuals": [
+    {
+      "case_id": "CMDB-020",
+      "observed_score": 2.5,
+      "fixed_api_template_sql_score_at_elapsed0": {
+        "case_id": "CMDB-020",
+        "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例名、规格和状态",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "template_sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.status, CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "observed_sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_FLAVOR.name AS flavor_name, CLOUD_VM_NOVA.status FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "model_requests": 0,
+      "note": "counterfactual execution with observed API and original template SQL; not a revised model score"
+    },
+    {
+      "case_id": "CMDB-022",
+      "observed_score": -1,
+      "fixed_api_template_sql_score_at_elapsed0": {
+        "case_id": "CMDB-022",
+        "question": "查询区域region_guian4下ECS实例中使用最多的前10种规格",
+        "elapsed": 0.0,
+        "score": 5,
+        "reason": "答案正确"
+      },
+      "template_sql": "SELECT CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize ORDER BY count DESC LIMIT 10",
+      "observed_sql": "SELECT CLOUD_FLAVOR.name AS flavor_name, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY CLOUD_FLAVOR.name ORDER BY count DESC",
+      "model_requests": 0,
+      "note": "counterfactual execution with observed API and original template SQL; not a revised model score"
+    }
+  ],
+  "model_http_requests": 0,
+  "score_kind": "offline capability/data check, not end-to-end score"
+}

@@ -1,0 +1,4093 @@
+{
+  "seed": 20261029,
+  "method": "API path/method sequence + literal-masked SQL (ignoring API filter presence/values for grouping) OR exact text OR token Jaccard>=0.80 within identical stratum; connected components; sha(seed:group)%5",
+  "warning": "heuristic grouping is frozen for leakage control, not proof of unseen generalization; all original questions occur in examples",
+  "groups": [
+    {
+      "group_id": "group_6862f9d169d9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-001",
+        "CMDB-004"
+      ]
+    },
+    {
+      "group_id": "group_1aaf5ade5c4f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-005"
+      ]
+    },
+    {
+      "group_id": "group_291a4bcd3450",
+      "split": "development",
+      "case_ids": [
+        "CMDB-010"
+      ]
+    },
+    {
+      "group_id": "group_38a1fa937dae",
+      "split": "development",
+      "case_ids": [
+        "CMDB-011"
+      ]
+    },
+    {
+      "group_id": "group_4b247f38fc7d",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-012",
+        "CMDB-055"
+      ]
+    },
+    {
+      "group_id": "group_38ae38957006",
+      "split": "development",
+      "case_ids": [
+        "CMDB-013"
+      ]
+    },
+    {
+      "group_id": "group_4d12cf1ad4d9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-017"
+      ]
+    },
+    {
+      "group_id": "group_7d27373d03c3",
+      "split": "development",
+      "case_ids": [
+        "CMDB-019"
+      ]
+    },
+    {
+      "group_id": "group_bad9ae204aac",
+      "split": "development",
+      "case_ids": [
+        "CMDB-020"
+      ]
+    },
+    {
+      "group_id": "group_9fef2bcaea72",
+      "split": "development",
+      "case_ids": [
+        "CMDB-021",
+        "CMDB-022"
+      ]
+    },
+    {
+      "group_id": "group_f0abfcfa470e",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-023"
+      ]
+    },
+    {
+      "group_id": "group_902e0f54c752",
+      "split": "development",
+      "case_ids": [
+        "CMDB-024"
+      ]
+    },
+    {
+      "group_id": "group_bf62af015ad3",
+      "split": "development",
+      "case_ids": [
+        "CMDB-025"
+      ]
+    },
+    {
+      "group_id": "group_544bbb500b48",
+      "split": "development",
+      "case_ids": [
+        "CMDB-026"
+      ]
+    },
+    {
+      "group_id": "group_a69c5ff2c6a7",
+      "split": "development",
+      "case_ids": [
+        "CMDB-027"
+      ]
+    },
+    {
+      "group_id": "group_b2d21089e2b2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-028"
+      ]
+    },
+    {
+      "group_id": "group_00f6b15f725b",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-029"
+      ]
+    },
+    {
+      "group_id": "group_3839221b6af6",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-030"
+      ]
+    },
+    {
+      "group_id": "group_30a5a869a4d2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-033"
+      ]
+    },
+    {
+      "group_id": "group_bc8146f46e14",
+      "split": "development",
+      "case_ids": [
+        "CMDB-034"
+      ]
+    },
+    {
+      "group_id": "group_0f965e1413f2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-036"
+      ]
+    },
+    {
+      "group_id": "group_ccf0b32f032f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-039"
+      ]
+    },
+    {
+      "group_id": "group_fc8a8e6fda00",
+      "split": "development",
+      "case_ids": [
+        "CMDB-040"
+      ]
+    },
+    {
+      "group_id": "group_dccfb5b585a4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-041"
+      ]
+    },
+    {
+      "group_id": "group_3c6758b90464",
+      "split": "development",
+      "case_ids": [
+        "CMDB-042"
+      ]
+    },
+    {
+      "group_id": "group_3c9be0d9c896",
+      "split": "development",
+      "case_ids": [
+        "CMDB-043"
+      ]
+    },
+    {
+      "group_id": "group_7c8d2f3e52ce",
+      "split": "development",
+      "case_ids": [
+        "CMDB-044"
+      ]
+    },
+    {
+      "group_id": "group_78275815e2e4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-045"
+      ]
+    },
+    {
+      "group_id": "group_c6c3476c81b5",
+      "split": "development",
+      "case_ids": [
+        "CMDB-046"
+      ]
+    },
+    {
+      "group_id": "group_94864e611f0b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-047"
+      ]
+    },
+    {
+      "group_id": "group_c653ea5fd403",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-048"
+      ]
+    },
+    {
+      "group_id": "group_00e938e04d60",
+      "split": "development",
+      "case_ids": [
+        "CMDB-049"
+      ]
+    },
+    {
+      "group_id": "group_ce7ad1da3672",
+      "split": "development",
+      "case_ids": [
+        "CMDB-050"
+      ]
+    },
+    {
+      "group_id": "group_cf0b6b3e073b",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-051"
+      ]
+    },
+    {
+      "group_id": "group_adc814892538",
+      "split": "development",
+      "case_ids": [
+        "CMDB-052",
+        "CMDB-053"
+      ]
+    },
+    {
+      "group_id": "group_2607e2e5e6a8",
+      "split": "development",
+      "case_ids": [
+        "CMDB-056"
+      ]
+    },
+    {
+      "group_id": "group_b34c877c6c9f",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-057"
+      ]
+    },
+    {
+      "group_id": "group_65bcd8fdd4d2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-060"
+      ]
+    },
+    {
+      "group_id": "group_237e959c08a5",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-061"
+      ]
+    },
+    {
+      "group_id": "group_36fee206cc94",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-066"
+      ]
+    },
+    {
+      "group_id": "group_eaf0a69e0c43",
+      "split": "development",
+      "case_ids": [
+        "CMDB-067"
+      ]
+    },
+    {
+      "group_id": "group_5d0a96ca8958",
+      "split": "development",
+      "case_ids": [
+        "CMDB-068"
+      ]
+    },
+    {
+      "group_id": "group_31d99ba40229",
+      "split": "development",
+      "case_ids": [
+        "CMDB-069"
+      ]
+    },
+    {
+      "group_id": "group_31474299db3b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-071"
+      ]
+    },
+    {
+      "group_id": "group_f8726a66c2c0",
+      "split": "development",
+      "case_ids": [
+        "CMDB-073"
+      ]
+    },
+    {
+      "group_id": "group_a25a3ca4c890",
+      "split": "development",
+      "case_ids": [
+        "CMDB-074",
+        "CMDB-075"
+      ]
+    },
+    {
+      "group_id": "group_d003d8307a24",
+      "split": "development",
+      "case_ids": [
+        "CMDB-077",
+        "CMDB-080"
+      ]
+    },
+    {
+      "group_id": "group_5e7115aa066a",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-078"
+      ]
+    },
+    {
+      "group_id": "group_92a97fcec665",
+      "split": "development",
+      "case_ids": [
+        "CMDB-081"
+      ]
+    },
+    {
+      "group_id": "group_a84091f82d3e",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-084"
+      ]
+    },
+    {
+      "group_id": "group_81de2a913caa",
+      "split": "development",
+      "case_ids": [
+        "CMDB-085"
+      ]
+    },
+    {
+      "group_id": "group_78897adc666e",
+      "split": "development",
+      "case_ids": [
+        "CMDB-086"
+      ]
+    },
+    {
+      "group_id": "group_458053e3be9b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-087"
+      ]
+    },
+    {
+      "group_id": "group_4eae3f5f2a8a",
+      "split": "development",
+      "case_ids": [
+        "CMDB-088"
+      ]
+    },
+    {
+      "group_id": "group_f5e26471db86",
+      "split": "development",
+      "case_ids": [
+        "CMDB-089"
+      ]
+    },
+    {
+      "group_id": "group_7ea4b5e58ff1",
+      "split": "development",
+      "case_ids": [
+        "CMDB-090"
+      ]
+    },
+    {
+      "group_id": "group_7aa484b2284f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-091",
+        "CMDB-107"
+      ]
+    },
+    {
+      "group_id": "group_314e9adc8a8b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-092"
+      ]
+    },
+    {
+      "group_id": "group_c2597cc2e05b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-093"
+      ]
+    },
+    {
+      "group_id": "group_8ac2ce4cdc4c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-096"
+      ]
+    },
+    {
+      "group_id": "group_45f345d1c43b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-097"
+      ]
+    },
+    {
+      "group_id": "group_d1608b2f7185",
+      "split": "development",
+      "case_ids": [
+        "CMDB-102",
+        "CMDB-108"
+      ]
+    },
+    {
+      "group_id": "group_85ae5d11c706",
+      "split": "development",
+      "case_ids": [
+        "CMDB-104"
+      ]
+    },
+    {
+      "group_id": "group_10c2a6955c19",
+      "split": "development",
+      "case_ids": [
+        "CMDB-105"
+      ]
+    },
+    {
+      "group_id": "group_1e19be3c4465",
+      "split": "development",
+      "case_ids": [
+        "CMDB-106"
+      ]
+    },
+    {
+      "group_id": "group_5cfc25338a55",
+      "split": "development",
+      "case_ids": [
+        "CMDB-110"
+      ]
+    },
+    {
+      "group_id": "group_de865b5ba7bc",
+      "split": "development",
+      "case_ids": [
+        "CMDB-112"
+      ]
+    },
+    {
+      "group_id": "group_999594074d62",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-113"
+      ]
+    },
+    {
+      "group_id": "group_5e0f81b50410",
+      "split": "development",
+      "case_ids": [
+        "CMDB-114"
+      ]
+    },
+    {
+      "group_id": "group_533b993c5d11",
+      "split": "development",
+      "case_ids": [
+        "CMDB-115"
+      ]
+    },
+    {
+      "group_id": "group_5a7bfd5400ff",
+      "split": "development",
+      "case_ids": [
+        "CMDB-116"
+      ]
+    },
+    {
+      "group_id": "group_ff16a37c42f9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-118"
+      ]
+    },
+    {
+      "group_id": "group_7deb079262a8",
+      "split": "development",
+      "case_ids": [
+        "CMDB-121"
+      ]
+    },
+    {
+      "group_id": "group_607350e7cfa9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-122"
+      ]
+    },
+    {
+      "group_id": "group_92aebcb3c208",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-123"
+      ]
+    },
+    {
+      "group_id": "group_af310e860b7d",
+      "split": "development",
+      "case_ids": [
+        "CMDB-127"
+      ]
+    },
+    {
+      "group_id": "group_84e3208cb9d6",
+      "split": "development",
+      "case_ids": [
+        "CMDB-128"
+      ]
+    },
+    {
+      "group_id": "group_04cf9c2de9e5",
+      "split": "development",
+      "case_ids": [
+        "CMDB-130",
+        "CMDB-132"
+      ]
+    },
+    {
+      "group_id": "group_cb35e4efd947",
+      "split": "development",
+      "case_ids": [
+        "CMDB-133"
+      ]
+    },
+    {
+      "group_id": "group_031be497f330",
+      "split": "development",
+      "case_ids": [
+        "CMDB-134"
+      ]
+    },
+    {
+      "group_id": "group_1cb5a74f7f78",
+      "split": "development",
+      "case_ids": [
+        "CMDB-135"
+      ]
+    },
+    {
+      "group_id": "group_6a945d10a02c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-136"
+      ]
+    },
+    {
+      "group_id": "group_19ad4cb62203",
+      "split": "development",
+      "case_ids": [
+        "CMDB-137"
+      ]
+    },
+    {
+      "group_id": "group_db01934372fd",
+      "split": "development",
+      "case_ids": [
+        "CMDB-139"
+      ]
+    },
+    {
+      "group_id": "group_a78c975c7946",
+      "split": "development",
+      "case_ids": [
+        "CMDB-140"
+      ]
+    },
+    {
+      "group_id": "group_98f0ff4686b4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-141"
+      ]
+    },
+    {
+      "group_id": "group_f7b2c4953930",
+      "split": "development",
+      "case_ids": [
+        "CMDB-143"
+      ]
+    },
+    {
+      "group_id": "group_17c7adb762e8",
+      "split": "development",
+      "case_ids": [
+        "CMDB-144"
+      ]
+    },
+    {
+      "group_id": "group_12051264dbfb",
+      "split": "development",
+      "case_ids": [
+        "CMDB-147"
+      ]
+    },
+    {
+      "group_id": "group_4f119b5befa6",
+      "split": "development",
+      "case_ids": [
+        "CMDB-148"
+      ]
+    },
+    {
+      "group_id": "group_6db81d470fa1",
+      "split": "development",
+      "case_ids": [
+        "CMDB-149"
+      ]
+    },
+    {
+      "group_id": "group_6df2777c5d10",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-150"
+      ]
+    },
+    {
+      "group_id": "group_2356ef1f265f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-151"
+      ]
+    },
+    {
+      "group_id": "group_cc1f92959225",
+      "split": "development",
+      "case_ids": [
+        "CMDB-152"
+      ]
+    },
+    {
+      "group_id": "group_661d06dee6eb",
+      "split": "development",
+      "case_ids": [
+        "CMDB-153"
+      ]
+    },
+    {
+      "group_id": "group_c328dcd1871c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-154"
+      ]
+    },
+    {
+      "group_id": "group_c1e5e3c0315e",
+      "split": "development",
+      "case_ids": [
+        "CMDB-156"
+      ]
+    },
+    {
+      "group_id": "group_c72955c6edf9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-158"
+      ]
+    },
+    {
+      "group_id": "group_292a998bf6e9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-161"
+      ]
+    },
+    {
+      "group_id": "group_6bb74460de58",
+      "split": "development",
+      "case_ids": [
+        "CMDB-163"
+      ]
+    },
+    {
+      "group_id": "group_ee366b58337e",
+      "split": "development",
+      "case_ids": [
+        "CMDB-165"
+      ]
+    },
+    {
+      "group_id": "group_805483348f4b",
+      "split": "development",
+      "case_ids": [
+        "CMDB-166"
+      ]
+    },
+    {
+      "group_id": "group_367a8749ad19",
+      "split": "development",
+      "case_ids": [
+        "CMDB-167"
+      ]
+    },
+    {
+      "group_id": "group_2ba5893cc6f9",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-169"
+      ]
+    },
+    {
+      "group_id": "group_b04486bedc3a",
+      "split": "development",
+      "case_ids": [
+        "CMDB-170"
+      ]
+    },
+    {
+      "group_id": "group_bab38e77317f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-173"
+      ]
+    },
+    {
+      "group_id": "group_94b16876c433",
+      "split": "development",
+      "case_ids": [
+        "CMDB-174"
+      ]
+    },
+    {
+      "group_id": "group_83d025adc797",
+      "split": "development",
+      "case_ids": [
+        "CMDB-175"
+      ]
+    },
+    {
+      "group_id": "group_072ea81996c4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-176"
+      ]
+    },
+    {
+      "group_id": "group_688d97812199",
+      "split": "development",
+      "case_ids": [
+        "CMDB-179"
+      ]
+    },
+    {
+      "group_id": "group_9eb2f13ea64c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-180"
+      ]
+    },
+    {
+      "group_id": "group_7c26105d8a25",
+      "split": "development",
+      "case_ids": [
+        "CMDB-181"
+      ]
+    },
+    {
+      "group_id": "group_3f5901eee3be",
+      "split": "development",
+      "case_ids": [
+        "CMDB-182"
+      ]
+    },
+    {
+      "group_id": "group_667c8c69386d",
+      "split": "development",
+      "case_ids": [
+        "CMDB-183"
+      ]
+    },
+    {
+      "group_id": "group_4f5891cea3bc",
+      "split": "development",
+      "case_ids": [
+        "CMDB-184"
+      ]
+    },
+    {
+      "group_id": "group_da996190a4f7",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-185"
+      ]
+    },
+    {
+      "group_id": "group_b461a842ba60",
+      "split": "development",
+      "case_ids": [
+        "CMDB-187"
+      ]
+    },
+    {
+      "group_id": "group_42ed00f25062",
+      "split": "development",
+      "case_ids": [
+        "CMDB-188"
+      ]
+    },
+    {
+      "group_id": "group_d5a3a102144b",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-189"
+      ]
+    },
+    {
+      "group_id": "group_517581cf0133",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-190"
+      ]
+    },
+    {
+      "group_id": "group_4569c0ddf536",
+      "split": "development",
+      "case_ids": [
+        "CMDB-192"
+      ]
+    },
+    {
+      "group_id": "group_1926efdd1c4c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-194"
+      ]
+    },
+    {
+      "group_id": "group_aaadd21edf12",
+      "split": "development",
+      "case_ids": [
+        "CMDB-196"
+      ]
+    },
+    {
+      "group_id": "group_7b354d3793f7",
+      "split": "development",
+      "case_ids": [
+        "CMDB-197"
+      ]
+    },
+    {
+      "group_id": "group_1f6bd113a4b2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-199"
+      ]
+    },
+    {
+      "group_id": "group_36e1d1a42084",
+      "split": "development",
+      "case_ids": [
+        "CMDB-200"
+      ]
+    },
+    {
+      "group_id": "group_08a0f426732d",
+      "split": "development",
+      "case_ids": [
+        "CMDB-202",
+        "CMDB-206"
+      ]
+    },
+    {
+      "group_id": "group_9a19a7b1db54",
+      "split": "development",
+      "case_ids": [
+        "CMDB-204"
+      ]
+    },
+    {
+      "group_id": "group_44b93606b1b1",
+      "split": "development",
+      "case_ids": [
+        "CMDB-207"
+      ]
+    },
+    {
+      "group_id": "group_1084efc3aed8",
+      "split": "development",
+      "case_ids": [
+        "CMDB-208"
+      ]
+    },
+    {
+      "group_id": "group_0ef13c3193b1",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-210"
+      ]
+    },
+    {
+      "group_id": "group_447591fad451",
+      "split": "development",
+      "case_ids": [
+        "CMDB-212"
+      ]
+    },
+    {
+      "group_id": "group_3558d51bef0f",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-214"
+      ]
+    },
+    {
+      "group_id": "group_cc963cf03daa",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-215"
+      ]
+    },
+    {
+      "group_id": "group_fbe6eafde653",
+      "split": "development",
+      "case_ids": [
+        "CMDB-217"
+      ]
+    },
+    {
+      "group_id": "group_5d8d003fba90",
+      "split": "development",
+      "case_ids": [
+        "CMDB-218"
+      ]
+    },
+    {
+      "group_id": "group_3ccb2952e4a4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-219"
+      ]
+    },
+    {
+      "group_id": "group_93d403cd31b2",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-220"
+      ]
+    },
+    {
+      "group_id": "group_f7f5ad627a95",
+      "split": "development",
+      "case_ids": [
+        "CMDB-221"
+      ]
+    },
+    {
+      "group_id": "group_13acb93f0352",
+      "split": "development",
+      "case_ids": [
+        "CMDB-223"
+      ]
+    },
+    {
+      "group_id": "group_6c28b08a4ff6",
+      "split": "development",
+      "case_ids": [
+        "CMDB-224"
+      ]
+    },
+    {
+      "group_id": "group_6a9550887b1c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-227"
+      ]
+    },
+    {
+      "group_id": "group_9b1375608f40",
+      "split": "development",
+      "case_ids": [
+        "CMDB-229"
+      ]
+    },
+    {
+      "group_id": "group_77733a67d951",
+      "split": "development",
+      "case_ids": [
+        "CMDB-230"
+      ]
+    },
+    {
+      "group_id": "group_656ea5061ada",
+      "split": "development",
+      "case_ids": [
+        "CMDB-231"
+      ]
+    },
+    {
+      "group_id": "group_278b91c5fbac",
+      "split": "development",
+      "case_ids": [
+        "CMDB-234"
+      ]
+    },
+    {
+      "group_id": "group_28bb70803651",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-235"
+      ]
+    },
+    {
+      "group_id": "group_278c1affe1a9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-236"
+      ]
+    },
+    {
+      "group_id": "group_76e3c79074fe",
+      "split": "development",
+      "case_ids": [
+        "CMDB-237"
+      ]
+    },
+    {
+      "group_id": "group_bab161651429",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-238"
+      ]
+    },
+    {
+      "group_id": "group_ccbadf2051b2",
+      "split": "development",
+      "case_ids": [
+        "CMDB-239"
+      ]
+    },
+    {
+      "group_id": "group_3446693c59b9",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-241"
+      ]
+    },
+    {
+      "group_id": "group_8ebc244c9fae",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-243"
+      ]
+    },
+    {
+      "group_id": "group_56bf0345e8b7",
+      "split": "development",
+      "case_ids": [
+        "CMDB-244"
+      ]
+    },
+    {
+      "group_id": "group_997ffff960bf",
+      "split": "development",
+      "case_ids": [
+        "CMDB-247"
+      ]
+    },
+    {
+      "group_id": "group_fe7aa1ac0c1e",
+      "split": "development",
+      "case_ids": [
+        "CMDB-248"
+      ]
+    },
+    {
+      "group_id": "group_040363a6f0d5",
+      "split": "development",
+      "case_ids": [
+        "CMDB-249",
+        "CMDB-267"
+      ]
+    },
+    {
+      "group_id": "group_10accc3f0286",
+      "split": "development",
+      "case_ids": [
+        "CMDB-251"
+      ]
+    },
+    {
+      "group_id": "group_858b94c5363f",
+      "split": "development",
+      "case_ids": [
+        "CMDB-252"
+      ]
+    },
+    {
+      "group_id": "group_0bca2d5405e3",
+      "split": "development",
+      "case_ids": [
+        "CMDB-253"
+      ]
+    },
+    {
+      "group_id": "group_6f67c91a3c9a",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-255"
+      ]
+    },
+    {
+      "group_id": "group_9ef94dc8a532",
+      "split": "development",
+      "case_ids": [
+        "CMDB-256"
+      ]
+    },
+    {
+      "group_id": "group_688d3c381187",
+      "split": "development",
+      "case_ids": [
+        "CMDB-258"
+      ]
+    },
+    {
+      "group_id": "group_0b853740c909",
+      "split": "development",
+      "case_ids": [
+        "CMDB-259"
+      ]
+    },
+    {
+      "group_id": "group_f20c9a310641",
+      "split": "development",
+      "case_ids": [
+        "CMDB-260"
+      ]
+    },
+    {
+      "group_id": "group_c079719dbc06",
+      "split": "development",
+      "case_ids": [
+        "CMDB-261"
+      ]
+    },
+    {
+      "group_id": "group_a6b82f62ab58",
+      "split": "development",
+      "case_ids": [
+        "CMDB-262"
+      ]
+    },
+    {
+      "group_id": "group_0a6695654e30",
+      "split": "development",
+      "case_ids": [
+        "CMDB-264"
+      ]
+    },
+    {
+      "group_id": "group_2895eeb3a3b9",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-265"
+      ]
+    },
+    {
+      "group_id": "group_df6f19806a31",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-268"
+      ]
+    },
+    {
+      "group_id": "group_4f90ea02ec92",
+      "split": "development",
+      "case_ids": [
+        "CMDB-269"
+      ]
+    },
+    {
+      "group_id": "group_21c0560d174b",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-270"
+      ]
+    },
+    {
+      "group_id": "group_9fffcc79c872",
+      "split": "development",
+      "case_ids": [
+        "CMDB-271"
+      ]
+    },
+    {
+      "group_id": "group_6e2416b92efd",
+      "split": "development",
+      "case_ids": [
+        "CMDB-274"
+      ]
+    },
+    {
+      "group_id": "group_f6e6660f758e",
+      "split": "development",
+      "case_ids": [
+        "CMDB-275"
+      ]
+    },
+    {
+      "group_id": "group_42fddde3612d",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-281"
+      ]
+    },
+    {
+      "group_id": "group_a3536086a2b3",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-282"
+      ]
+    },
+    {
+      "group_id": "group_c8fb709fa611",
+      "split": "regression",
+      "case_ids": [
+        "CMDB-283"
+      ]
+    },
+    {
+      "group_id": "group_7adede50d222",
+      "split": "development",
+      "case_ids": [
+        "CMDB-284"
+      ]
+    },
+    {
+      "group_id": "group_97b8afe4821d",
+      "split": "development",
+      "case_ids": [
+        "CMDB-285"
+      ]
+    },
+    {
+      "group_id": "group_6cf99b0628e4",
+      "split": "development",
+      "case_ids": [
+        "CMDB-287"
+      ]
+    },
+    {
+      "group_id": "group_ca31c6c3e05c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-288"
+      ]
+    },
+    {
+      "group_id": "group_d891824adb5c",
+      "split": "development",
+      "case_ids": [
+        "CMDB-289"
+      ]
+    },
+    {
+      "group_id": "group_000c6f41b553",
+      "split": "development",
+      "case_ids": [
+        "CMDB-290"
+      ]
+    },
+    {
+      "group_id": "group_fa970e68cee8",
+      "split": "development",
+      "case_ids": [
+        "CMDB-291"
+      ]
+    },
+    {
+      "group_id": "group_1c1457740df9",
+      "split": "development",
+      "case_ids": [
+        "CMDB-297"
+      ]
+    },
+    {
+      "group_id": "group_ca8f431c4a97",
+      "split": "development",
+      "case_ids": [
+        "CMDB-298"
+      ]
+    },
+    {
+      "group_id": "group_de54c72cce76",
+      "split": "development",
+      "case_ids": [
+        "CMDB-299"
+      ]
+    },
+    {
+      "group_id": "group_508f137ce262",
+      "split": "development",
+      "case_ids": [
+        "CMDB-300"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      "CMDB-001",
+      "CMDB-004",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-021",
+      "CMDB-022",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-052",
+      "CMDB-053",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-012",
+      "CMDB-055",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-074",
+      "CMDB-075",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-077",
+      "CMDB-080",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-091",
+      "CMDB-107",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-102",
+      "CMDB-108",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-130",
+      "CMDB-132",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-202",
+      "CMDB-206",
+      "same_query_family_ignoring_filter_values_and_presence"
+    ],
+    [
+      "CMDB-249",
+      "CMDB-267",
+      "same_text"
+    ]
+  ],
+  "cases": [
+    {
+      "case_id": "CMDB-001",
+      "question": "当前所有ECS实例按状态的分布情况",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6862f9d169d9",
+      "split": "development",
+      "reference_shape_sha256": "7293118fad4bcaf11f78b74f7fff89ccf0e8c46b91847d3d7b8b672cc860e6d7"
+    },
+    {
+      "case_id": "CMDB-004",
+      "question": "查询区域region_guian4下所有ECS实例按状态的分布情况",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6862f9d169d9",
+      "split": "development",
+      "reference_shape_sha256": "b3b5dd672a3ce30e10e78b5841598dc0d0e8a5a615a65fd593c2194192625a60"
+    },
+    {
+      "case_id": "CMDB-005",
+      "question": "查询区域region_guian4下各可用区的ECS数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_1aaf5ade5c4f",
+      "split": "development",
+      "reference_shape_sha256": "7d20e89000d14621b7bd077095577ae2ae3cc6caafe52dced0990900e33f31e7"
+    },
+    {
+      "case_id": "CMDB-010",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4可用区az0.dc0中的ECS有多少台",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_291a4bcd3450",
+      "split": "development",
+      "reference_shape_sha256": "81c9bf5f328d44a98c7b0d47b25509d9cf052f99985ba6230d652079845a7302"
+    },
+    {
+      "case_id": "CMDB-011",
+      "question": "区域region_guian4下管理虚拟机和租户虚拟机分别有多少",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_38a1fa937dae",
+      "split": "development",
+      "reference_shape_sha256": "00cb2a485e84502089e2cda5d47cc66a644063cb54ef0137129e6996e0308f8e"
+    },
+    {
+      "case_id": "CMDB-012",
+      "question": "az0.dc0里正在跑的ECS有哪些IP，分别属于哪个租户",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_4b247f38fc7d",
+      "split": "regression",
+      "reference_shape_sha256": "581905a87bef737c224765e3623a7f594b8d3eddad156fccc1221db2f0034f34"
+    },
+    {
+      "case_id": "CMDB-013",
+      "question": "查询区域region_guian4下各租户的ECS数量分布",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_38ae38957006",
+      "split": "development",
+      "reference_shape_sha256": "a9797ed1cab7b0daef458b70bfe9db62e8e3ddc6e08459f263546be095d46350"
+    },
+    {
+      "case_id": "CMDB-017",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的状态和规格",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_4d12cf1ad4d9",
+      "split": "development",
+      "reference_shape_sha256": "07a45b5977061a3e2f5bc476b9e2946a33e8e2056ad4956f63f8887de9b7a71f"
+    },
+    {
+      "case_id": "CMDB-019",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的创建时间",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7d27373d03c3",
+      "split": "development",
+      "reference_shape_sha256": "082c6a4e2f659222632fec5e7ffd07a40b913a735f907e4619a64b2d3fc6578e"
+    },
+    {
+      "case_id": "CMDB-020",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例名、规格和状态",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_bad9ae204aac",
+      "split": "development",
+      "reference_shape_sha256": "1cfc0da2af2b1c4f83d04867c824a1e05881fa2914fb1fbb72ea91d5ff8812c0"
+    },
+    {
+      "case_id": "CMDB-021",
+      "question": "查询ECS实例中使用最多的前10种规格",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_9fef2bcaea72",
+      "split": "development",
+      "reference_shape_sha256": "4430cb960b72a8d53fb80012880c4268870b71c2b7c7710adc0ce4d76798068f"
+    },
+    {
+      "case_id": "CMDB-022",
+      "question": "查询区域region_guian4下ECS实例中使用最多的前10种规格",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_9fef2bcaea72",
+      "split": "development",
+      "reference_shape_sha256": "0051faf540dd5c1a1952c4f2c651317be64a01c46bb741a3b680de4d58a3b489"
+    },
+    {
+      "case_id": "CMDB-023",
+      "question": "ECS的规格配置是怎样的，1核2G的虚拟机有几台",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_f0abfcfa470e",
+      "split": "regression",
+      "reference_shape_sha256": "e9b319d045f8b6986c07a8b8951ed4e001cc4d8a8e433217025759b4b759c619"
+    },
+    {
+      "case_id": "CMDB-024",
+      "question": "规格为ManageOne-AutoOps的ECS实例目前有多少台",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_902e0f54c752",
+      "split": "development",
+      "reference_shape_sha256": "485fa430122135acd7ac5fc1ff53bf78f2548c001f2d7ecf754f5cb6d556b87f"
+    },
+    {
+      "case_id": "CMDB-025",
+      "question": "查询区域region_guian4下各租户的ECS规格分布，按租户分别展示",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_bf62af015ad3",
+      "split": "development",
+      "reference_shape_sha256": "ba51a647a070259f3dafcde47d2ec3cbbc47257859f76edb37319f9c919b9040"
+    },
+    {
+      "case_id": "CMDB-026",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4各可用区中的ECS实例名、规格和状态",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_544bbb500b48",
+      "split": "development",
+      "reference_shape_sha256": "3525b310f06946efa83a0e47e6218dbe99132aff52e75db3dd37c9a459336a5e"
+    },
+    {
+      "case_id": "CMDB-027",
+      "question": "查询区域region_guian4下各VDC的ECS数量和运行中ECS数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_a69c5ff2c6a7",
+      "split": "development",
+      "reference_shape_sha256": "0a8aa2e5c173372198940b0b125a820e77782f1b5dcf8b293f280d5f4f5dca1f"
+    },
+    {
+      "case_id": "CMDB-028",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_b2d21089e2b2",
+      "split": "development",
+      "reference_shape_sha256": "fa47a571624c478d8d4e2f7a5dffa35053e11c71ceecd731ef03ea84ac1abd04"
+    },
+    {
+      "case_id": "CMDB-029",
+      "question": "查询区域region_guian4各租户的业务实例有哪些，要实例名、类型和IP",
+      "resources": [
+        "ELB",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_00f6b15f725b",
+      "split": "regression",
+      "reference_shape_sha256": "6d913ee79d67cb3afe0fd2abfddb1ef34a51789f9de75269053aa3c86467ec03"
+    },
+    {
+      "case_id": "CMDB-030",
+      "question": "@dda96bcd@18718925@这个IP是哪台虚拟机的，它跑在哪台宿主机上",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3839221b6af6",
+      "split": "regression",
+      "reference_shape_sha256": "80918cc95b222f9b5d51ed8d6c9bce92e4b58fce772435d2742e8e83511b4d29"
+    },
+    {
+      "case_id": "CMDB-033",
+      "question": "54098a30这个IP是哪台弹性IP，绑定了哪台ECS",
+      "resources": [
+        "FLOATING_IPS",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_30a5a869a4d2",
+      "split": "development",
+      "reference_shape_sha256": "2a7c0bcd18a52982d9638e2875d315edcc8ce1f669dc91fd35fe6980a83713dc"
+    },
+    {
+      "case_id": "CMDB-034",
+      "question": "查询部署节点IPbba98a99对应的部署节点名称和所属云服务",
+      "resources": [
+        "S_DeployNode"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_bc8146f46e14",
+      "split": "development",
+      "reference_shape_sha256": "72a1327cd5f929a5f5db70e4f499f830f1553424757f71de89ed5d19daf83f63"
+    },
+    {
+      "case_id": "CMDB-036",
+      "question": "宿主机kvm-10上目前有多少台处于ACTIVE状态的虚拟机",
+      "resources": [
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_0f965e1413f2",
+      "split": "development",
+      "reference_shape_sha256": "18548d4df8e25a738e7e3c2787716494bf5a5f37220046346e38a4c1c20b03c3"
+    },
+    {
+      "case_id": "CMDB-039",
+      "question": "kvm_group1集群下宿主机和虚拟机的对应关系",
+      "resources": [
+        "CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_ccf0b32f032f",
+      "split": "development",
+      "reference_shape_sha256": "c27283c8b618d428e6351f7dd1fa46823300e69c83c953782d1a25ec11d4e725"
+    },
+    {
+      "case_id": "CMDB-040",
+      "question": "kvm_group1集群下有多少台宿主机，每台宿主机上跑了多少虚拟机",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_fc8a8e6fda00",
+      "split": "development",
+      "reference_shape_sha256": "a20b18b7dd3bd20f7bc5a08d8bcfc900c413a087c8597653914ece37630a930c"
+    },
+    {
+      "case_id": "CMDB-041",
+      "question": "查询宿主机kvm-10上ECS按状态分布",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_dccfb5b585a4",
+      "split": "development",
+      "reference_shape_sha256": "85a854e7ce800b58a9390ce71b40b057a3208485e10fc5c36d4d942c53a9ac17"
+    },
+    {
+      "case_id": "CMDB-042",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的完整归属链（VM→宿主机→物理机）",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3c6758b90464",
+      "split": "development",
+      "reference_shape_sha256": "c969bf472990c65725edc3b55916cbd902ba81526be7a2044789354673d5b84b"
+    },
+    {
+      "case_id": "CMDB-043",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1跑在哪台宿主机上",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3c9be0d9c896",
+      "split": "development",
+      "reference_shape_sha256": "a8b035bf1bf3c3671e7935d91c8b22eb7a3dfd47054d9ca39cd05e406574b457"
+    },
+    {
+      "case_id": "CMDB-044",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1属于哪个集群、哪个可用区",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7c8d2f3e52ce",
+      "split": "development",
+      "reference_shape_sha256": "f0c771138974a72b39fadba3a3932c311ed2e2c62890454a2996994dc62a2996"
+    },
+    {
+      "case_id": "CMDB-045",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1关联的镜像信息",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_78275815e2e4",
+      "split": "development",
+      "reference_shape_sha256": "dff5ea544a9e69dee13a8e4d75cd1548224a730b33bb426c83b850011797a32b"
+    },
+    {
+      "case_id": "CMDB-046",
+      "question": "查询宿主机kvm-10关联的物理服务器CPU架构",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c6c3476c81b5",
+      "split": "development",
+      "reference_shape_sha256": "ba88de78dcef29f6ca565f93569854a0a6a162f6cba030a19f2e1fb71c20a139"
+    },
+    {
+      "case_id": "CMDB-047",
+      "question": "查询集群kvm_group1下所有宿主机列表及资源总量",
+      "resources": [
+        "CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_94864e611f0b",
+      "split": "development",
+      "reference_shape_sha256": "0ddeb6ac37e9c0df3b260168387cc1777831da6a7e4bb51dfb29f8b86eec86ea"
+    },
+    {
+      "case_id": "CMDB-048",
+      "question": "集群kvm_group1下宿主机的IP和虚拟化类型，每台宿主机上跑了多少虚拟机",
+      "resources": [
+        "CLUSTER"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c653ea5fd403",
+      "split": "regression",
+      "reference_shape_sha256": "da174419c1dc848dbec0d17ebfb60bdc78208420b6529015924d8d01b4058c27"
+    },
+    {
+      "case_id": "CMDB-049",
+      "question": "查询区域region_guian4可用区az0.dc0中各集群的宿主机数量、vCPU总量和运行中虚拟机数量",
+      "resources": [
+        "CLUSTER"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_00e938e04d60",
+      "split": "development",
+      "reference_shape_sha256": "4f70936d30483979b3e136399ee0d5f5e33475d151cfdfabeb74530418db8d71"
+    },
+    {
+      "case_id": "CMDB-050",
+      "question": "查询区域region_guian4可用区az0.dc0中集群kvm_group1下宿主机、VM及挂载云硬盘的端到端拓扑",
+      "resources": [
+        "CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_ce7ad1da3672",
+      "split": "development",
+      "reference_shape_sha256": "9b78cc9483b66d58d0e0a4d7e17766f0fda7a4f82c1a902d7954b1c586cc47d0"
+    },
+    {
+      "case_id": "CMDB-051",
+      "question": "查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_cf0b6b3e073b",
+      "split": "regression",
+      "reference_shape_sha256": "c993bb482be4e1c29ced9fa04524fc1a2ac9ebb2f734c574389e634f4e94bce6"
+    },
+    {
+      "case_id": "CMDB-052",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例列表",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_adc814892538",
+      "split": "development",
+      "reference_shape_sha256": "687fe5a19739f6d0c617abe38cb84d5de8cb2d54fdb74952163b72343fedaed0"
+    },
+    {
+      "case_id": "CMDB-053",
+      "question": "查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_adc814892538",
+      "split": "development",
+      "reference_shape_sha256": "9c6bca5e002cec5308bdcc7fdf2af8c78ee7a094d2e536f34e6aba93ad19d6b2"
+    },
+    {
+      "case_id": "CMDB-055",
+      "question": "查询区域region_guian4可用区az0.dc0中所有ECS的IP列表和租户归属",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_4b247f38fc7d",
+      "split": "regression",
+      "reference_shape_sha256": "159264da46817333a8aab1a6aed0bb0e23d239a0f1faf7f2d97b3c1fb9e30686"
+    },
+    {
+      "case_id": "CMDB-056",
+      "question": "查询区域region_guian4下各租户在各个可用区中的ECS实例名和IP",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_2607e2e5e6a8",
+      "split": "development",
+      "reference_shape_sha256": "14e2787ed296df726c638eebfe2d4070be151567889c8c80f407a3c97f416c01"
+    },
+    {
+      "case_id": "CMDB-057",
+      "question": "查询区域region_guian4下关联了弹性IP的ECS实例名和固定IP",
+      "resources": [
+        "FLOATING_IPS",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_b34c877c6c9f",
+      "split": "regression",
+      "reference_shape_sha256": "07cfac9bec6b2516286f5fae518311d513045c78cfb17dea7e777cc4c1089f68"
+    },
+    {
+      "case_id": "CMDB-060",
+      "question": "查询VDCpaas-aom在区域region_guian4可用区az0.dc0中各租户的ECS实例名和IP",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_65bcd8fdd4d2",
+      "split": "development",
+      "reference_shape_sha256": "6cbeb23cc8ac875ca395898962c9b8623779336f7e5b9cffd3f0636b21707d8c"
+    },
+    {
+      "case_id": "CMDB-061",
+      "question": "查询区域region_guian4下运行中的ECS实例名、IP和所属规格",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_237e959c08a5",
+      "split": "regression",
+      "reference_shape_sha256": "03b74ec7b6c716f1dd1ff0cae857c3f6929fe29fc52fa9849bf6fda64b48903e"
+    },
+    {
+      "case_id": "CMDB-066",
+      "question": "查询区域region_guian4下各VDC的ECS数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_36fee206cc94",
+      "split": "regression",
+      "reference_shape_sha256": "53eaa3a4549a5eb9b767f25cf73a2ef9343c2dbf2cd54a4d9d7c12e9a801d63f"
+    },
+    {
+      "case_id": "CMDB-067",
+      "question": "查询区域region_guian4下各VDC的ECS实例数量、云硬盘数量和云硬盘总容量",
+      "resources": [
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_eaf0a69e0c43",
+      "split": "development",
+      "reference_shape_sha256": "ffc96209b902381be01bfb1a5b6ed4950fc527c94568c56c2b3d57fed244f3c4"
+    },
+    {
+      "case_id": "CMDB-068",
+      "question": "查询区域region_guian4下ECS数量、云硬盘数量和VPC数量",
+      "resources": [
+        "ROUTER",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_5d0a96ca8958",
+      "split": "development",
+      "reference_shape_sha256": "d0678450ad0070ed2a2d289f16ed4951aa9c4401bd3bd98af533ed5aaf4be2c8"
+    },
+    {
+      "case_id": "CMDB-069",
+      "question": "查询区域region_guian4所有VDC中各VDC的ECS数量、云硬盘数量和VPC数量",
+      "resources": [
+        "ROUTER",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_31d99ba40229",
+      "split": "development",
+      "reference_shape_sha256": "d04d0dc3f8fba855f944bfe9aa387fafe05009aa295dd930417688bcb2662058"
+    },
+    {
+      "case_id": "CMDB-071",
+      "question": "帮我统计系统中各虚拟化类型的宿主机数量分布",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_31474299db3b",
+      "split": "development",
+      "reference_shape_sha256": "8839986d423158b8875d3fc98cc8ae727b0acb31f0793865ede505834a69c141"
+    },
+    {
+      "case_id": "CMDB-073",
+      "question": "查询区域region_guian4下各可用区的宿主机数量",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_f8726a66c2c0",
+      "split": "development",
+      "reference_shape_sha256": "9c0eb9fb25414a86b31d676cfe17e5af7fe2ddaa0d9bb7f924cace079a4447e2"
+    },
+    {
+      "case_id": "CMDB-074",
+      "question": "帮我查询可用区az0.dc0下宿主机的CPU架构分布情况",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_a25a3ca4c890",
+      "split": "development",
+      "reference_shape_sha256": "f7f597fa39e991778f9db970251d72f0ca99c25bc4998454c9a0bd08ed69da8f"
+    },
+    {
+      "case_id": "CMDB-075",
+      "question": "查询区域region_guian4可用区az0.dc0下宿主机的CPU架构分布",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_a25a3ca4c890",
+      "split": "development",
+      "reference_shape_sha256": "7c398eb345cc7548fb0599529bd24f92b8150d64260c51794727d755c9586718"
+    },
+    {
+      "case_id": "CMDB-077",
+      "question": "查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_d003d8307a24",
+      "split": "development",
+      "reference_shape_sha256": "983936a579d0203f503b30d98327d49289df388f057e590988375ed97e6b3fa8"
+    },
+    {
+      "case_id": "CMDB-078",
+      "question": "查询区域region_guian4下宿主机按状态分布",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_5e7115aa066a",
+      "split": "regression",
+      "reference_shape_sha256": "de9f4dacf98cbce71be183bbd6a00e2ce7cd9320e5866a6feec125b7076e7edb"
+    },
+    {
+      "case_id": "CMDB-080",
+      "question": "查询区域region_guian4下物理服务器CPU架构类型统计",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_d003d8307a24",
+      "split": "development",
+      "reference_shape_sha256": "983936a579d0203f503b30d98327d49289df388f057e590988375ed97e6b3fa8"
+    },
+    {
+      "case_id": "CMDB-081",
+      "question": "查询区域贵安4虚拟内所有物理服务器的CPU架构类型、所属可用区和关联宿主机上的虚拟机数量",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_92a97fcec665",
+      "split": "development",
+      "reference_shape_sha256": "034403093a49c0d36e1ca0038fd131c39825b00d7062dad36510ba1808398e9f"
+    },
+    {
+      "case_id": "CMDB-084",
+      "question": "查询区域region_guian4下vCPU分配率最高的前5台宿主机",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_a84091f82d3e",
+      "split": "regression",
+      "reference_shape_sha256": "ce2a3c7e3f9979bb1ae67d6b03b2855dc2f759e891bd3bb8f4ee894e737ef3cb"
+    },
+    {
+      "case_id": "CMDB-085",
+      "question": "查询可用区az0.dc0下内存剩余量最大的前3台宿主机",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_81de2a913caa",
+      "split": "development",
+      "reference_shape_sha256": "401cd42fee59c2938758fde7e6b73cbaef3832576e4d53e937b2e96d3992ed0b"
+    },
+    {
+      "case_id": "CMDB-086",
+      "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU和CPU架构",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_78897adc666e",
+      "split": "development",
+      "reference_shape_sha256": "17a16a1fc1444989640d9d766e5e376151ddd2368f1b5a37b4cd53f7d82a8b98"
+    },
+    {
+      "case_id": "CMDB-087",
+      "question": "查询宿主机9EAE8CF9-63F0-D196-EE11-C7830A72D98C的IP和资源配置，上面跑了多少虚拟机",
+      "resources": [
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_458053e3be9b",
+      "split": "development",
+      "reference_shape_sha256": "48c327a5cf6afea10f0ad172b344b8413e3d084f8c9f0725d1fe632a924b543d"
+    },
+    {
+      "case_id": "CMDB-088",
+      "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_4eae3f5f2a8a",
+      "split": "development",
+      "reference_shape_sha256": "43347a9302a4dc5ce1fa05cbc6049f253b46e5fb4c9b3bf82342312cc3e8b060"
+    },
+    {
+      "case_id": "CMDB-089",
+      "question": "查询部署节点APIGWLB-01_roma-guian-4的管理IP信息",
+      "resources": [
+        "S_DeployNode"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_f5e26471db86",
+      "split": "development",
+      "reference_shape_sha256": "5b44871ae35da9c950d8add26bdea94fcdb775979b1023cea511c7eaef7e649b"
+    },
+    {
+      "case_id": "CMDB-090",
+      "question": "查询区域region_guian4下各VDC的管理虚拟机名称、IP和所属云服务",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7ea4b5e58ff1",
+      "split": "development",
+      "reference_shape_sha256": "416c7ef23af97715d16bd6448a196ddcc8826fa8633266fbd6f84d468576e816"
+    },
+    {
+      "case_id": "CMDB-091",
+      "question": "查询型号为Atlas 800T A2的服务器数量及分布情况",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7aa484b2284f",
+      "split": "development",
+      "reference_shape_sha256": "61d3b3afa91d6a7be827c608157da2184ea2abc1dc9a6bf0f863ef479dfe6a06"
+    },
+    {
+      "case_id": "CMDB-092",
+      "question": "查询厂商为Huawei的服务器列表，包括主机名、IP地址、CPU型号、CPU架构",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_314e9adc8a8b",
+      "split": "development",
+      "reference_shape_sha256": "2ad6f28dd21d99d2566c2a50a182463e2e72118882ad06a75b12ffe581d47725"
+    },
+    {
+      "case_id": "CMDB-093",
+      "question": "查询区域region_guian4下各厂商的物理服务器数量分布",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c2597cc2e05b",
+      "split": "development",
+      "reference_shape_sha256": "9f0dcec775b2f251f362f49e763ff708823ecdf781458c5571d1401745833df4"
+    },
+    {
+      "case_id": "CMDB-096",
+      "question": "Huawei厂商的服务器在哪些区域分布最多",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_8ac2ce4cdc4c",
+      "split": "development",
+      "reference_shape_sha256": "800dce98aa759dcf34d6151bc4706a2d275be75a6d34e3b5b6b14acf56d7028c"
+    },
+    {
+      "case_id": "CMDB-097",
+      "question": "查询区域region_guian4下各集群中vCPU分配率超过80%的宿主机列表",
+      "resources": [
+        "HOST"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_45f345d1c43b",
+      "split": "development",
+      "reference_shape_sha256": "31f203d40a1daa23991565c55c92f268f878d8b6253cbb50d20850b24ab0a24c"
+    },
+    {
+      "case_id": "CMDB-102",
+      "question": "资产状态为报废的设备有多少台，分别属于哪些类别",
+      "resources": [
+        "S_Device"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_d1608b2f7185",
+      "split": "development",
+      "reference_shape_sha256": "93a947537012b72c606c5e11af677132a00d18a97ddf8719a762920d1bd8e2ae"
+    },
+    {
+      "case_id": "CMDB-104",
+      "question": "查询X86服务器的基本信息",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_85ae5d11c706",
+      "split": "development",
+      "reference_shape_sha256": "25bfb384e306eb25060bf818db82e57ad937885ec289daf790744d51dc936458"
+    },
+    {
+      "case_id": "CMDB-105",
+      "question": "查询区域region_guian4下交换机数量和路由器数量",
+      "resources": [
+        "S_Router",
+        "S_Switch"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_10c2a6955c19",
+      "split": "development",
+      "reference_shape_sha256": "43a404d7248ac736fb22b9a161a56660fa6b47f2130f38675bd9b8bea567fe9d"
+    },
+    {
+      "case_id": "CMDB-106",
+      "question": "查询区域region_guian4下X86服务器列表",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_1e19be3c4465",
+      "split": "development",
+      "reference_shape_sha256": "6babfd45168f53805b25edac328d4abdb9e530709b672fc94232d7c95f821cfb"
+    },
+    {
+      "case_id": "CMDB-107",
+      "question": "查询区域region_guian4下各区域的物理服务器数量",
+      "resources": [
+        "S_X86Server"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7aa484b2284f",
+      "split": "development",
+      "reference_shape_sha256": "32faf8319b7ef3f2fd10af4fb48a54a805dc0f594fc7b3178840016736bf3eb1"
+    },
+    {
+      "case_id": "CMDB-108",
+      "question": "查询区域region_guian4下物理设备按类型分布（服务器/交换机/存储设备）",
+      "resources": [
+        "S_Device"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_d1608b2f7185",
+      "split": "development",
+      "reference_shape_sha256": "58545511f45e04e9f03768800742a93feab474ef7369c58aee7b608150873032"
+    },
+    {
+      "case_id": "CMDB-110",
+      "question": "查询区域region_guian4下各租户的ECS虚拟机数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_5cfc25338a55",
+      "split": "development",
+      "reference_shape_sha256": "675059b26f86b41d649cd5e1149055ca02d908ce5cf91d41277ce3712667aec4"
+    },
+    {
+      "case_id": "CMDB-112",
+      "question": "查询租户AdvanceService_System_VDC的ECS虚拟机列表",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_de865b5ba7bc",
+      "split": "development",
+      "reference_shape_sha256": "6bbf429341777b08f35a36c2f69680bfb238838b46ece2d2377253c03a30025c"
+    },
+    {
+      "case_id": "CMDB-113",
+      "question": "查询云服务ApiCom的微服务实例部署节点信息",
+      "resources": [
+        "S_CloudService"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_999594074d62",
+      "split": "regression",
+      "reference_shape_sha256": "84bdf6731b20d90e7489b24519f292ea7c4378a73f291aa65638e0aee4e48286"
+    },
+    {
+      "case_id": "CMDB-114",
+      "question": "云服务ApiCom的微服务部署在哪些节点上，节点类型是虚拟机还是物理机",
+      "resources": [
+        "S_CloudService"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_5e0f81b50410",
+      "split": "development",
+      "reference_shape_sha256": "1c99b6c4450734dcd25b5e05fa64f5461cbcd05a87c2098fda6dbc9e896f0c7e"
+    },
+    {
+      "case_id": "CMDB-115",
+      "question": "查询区域region_guian4下各云服务的微服务实例数量",
+      "resources": [
+        "S_CloudService"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_533b993c5d11",
+      "split": "development",
+      "reference_shape_sha256": "242f7e27d7be9d3c55bb68dd84cf4043bb37284debf322eda557ebfd213b4a47"
+    },
+    {
+      "case_id": "CMDB-116",
+      "question": "查询区域region_guian4下部署节点按hostClass(VM/PM)分布",
+      "resources": [
+        "S_DeployNode"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_5a7bfd5400ff",
+      "split": "development",
+      "reference_shape_sha256": "b7f469821c9b5e354fd3ceb8f6275f7aebb2295cab70d2c37b4224e0a06ec4f9"
+    },
+    {
+      "case_id": "CMDB-118",
+      "question": "查询部署节点APIGWLB-01_roma-guian-4关联的管理虚拟机信息",
+      "resources": [
+        "S_DeployNode"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_ff16a37c42f9",
+      "split": "development",
+      "reference_shape_sha256": "73dad41f7fd5ba640f7619d95e31664226b49da51994a5f641515a5093d6b364"
+    },
+    {
+      "case_id": "CMDB-121",
+      "question": "帮我统计所有云硬盘按状态和类型的分布情况",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7deb079262a8",
+      "split": "development",
+      "reference_shape_sha256": "e3a2b7819e684397f4578baae8d0cf7a1c3d2e38644aeb688185f005e1d3bb11"
+    },
+    {
+      "case_id": "CMDB-122",
+      "question": "云硬盘都有哪些状态，各有多少，容量最大的是哪个",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_607350e7cfa9",
+      "split": "development",
+      "reference_shape_sha256": "d6f0716f1feb9006595aef8b73ef1dc706ca4bcf32a08543b98405a9c2e14ea5"
+    },
+    {
+      "case_id": "CMDB-123",
+      "question": "当前处于异常状态的云硬盘有多少块，分别是什么类型",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_92aebcb3c208",
+      "split": "regression",
+      "reference_shape_sha256": "f6c7cd992fa73e45a5f4c1168f2efe8c539ad873509207110504ded70129b5e4"
+    },
+    {
+      "case_id": "CMDB-127",
+      "question": "可启动云硬盘在所有云硬盘中占比多少",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_af310e860b7d",
+      "split": "development",
+      "reference_shape_sha256": "736aea16864a54dfa31d1a0533651a47bcbec4cc29f5892450eddcddca0e894d"
+    },
+    {
+      "case_id": "CMDB-128",
+      "question": "查询区域region_guian4可用区az0.dc0中可启动云硬盘列表",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_84e3208cb9d6",
+      "split": "development",
+      "reference_shape_sha256": "d6f46b418a6fc8167027f96c9a241dd25b20556d7be19b554fcd8756d5257f2f"
+    },
+    {
+      "case_id": "CMDB-130",
+      "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_04cf9c2de9e5",
+      "split": "development",
+      "reference_shape_sha256": "47b65ac72c9a94aea4d69f147ee6c2c69e7687426c04fbd1455a99c4b389d7b9"
+    },
+    {
+      "case_id": "CMDB-132",
+      "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_04cf9c2de9e5",
+      "split": "development",
+      "reference_shape_sha256": "47b65ac72c9a94aea4d69f147ee6c2c69e7687426c04fbd1455a99c4b389d7b9"
+    },
+    {
+      "case_id": "CMDB-133",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的云硬盘列表及容量",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_cb35e4efd947",
+      "split": "development",
+      "reference_shape_sha256": "1ac4706b1d7e4387d49bc4beda241d79185952460b3cd4974eaa45cebb65d76f"
+    },
+    {
+      "case_id": "CMDB-134",
+      "question": "帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1挂载的所有云硬盘",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_031be497f330",
+      "split": "development",
+      "reference_shape_sha256": "0adcf406ec9a6a12c58a02616275b39e094c8722ae20b6b57d8db1f00772e053"
+    },
+    {
+      "case_id": "CMDB-135",
+      "question": "ECScse-engine-cluster-roma-guian-4-3-master-1挂载的云硬盘中哪些是系统盘，哪些是数据盘",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_1cb5a74f7f78",
+      "split": "development",
+      "reference_shape_sha256": "dc410065c393882ad69658f25581c7852fddc1b09d1cc7f08284ef7cce8a86ef"
+    },
+    {
+      "case_id": "CMDB-136",
+      "question": "帮我查询云硬盘functiongraph-manager-9oslr-volume-0000挂载到了哪台ECS实例",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6a945d10a02c",
+      "split": "development",
+      "reference_shape_sha256": "143bdaf54c2e023600e0859129b5b485a5e4c1a1d38c0bd2454024e2e4df95b8"
+    },
+    {
+      "case_id": "CMDB-137",
+      "question": "云硬盘functiongraph-manager-9oslr-volume-0000当前是否已挂载",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_19ad4cb62203",
+      "split": "development",
+      "reference_shape_sha256": "8d04df27f756b083b5d54dd44a7409a2d9bb9bc6c9e4710f673dbc43dc26c909"
+    },
+    {
+      "case_id": "CMDB-139",
+      "question": "查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "STORAGE_POOL"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_db01934372fd",
+      "split": "development",
+      "reference_shape_sha256": "cdeeb2b81c4234356aa5cc7f734067706b1d94096e598a44065f0c8703fba726"
+    },
+    {
+      "case_id": "CMDB-140",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1挂载的云硬盘中容量最大的一个，返回名称和容量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_a78c975c7946",
+      "split": "development",
+      "reference_shape_sha256": "a9193aae914e330e76097ad935e8f7d0477bb23753fa9a74cc9bef74092361e1"
+    },
+    {
+      "case_id": "CMDB-141",
+      "question": "帮我查询存储池cinder-kvm003@bussiness_storage02#0的容量使用情况",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_98f0ff4686b4",
+      "split": "development",
+      "reference_shape_sha256": "f3b13a3000be5461d57f6b5fdf67cf55efd9546c9ec6cc643da6ff24c819c522"
+    },
+    {
+      "case_id": "CMDB-143",
+      "question": "查询区域region_guian4下各可用区的存储池容量使用情况",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_f7b2c4953930",
+      "split": "development",
+      "reference_shape_sha256": "bfab57b31660ad85201ec563594cdd483a11ecd63fc124ef66c2a83bab8a4fac"
+    },
+    {
+      "case_id": "CMDB-144",
+      "question": "查询可用区az0.dc0下各存储池的已用容量和使用率，按使用率降序",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_17c7adb762e8",
+      "split": "development",
+      "reference_shape_sha256": "02d7bf729c5d1e191cf4ca36580127c43b6960cdda869b2f3c619f5632e32d83"
+    },
+    {
+      "case_id": "CMDB-147",
+      "question": "查询区域region_guian4下各可用区的存储池名称、磁盘类型、物理容量总量、已用量、可用量和超配比",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_12051264dbfb",
+      "split": "development",
+      "reference_shape_sha256": "435820a36731b9216b7c3f71b07d6e987477dd31fd7310313be5f7588a2c46aa"
+    },
+    {
+      "case_id": "CMDB-148",
+      "question": "查询区域region_guian4下OBS桶列表",
+      "resources": [
+        "OBS_BUCKET"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_4f119b5befa6",
+      "split": "development",
+      "reference_shape_sha256": "d99692ee740cc1f7098ae2a538e7464540a847867198a970cc23d2648047c07b"
+    },
+    {
+      "case_id": "CMDB-149",
+      "question": "查询租户AdvanceService_System_VDC的OBS桶数量和总容量",
+      "resources": [
+        "OBS_BUCKET"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6db81d470fa1",
+      "split": "development",
+      "reference_shape_sha256": "8d1ebbd7b8d1fcdfbd313ec31a0552013c1d2adae11b9227ce0531ee844677e3"
+    },
+    {
+      "case_id": "CMDB-150",
+      "question": "查询区域region_guian4下各租户的OBS桶数量",
+      "resources": [
+        "OBS_BUCKET"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6df2777c5d10",
+      "split": "regression",
+      "reference_shape_sha256": "00b7b79829864389c985642d2355355951731413a8000c28c70cdd9e0dcea469"
+    },
+    {
+      "case_id": "CMDB-151",
+      "question": "查询区域region_guian4下各VDC的云硬盘平均容量和最大容量",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_2356ef1f265f",
+      "split": "development",
+      "reference_shape_sha256": "3ac5d55257f2bf461d38331a56bc29098f65803331cbf99733dd6dac4ff4e2e9"
+    },
+    {
+      "case_id": "CMDB-152",
+      "question": "查询区域region_guian4下挂载云硬盘数量最多的前5台ECS，返回ECS名和挂载数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_cc1f92959225",
+      "split": "development",
+      "reference_shape_sha256": "f6b4a69c51e31bdcf47db4c657fbb53fdf2375194c635f82e1f187f6e24723dc"
+    },
+    {
+      "case_id": "CMDB-153",
+      "question": "查询区域region_guian4下各厂商存储池的总容量和可用容量",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_661d06dee6eb",
+      "split": "development",
+      "reference_shape_sha256": "fb05012d578071cc6d8ef290b638715bd6609455ee8dc059bfb0ef0b8aa984b9"
+    },
+    {
+      "case_id": "CMDB-154",
+      "question": "查询区域region_guian4下GaussDB实例按规格分布",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c328dcd1871c",
+      "split": "development",
+      "reference_shape_sha256": "9b91bcc656890029c8155bc3302bc6dcf6867346b25378e01cc524adac11a20f"
+    },
+    {
+      "case_id": "CMDB-156",
+      "question": "查询区域region_guian4下各VDC的GaussDB实例数量和总存储容量",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c1e5e3c0315e",
+      "split": "development",
+      "reference_shape_sha256": "c3d79fee612bfc2cb9f2be6525a1e4450c275fd32a7c649c32975393e10bb342"
+    },
+    {
+      "case_id": "CMDB-158",
+      "question": "查询GaussDB实例gauss-dbmind-4463使用的ECS实例",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c72955c6edf9",
+      "split": "development",
+      "reference_shape_sha256": "d56163c3ff8695f6798c725f1da7a2ecabd4062b0a15affe82fdab8fd3a6a760"
+    },
+    {
+      "case_id": "CMDB-161",
+      "question": "一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机",
+      "resources": [
+        "ROUTER"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_292a998bf6e9",
+      "split": "development",
+      "reference_shape_sha256": "bb1b8ad7f95414cb7aecbc7bd4ddbe074d1c92ba1e625daa80916b6a7a50e40e"
+    },
+    {
+      "case_id": "CMDB-163",
+      "question": "查询区域region_guian4下各VDC的VPC数量",
+      "resources": [
+        "ROUTER"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6bb74460de58",
+      "split": "development",
+      "reference_shape_sha256": "7b75fc05e1943a5d5c10e3eab9cadc6d977c7c86ee2c165ca4293e0d60cc789f"
+    },
+    {
+      "case_id": "CMDB-165",
+      "question": "帮我查询所有共享网络的清单",
+      "resources": [
+        "NETWORK"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_ee366b58337e",
+      "split": "development",
+      "reference_shape_sha256": "7ec083d693c06e72d4cb5c200b0ec3d6ca1f77bd839bba8b516407787a661f37"
+    },
+    {
+      "case_id": "CMDB-166",
+      "question": "共享网络中providerNetworkType为vlan的有多少个",
+      "resources": [
+        "NETWORK"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_805483348f4b",
+      "split": "development",
+      "reference_shape_sha256": "a6005472412a89cb5c0d2ae7e0ba8c8d2914e6ead19a58063068d39f85ebb4c3"
+    },
+    {
+      "case_id": "CMDB-167",
+      "question": "查询区域region_guian4下共享网络数量",
+      "resources": [
+        "NETWORK"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_367a8749ad19",
+      "split": "development",
+      "reference_shape_sha256": "ee1740d396180f449ac189b54350d158f3cb6966771446b664542c619f19e25a"
+    },
+    {
+      "case_id": "CMDB-169",
+      "question": "查询区域region_guian4下各VDC的弹性IP数量",
+      "resources": [
+        "FLOATING_IPS"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_2ba5893cc6f9",
+      "split": "regression",
+      "reference_shape_sha256": "74132d3356792a35d5d69ce514164a4b98c660c083edbce3ecfe85ad59f6106b"
+    },
+    {
+      "case_id": "CMDB-170",
+      "question": "查询区域region_guian4下所有未绑定EIP的列表",
+      "resources": [
+        "FLOATING_IPS"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_b04486bedc3a",
+      "split": "development",
+      "reference_shape_sha256": "d6ac98c7bd475794bcae9f377dac1c632211f9664d90c27881730f868cff5c43"
+    },
+    {
+      "case_id": "CMDB-173",
+      "question": "查询区域region_guian4下ELB列表及监听器",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_bab38e77317f",
+      "split": "development",
+      "reference_shape_sha256": "bbd7576e545af051923ba0f48d9146fbb95012828287dccc669acf0205293da9"
+    },
+    {
+      "case_id": "CMDB-174",
+      "question": "查询ELBcloudpipeline_backend_elb的监听器列表",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_94b16876c433",
+      "split": "development",
+      "reference_shape_sha256": "bee5991f4ec92d06b1e41c37d0c200caab387e8677985568c3508a3208b9ea70"
+    },
+    {
+      "case_id": "CMDB-175",
+      "question": "查询ELBcloudpipeline_backend_elb的监听器列表和监听端口",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_83d025adc797",
+      "split": "development",
+      "reference_shape_sha256": "d98ea2a7bdcfdca4978de5d05469d77415429e85016bad806f639eb5c3726199"
+    },
+    {
+      "case_id": "CMDB-176",
+      "question": "查询ELBcloudpipeline_backend_elb关联的弹性IP",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_072ea81996c4",
+      "split": "development",
+      "reference_shape_sha256": "233cd17c34aa034067b4e46fb9767e16dbc3d315d143b20a1b10e9950eb60217"
+    },
+    {
+      "case_id": "CMDB-179",
+      "question": "查询区域region_guian4下ELB按监听协议分布",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_688d97812199",
+      "split": "development",
+      "reference_shape_sha256": "64d00ebff802bf9211517fa65bf02f58332b136b96c31b9c7390491e033b9e69"
+    },
+    {
+      "case_id": "CMDB-180",
+      "question": "查询区域region_guian4下ELB数量",
+      "resources": [
+        "ELB"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_9eb2f13ea64c",
+      "split": "development",
+      "reference_shape_sha256": "b120ccf6daf1fbeb3df9a3bc11ca16bf37a129c09bbbc70cd14ca2ba15f44550"
+    },
+    {
+      "case_id": "CMDB-181",
+      "question": "帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1的网卡端口及关联的子网信息",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7c26105d8a25",
+      "split": "development",
+      "reference_shape_sha256": "9525d93639be19a2254e96385f26dcf62e6f8e336263bff64a27841966905211"
+    },
+    {
+      "case_id": "CMDB-182",
+      "question": "ECScse-engine-cluster-roma-guian-4-3-master-1有几块网卡，分别关联的子网CIDR是什么",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3f5901eee3be",
+      "split": "development",
+      "reference_shape_sha256": "49c8f1585a68854c24bcb95a62c0501f1fd690e409be19a1152ec7d8b7a51c2a"
+    },
+    {
+      "case_id": "CMDB-183",
+      "question": "查询ECS rds-a357-1的网卡列表",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_667c8c69386d",
+      "split": "development",
+      "reference_shape_sha256": "02368a66c4f74a184413ce6b44b64422d9df8fe804046b807156595d366cf5c8"
+    },
+    {
+      "case_id": "CMDB-184",
+      "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的网卡关联的安全组",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_4f5891cea3bc",
+      "split": "development",
+      "reference_shape_sha256": "e1ed115a34fc0bd678d40887c2a674bb0123117518bc06ab7a9f1bff2f605410"
+    },
+    {
+      "case_id": "CMDB-185",
+      "question": "查询子网OM_ECMP下有哪些网卡端口",
+      "resources": [
+        "SUBNET"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_da996190a4f7",
+      "split": "regression",
+      "reference_shape_sha256": "29aaa557b75b80d6050f41ffb41e9724c7f0b22e853ed88fd96a62e49a2bece5"
+    },
+    {
+      "case_id": "CMDB-187",
+      "question": "安全组default中哪些规则允许了外部访问，关联了多少个端口",
+      "resources": [
+        "SECURITY_GROUP",
+        "SECURITY_GROUP_RULE"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_b461a842ba60",
+      "split": "development",
+      "reference_shape_sha256": "553768cf35fa3dcd92526809e3e71733021ccb658fcfeee7c78129ff5dfb248f"
+    },
+    {
+      "case_id": "CMDB-188",
+      "question": "查询安全组default关联的端口列表及端口所属的ECS",
+      "resources": [
+        "SECURITY_GROUP"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_42ed00f25062",
+      "split": "development",
+      "reference_shape_sha256": "d7d3116893ba11a9d08fdf7769e95201185e8da03204fc4d38dba9b96eccc210"
+    },
+    {
+      "case_id": "CMDB-189",
+      "question": "查询所有的安全组列表及规则数量",
+      "resources": [
+        "ROUTER",
+        "SECURITY_GROUP"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_d5a3a102144b",
+      "split": "regression",
+      "reference_shape_sha256": "9cc33272889974dd73f4d01eea356c5e2494934fe85f99592ce4cd001b6f29f4"
+    },
+    {
+      "case_id": "CMDB-190",
+      "question": "查询区域region_guian4下各VDC的安全组数量和规则总数",
+      "resources": [
+        "SECURITY_GROUP"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_517581cf0133",
+      "split": "regression",
+      "reference_shape_sha256": "984a201726169a94f2e425fcf0830b8ac3fe9ce1ef3f2a6342345281eef8feb5"
+    },
+    {
+      "case_id": "CMDB-192",
+      "question": "VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP",
+      "resources": [
+        "FLOATING_IPS",
+        "ROUTER"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_4569c0ddf536",
+      "split": "development",
+      "reference_shape_sha256": "dd8d6ddcb46ae4aba78f6efcdc00d9a5c4f7b6b89d088731d2c36a20fadedf19"
+    },
+    {
+      "case_id": "CMDB-194",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量",
+      "resources": [
+        "FLOATING_IPS",
+        "ROUTER",
+        "SUBNET"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_1926efdd1c4c",
+      "split": "development",
+      "reference_shape_sha256": "73c8edc135e5517b35fcb9b6155f2098f95abf2310599ec7829bc02263809370"
+    },
+    {
+      "case_id": "CMDB-196",
+      "question": "查询区域region_guian4下各VDC的VPC名称和子网数量",
+      "resources": [
+        "ROUTER"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_aaadd21edf12",
+      "split": "development",
+      "reference_shape_sha256": "a503262a742f6c71bd506ba95396aadb563d886d3118e625b42050308a64aee4"
+    },
+    {
+      "case_id": "CMDB-197",
+      "question": "查询区域region_guian4下各租户的弹性IP绑定状态",
+      "resources": [
+        "FLOATING_IPS"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_7b354d3793f7",
+      "split": "development",
+      "reference_shape_sha256": "60d12dd77d9b1a55b25bb6be1a7170290b4ba6059ec931241885d59d71e74351"
+    },
+    {
+      "case_id": "CMDB-199",
+      "question": "查询VPCdbs_resource_vpc_c_type下的子网列表及每个子网的IP使用率",
+      "resources": [
+        "ROUTER"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_1f6bd113a4b2",
+      "split": "development",
+      "reference_shape_sha256": "36fd9c056f56d9effcf97bccc11a1cb6bc884c4ef3b03aeb480c52f804a2abb1"
+    },
+    {
+      "case_id": "CMDB-200",
+      "question": "查询区域region_guian4下各VDC的VPC、子网、弹性IP和安全组数量汇总",
+      "resources": [
+        "FLOATING_IPS",
+        "ROUTER",
+        "SECURITY_GROUP",
+        "SUBNET"
+      ],
+      "operation": "group",
+      "api_steps": 4,
+      "sql_statements": 1,
+      "group_id": "group_36e1d1a42084",
+      "split": "development",
+      "reference_shape_sha256": "70f6e1275881e2465ea35fee84b7dbd851b0e570e3565d05b1f512449ef53508"
+    },
+    {
+      "case_id": "CMDB-202",
+      "question": "子网OM_ECMP的IP使用率是多少，还剩多少可用IP",
+      "resources": [
+        "SUBNET"
+      ],
+      "operation": "detail",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_08a0f426732d",
+      "split": "development",
+      "reference_shape_sha256": "488a377101ef2635d1e08fae1c68722a97cb72d6a6a05b5100cfd22ec28e2cb4"
+    },
+    {
+      "case_id": "CMDB-204",
+      "question": "查询区域region_guian4下子网数量和CIDR范围",
+      "resources": [
+        "SUBNET"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_9a19a7b1db54",
+      "split": "development",
+      "reference_shape_sha256": "6490cefd37be5e1d479c86a86cededeb8014be0ce5e56b5b51a757888aa86dac"
+    },
+    {
+      "case_id": "CMDB-206",
+      "question": "查询区域region_guian4下子网IP总量和已分配量",
+      "resources": [
+        "SUBNET"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_08a0f426732d",
+      "split": "development",
+      "reference_shape_sha256": "61b8a2d0a171665a7af6223bc36ca3f721b097154e883e99731325ed85638b0c"
+    },
+    {
+      "case_id": "CMDB-207",
+      "question": "查询区域region_guian4下网络节点列表",
+      "resources": [
+        "NET_NODE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_44b93606b1b1",
+      "split": "development",
+      "reference_shape_sha256": "7c26cc1bf7e2e9dce8520c99fa447191764caa47dbd2270f9deefec7a2678fbc"
+    },
+    {
+      "case_id": "CMDB-208",
+      "question": "查询虚拟防火墙demo-env-ecs的基本信息",
+      "resources": [
+        "VFW"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_1084efc3aed8",
+      "split": "development",
+      "reference_shape_sha256": "5c5b424cdd0c50a85c20b9b959ac46cee8fb5808451426e5ec1474c22beb8a08"
+    },
+    {
+      "case_id": "CMDB-210",
+      "question": "查询区域region_guian4下各VDC的虚拟防火墙数量",
+      "resources": [
+        "VFW"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_0ef13c3193b1",
+      "split": "regression",
+      "reference_shape_sha256": "fe832e47c76f84a6a90020d2678bbf7b4e771337e7c730086a40652120264824"
+    },
+    {
+      "case_id": "CMDB-212",
+      "question": "查询区域region_guian4下GaussDB实例清单及数据库版本",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_447591fad451",
+      "split": "development",
+      "reference_shape_sha256": "4bbed1a9b9d3c79fd7ddd35bdeda4b9b8a9c4761dfc2ebef26b19aed1457faff"
+    },
+    {
+      "case_id": "CMDB-214",
+      "question": "查询区域region_guian4下各引擎版本的GaussDB实例数量",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3558d51bef0f",
+      "split": "regression",
+      "reference_shape_sha256": "04b1b9c959f21ced5e6a80494485e941ec91752e66e42e22a820daf029835649"
+    },
+    {
+      "case_id": "CMDB-215",
+      "question": "查询区域region_guian4下GaussDB按haMode分布",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_cc963cf03daa",
+      "split": "regression",
+      "reference_shape_sha256": "b4613e50cfa7faeacfce30c17264e48739d0b3a873c6d5ef65b6b609330e41dd"
+    },
+    {
+      "case_id": "CMDB-217",
+      "question": "查询GaussDB实例gauss-dbmind-4463的引擎版本、高可用模式和规格",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_fbe6eafde653",
+      "split": "development",
+      "reference_shape_sha256": "6affcc8e46722fb5e8ce98a4ecea304bdac0d538bcc1c8d46d0b9c1f433fb3dd"
+    },
+    {
+      "case_id": "CMDB-218",
+      "question": "查询区域region_guian4中GaussDB实例的引擎版本和数据VIP",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_5d8d003fba90",
+      "split": "development",
+      "reference_shape_sha256": "f056b1f6fe738d453eb7c3c7de2d191b0cf8da97018efbecf7ae27fe1060b97d"
+    },
+    {
+      "case_id": "CMDB-219",
+      "question": "查询GaussDB实例gauss-dbmind-4463的节点数量和各节点名称",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "GAUSSDB_NODE"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_3ccb2952e4a4",
+      "split": "development",
+      "reference_shape_sha256": "eae894ff2c26612e26d867178162135147d7e29c3c6176ebf4feaa0ebb8ad015"
+    },
+    {
+      "case_id": "CMDB-220",
+      "question": "查询GaussDB实例gauss-dbmind-4463的高可用模式和数据VIP",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_93d403cd31b2",
+      "split": "regression",
+      "reference_shape_sha256": "ede62a23a77ac7ebb4ec3ff731507d60880b941ed26c3bac92d8d9ab4036d71d"
+    },
+    {
+      "case_id": "CMDB-221",
+      "question": "查询业务地址为690b8fb9的GaussDB实例名、主机名和所属租户",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_f7f5ad627a95",
+      "split": "development",
+      "reference_shape_sha256": "e86ee8e6489d5a8a28d721d35984e9ed425a40809de5e4b92c4ef660c519b5a8"
+    },
+    {
+      "case_id": "CMDB-223",
+      "question": "查询租户paas-aom下MySQL和PostgreSQL实例分别有多少个",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_13acb93f0352",
+      "split": "development",
+      "reference_shape_sha256": "7fa78772aef3d3593809b95877f023987f05b71acac7fb25f7200ae16369c35c"
+    },
+    {
+      "case_id": "CMDB-224",
+      "question": "查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6c28b08a4ff6",
+      "split": "development",
+      "reference_shape_sha256": "95a3f188ffa319f006ea6d97f7762e825f63940d353e960b09c2da1b4a7520b9"
+    },
+    {
+      "case_id": "CMDB-227",
+      "question": "查询中间件集群及关联中间件实例",
+      "resources": [
+        "MIDDLEWARE_CLUSTER"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_6a9550887b1c",
+      "split": "development",
+      "reference_shape_sha256": "1528527d8cf33ddf18bdd2b7413f6951adfe9fbacb6dcd27d57f771ca799b85d"
+    },
+    {
+      "case_id": "CMDB-229",
+      "question": "查询中间件集群数量",
+      "resources": [
+        "MIDDLEWARE_CLUSTER"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_9b1375608f40",
+      "split": "development",
+      "reference_shape_sha256": "98c645e25898e19c3ef1a136dcaefdcde433311ae32c66c72c10fe1af65f7d21"
+    },
+    {
+      "case_id": "CMDB-230",
+      "question": "查询中间件实例按管理状态分布",
+      "resources": [
+        "MIDDLEWARE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_77733a67d951",
+      "split": "development",
+      "reference_shape_sha256": "cd2d63cb96ee4a0769206314538a822d4bde5fd0882d3351af1220a30c6b4016"
+    },
+    {
+      "case_id": "CMDB-231",
+      "question": "查询租户paas-aom在区域region_guian4中的RDS实例名、引擎类型、版本和业务IP",
+      "resources": [
+        "GAUSSDB_INSTANCE"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_656ea5061ada",
+      "split": "development",
+      "reference_shape_sha256": "b595cf12f475cc8bbaab8429a9566d38576a0c0a13addf3314ae2599dc8753a9"
+    },
+    {
+      "case_id": "CMDB-234",
+      "question": "查询区域region_guian4下GaussDB实例按引擎版本分组数量和中间件按类型分组数量",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "MIDDLEWARE"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_278b91c5fbac",
+      "split": "development",
+      "reference_shape_sha256": "ac065a8928594af550ffa41def5997166849fb83f282bc4042d048c264051213"
+    },
+    {
+      "case_id": "CMDB-235",
+      "question": "查询区域region_guian4下GaussDB实例数量和中间件实例数量",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "MIDDLEWARE"
+      ],
+      "operation": "aggregate",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_28bb70803651",
+      "split": "regression",
+      "reference_shape_sha256": "7653c61dac1598ba4d47e2e9c5bddc24a9e109a41458d8770f0046d270898849"
+    },
+    {
+      "case_id": "CMDB-236",
+      "question": "查询CCE集群service-cm-cluster-roma-guian-4下的容器节点列表及节点IP",
+      "resources": [
+        "CCE_CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_278c1affe1a9",
+      "split": "development",
+      "reference_shape_sha256": "ba13eaaa23d869ce5ea2d2cd9dbed911fe974e66d7a6a2f21b3b9615907190de"
+    },
+    {
+      "case_id": "CMDB-237",
+      "question": "查询CCE工作负载列表",
+      "resources": [
+        "CCE_WORKLOAD"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_76e3c79074fe",
+      "split": "development",
+      "reference_shape_sha256": "8578923bb29159e0272fff73cca6f2939e5d26aba74db98aae6d97659e680158"
+    },
+    {
+      "case_id": "CMDB-238",
+      "question": "查询CCE集群service-cm-cluster-roma-guian-4下的Pod列表",
+      "resources": [
+        "CCE_CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_bab161651429",
+      "split": "regression",
+      "reference_shape_sha256": "f2eb72a6bc5e9965eecd39994a3860957b83658e9148f3a84db9e7f97617a149"
+    },
+    {
+      "case_id": "CMDB-239",
+      "question": "查询CCE集群service-cm-cluster-roma-guian-4下容器节点列表",
+      "resources": [
+        "CCE_CLUSTER"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_ccbadf2051b2",
+      "split": "development",
+      "reference_shape_sha256": "36704424beade11245fce9cfa396b1413f61f92843d99973e68502b8779cff8c"
+    },
+    {
+      "case_id": "CMDB-241",
+      "question": "查询ModelArts推理服务pool-aaaa及关联资源池和节点",
+      "resources": [
+        "MODELARTS_INF_SERVICE"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_3446693c59b9",
+      "split": "regression",
+      "reference_shape_sha256": "e8c859aecfbf996ffcadb4781589842dd2802d7d233201d1755c6512722c3cdf"
+    },
+    {
+      "case_id": "CMDB-243",
+      "question": "查询ModelArts推理模型列表",
+      "resources": [
+        "MODELARTS_INF_MODEL"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_8ebc244c9fae",
+      "split": "regression",
+      "reference_shape_sha256": "f4e06ea69bd8d70226f9d5b0467eac9008379164fc7f73eaeb4c88e73982af10"
+    },
+    {
+      "case_id": "CMDB-244",
+      "question": "查询区域region_guian4下ModelArts推理服务按状态分布",
+      "resources": [
+        "MODELARTS_INF_SERVICE"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_56bf0345e8b7",
+      "split": "development",
+      "reference_shape_sha256": "33be92436fd51836ea3188dfa35bb8b60f94ddcfa27a3debbf11bc28f9f575e8"
+    },
+    {
+      "case_id": "CMDB-247",
+      "question": "查询应用app-xy下各模块的名称和状态",
+      "resources": [
+        "Application"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_997ffff960bf",
+      "split": "development",
+      "reference_shape_sha256": "5d9d34d0bf8df5544610162d8bc4222de710e1598cf3deade758af759bc351f2"
+    },
+    {
+      "case_id": "CMDB-248",
+      "question": "查询应用app-xy下的应用组件实例列表",
+      "resources": [
+        "Application"
+      ],
+      "operation": "detail",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_fe7aa1ac0c1e",
+      "split": "development",
+      "reference_shape_sha256": "95cf55c21220a832df07cb432f4a4f91fdfb969deabf6d2f233678e0ead5c449"
+    },
+    {
+      "case_id": "CMDB-249",
+      "question": "查询应用app-xy下组件实例列表",
+      "resources": [
+        "Application",
+        "ApplicationModule",
+        "ApplicationModuleIns"
+      ],
+      "operation": "detail",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_040363a6f0d5",
+      "split": "development",
+      "reference_shape_sha256": "8ac7b5f03b84d00b9580357b0e3595b866a03848ec04ade8e911edc2ab9c33b6"
+    },
+    {
+      "case_id": "CMDB-251",
+      "question": "查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示",
+      "resources": [
+        "ROUTER",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_10accc3f0286",
+      "split": "development",
+      "reference_shape_sha256": "5bd855637c0e1b6d0ce9d13f152bcab926bfc11e0a8eb3d0f09abcaf731497c9"
+    },
+    {
+      "case_id": "CMDB-252",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例及规格、云硬盘列表及容量",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "detail",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_858b94c5363f",
+      "split": "development",
+      "reference_shape_sha256": "6846df1f0858f5a0b9e0e9bc82f663b317096e8186f298d64f53a2a53e466a1e"
+    },
+    {
+      "case_id": "CMDB-253",
+      "question": "查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_0bca2d5405e3",
+      "split": "development",
+      "reference_shape_sha256": "b7653b2d9b1f2f75d909cdfb7f5cdbe4c48967248656b136ed4a3c7227113f3e"
+    },
+    {
+      "case_id": "CMDB-255",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC、子网、弹性IP和安全组数量",
+      "resources": [
+        "FLOATING_IPS",
+        "ROUTER",
+        "SECURITY_GROUP",
+        "SUBNET"
+      ],
+      "operation": "aggregate",
+      "api_steps": 4,
+      "sql_statements": 1,
+      "group_id": "group_6f67c91a3c9a",
+      "split": "regression",
+      "reference_shape_sha256": "7e8c2236995d6615ed20fa009b7d2286d08aa3cb7d8964983d1bd4e4bc098791"
+    },
+    {
+      "case_id": "CMDB-256",
+      "question": "查询区域region_guian4下各租户的ECS实例数量、云硬盘数量、云硬盘总容量和ECS规格分布",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_9ef94dc8a532",
+      "split": "development",
+      "reference_shape_sha256": "1f4d18377e8bfdc8958b0878f65e495e987485aeb688e296f3211ab891be9647"
+    },
+    {
+      "case_id": "CMDB-258",
+      "question": "查询区域region_guian4下各VDC的VPC、子网、弹性IP、安全组和ELB数量汇总",
+      "resources": [
+        "ELB",
+        "FLOATING_IPS",
+        "ROUTER",
+        "SECURITY_GROUP",
+        "SUBNET"
+      ],
+      "operation": "group",
+      "api_steps": 5,
+      "sql_statements": 1,
+      "group_id": "group_688d3c381187",
+      "split": "development",
+      "reference_shape_sha256": "ae54bbf37557e8f42a815cc4486b36af293bd4dc1f976643dba7fe985fcc77a3"
+    },
+    {
+      "case_id": "CMDB-259",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示",
+      "resources": [
+        "CLUSTER",
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_0b853740c909",
+      "split": "development",
+      "reference_shape_sha256": "5a7b8433baf8360106ba621159843dea201430112c380cb530dfbac0400f6fcd"
+    },
+    {
+      "case_id": "CMDB-260",
+      "question": "查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_f20c9a310641",
+      "split": "development",
+      "reference_shape_sha256": "1c60a55d204683a784c0bf9fa63282fd6afb342023adc5e01359ebccb1f65916"
+    },
+    {
+      "case_id": "CMDB-261",
+      "question": "查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘",
+      "resources": [
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_c079719dbc06",
+      "split": "development",
+      "reference_shape_sha256": "60ec3f67f3fb23b9ee6ea616292b26fb9c69729f6cc5359e89bd0756f5884071"
+    },
+    {
+      "case_id": "CMDB-262",
+      "question": "查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情",
+      "resources": [
+        "STORAGE_POOL",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_a6b82f62ab58",
+      "split": "development",
+      "reference_shape_sha256": "62bec7a49d581233eb3ca60eb19d22ff6d1bd2632ceede905e7b9819ea83df03"
+    },
+    {
+      "case_id": "CMDB-264",
+      "question": "查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机",
+      "resources": [
+        "CLUSTER",
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_0a6695654e30",
+      "split": "development",
+      "reference_shape_sha256": "db97d4208173e124c3ffb71ca065491519e5c7355196fbe94bac42dab661de93"
+    },
+    {
+      "case_id": "CMDB-265",
+      "question": "查询区域region_guian4下哪个VDC的ECS最多，该VDC中哪些ECS处于异常状态",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_2895eeb3a3b9",
+      "split": "regression",
+      "reference_shape_sha256": "ca894f8be9e0c92e2f56ed6e6c769bb0bd7466b34c49ece4b5f79908599c3689"
+    },
+    {
+      "case_id": "CMDB-267",
+      "question": "查询应用app-xy下组件实例列表",
+      "resources": [
+        "Application",
+        "ApplicationModule",
+        "ApplicationModuleIns"
+      ],
+      "operation": "detail",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_040363a6f0d5",
+      "split": "development",
+      "reference_shape_sha256": "0ad876ca5a348c9c0201cd24e48244cd55196105d1409621f03b1f7436c57619"
+    },
+    {
+      "case_id": "CMDB-268",
+      "question": "查询区域region_guian4下IP使用率最高的子网，列出该子网下所有端口的IP和MAC",
+      "resources": [
+        "PORT",
+        "SUBNET"
+      ],
+      "operation": "group",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_df6f19806a31",
+      "split": "regression",
+      "reference_shape_sha256": "ff765437675be697bf1c8fa7d0f54a5d5ae05805466499cf6a39990fc4c73f08"
+    },
+    {
+      "case_id": "CMDB-269",
+      "question": "查询区域region_guian4下ECS实例名和租户",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_4f90ea02ec92",
+      "split": "development",
+      "reference_shape_sha256": "d11253960eac3495de8947e6945439c60a7503c24082623e5eebe3604a8efafe"
+    },
+    {
+      "case_id": "CMDB-270",
+      "question": "查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量",
+      "resources": [
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_21c0560d174b",
+      "split": "regression",
+      "reference_shape_sha256": "cfc5e77b35095c40972f26fa59b93de6e1f95fd36ef5a53a4af9453bfdfb49d7"
+    },
+    {
+      "case_id": "CMDB-271",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各可用区的ECS运行中数量、停止数量和异常数量",
+      "resources": [
+        "VM_NOVA"
+      ],
+      "operation": "group",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_9fffcc79c872",
+      "split": "development",
+      "reference_shape_sha256": "40577b7a37edc070cbdb465d99e0c159bad2e41e57579c3b974c9269c9050862"
+    },
+    {
+      "case_id": "CMDB-274",
+      "question": "查询租户AdvanceService_System_VDC的ECS实例名和IP、云硬盘名称和容量、VPC名称列表",
+      "resources": [
+        "ROUTER",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_6e2416b92efd",
+      "split": "development",
+      "reference_shape_sha256": "432d755c374f02e1e772c9cd5246e4d3d926d72050a9e02d8ffc25e07ff09a66"
+    },
+    {
+      "case_id": "CMDB-275",
+      "question": "查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数",
+      "resources": [
+        "ELB",
+        "ELB_POOL_MEMBERS",
+        "LISTENER"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_f6e6660f758e",
+      "split": "development",
+      "reference_shape_sha256": "8f6240d4a57d1a4ed7b0be16b93c5cd5c233822a991e7f278b1ee180db612f20"
+    },
+    {
+      "case_id": "CMDB-281",
+      "question": "查询租户AdvanceService_System_VDC的GaussDB实例列表、GaussDB节点列表和关联虚拟机列表",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "GAUSSDB_NODE",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_42fddde3612d",
+      "split": "regression",
+      "reference_shape_sha256": "c468bf520c71cfa479556b07c095c4558d5ba0d316c12934b88f7a4d58bbf923"
+    },
+    {
+      "case_id": "CMDB-282",
+      "question": "查询区域region_guian4下物理设备总数、交换机数量和存储设备数量",
+      "resources": [
+        "S_Device",
+        "S_StorDevice",
+        "S_Switch"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_a3536086a2b3",
+      "split": "regression",
+      "reference_shape_sha256": "1e1d6571af9f33965185e895f5d3db56a58a0fa7aa7805684c58523e68298479"
+    },
+    {
+      "case_id": "CMDB-283",
+      "question": "查询可用区az0.dc0下存储池数量、总容量、已用容量和可用容量",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "operation": "aggregate",
+      "api_steps": 1,
+      "sql_statements": 1,
+      "group_id": "group_c8fb709fa611",
+      "split": "regression",
+      "reference_shape_sha256": "ccd0be6c96ac1245c1f84c28361ec3291ebf7b6cb005d60e123a2d0643d6bdf7"
+    },
+    {
+      "case_id": "CMDB-284",
+      "question": "查询区域region_guian4下各ModelArts推理服务数量、资源池数量和节点数量",
+      "resources": [
+        "MODELARTS_INF_NODE",
+        "MODELARTS_INF_POOL",
+        "MODELARTS_INF_SERVICE"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_7adede50d222",
+      "split": "development",
+      "reference_shape_sha256": "2d2ac615e3117233aa4b4a45b69a07e5979bd9879b2d178853d0b5e22b01f912"
+    },
+    {
+      "case_id": "CMDB-285",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4中ECS的vCPU总核数、内存总量和云硬盘总容量",
+      "resources": [
+        "FLAVOR",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_97b8afe4821d",
+      "split": "development",
+      "reference_shape_sha256": "ec48995c2736e0506d0028f05ef224e25eecfc2c6d18ff8a0a7d59a0873d6567"
+    },
+    {
+      "case_id": "CMDB-287",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量",
+      "resources": [
+        "FLOATING_IPS",
+        "ROUTER",
+        "SUBNET"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_6cf99b0628e4",
+      "split": "development",
+      "reference_shape_sha256": "6c00c5efd320f7b1cdffee856683f54dcdd40f741a6f3984fb156654990cd03e"
+    },
+    {
+      "case_id": "CMDB-288",
+      "question": "查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量",
+      "resources": [
+        "ELB",
+        "ELB_POOL",
+        "ELB_POOL_MEMBERS",
+        "LISTENER"
+      ],
+      "operation": "list",
+      "api_steps": 4,
+      "sql_statements": 1,
+      "group_id": "group_ca31c6c3e05c",
+      "split": "development",
+      "reference_shape_sha256": "b990d2e39802d617c4b3b9e58085a456473e9a4bcf62cc2120b839e369987556"
+    },
+    {
+      "case_id": "CMDB-289",
+      "question": "查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表",
+      "resources": [
+        "SECURITY_GROUP",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_d891824adb5c",
+      "split": "development",
+      "reference_shape_sha256": "dfcde505b1ac5a7b1d64d79ed07a3352e347e3d39152ebf8549855f2c2d15997"
+    },
+    {
+      "case_id": "CMDB-290",
+      "question": "查询可用区az0.dc0下宿主机列表、每台宿主机的VM数量和VM状态分布",
+      "resources": [
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 2,
+      "sql_statements": 1,
+      "group_id": "group_000c6f41b553",
+      "split": "development",
+      "reference_shape_sha256": "3301ad4ad9606aa21fbf4a1a77ce7c5c6e9a846e39491bb91ed169958e288e03"
+    },
+    {
+      "case_id": "CMDB-291",
+      "question": "查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量",
+      "resources": [
+        "GAUSSDB_INSTANCE",
+        "MIDDLEWARE",
+        "OBS_BUCKET"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_fa970e68cee8",
+      "split": "development",
+      "reference_shape_sha256": "4f77d7b76de193321f21091b7afb13b6088dd9499d59c295dd6fccdcf6f7e66e"
+    },
+    {
+      "case_id": "CMDB-297",
+      "question": "查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量",
+      "resources": [
+        "S_Router",
+        "S_Switch",
+        "VFW"
+      ],
+      "operation": "aggregate",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_1c1457740df9",
+      "split": "development",
+      "reference_shape_sha256": "fb0764192e03c0656152fedc2edff875d23d31bd4cf69565700503ca48968607"
+    },
+    {
+      "case_id": "CMDB-298",
+      "question": "查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表",
+      "resources": [
+        "FLOATING_IPS",
+        "HOST",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_ca8f431c4a97",
+      "split": "development",
+      "reference_shape_sha256": "d01a2379684274b40f4e0323fbb52aff47131a6a0162995a37c5f28f8690cbb6"
+    },
+    {
+      "case_id": "CMDB-299",
+      "question": "查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量",
+      "resources": [
+        "CCE_CLUSTER",
+        "CCE_NODE",
+        "VM_NOVA"
+      ],
+      "operation": "list",
+      "api_steps": 3,
+      "sql_statements": 1,
+      "group_id": "group_de54c72cce76",
+      "split": "development",
+      "reference_shape_sha256": "afbd1cefee58e311f820f673f0afb67f34b33a0a1fb225e1dbc8659ba31cba4a"
+    },
+    {
+      "case_id": "CMDB-300",
+      "question": "查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数",
+      "resources": [
+        "FLAVOR",
+        "GAUSSDB_NODE",
+        "VM_NOVA",
+        "VOLUME"
+      ],
+      "operation": "group",
+      "api_steps": 4,
+      "sql_statements": 1,
+      "group_id": "group_508f137ce262",
+      "split": "development",
+      "reference_shape_sha256": "e30f6c8bf78b0aea3cd1b67ae6bbe6a5c585a80dc84b2795d512197b0a4b8a6f"
+    }
+  ]
+}

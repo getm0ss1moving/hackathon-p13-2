@@ -1,0 +1,27 @@
+{
+  "query_rows": 222,
+  "retrieval_measurements": 2442,
+  "groups": 189,
+  "case_split": {
+    "development": 166,
+    "regression": 34
+  },
+  "strata": {
+    "group:single": 53,
+    "aggregate:single": 10,
+    "list:single": 38,
+    "detail:multi": 8,
+    "detail:single": 35,
+    "group:multi": 23,
+    "aggregate:multi": 16,
+    "list:multi": 17
+  },
+  "reference_checks": 17,
+  "reference_answer_score5": 17,
+  "fixed_template_answer_score5": 17,
+  "entity_generated": 4,
+  "process_peak_rss_bytes": 269451264,
+  "resource_scope": "single offline experiment process including original executor, excludes data-server child; Mac diagnostic only",
+  "source_hashes_unchanged": true,
+  "model_http_requests": 0
+}

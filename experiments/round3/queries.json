@@ -1,0 +1,2689 @@
+[
+  {
+    "id": "CMDB-001",
+    "source": "CMDB-001",
+    "question": "当前所有ECS实例按状态的分布情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_001"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6862f9d169d9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-004",
+    "source": "CMDB-004",
+    "question": "查询区域region_guian4下所有ECS实例按状态的分布情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_002"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6862f9d169d9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-005",
+    "source": "CMDB-005",
+    "question": "查询区域region_guian4下各可用区的ECS数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_003"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1aaf5ade5c4f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-010",
+    "source": "CMDB-010",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4可用区az0.dc0中的ECS有多少台",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_004"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_291a4bcd3450",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-011",
+    "source": "CMDB-011",
+    "question": "区域region_guian4下管理虚拟机和租户虚拟机分别有多少",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_005"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_38a1fa937dae",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-012",
+    "source": "CMDB-012",
+    "question": "az0.dc0里正在跑的ECS有哪些IP，分别属于哪个租户",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_006"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4b247f38fc7d",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-013",
+    "source": "CMDB-013",
+    "question": "查询区域region_guian4下各租户的ECS数量分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_007"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_38ae38957006",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-017",
+    "source": "CMDB-017",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的状态和规格",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_008"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4d12cf1ad4d9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-019",
+    "source": "CMDB-019",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的创建时间",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_009"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7d27373d03c3",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-020",
+    "source": "CMDB-020",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例名、规格和状态",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_010"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_bad9ae204aac",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-021",
+    "source": "CMDB-021",
+    "question": "查询ECS实例中使用最多的前10种规格",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_011"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9fef2bcaea72",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-022",
+    "source": "CMDB-022",
+    "question": "查询区域region_guian4下ECS实例中使用最多的前10种规格",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_012"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9fef2bcaea72",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-023",
+    "source": "CMDB-023",
+    "question": "ECS的规格配置是怎样的，1核2G的虚拟机有几台",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_013"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f0abfcfa470e",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-024",
+    "source": "CMDB-024",
+    "question": "规格为ManageOne-AutoOps的ECS实例目前有多少台",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_014"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_902e0f54c752",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-025",
+    "source": "CMDB-025",
+    "question": "查询区域region_guian4下各租户的ECS规格分布，按租户分别展示",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_015"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_bf62af015ad3",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-026",
+    "source": "CMDB-026",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4各可用区中的ECS实例名、规格和状态",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_016"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_544bbb500b48",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-027",
+    "source": "CMDB-027",
+    "question": "查询区域region_guian4下各VDC的ECS数量和运行中ECS数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_017"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a69c5ff2c6a7",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-028",
+    "source": "CMDB-028",
+    "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_018"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_b2d21089e2b2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-029",
+    "source": "CMDB-029",
+    "question": "查询区域region_guian4各租户的业务实例有哪些，要实例名、类型和IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_019"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_00f6b15f725b",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-030",
+    "source": "CMDB-030",
+    "question": "@dda96bcd@18718925@这个IP是哪台虚拟机的，它跑在哪台宿主机上",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_020"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3839221b6af6",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-033",
+    "source": "CMDB-033",
+    "question": "54098a30这个IP是哪台弹性IP，绑定了哪台ECS",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_021"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_30a5a869a4d2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-034",
+    "source": "CMDB-034",
+    "question": "查询部署节点IPbba98a99对应的部署节点名称和所属云服务",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_022"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_bc8146f46e14",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-036",
+    "source": "CMDB-036",
+    "question": "宿主机kvm-10上目前有多少台处于ACTIVE状态的虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_023"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_0f965e1413f2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-039",
+    "source": "CMDB-039",
+    "question": "kvm_group1集群下宿主机和虚拟机的对应关系",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_024"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ccf0b32f032f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-040",
+    "source": "CMDB-040",
+    "question": "kvm_group1集群下有多少台宿主机，每台宿主机上跑了多少虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_025"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_fc8a8e6fda00",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-041",
+    "source": "CMDB-041",
+    "question": "查询宿主机kvm-10上ECS按状态分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_026"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_dccfb5b585a4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-042",
+    "source": "CMDB-042",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的完整归属链（VM→宿主机→物理机）",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_027"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3c6758b90464",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-043",
+    "source": "CMDB-043",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1跑在哪台宿主机上",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_028"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3c9be0d9c896",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-044",
+    "source": "CMDB-044",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1属于哪个集群、哪个可用区",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_029"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7c8d2f3e52ce",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-045",
+    "source": "CMDB-045",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1关联的镜像信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_030"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_78275815e2e4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-046",
+    "source": "CMDB-046",
+    "question": "查询宿主机kvm-10关联的物理服务器CPU架构",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_031"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c6c3476c81b5",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-047",
+    "source": "CMDB-047",
+    "question": "查询集群kvm_group1下所有宿主机列表及资源总量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_032"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_94864e611f0b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-048",
+    "source": "CMDB-048",
+    "question": "集群kvm_group1下宿主机的IP和虚拟化类型，每台宿主机上跑了多少虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_033"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c653ea5fd403",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-049",
+    "source": "CMDB-049",
+    "question": "查询区域region_guian4可用区az0.dc0中各集群的宿主机数量、vCPU总量和运行中虚拟机数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_034"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_00e938e04d60",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-050",
+    "source": "CMDB-050",
+    "question": "查询区域region_guian4可用区az0.dc0中集群kvm_group1下宿主机、VM及挂载云硬盘的端到端拓扑",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_035"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ce7ad1da3672",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-051",
+    "source": "CMDB-051",
+    "question": "查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_036"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_cf0b6b3e073b",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-052",
+    "source": "CMDB-052",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_037"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_adc814892538",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-053",
+    "source": "CMDB-053",
+    "question": "查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_038"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_adc814892538",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-055",
+    "source": "CMDB-055",
+    "question": "查询区域region_guian4可用区az0.dc0中所有ECS的IP列表和租户归属",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_039"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4b247f38fc7d",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-056",
+    "source": "CMDB-056",
+    "question": "查询区域region_guian4下各租户在各个可用区中的ECS实例名和IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_040"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_2607e2e5e6a8",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-057",
+    "source": "CMDB-057",
+    "question": "查询区域region_guian4下关联了弹性IP的ECS实例名和固定IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_041"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_b34c877c6c9f",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-060",
+    "source": "CMDB-060",
+    "question": "查询VDCpaas-aom在区域region_guian4可用区az0.dc0中各租户的ECS实例名和IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_042"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_65bcd8fdd4d2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-061",
+    "source": "CMDB-061",
+    "question": "查询区域region_guian4下运行中的ECS实例名、IP和所属规格",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_043"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_237e959c08a5",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-066",
+    "source": "CMDB-066",
+    "question": "查询区域region_guian4下各VDC的ECS数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_044"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_36fee206cc94",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-067",
+    "source": "CMDB-067",
+    "question": "查询区域region_guian4下各VDC的ECS实例数量、云硬盘数量和云硬盘总容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_045"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_eaf0a69e0c43",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-068",
+    "source": "CMDB-068",
+    "question": "查询区域region_guian4下ECS数量、云硬盘数量和VPC数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_046"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5d0a96ca8958",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-069",
+    "source": "CMDB-069",
+    "question": "查询区域region_guian4所有VDC中各VDC的ECS数量、云硬盘数量和VPC数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_047"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_31d99ba40229",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-071",
+    "source": "CMDB-071",
+    "question": "帮我统计系统中各虚拟化类型的宿主机数量分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_048"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_31474299db3b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-073",
+    "source": "CMDB-073",
+    "question": "查询区域region_guian4下各可用区的宿主机数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_049"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f8726a66c2c0",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-074",
+    "source": "CMDB-074",
+    "question": "帮我查询可用区az0.dc0下宿主机的CPU架构分布情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_050"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a25a3ca4c890",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-075",
+    "source": "CMDB-075",
+    "question": "查询区域region_guian4可用区az0.dc0下宿主机的CPU架构分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_051"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a25a3ca4c890",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-077",
+    "source": "CMDB-077",
+    "question": "查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_052",
+      "rb_054"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d003d8307a24",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-078",
+    "source": "CMDB-078",
+    "question": "查询区域region_guian4下宿主机按状态分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_053"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5e7115aa066a",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-080",
+    "source": "CMDB-080",
+    "question": "查询区域region_guian4下物理服务器CPU架构类型统计",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_052",
+      "rb_054"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d003d8307a24",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-081",
+    "source": "CMDB-081",
+    "question": "查询区域贵安4虚拟内所有物理服务器的CPU架构类型、所属可用区和关联宿主机上的虚拟机数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_055"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_92a97fcec665",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-084",
+    "source": "CMDB-084",
+    "question": "查询区域region_guian4下vCPU分配率最高的前5台宿主机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_056"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a84091f82d3e",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-085",
+    "source": "CMDB-085",
+    "question": "查询可用区az0.dc0下内存剩余量最大的前3台宿主机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_057"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_81de2a913caa",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-086",
+    "source": "CMDB-086",
+    "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU和CPU架构",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_058"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_78897adc666e",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-087",
+    "source": "CMDB-087",
+    "question": "查询宿主机9EAE8CF9-63F0-D196-EE11-C7830A72D98C的IP和资源配置，上面跑了多少虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_059"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_458053e3be9b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-088",
+    "source": "CMDB-088",
+    "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_060"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4eae3f5f2a8a",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-089",
+    "source": "CMDB-089",
+    "question": "查询部署节点APIGWLB-01_roma-guian-4的管理IP信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_061"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f5e26471db86",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-090",
+    "source": "CMDB-090",
+    "question": "查询区域region_guian4下各VDC的管理虚拟机名称、IP和所属云服务",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_062"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7ea4b5e58ff1",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-091",
+    "source": "CMDB-091",
+    "question": "查询型号为Atlas 800T A2的服务器数量及分布情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_063"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7aa484b2284f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-092",
+    "source": "CMDB-092",
+    "question": "查询厂商为Huawei的服务器列表，包括主机名、IP地址、CPU型号、CPU架构",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_064"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_314e9adc8a8b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-093",
+    "source": "CMDB-093",
+    "question": "查询区域region_guian4下各厂商的物理服务器数量分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_065"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c2597cc2e05b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-096",
+    "source": "CMDB-096",
+    "question": "Huawei厂商的服务器在哪些区域分布最多",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_066"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_8ac2ce4cdc4c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-097",
+    "source": "CMDB-097",
+    "question": "查询区域region_guian4下各集群中vCPU分配率超过80%的宿主机列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_067"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_45f345d1c43b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-102",
+    "source": "CMDB-102",
+    "question": "资产状态为报废的设备有多少台，分别属于哪些类别",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_068"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d1608b2f7185",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-104",
+    "source": "CMDB-104",
+    "question": "查询X86服务器的基本信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_069"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_85ae5d11c706",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-105",
+    "source": "CMDB-105",
+    "question": "查询区域region_guian4下交换机数量和路由器数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_070"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_10c2a6955c19",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-106",
+    "source": "CMDB-106",
+    "question": "查询区域region_guian4下X86服务器列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_071"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1e19be3c4465",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-107",
+    "source": "CMDB-107",
+    "question": "查询区域region_guian4下各区域的物理服务器数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_072"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7aa484b2284f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-108",
+    "source": "CMDB-108",
+    "question": "查询区域region_guian4下物理设备按类型分布（服务器/交换机/存储设备）",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_073"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d1608b2f7185",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-110",
+    "source": "CMDB-110",
+    "question": "查询区域region_guian4下各租户的ECS虚拟机数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_074"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5cfc25338a55",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-112",
+    "source": "CMDB-112",
+    "question": "查询租户AdvanceService_System_VDC的ECS虚拟机列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_075"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_de865b5ba7bc",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-113",
+    "source": "CMDB-113",
+    "question": "查询云服务ApiCom的微服务实例部署节点信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_076"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_999594074d62",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-114",
+    "source": "CMDB-114",
+    "question": "云服务ApiCom的微服务部署在哪些节点上，节点类型是虚拟机还是物理机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_077"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5e0f81b50410",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-115",
+    "source": "CMDB-115",
+    "question": "查询区域region_guian4下各云服务的微服务实例数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_078"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_533b993c5d11",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-116",
+    "source": "CMDB-116",
+    "question": "查询区域region_guian4下部署节点按hostClass(VM/PM)分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_079"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5a7bfd5400ff",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-118",
+    "source": "CMDB-118",
+    "question": "查询部署节点APIGWLB-01_roma-guian-4关联的管理虚拟机信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_080"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ff16a37c42f9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-121",
+    "source": "CMDB-121",
+    "question": "帮我统计所有云硬盘按状态和类型的分布情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_081"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7deb079262a8",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-122",
+    "source": "CMDB-122",
+    "question": "云硬盘都有哪些状态，各有多少，容量最大的是哪个",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_082"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_607350e7cfa9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-123",
+    "source": "CMDB-123",
+    "question": "当前处于异常状态的云硬盘有多少块，分别是什么类型",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_083"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_92aebcb3c208",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-127",
+    "source": "CMDB-127",
+    "question": "可启动云硬盘在所有云硬盘中占比多少",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_084"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_af310e860b7d",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-128",
+    "source": "CMDB-128",
+    "question": "查询区域region_guian4可用区az0.dc0中可启动云硬盘列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_085"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_84e3208cb9d6",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-130",
+    "source": "CMDB-130",
+    "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_086",
+      "rb_087"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_04cf9c2de9e5",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-132",
+    "source": "CMDB-132",
+    "question": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_086",
+      "rb_087"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_04cf9c2de9e5",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-133",
+    "source": "CMDB-133",
+    "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的云硬盘列表及容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_088"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_cb35e4efd947",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-134",
+    "source": "CMDB-134",
+    "question": "帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1挂载的所有云硬盘",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_089"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_031be497f330",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-135",
+    "source": "CMDB-135",
+    "question": "ECScse-engine-cluster-roma-guian-4-3-master-1挂载的云硬盘中哪些是系统盘，哪些是数据盘",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_090"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1cb5a74f7f78",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-136",
+    "source": "CMDB-136",
+    "question": "帮我查询云硬盘functiongraph-manager-9oslr-volume-0000挂载到了哪台ECS实例",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_091"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6a945d10a02c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-137",
+    "source": "CMDB-137",
+    "question": "云硬盘functiongraph-manager-9oslr-volume-0000当前是否已挂载",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_092"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_19ad4cb62203",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-139",
+    "source": "CMDB-139",
+    "question": "查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_093"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_db01934372fd",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-140",
+    "source": "CMDB-140",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1挂载的云硬盘中容量最大的一个，返回名称和容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_094"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a78c975c7946",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-141",
+    "source": "CMDB-141",
+    "question": "帮我查询存储池cinder-kvm003@bussiness_storage02#0的容量使用情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_095"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_98f0ff4686b4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-143",
+    "source": "CMDB-143",
+    "question": "查询区域region_guian4下各可用区的存储池容量使用情况",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_096"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f7b2c4953930",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-144",
+    "source": "CMDB-144",
+    "question": "查询可用区az0.dc0下各存储池的已用容量和使用率，按使用率降序",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_097"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_17c7adb762e8",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-147",
+    "source": "CMDB-147",
+    "question": "查询区域region_guian4下各可用区的存储池名称、磁盘类型、物理容量总量、已用量、可用量和超配比",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_098"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_12051264dbfb",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-148",
+    "source": "CMDB-148",
+    "question": "查询区域region_guian4下OBS桶列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_099"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4f119b5befa6",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-149",
+    "source": "CMDB-149",
+    "question": "查询租户AdvanceService_System_VDC的OBS桶数量和总容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_100"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6db81d470fa1",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-150",
+    "source": "CMDB-150",
+    "question": "查询区域region_guian4下各租户的OBS桶数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_101"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6df2777c5d10",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-151",
+    "source": "CMDB-151",
+    "question": "查询区域region_guian4下各VDC的云硬盘平均容量和最大容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_102"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_2356ef1f265f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-152",
+    "source": "CMDB-152",
+    "question": "查询区域region_guian4下挂载云硬盘数量最多的前5台ECS，返回ECS名和挂载数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_103"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_cc1f92959225",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-153",
+    "source": "CMDB-153",
+    "question": "查询区域region_guian4下各厂商存储池的总容量和可用容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_104"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_661d06dee6eb",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-154",
+    "source": "CMDB-154",
+    "question": "查询区域region_guian4下GaussDB实例按规格分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_105"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c328dcd1871c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-156",
+    "source": "CMDB-156",
+    "question": "查询区域region_guian4下各VDC的GaussDB实例数量和总存储容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_106"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c1e5e3c0315e",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-158",
+    "source": "CMDB-158",
+    "question": "查询GaussDB实例gauss-dbmind-4463使用的ECS实例",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_107"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c72955c6edf9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-161",
+    "source": "CMDB-161",
+    "question": "一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_108"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_292a998bf6e9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-163",
+    "source": "CMDB-163",
+    "question": "查询区域region_guian4下各VDC的VPC数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_109"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6bb74460de58",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-165",
+    "source": "CMDB-165",
+    "question": "帮我查询所有共享网络的清单",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_110"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ee366b58337e",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-166",
+    "source": "CMDB-166",
+    "question": "共享网络中providerNetworkType为vlan的有多少个",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_111"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_805483348f4b",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-167",
+    "source": "CMDB-167",
+    "question": "查询区域region_guian4下共享网络数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_112"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_367a8749ad19",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-169",
+    "source": "CMDB-169",
+    "question": "查询区域region_guian4下各VDC的弹性IP数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_113"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_2ba5893cc6f9",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-170",
+    "source": "CMDB-170",
+    "question": "查询区域region_guian4下所有未绑定EIP的列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_114"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_b04486bedc3a",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-173",
+    "source": "CMDB-173",
+    "question": "查询区域region_guian4下ELB列表及监听器",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_115"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_bab38e77317f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-174",
+    "source": "CMDB-174",
+    "question": "查询ELBcloudpipeline_backend_elb的监听器列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_116"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_94b16876c433",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-175",
+    "source": "CMDB-175",
+    "question": "查询ELBcloudpipeline_backend_elb的监听器列表和监听端口",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_117"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_83d025adc797",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-176",
+    "source": "CMDB-176",
+    "question": "查询ELBcloudpipeline_backend_elb关联的弹性IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_118"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_072ea81996c4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-179",
+    "source": "CMDB-179",
+    "question": "查询区域region_guian4下ELB按监听协议分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_119"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_688d97812199",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-180",
+    "source": "CMDB-180",
+    "question": "查询区域region_guian4下ELB数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_120"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9eb2f13ea64c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-181",
+    "source": "CMDB-181",
+    "question": "帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1的网卡端口及关联的子网信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_121"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7c26105d8a25",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-182",
+    "source": "CMDB-182",
+    "question": "ECScse-engine-cluster-roma-guian-4-3-master-1有几块网卡，分别关联的子网CIDR是什么",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_122"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3f5901eee3be",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-183",
+    "source": "CMDB-183",
+    "question": "查询ECS rds-a357-1的网卡列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_123"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_667c8c69386d",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-184",
+    "source": "CMDB-184",
+    "question": "查询ECScse-engine-cluster-roma-guian-4-3-master-1的网卡关联的安全组",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_124"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4f5891cea3bc",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-185",
+    "source": "CMDB-185",
+    "question": "查询子网OM_ECMP下有哪些网卡端口",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_125"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_da996190a4f7",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-187",
+    "source": "CMDB-187",
+    "question": "安全组default中哪些规则允许了外部访问，关联了多少个端口",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_126"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_b461a842ba60",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-188",
+    "source": "CMDB-188",
+    "question": "查询安全组default关联的端口列表及端口所属的ECS",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_127"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_42ed00f25062",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-189",
+    "source": "CMDB-189",
+    "question": "查询所有的安全组列表及规则数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_128"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d5a3a102144b",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-190",
+    "source": "CMDB-190",
+    "question": "查询区域region_guian4下各VDC的安全组数量和规则总数",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_129"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_517581cf0133",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-192",
+    "source": "CMDB-192",
+    "question": "VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_130"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4569c0ddf536",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-194",
+    "source": "CMDB-194",
+    "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_131"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1926efdd1c4c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-196",
+    "source": "CMDB-196",
+    "question": "查询区域region_guian4下各VDC的VPC名称和子网数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_132"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_aaadd21edf12",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-197",
+    "source": "CMDB-197",
+    "question": "查询区域region_guian4下各租户的弹性IP绑定状态",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_133"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7b354d3793f7",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-199",
+    "source": "CMDB-199",
+    "question": "查询VPCdbs_resource_vpc_c_type下的子网列表及每个子网的IP使用率",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_134"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1f6bd113a4b2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-200",
+    "source": "CMDB-200",
+    "question": "查询区域region_guian4下各VDC的VPC、子网、弹性IP和安全组数量汇总",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_135"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_36e1d1a42084",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-202",
+    "source": "CMDB-202",
+    "question": "子网OM_ECMP的IP使用率是多少，还剩多少可用IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_136"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_08a0f426732d",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-204",
+    "source": "CMDB-204",
+    "question": "查询区域region_guian4下子网数量和CIDR范围",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_137"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9a19a7b1db54",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-206",
+    "source": "CMDB-206",
+    "question": "查询区域region_guian4下子网IP总量和已分配量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_138"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_08a0f426732d",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-207",
+    "source": "CMDB-207",
+    "question": "查询区域region_guian4下网络节点列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_139"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_44b93606b1b1",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-208",
+    "source": "CMDB-208",
+    "question": "查询虚拟防火墙demo-env-ecs的基本信息",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_140"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1084efc3aed8",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-210",
+    "source": "CMDB-210",
+    "question": "查询区域region_guian4下各VDC的虚拟防火墙数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_141"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_0ef13c3193b1",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-212",
+    "source": "CMDB-212",
+    "question": "查询区域region_guian4下GaussDB实例清单及数据库版本",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_142"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_447591fad451",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-214",
+    "source": "CMDB-214",
+    "question": "查询区域region_guian4下各引擎版本的GaussDB实例数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_143"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3558d51bef0f",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-215",
+    "source": "CMDB-215",
+    "question": "查询区域region_guian4下GaussDB按haMode分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_144"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_cc963cf03daa",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-217",
+    "source": "CMDB-217",
+    "question": "查询GaussDB实例gauss-dbmind-4463的引擎版本、高可用模式和规格",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_145"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_fbe6eafde653",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-218",
+    "source": "CMDB-218",
+    "question": "查询区域region_guian4中GaussDB实例的引擎版本和数据VIP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_146"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_5d8d003fba90",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-219",
+    "source": "CMDB-219",
+    "question": "查询GaussDB实例gauss-dbmind-4463的节点数量和各节点名称",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_147"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3ccb2952e4a4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-220",
+    "source": "CMDB-220",
+    "question": "查询GaussDB实例gauss-dbmind-4463的高可用模式和数据VIP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_148"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_93d403cd31b2",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-221",
+    "source": "CMDB-221",
+    "question": "查询业务地址为690b8fb9的GaussDB实例名、主机名和所属租户",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_149"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f7f5ad627a95",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-223",
+    "source": "CMDB-223",
+    "question": "查询租户paas-aom下MySQL和PostgreSQL实例分别有多少个",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_150"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_13acb93f0352",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-224",
+    "source": "CMDB-224",
+    "question": "查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_151"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6c28b08a4ff6",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-227",
+    "source": "CMDB-227",
+    "question": "查询中间件集群及关联中间件实例",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_152"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6a9550887b1c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-229",
+    "source": "CMDB-229",
+    "question": "查询中间件集群数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_153"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9b1375608f40",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-230",
+    "source": "CMDB-230",
+    "question": "查询中间件实例按管理状态分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_154"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_77733a67d951",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-231",
+    "source": "CMDB-231",
+    "question": "查询租户paas-aom在区域region_guian4中的RDS实例名、引擎类型、版本和业务IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_155"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_656ea5061ada",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-234",
+    "source": "CMDB-234",
+    "question": "查询区域region_guian4下GaussDB实例按引擎版本分组数量和中间件按类型分组数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_156"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_278b91c5fbac",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-235",
+    "source": "CMDB-235",
+    "question": "查询区域region_guian4下GaussDB实例数量和中间件实例数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_157"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_28bb70803651",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-236",
+    "source": "CMDB-236",
+    "question": "查询CCE集群service-cm-cluster-roma-guian-4下的容器节点列表及节点IP",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_158"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_278c1affe1a9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-237",
+    "source": "CMDB-237",
+    "question": "查询CCE工作负载列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_159"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_76e3c79074fe",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-238",
+    "source": "CMDB-238",
+    "question": "查询CCE集群service-cm-cluster-roma-guian-4下的Pod列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_160"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_bab161651429",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-239",
+    "source": "CMDB-239",
+    "question": "查询CCE集群service-cm-cluster-roma-guian-4下容器节点列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_161"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ccbadf2051b2",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-241",
+    "source": "CMDB-241",
+    "question": "查询ModelArts推理服务pool-aaaa及关联资源池和节点",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_162"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_3446693c59b9",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-243",
+    "source": "CMDB-243",
+    "question": "查询ModelArts推理模型列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_163"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_8ebc244c9fae",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-244",
+    "source": "CMDB-244",
+    "question": "查询区域region_guian4下ModelArts推理服务按状态分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_164"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_56bf0345e8b7",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-247",
+    "source": "CMDB-247",
+    "question": "查询应用app-xy下各模块的名称和状态",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_165"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_997ffff960bf",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-248",
+    "source": "CMDB-248",
+    "question": "查询应用app-xy下的应用组件实例列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_166"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_fe7aa1ac0c1e",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-249",
+    "source": "CMDB-249",
+    "question": "查询应用app-xy下组件实例列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_167",
+      "rb_180"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_040363a6f0d5",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-251",
+    "source": "CMDB-251",
+    "question": "查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_168"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_10accc3f0286",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-252",
+    "source": "CMDB-252",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例及规格、云硬盘列表及容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_169"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_858b94c5363f",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-253",
+    "source": "CMDB-253",
+    "question": "查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_170"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_0bca2d5405e3",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-255",
+    "source": "CMDB-255",
+    "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC、子网、弹性IP和安全组数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_171"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6f67c91a3c9a",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-256",
+    "source": "CMDB-256",
+    "question": "查询区域region_guian4下各租户的ECS实例数量、云硬盘数量、云硬盘总容量和ECS规格分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_172"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9ef94dc8a532",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-258",
+    "source": "CMDB-258",
+    "question": "查询区域region_guian4下各VDC的VPC、子网、弹性IP、安全组和ELB数量汇总",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_173"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_688d3c381187",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-259",
+    "source": "CMDB-259",
+    "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_174"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_0b853740c909",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-260",
+    "source": "CMDB-260",
+    "question": "查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_175"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f20c9a310641",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-261",
+    "source": "CMDB-261",
+    "question": "查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_176"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c079719dbc06",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-262",
+    "source": "CMDB-262",
+    "question": "查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_177"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a6b82f62ab58",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-264",
+    "source": "CMDB-264",
+    "question": "查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_178"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_0a6695654e30",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-265",
+    "source": "CMDB-265",
+    "question": "查询区域region_guian4下哪个VDC的ECS最多，该VDC中哪些ECS处于异常状态",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_179"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_2895eeb3a3b9",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-267",
+    "source": "CMDB-267",
+    "question": "查询应用app-xy下组件实例列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_167",
+      "rb_180"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_040363a6f0d5",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-268",
+    "source": "CMDB-268",
+    "question": "查询区域region_guian4下IP使用率最高的子网，列出该子网下所有端口的IP和MAC",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_181"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_df6f19806a31",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-269",
+    "source": "CMDB-269",
+    "question": "查询区域region_guian4下ECS实例名和租户",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_182"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_4f90ea02ec92",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-270",
+    "source": "CMDB-270",
+    "question": "查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_183"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_21c0560d174b",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-271",
+    "source": "CMDB-271",
+    "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各可用区的ECS运行中数量、停止数量和异常数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_184"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_9fffcc79c872",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-274",
+    "source": "CMDB-274",
+    "question": "查询租户AdvanceService_System_VDC的ECS实例名和IP、云硬盘名称和容量、VPC名称列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_185"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6e2416b92efd",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-275",
+    "source": "CMDB-275",
+    "question": "查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_186"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_f6e6660f758e",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-281",
+    "source": "CMDB-281",
+    "question": "查询租户AdvanceService_System_VDC的GaussDB实例列表、GaussDB节点列表和关联虚拟机列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_187"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_42fddde3612d",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-282",
+    "source": "CMDB-282",
+    "question": "查询区域region_guian4下物理设备总数、交换机数量和存储设备数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_188"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_a3536086a2b3",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-283",
+    "source": "CMDB-283",
+    "question": "查询可用区az0.dc0下存储池数量、总容量、已用容量和可用容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_189"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_c8fb709fa611",
+    "split": "regression"
+  },
+  {
+    "id": "CMDB-284",
+    "source": "CMDB-284",
+    "question": "查询区域region_guian4下各ModelArts推理服务数量、资源池数量和节点数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_190"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_7adede50d222",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-285",
+    "source": "CMDB-285",
+    "question": "查询租户AdvanceService_System_VDC在区域region_guian4中ECS的vCPU总核数、内存总量和云硬盘总容量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_191"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_97b8afe4821d",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-287",
+    "source": "CMDB-287",
+    "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_192"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_6cf99b0628e4",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-288",
+    "source": "CMDB-288",
+    "question": "查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_193"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ca31c6c3e05c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-289",
+    "source": "CMDB-289",
+    "question": "查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_194"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_d891824adb5c",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-290",
+    "source": "CMDB-290",
+    "question": "查询可用区az0.dc0下宿主机列表、每台宿主机的VM数量和VM状态分布",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_195"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_000c6f41b553",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-291",
+    "source": "CMDB-291",
+    "question": "查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_196"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_fa970e68cee8",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-297",
+    "source": "CMDB-297",
+    "question": "查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_197"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_1c1457740df9",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-298",
+    "source": "CMDB-298",
+    "question": "查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_198"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_ca8f431c4a97",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-299",
+    "source": "CMDB-299",
+    "question": "查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_199"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_de54c72cce76",
+    "split": "development"
+  },
+  {
+    "id": "CMDB-300",
+    "source": "CMDB-300",
+    "question": "查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数",
+    "kind": "original_linkage",
+    "accepted_ids": [
+      "rb_200"
+    ],
+    "review": "example linkage plus exact execution duplicates; incomplete capability labels",
+    "group_id": "group_508f137ce262",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-001",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_001"
+    ],
+    "source": "CMDB-001",
+    "question": "请按运行状态分组，统计全部ECS实例各有几台。",
+    "review": "全部ECS；status分组计数，不增加区域或状态过滤",
+    "group_id": "group_6862f9d169d9",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-004",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_002"
+    ],
+    "source": "CMDB-004",
+    "question": "仅看区域region_guian4，汇总ECS各状态的实例数。",
+    "review": "原区域不变；status分组计数",
+    "group_id": "group_6862f9d169d9",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-005",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_003"
+    ],
+    "source": "CMDB-005",
+    "question": "region_guian4每个可用区各有几台ECS？",
+    "review": "原区域不变；azoneName分组计数",
+    "group_id": "group_1aaf5ade5c4f",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-010",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_004"
+    ],
+    "source": "CMDB-010",
+    "question": "在region_guian4的az0.dc0内，租户AdvanceService_System_VDC共有几台ECS？",
+    "review": "租户、区域、可用区三条件不变；仅总数",
+    "group_id": "group_291a4bcd3450",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-017",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_008"
+    ],
+    "source": "CMDB-017",
+    "question": "ECS实例cse-engine-cluster-roma-guian-4-3-master-1当前是什么状态，其规格配置是什么？",
+    "review": "实例名不变；状态及FLAVOR规格，多步查询",
+    "group_id": "group_4d12cf1ad4d9",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-019",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_009"
+    ],
+    "source": "CMDB-019",
+    "question": "ECS实例cse-engine-cluster-roma-guian-4-3-master-1是在什么时候创建的？",
+    "review": "实例名不变；创建时间",
+    "group_id": "group_7d27373d03c3",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-071",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_048"
+    ],
+    "source": "CMDB-071",
+    "question": "按照虚拟化类型分组，分别统计系统中宿主机的台数。",
+    "review": "全量宿主机；虚拟化类型分组计数",
+    "group_id": "group_31474299db3b",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-121",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_081"
+    ],
+    "source": "CMDB-121",
+    "question": "全量云硬盘按状态及类型分组，各组合分别有几块？",
+    "review": "不增加筛选；状态与类型联合分组计数",
+    "group_id": "group_7deb079262a8",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-130",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_086",
+      "rb_087"
+    ],
+    "source": "CMDB-130",
+    "question": "region_guian4中每个VDC有几块云硬盘，容量合计是多少？",
+    "review": "原区域不变；各VDC数量及容量求和",
+    "group_id": "group_04cf9c2de9e5",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-163",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_109"
+    ],
+    "source": "CMDB-163",
+    "question": "在region_guian4内，分别统计每个VDC拥有的VPC个数。",
+    "review": "原区域不变；VDC分组VPC计数",
+    "group_id": "group_6bb74460de58",
+    "split": "development"
+  },
+  {
+    "id": "paraphrase_CMDB-214",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_143"
+    ],
+    "source": "CMDB-214",
+    "question": "region_guian4内GaussDB各引擎版本分别有多少实例？",
+    "review": "原区域不变；引擎版本分组计数",
+    "group_id": "group_3558d51bef0f",
+    "split": "regression"
+  },
+  {
+    "id": "paraphrase_CMDB-235",
+    "kind": "paraphrase_linkage",
+    "accepted_ids": [
+      "rb_157"
+    ],
+    "source": "CMDB-235",
+    "question": "分别给出region_guian4的GaussDB实例总数和中间件实例总数。",
+    "review": "原区域不变；两个资源分别计数，保留多结果语义",
+    "group_id": "group_28bb70803651",
+    "split": "regression"
+  },
+  {
+    "id": "fragment_vm_status",
+    "question": "ECS 状态分布",
+    "resources": [
+      "VM_NOVA"
+    ],
+    "sql_pattern": "GROUP\\s+BY\\s+(?:CLOUD_VM_NOVA\\.)?status\\b",
+    "review": "未指定区域，允许全量和区域条件能力族，非唯一模板答案",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_001",
+      "rb_002"
+    ],
+    "group_id": "fragment_vm_status",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "fragment_volume_capacity",
+    "question": "云硬盘 数量 总容量",
+    "resources": [
+      "VOLUME"
+    ],
+    "sql_pattern": "SUM\\(size\\)",
+    "review": "未指定分组维度；接受同资源且包含容量求和的多个能力",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_086",
+      "rb_087"
+    ],
+    "group_id": "fragment_volume_capacity",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "fragment_server_arch",
+    "question": "物理服务器 CPU架构 统计",
+    "resources": [
+      "S_X86Server"
+    ],
+    "sql_pattern": "GROUP\\s+BY\\s+cpuArch",
+    "review": "允许多个区域条件模板",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_052",
+      "rb_054"
+    ],
+    "group_id": "fragment_server_arch",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "fragment_vm_tenant",
+    "question": "按租户 ECS 数量",
+    "resources": [
+      "VM_NOVA"
+    ],
+    "sql_pattern": "GROUP\\s+BY\\s+tenantName",
+    "review": "未指定区域或排序；接受租户分组能力族",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_007",
+      "rb_074"
+    ],
+    "group_id": "fragment_vm_tenant",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "fragment_router_count",
+    "question": "VPC 数量",
+    "resources": [
+      "ROUTER"
+    ],
+    "sql_pattern": "COUNT\\(",
+    "review": "未给完整筛选/分组条件；多个VPC计数模板均合理",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_108",
+      "rb_109",
+      "rb_134"
+    ],
+    "group_id": "fragment_router_count",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "fragment_ambiguous_status",
+    "question": "状态分布",
+    "resources": null,
+    "sql_pattern": "GROUP\\s+BY\\s+(?:[A-Z_]+\\.)?status\\b",
+    "review": "资源未指定；跨资源状态分组模板均合理，不强设唯一ID",
+    "kind": "fragment_family",
+    "accepted_ids": [
+      "rb_001",
+      "rb_002",
+      "rb_026",
+      "rb_053",
+      "rb_081",
+      "rb_082",
+      "rb_164"
+    ],
+    "group_id": "fragment_ambiguous_status",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "negative_timeseries",
+    "question": "查询ECS过去七天每分钟的CPU利用率时间序列",
+    "review": "静态CMDB没有历史监控时序数据",
+    "kind": "negative_candidate_proxy",
+    "accepted_ids": [],
+    "group_id": "negative_timeseries",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "negative_delete",
+    "question": "删除region_guian4下面所有ECS实例",
+    "review": "模板为只读查询，不支持资源删除",
+    "kind": "negative_candidate_proxy",
+    "accepted_ids": [],
+    "group_id": "negative_delete",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "negative_forecast",
+    "question": "预测下个月所有云资源的人民币账单",
+    "review": "没有账单计价或成本预测能力",
+    "kind": "negative_candidate_proxy",
+    "accepted_ids": [],
+    "group_id": "negative_forecast",
+    "split": "diagnostic_control"
+  },
+  {
+    "id": "negative_personal",
+    "question": "查询租户联系人的身份证号和银行卡号",
+    "review": "当前资源模板无此人员敏感字段",
+    "kind": "negative_candidate_proxy",
+    "accepted_ids": [],
+    "group_id": "negative_personal",
+    "split": "diagnostic_control"
+  }
+]

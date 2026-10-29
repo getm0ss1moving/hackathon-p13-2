@@ -1,0 +1,8 @@
+# 本机环境与认证配置
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.DS_Store
