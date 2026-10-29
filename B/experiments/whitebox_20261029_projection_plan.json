@@ -1,0 +1,39 @@
+{
+  "status": "prepared; awaiting separate repeat-scope approval",
+  "purpose": "SQL 精调输出列保护的固定开发诊断组；非留出验证集",
+  "baseline": "whitebox_20261029_full.jsonl",
+  "baseline_sha256": "2442e1442da2f553f26fc72d6924860e9ae46bf88fde9a5b0b48abbe40ea9223",
+  "working_directory": "B",
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "case_ids": [
+    "CMDB-001",
+    "CMDB-004",
+    "CMDB-019",
+    "CMDB-020",
+    "CMDB-036",
+    "CMDB-248"
+  ],
+  "selection_rationale": {
+    "CMDB-001": "原先正确的分组控制",
+    "CMDB-004": "原先正确的详情控制",
+    "CMDB-019": "创建时间详情，离线发现丢名称列",
+    "CMDB-020": "多表详情，离线发现丢规格列",
+    "CMDB-036": "资源门禁拒答控制，本轮不修改该门禁",
+    "CMDB-248": "应用模块关联，离线发现丢模块名称列"
+  },
+  "order": "listed order",
+  "repeats": 1,
+  "candidate_factor": {
+    "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "1"
+  },
+  "max_requests_this_check": 18,
+  "requests_spent_before_check": 579,
+  "authorized_total_ceiling": 600,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "thinking": "provider default",
+  "temperature": "provider default",
+  "score": "original evaluate_case with real elapsed; untimed score recorded separately",
+  "limitation": "单轮固定开发样本；不是独立泛化验证，也不用于声称时延改善。"
+}
