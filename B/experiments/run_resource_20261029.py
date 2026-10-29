@@ -98,6 +98,7 @@ def main(argv=None):
     started = time.perf_counter()
     output = args.output or HERE / "experiments/resource_gate_20261029_live.jsonl"
     completed = False
+    response_models = {}
     with output.open("x", encoding="utf-8") as stream:
         previous_logging = logging.root.manager.disable
         logging.disable(logging.CRITICAL)
@@ -109,6 +110,16 @@ def main(argv=None):
         try:
             system = RunbookQuerySystem()
             write({"type": "initialization", **system.initialization_metrics})
+            if matcher._llm_client is not None:
+                original_create = matcher._llm_client.chat.completions.create
+
+                def capture_model(*call_args, **call_kwargs):
+                    index = len(matcher.get_llm_events()) - 1
+                    response = original_create(*call_args, **call_kwargs)
+                    response_models[index] = getattr(response, "model", None)
+                    return response
+
+                matcher._llm_client.chat.completions.create = capture_model
             for case in cases:
                 first_event = len(matcher.get_llm_events())
                 t0 = time.perf_counter()
@@ -116,8 +127,9 @@ def main(argv=None):
                     answer = system.query(case["question"])
                     elapsed = time.perf_counter() - t0
                 finally:
-                    for event in matcher.get_llm_events()[first_event:]:
-                        write({"type": "request", "case_id": case["case_id"], **event})
+                    for index, event in enumerate(matcher.get_llm_events()[first_event:], first_event):
+                        write({"type": "request", "case_id": case["case_id"], **event,
+                               "requested_model": scope["model"], "response_model": response_models.get(index)})
                 scored = evaluate_case(case, answer, elapsed)
                 untimed = evaluate_case(case, answer, 0)["score"]
                 row = {"type": "case", **scored,
