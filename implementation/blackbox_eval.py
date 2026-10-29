@@ -13,6 +13,7 @@ sys.path.insert(0, _HERE)
 def main(argv=None):
     parser = argparse.ArgumentParser(description="黑盒单次本地诊断，不代表正式成绩")
     parser.add_argument("N", nargs="?", type=int, default=100, help="运行前 N 题，默认 100")
+    parser.add_argument("--report", help="可选 JSONL 详细结果路径；不覆盖旧文件")
     args = parser.parse_args(argv)
     if args.N < 1:
         parser.error("N 必须为正整数")
@@ -56,40 +57,54 @@ def main(argv=None):
     except ImportError as exc:
         parser.error(f"查询依赖导入失败: {exc}；请使用已安装依赖的虚拟环境")
 
-    logging.disable(logging.CRITICAL)
+    from eval_report import EvaluationReport
+
     try:
-        system = RunbookQuerySystem()
-    except Exception as exc:
-        print(f"系统初始化失败（{type(exc).__name__}），评估未开始", file=sys.stderr)
+        with EvaluationReport(args.report, test_file, len(cases)) as report:
+            logging.disable(logging.CRITICAL)
+            try:
+                system = RunbookQuerySystem()
+            except Exception as exc:
+                report.stop_reason = f'系统初始化失败（{type(exc).__name__}）'
+                print(f"系统初始化失败（{type(exc).__name__}），评估未开始", file=sys.stderr)
+                return 1
+
+            print(f"本地诊断：黑盒前 {len(cases)} 题，每题 1 次；不含正式重复平均、黑白加权或模板数量分。")
+            total_score = 0
+            correct = wrong = no_answer = partial = 0
+            for index, case in enumerate(cases):
+                t0 = time.perf_counter()
+                try:
+                    output = system.query(case["question"])
+                except Exception as exc:
+                    report.stop_reason = f"{case['case_id']}: 查询异常（{type(exc).__name__}）"
+                    print(f"{case['case_id']}: 查询异常（{type(exc).__name__}）；评估中止，已完成 {index}/{len(cases)} 题，未生成完整基线", file=sys.stderr)
+                    return 1
+                elapsed = time.perf_counter() - t0
+                result = evaluate_case(case, output, elapsed)
+                report.record(case, output, result, elapsed)
+                total_score += result["score"]
+                if result["score"] == 5:
+                    correct += 1
+                elif result["score"] < 0:
+                    wrong += 1
+                elif result["score"] == 0:
+                    no_answer += 1
+                else:
+                    partial += 1
+                print(f"{case['case_id']}: {result['score']:+} ({result['reason'][:70]}) [{elapsed:.1f}s]")
+
+            count = len(cases)
+            pct = total_score / (count * 5) * 100
+            print(f"\n=== {count} cases: score={total_score}/{count*5}, correct={correct}, partial={partial}, wrong={wrong}, no_answer={no_answer}, pct={pct:.1f}% ===")
+            report.complete()
+            if args.report:
+                print(f"详细结果：{os.path.abspath(args.report)}")
+            return 0
+    except OSError as exc:
+        print(f"结果文件读写失败（{type(exc).__name__}），评估停止；请使用新的可写 --report 路径", file=sys.stderr)
         return 1
 
-    print(f"本地诊断：黑盒前 {len(cases)} 题，每题 1 次；不含正式重复平均、黑白加权或模板数量分。")
-    total_score = 0
-    correct = wrong = no_answer = partial = 0
-    for index, case in enumerate(cases):
-        t0 = time.perf_counter()
-        try:
-            output = system.query(case["question"])
-        except Exception as exc:
-            print(f"{case['case_id']}: 查询异常（{type(exc).__name__}）；评估中止，已完成 {index}/{len(cases)} 题，未生成完整基线", file=sys.stderr)
-            return 1
-        elapsed = time.perf_counter() - t0
-        result = evaluate_case(case, output, elapsed)
-        total_score += result["score"]
-        if result["score"] == 5:
-            correct += 1
-        elif result["score"] < 0:
-            wrong += 1
-        elif result["score"] == 0:
-            no_answer += 1
-        else:
-            partial += 1
-        print(f"{case['case_id']}: {result['score']:+} ({result['reason'][:70]}) [{elapsed:.1f}s]")
-
-    count = len(cases)
-    pct = total_score / (count * 5) * 100
-    print(f"\n=== {count} cases: score={total_score}/{count*5}, correct={correct}, partial={partial}, wrong={wrong}, no_answer={no_answer}, pct={pct:.1f}% ===")
-    return 0
 
 
 if __name__ == "__main__":

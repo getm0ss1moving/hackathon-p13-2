@@ -1,7 +1,0 @@
-﻿case_id,score,untimed_score,elapsed,outcome,penalty,reason,matched_runbook
-CMDB-001,5,5,2.55,correct,0,答案正确,tpl_001_CMDB-001
-CMDB-004,4,5,4.08,correct,1,"答案正确 [超时>4s, -1]",tpl_002_CMDB-004
-CMDB-019,4,5,4.94,correct,1,"答案正确 [超时>5s, -1]",tpl_009_CMDB-019
-CMDB-020,4,5,4.58,correct,1,"答案正确 [超时>5s, -1]",tpl_010_CMDB-020
-CMDB-036,0,0,1.01,abstained,0,不回答（未命中runbook）,
-CMDB-248,4,5,4.65,correct,1,"答案正确 [超时>5s, -1]",tpl_166_CMDB-248

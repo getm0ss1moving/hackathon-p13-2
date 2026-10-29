@@ -1,76 +1,79 @@
-# C：完整实验与验收工具
+# C 的职责和使用方法
 
-C 的目标是交付可复现的基线、失败证据、版本对照和最终验收结论。完整合同见 [DESIGN.md](DESIGN.md)，当前数值、交接队列与剩余验收项见 [STATUS.md](STATUS.md)。实现都位于 C/，原评分器、执行器、数据与 A/B 代码保持原样。
+C 负责把根目录集成后的系统跑完原评测，保存执行证据，统计得分与耗时，整理失分题，并在 A/B 修复后比较前后结果。
 
-## 已有功能
+实际代码是根目录 `implementation/quick_eval.py`、`blackbox_eval.py`、共用的 `eval_report.py`，以及 `C/analyze_results.py`。查询系统仍使用根目录 A/B 的实现，评分仍调用原 `evaluator.evaluate_case()`。无需把 C 的文件合并进查询模块，也无需另建 C 查询系统。A/B 的候选版本应先交接到根目录，再评测该集成版本。
 
-- 冻结原200题及189个组：开发166、回归34、代表性开发20；复用团队固定分组，不按结果重新选题。
-- 独立泛化输入：12条已复核改写、4条已用参考查询重算答案的实体控制；另4条库外拒答控制单列。
-- 读取 C 报告、B 的 JSONL 与根 round3 报告，核对完成数、唯一题号、总分与请求数；生成逐题CSV、失败交接队列和Markdown。
-- 配对比较默认要求完整且合同一致；六题对200题须显式 --subset，只汇总这六题。模型/配置不一致时仅能显式 --descriptive 展示差值，不称受控提升。
-- 审计原文件、模板数量/大小/容器深度、建索引与检索耗时。模型CPU与总内存未测时明确写未测。
-- 实际运行入口支持冻结子集、独立轮次、派生题、真实HTTP请求上限、SDK重试计数、模型返回名/usage、最少匹配诊断、进程CPU/峰值内存和逐题检查点。
-- 公式核算仅接收白盒200与黑盒100各两份独立完整记录；缺黑盒时拒绝计算，不补零。
+这些评测、分析文件应提交团队 Git 仓库，方便复测；它们属于开发验证工具，不进入 `RunbookQuerySystem.query()` 的答题链路。最终比赛提交包的内容按主办要求核对，不能把 C 的日志分析工具当作参赛算法。旧版重复评估器、冻结套件和复杂审计工具已移除。
 
-本目录依赖完整仓库。不要把 C 的整个 implementation 覆盖根目录；根集成文件交由集成人明确交接后迁移。
+## 1. 准备
 
-## 无模型操作
-
-在仓库根目录执行，以下命令不会调用模型：
+以下命令均在 PowerShell 的仓库根目录执行：
 
 ```powershell
-python -B -m unittest discover -s C/tests -v
-python -B C/benchmark.py build --out C/reports/new-frozen
-python -B C/benchmark.py analyze B/experiments/whitebox_20261029_full.jsonl --out C/reports/b-review
-python -B C/benchmark.py analyze experiments/round3/model20.json --out C/reports/root-review
-python -B C/benchmark.py compare B/experiments/whitebox_20261029_full.jsonl B/experiments/whitebox_20261029_projection_live.jsonl --subset --out C/reports/projection-pair.json
-python -B C/benchmark.py audit --implementation-dir B/implementation --out C/reports/b-audit.json
+cd D:\huwwei\hackathon-p13-2
+python -c "import openai, httpx, requests; print('依赖可用')"
 ```
 
-工具已生成的冻结清单在 experiments/frozen-v1，现有证据分析在 experiments/assessment-v1。复现分析请选择新的输出目录；原始模型记录永不覆盖。源码/用例哈希变化时不能把旧模型记录认定为当前版本实测。
+使用已安装这些依赖的 Python。分析脚本只依赖 Python 标准库。本机当前 Python 3.11 已检测到上述三项依赖，本轮未安装依赖。
 
-失败分类按证据处理：候选为空不证明库内无能力，资源门禁不证明一定误拒，SQL变化不证明一定退化。队列保留待复核项和责任人；模板频次只作描述。
+在运行评测的终端隐藏输入密钥，不要将密钥发到聊天、写进代码或提交到仓库：
 
-## 真实模型运行
+```powershell
+$env:DEEPSEEK_API_KEY = [System.Net.NetworkCredential]::new('', (Read-Host 'DeepSeek API Key' -AsSecureString)).Password
+$env:PYTHONIOENCODING = 'utf-8'
+```
 
-以下是后续执行方法，本轮没有执行。先确认模型、实际被测版本和当轮请求额度，并将密钥仅配置在运行进程的 DEEPSEEK_API_KEY 中。依赖沿用已有 openai/httpx/requests，不自动安装。
+现有查询代码从这个环境变量读取密钥，不自动加载 `.env` 文件。配置密钥后，运行评测会发起真实模型调用并可能计费；N 是题数，不是模型请求数，一题可能调用模型多次。
 
-数据服务只启动一份：
+## 2. 启动原数据服务
+
+在第一个终端运行并保持开启；已有同一数据服务时不用重复启动：
 
 ```powershell
 python -B output-server/data_server.py --host 127.0.0.1 --port 8080
 ```
 
-将 $approvedRequestLimit 设置为本轮已明确批准的正整数后，在另一个终端运行：
+## 3. 运行原评测，再分析
+
+在第二个已配置密钥的终端运行。下面取白盒文件前20题，每题一次：
 
 ```powershell
-# 固定代表性20题；不是临时取前20题
-python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/representative20.json --max-requests $approvedRequestLimit --report C/reports/b-representative.json
-
-# 固定回归清单计划两轮：每轮单独进程和文件，两轮预算合计也需明确
-python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/regression.json --round 1 --max-requests $approvedRequestLimit --report C/reports/b-regression-r1.json
-python -B C/implementation/quick_eval.py --implementation-dir B/implementation --case-set C/experiments/frozen-v1/regression.json --round 2 --max-requests $approvedRequestLimit --report C/reports/b-regression-r2.json
-
-# 已重算/复核的16题；与原白盒成绩分开
-python -B C/implementation/quick_eval.py 16 --implementation-dir B/implementation --cases-file C/experiments/frozen-v1/generalization.json --max-requests $approvedRequestLimit --report C/reports/b-derived.json
+$runStamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'
+$resultPath = "C/reports/whitebox-$runStamp.jsonl"
+git rev-parse HEAD
+python -B -u implementation/quick_eval.py 20 --report $resultPath
+$evalExitCode = $LASTEXITCODE
+python -B C/analyze_results.py $resultPath --expected 20 --exit-code $evalExitCode
 ```
 
---max-requests 按实际被允许进入传输的HTTP尝试计数，失败和SDK重试也占用。超额停止继承BaseException，穿透业务层异常回退，保存中止记录。该上限只约束当前进程；不代表token或账单上限，不代表其他轮次也获准。请求目标异常也会停止。无法核实模型客户端时不启动生成。
+全白盒200题：将上述两个 `20` 都改为 `200`。只有确认本轮调用范围后再执行。`--report` 可省略，原评测用法仍有效；省略后只打印原控制台结果，不生成详细证据。
 
-C 只观察请求中的模型/生成设置和响应usage，不修改选择、填参、提示词或SQL。响应钩子会读取响应体以保存usage，存在少量采集开销；不保存完整提示词、响应文本、认证头或密钥。root原实例未设置输出token上限时记录为provider default，不能猜成1024。
+`--report` 每完成一题立即写入 JSONL，保留问题、精确 query 耗时、原评分及完整原因、选中模板、实际 API/SQL、执行结果和错误。记录开始时保存用例和实现文件哈希。写盘在原 query 计时与原评分之后，原评分器和原执行器不变。已有报告拒绝覆盖，换一个文件名即可。
 
-## 报告与验收
+查询异常或 Ctrl+C 中止会保留已完成记录；分析器将其标为 incomplete，不把未运行题补0或算作完整成绩。密钥缺失、依赖/服务未就绪等启动错误时先按控制台提示修复，再用新文件名重跑。
 
-- JSON：提交/源码/数据/评分器哈希、模型请求与响应身份、配置、缓存、轮次、实际HTTP、阶段诊断、逐题得分、原reason、API/SQL、结果形状、CPU和进程峰值内存。
-- failures.csv：已完成但得分未满5的题。UTF-8 BOM，可用Excel打开；答对超时仍保留正确类别和罚分。
-- status=completed 只表示这一轮所请求题目完整执行。异常、中断、额度耗尽为aborted；已完成部分单列，不能把未完成题补0。
-- 多轮清单通过 --round 分别执行，当前单个报告始终每题一次。正式公式由 aggregate 检查两轮后计算参考值；不是主办认证成绩。
-- 同一JSON或配套CSV已存在时拒绝覆盖，保留前后版本。写盘时间不计入query，写盘失败停止后续生成。
+黑盒入口已支持相同的 `--report`，但当前缺少官方 `CMDB用例集-黑盒100.json`，不能运行黑盒，不用自造题替代。
 
-C 评估进程的峰值RSS/Working Set不含单独的数据服务。Windows/Mac本机通过不证明正式环境合规。模板深度的具体官方定义待确认，不能自动给“提交合规”结论。
+## 4. 查看报告和前后比较
 
-## 本轮交付验证
+分析目录默认位于原文件旁，如 `C/reports/whitebox-时间-analysis/`：
 
-35项无模型测试通过，含真实已安装SDK配合内存HTTP传输验证重试计数、超额停止及usage采集。已有B200题、root20题、B候选6题证据均已离线核验并输出结果；本轮新增真实模型请求0。具体结果见 STATUS.md。
+- `REPORT.md`：完成状态、总分、得分/原因分布、平均/P50/P95耗时、超时与失分概况。
+- `cases.csv`：全部逐题结果，UTF-8 BOM，可用 Excel 打开。
+- `failures.csv`：未满5分的题，附实际模板、API、SQL、错误和建议排查方向，交给 A/B 复核。
+- `results.json`：完整汇总和原始执行证据，包含运行来源和实现哈希。
 
-协作分支为 simple/official-starter。只提交C的设计、工具、冻结实验、分析与测试；C/reports下本机记录被忽略，不提交虚拟环境或密钥。
+修复后运行新一轮，再与上一轮比较：
+
+```powershell
+python -B C/analyze_results.py C/reports/新一轮.jsonl --baseline C/reports/上一轮.jsonl
+```
+
+额外生成 `comparison.csv`：逐题新旧分数、分差和耗时；报告列出增分、退分题数。要求两轮完整且题号/问题一致；模型、配置、环境是否一致仍需人工核对。已分析过的文件用 `--output-dir C/reports/新的分析目录`，避免覆盖旧结论。
+
+只有得分不能证明召回、选择或 SQL 精调哪一步出错。C 提供证据和排查方向，A/B 结合各自代码确认原因；发现缺少必要中间信息时再补少量诊断。当前不采集 token、模型请求数、CPU/内存，不冒充已测；这些不是启动本轮答题回归的前置条件。
+
+## 当前完成范围
+
+已实现原入口运行与结果采集、完整性检查、统计分析、失败交接表和版本结果对照。删除了 C 的重复查询入口和实验框架。真实模型评测尚未在本轮运行；下一步是在本机配置 API，并明确题数后执行第3步，依据真实结果处理失败题。
