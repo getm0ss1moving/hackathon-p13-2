@@ -47,12 +47,14 @@ class RunbookQuerySystem:
         started = time.perf_counter()
         first_event = len(get_llm_events())
         # 1. BM25 检索 + LLM 选择 + 参数填充
-        runbook_item = match_runbook(user_question, self.items, self.retriever)
+        match_details = {}
+        runbook_item = match_runbook(user_question, self.items, self.retriever, match_details)
         matched_at = time.perf_counter()
         diagnostics = {
             "match_seconds": round(matched_at - started, 4),
             "execute_seconds": 0.0,
             "llm_calls": get_llm_events()[first_event:],
+            "matching": match_details,
         }
 
         if runbook_item is None:

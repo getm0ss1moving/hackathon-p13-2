@@ -115,6 +115,23 @@ class ParameterTests(unittest.TestCase):
         m._fix_native_id_to_name(item, {"nativeId": "short-token"}, "查询原生ID short-token 的宿主机")
         self.assertEqual(item["api_call"]["condition"]["constraint"][0]["simple"]["name"], "nativeId")
 
+    def test_enum_format_can_be_inferred_without_matching_sample_value(self):
+        for resource, parameter, question, samples, expected in [
+            ("VOLUME", "bootable", "查询不可启动云硬盘", ["true"], "false"),
+            ("FLOATING_IPS", "status", "查询已绑定弹性IP", ["DOWN"], "ACTIVE"),
+        ]:
+            with self.subTest(resource=resource), patch.object(m, "_schema_values", {resource: {parameter: samples}}):
+                values = {}
+                m._auto_fill_params(question, values, [parameter], template(parameter, resource=resource))
+                self.assertEqual(values, {parameter: expected})
+
+    def test_list_requires_in_operator_and_singleton_in_stays_list(self):
+        item = template("name")
+        self.assertFalse(m._fill_params(item, {"name": ["a", "b"]}))
+        item["api_call"]["condition"]["constraint"][0]["simple"]["operator"] = "in"
+        self.assertTrue(m._fill_params(item, {"name": "a"}))
+        self.assertEqual(item["api_call"]["condition"]["constraint"][0]["simple"]["value"], ["a"])
+
 
 if __name__ == "__main__":
     unittest.main()

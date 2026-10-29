@@ -1,6 +1,7 @@
 """请求边界和失败处理回归；使用内存 HTTP transport，不连接模型服务。"""
 
 import os
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -79,6 +80,37 @@ class RuntimeTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "DEEPSEEK_API_KEY"):
                 matcher.get_llm()
         self.assertEqual(matcher.get_llm_events(), [])
+
+    def test_wire_contract_uses_configured_model_and_chat_endpoint(self):
+        requests_seen = []
+
+        def handler(request):
+            requests_seen.append(request)
+            return httpx.Response(200, json=completion())
+
+        self.client(handler)
+        with patch.object(matcher, "DEEPSEEK_MODEL", "organizer-provided-id"), \
+             patch.dict(os.environ, {"RUNBOOK_MAX_LLM_CALLS": "1", "RUNBOOK_MAX_OUTPUT_TOKENS": "128"}):
+            matcher.llm_ask("private-fixture-prompt", "select")
+        request = requests_seen[0]
+        payload = json.loads(request.content)
+        self.assertEqual(request.url.path, "/v1/chat/completions")
+        self.assertEqual(request.headers["authorization"], "Bearer local-test-only")
+        self.assertEqual(payload["model"], "organizer-provided-id")
+        self.assertEqual(payload["max_tokens"], 128)
+        self.assertEqual([m["role"] for m in payload["messages"]], ["system", "user"])
+        diagnostics = json.dumps(matcher.get_llm_events())
+        self.assertNotIn("local-test-only", diagnostics)
+        self.assertNotIn("private-fixture-prompt", diagnostics)
+
+    def test_empty_choices_are_reported_as_failure(self):
+        response = completion()
+        response["choices"] = []
+        self.client(lambda request: httpx.Response(200, json=response))
+        with patch.dict(os.environ, {"RUNBOOK_MAX_LLM_CALLS": "1"}):
+            with self.assertRaisesRegex(RuntimeError, "候选回答"):
+                matcher.llm_ask("test", "select")
+        self.assertEqual(matcher.get_llm_events()[0]["status"], "error")
 
 
 if __name__ == "__main__":
