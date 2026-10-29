@@ -1,0 +1,538 @@
+{
+  "scope": "Fixed native API path diagnostic using existing template defaults; not model or answer evaluation.",
+  "code_commit": "4ba0ea7016df6f37e59a5d8d40560b31733ece06",
+  "script_sha256": "d4b61eb1514adb38d1a66359818b39d91b7d936d0765e12642c936857cfe2691",
+  "source_sha256": {
+    "runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+    "runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "runbook_matcher.py": "a661dd77215ef05aaf08343b7dc65f812ad4d761130563e0e7ece60e16c8f035",
+    "runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92"
+  },
+  "a_handoff_sha256": "97b4b25ace39291e95294f6cae2922ad595f9d19b02c90083b691aef06633c5d",
+  "dataset_sha256": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
+  "A_B_components_identical": {
+    "runbook_items.py": true,
+    "runbook_retriever.py": true
+  },
+  "summary": {
+    "templates": 19,
+    "dependencies": 20,
+    "fixture_fill_failed": 0,
+    "native_dependency_conditions_dropped": 3,
+    "empty_previous_result": 2,
+    "nonempty_previous_without_dependency_value": 1,
+    "drop_templates": [
+      "rb_021",
+      "rb_041",
+      "rb_093"
+    ],
+    "declared_step_mismatches": 1,
+    "native_api_failures": [
+      {
+        "endpoint": "schema",
+        "ci": "VOLUME_TYPE",
+        "failure": "http_404",
+        "url_length_bytes": 57
+      },
+      {
+        "endpoint": "instances",
+        "ci": "SECURITY_GROUP_RULE",
+        "failure": "http_414",
+        "url_length_bytes": 80249
+      }
+    ],
+    "templates_with_api_failure": [
+      "rb_126"
+    ],
+    "model_requests": 0,
+    "blocked_external_network_attempts": []
+  },
+  "templates": [
+    {
+      "template_id": "rb_008",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1,
+          "previous_rows_with_truthy_field": 1,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_010",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 320,
+          "previous_rows_with_truthy_field": 320,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_011",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 2909,
+          "previous_rows_with_truthy_field": 2046,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_012",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 2830,
+          "previous_rows_with_truthy_field": 1967,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_013",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 2909,
+          "previous_rows_with_truthy_field": 2046,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_014",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "VM_NOVA",
+          "target_field": "flavorId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "FLAVOR",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 2,
+          "previous_rows_with_truthy_field": 2,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_015",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 2830,
+          "previous_rows_with_truthy_field": 1967,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_016",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 320,
+          "previous_rows_with_truthy_field": 320,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_021",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "VM_NOVA",
+          "target_field": "privateIps",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "FLOATING_IPS",
+          "source_field": "fixedIpAddress",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 0,
+          "previous_rows_with_truthy_field": 0,
+          "native_executor_drops_dependency_condition": true,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_023",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": true,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "VM_NOVA",
+          "target_field": "hostId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "HOST",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1,
+          "previous_rows_with_truthy_field": 1,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_041",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "VM_NOVA",
+          "target_field": "privateIps",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "FLOATING_IPS",
+          "source_field": "fixedIpAddress",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 0,
+          "previous_rows_with_truthy_field": 0,
+          "native_executor_drops_dependency_condition": true,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_043",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1902,
+          "previous_rows_with_truthy_field": 1902,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_059",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "VM_NOVA",
+          "target_field": "hostId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "HOST",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1,
+          "previous_rows_with_truthy_field": 1,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_093",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [
+        "STORAGE_POOL"
+      ],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "STORAGE_POOL",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "GAUSSDB_INSTANCE",
+          "source_field": "storagePoolId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": false,
+          "previous_rows": 14,
+          "previous_rows_with_truthy_field": 0,
+          "native_executor_drops_dependency_condition": true,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_126",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "SECURITY_GROUP_RULE",
+          "target_field": "securityGroupId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "SECURITY_GROUP",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1814,
+          "previous_rows_with_truthy_field": 1814,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": [
+        "SECURITY_GROUP_RULE"
+      ]
+    },
+    {
+      "template_id": "rb_130",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [
+        "FLOATING_IPS"
+      ],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 3,
+          "target_ci": "FLOATING_IPS",
+          "target_field": "routerId",
+          "declared_source_step": 1,
+          "executor_source_step": 2,
+          "previous_ci": "ROUTER",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 154,
+          "previous_rows_with_truthy_field": 154,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": false
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_147",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "GAUSSDB_NODE",
+          "target_field": "ref_instanceId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "GAUSSDB_INSTANCE",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1,
+          "previous_rows_with_truthy_field": 1,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_169",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [
+        "VM_NOVA"
+      ],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "FLAVOR",
+          "target_field": "id",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "VM_NOVA",
+          "source_field": "flavorId",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 320,
+          "previous_rows_with_truthy_field": 320,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    },
+    {
+      "template_id": "rb_180",
+      "fixture_defaults_filled": true,
+      "B_resource_gate_unsupported": [],
+      "B_current_lookup_guard_reachable": false,
+      "dependencies": [
+        {
+          "target_step": 2,
+          "target_ci": "ApplicationModule",
+          "target_field": "appId",
+          "declared_source_step": 1,
+          "executor_source_step": 1,
+          "previous_ci": "Application",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 1,
+          "previous_rows_with_truthy_field": 1,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        },
+        {
+          "target_step": 3,
+          "target_ci": "ApplicationModuleIns",
+          "target_field": "appModuleId",
+          "declared_source_step": 2,
+          "executor_source_step": 2,
+          "previous_ci": "ApplicationModule",
+          "source_field": "id",
+          "previous_api_read_valid": true,
+          "source_field_in_previous_schema": true,
+          "previous_rows": 5,
+          "previous_rows_with_truthy_field": 5,
+          "native_executor_drops_dependency_condition": false,
+          "declared_step_matches_executor": true
+        }
+      ],
+      "native_api_failed_cis": []
+    }
+  ],
+  "limitations": [
+    "Existing defaults are fixed diagnostic inputs, not accepted runtime grounding.",
+    "B resource-gate reachability excludes later selection and parameter rejection.",
+    "API errors are retained as failures and cannot establish valid empty results or full-path success.",
+    "No SQL answer, score, performance, generalization or official-model claim.",
+    "No executor, scorer, template or production source modified."
+  ]
+}
