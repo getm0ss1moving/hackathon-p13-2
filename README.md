@@ -2,6 +2,8 @@
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
+> 接手核验（2026-10-29）：本包缺少 `output-server/README.md` 和黑盒 JSON，实际有 200 条模板。原包评分说明存在差异；准确运行条件、已执行检查和规则对照见文末“最小分支接手记录”。本轮仅补协作文档，查询代码保持原样。
+
 ## 目录结构
 
 ```
@@ -18,10 +20,10 @@ hackathon/
 ├── output-server/               # 数据库环境（模拟 CMDB API）
 │   ├── data_server.py           # HTTP 服务（端口 8080）
 │   ├── verify_server.py         # 服务验证脚本
-│   ├── README.md                # API 接口文档
+│   ├── README.md                # 原清单列出，本包实际缺失
 │   └── CI+md数据-脱敏-最终-0924/  # 数据目录（230 个 JSON 文件）
 ├── CMDB用例集-白盒200.json       # 白盒用例（200 题，含标准答案）
-├── CMDB用例集-黑盒100.json       # 黑盒用例（100 题，含标准答案）
+├── CMDB用例集-黑盒100.json       # 原清单列出，本包实际缺失
 └── README.md                    # 本文件
 ```
 
@@ -70,12 +72,14 @@ hackathon/
 
 ```bash
 cd output-server
-python data_server.py
+python3 data_server.py --host 127.0.0.1 --port 8080
 ```
 
 服务启动在 `http://127.0.0.1:8080`，提供 CMDB 数据查询 API。
 
 ### 2. 安装依赖
+
+以下为原包依赖；由 agent 安装前须先获得用户同意，本轮未安装：
 
 ```bash
 pip install openai httpx requests
@@ -102,16 +106,22 @@ python quick_eval.py 20
 ```
 
 **黑盒评估（前 N 题）：**
+
+仅在评测环境具备实际黑盒文件时运行；当前包缺失该文件：
 ```bash
 python blackbox_eval.py 100
 ```
 
 **通过评估器直接运行：**
+
+此入口同样固定读取黑盒文件，当前包无法进行该评估：
 ```bash
 python evaluator.py 30
 ```
 
-## 评分规则
+## 评分规则（原包说明，差异见文末）
+
+以下保留原说明作对照，不代表当前 `evaluator.py` 的全部实际行为或正式计分流程。
 
 评分规则定义在 `implementation/evaluator.py` 中，每题满分 5 分，每题测试 5 次取平均。
 
@@ -214,7 +224,7 @@ GET http://127.0.0.1:8080/rest/hackthon/db/schema/{CI_NAME}
 
 ### CI 名称映射
 
-SQL 中使用 `CLOUD_` 前缀的原始表名（如 `CLOUD_VM_NOVA`），执行器内部自动映射到脱敏名（如 `VM_NOVA`）查询 API。完整映射表见 `output-server/README.md`。
+SQL 中使用 `CLOUD_` 前缀的原始表名（如 `CLOUD_VM_NOVA`），执行器内部自动映射到脱敏名（如 `VM_NOVA`）查询 API。本包缺少 `output-server/README.md`，实际映射见 `runbook_executor.py` 的 `_pairs`（只读）。
 
 ## LLM 配置
 
@@ -235,7 +245,7 @@ $env:DEEPSEEK_API_KEY="your-api-key-here"
 set DEEPSEEK_API_KEY=your-api-key-here
 ```
 
-- **SSL**：因企业代理拦截，httpx 客户端需设 `verify=False, trust_env=False`
+- **SSL（更正）**：保持 TLS 证书校验。原实例 `runbook_matcher.py:get_llm()` 已有 `verify=False`，本轮未执行该客户端；模型调用前须在可修改模块改为证书校验开启，企业代理应配置可信 CA。不得关闭证书校验。执行器中的既有配置保持原文件不动，其数据服务地址为本地 HTTP。
 
 ## 关键文件说明
 
@@ -249,3 +259,87 @@ set DEEPSEEK_API_KEY=your-api-key-here
 | `evaluator.py` | **否** | 评估器，选手不可修改 |
 | `blackbox_eval.py` | 是 | 黑盒评估脚本 |
 | `quick_eval.py` | 是 | 白盒评估脚本 |
+
+## 最小分支接手记录
+
+### 来源、边界与实际文件
+
+目标仓库为 [hackathon-p13-2](https://github.com/getm0ss1moving/hackathon-p13-2)，首次检出为空仓库。仅从用户指定的本地 `hackathon` 出题者实例复制原文件，未读取旧 GitHub 仓库。244 个原文件逐文件 SHA-256 校验一致，保存为 `main` 基线提交 `d79c316`，再创建 `simple/official-starter`；不自动合回 `main`。本轮分支只新增 `AGENTS.md`、`TEAM.md` 并补充本 README。
+
+- 实际存在：8 个 implementation Python 文件、3 个 output-server Python 文件、白盒 200 题、230 个数据 JSON、`背景知识.md`。
+- 实际缺失：`output-server/README.md`、`CMDB用例集-黑盒100.json`；没有依赖清单文件。`blackbox_eval.py` 存在不等于黑盒数据可用。
+- 模板是 `runbook_items.py` 内的 Python 列表 `RUNBOOK_ITEMS`，实际 200 条、ID 唯一，包含 `id/name/description/resources/examples/api_call/sql`，180 条另有 `default_params`。
+- 136 条模板含单个 API 对象，64 条含 API 列表，最多 5 步，19 条含 `from step` 占位符。已有题号式名称、具体实体示例和默认值保留作基线，后续不能据此新增题号路由或答案硬编码。
+- 只改模板、检索、匹配、流程、两个评估入口及文档。执行器、评分器、数据服务、全部数据与测试用例保持原样；不新建框架、适配层、中间表示或审计系统。文件分工见 `TEAM.md`。
+
+### 代码实际调用链
+
+1. `RunbookQuerySystem.__init__()` 加载模板、构建 BM25 索引，并通过本地 schema API 预热字段缓存；该预热在各评估入口的单题计时之前。
+2. `query()` 调用 `match_runbook()`：检索器按 examples/description 分词，BM25 排序、覆盖率门禁和 strong/weak 分层，最多返回 5 个 strong 加 10 个 weak 候选。
+3. 匹配器调用 LLM 选择一个模板并深拷贝；返回 0/越界时可能退回 strong top1，资源/字段门禁也可能弃权。当前实例没有选择多模板并行组合的实现。
+4. 有占位符时再调用 LLM 提取参数，进行规范化、自动补参及默认值回填，清理空条件，保留交给执行器处理的 `from step`。无占位符模板直接返回，跳过后续精调和清理。
+5. 有参数且通过门禁的模板调用 LLM 精调 SQL，并校验 SELECT、WHERE、表集合等；可能弃权或保留原 SQL。原链路包含 SQL 精调，不应删除。通常每题为 1～3 次逻辑模型调用，异常重试可能增加请求。
+6. 原 `execute()` 接收 `api_call + sql`，顺序调用单个/多步 API，解析上一步结果占位符、自动分页，补查 SQL 引用的表，载入内存 SQLite 后执行 SQL。进程内 API 缓存会影响后续题目的耗时。
+7. `quick_eval.py` / `blackbox_eval.py` 对每题计时并调用原 `evaluate_case()`；`evaluator.run_evaluation()` 也只查询每题一次。评分按弃权、错误、API 条件、答案比对和时间扣分处理；多结果列表在本地被合并比较，并非逐子问题独立计分。
+
+### 规则差异（核验日期：2026-10-29）
+
+官方来源：[云运维场景智能问数查询优化](https://www.chaspark.com/#/races/competitions/1326646677767008256)，重点为 §3、§7、§8。网页说明评分细节以 SDK 评估器为准；本包评估入口没有实现完整正式聚合，仍须保留差异。
+
+| 项目 | 官方赛题 | 原 README | 本包实际实现 |
+|---|---|---|---|
+| 每题重复 | 2 次平均 | 5 次平均 | 三个评估入口均每题 1 次 |
+| 超时 | >4s 扣 1；>6s 扣 3，取最高档 | >5s 扣 2；>10s 扣 3 | 与官方摘要相同；弃权/API 条件失败提前返回，不扣时延分 |
+| API 条件缺失 | 标准有条件、系统无条件得 0 | 得 −1 | 得 0；只检查系统是否存在非空有效条件字段，不核对字段/值与标准相同 |
+| 模板数量 | 目标 150，数量分 `150−N` | 上限 60，少一条加 1，超量封顶 50% | 无数量计分、封顶或数量校验；当前 N=200，按网页公式数量分为 −50，此项未进入本地输出 |
+| 最终总分 | 黑盒原始分×70%＋白盒原始分×30%＋数量分，不归一化 | 未说明 | 仅输出当前用例范围得分，无两次平均、黑白加权或数量调整 |
+| 黑盒 | 100 题，选手不可见 | 列为本地文件 | 文件实际缺失；黑盒入口和 evaluator CLI 无法完成评估 |
+| 模板提交 | JSON 数组；单条≤4KB，嵌套≤4层 | Python 模板库，仅写数量上限 | Python 列表；未导出提交 JSON、未做正式容量校验 |
+| 模型/环境 | 模型统一提供、不可更换；CPU、内存≤2GB、索引≤60s、检索≤200ms；有禁网络/外部模型文件要求 | 外部 DeepSeek API | 默认外部 DeepSeek；隔离评测与统一模型的具体接入边界待确认 |
+
+本地 SQL 结构检查仅提示，不覆盖答案分。原 `quick_eval.py` 的 `avg` 采用 `total_score/N*10`，满分只显示 50%；本轮保留脚本，比较时使用 `score=总分/(题数×5)` 原始数值。黑盒入口的百分比计算不同；不得把任何本地输出叫正式成绩。
+
+容量初查：按紧凑 UTF-8 JSON 序列化，单条最大 1604 字节；按“每个 dict/list 容器算一层”计，单条最大深度 7，含外层数组为 8。与官方深度≤4存在提交风险，具体深度算法和多步 API 表达需确认；本轮不改模板结构。官网 §3.4/§7 强调 BM25 限制，§8 另提决策树小模型；当前继续使用 BM25，不自行扩大技术范围。
+
+### 启动与测试
+
+本轮使用系统 Python 3.9.6。数据服务和检索器使用标准库；完整查询需 `openai`、`httpx`、`requests`，当前环境三者均缺失，`DEEPSEEK_API_KEY` 未设置。未安装依赖、未调用模型、未产生模型 API 费用。
+
+从仓库根目录启动原数据服务（不需要模型）：
+
+```bash
+python3 output-server/data_server.py --host 127.0.0.1 --port 8080
+```
+
+另一个终端运行原请求示例：
+
+```bash
+python3 output-server/verify_server.py
+```
+
+完成后在服务终端按 Ctrl-C 关闭。本地 API 路径为 `/rest/hackthon/db/instances/{CI}`、`relations/{CI}` 和 `schema/{CI}`；注意原路径拼写为 `hackthon`。数据条件支持 equal/contain/in，数据服务支持 AND/OR；执行器会重新组装条件，多条件按 AND 发送。映射查执行器 `_pairs`，接口细节查原服务代码；不补造缺失的服务 README。
+
+以下为后续完整查询的准备顺序，**本轮未执行安装或模型查询**：先获准创建虚拟环境并安装 `openai httpx requests`，然后在可修改的匹配器修正 TLS 校验。密钥由用户在本机配置，不能发送到聊天或写入仓库。明确模型、题数、重复次数及费用授权后，再从根目录运行：
+
+```bash
+python3 implementation/runbook_system.py "当前所有ECS实例按状态的分布情况"
+python3 implementation/quick_eval.py 20
+```
+
+虚拟环境启用时使用其 `python`。`quick_eval.py N` 取白盒文件前 N 题，当前应令 1≤N≤200；脚本没有校验越界且汇总分母仍使用传入 N。`blackbox_eval.py N` 与 `evaluator.py N` 都固定读取缺失的黑盒 JSON，当前不作为可运行命令推荐。
+
+### 本轮实际检查与下一步
+
+| 检查 | 实际结果 |
+|---|---|
+| 原文件复制完整性 | 复制时 244 个文件逐文件 SHA-256 相同；除 README 外的原文件与 main 无差异 |
+| Python 语法 | 11 个文件通过 AST 解析；未生成测试文件或改业务代码 |
+| 原数据服务 | 已运行；加载 63 张表、186,152 条记录；已关闭临时服务 |
+| 原 verify_server | 已执行原 main 的 12 个请求，补充检查 HTTP 状态与分页字段；11 个 200、1 个预期 404；schema 请求 200 |
+| BM25 检索 | 已执行 200 个白盒问题；索引约 2.41ms，单次中位数约 1.44ms，P95约1.94ms，最大约2.24ms；仅本机一次诊断，非正式性能结果；有候选不代表选择正确 |
+| 原评分函数行为探针 | 6 个合成断言通过，验证 4s/6s 边界、缺 API 条件及弃权提前返回；不是答题成绩 |
+| 白盒完整查询评分 | 未运行；尝试原 `quick_eval.py 1` 在导入阶段因缺少 httpx 退出，无模型请求、无用例评分 |
+| 黑盒评分、官方两次平均及最终加权 | 未运行；黑盒文件缺失，正式环境未提供 |
+| 正式资源/泛化验证 | 未运行；未验证总内存、统一模型、实体替换及正式模板深度校验 |
+
+下一轮先建立能实际查询的白盒基线，再从真实错误中只选一类失败进行优化，沿用原评估脚本比较得分、耗时和模板数量；不同时铺开多个功能。分工待认领，见 `TEAM.md`。
