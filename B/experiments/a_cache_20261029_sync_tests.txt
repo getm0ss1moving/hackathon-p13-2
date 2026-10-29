@@ -1,0 +1,10 @@
+Source commit: 9bc0796
+Command: RUNBOOK_TEST_LOCAL_API=1 .venv/bin/python -W error::ResourceWarning -m unittest discover -s tests -q
+All model responses in these tests are fixtures.
+ERROR:runbook_matcher:模型未返回有效选择编号
+ERROR:runbook_matcher:模型未返回有效选择编号
+WARNING:runbook_matcher:SQL精调失败，保留原SQL：RuntimeError
+----------------------------------------------------------------------
+Ran 56 tests in 2.876s
+
+OK

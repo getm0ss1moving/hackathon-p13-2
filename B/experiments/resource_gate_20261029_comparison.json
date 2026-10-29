@@ -1,0 +1,152 @@
+{
+  "protocol": "official six-case subset compared with prior full-run records; two derived cases reported separately; no paired randomization or latency causality claim",
+  "comparison": [
+    {
+      "case_id": "CMDB-001",
+      "group": "official_subset",
+      "baseline_score": 5,
+      "score": 5,
+      "baseline_untimed_score": 5,
+      "untimed_score": 5,
+      "elapsed": 2.91,
+      "selected_template": "rb_001",
+      "reason": "matched",
+      "lookup": null,
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "CMDB-004",
+      "group": "official_subset",
+      "baseline_score": 5,
+      "score": 5,
+      "baseline_untimed_score": 5,
+      "untimed_score": 5,
+      "elapsed": 3.47,
+      "selected_template": "rb_002",
+      "reason": "matched",
+      "lookup": null,
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "CMDB-036",
+      "group": "official_subset",
+      "baseline_score": 0,
+      "score": 4,
+      "baseline_untimed_score": 0,
+      "untimed_score": 5,
+      "elapsed": 5.81,
+      "selected_template": "rb_023",
+      "reason": "matched",
+      "lookup": {
+        "valid": true,
+        "reason": "validated",
+        "rows": 1,
+        "seconds": 0.004223
+      },
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "DEV-HOST-REPLACED",
+      "group": "derived_diagnostic",
+      "baseline_score": null,
+      "score": 4,
+      "baseline_untimed_score": null,
+      "untimed_score": 5,
+      "elapsed": 4.39,
+      "selected_template": "rb_023",
+      "reason": "matched",
+      "lookup": {
+        "valid": true,
+        "reason": "validated",
+        "rows": 1,
+        "seconds": 0.005616
+      },
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "DEV-NONEXISTENT-HOST",
+      "group": "derived_diagnostic",
+      "baseline_score": null,
+      "score": 0,
+      "baseline_untimed_score": null,
+      "untimed_score": 0,
+      "elapsed": 2.51,
+      "selected_template": "rb_023",
+      "reason": "invalid_resource_lookup",
+      "lookup": {
+        "valid": false,
+        "reason": "empty_lookup_or_missing_dependency",
+        "rows": 0,
+        "seconds": 0.005212
+      },
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "CMDB-139",
+      "group": "official_subset",
+      "baseline_score": 0,
+      "score": 0,
+      "baseline_untimed_score": 0,
+      "untimed_score": 0,
+      "elapsed": 0.8,
+      "selected_template": "rb_093",
+      "reason": "resource_mismatch",
+      "lookup": null,
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "CMDB-147",
+      "group": "official_subset",
+      "baseline_score": 0,
+      "score": 0,
+      "baseline_untimed_score": 0,
+      "untimed_score": 0,
+      "elapsed": 1.15,
+      "selected_template": "rb_098",
+      "reason": "resource_mismatch",
+      "lookup": null,
+      "diagnostic_passed": true
+    },
+    {
+      "case_id": "CMDB-161",
+      "group": "official_subset",
+      "baseline_score": 0,
+      "score": 0,
+      "baseline_untimed_score": 0,
+      "untimed_score": 0,
+      "elapsed": 1.22,
+      "selected_template": "rb_108",
+      "reason": "resource_mismatch",
+      "lookup": null,
+      "diagnostic_passed": true
+    }
+  ],
+  "official_baseline_score": 10,
+  "official_new_score": 14,
+  "summary": {
+    "type": "summary",
+    "status": "complete",
+    "completed_cases": 8,
+    "planned_cases": 8,
+    "official_cases": 6,
+    "official_score": 14,
+    "official_untimed_score": 15,
+    "match_expectation_observed": 8,
+    "expected_paths_exercised": 8,
+    "diagnostics_passed": 8,
+    "generation_requests": 16,
+    "previous_600_request_budget_used": 594,
+    "combined_requests_for_previous_budget_and_this_check": 610,
+    "failed_requests": 0,
+    "prompt_tokens": 13187,
+    "completion_tokens": 1793,
+    "wall_seconds": 22.479,
+    "peak_evaluation_process_mib": 293.09,
+    "finished_at": "2026-10-29T19:16:45.420292+08:00"
+  },
+  "request_stages": {
+    "select": 8,
+    "refine": 4,
+    "fill": 4
+  }
+}
