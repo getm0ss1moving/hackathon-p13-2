@@ -2,7 +2,9 @@
 
 本目录是 `hackathon-p13-2/B`，按仓库 `TEAM.md` 的 B 角色独立开发。负责人是本聊天的用户，由 Codex 协助。开发分支为 `simple/official-starter`。当前成果、集成边界、对 A 的问题和下一轮顺序见 [交接清单](HANDOFF.md)。
 
-已完成一次历史版本真实模型全量白盒测试：**448.9/1000，116 题完全正确、20 题部分正确、23 题错误、41 题拒答**。随后完成资源门禁修复的八题真实诊断，并将 [A 的缓存检索器](experiments/a_cache_20261029_handoff.md)独立验证后原样接入 B。当前版本本地回归 56 项通过，尚未重新跑真实模型全量测试。仍使用“BM25 → LLM 选择 → 参数填充 → SQL 精调 → 原执行器”。结果属于 deepseek-flash 开发自测；完整证据见 [全量报告](experiments/whitebox_20261029_summary.md)、[资源修复报告](experiments/resource_gate_20261029_summary.md)及 [PROGRESS.md](PROGRESS.md)。
+已完成一次历史版本真实模型全量白盒测试：**448.9/1000，116 题完全正确、20 题部分正确、23 题错误、41 题拒答**。随后完成资源门禁修复的八题真实诊断，并将 [A 的缓存检索器](experiments/a_cache_20261029_handoff.md)独立验证后原样接入 B；接入时 56 项本地回归通过。尚未重新跑当前版本真实模型全量测试。仍使用“BM25 → LLM 选择 → 参数填充 → SQL 精调 → 原执行器”。结果属于 deepseek-flash 开发自测；完整证据见 [全量报告](experiments/whitebox_20261029_summary.md)、[资源修复报告](experiments/resource_gate_20261029_summary.md)及 [PROGRESS.md](PROGRESS.md)。
+
+最新完成 [通用跨步依赖检查候选](experiments/api_dependencies_20261029_summary.md)，本地回归增至 **67 项，两种开关配置均通过、无跳过**。候选默认关闭：固定历史路径有一道空参考结果会因拒答失去 5 个无时延分，尚未证明净收益。本轮没有新增真实模型请求。
 
 ## 文件与职责
 
@@ -94,6 +96,7 @@ set +a
 - `RUNBOOK_MAX_LLM_CALLS` 限制**整个进程**的模型请求数；`0` 或未设置表示不设本地次数上限。失败请求也计数，SDK 自动重试已关闭。
 - `RUNBOOK_MAX_OUTPUT_TOKENS` 默认 1024，`RUNBOOK_LLM_TIMEOUT` 默认 60 秒。输出截断视为调用失败；SQL 精调失败仍走基线的原 SQL 回退逻辑。
 - 选择/填参遇到截断或空输出时当前题拒答，后续题继续；网络、认证、预算等基础设施异常仍中止评估。`RUNBOOK_PRESERVE_TEMPLATE_COLUMNS=1` 启用实验性的输出列保护，默认关闭；详见实验报告，不能将开启候选的运行称作已测全量基线。
+- `RUNBOOK_VALIDATE_API_DEPENDENCIES=1` 启用通用跨步依赖候选：检查引用步号及前步值，在目标读取前拒绝会丢失条件的链路。默认关闭，正常路径保留 SQL 精调；与输出列候选分别做单因素验证。它不证明关联语义或 HTTP 读取完整性。
 
 仓库要求真实模型调用和费用先获得授权。以下是首次前三题连通性检查示例，运行会消耗模型额度；历史已完成不代表可以无预算重复：
 

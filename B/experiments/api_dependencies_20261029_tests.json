@@ -1,0 +1,48 @@
+{
+  "candidate_commit": "681f609a72e2ff89abb73be45007cf810ff671e2",
+  "source_sha256": {
+    "runbook_matcher.py": "9a6004c29717093cd4f9a99c30744f19601f92746b676a9b0e84a4cdbeb5dba4",
+    "runbook_system.py": "19e62309fa201a5d27ad0fc00f2e594bf7f7c74382d0d66ef97ad8f38b5506fc",
+    "runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+    "runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22"
+  },
+  "tests_sha256": {
+    "test_api_dependencies.py": "8f84b851450038678cc00c2e364d7450521e784a49d0b5c15f8f3a489683ceea",
+    "test_full_runner.py": "5f84f94833c1bb01c9c7b8171a541900130dde95c670193c006a5bd56209f8f9",
+    "test_llm_runtime.py": "29995e39503868f7602ae5870196eb1c992d1233291cfcbb05ef88ce2e5394ed",
+    "test_matching_sql.py": "1d7832a2b7bb3526379966b7ca82ae4ee6a6d32984530a5bfb62fa7e6e643f2a",
+    "test_params.py": "c55ad329be8aed246e6796def08384262b38a9035589548fdbd094b6ea36c83c",
+    "test_pipeline_local.py": "af77e7ee600f9c0d8d4a781a1c71be7e09083d7ffd5576ce5bd90009db282943",
+    "test_projection_contract.py": "1fe7f63a577fad09d0faa281e591b870a3b7e9f6d546166d7a97030f227d28e4",
+    "test_resource_lookup.py": "77d6b6a068ed50b8daf32d16a07c4995ff21bc10a4e7f89486703e67cfac4cb4",
+    "test_resource_runner.py": "f61093589b9fb0bd76780c484927f6f76445bb64e8e40b4ed07f0b1e3df53b56"
+  },
+  "runs": [
+    {
+      "mode": "0",
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "blocked_external_attempts": [],
+      "external_model_network_requests": 0,
+      "passed": true
+    },
+    {
+      "mode": "1",
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "blocked_external_attempts": [],
+      "external_model_network_requests": 0,
+      "passed": true
+    }
+  ],
+  "network_policy": "requests/httpx permit local 8080 and in-memory httpx.MockTransport only; blocked attempts fail tests",
+  "scope": "67 tests repeated with global candidate flag 0 and 1; dedicated tests can override the flag locally; not 134 independent cases",
+  "reproduce": "RUNBOOK_TEST_LOCAL_API=1 RUNBOOK_VALIDATE_API_DEPENDENCIES=0 or 1 .venv/bin/python -W error::ResourceWarning -m unittest discover -s tests -q",
+  "model_policy": "No new real model requests; existing paid experiment plans/results unchanged"
+}
