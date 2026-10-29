@@ -80,6 +80,18 @@ def _extract_sql_tables(sql):
 
 
 _schema_cache = {}
+_schema_values = {}
+
+
+def _remember_schema_values(ci_name: str, samples: list):
+    """仅保存字段的样例类型/枚举写法，不把实体样例作为默认参数。"""
+    fields = _schema_values.setdefault(ci_name, {})
+    for sample in samples:
+        for name, value in sample.items():
+            if isinstance(value, (str, bool, int, float)):
+                bucket = fields.setdefault(name, [])
+                if value not in bucket:
+                    bucket.append(value)
 
 
 def _warm_schema_cache():
@@ -104,6 +116,7 @@ def _warm_schema_cache():
             data = r.json()
             cols = data.get("columns", [])
             samples = data.get("sample_data", [])
+            _remember_schema_values(desens, samples)
             row_count = data.get("row_count", 0)
             col_str = ", ".join(cols)
             sample_str = ""
@@ -133,6 +146,7 @@ def _get_table_schemas(sql):
             data = r.json()
             cols = data.get("columns", [])
             samples = data.get("sample_data", [])
+            _remember_schema_values(desens, samples)
             row_count = data.get("row_count", 0)
             col_str = ", ".join(cols)
             sample_str = ""
@@ -153,7 +167,7 @@ def _get_table_schemas(sql):
 
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_BASE_URL = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
-DEEPSEEK_MODEL = "deepseek-chat"
+DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
 
 # ── LLM 客户端 ────────────────────────────────────────
 
@@ -335,151 +349,236 @@ def _get_placeholders(item: dict) -> List[str]:
     return seen
 
 
-def _auto_fill_params(user_question: str, values: dict, placeholders: list):
-    """从用户问题中自动提取常见参数值，填充LLM未填的占位符。"""
-    
-    if 'logicalRegionName' in placeholders and not values.get('logicalRegionName'):
-        m = re.search(r'region_(\w+)', user_question)
-        if m:
-            values['logicalRegionName'] = 'region_' + m.group(1)
-        elif '贵安' in user_question:
-            values['logicalRegionName'] = 'region_guian4'
-    
-    if 'azoneName' in placeholders and not values.get('azoneName'):
-        m = re.search(r'az\d+\.dc\d+', user_question)
-        if m:
-            values['azoneName'] = m.group(0)
-        else:
-            m = re.search(r'az\w+', user_question, re.IGNORECASE)
-            if m and 'az' in m.group(0).lower():
-                values['azoneName'] = m.group(0)
-    
-    if 'status' in placeholders and not values.get('status'):
-        if any(k in user_question for k in ['运行中', '正在跑', 'ACTIVE', 'active']):
-            values['status'] = 'active'
-        elif any(k in user_question for k in ['异常', '错误', 'ERROR', 'error']):
-            values['status'] = 'error'
-        elif any(k in user_question for k in ['停机', '停止', 'SHUTOFF', 'shutoff']):
-            values['status'] = 'shutoff'
-    
-    if 'privateIps' in placeholders and not values.get('privateIps'):
-        m = re.search(r'@[\da-fA-F]+@[\da-fA-F]+@', user_question)
-        if m:
-            values['privateIps'] = m.group(0)
-        else:
-            m = re.search(r'@[\da-fA-F]+@', user_question)
-            if m:
-                values['privateIps'] = m.group(0)
-            else:
-                m = re.search(r'\d+\.\d+\.\d+\.\d+', user_question)
-                if m:
-                    values['privateIps'] = m.group(0)
-    
-    if 'bootable' in placeholders and not values.get('bootable'):
-        if '可启动' in user_question:
-            values['bootable'] = 'True'
-    
-    if 'assetStatus' in placeholders and not values.get('assetStatus'):
-        if '报废' in user_question:
-            values['assetStatus'] = 'scrapped'
-        elif '运行' in user_question or '在网' in user_question:
-            values['assetStatus'] = 'running'
-    
-    if 'name' in placeholders and not values.get('name'):
-        for pattern, regex in [
-            ('VPC', r'VPC\s*(\S+)'),
-            ('集群', r'集群\s*(\S+)'),
-            ('ECS', r'ECS\s*(\S+)'),
-            ('ELB', r'ELB\s*(\S+)'),
-        ]:
-            m = re.search(regex, user_question)
-            if m:
-                candidate = m.group(1).rstrip('，。的')
-                if candidate and len(candidate) > 2:
-                    values['name'] = candidate
-                    break
-    
-    if 'tenantName' in placeholders and not values.get('tenantName'):
-        m = re.search(r'租户\s*(\S+)', user_question)
-        if m:
-            values['tenantName'] = m.group(1).rstrip('，。的')
-    
-    if 'vdcName' in placeholders and not values.get('vdcName'):
-        m = re.search(r'VDC\s*(\S+)', user_question)
-        if m:
-            values['vdcName'] = m.group(1).rstrip('，。的')
-    
-    if 'hostName' in placeholders and not values.get('hostName'):
-        m = re.search(r'宿主机\s*(\S+)', user_question)
-        if m:
-            values['hostName'] = m.group(1).rstrip('，。的')
-        else:
-            m = re.search(r'kvm[\w-]+', user_question)
-            if m:
-                values['hostName'] = m.group(0)
-    
-    if 'clusterName' in placeholders and not values.get('clusterName'):
-        m = re.search(r'集群\s*(\S+)', user_question)
-        if m:
-            values['clusterName'] = m.group(1).rstrip('，。的')
+# 实体采用 ASCII 或引号边界，避免吞入后续中文条件。
+_ASCII_ENTITY = r"[A-Za-z0-9_@][A-Za-z0-9_@./:#%+\-]*"
+_FIELD_LABELS = {
+    "tenantName": [r"租户", r"tenantName(?![A-Za-z0-9_])", r"tenant(?![A-Za-z0-9_])"], "vdcName": [r"VDC"],
+    "hostName": [r"宿主机", r"hostName"], "clusterName": [r"集群", r"clusterName"],
+    "nativeId": [r"nativeId", r"原生ID"], "manufacturer": [r"厂商", r"manufacturer"],
+    "productName": [r"型号", r"productName"], "hypervisorType": [r"虚拟化类型", r"hypervisorType"],
+    "providerNetworkType": [r"providerNetworkType", r"网络类型"],
+    "indexName": [r"云服务", r"indexName"], "dataVip": [r"业务地址", r"dataVip", r"业务IP"],
+    "mgmtIp": [r"管理IP", r"部署节点IP", r"mgmtIp"],
+}
+_NAME_LABELS = {
+    "VM_NOVA": [r"ECS(?:实例)?", r"虚拟机(?:实例)?"], "HOST": [r"宿主机"],
+    "CLUSTER": [r"集群"], "ROUTER": [r"VPC", r"虚拟私有云"],
+    "ELB": [r"ELB", r"负载均衡器?"], "VOLUME": [r"云硬盘"], "SUBNET": [r"子网"],
+    "SECURITY_GROUP": [r"安全组"], "GAUSSDB_INSTANCE": [r"GaussDB实例"],
+    "Application": [r"应用"], "CCE_CLUSTER": [r"CCE集群"],
+}
+# 状态语义来自随包字典；具体大小写再用当前 schema 样例校准。
+_STATUS_LABELS = {
+    "VM_NOVA": {"运行中": "active", "正在跑": "active", "在运行": "active",
+                "异常": "error", "错误": "error", "故障": "error",
+                "已停止": "stopped", "停止": "stopped", "停机": "stopped",
+                "关机": "shutoff", "暂停": "pause", "创建中": "building", "构建中": "building"},
+    "HOST": {"正常": "normal", "故障": "fault", "重启中": "rebooting", "离线": "poweroff"},
+    "ELB": {"运行中": "ACTIVE", "正常": "NORMAL", "异常": "ABNORMAL", "故障": "ERROR", "停止": "STOPPED"},
+    "FLOATING_IPS": {"未绑定": "down", "已绑定": "active", "绑定中": "binding", "异常": "error"},
+    "VOLUME": {"可用": "available", "正在使用": "in-use", "挂载中": "attaching",
+               "异常": "error", "错误": "error", "故障": "error"},
+    "GAUSSDB_INSTANCE": {"正常": "normal", "异常": "abnormal", "创建中": "creating", "停止": "shutdown"},
+}
+_ENUM_FIELDS = {"status", "bootable", "management", "shared", "assetStatus", "direction"}
+
+
+def _param_resource(item: dict, parameter: str) -> str:
+    calls = item.get("api_call", [])
+    calls = calls if isinstance(calls, list) else [calls]
+    resources = []
+    for call in calls:
+        for constraint in call.get("condition", {}).get("constraint", []):
+            value = constraint.get("simple", {}).get("value")
+            if isinstance(value, str) and "{{" + parameter + "}}" in value:
+                resources.append(call["url"].split("?")[0].rsplit("/", 1)[-1])
+    return resources[0] if len(set(resources)) == 1 else ""
+
+
+def _canonical_enum(item: dict, parameter: str, value):
+    samples = _schema_values.get(_param_resource(item, parameter), {}).get(parameter, [])
+    matching = [v for v in samples if str(v).casefold() == str(value).casefold()]
+    return matching[0] if matching else value
+
+
+def _one(values):
+    unique = list(dict.fromkeys(values))
+    return unique[0] if len(unique) == 1 else None
+
+
+def _labeled_entity(question: str, labels: list):
+    values = []
+    for label in labels:
+        pattern = (r"(?:" + label + r")\s*(?:名称为|名为|名称|名)?\s*(?:为|是|[:：=])?\s*"
+                   r"(?:[\"“‘「]([^\"”’」]+)[\"”’」]|'([^']+)'|(" + _ASCII_ENTITY + r"))")
+        for match in re.finditer(pattern, question, re.IGNORECASE):
+            value = next((v for v in match.groups() if v is not None), "").rstrip(",.;，。；")
+            if value:
+                values.append(value)
+    return _one(values)
+
+
+def _semantic_values(question: str, item: dict, parameter: str) -> list:
+    if parameter == "status":
+        aliases = _STATUS_LABELS.get(_param_resource(item, parameter), {})
+    elif parameter == "bootable":
+        aliases = {"不可启动": False, "非可启动": False, "可启动": True}
+    elif parameter == "shared":
+        aliases = {"非共享": False, "不共享": False, "共享": True}
+    elif parameter == "management":
+        aliases = {"管理虚拟机": True, "租户虚拟机": False}
+    elif parameter == "assetStatus":
+        aliases = {"报废": "scrapped", "在网": "running", "闲置": "idle"}
+    elif parameter == "direction":
+        aliases = {"入站": "ingress", "出站": "egress"}
+    else:
+        return []
+    occupied = set()
+    found = []
+    for label in sorted(aliases, key=len, reverse=True):
+        for match in re.finditer(re.escape(label), question):
+            positions = set(range(match.start(), match.end()))
+            if occupied & positions:
+                continue
+            occupied |= positions
+            found.append(_canonical_enum(item, parameter, aliases[label]))
+    return found
+
+
+def _auto_fill_params(user_question: str, values: dict, placeholders: list, item: dict = None):
+    """只从问题中的显式实体或字段语义补参，不使用示例中的实体默认值。"""
+    item = item or {}
+    for parameter in placeholders:
+        value = None
+        if parameter == "logicalRegionName":
+            value = _one(re.findall(r"(?<![A-Za-z0-9_])region_[A-Za-z0-9_\-]+", user_question))
+        elif parameter == "azoneName":
+            value = _one(re.findall(r"(?<![A-Za-z0-9_])az(?:\d+\.dc\d+|_[A-Za-z0-9_.\-]+)", user_question))
+        elif parameter == "name":
+            labels = _NAME_LABELS.get(_param_resource(item, parameter), [])
+            value = _labeled_entity(user_question, labels + [r"名称为", r"名为"])
+        elif parameter in _FIELD_LABELS:
+            value = _labeled_entity(user_question, _FIELD_LABELS[parameter])
+        elif parameter in {"privateIps", "fixedIpAddress"}:
+            value = _one(re.findall(r"@[\da-fA-F]+@(?:[\da-fA-F]+@)?|(?:\d{1,3}\.){3}\d{1,3}", user_question))
+        if value is None and parameter in _ENUM_FIELDS:
+            candidates = _semantic_values(user_question, item, parameter)
+            unique = {str(v): v for v in candidates}
+            value = next(iter(unique.values())) if len(unique) == 1 else None
+        if value is not None:
+            values[parameter] = value
+
+
+def _parse_params_response(answer: str, placeholders: list) -> Optional[dict]:
+    text = answer.strip()
+    fence = chr(96) * 3
+    if text.startswith(fence) and text.endswith(fence):
+        text = re.sub("^" + fence + r"(?:json|text)?\s*", "", text, flags=re.IGNORECASE)[:-3].strip()
+    def unique_keys(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result and result[key] != value:
+                raise ValueError("参数重复且冲突")
+            result[key] = value
+        return result
+
+    try:
+        parsed = json.loads(text, object_pairs_hook=unique_keys)
+    except ValueError:
+        if text.startswith("{"):
+            return None
+        parsed = {}
+        for line in text.splitlines():
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip().strip("{}")
+            value = value.strip()
+            if key not in placeholders:
+                continue
+            if key in parsed and parsed[key] != value:
+                return None
+            parsed[key] = value
+    if not isinstance(parsed, dict):
+        return None
+    return {k: v for k, v in parsed.items() if k in placeholders}
+
+
+def _ground_params(question: str, values: dict, item: dict) -> dict:
+    """只接受问题中有依据的实体，或由字段语义解释的枚举值。"""
+    grounded = {}
+    for parameter, value in values.items():
+        if value is None or value == "":
+            continue
+        if parameter in _ENUM_FIELDS:
+            candidates = _semantic_values(question, item, parameter)
+            if str(value).casefold() in question.casefold() or any(str(value).casefold() == str(v).casefold() for v in candidates):
+                grounded[parameter] = _canonical_enum(item, parameter, value)
+        elif isinstance(value, str) and value in question:
+            grounded[parameter] = value
+        elif isinstance(value, (list, int, float, bool)):
+            parts = value if isinstance(value, list) else [value]
+            if parts and all(str(part) in question for part in parts):
+                grounded[parameter] = value
+    return grounded
 
 
 def _fill_params(item: dict, values: dict, user_question: str = "") -> bool:
-    """用 values 填充 item 中的 {{占位符}}。
-    
-    未填充的占位符替换为空字符串，并清理API条件和SQL中的空值。
-    始终返回 True（支持可选参数）。
-    """
-    def replace(obj):
+    """缺少必要参数时拒绝；API 保留类型，SQL 字符串值转义单引号。"""
+    required = set(_get_placeholders(item))
+    optional = set(item.get("optional_params", []))
+    missing = {p for p in required if p not in values or values[p] is None or values[p] == ""}
+    if missing - optional:
+        return False
+
+    def replace(obj, sql=False):
         if isinstance(obj, str):
-            for key, val in values.items():
-                if val:
-                    obj = obj.replace(f"{{{{{key}}}}}", val)
+            for key, value in values.items():
+                if value is None or value == "":
+                    continue
+                placeholder = "{{" + key + "}}"
+                if obj == placeholder and not sql:
+                    return copy.deepcopy(value)
+                text = str(value).replace("'", "''") if sql else str(value)
+                obj = obj.replace(placeholder, text)
+            return obj
         if isinstance(obj, dict):
-            return {k: replace(v) for k, v in obj.items()}
+            return {k: replace(v, sql) for k, v in obj.items()}
         if isinstance(obj, list):
-            return [replace(i) for i in obj]
+            return [replace(v, sql) for v in obj]
         return obj
 
-    def replace_unfilled(obj):
-        """将残留的 {{xxx}} 占位符替换为空字符串（保留 from step 类型）。"""
-        if isinstance(obj, str):
-            def _replacer(m):
-                inner = m.group(1)
-                if "from step" in inner.lower():
-                    return m.group(0)
-                return ""
-            return re.sub(r"\{\{(.+?)\}\}", _replacer, obj)
-        if isinstance(obj, dict):
-            return {k: replace_unfilled(v) for k, v in obj.items()}
-        if isinstance(obj, list):
-            return [replace_unfilled(i) for i in obj]
-        return obj
-
-    for field in ["params", "api_call", "sql"]:
-        if field in item:
-            item[field] = replace(item[field])
-
-    remaining = re.findall(r"\{\{.+?\}\}", json.dumps(item, ensure_ascii=False))
-    remaining = [r for r in remaining if "from step" not in r.lower()]
-
-    if remaining:
-        logger.info(f"可选参数未填充，清理空值: {remaining}")
-        for field in ["params", "api_call", "sql"]:
-            if field in item:
-                item[field] = replace_unfilled(item[field])
-        _cleanup_empty_api_conditions(item)
-        if "sql" in item:
-            item["sql"] = _cleanup_sql_empty_where(item["sql"])
-
+    filled = {field: replace(item[field], field == "sql")
+              for field in ("params", "api_call", "sql") if field in item}
+    calls = filled.get("api_call", [])
+    calls = calls if isinstance(calls, list) else [calls]
+    for call in calls:
+        condition = call.get("condition", {})
+        constraints = condition.get("constraint", [])
+        kept = []
+        for constraint in constraints:
+            value = constraint.get("simple", {}).get("value")
+            match = re.fullmatch(r"\{\{([^{}]+)\}\}", value) if isinstance(value, str) else None
+            if not match or match[1] not in missing:
+                kept.append(constraint)
+        if kept:
+            condition["constraint"] = kept
+        elif condition:
+            call.pop("condition", None)
+    remaining = re.findall(r"\{\{([^{}]+)\}\}", json.dumps(filled, ensure_ascii=False))
+    if any("from step" not in p.lower() for p in remaining):
+        return False
+    item.update(filled)
     return True
 
 
-def _fix_native_id_to_name(item: dict, parsed: dict):
+def _fix_native_id_to_name(item: dict, parsed: dict, user_question: str = ""):
     """如果api_call中nativeId条件的值不像UUID，改为name条件。"""
     native_val = parsed.get("nativeId", "")
     if not native_val:
         return
+    if re.search(r"native\s*id|原生\s*id|编号|标识", user_question, re.IGNORECASE):
+        return  # 原生 ID 可为不透明短串，不能按 UUID 外形猜测字段。
     # UUID格式: 8-4-4-4-12 或纯hex，长度>=32
     is_uuid = bool(re.match(r'^[0-9A-Fa-f-]{32,}$', native_val))
     if is_uuid:
@@ -632,92 +731,12 @@ def match_runbook(user_question: str, runbook_items: list,
     answer = llm_ask(prompt, stage="fill").strip("`").strip()
     logger.info(f"LLM fill params answer: {answer}")
 
-    parsed = {}
-    for line in answer.splitlines():
-        if "=" not in line:
-            continue
-        key, _, val = line.partition("=")
-        key = key.strip().strip("{}")
-        val = val.strip()
-        if val:
-            parsed[key] = val
-
-    # 后处理：去除名称类参数中的常见前缀（ECS/VM/虚拟机/VPC/ELB等）
-    for k, v in list(parsed.items()):
-        # 清除垃圾值（含"的"、"各"等非实体词）
-        if any(g in v for g in ('的', '各', '什么', '多少', '哪些')):
-            parsed[k] = ''
-            continue
-        if any(t in k for t in ("名称", "name", "Name")):
-            for prefix in ("ECS", "VM", "虚拟机", "VPC", "ELB", "云硬盘", "VDC"):
-                if v.startswith(prefix) and len(v) > len(prefix):
-                    v = v[len(prefix):]
-            parsed[k] = v
-
-    # 后处理：规范化status值（中文→英文）
-    if 'status' in parsed:
-        v = parsed['status'].lower()
-        if v in ('正在跑', '运行中', 'active', 'running', '在运行'):
-            parsed['status'] = 'active'
-        elif v in ('异常', '错误', 'error', '故障'):
-            parsed['status'] = 'error'
-        elif v in ('停机', '停止', 'shutoff', 'stopped', '关机'):
-            parsed['status'] = 'shutoff'
-        elif v in ('暂停', 'paused'):
-            parsed['status'] = 'paused'
-        elif v in ('构建中', 'building', 'building'):
-            parsed['status'] = 'building'
-
-    # 后处理：规范化bootable值
-    if 'bootable' in parsed:
-        v = parsed['bootable'].lower()
-        if v in ('true', '是', '可启动', '可启动的'):
-            parsed['bootable'] = 'True'
-        elif v in ('false', '否'):
-            parsed['bootable'] = 'False'
-
-    # 后处理：规范化assetStatus值
-    if 'assetStatus' in parsed:
-        v = parsed['assetStatus']
-        if '报废' in v:
-            parsed['assetStatus'] = 'scrapped'
-        elif '运行' in v or '在网' in v:
-            parsed['assetStatus'] = 'running'
-        elif '闲置' in v:
-            parsed['assetStatus'] = 'idle'
-
-    # 自动填充常见参数（LLM未提取的从用户问题中自动匹配）
-    _auto_fill_params(user_question, parsed, placeholders)
-
-    # 后处理：logicalRegionName的值像azone(az\d+.dc\d+)时，迁移到azoneName
-    if 'logicalRegionName' in parsed:
-        val = parsed['logicalRegionName']
-        if re.match(r'^az\d+\.dc\d+$', val):
-            if 'azoneName' in placeholders:
-                parsed['azoneName'] = val
-                del parsed['logicalRegionName']
-                logger.info(f"logicalRegionName({val})→azoneName")
-            else:
-                del parsed['logicalRegionName']
-                logger.info(f"logicalRegionName值({val})像azone但模板无azoneName占位，清除")
-
-    # 兜底：仅在问题中提到相关关键词时才用default_params
-    default_params = selected.get("default_params", {})
-    _param_keywords = {
-        'tenantName': ['租户', 'tenant'],
-        'logicalRegionName': ['区域', 'region'],
-        'vdcName': ['VDC', 'vdc'],
-        'clusterName': ['集群', 'cluster'],
-        'azoneName': ['可用区', 'az'],
-        'hostName': ['宿主机', 'kvm'],
-    }
-    for p in placeholders:
-        if p not in parsed or not parsed[p]:
-            if p in default_params and default_params[p]:
-                kws = _param_keywords.get(p, [])
-                if kws and any(k in user_question for k in kws):
-                    parsed[p] = default_params[p]
-                    logger.info(f"问题提及关键词，使用默认参数: {p}={default_params[p]}")
+    parsed = _parse_params_response(answer, placeholders)
+    if parsed is None:
+        logger.info("参数回答格式有冲突，弃权")
+        return None
+    _auto_fill_params(user_question, parsed, placeholders, selected)
+    parsed = _ground_params(user_question, parsed, selected)
 
     logger.info(f"最终参数: {parsed}")
 
@@ -726,7 +745,7 @@ def match_runbook(user_question: str, runbook_items: list,
         return None
 
     # 3.5 后处理：nativeId值不像UUID时，改为name条件
-    _fix_native_id_to_name(selected, parsed)
+    _fix_native_id_to_name(selected, parsed, user_question)
 
     # 3.55 弃权检查：问题提到关键过滤条件但API无对应条件 → 弃权
     _api_cond_names = set()
