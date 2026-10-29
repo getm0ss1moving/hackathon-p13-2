@@ -1,194 +1,1155 @@
 {
-  "scope": "Sanitized aggregate handoff; no source questions, asset identifiers, host paths, process identifiers or per-query records.",
-  "accepted_code": {
-    "commit": "1928514a1f2c722286ecb98463ad6425b4100dc7",
-    "already_on_remote": true,
-    "change": "Precompute document term frequencies at index construction; reuse during BM25 retrieval.",
-    "retriever_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
-    "remote_base": "5c6a65bf78a10383ec16e802bbba1ac506727dac"
-  },
-  "production": {
-    "templates": 200,
+  "scope": "Current A API-filter repairs and five-point handoff; historical diagnostics are separated below",
+  "current_handoff": {
+    "schema_version": 1,
+    "as_of": "2026-10-29",
+    "scope": "A template changes and five-point handoff; no new B runtime implementation",
+    "status": "VERIFIED_API_BINDINGS_WITH_DECLARED_CAPABILITY_LIMITS",
+    "base_commit": "e063f6a90a3dd895f767d06f9efdd876c894097d",
+    "template_change_commit": "e9d76e456c17215525300869f198c61657a559a9",
+    "template_count": 200,
     "index_documents": 400,
-    "isolated_candidate_applied": false,
-    "executor_or_evaluator_changed": false,
-    "protected_original_files": 236,
-    "protected_files_match_original": true
-  },
-  "cache_equivalence": {
-    "status": "PASS",
-    "fixed_queries": 1075,
-    "top_k_variants": 6,
-    "fixed_comparisons": 6450,
-    "edge_comparisons": 2016,
-    "total_comparisons": 8466,
-    "mismatches": 0,
-    "compared_fields": [
-      "id",
-      "order",
-      "tier",
-      "score",
-      "coverage"
+    "template_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+    "retriever_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "changed_templates": [
+      "rb_071",
+      "rb_177",
+      "rb_183"
     ],
-    "scope_limit": "Retrieval output equivalence; not model or official answer accuracy.",
-    "initial_audit_script_failure_preserved_locally": true
-  },
-  "local_performance": {
-    "environment": "macOS arm64; Python 3.11.16",
-    "query_count_per_version": 3225,
-    "paired_repeats": 3,
-    "warmup_queries_per_version": 10,
-    "measurement": "retrieve() only in one warm process; excludes API, model, execution and scoring.",
-    "latency_ms": {
-      "baseline": {
-        "n": 3225,
-        "p50_ms": 1.085625,
-        "p95_ms": 1.466458,
-        "p99_ms": 1.6255,
-        "max_ms": 1.926417,
-        "over_200ms": 0
+    "added_API_conditions": 4,
+    "other197_templates_unchanged": true,
+    "SQL_examples_defaults_resources_unchanged": true,
+    "new_entity_defaults": false,
+    "parameters": {
+      "semantic_slots": 30,
+      "required_for_audited_intent": 27,
+      "unknown": 3,
+      "confirmed_business_optional": 0,
+      "identified_missing_bindings": 8,
+      "implemented_slots": 3,
+      "blocked_slots": 5,
+      "blocked_templates": [
+        "rb_078",
+        "rb_079",
+        "rb_151",
+        "rb_186",
+        "rb_193"
+      ],
+      "unknown_slots": [
+        "rb_041.status",
+        "rb_052.logicalRegionName",
+        "rb_128.name"
+      ],
+      "unresolved_value_conflict": "rb_038.tenantName"
+    },
+    "parameter_contracts": [
+      {
+        "template": "rb_038",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "tenantName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "tenantName",
+                "operator": "equal",
+                "placeholder": "{{tenantName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "tenantName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "azoneName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "azoneName",
+                "operator": "equal",
+                "placeholder": "{{azoneName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "azoneName",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
       },
-      "candidate": {
-        "n": 3225,
-        "p50_ms": 0.833458,
-        "p95_ms": 1.217042,
-        "p99_ms": 1.376542,
-        "max_ms": 1.756209,
-        "over_200ms": 0
+      {
+        "template": "rb_041",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "status",
+            "semantic_requiredness": "UNKNOWN",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "status",
+                "operator": "equal",
+                "placeholder": "{{status}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "status",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_052",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "UNKNOWN",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_062",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "management",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "management",
+                "operator": "equal",
+                "placeholder": "{{management}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "management",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_071",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "PLACEHOLDER_BOUND_TO_VERIFIED_SAME_NAME_API_FIELD; value extraction is B responsibility",
+            "binding_status": "IMPLEMENTED_IN_THIS_DELIVERY",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_078",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "API_FIELD_MAPPING_UNRESOLVED",
+            "binding_status": "BLOCKED_MAPPING_UNPROVEN",
+            "current_API_bindings": [],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_079",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "API_FIELD_MAPPING_UNRESOLVED",
+            "binding_status": "BLOCKED_MAPPING_UNPROVEN",
+            "current_API_bindings": [],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_084",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "bootable",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal",
+                "placeholder": "{{bootable}}"
+              },
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal",
+                "placeholder": "{{bootable}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal"
+              },
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_085",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "azoneName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "azoneName",
+                "operator": "equal",
+                "placeholder": "{{azoneName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "azoneName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "bootable",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal",
+                "placeholder": "{{bootable}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "bootable",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_110",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "shared",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal",
+                "placeholder": "{{shared}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_111",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "shared",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal",
+                "placeholder": "{{shared}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "providerNetworkType",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "providerNetworkType",
+                "operator": "equal",
+                "placeholder": "{{providerNetworkType}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "providerNetworkType",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_112",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "shared",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal",
+                "placeholder": "{{shared}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "shared",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_128",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "name",
+            "semantic_requiredness": "UNKNOWN",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "name",
+                "operator": "equal",
+                "placeholder": "{{name}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "name",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_151",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "vdcName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "vdcName",
+                "operator": "equal",
+                "placeholder": "{{vdcName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "vdcName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "azoneName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "API_FIELD_MAPPING_UNRESOLVED",
+            "binding_status": "BLOCKED_MAPPING_UNPROVEN",
+            "current_API_bindings": [],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_175",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "SOURCE_VALUE_REQUIRED_BUT_REDACTED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal"
+              }
+            ]
+          },
+          {
+            "name": "management",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": false,
+            "value_status": "UNRESOLVED",
+            "binding_status": "EXISTING_BINDING",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "management",
+                "operator": "equal",
+                "placeholder": "{{management}}"
+              }
+            ],
+            "baseline_API_bindings": [
+              {
+                "step": 1,
+                "field": "management",
+                "operator": "equal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "template": "rb_177",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "PLACEHOLDER_BOUND_TO_VERIFIED_SAME_NAME_API_FIELD; value extraction is B responsibility",
+            "binding_status": "IMPLEMENTED_IN_THIS_DELIVERY",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              },
+              {
+                "step": 2,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_183",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "logicalRegionName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "PLACEHOLDER_BOUND_TO_VERIFIED_SAME_NAME_API_FIELD; value extraction is B responsibility",
+            "binding_status": "IMPLEMENTED_IN_THIS_DELIVERY",
+            "current_API_bindings": [
+              {
+                "step": 1,
+                "field": "logicalRegionName",
+                "operator": "equal",
+                "placeholder": "{{logicalRegionName}}"
+              }
+            ],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_186",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "azoneName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "API_FIELD_MAPPING_UNRESOLVED",
+            "binding_status": "BLOCKED_MAPPING_UNPROVEN",
+            "current_API_bindings": [],
+            "baseline_API_bindings": []
+          }
+        ]
+      },
+      {
+        "template": "rb_193",
+        "scope": "required only for the audited source intent; not a global requirement for all future intents",
+        "parameters": [
+          {
+            "name": "azoneName",
+            "semantic_requiredness": "REQUIRED_IN_SOURCE_INTENT",
+            "api_formal_nullable": "UNKNOWN",
+            "identified_missing_binding": true,
+            "value_status": "API_FIELD_MAPPING_UNRESOLVED",
+            "binding_status": "BLOCKED_MAPPING_UNPROVEN",
+            "current_API_bindings": [],
+            "baseline_API_bindings": []
+          }
+        ]
+      }
+    ],
+    "parameter_policy": {
+      "missing_required": "clarify or abstain; never silently remove required filter",
+      "unknown_semantics": "resolve context or decline; do not infer from API optional arguments",
+      "null_and_empty": "not interchangeable with missing or optional",
+      "valid_false_and_zero": "must preserve valid typed values",
+      "runtime_enforcement": "B responsibility; declarations alone do not enforce execution"
+    },
+    "validation": {
+      "native_executions": 6,
+      "actual_request_filter_verified": 6,
+      "output_capability_proven": 5,
+      "output_capability_unproven": 1,
+      "unproven_scenario": "rb_071 alternate observed region: missing SYS_X86Server.hostName; original executor hides SQL error as empty output",
+      "all_source_and_data_inputs_unchanged_during_test": true,
+      "model_calls": 0,
+      "new_full_model_score": "NOT RUN for this template hash",
+      "pass_fail": {
+        "API_filters": "PASS 6/6",
+        "complete_output": "PARTIAL 5/6; rb071 sparse region fails",
+        "all8_missing_bindings": "NOT COMPLETE;3 repaired,5 unproven mappings",
+        "new_model_run": "NOT RUN"
+      },
+      "scope_limit": "Two observed scope values may be aliases/cloned data; no unseen geographic generalization claim",
+      "unresolved_original_SQL_semantics": [
+        "rb177 original SQL does not return pool details",
+        "rb183 original SQL does not restrict output to the maximum tenant; not repaired by adding region filters"
+      ],
+      "independent_verifier_exit_code": 2,
+      "independent_verifier_status": "BLOCKED",
+      "retained_failure": [
+        "native_or_request_filter_failed:rb_071:control_other_real_scope"
+      ],
+      "source_manifest_commit_verified": true,
+      "protected_files_unchanged_each_copy": 236,
+      "public_reproduction_exit_codes": {
+        "199": 0,
+        "empty021": 0,
+        "empty041": 0,
+        "long126": 0,
+        "native126": 0
+      },
+      "meaning_of_exit_codes": "Verifier exit2 preserves known output failure; boundary probe exit0 means successful reproduction, not a fix"
+    },
+    "five_points": {
+      "empty_predecessor": {
+        "templates": [
+          "rb_021",
+          "rb_041"
+        ],
+        "first_step_rows": 0,
+        "unconditioned_next_HTTP_requests_each": 1,
+        "next_rows_each": 2909,
+        "required_next_requests": 0,
+        "runtime_fix": "NOT IMPLEMENTED BY A; B orchestration required",
+        "status": "FAIL expected next requests 0; reproduced behavior, not fixed"
+      },
+      "database_pool": {
+        "template": "rb_093",
+        "storagePoolId_present_in_instances": 0,
+        "instances": 14,
+        "observed_host_volume_path_coverage": 12,
+        "missing_node_VM_references": 6,
+        "database_specific_data_volume_relation": "UNPROVEN",
+        "resourcePoolId_is_storagePoolId": false,
+        "observed_host_volume_chain": [
+          "GAUSSDB_INSTANCE.id = GAUSSDB_NODE.ref_instanceId",
+          "GAUSSDB_NODE.ref_vmbmsId = VM_NOVA.id",
+          "VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId",
+          "R_VOLUME_MOUNTON_VM.volumeId = VOLUME.id",
+          "VOLUME.attachBackendId = STORAGE_POOL.id"
+        ],
+        "complete_attachment_paths": 186,
+        "shared_resourcePoolId_matches": 3,
+        "template_rewritten": false
+      },
+      "candidate199": {
+        "historical_base_commit": "5755b93435270a01d0df96c9faf777da60217a40",
+        "public_repro_base_commit": "d79c3166ef81ed0c809f8233ce1b1ebd40c9e0ea",
+        "base_template_sha256": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+        "candidate_sha256": "7aa441b426f3d5e1ae3160cb347285b70be4240337231fc662d12ce73f2a55a8",
+        "removed": [
+          "rb_087"
+        ],
+        "kept": "rb_086",
+        "surviving199_unchanged": true,
+        "documents": 398,
+        "old_reported400_was_baseline_metadata": true,
+        "old_retrieval_run_input_hash": "NOT RECORDED; artifact reproducible does not certify old entire run",
+        "adopted": false
+      },
+      "long_GET": {
+        "template": "rb_126",
+        "condition_fields": [
+          "securityGroupId",
+          "direction"
+        ],
+        "conditions": 2,
+        "ID_values": 1814,
+        "absolute_URL_bytes": 80249,
+        "request_target_bytes": 80228,
+        "request_line_bytes": 80243,
+        "server_request_line_limit_bytes": 65536,
+        "method": "GET",
+        "direct_status": 414,
+        "original_execute_HTTP_statuses": [
+          200,
+          414,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "original_execute_error_present": false,
+        "original_fixed_selection_SDK_score": 5,
+        "explanation": "Original SQL does not consume SECURITY_GROUP_RULE; swallowed HTTP/JSON failure is not proof of success",
+        "client_python": "3.11.16",
+        "client_requests": "2.32.5",
+        "effective_proxy": false,
+        "runtime_batching_fix": "NOT IMPLEMENTED BY A; B planner and merge semantics required",
+        "status": "FAIL request size; reproduced behavior, not fixed"
       }
     },
-    "candidate_traced_builds": {
-      "samples": 5,
-      "median_ms": 11.580042,
-      "max_ms": 11.642333,
-      "tracemalloc_enabled": true
+    "historical_model_diagnostics": {
+      "old_cached_A": {
+        "commit": "d154d77275142544d2ae96391455f77dcac583e6",
+        "template_sha256": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+        "repeats": 2,
+        "raw_SDK_scores": [
+          553.9,
+          557.9
+        ],
+        "WB_average": 555.9,
+        "development_180": 490.95,
+        "holdout_20": 64.95
+      },
+      "description_index_experiment": {
+        "source_commit": "4949f6d41e8f62259d06236365b92be20798ba6a",
+        "source_retriever_sha256": "edeae7a4f166faaf71afb4380f4938d798b05d52cb1631c49fd70c86e82a9d28",
+        "patch_file": "experiments/a_description_index_candidate.patch",
+        "template_sha256": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+        "completed_repeats": 1,
+        "raw_SDK_score": 548.7,
+        "second_repeat": "NOT RUN; five-point handoff gate",
+        "negative_controls_with_strong_increase": 6,
+        "negative_controls": 24,
+        "adopted": false
+      },
+      "model": "deepseek-flash",
+      "thinking": "disabled",
+      "scope": "Local original SDK;4s/6s audit agrees, not organizer runtime or blackbox",
+      "earlier_incomplete_question_runs_excluded": [
+        172,
+        72
+      ],
+      "these_scores_do_not_measure_current_template_fix": true
     },
-    "older_untraced_builds": {
-      "samples": 31,
-      "saved_median_ms": 2.128125,
-      "individual_durations_retained": false
-    },
-    "single_fresh_process": {
-      "peak_rss_bytes": 21741568,
-      "build_ms": 2.385292,
-      "scope": "Interpreter, imports and one index build only; excludes data service, model and whole system."
-    },
-    "official_environment_compliance_established": false
-  },
-  "schema_audit": {
-    "templates": 200,
-    "api_steps": 302,
-    "declared_ci_paths_present": 302,
-    "condition_fields": 301,
-    "confirmed_fields": 299,
-    "empty_schema_fields_unconfirmed": 2,
-    "documented_operators": 301,
-    "sql_static_prepare_pass": 198,
-    "sql_empty_schema_limited_checks": 2,
-    "unreferenced_mapping_schema_404": 1,
-    "scope_limit": "Name/type availability and static SQL preparation; not join semantics or answer verification.",
-    "initial_empty_schema_misclassification_corrected_and_preserved_locally": true
-  },
-  "parameter_contract_audit": {
-    "templates": 200,
-    "parameters": 221,
-    "explicit_required": 202,
-    "normalization_needs_clarification": 16,
-    "undetermined": 3,
-    "templates_requiring_clarification": 19,
-    "fallback_does_not_imply_optional": true
-  },
-  "native_path_audit": {
-    "templates": 19,
-    "references": 20,
-    "usable_in_tested_input": 17,
-    "empty_previous_result": 2,
-    "missing_previous_field": 1,
-    "native_errors": 0,
-    "fixed_selection_score": 95,
-    "fixed_selection_max_score": 95,
-    "scores_do_not_establish_path_safety": true,
-    "follow_up_templates": [
-      "rb_021",
-      "rb_041",
-      "rb_093"
+    "B_required_work": [
+      "strict required/context/unknown/null/empty and valid boolean/zero handling",
+      "prevent requests after empty or missing dependency; normal paths must remain correct",
+      "resolve name-to-ID and multi-CI mappings with authoritative semantics",
+      "detect malformed/native SQL output instead of treating hidden error as correct empty result",
+      "bound GET length and verify batch union/deduplication/aggregation; do not change GET to POST without API evidence"
     ],
-    "equivalent_previous_step_template": "rb_130",
-    "scope_limit": "Native fixed-template diagnostics with verified inputs; no model selection/filling."
+    "not_claimed": [
+      "all8 bindings fixed",
+      "full rb093 database volume coverage",
+      "empty-step runtime fixed",
+      "long-URL batching implemented",
+      "official final score or unseen blackbox improvement"
+    ],
+    "privacy": "Only code, aggregate results and field contracts; no source questions, entity values, account balances, raw logs, local absolute paths or credentials"
   },
-  "strict_duplicate_template_capability": {
-    "source_cases": 4,
-    "variants": 2,
-    "native_processes": 8,
-    "equal_output_pairs": 4,
-    "score_per_variant": 20,
-    "max_score_per_variant": 20,
-    "historical_runtime_modified_probe_excluded": true
-  },
-  "isolated_merge": {
-    "status": "PASS_OFFLINE_ONLY",
-    "baseline_templates": 200,
-    "candidate_templates": 199,
-    "delta_templates": -1,
-    "removed_template": "rb_087",
-    "retained_template": "rb_086",
-    "retained_templates_changed": 0,
-    "candidate_applied_to_production": false,
-    "compared_queries": 1075,
-    "lost_label_recall": 0,
-    "lost_label_top1": 0,
-    "label_rank_worsened": 0,
-    "numeric_margin_decreased": 737,
-    "outside_label_count_increased": 25,
-    "selection_prompt_changed": 230,
-    "label_top1_improved": 1,
-    "risk_limit": "Labels are incomplete; rebuilt BM25 score changes are diagnostic risks, not proved answer errors.",
-    "conditional_quantity_term_delta": 1,
-    "official_total_score_delta": null,
-    "positive_region_controls": {
-      "questions": 2,
-      "distinct_replacement_regions": 1,
-      "fresh_expected_generated": true,
-      "answers_equal_to_source": true,
-      "independent_region_generalization_established": false
-    },
-    "negative_region_control": {
-      "native_calls": 3,
-      "fresh_reference_rows": 0,
-      "correct_parameter_rows": 0,
-      "correct_parameter_score": 5,
-      "deliberately_wrong_fallback_rows": 47,
-      "deliberately_wrong_fallback_score": -1,
-      "discriminative": true,
-      "scope": "Fixed selection and verified inputs; not model behavior."
+  "historical_handoff": {
+    "notice": "Earlier published aggregation retained as historical evidence. Its pending/model-not-run statements are superseded by current_handoff and are not current runtime capability claims.",
+    "sections": {
+      "accepted_code": {
+        "commit": "1928514a1f2c722286ecb98463ad6425b4100dc7",
+        "already_on_remote": true,
+        "change": "Precompute document term frequencies at index construction; reuse during BM25 retrieval.",
+        "retriever_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+        "remote_base": "5c6a65bf78a10383ec16e802bbba1ac506727dac"
+      },
+      "production": {
+        "templates": 200,
+        "index_documents": 400,
+        "isolated_candidate_applied": false,
+        "executor_or_evaluator_changed": false,
+        "protected_original_files": 236,
+        "protected_files_match_original": true
+      },
+      "cache_equivalence": {
+        "status": "PASS",
+        "fixed_queries": 1075,
+        "top_k_variants": 6,
+        "fixed_comparisons": 6450,
+        "edge_comparisons": 2016,
+        "total_comparisons": 8466,
+        "mismatches": 0,
+        "compared_fields": [
+          "id",
+          "order",
+          "tier",
+          "score",
+          "coverage"
+        ],
+        "scope_limit": "Retrieval output equivalence; not model or official answer accuracy.",
+        "initial_audit_script_failure_preserved_locally": true
+      },
+      "local_performance": {
+        "environment": "macOS arm64; Python 3.11.16",
+        "query_count_per_version": 3225,
+        "paired_repeats": 3,
+        "warmup_queries_per_version": 10,
+        "measurement": "retrieve() only in one warm process; excludes API, model, execution and scoring.",
+        "latency_ms": {
+          "baseline": {
+            "n": 3225,
+            "p50_ms": 1.085625,
+            "p95_ms": 1.466458,
+            "p99_ms": 1.6255,
+            "max_ms": 1.926417,
+            "over_200ms": 0
+          },
+          "candidate": {
+            "n": 3225,
+            "p50_ms": 0.833458,
+            "p95_ms": 1.217042,
+            "p99_ms": 1.376542,
+            "max_ms": 1.756209,
+            "over_200ms": 0
+          }
+        },
+        "candidate_traced_builds": {
+          "samples": 5,
+          "median_ms": 11.580042,
+          "max_ms": 11.642333,
+          "tracemalloc_enabled": true
+        },
+        "older_untraced_builds": {
+          "samples": 31,
+          "saved_median_ms": 2.128125,
+          "individual_durations_retained": false
+        },
+        "single_fresh_process": {
+          "peak_rss_bytes": 21741568,
+          "build_ms": 2.385292,
+          "scope": "Interpreter, imports and one index build only; excludes data service, model and whole system."
+        },
+        "official_environment_compliance_established": false
+      },
+      "schema_audit": {
+        "templates": 200,
+        "api_steps": 302,
+        "declared_ci_paths_present": 302,
+        "condition_fields": 301,
+        "confirmed_fields": 299,
+        "empty_schema_fields_unconfirmed": 2,
+        "documented_operators": 301,
+        "sql_static_prepare_pass": 198,
+        "sql_empty_schema_limited_checks": 2,
+        "unreferenced_mapping_schema_404": 1,
+        "scope_limit": "Name/type availability and static SQL preparation; not join semantics or answer verification.",
+        "initial_empty_schema_misclassification_corrected_and_preserved_locally": true
+      },
+      "parameter_contract_audit": {
+        "templates": 200,
+        "parameters": 221,
+        "explicit_required": 202,
+        "normalization_needs_clarification": 16,
+        "undetermined": 3,
+        "templates_requiring_clarification": 19,
+        "fallback_does_not_imply_optional": true
+      },
+      "native_path_audit": {
+        "templates": 19,
+        "references": 20,
+        "usable_in_tested_input": 17,
+        "empty_previous_result": 2,
+        "missing_previous_field": 1,
+        "native_errors": 0,
+        "fixed_selection_score": 95,
+        "fixed_selection_max_score": 95,
+        "scores_do_not_establish_path_safety": true,
+        "follow_up_templates": [
+          "rb_021",
+          "rb_041",
+          "rb_093"
+        ],
+        "equivalent_previous_step_template": "rb_130",
+        "scope_limit": "Native fixed-template diagnostics with verified inputs; no model selection/filling."
+      },
+      "strict_duplicate_template_capability": {
+        "source_cases": 4,
+        "variants": 2,
+        "native_processes": 8,
+        "equal_output_pairs": 4,
+        "score_per_variant": 20,
+        "max_score_per_variant": 20,
+        "historical_runtime_modified_probe_excluded": true
+      },
+      "isolated_merge": {
+        "status": "PASS_OFFLINE_ONLY",
+        "baseline_templates": 200,
+        "candidate_templates": 199,
+        "delta_templates": -1,
+        "removed_template": "rb_087",
+        "retained_template": "rb_086",
+        "retained_templates_changed": 0,
+        "candidate_applied_to_production": false,
+        "compared_queries": 1075,
+        "lost_label_recall": 0,
+        "lost_label_top1": 0,
+        "label_rank_worsened": 0,
+        "numeric_margin_decreased": 737,
+        "outside_label_count_increased": 25,
+        "selection_prompt_changed": 230,
+        "label_top1_improved": 1,
+        "risk_limit": "Labels are incomplete; rebuilt BM25 score changes are diagnostic risks, not proved answer errors.",
+        "conditional_quantity_term_delta": 1,
+        "official_total_score_delta": null,
+        "positive_region_controls": {
+          "questions": 2,
+          "distinct_replacement_regions": 1,
+          "fresh_expected_generated": true,
+          "answers_equal_to_source": true,
+          "independent_region_generalization_established": false
+        },
+        "negative_region_control": {
+          "native_calls": 3,
+          "fresh_reference_rows": 0,
+          "correct_parameter_rows": 0,
+          "correct_parameter_score": 5,
+          "deliberately_wrong_fallback_rows": 47,
+          "deliberately_wrong_fallback_score": -1,
+          "discriminative": true,
+          "scope": "Fixed selection and verified inputs; not model behavior."
+        }
+      },
+      "region_modifier_experiment": {
+        "pairs": 105,
+        "unique_source_texts": 104,
+        "original_family_recall": 105,
+        "modified_family_recall": 105,
+        "original_family_top1": 102,
+        "modified_family_top1": 95,
+        "rank_regressed": 8,
+        "rank_improved": 0,
+        "index_rebuilt_between_pairs": false,
+        "answer_scoring_performed": false,
+        "scope_limit": "Removing a region changes filter scope and adjacent tokens; original answers cannot be reused; family rank is not answer accuracy."
+      },
+      "remaining": {
+        "real_model_selection_filling_refinement": "NOT RUN for the isolated candidate",
+        "full_candidate_whitebox_score": "NOT RUN",
+        "official_blackbox_score": "NOT RUN; local data unavailable",
+        "official_total_score": "NOT RUN",
+        "unseen_generalization": "NOT ESTABLISHED",
+        "formal_submission_schema_and_environment": "NEEDS OFFICIAL CONFIRMATION",
+        "new_paid_model_calls": 0,
+        "production_merge": "NOT AUTHORIZED BY THESE OFFLINE RESULTS"
+      },
+      "evidence_policy": {
+        "full_raw_evidence": "Retained only in the original local workspace; not included in this handoff.",
+        "reproducibility": "This aggregate summary alone is not a portable reproduction of the full experiment.",
+        "scope": "Aggregate findings are preserved without altering underlying results; missing evidence and excluded probes remain explicitly identified."
+      }
     }
-  },
-  "region_modifier_experiment": {
-    "pairs": 105,
-    "unique_source_texts": 104,
-    "original_family_recall": 105,
-    "modified_family_recall": 105,
-    "original_family_top1": 102,
-    "modified_family_top1": 95,
-    "rank_regressed": 8,
-    "rank_improved": 0,
-    "index_rebuilt_between_pairs": false,
-    "answer_scoring_performed": false,
-    "scope_limit": "Removing a region changes filter scope and adjacent tokens; original answers cannot be reused; family rank is not answer accuracy."
-  },
-  "remaining": {
-    "real_model_selection_filling_refinement": "NOT RUN for the isolated candidate",
-    "full_candidate_whitebox_score": "NOT RUN",
-    "official_blackbox_score": "NOT RUN; local data unavailable",
-    "official_total_score": "NOT RUN",
-    "unseen_generalization": "NOT ESTABLISHED",
-    "formal_submission_schema_and_environment": "NEEDS OFFICIAL CONFIRMATION",
-    "new_paid_model_calls": 0,
-    "production_merge": "NOT AUTHORIZED BY THESE OFFLINE RESULTS"
-  },
-  "evidence_policy": {
-    "full_raw_evidence": "Retained only in the original local workspace; not included in this handoff.",
-    "reproducibility": "This aggregate summary alone is not a portable reproduction of the full experiment.",
-    "scope": "Aggregate findings are preserved without altering underlying results; missing evidence and excluded probes remain explicitly identified."
   }
 }
