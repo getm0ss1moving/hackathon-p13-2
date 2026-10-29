@@ -1,0 +1,157 @@
+{
+  "type": "single_pass_development_diagnostic",
+  "baseline": "whitebox_20261029_full.jsonl",
+  "candidate": "whitebox_20261029_projection_live.jsonl",
+  "cases": [
+    {
+      "case_id": "CMDB-001",
+      "baseline_score": 5,
+      "candidate_score": 5,
+      "baseline_untimed": 5,
+      "candidate_untimed": 5,
+      "baseline_elapsed": 2.23,
+      "candidate_elapsed": 2.55,
+      "baseline_template": "rb_001",
+      "candidate_template": "rb_001",
+      "contract": {
+        "reject": false,
+        "reason": "columns_preserved",
+        "original_columns": [
+          "status",
+          "count"
+        ],
+        "refined_columns": [
+          "status",
+          "count"
+        ],
+        "missing_columns": []
+      },
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-004",
+      "baseline_score": 5,
+      "candidate_score": 4,
+      "baseline_untimed": 5,
+      "candidate_untimed": 5,
+      "baseline_elapsed": 3.53,
+      "candidate_elapsed": 4.08,
+      "baseline_template": "rb_002",
+      "candidate_template": "rb_002",
+      "contract": {
+        "reject": false,
+        "reason": "columns_preserved",
+        "original_columns": [
+          "status",
+          "count"
+        ],
+        "refined_columns": [
+          "status",
+          "count"
+        ],
+        "missing_columns": []
+      },
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-019",
+      "baseline_score": 1.5,
+      "candidate_score": 4,
+      "baseline_untimed": 2.5,
+      "candidate_untimed": 5,
+      "baseline_elapsed": 4.9,
+      "candidate_elapsed": 4.94,
+      "baseline_template": "rb_009",
+      "candidate_template": "rb_009",
+      "contract": {
+        "reject": true,
+        "reason": "missing_template_columns",
+        "original_columns": [
+          "name",
+          "createdAt"
+        ],
+        "refined_columns": [
+          "createdAt"
+        ],
+        "missing_columns": [
+          "name"
+        ]
+      },
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-020",
+      "baseline_score": 1.5,
+      "candidate_score": 4,
+      "baseline_untimed": 2.5,
+      "candidate_untimed": 5,
+      "baseline_elapsed": 4.07,
+      "candidate_elapsed": 4.58,
+      "baseline_template": "rb_010",
+      "candidate_template": "rb_010",
+      "contract": {
+        "reject": true,
+        "reason": "missing_template_columns",
+        "original_columns": [
+          "vm_name",
+          "status",
+          "flavor_name",
+          "vcpuSize",
+          "ramSize",
+          "diskSize"
+        ],
+        "refined_columns": [
+          "vm_name",
+          "flavor_name",
+          "status"
+        ],
+        "missing_columns": [
+          "vcpuSize",
+          "ramSize",
+          "diskSize"
+        ]
+      },
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-036",
+      "baseline_score": 0,
+      "candidate_score": 0,
+      "baseline_untimed": 0,
+      "candidate_untimed": 0,
+      "baseline_elapsed": 1.1,
+      "candidate_elapsed": 1.01,
+      "baseline_template": "rb_023",
+      "candidate_template": "rb_023",
+      "contract": null,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-248",
+      "baseline_score": 1.5,
+      "candidate_score": 4,
+      "baseline_untimed": 2.5,
+      "candidate_untimed": 5,
+      "baseline_elapsed": 5.89,
+      "candidate_elapsed": 4.65,
+      "baseline_template": "rb_166",
+      "candidate_template": "rb_166",
+      "contract": {
+        "reject": true,
+        "reason": "missing_template_columns",
+        "original_columns": [
+          "module_name",
+          "instance_name"
+        ],
+        "refined_columns": [
+          "instance_name"
+        ],
+        "missing_columns": [
+          "module_name"
+        ]
+      },
+      "reason": "matched"
+    }
+  ],
+  "limitation": "fresh model responses changed; three live guard triggers provide direct mechanism evidence; no independent generalization or causal latency claim"
+}
