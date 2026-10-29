@@ -86,7 +86,7 @@ def _warm_schema_cache():
     for orig, desens in _ORIG_TO_DESENS.items():
         try:
             r = requests.get(f"{SCHEMA_BASE_URL}/rest/hackthon/db/schema/{desens}",
-                             timeout=5, verify=False)
+                             timeout=5)
             data = r.json()
             cols = data.get("columns", [])
             samples = data.get("sample_data", [])
@@ -114,7 +114,7 @@ def _get_table_schemas(sql):
         desens = _ORIG_TO_DESENS.get(table, table)
         try:
             r = requests.get(f"{SCHEMA_BASE_URL}/rest/hackthon/db/schema/{desens}",
-                             timeout=5, verify=False)
+                             timeout=5)
             data = r.json()
             cols = data.get("columns", [])
             samples = data.get("sample_data", [])
@@ -148,10 +148,14 @@ _llm_client = None
 def get_llm():
     global _llm_client
     if _llm_client is None:
+        if not DEEPSEEK_API_KEY.strip():
+            raise RuntimeError("未设置 DEEPSEEK_API_KEY，请先在本机配置环境变量后重新启动；不要将密钥写入代码或聊天。")
+        ca_file = os.environ.get("SSL_CERT_FILE")
+        verify = ssl.create_default_context(cafile=ca_file) if ca_file else True
         _llm_client = OpenAI(
             api_key=DEEPSEEK_API_KEY,
             base_url=DEEPSEEK_BASE_URL,
-            http_client=httpx.Client(verify=False, timeout=60.0, trust_env=False),
+            http_client=httpx.Client(verify=verify, timeout=60.0, trust_env=False),
         )
     return _llm_client
 

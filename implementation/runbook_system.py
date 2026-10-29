@@ -15,7 +15,7 @@ import os
 import sys
 
 from runbook_retriever import RunbookRetriever
-from runbook_matcher import match_runbook, _warm_schema_cache
+from runbook_matcher import match_runbook, _warm_schema_cache, get_llm
 from runbook_executor import execute
 from runbook_items import RUNBOOK_ITEMS
 
@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 class RunbookQuerySystem:
     def __init__(self):
+        get_llm()  # 启动时检查配置，不发送模型请求，避免评估时把缺密钥误记为弃权。
         self.items = RUNBOOK_ITEMS
         self.retriever = RunbookRetriever(self.items)
         _warm_schema_cache()

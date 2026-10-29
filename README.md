@@ -2,7 +2,7 @@
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
-> 接手核验（2026-10-29）：本包缺少 `output-server/README.md` 和黑盒 JSON，实际有 200 条模板。原包评分说明存在差异；准确运行条件、已执行检查和规则对照见文末“最小分支接手记录”。本轮仅补协作文档，查询代码保持原样。
+> 接手核验（2026-10-29）：本包缺少 `output-server/README.md` 和黑盒 JSON，实际有 200 条模板。原包评分说明存在差异，见文末“最小分支接手记录”。第二轮已构建本地环境，补 TLS 校验和评估入口检查；当前启动方法见“本地环境与第二轮开工”。
 
 ## 目录结构
 
@@ -79,7 +79,7 @@ python3 data_server.py --host 127.0.0.1 --port 8080
 
 ### 2. 安装依赖
 
-以下为原包依赖；由 agent 安装前须先获得用户同意，本轮未安装：
+以下为原包依赖。本机已按用户授权安装到 `.venv`；新环境安装前仍需确认，第二轮记录中提供已验证版本和启动方法：
 
 ```bash
 pip install openai httpx requests
@@ -245,7 +245,7 @@ $env:DEEPSEEK_API_KEY="your-api-key-here"
 set DEEPSEEK_API_KEY=your-api-key-here
 ```
 
-- **SSL（更正）**：保持 TLS 证书校验。原实例 `runbook_matcher.py:get_llm()` 已有 `verify=False`，本轮未执行该客户端；模型调用前须在可修改模块改为证书校验开启，企业代理应配置可信 CA。不得关闭证书校验。执行器中的既有配置保持原文件不动，其数据服务地址为本地 HTTP。
+- **SSL（更正）**：当前分支已在 `runbook_matcher.py:get_llm()` 开启证书和主机名校验，可通过 `SSL_CERT_FILE` 指定可信 CA；无效 CA 会在启动时失败。`main` 原实例中的 `verify=False` 保留于基线，当前分支已修正。执行器保持原文件不动，其数据服务地址为本地 HTTP。
 
 ## 关键文件说明
 
@@ -264,7 +264,7 @@ set DEEPSEEK_API_KEY=your-api-key-here
 
 ### 来源、边界与实际文件
 
-目标仓库为 [hackathon-p13-2](https://github.com/getm0ss1moving/hackathon-p13-2)，首次检出为空仓库。仅从用户指定的本地 `hackathon` 出题者实例复制原文件，未读取旧 GitHub 仓库。244 个原文件逐文件 SHA-256 校验一致，保存为 `main` 基线提交 `d79c316`，再创建 `simple/official-starter`；不自动合回 `main`。本轮分支只新增 `AGENTS.md`、`TEAM.md` 并补充本 README。
+目标仓库为 [hackathon-p13-2](https://github.com/getm0ss1moving/hackathon-p13-2)，首次检出为空仓库。仅从用户指定的本地 `hackathon` 出题者实例复制原文件，未读取旧 GitHub 仓库。244 个原文件逐文件 SHA-256 校验一致，保存为 `main` 基线提交 `d79c316`，再创建 `simple/official-starter`；不自动合回 `main`。首轮提交 `ef1745c` 仅新增 `AGENTS.md`、`TEAM.md` 并补充本 README；第二轮修改见文末。
 
 - 实际存在：8 个 implementation Python 文件、3 个 output-server Python 文件、白盒 200 题、230 个数据 JSON、`背景知识.md`。
 - 实际缺失：`output-server/README.md`、`CMDB用例集-黑盒100.json`；没有依赖清单文件。`blackbox_eval.py` 存在不等于黑盒数据可用。
@@ -297,13 +297,13 @@ set DEEPSEEK_API_KEY=your-api-key-here
 | 模板提交 | JSON 数组；单条≤4KB，嵌套≤4层 | Python 模板库，仅写数量上限 | Python 列表；未导出提交 JSON、未做正式容量校验 |
 | 模型/环境 | 模型统一提供、不可更换；CPU、内存≤2GB、索引≤60s、检索≤200ms；有禁网络/外部模型文件要求 | 外部 DeepSeek API | 默认外部 DeepSeek；隔离评测与统一模型的具体接入边界待确认 |
 
-本地 SQL 结构检查仅提示，不覆盖答案分。原 `quick_eval.py` 的 `avg` 采用 `total_score/N*10`，满分只显示 50%；本轮保留脚本，比较时使用 `score=总分/(题数×5)` 原始数值。黑盒入口的百分比计算不同；不得把任何本地输出叫正式成绩。
+本地 SQL 结构检查仅提示，不覆盖答案分。`main` 原 `quick_eval.py` 的 `avg` 采用 `total_score/N*10`，满分只显示 50%；当前分支第二轮已将两个入口统一为 `pct=总分/(实际题数×5)×100`，只修展示，不修改评分函数。不得把本地输出叫正式成绩。
 
 容量初查：按紧凑 UTF-8 JSON 序列化，单条最大 1604 字节；按“每个 dict/list 容器算一层”计，单条最大深度 7，含外层数组为 8。与官方深度≤4存在提交风险，具体深度算法和多步 API 表达需确认；本轮不改模板结构。官网 §3.4/§7 强调 BM25 限制，§8 另提决策树小模型；当前继续使用 BM25，不自行扩大技术范围。
 
-### 启动与测试
+### 首轮运行条件与检查记录
 
-本轮使用系统 Python 3.9.6。数据服务和检索器使用标准库；完整查询需 `openai`、`httpx`、`requests`，当前环境三者均缺失，`DEEPSEEK_API_KEY` 未设置。未安装依赖、未调用模型、未产生模型 API 费用。
+首轮使用系统 Python 3.9.6，当时缺少 `openai`、`httpx`、`requests`，`DEEPSEEK_API_KEY` 未设置，未安装依赖或调用模型。第二轮已用 Python 3.11.16 构建 `.venv`，见文末；密钥仍未配置，模型 API 未调用。
 
 从仓库根目录启动原数据服务（不需要模型）：
 
@@ -319,16 +319,16 @@ python3 output-server/verify_server.py
 
 完成后在服务终端按 Ctrl-C 关闭。本地 API 路径为 `/rest/hackthon/db/instances/{CI}`、`relations/{CI}` 和 `schema/{CI}`；注意原路径拼写为 `hackthon`。数据条件支持 equal/contain/in，数据服务支持 AND/OR；执行器会重新组装条件，多条件按 AND 发送。映射查执行器 `_pairs`，接口细节查原服务代码；不补造缺失的服务 README。
 
-以下为后续完整查询的准备顺序，**本轮未执行安装或模型查询**：先获准创建虚拟环境并安装 `openai httpx requests`，然后在可修改的匹配器修正 TLS 校验。密钥由用户在本机配置，不能发送到聊天或写入仓库。明确模型、题数、重复次数及费用授权后，再从根目录运行：
+完整查询的准备顺序：创建虚拟环境并安装依赖、开启 TLS 校验、在本机配置密钥、确认调用范围及费用。前两项在第二轮已完成，模型调用尚未获准。密钥不能发送到聊天或写入仓库。激活 `.venv` 并获得调用授权后，从根目录运行：
 
 ```bash
-python3 implementation/runbook_system.py "当前所有ECS实例按状态的分布情况"
-python3 implementation/quick_eval.py 20
+python implementation/runbook_system.py "当前所有ECS实例按状态的分布情况"
+python implementation/quick_eval.py 20
 ```
 
-虚拟环境启用时使用其 `python`。`quick_eval.py N` 取白盒文件前 N 题，当前应令 1≤N≤200；脚本没有校验越界且汇总分母仍使用传入 N。`blackbox_eval.py N` 与 `evaluator.py N` 都固定读取缺失的黑盒 JSON，当前不作为可运行命令推荐。
+虚拟环境启用时使用其 `python`。`quick_eval.py N` 取白盒文件前 N 题，要求 1≤N≤实际题数（本包为 200），第二轮已增加范围检查。`blackbox_eval.py N` 与 `evaluator.py N` 都读取缺失的黑盒 JSON，当前不作为可执行评分命令推荐。
 
-### 本轮实际检查与下一步
+### 首轮实际检查与下一步
 
 | 检查 | 实际结果 |
 |---|---|
@@ -342,4 +342,65 @@ python3 implementation/quick_eval.py 20
 | 黑盒评分、官方两次平均及最终加权 | 未运行；黑盒文件缺失，正式环境未提供 |
 | 正式资源/泛化验证 | 未运行；未验证总内存、统一模型、实体替换及正式模板深度校验 |
 
-下一轮先建立能实际查询的白盒基线，再从真实错误中只选一类失败进行优化，沿用原评估脚本比较得分、耗时和模板数量；不同时铺开多个功能。分工待认领，见 `TEAM.md`。
+首轮之后先恢复可运行环境，再建立真实模型白盒基线；从实际错误中只选一类失败优化，沿用原评分函数比较得分、耗时和模板数量。A/B/C 已于第二轮认领，见 `TEAM.md`。
+
+## 本地环境与第二轮开工（2026-10-29）
+
+工作目录：`/Users/duanzeyu/Downloads/hackathon-p13-2`，分支 `simple/official-starter`。本机 `.venv` 已就绪，不进 Git。系统 Python 3.9.6 使用 LibreSSL 2.8.3，最终环境改用本机已有的 `/opt/homebrew/bin/python3.11`，未安装或替换系统 Python，证书校验一直开启。
+
+已验证环境：Python **3.11.16**、OpenSSL **3.6.3**、`openai==2.48.0`、`httpx==0.28.1`、`requests==2.32.5`；`python -m pip check` 通过。相同 Python 环境下复建所需的最小命令为：
+
+```bash
+/opt/homebrew/bin/python3.11 -m venv .venv
+.venv/bin/python -m pip install openai==2.48.0 httpx==0.28.1 requests==2.32.5
+source .venv/bin/activate
+```
+
+已有环境只需执行最后一行。其他机器可用其带受支持 OpenSSL 的 Python 3.11；不复制 `.venv`。安装时仍按用户要求先确认，不使用关闭 TLS 校验的参数。
+
+启动原数据服务：
+
+```bash
+cd /Users/duanzeyu/Downloads/hackathon-p13-2
+source .venv/bin/activate
+python output-server/data_server.py --host 127.0.0.1 --port 8080
+```
+
+另一个终端验证，无模型调用、无需密钥：
+
+```bash
+cd /Users/duanzeyu/Downloads/hackathon-p13-2
+source .venv/bin/activate
+python output-server/verify_server.py
+python implementation/quick_eval.py --help
+```
+
+原样的 `evaluator.py` CLI 没有这些新入口检查，且读取缺失的黑盒文件，当前不用于启动评估。数据服务可在其终端按 Ctrl-C 关闭。
+
+模型调用尚未授权、密钥尚未配置。需要调用时，由用户在运行终端本机配置 `DEEPSEEK_API_KEY` 并确认模型与调用范围。可在已激活的终端用以下命令隐藏输入，不把密钥写入文件或命令历史：
+
+```bash
+read -s DEEPSEEK_API_KEY
+export DEEPSEEK_API_KEY
+```
+
+企业 CA 可用 `SSL_CERT_FILE` 指向实际可信证书文件；密钥和 CA 配置不要提交。网页统一模型与此本地 DeepSeek 配置的正式接入差异仍待确认。
+
+本轮只处理“基线无法可靠启动或报告”这一类问题：
+
+| 分工 | 实际交付 |
+|---|---|
+| A | 只读模板/检索诊断，未修改模板或检索器。200 个白盒问题只有 198 个不同文本，全部出现在模板示例中；对应模板候选保留 200/200、top1 为 197/200，不能当答题正确率。168 个非官方实体替换变体候选保留 168/168，未验证填参或答案。发现两组执行结构重复模板，尚未合并 |
+| B | 匹配器启用 TLS 证书/主机名校验，支持可信自定义 CA；系统初始化检查缺密钥，避免进入误记为弃权的评估；未改匹配算法或 SQL 精调 |
+| C | 两个评估入口检查 N、数据文件、密钥、依赖及本地 schema 服务就绪；启动失败不发模型查询，未处理异常中止并报告已完成题数；普通业务 error 仍交原评分器。百分比按实际题数计算，仍为每题单次诊断 |
+
+实际验证：
+
+- B 在真实依赖环境中做 6 项零网络检查，覆盖 TLS 默认值/可信 CA/无效 CA、缺密钥、客户端复用及输出不泄露测试密钥。
+- C 用真实未改评分器做 52 个无网络 mock 场景，包含 26 个数据服务失败场景；失败场景的模型查询均为 0。
+- 集成执行 7 个实际 CLI 边界检查、11 个 Python 文件语法检查及依赖检查，全部通过。
+- 原数据服务实际加载 63 张表、186,152 条记录；原验证脚本 12 个请求和 schema 检查通过。测试结束后临时服务已关闭。
+- 使用固定 LLM 响应做流程冒烟测试：真实 API/执行器结果与一个公开用例一致；另用合成模板验证选择、填参、SQL 精调仍经过 3 次逻辑模型步骤。外部网络受阻断，模型请求数为 0；这不是模型准确率或答题基线。
+- 执行器、评分器、服务、原数据和用例，以及本轮模板/检索器均与 `main` 无差异。未新增框架或测试文件。
+
+真实模型白盒评分、黑盒评分和官方最终成绩均**未运行**。下一步等待本机密钥、模型接入与有限调用授权后建立真实白盒基线，再选一类实际失败优化。
