@@ -1,0 +1,4751 @@
+{
+  "scope": "train_only_segmented_coverage",
+  "split_id": "whitebox_150_50_v1",
+  "coverage_cases": 150,
+  "full_training_coverage": true,
+  "single_pass_complete": false,
+  "segments": [
+    {
+      "file": "train150_v2_live.jsonl",
+      "status": "incomplete",
+      "cases": 147,
+      "score_sum_completed": 514.0,
+      "max_completed": 735,
+      "untimed_completed": 580.0,
+      "full_quality": 116,
+      "historical_full_same_cases": 112,
+      "requests": 289,
+      "timeout": "CMDB-291"
+    },
+    {
+      "file": "train150_v2_resume_live.jsonl",
+      "status": "complete",
+      "cases": 3,
+      "score_sum_completed": 5,
+      "max_completed": 15,
+      "untimed_completed": 5,
+      "requests": 4,
+      "fresh_process_and_cache": true
+    }
+  ],
+  "metrics": {
+    "full_quality_answers": 117,
+    "partial": 2,
+    "wrong": 5,
+    "scorer_zero": 26,
+    "runtime_abstentions": 25,
+    "untimed_coverage_diagnostic": 585.0,
+    "generation_requests": 293,
+    "known_response_models_verified": 292,
+    "visible_prompt_tokens": 346365,
+    "visible_completion_tokens": 50267,
+    "failed_requests": 9
+  },
+  "baseline_full_quality": 113,
+  "baseline_untimed_diagnostic": 560.0,
+  "pairs": [
+    {
+      "case_id": "CMDB-005",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-010",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-013",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-017",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-019",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-020",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-021",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-022",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-023",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-024",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-025",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-026",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-027",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-028",
+      "old_quality": -1,
+      "new_quality": -1,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-029",
+      "old_quality": -1,
+      "new_quality": 5,
+      "delta": 6
+    },
+    {
+      "case_id": "CMDB-033",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-034",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-039",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-040",
+      "old_quality": -1,
+      "new_quality": 5,
+      "delta": 6
+    },
+    {
+      "case_id": "CMDB-041",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-042",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-043",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-044",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-046",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-049",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-050",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-051",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-052",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-053",
+      "old_quality": -1,
+      "new_quality": -1,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-057",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-060",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-061",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-066",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-067",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-068",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-069",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-074",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-075",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-077",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-078",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-080",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-081",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-085",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-086",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-087",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-088",
+      "old_quality": -1,
+      "new_quality": 0,
+      "delta": 1
+    },
+    {
+      "case_id": "CMDB-089",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-090",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-091",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-093",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-097",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-102",
+      "old_quality": -1,
+      "new_quality": -1,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-104",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-107",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-108",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-112",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-113",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-114",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-115",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-121",
+      "old_quality": -1,
+      "new_quality": 5,
+      "delta": 6
+    },
+    {
+      "case_id": "CMDB-122",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-127",
+      "old_quality": -1,
+      "new_quality": -1,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-130",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-132",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-133",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-134",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-135",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-136",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-137",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-139",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-140",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-141",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-143",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-144",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-147",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-148",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-149",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-150",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-151",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-152",
+      "old_quality": -1,
+      "new_quality": 5,
+      "delta": 6
+    },
+    {
+      "case_id": "CMDB-153",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-154",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-156",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-158",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-165",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-166",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-169",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-173",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-174",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-175",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-176",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-179",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-181",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-182",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-184",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-185",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-188",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-189",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-196",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-197",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-200",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-202",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-204",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-206",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-207",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-208",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-212",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-214",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-215",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-217",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-218",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-221",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-223",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-224",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-229",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-230",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-231",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-234",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-236",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-237",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-238",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-239",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-241",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-243",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-244",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-247",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-248",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-249",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-252",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-255",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-256",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-258",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-259",
+      "old_quality": -1,
+      "new_quality": -1,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-261",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-265",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-267",
+      "old_quality": 2.5,
+      "new_quality": 2.5,
+      "delta": 0.0
+    },
+    {
+      "case_id": "CMDB-268",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-269",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-270",
+      "old_quality": 2.5,
+      "new_quality": 2.5,
+      "delta": 0.0
+    },
+    {
+      "case_id": "CMDB-274",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-275",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-282",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-283",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-285",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-287",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-288",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-290",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-291",
+      "old_quality": 5,
+      "new_quality": 5,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-297",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    },
+    {
+      "case_id": "CMDB-300",
+      "old_quality": 0,
+      "new_quality": 0,
+      "delta": 0
+    }
+  ],
+  "improved": 5,
+  "regressed": 0,
+  "error_types": {
+    "ModelOutputError": 8,
+    "APITimeoutError": 1
+  },
+  "new_cases_not_full": [
+    {
+      "case_id": "CMDB-028",
+      "quality": -1,
+      "runtime_abstained": false,
+      "reason": "答案错误",
+      "matching": {
+        "retrieval_seconds": 0.001467,
+        "candidate_ids": [
+          "rb_018",
+          "rb_174",
+          "rb_149",
+          "rb_049",
+          "rb_058",
+          "rb_060",
+          "rb_179",
+          "rb_042",
+          "rb_003",
+          "rb_043",
+          "rb_168",
+          "rb_184"
+        ],
+        "candidates": [
+          {
+            "id": "rb_018",
+            "tier": "strong",
+            "score": 48.044,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_174",
+            "tier": "strong",
+            "score": 45.968,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_149",
+            "tier": "weak",
+            "score": 18.655,
+            "coverage": 0.341
+          },
+          {
+            "id": "rb_049",
+            "tier": "weak",
+            "score": 16.078,
+            "coverage": 0.29
+          },
+          {
+            "id": "rb_058",
+            "tier": "weak",
+            "score": 14.772,
+            "coverage": 0.295
+          },
+          {
+            "id": "rb_060",
+            "tier": "weak",
+            "score": 14.772,
+            "coverage": 0.295
+          },
+          {
+            "id": "rb_179",
+            "tier": "weak",
+            "score": 14.534,
+            "coverage": 0.277
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 14.477,
+            "coverage": 0.285
+          },
+          {
+            "id": "rb_003",
+            "tier": "weak",
+            "score": 13.958,
+            "coverage": 0.245
+          },
+          {
+            "id": "rb_043",
+            "tier": "weak",
+            "score": 13.769,
+            "coverage": 0.255
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 13.212,
+            "coverage": 0.245
+          },
+          {
+            "id": "rb_184",
+            "tier": "weak",
+            "score": 13.114,
+            "coverage": 0.271
+          }
+        ],
+        "selected_template": "rb_018",
+        "template_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "logicalRegionName": "question_rule",
+          "status": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName",
+          "status"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": false,
+          "reason": "columns_preserved",
+          "original_columns": [
+            "azoneName",
+            "vm_name",
+            "privateIps",
+            "tenantName",
+            "host_name"
+          ],
+          "refined_columns": [
+            "azoneName",
+            "vm_name",
+            "privateIps",
+            "tenantName",
+            "host_name"
+          ],
+          "missing_columns": []
+        },
+        "sql_before_refine": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+        "sql_after_refine": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-053",
+      "quality": -1,
+      "runtime_abstained": false,
+      "reason": "答案错误",
+      "matching": {
+        "retrieval_seconds": 0.002004,
+        "candidate_ids": [
+          "rb_038",
+          "rb_004",
+          "rb_042",
+          "rb_039",
+          "rb_006",
+          "rb_195",
+          "rb_193",
+          "rb_189",
+          "rb_040",
+          "rb_050",
+          "rb_057",
+          "rb_174",
+          "rb_178",
+          "rb_198"
+        ],
+        "candidates": [
+          {
+            "id": "rb_038",
+            "tier": "strong",
+            "score": 32.461,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_004",
+            "tier": "strong",
+            "score": 23.813,
+            "coverage": 0.742
+          },
+          {
+            "id": "rb_042",
+            "tier": "strong",
+            "score": 19.721,
+            "coverage": 0.629
+          },
+          {
+            "id": "rb_039",
+            "tier": "strong",
+            "score": 19.341,
+            "coverage": 0.602
+          },
+          {
+            "id": "rb_006",
+            "tier": "weak",
+            "score": 11.85,
+            "coverage": 0.362
+          },
+          {
+            "id": "rb_195",
+            "tier": "weak",
+            "score": 11.722,
+            "coverage": 0.377
+          },
+          {
+            "id": "rb_193",
+            "tier": "weak",
+            "score": 11.314,
+            "coverage": 0.377
+          },
+          {
+            "id": "rb_189",
+            "tier": "weak",
+            "score": 11.042,
+            "coverage": 0.325
+          },
+          {
+            "id": "rb_040",
+            "tier": "weak",
+            "score": 10.701,
+            "coverage": 0.335
+          },
+          {
+            "id": "rb_050",
+            "tier": "weak",
+            "score": 10.65,
+            "coverage": 0.325
+          },
+          {
+            "id": "rb_057",
+            "tier": "weak",
+            "score": 10.517,
+            "coverage": 0.325
+          },
+          {
+            "id": "rb_174",
+            "tier": "weak",
+            "score": 10.477,
+            "coverage": 0.335
+          },
+          {
+            "id": "rb_178",
+            "tier": "weak",
+            "score": 10.387,
+            "coverage": 0.366
+          },
+          {
+            "id": "rb_198",
+            "tier": "weak",
+            "score": 10.28,
+            "coverage": 0.277
+          }
+        ],
+        "selected_template": "rb_038",
+        "template_sql": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "tenantName": "question_rule",
+          "logicalRegionName": "question_rule",
+          "azoneName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "azoneName",
+          "logicalRegionName",
+          "tenantName"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": true,
+          "reason": "missing_template_columns",
+          "original_columns": [
+            "name",
+            "privateIps",
+            "status"
+          ],
+          "refined_columns": [
+            "privateIps"
+          ],
+          "missing_columns": [
+            "name",
+            "status"
+          ]
+        },
+        "sql_before_refine": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+        "sql_after_refine": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-057",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001136,
+        "candidate_ids": [
+          "rb_041",
+          "rb_182",
+          "rb_019",
+          "rb_042",
+          "rb_113",
+          "rb_198",
+          "rb_133",
+          "rb_155",
+          "rb_118",
+          "rb_010",
+          "rb_135"
+        ],
+        "candidates": [
+          {
+            "id": "rb_041",
+            "tier": "strong",
+            "score": 27.392,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_182",
+            "tier": "weak",
+            "score": 9.673,
+            "coverage": 0.339
+          },
+          {
+            "id": "rb_019",
+            "tier": "weak",
+            "score": 9.578,
+            "coverage": 0.353
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 9.339,
+            "coverage": 0.373
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 8.69,
+            "coverage": 0.304
+          },
+          {
+            "id": "rb_198",
+            "tier": "weak",
+            "score": 8.582,
+            "coverage": 0.32
+          },
+          {
+            "id": "rb_133",
+            "tier": "weak",
+            "score": 8.343,
+            "coverage": 0.304
+          },
+          {
+            "id": "rb_155",
+            "tier": "weak",
+            "score": 8.077,
+            "coverage": 0.322
+          },
+          {
+            "id": "rb_118",
+            "tier": "weak",
+            "score": 8.054,
+            "coverage": 0.269
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 8.029,
+            "coverage": 0.308
+          },
+          {
+            "id": "rb_135",
+            "tier": "weak",
+            "score": 7.922,
+            "coverage": 0.304
+          }
+        ],
+        "selected_template": "rb_041",
+        "template_sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS private_ips, CLOUD_FLOATING_IPS.floatingIpAddress AS floating_ip FROM CLOUD_FLOATING_IPS INNER JOIN CLOUD_VM_NOVA ON CLOUD_FLOATING_IPS.fixedIpAddress = CLOUD_VM_NOVA.privateIps",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "status"
+        ],
+        "parameter_sources": {
+          "logicalRegionName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName"
+        ],
+        "reason": "missing_parameters"
+      }
+    },
+    {
+      "case_id": "CMDB-077",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001912,
+        "candidate_ids": [
+          "rb_052",
+          "rb_054",
+          "rb_055",
+          "rb_031",
+          "rb_072",
+          "rb_065"
+        ],
+        "candidates": [
+          {
+            "id": "rb_052",
+            "tier": "strong",
+            "score": 73.214,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_054",
+            "tier": "weak",
+            "score": 28.502,
+            "coverage": 0.365
+          },
+          {
+            "id": "rb_055",
+            "tier": "weak",
+            "score": 23.198,
+            "coverage": 0.354
+          },
+          {
+            "id": "rb_031",
+            "tier": "weak",
+            "score": 17.921,
+            "coverage": 0.22
+          },
+          {
+            "id": "rb_072",
+            "tier": "weak",
+            "score": 13.17,
+            "coverage": 0.163
+          },
+          {
+            "id": "rb_065",
+            "tier": "weak",
+            "score": 12.833,
+            "coverage": 0.163
+          }
+        ],
+        "selected_template": "rb_052",
+        "template_sql": "SELECT cpuArch, COUNT(*) AS count FROM SYS_X86Server GROUP BY cpuArch",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "logicalRegionName"
+        ],
+        "parameter_sources": {},
+        "filled_parameter_names": [],
+        "reason": "missing_parameters"
+      }
+    },
+    {
+      "case_id": "CMDB-088",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002167,
+        "candidate_ids": [
+          "rb_060",
+          "rb_058",
+          "rb_178",
+          "rb_034",
+          "rb_051",
+          "rb_039",
+          "rb_050",
+          "rb_195",
+          "rb_055",
+          "rb_067",
+          "rb_032",
+          "rb_138",
+          "rb_038",
+          "rb_064"
+        ],
+        "candidates": [
+          {
+            "id": "rb_060",
+            "tier": "strong",
+            "score": 63.683,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_058",
+            "tier": "strong",
+            "score": 49.987,
+            "coverage": 0.72
+          },
+          {
+            "id": "rb_178",
+            "tier": "strong",
+            "score": 36.831,
+            "coverage": 0.576
+          },
+          {
+            "id": "rb_034",
+            "tier": "strong",
+            "score": 35.506,
+            "coverage": 0.537
+          },
+          {
+            "id": "rb_051",
+            "tier": "weak",
+            "score": 23.83,
+            "coverage": 0.323
+          },
+          {
+            "id": "rb_039",
+            "tier": "weak",
+            "score": 23.435,
+            "coverage": 0.322
+          },
+          {
+            "id": "rb_050",
+            "tier": "weak",
+            "score": 20.521,
+            "coverage": 0.278
+          },
+          {
+            "id": "rb_195",
+            "tier": "weak",
+            "score": 19.815,
+            "coverage": 0.262
+          },
+          {
+            "id": "rb_055",
+            "tier": "weak",
+            "score": 19.145,
+            "coverage": 0.293
+          },
+          {
+            "id": "rb_067",
+            "tier": "weak",
+            "score": 18.436,
+            "coverage": 0.256
+          },
+          {
+            "id": "rb_032",
+            "tier": "weak",
+            "score": 18.232,
+            "coverage": 0.247
+          },
+          {
+            "id": "rb_138",
+            "tier": "weak",
+            "score": 17.088,
+            "coverage": 0.216
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 16.498,
+            "coverage": 0.223
+          },
+          {
+            "id": "rb_064",
+            "tier": "weak",
+            "score": 15.602,
+            "coverage": 0.197
+          }
+        ],
+        "selected_template": "rb_060",
+        "template_sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalVcpuCores AS total_vcpu, CLOUD_HOST.allocatedVcpuCores AS allocated_vcpu, SYS_X86Server.cpuArch AS cpu_arch, CLOUD_VM_NOVA.name AS vm_name FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "status"
+        ],
+        "unmapped_enum_labels": [
+          {
+            "parameter": "status",
+            "resource": "HOST",
+            "label": "运行中"
+          }
+        ],
+        "parameter_sources": {
+          "logicalRegionName": "question_rule",
+          "azoneName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "azoneName",
+          "logicalRegionName"
+        ],
+        "reason": "missing_parameters"
+      }
+    },
+    {
+      "case_id": "CMDB-102",
+      "quality": -1,
+      "runtime_abstained": false,
+      "reason": "答案错误",
+      "matching": {
+        "retrieval_seconds": 0.001022,
+        "candidate_ids": [
+          "rb_068",
+          "rb_006"
+        ],
+        "candidates": [
+          {
+            "id": "rb_068",
+            "tier": "strong",
+            "score": 73.744,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_006",
+            "tier": "weak",
+            "score": 18.827,
+            "coverage": 0.252
+          }
+        ],
+        "selected_template": "rb_068",
+        "template_sql": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "assetStatus": "question_rule"
+        },
+        "filled_parameter_names": [
+          "assetStatus"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": false,
+          "reason": "columns_preserved",
+          "original_columns": [
+            "class_Name",
+            "count"
+          ],
+          "refined_columns": [
+            "class_Name",
+            "count"
+          ],
+          "missing_columns": []
+        },
+        "sql_before_refine": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+        "sql_after_refine": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-112",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001382,
+        "candidate_ids": [
+          "rb_075",
+          "rb_187",
+          "rb_198",
+          "rb_194",
+          "rb_037",
+          "rb_060",
+          "rb_074",
+          "rb_005",
+          "rb_038",
+          "rb_062",
+          "rb_013",
+          "rb_199",
+          "rb_175",
+          "rb_032",
+          "rb_067"
+        ],
+        "candidates": [
+          {
+            "id": "rb_075",
+            "tier": "strong",
+            "score": 27.013,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_187",
+            "tier": "strong",
+            "score": 23.768,
+            "coverage": 0.947
+          },
+          {
+            "id": "rb_198",
+            "tier": "strong",
+            "score": 20.679,
+            "coverage": 0.828
+          },
+          {
+            "id": "rb_194",
+            "tier": "strong",
+            "score": 18.096,
+            "coverage": 0.693
+          },
+          {
+            "id": "rb_037",
+            "tier": "strong",
+            "score": 17.566,
+            "coverage": 0.693
+          },
+          {
+            "id": "rb_060",
+            "tier": "weak",
+            "score": 7.931,
+            "coverage": 0.374
+          },
+          {
+            "id": "rb_074",
+            "tier": "weak",
+            "score": 7.901,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_005",
+            "tier": "weak",
+            "score": 7.67,
+            "coverage": 0.244
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 7.442,
+            "coverage": 0.294
+          },
+          {
+            "id": "rb_062",
+            "tier": "weak",
+            "score": 5.953,
+            "coverage": 0.237
+          },
+          {
+            "id": "rb_013",
+            "tier": "weak",
+            "score": 5.801,
+            "coverage": 0.225
+          },
+          {
+            "id": "rb_199",
+            "tier": "weak",
+            "score": 5.652,
+            "coverage": 0.239
+          },
+          {
+            "id": "rb_175",
+            "tier": "weak",
+            "score": 5.475,
+            "coverage": 0.237
+          },
+          {
+            "id": "rb_032",
+            "tier": "weak",
+            "score": 5.161,
+            "coverage": 0.202
+          },
+          {
+            "id": "rb_067",
+            "tier": "weak",
+            "score": 5.034,
+            "coverage": 0.202
+          }
+        ],
+        "selected_template": "rb_075",
+        "template_sql": "SELECT name, status, nativeId FROM CLOUD_VM_NOVA",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "vdcName"
+        ],
+        "parameter_sources": {
+          "vdcName": "llm"
+        },
+        "filled_parameter_names": [
+          "vdcName"
+        ],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-115",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.00113,
+        "candidate_ids": [
+          "rb_078",
+          "rb_076",
+          "rb_157",
+          "rb_170",
+          "rb_196",
+          "rb_143",
+          "rb_106",
+          "rb_045",
+          "rb_062",
+          "rb_172",
+          "rb_077"
+        ],
+        "candidates": [
+          {
+            "id": "rb_078",
+            "tier": "strong",
+            "score": 31.034,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_076",
+            "tier": "weak",
+            "score": 16.624,
+            "coverage": 0.514
+          },
+          {
+            "id": "rb_157",
+            "tier": "weak",
+            "score": 11.494,
+            "coverage": 0.309
+          },
+          {
+            "id": "rb_170",
+            "tier": "weak",
+            "score": 11.446,
+            "coverage": 0.361
+          },
+          {
+            "id": "rb_196",
+            "tier": "weak",
+            "score": 11.408,
+            "coverage": 0.309
+          },
+          {
+            "id": "rb_143",
+            "tier": "weak",
+            "score": 11.16,
+            "coverage": 0.361
+          },
+          {
+            "id": "rb_106",
+            "tier": "weak",
+            "score": 11.015,
+            "coverage": 0.361
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 10.811,
+            "coverage": 0.361
+          },
+          {
+            "id": "rb_062",
+            "tier": "weak",
+            "score": 10.42,
+            "coverage": 0.355
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 10.219,
+            "coverage": 0.361
+          },
+          {
+            "id": "rb_077",
+            "tier": "weak",
+            "score": 9.665,
+            "coverage": 0.329
+          }
+        ],
+        "selected_template": "rb_078",
+        "template_sql": "SELECT SYS_CloudService.indexName AS cloud_service_name, COUNT(*) AS instance_count FROM SYS_CloudService INNER JOIN SYS_Service ON SYS_CloudService.id = SYS_Service.cloudServiceId INNER JOIN SYS_DeployComponent ON SYS_Service.id = SYS_DeployComponent.serviceId INNER JOIN SYS_DeployInstance ON SYS_DeployComponent.id = SYS_DeployInstance.deployComponentId GROUP BY SYS_CloudService.indexName",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "none",
+        "filled_parameter_names": [],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-127",
+      "quality": -1,
+      "runtime_abstained": false,
+      "reason": "答案错误",
+      "matching": {
+        "retrieval_seconds": 0.000594,
+        "candidate_ids": [
+          "rb_084",
+          "rb_085",
+          "rb_081",
+          "rb_089"
+        ],
+        "candidates": [
+          {
+            "id": "rb_084",
+            "tier": "strong",
+            "score": 57.864,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_085",
+            "tier": "weak",
+            "score": 16.81,
+            "coverage": 0.309
+          },
+          {
+            "id": "rb_081",
+            "tier": "weak",
+            "score": 10.55,
+            "coverage": 0.184
+          },
+          {
+            "id": "rb_089",
+            "tier": "weak",
+            "score": 9.901,
+            "coverage": 0.184
+          }
+        ],
+        "selected_template": "rb_084",
+        "template_sql": "SELECT 'bootable' AS type, COUNT(*) AS count FROM CLOUD_VOLUME",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "bootable": "question_rule"
+        },
+        "filled_parameter_names": [
+          "bootable"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": false,
+          "reason": "query_structure_changed"
+        },
+        "sql_before_refine": "SELECT 'bootable' AS type, COUNT(*) AS count FROM CLOUD_VOLUME",
+        "sql_after_refine": "SELECT SUM(CASE WHEN bootable = 'true' THEN 1 ELSE 0 END) AS bootable_count, COUNT(*) AS total_count, ROUND(SUM(CASE WHEN bootable = 'true' THEN 1.0 ELSE 0 END) / COUNT(*), 4) AS ratio FROM CLOUD_VOLUME",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-139",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002243,
+        "candidate_ids": [
+          "rb_093",
+          "rb_106",
+          "rb_177",
+          "rb_104",
+          "rb_096",
+          "rb_170",
+          "rb_132",
+          "rb_062",
+          "rb_143",
+          "rb_200",
+          "rb_187"
+        ],
+        "candidates": [
+          {
+            "id": "rb_093",
+            "tier": "strong",
+            "score": 40.073,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_106",
+            "tier": "weak",
+            "score": 13.478,
+            "coverage": 0.325
+          },
+          {
+            "id": "rb_177",
+            "tier": "weak",
+            "score": 11.279,
+            "coverage": 0.274
+          },
+          {
+            "id": "rb_104",
+            "tier": "weak",
+            "score": 11.135,
+            "coverage": 0.272
+          },
+          {
+            "id": "rb_096",
+            "tier": "weak",
+            "score": 10.995,
+            "coverage": 0.272
+          },
+          {
+            "id": "rb_170",
+            "tier": "weak",
+            "score": 10.29,
+            "coverage": 0.254
+          },
+          {
+            "id": "rb_132",
+            "tier": "weak",
+            "score": 10.044,
+            "coverage": 0.232
+          },
+          {
+            "id": "rb_062",
+            "tier": "weak",
+            "score": 9.293,
+            "coverage": 0.232
+          },
+          {
+            "id": "rb_143",
+            "tier": "weak",
+            "score": 9.019,
+            "coverage": 0.214
+          },
+          {
+            "id": "rb_200",
+            "tier": "weak",
+            "score": 8.597,
+            "coverage": 0.22
+          },
+          {
+            "id": "rb_187",
+            "tier": "weak",
+            "score": 8.555,
+            "coverage": 0.193
+          }
+        ],
+        "selected_template": "rb_093",
+        "template_sql": "SELECT CLOUD_GAUSSDB_INSTANCE.vdcName AS vdc_name, CLOUD_GAUSSDB_INSTANCE.name AS instance_name, 'N/A' AS pool_name FROM CLOUD_GAUSSDB_INSTANCE GROUP BY CLOUD_GAUSSDB_INSTANCE.vdcName",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "STORAGE_POOL"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "STORAGE_POOL"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-147",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002869,
+        "candidate_ids": [
+          "rb_098",
+          "rb_096",
+          "rb_093",
+          "rb_189",
+          "rb_097",
+          "rb_104",
+          "rb_003",
+          "rb_049",
+          "rb_168",
+          "rb_073",
+          "rb_177"
+        ],
+        "candidates": [
+          {
+            "id": "rb_098",
+            "tier": "strong",
+            "score": 69.115,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_096",
+            "tier": "weak",
+            "score": 19.765,
+            "coverage": 0.262
+          },
+          {
+            "id": "rb_093",
+            "tier": "weak",
+            "score": 18.238,
+            "coverage": 0.242
+          },
+          {
+            "id": "rb_189",
+            "tier": "weak",
+            "score": 17.481,
+            "coverage": 0.211
+          },
+          {
+            "id": "rb_097",
+            "tier": "weak",
+            "score": 16.852,
+            "coverage": 0.232
+          },
+          {
+            "id": "rb_104",
+            "tier": "weak",
+            "score": 15.901,
+            "coverage": 0.197
+          },
+          {
+            "id": "rb_003",
+            "tier": "weak",
+            "score": 12.54,
+            "coverage": 0.153
+          },
+          {
+            "id": "rb_049",
+            "tier": "weak",
+            "score": 12.206,
+            "coverage": 0.153
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 12.007,
+            "coverage": 0.153
+          },
+          {
+            "id": "rb_073",
+            "tier": "weak",
+            "score": 11.24,
+            "coverage": 0.156
+          },
+          {
+            "id": "rb_177",
+            "tier": "weak",
+            "score": 11.205,
+            "coverage": 0.154
+          }
+        ],
+        "selected_template": "rb_098",
+        "template_sql": "SELECT azoneName, storageProtocol, SUM(totalCapacityGB) AS total_capacity, SUM(totalCapacityGB - freeCapacityGB) AS used_capacity, SUM(freeCapacityGB) AS free_capacity, ROUND(SUM(provisionedCapacityGB) * 100.0 / SUM(totalCapacityGB), 2) AS over_subscription_ratio FROM CLOUD_STORAGE_POOL GROUP BY azoneName, storageProtocol",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VOLUME"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VOLUME"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-182",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.00075,
+        "candidate_ids": [
+          "rb_122",
+          "rb_124",
+          "rb_030",
+          "rb_008",
+          "rb_009",
+          "rb_121",
+          "rb_027",
+          "rb_028",
+          "rb_029",
+          "rb_094",
+          "rb_090"
+        ],
+        "candidates": [
+          {
+            "id": "rb_122",
+            "tier": "strong",
+            "score": 68.677,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_124",
+            "tier": "weak",
+            "score": 33.338,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_030",
+            "tier": "weak",
+            "score": 30.033,
+            "coverage": 0.334
+          },
+          {
+            "id": "rb_008",
+            "tier": "weak",
+            "score": 28.253,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_009",
+            "tier": "weak",
+            "score": 27.878,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_121",
+            "tier": "weak",
+            "score": 27.082,
+            "coverage": 0.337
+          },
+          {
+            "id": "rb_027",
+            "tier": "weak",
+            "score": 26.471,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_028",
+            "tier": "weak",
+            "score": 26.471,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_029",
+            "tier": "weak",
+            "score": 25.819,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_094",
+            "tier": "weak",
+            "score": 25.819,
+            "coverage": 0.296
+          },
+          {
+            "id": "rb_090",
+            "tier": "weak",
+            "score": 25.505,
+            "coverage": 0.296
+          }
+        ],
+        "selected_template": "rb_122",
+        "template_sql": "SELECT COUNT(*) AS port_count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_PORT ON CLOUD_VM_NOVA.resId = CLOUD_PORT.devId",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "SUBNET"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "SUBNET"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-189",
+      "quality": 0,
+      "runtime_abstained": false,
+      "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+      "matching": {
+        "retrieval_seconds": 0.000612,
+        "candidate_ids": [
+          "rb_128",
+          "rb_194",
+          "rb_129",
+          "rb_127",
+          "rb_126",
+          "rb_169",
+          "rb_110",
+          "rb_135",
+          "rb_173",
+          "rb_171",
+          "rb_032"
+        ],
+        "candidates": [
+          {
+            "id": "rb_128",
+            "tier": "strong",
+            "score": 40.266,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_194",
+            "tier": "weak",
+            "score": 13.252,
+            "coverage": 0.332
+          },
+          {
+            "id": "rb_129",
+            "tier": "weak",
+            "score": 12.091,
+            "coverage": 0.31
+          },
+          {
+            "id": "rb_127",
+            "tier": "weak",
+            "score": 11.657,
+            "coverage": 0.299
+          },
+          {
+            "id": "rb_126",
+            "tier": "weak",
+            "score": 10.398,
+            "coverage": 0.277
+          },
+          {
+            "id": "rb_169",
+            "tier": "weak",
+            "score": 8.695,
+            "coverage": 0.251
+          },
+          {
+            "id": "rb_110",
+            "tier": "weak",
+            "score": 7.733,
+            "coverage": 0.184
+          },
+          {
+            "id": "rb_135",
+            "tier": "weak",
+            "score": 7.558,
+            "coverage": 0.2
+          },
+          {
+            "id": "rb_173",
+            "tier": "weak",
+            "score": 7.558,
+            "coverage": 0.2
+          },
+          {
+            "id": "rb_171",
+            "tier": "weak",
+            "score": 7.464,
+            "coverage": 0.2
+          },
+          {
+            "id": "rb_032",
+            "tier": "weak",
+            "score": 7.393,
+            "coverage": 0.196
+          }
+        ],
+        "selected_template": "rb_128",
+        "template_sql": "SELECT CLOUD_SECURITY_GROUP.name AS sg_name, CLOUD_SECURITY_GROUP.id AS sg_id, COUNT(CLOUD_SECURITY_GROUP_RULE.id) AS rule_count FROM CLOUD_SECURITY_GROUP INNER JOIN CLOUD_SECURITY_GROUP_RULE ON CLOUD_SECURITY_GROUP.id = CLOUD_SECURITY_GROUP_RULE.securityGroupId GROUP BY CLOUD_SECURITY_GROUP.name, CLOUD_SECURITY_GROUP.id",
+        "pruned_unused_lookups": [
+          {
+            "step": 1,
+            "resource": "ROUTER",
+            "unused_parameters": [
+              "name"
+            ],
+            "reason": "unconsumed_unbound_lookup_in_explicit_global_scope"
+          }
+        ],
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "none",
+        "filled_parameter_names": [],
+        "row_semantics_contract": {
+          "reject": true,
+          "reason": "coarser_grouping_lost_output_columns",
+          "original_columns": [
+            "sg_name",
+            "sg_id",
+            "rule_count"
+          ],
+          "refined_columns": [
+            "sg_name",
+            "rule_count"
+          ],
+          "missing_columns": [
+            "sg_id"
+          ]
+        },
+        "sql_before_refine": "SELECT CLOUD_SECURITY_GROUP.name AS sg_name, CLOUD_SECURITY_GROUP.id AS sg_id, COUNT(CLOUD_SECURITY_GROUP_RULE.id) AS rule_count FROM CLOUD_SECURITY_GROUP INNER JOIN CLOUD_SECURITY_GROUP_RULE ON CLOUD_SECURITY_GROUP.id = CLOUD_SECURITY_GROUP_RULE.securityGroupId GROUP BY CLOUD_SECURITY_GROUP.name, CLOUD_SECURITY_GROUP.id",
+        "sql_after_refine": "SELECT CLOUD_SECURITY_GROUP.name AS sg_name, CLOUD_SECURITY_GROUP.id AS sg_id, COUNT(CLOUD_SECURITY_GROUP_RULE.id) AS rule_count FROM CLOUD_SECURITY_GROUP INNER JOIN CLOUD_SECURITY_GROUP_RULE ON CLOUD_SECURITY_GROUP.id = CLOUD_SECURITY_GROUP_RULE.securityGroupId GROUP BY CLOUD_SECURITY_GROUP.name, CLOUD_SECURITY_GROUP.id",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-196",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001027,
+        "candidate_ids": [
+          "rb_132",
+          "rb_192",
+          "rb_131",
+          "rb_135",
+          "rb_173",
+          "rb_044",
+          "rb_017",
+          "rb_113",
+          "rb_170",
+          "rb_046",
+          "rb_086",
+          "rb_087",
+          "rb_141",
+          "rb_129",
+          "rb_185"
+        ],
+        "candidates": [
+          {
+            "id": "rb_132",
+            "tier": "strong",
+            "score": 21.171,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_192",
+            "tier": "strong",
+            "score": 15.167,
+            "coverage": 0.739
+          },
+          {
+            "id": "rb_131",
+            "tier": "strong",
+            "score": 13.432,
+            "coverage": 0.675
+          },
+          {
+            "id": "rb_135",
+            "tier": "strong",
+            "score": 12.956,
+            "coverage": 0.651
+          },
+          {
+            "id": "rb_173",
+            "tier": "strong",
+            "score": 12.956,
+            "coverage": 0.651
+          },
+          {
+            "id": "rb_044",
+            "tier": "weak",
+            "score": 8.706,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_017",
+            "tier": "weak",
+            "score": 8.704,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 8.586,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_170",
+            "tier": "weak",
+            "score": 8.536,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_046",
+            "tier": "weak",
+            "score": 8.276,
+            "coverage": 0.363
+          },
+          {
+            "id": "rb_086",
+            "tier": "weak",
+            "score": 8.243,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_087",
+            "tier": "weak",
+            "score": 8.243,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_141",
+            "tier": "weak",
+            "score": 8.243,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_129",
+            "tier": "weak",
+            "score": 8.135,
+            "coverage": 0.39
+          },
+          {
+            "id": "rb_185",
+            "tier": "weak",
+            "score": 8.067,
+            "coverage": 0.357
+          }
+        ],
+        "selected_template": "rb_132",
+        "template_sql": "SELECT vdcName, name AS vpc_name FROM CLOUD_ROUTER",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "SUBNET"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "SUBNET"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-200",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001287,
+        "candidate_ids": [
+          "rb_135",
+          "rb_173",
+          "rb_171",
+          "rb_129",
+          "rb_132",
+          "rb_113",
+          "rb_109",
+          "rb_047",
+          "rb_130",
+          "rb_133",
+          "rb_156",
+          "rb_041",
+          "rb_168",
+          "rb_044"
+        ],
+        "candidates": [
+          {
+            "id": "rb_135",
+            "tier": "strong",
+            "score": 36.427,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_173",
+            "tier": "strong",
+            "score": 32.493,
+            "coverage": 0.892
+          },
+          {
+            "id": "rb_171",
+            "tier": "strong",
+            "score": 24.907,
+            "coverage": 0.691
+          },
+          {
+            "id": "rb_129",
+            "tier": "strong",
+            "score": 18.659,
+            "coverage": 0.491
+          },
+          {
+            "id": "rb_132",
+            "tier": "weak",
+            "score": 13.829,
+            "coverage": 0.353
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 13.487,
+            "coverage": 0.335
+          },
+          {
+            "id": "rb_109",
+            "tier": "weak",
+            "score": 11.614,
+            "coverage": 0.284
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 10.223,
+            "coverage": 0.241
+          },
+          {
+            "id": "rb_130",
+            "tier": "weak",
+            "score": 10.107,
+            "coverage": 0.265
+          },
+          {
+            "id": "rb_133",
+            "tier": "weak",
+            "score": 9.965,
+            "coverage": 0.257
+          },
+          {
+            "id": "rb_156",
+            "tier": "weak",
+            "score": 9.699,
+            "coverage": 0.233
+          },
+          {
+            "id": "rb_041",
+            "tier": "weak",
+            "score": 8.862,
+            "coverage": 0.214
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 8.835,
+            "coverage": 0.239
+          },
+          {
+            "id": "rb_044",
+            "tier": "weak",
+            "score": 8.706,
+            "coverage": 0.212
+          }
+        ],
+        "selected_template": "rb_135",
+        "template_sql": "SELECT vdcName, COUNT(*) AS sg_count FROM CLOUD_SECURITY_GROUP GROUP BY vdcName",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "ROUTER",
+            "SUBNET",
+            "FLOATING_IPS"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "ROUTER",
+            "SUBNET",
+            "FLOATING_IPS"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-223",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.000769,
+        "candidate_ids": [
+          "rb_150",
+          "rb_155",
+          "rb_005",
+          "rb_036",
+          "rb_111",
+          "rb_130",
+          "rb_004",
+          "rb_068",
+          "rb_083"
+        ],
+        "candidates": [
+          {
+            "id": "rb_150",
+            "tier": "strong",
+            "score": 53.446,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_155",
+            "tier": "weak",
+            "score": 18.102,
+            "coverage": 0.359
+          },
+          {
+            "id": "rb_005",
+            "tier": "weak",
+            "score": 14.489,
+            "coverage": 0.279
+          },
+          {
+            "id": "rb_036",
+            "tier": "weak",
+            "score": 10.958,
+            "coverage": 0.205
+          },
+          {
+            "id": "rb_111",
+            "tier": "weak",
+            "score": 9.701,
+            "coverage": 0.168
+          },
+          {
+            "id": "rb_130",
+            "tier": "weak",
+            "score": 9.185,
+            "coverage": 0.168
+          },
+          {
+            "id": "rb_004",
+            "tier": "weak",
+            "score": 9.127,
+            "coverage": 0.182
+          },
+          {
+            "id": "rb_068",
+            "tier": "weak",
+            "score": 8.274,
+            "coverage": 0.159
+          },
+          {
+            "id": "rb_083",
+            "tier": "weak",
+            "score": 8.171,
+            "coverage": 0.159
+          }
+        ],
+        "selected_template": "rb_150",
+        "template_sql": "SELECT engineName, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY engineName",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "vdcName"
+        ],
+        "parameter_sources": {
+          "vdcName": "llm"
+        },
+        "filled_parameter_names": [
+          "vdcName"
+        ],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-224",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.00241,
+        "candidate_ids": [
+          "rb_151",
+          "rb_037",
+          "rb_042",
+          "rb_038",
+          "rb_004",
+          "rb_187",
+          "rb_169",
+          "rb_016",
+          "rb_088",
+          "rb_146",
+          "rb_010"
+        ],
+        "candidates": [
+          {
+            "id": "rb_151",
+            "tier": "strong",
+            "score": 44.363,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 14.471,
+            "coverage": 0.318
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 14.042,
+            "coverage": 0.324
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 13.195,
+            "coverage": 0.293
+          },
+          {
+            "id": "rb_004",
+            "tier": "weak",
+            "score": 11.387,
+            "coverage": 0.256
+          },
+          {
+            "id": "rb_187",
+            "tier": "weak",
+            "score": 10.312,
+            "coverage": 0.194
+          },
+          {
+            "id": "rb_169",
+            "tier": "weak",
+            "score": 10.113,
+            "coverage": 0.244
+          },
+          {
+            "id": "rb_016",
+            "tier": "weak",
+            "score": 9.886,
+            "coverage": 0.224
+          },
+          {
+            "id": "rb_088",
+            "tier": "weak",
+            "score": 9.639,
+            "coverage": 0.213
+          },
+          {
+            "id": "rb_146",
+            "tier": "weak",
+            "score": 9.597,
+            "coverage": 0.201
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 9.343,
+            "coverage": 0.207
+          }
+        ],
+        "selected_template": "rb_151",
+        "template_sql": "SELECT name, dataVip, engineVersion FROM CLOUD_GAUSSDB_INSTANCE",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "vdcName": "question_rule",
+          "logicalRegionName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName",
+          "vdcName"
+        ],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-231",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001649,
+        "candidate_ids": [
+          "rb_155",
+          "rb_150",
+          "rb_019",
+          "rb_010",
+          "rb_042",
+          "rb_146",
+          "rb_038",
+          "rb_037",
+          "rb_016",
+          "rb_169",
+          "rb_191"
+        ],
+        "candidates": [
+          {
+            "id": "rb_155",
+            "tier": "strong",
+            "score": 52.168,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_150",
+            "tier": "weak",
+            "score": 19.274,
+            "coverage": 0.345
+          },
+          {
+            "id": "rb_019",
+            "tier": "weak",
+            "score": 17.158,
+            "coverage": 0.309
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 16.351,
+            "coverage": 0.3
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 16.168,
+            "coverage": 0.308
+          },
+          {
+            "id": "rb_146",
+            "tier": "weak",
+            "score": 14.56,
+            "coverage": 0.253
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 13.962,
+            "coverage": 0.256
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 13.84,
+            "coverage": 0.25
+          },
+          {
+            "id": "rb_016",
+            "tier": "weak",
+            "score": 13.254,
+            "coverage": 0.249
+          },
+          {
+            "id": "rb_169",
+            "tier": "weak",
+            "score": 13.167,
+            "coverage": 0.25
+          },
+          {
+            "id": "rb_191",
+            "tier": "weak",
+            "score": 12.298,
+            "coverage": 0.225
+          }
+        ],
+        "selected_template": "rb_155",
+        "template_sql": "SELECT name, engineName, engineVersion, eip FROM CLOUD_GAUSSDB_INSTANCE",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "llm",
+        "rule_missing_parameters": [
+          "vdcName"
+        ],
+        "parameter_sources": {
+          "vdcName": "llm",
+          "logicalRegionName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName",
+          "vdcName"
+        ],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-252",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002557,
+        "candidate_ids": [
+          "rb_169",
+          "rb_088",
+          "rb_010",
+          "rb_191",
+          "rb_037",
+          "rb_075",
+          "rb_100",
+          "rb_187",
+          "rb_198",
+          "rb_172",
+          "rb_038",
+          "rb_045",
+          "rb_155",
+          "rb_183",
+          "rb_085"
+        ],
+        "candidates": [
+          {
+            "id": "rb_169",
+            "tier": "strong",
+            "score": 51.645,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_088",
+            "tier": "strong",
+            "score": 28.844,
+            "coverage": 0.512
+          },
+          {
+            "id": "rb_010",
+            "tier": "strong",
+            "score": 27.492,
+            "coverage": 0.488
+          },
+          {
+            "id": "rb_191",
+            "tier": "strong",
+            "score": 27.005,
+            "coverage": 0.522
+          },
+          {
+            "id": "rb_037",
+            "tier": "strong",
+            "score": 26.881,
+            "coverage": 0.471
+          },
+          {
+            "id": "rb_075",
+            "tier": "weak",
+            "score": 18.765,
+            "coverage": 0.307
+          },
+          {
+            "id": "rb_100",
+            "tier": "weak",
+            "score": 17.898,
+            "coverage": 0.292
+          },
+          {
+            "id": "rb_187",
+            "tier": "weak",
+            "score": 17.741,
+            "coverage": 0.308
+          },
+          {
+            "id": "rb_198",
+            "tier": "weak",
+            "score": 17.488,
+            "coverage": 0.307
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 16.098,
+            "coverage": 0.276
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 15.272,
+            "coverage": 0.27
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 13.781,
+            "coverage": 0.226
+          },
+          {
+            "id": "rb_155",
+            "tier": "weak",
+            "score": 13.167,
+            "coverage": 0.241
+          },
+          {
+            "id": "rb_183",
+            "tier": "weak",
+            "score": 11.802,
+            "coverage": 0.182
+          },
+          {
+            "id": "rb_085",
+            "tier": "weak",
+            "score": 11.698,
+            "coverage": 0.209
+          }
+        ],
+        "selected_template": "rb_169",
+        "template_sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VM_NOVA"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VM_NOVA"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-255",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002662,
+        "candidate_ids": [
+          "rb_171",
+          "rb_131",
+          "rb_192",
+          "rb_135",
+          "rb_173",
+          "rb_129",
+          "rb_132",
+          "rb_113",
+          "rb_130",
+          "rb_037",
+          "rb_038",
+          "rb_010",
+          "rb_191",
+          "rb_004",
+          "rb_047"
+        ],
+        "candidates": [
+          {
+            "id": "rb_171",
+            "tier": "strong",
+            "score": 40.819,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_131",
+            "tier": "strong",
+            "score": 31.209,
+            "coverage": 0.754
+          },
+          {
+            "id": "rb_192",
+            "tier": "strong",
+            "score": 28.91,
+            "coverage": 0.687
+          },
+          {
+            "id": "rb_135",
+            "tier": "strong",
+            "score": 25.221,
+            "coverage": 0.609
+          },
+          {
+            "id": "rb_173",
+            "tier": "strong",
+            "score": 21.288,
+            "coverage": 0.513
+          },
+          {
+            "id": "rb_129",
+            "tier": "weak",
+            "score": 16.239,
+            "coverage": 0.376
+          },
+          {
+            "id": "rb_132",
+            "tier": "weak",
+            "score": 11.343,
+            "coverage": 0.255
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 10.933,
+            "coverage": 0.238
+          },
+          {
+            "id": "rb_130",
+            "tier": "weak",
+            "score": 10.107,
+            "coverage": 0.233
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 9.71,
+            "coverage": 0.229
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 9.639,
+            "coverage": 0.231
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 9.587,
+            "coverage": 0.229
+          },
+          {
+            "id": "rb_191",
+            "tier": "weak",
+            "score": 9.587,
+            "coverage": 0.229
+          },
+          {
+            "id": "rb_004",
+            "tier": "weak",
+            "score": 9.468,
+            "coverage": 0.229
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 9.434,
+            "coverage": 0.193
+          }
+        ],
+        "selected_template": "rb_171",
+        "template_sql": "SELECT COUNT(*) AS vpc_count FROM CLOUD_ROUTER",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "SUBNET",
+            "SECURITY_GROUP",
+            "FLOATING_IPS"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "SUBNET",
+            "SECURITY_GROUP",
+            "FLOATING_IPS"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-256",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.003342,
+        "candidate_ids": [
+          "rb_172",
+          "rb_045",
+          "rb_015",
+          "rb_183",
+          "rb_007",
+          "rb_105",
+          "rb_169",
+          "rb_046",
+          "rb_168",
+          "rb_047",
+          "rb_106",
+          "rb_074",
+          "rb_103"
+        ],
+        "candidates": [
+          {
+            "id": "rb_172",
+            "tier": "strong",
+            "score": 40.146,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_045",
+            "tier": "strong",
+            "score": 28.759,
+            "coverage": 0.67
+          },
+          {
+            "id": "rb_015",
+            "tier": "strong",
+            "score": 20.41,
+            "coverage": 0.479
+          },
+          {
+            "id": "rb_183",
+            "tier": "weak",
+            "score": 16.458,
+            "coverage": 0.365
+          },
+          {
+            "id": "rb_007",
+            "tier": "weak",
+            "score": 15.494,
+            "coverage": 0.347
+          },
+          {
+            "id": "rb_105",
+            "tier": "weak",
+            "score": 14.411,
+            "coverage": 0.327
+          },
+          {
+            "id": "rb_169",
+            "tier": "weak",
+            "score": 14.346,
+            "coverage": 0.373
+          },
+          {
+            "id": "rb_046",
+            "tier": "weak",
+            "score": 13.83,
+            "coverage": 0.301
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 13.744,
+            "coverage": 0.339
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 13.342,
+            "coverage": 0.301
+          },
+          {
+            "id": "rb_106",
+            "tier": "weak",
+            "score": 13.245,
+            "coverage": 0.308
+          },
+          {
+            "id": "rb_074",
+            "tier": "weak",
+            "score": 12.999,
+            "coverage": 0.294
+          },
+          {
+            "id": "rb_103",
+            "tier": "weak",
+            "score": 12.575,
+            "coverage": 0.301
+          }
+        ],
+        "selected_template": "rb_172",
+        "template_sql": "SELECT tenantName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY tenantName",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VOLUME"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VOLUME"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-258",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002492,
+        "candidate_ids": [
+          "rb_173",
+          "rb_135",
+          "rb_171",
+          "rb_129",
+          "rb_132",
+          "rb_113",
+          "rb_109",
+          "rb_047",
+          "rb_130",
+          "rb_133",
+          "rb_041",
+          "rb_168",
+          "rb_118"
+        ],
+        "candidates": [
+          {
+            "id": "rb_173",
+            "tier": "strong",
+            "score": 35.534,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_135",
+            "tier": "strong",
+            "score": 32.493,
+            "coverage": 0.914
+          },
+          {
+            "id": "rb_171",
+            "tier": "strong",
+            "score": 21.022,
+            "coverage": 0.597
+          },
+          {
+            "id": "rb_129",
+            "tier": "weak",
+            "score": 14.571,
+            "coverage": 0.392
+          },
+          {
+            "id": "rb_132",
+            "tier": "weak",
+            "score": 13.829,
+            "coverage": 0.362
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 13.487,
+            "coverage": 0.343
+          },
+          {
+            "id": "rb_109",
+            "tier": "weak",
+            "score": 11.614,
+            "coverage": 0.291
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 10.223,
+            "coverage": 0.247
+          },
+          {
+            "id": "rb_130",
+            "tier": "weak",
+            "score": 10.107,
+            "coverage": 0.271
+          },
+          {
+            "id": "rb_133",
+            "tier": "weak",
+            "score": 9.965,
+            "coverage": 0.263
+          },
+          {
+            "id": "rb_041",
+            "tier": "weak",
+            "score": 8.862,
+            "coverage": 0.22
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 8.835,
+            "coverage": 0.245
+          },
+          {
+            "id": "rb_118",
+            "tier": "weak",
+            "score": 8.759,
+            "coverage": 0.212
+          }
+        ],
+        "selected_template": "rb_173",
+        "template_sql": "SELECT vdcName, COUNT(*) AS sg_count FROM CLOUD_SECURITY_GROUP GROUP BY vdcName",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "ROUTER",
+            "ELB",
+            "SUBNET",
+            "FLOATING_IPS"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "ROUTER",
+            "ELB",
+            "SUBNET",
+            "FLOATING_IPS"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-259",
+      "quality": -1,
+      "runtime_abstained": false,
+      "reason": "答案错误 [超时>4s, -1]",
+      "matching": {
+        "retrieval_seconds": 0.003397,
+        "candidate_ids": [
+          "rb_174",
+          "rb_018",
+          "rb_168",
+          "rb_016",
+          "rb_040",
+          "rb_149",
+          "rb_049",
+          "rb_058",
+          "rb_060",
+          "rb_179",
+          "rb_042",
+          "rb_003"
+        ],
+        "candidates": [
+          {
+            "id": "rb_174",
+            "tier": "strong",
+            "score": 70.229,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_018",
+            "tier": "strong",
+            "score": 48.044,
+            "coverage": 0.635
+          },
+          {
+            "id": "rb_168",
+            "tier": "weak",
+            "score": 25.264,
+            "coverage": 0.315
+          },
+          {
+            "id": "rb_016",
+            "tier": "weak",
+            "score": 21.682,
+            "coverage": 0.272
+          },
+          {
+            "id": "rb_040",
+            "tier": "weak",
+            "score": 20.642,
+            "coverage": 0.256
+          },
+          {
+            "id": "rb_149",
+            "tier": "weak",
+            "score": 18.655,
+            "coverage": 0.217
+          },
+          {
+            "id": "rb_049",
+            "tier": "weak",
+            "score": 16.078,
+            "coverage": 0.184
+          },
+          {
+            "id": "rb_058",
+            "tier": "weak",
+            "score": 14.772,
+            "coverage": 0.187
+          },
+          {
+            "id": "rb_060",
+            "tier": "weak",
+            "score": 14.772,
+            "coverage": 0.187
+          },
+          {
+            "id": "rb_179",
+            "tier": "weak",
+            "score": 14.534,
+            "coverage": 0.176
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 14.477,
+            "coverage": 0.181
+          },
+          {
+            "id": "rb_003",
+            "tier": "weak",
+            "score": 13.958,
+            "coverage": 0.155
+          }
+        ],
+        "selected_template": "rb_174",
+        "template_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "logicalRegionName": "question_rule",
+          "status": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName",
+          "status"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": false,
+          "reason": "query_structure_changed"
+        },
+        "sql_before_refine": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+        "sql_after_refine": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id GROUP BY CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name, CLOUD_HOST.name ORDER BY CLOUD_VM_NOVA.azoneName",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-261",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002658,
+        "candidate_ids": [
+          "rb_176",
+          "rb_183",
+          "rb_181",
+          "rb_177",
+          "rb_175",
+          "rb_172",
+          "rb_046",
+          "rb_047",
+          "rb_035",
+          "rb_045",
+          "rb_002",
+          "rb_039"
+        ],
+        "candidates": [
+          {
+            "id": "rb_176",
+            "tier": "strong",
+            "score": 47.752,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_183",
+            "tier": "strong",
+            "score": 28.532,
+            "coverage": 0.553
+          },
+          {
+            "id": "rb_181",
+            "tier": "weak",
+            "score": 19.278,
+            "coverage": 0.394
+          },
+          {
+            "id": "rb_177",
+            "tier": "weak",
+            "score": 16.878,
+            "coverage": 0.344
+          },
+          {
+            "id": "rb_175",
+            "tier": "weak",
+            "score": 14.238,
+            "coverage": 0.307
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 12.8,
+            "coverage": 0.224
+          },
+          {
+            "id": "rb_046",
+            "tier": "weak",
+            "score": 12.788,
+            "coverage": 0.227
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 12.771,
+            "coverage": 0.236
+          },
+          {
+            "id": "rb_035",
+            "tier": "weak",
+            "score": 12.304,
+            "coverage": 0.274
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 11.219,
+            "coverage": 0.189
+          },
+          {
+            "id": "rb_002",
+            "tier": "weak",
+            "score": 10.836,
+            "coverage": 0.206
+          },
+          {
+            "id": "rb_039",
+            "tier": "weak",
+            "score": 10.442,
+            "coverage": 0.206
+          }
+        ],
+        "selected_template": "rb_176",
+        "template_sql": "SELECT tenantName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY tenantName ORDER BY ecs_count DESC LIMIT 1",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VOLUME"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VOLUME"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-267",
+      "quality": 2.5,
+      "runtime_abstained": false,
+      "reason": "部分正确(50%)",
+      "matching": {
+        "retrieval_seconds": 0.000662,
+        "candidate_ids": [
+          "rb_167",
+          "rb_180",
+          "rb_166",
+          "rb_165",
+          "rb_194",
+          "rb_187",
+          "rb_037",
+          "rb_151"
+        ],
+        "candidates": [
+          {
+            "id": "rb_167",
+            "tier": "strong",
+            "score": 40.358,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_180",
+            "tier": "strong",
+            "score": 40.358,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_166",
+            "tier": "strong",
+            "score": 36.045,
+            "coverage": 0.881
+          },
+          {
+            "id": "rb_165",
+            "tier": "strong",
+            "score": 21.053,
+            "coverage": 0.513
+          },
+          {
+            "id": "rb_194",
+            "tier": "weak",
+            "score": 7.346,
+            "coverage": 0.17
+          },
+          {
+            "id": "rb_187",
+            "tier": "weak",
+            "score": 7.197,
+            "coverage": 0.17
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 6.541,
+            "coverage": 0.17
+          },
+          {
+            "id": "rb_151",
+            "tier": "weak",
+            "score": 6.378,
+            "coverage": 0.17
+          }
+        ],
+        "selected_template": "rb_167",
+        "template_sql": "SELECT CLOUD_ApplicationModuleIns.name AS instance_name, CLOUD_ApplicationModule.name AS module_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "name": "question_rule"
+        },
+        "filled_parameter_names": [
+          "name"
+        ],
+        "row_semantics_contract": {
+          "reject": false,
+          "reason": "row_semantics_preserved_in_checked_scope"
+        },
+        "literal_label_contract": {
+          "reject": false,
+          "reason": "literal_labels_preserved_in_checked_scope",
+          "changed_labels": []
+        },
+        "projection_contract": {
+          "reject": true,
+          "reason": "missing_template_columns",
+          "original_columns": [
+            "instance_name",
+            "module_name"
+          ],
+          "refined_columns": [
+            "instance_name"
+          ],
+          "missing_columns": [
+            "module_name"
+          ]
+        },
+        "sql_before_refine": "SELECT CLOUD_ApplicationModuleIns.name AS instance_name, CLOUD_ApplicationModule.name AS module_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+        "sql_after_refine": "SELECT CLOUD_ApplicationModuleIns.name AS instance_name, CLOUD_ApplicationModule.name AS module_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-270",
+      "quality": 2.5,
+      "runtime_abstained": false,
+      "reason": "部分正确(50%) [超时>8s, -3]",
+      "matching": {
+        "retrieval_seconds": 0.001219,
+        "candidate_ids": [
+          "rb_183",
+          "rb_176",
+          "rb_177",
+          "rb_103",
+          "rb_172",
+          "rb_185",
+          "rb_045",
+          "rb_086",
+          "rb_087",
+          "rb_178",
+          "rb_046",
+          "rb_047",
+          "rb_170"
+        ],
+        "candidates": [
+          {
+            "id": "rb_183",
+            "tier": "strong",
+            "score": 44.33,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_176",
+            "tier": "strong",
+            "score": 26.504,
+            "coverage": 0.625
+          },
+          {
+            "id": "rb_177",
+            "tier": "strong",
+            "score": 23.248,
+            "coverage": 0.536
+          },
+          {
+            "id": "rb_103",
+            "tier": "weak",
+            "score": 16.666,
+            "coverage": 0.391
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 15.753,
+            "coverage": 0.338
+          },
+          {
+            "id": "rb_185",
+            "tier": "weak",
+            "score": 15.742,
+            "coverage": 0.333
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 14.883,
+            "coverage": 0.298
+          },
+          {
+            "id": "rb_086",
+            "tier": "weak",
+            "score": 14.213,
+            "coverage": 0.298
+          },
+          {
+            "id": "rb_087",
+            "tier": "weak",
+            "score": 14.213,
+            "coverage": 0.298
+          },
+          {
+            "id": "rb_178",
+            "tier": "weak",
+            "score": 12.92,
+            "coverage": 0.329
+          },
+          {
+            "id": "rb_046",
+            "tier": "weak",
+            "score": 12.468,
+            "coverage": 0.25
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 12.031,
+            "coverage": 0.25
+          },
+          {
+            "id": "rb_170",
+            "tier": "weak",
+            "score": 12.031,
+            "coverage": 0.25
+          }
+        ],
+        "selected_template": "rb_183",
+        "template_sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "rules_complete",
+        "rule_missing_parameters": [],
+        "parameter_sources": {
+          "logicalRegionName": "question_rule"
+        },
+        "filled_parameter_names": [
+          "logicalRegionName"
+        ],
+        "sql_before_refine": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+        "sql_after_refine": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+        "reason": "matched"
+      }
+    },
+    {
+      "case_id": "CMDB-274",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001036,
+        "candidate_ids": [
+          "rb_185",
+          "rb_194",
+          "rb_169",
+          "rb_075",
+          "rb_100",
+          "rb_187",
+          "rb_183",
+          "rb_004",
+          "rb_172",
+          "rb_045",
+          "rb_175",
+          "rb_047",
+          "rb_155"
+        ],
+        "candidates": [
+          {
+            "id": "rb_185",
+            "tier": "strong",
+            "score": 43.808,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_194",
+            "tier": "strong",
+            "score": 23.108,
+            "coverage": 0.51
+          },
+          {
+            "id": "rb_169",
+            "tier": "strong",
+            "score": 22.596,
+            "coverage": 0.56
+          },
+          {
+            "id": "rb_075",
+            "tier": "weak",
+            "score": 18.765,
+            "coverage": 0.394
+          },
+          {
+            "id": "rb_100",
+            "tier": "weak",
+            "score": 17.898,
+            "coverage": 0.375
+          },
+          {
+            "id": "rb_187",
+            "tier": "weak",
+            "score": 17.741,
+            "coverage": 0.395
+          },
+          {
+            "id": "rb_183",
+            "tier": "weak",
+            "score": 16.244,
+            "coverage": 0.341
+          },
+          {
+            "id": "rb_004",
+            "tier": "weak",
+            "score": 15.485,
+            "coverage": 0.356
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 11.434,
+            "coverage": 0.237
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 11.353,
+            "coverage": 0.233
+          },
+          {
+            "id": "rb_175",
+            "tier": "weak",
+            "score": 10.995,
+            "coverage": 0.274
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 10.0,
+            "coverage": 0.212
+          },
+          {
+            "id": "rb_155",
+            "tier": "weak",
+            "score": 9.813,
+            "coverage": 0.23
+          }
+        ],
+        "selected_template": "rb_185",
+        "template_sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VM_NOVA",
+            "ROUTER"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VM_NOVA",
+            "ROUTER"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-275",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002221,
+        "candidate_ids": [
+          "rb_186",
+          "rb_193",
+          "rb_189",
+          "rb_178",
+          "rb_195",
+          "rb_050",
+          "rb_057",
+          "rb_097",
+          "rb_115",
+          "rb_117",
+          "rb_116",
+          "rb_034"
+        ],
+        "candidates": [
+          {
+            "id": "rb_186",
+            "tier": "strong",
+            "score": 61.995,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_193",
+            "tier": "strong",
+            "score": 42.726,
+            "coverage": 0.703
+          },
+          {
+            "id": "rb_189",
+            "tier": "weak",
+            "score": 15.31,
+            "coverage": 0.235
+          },
+          {
+            "id": "rb_178",
+            "tier": "weak",
+            "score": 14.732,
+            "coverage": 0.265
+          },
+          {
+            "id": "rb_195",
+            "tier": "weak",
+            "score": 14.304,
+            "coverage": 0.235
+          },
+          {
+            "id": "rb_050",
+            "tier": "weak",
+            "score": 13.804,
+            "coverage": 0.215
+          },
+          {
+            "id": "rb_057",
+            "tier": "weak",
+            "score": 13.632,
+            "coverage": 0.215
+          },
+          {
+            "id": "rb_097",
+            "tier": "weak",
+            "score": 13.3,
+            "coverage": 0.215
+          },
+          {
+            "id": "rb_115",
+            "tier": "weak",
+            "score": 12.97,
+            "coverage": 0.189
+          },
+          {
+            "id": "rb_117",
+            "tier": "weak",
+            "score": 12.334,
+            "coverage": 0.159
+          },
+          {
+            "id": "rb_116",
+            "tier": "weak",
+            "score": 11.523,
+            "coverage": 0.159
+          },
+          {
+            "id": "rb_034",
+            "tier": "weak",
+            "score": 11.127,
+            "coverage": 0.185
+          }
+        ],
+        "selected_template": "rb_186",
+        "template_sql": "SELECT COUNT(*) AS elb_count FROM CLOUD_ELB",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "none",
+        "filled_parameter_names": [],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-285",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002964,
+        "candidate_ids": [
+          "rb_191",
+          "rb_037",
+          "rb_010",
+          "rb_004",
+          "rb_100",
+          "rb_185",
+          "rb_016",
+          "rb_045",
+          "rb_194",
+          "rb_172",
+          "rb_075"
+        ],
+        "candidates": [
+          {
+            "id": "rb_191",
+            "tier": "strong",
+            "score": 56.698,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_037",
+            "tier": "weak",
+            "score": 23.811,
+            "coverage": 0.38
+          },
+          {
+            "id": "rb_010",
+            "tier": "weak",
+            "score": 23.51,
+            "coverage": 0.38
+          },
+          {
+            "id": "rb_004",
+            "tier": "weak",
+            "score": 23.217,
+            "coverage": 0.38
+          },
+          {
+            "id": "rb_100",
+            "tier": "weak",
+            "score": 21.247,
+            "coverage": 0.317
+          },
+          {
+            "id": "rb_185",
+            "tier": "weak",
+            "score": 21.029,
+            "coverage": 0.348
+          },
+          {
+            "id": "rb_016",
+            "tier": "weak",
+            "score": 20.236,
+            "coverage": 0.335
+          },
+          {
+            "id": "rb_045",
+            "tier": "weak",
+            "score": 19.236,
+            "coverage": 0.298
+          },
+          {
+            "id": "rb_194",
+            "tier": "weak",
+            "score": 19.145,
+            "coverage": 0.313
+          },
+          {
+            "id": "rb_172",
+            "tier": "weak",
+            "score": 18.866,
+            "coverage": 0.301
+          },
+          {
+            "id": "rb_075",
+            "tier": "weak",
+            "score": 16.964,
+            "coverage": 0.252
+          }
+        ],
+        "selected_template": "rb_191",
+        "template_sql": "SELECT SUM(CLOUD_FLAVOR.vcpuSize) AS total_vcpu, SUM(CLOUD_FLAVOR.ramSize) AS total_ram FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VOLUME"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VOLUME"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-287",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.002505,
+        "candidate_ids": [
+          "rb_192",
+          "rb_131",
+          "rb_171",
+          "rb_184",
+          "rb_047",
+          "rb_137",
+          "rb_113",
+          "rb_130",
+          "rb_042",
+          "rb_109",
+          "rb_041",
+          "rb_181",
+          "rb_134",
+          "rb_133"
+        ],
+        "candidates": [
+          {
+            "id": "rb_192",
+            "tier": "strong",
+            "score": 36.413,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_131",
+            "tier": "strong",
+            "score": 28.445,
+            "coverage": 0.79
+          },
+          {
+            "id": "rb_171",
+            "tier": "strong",
+            "score": 28.294,
+            "coverage": 0.79
+          },
+          {
+            "id": "rb_184",
+            "tier": "strong",
+            "score": 21.999,
+            "coverage": 0.618
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 12.863,
+            "coverage": 0.318
+          },
+          {
+            "id": "rb_137",
+            "tier": "weak",
+            "score": 11.335,
+            "coverage": 0.289
+          },
+          {
+            "id": "rb_113",
+            "tier": "weak",
+            "score": 10.933,
+            "coverage": 0.274
+          },
+          {
+            "id": "rb_130",
+            "tier": "weak",
+            "score": 10.107,
+            "coverage": 0.268
+          },
+          {
+            "id": "rb_042",
+            "tier": "weak",
+            "score": 9.928,
+            "coverage": 0.284
+          },
+          {
+            "id": "rb_109",
+            "tier": "weak",
+            "score": 9.024,
+            "coverage": 0.223
+          },
+          {
+            "id": "rb_041",
+            "tier": "weak",
+            "score": 8.042,
+            "coverage": 0.195
+          },
+          {
+            "id": "rb_181",
+            "tier": "weak",
+            "score": 7.957,
+            "coverage": 0.187
+          },
+          {
+            "id": "rb_134",
+            "tier": "weak",
+            "score": 7.807,
+            "coverage": 0.19
+          },
+          {
+            "id": "rb_133",
+            "tier": "weak",
+            "score": 7.512,
+            "coverage": 0.195
+          }
+        ],
+        "selected_template": "rb_192",
+        "template_sql": "SELECT name AS subnet_name FROM CLOUD_SUBNET",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "ROUTER",
+            "FLOATING_IPS"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "ROUTER",
+            "FLOATING_IPS"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-288",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.0024,
+        "candidate_ids": [
+          "rb_193",
+          "rb_186",
+          "rb_195",
+          "rb_189",
+          "rb_115",
+          "rb_178",
+          "rb_117",
+          "rb_050",
+          "rb_057",
+          "rb_116",
+          "rb_097",
+          "rb_038"
+        ],
+        "candidates": [
+          {
+            "id": "rb_193",
+            "tier": "strong",
+            "score": 65.854,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_186",
+            "tier": "strong",
+            "score": 42.58,
+            "coverage": 0.639
+          },
+          {
+            "id": "rb_195",
+            "tier": "weak",
+            "score": 15.888,
+            "coverage": 0.237
+          },
+          {
+            "id": "rb_189",
+            "tier": "weak",
+            "score": 15.31,
+            "coverage": 0.213
+          },
+          {
+            "id": "rb_115",
+            "tier": "weak",
+            "score": 14.746,
+            "coverage": 0.196
+          },
+          {
+            "id": "rb_178",
+            "tier": "weak",
+            "score": 14.732,
+            "coverage": 0.241
+          },
+          {
+            "id": "rb_117",
+            "tier": "weak",
+            "score": 14.134,
+            "coverage": 0.168
+          },
+          {
+            "id": "rb_050",
+            "tier": "weak",
+            "score": 13.804,
+            "coverage": 0.196
+          },
+          {
+            "id": "rb_057",
+            "tier": "weak",
+            "score": 13.632,
+            "coverage": 0.196
+          },
+          {
+            "id": "rb_116",
+            "tier": "weak",
+            "score": 13.401,
+            "coverage": 0.168
+          },
+          {
+            "id": "rb_097",
+            "tier": "weak",
+            "score": 13.3,
+            "coverage": 0.196
+          },
+          {
+            "id": "rb_038",
+            "tier": "weak",
+            "score": 12.314,
+            "coverage": 0.174
+          }
+        ],
+        "selected_template": "rb_193",
+        "template_sql": "SELECT name AS elb_name, ip AS elb_ip, status FROM CLOUD_ELB",
+        "resource_coverage": {
+          "missing_from_sql": [],
+          "covered_by_lookup": [],
+          "unsupported": [],
+          "lookup": null
+        },
+        "parameter_mode": "none",
+        "filled_parameter_names": [],
+        "reason": "missing_api_filter"
+      }
+    },
+    {
+      "case_id": "CMDB-297",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.001188,
+        "candidate_ids": [
+          "rb_197",
+          "rb_070",
+          "rb_140",
+          "rb_188",
+          "rb_073",
+          "rb_034",
+          "rb_074",
+          "rb_199",
+          "rb_072",
+          "rb_065",
+          "rb_055"
+        ],
+        "candidates": [
+          {
+            "id": "rb_197",
+            "tier": "strong",
+            "score": 49.636,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_070",
+            "tier": "strong",
+            "score": 33.804,
+            "coverage": 0.631
+          },
+          {
+            "id": "rb_140",
+            "tier": "weak",
+            "score": 15.368,
+            "coverage": 0.282
+          },
+          {
+            "id": "rb_188",
+            "tier": "weak",
+            "score": 15.243,
+            "coverage": 0.3
+          },
+          {
+            "id": "rb_073",
+            "tier": "weak",
+            "score": 10.541,
+            "coverage": 0.216
+          },
+          {
+            "id": "rb_034",
+            "tier": "weak",
+            "score": 10.379,
+            "coverage": 0.19
+          },
+          {
+            "id": "rb_074",
+            "tier": "weak",
+            "score": 10.264,
+            "coverage": 0.19
+          },
+          {
+            "id": "rb_199",
+            "tier": "weak",
+            "score": 9.526,
+            "coverage": 0.19
+          },
+          {
+            "id": "rb_072",
+            "tier": "weak",
+            "score": 8.657,
+            "coverage": 0.157
+          },
+          {
+            "id": "rb_065",
+            "tier": "weak",
+            "score": 8.208,
+            "coverage": 0.157
+          },
+          {
+            "id": "rb_055",
+            "tier": "weak",
+            "score": 7.437,
+            "coverage": 0.152
+          }
+        ],
+        "selected_template": "rb_197",
+        "template_sql": "SELECT COUNT(*) AS switch_count FROM SYS_Switch",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "ROUTER"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "ROUTER"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    },
+    {
+      "case_id": "CMDB-300",
+      "quality": 0,
+      "runtime_abstained": true,
+      "reason": "不回答（未命中runbook）",
+      "matching": {
+        "retrieval_seconds": 0.00128,
+        "candidate_ids": [
+          "rb_200",
+          "rb_191",
+          "rb_086",
+          "rb_087",
+          "rb_170",
+          "rb_102",
+          "rb_106",
+          "rb_175",
+          "rb_104",
+          "rb_177",
+          "rb_129",
+          "rb_047"
+        ],
+        "candidates": [
+          {
+            "id": "rb_200",
+            "tier": "strong",
+            "score": 45.411,
+            "coverage": 1.0
+          },
+          {
+            "id": "rb_191",
+            "tier": "strong",
+            "score": 23.972,
+            "coverage": 0.552
+          },
+          {
+            "id": "rb_086",
+            "tier": "weak",
+            "score": 16.41,
+            "coverage": 0.329
+          },
+          {
+            "id": "rb_087",
+            "tier": "weak",
+            "score": 16.41,
+            "coverage": 0.329
+          },
+          {
+            "id": "rb_170",
+            "tier": "weak",
+            "score": 13.939,
+            "coverage": 0.294
+          },
+          {
+            "id": "rb_102",
+            "tier": "weak",
+            "score": 13.47,
+            "coverage": 0.263
+          },
+          {
+            "id": "rb_106",
+            "tier": "weak",
+            "score": 11.383,
+            "coverage": 0.233
+          },
+          {
+            "id": "rb_175",
+            "tier": "weak",
+            "score": 11.341,
+            "coverage": 0.263
+          },
+          {
+            "id": "rb_104",
+            "tier": "weak",
+            "score": 11.218,
+            "coverage": 0.215
+          },
+          {
+            "id": "rb_177",
+            "tier": "weak",
+            "score": 11.162,
+            "coverage": 0.23
+          },
+          {
+            "id": "rb_129",
+            "tier": "weak",
+            "score": 10.825,
+            "coverage": 0.219
+          },
+          {
+            "id": "rb_047",
+            "tier": "weak",
+            "score": 10.696,
+            "coverage": 0.212
+          }
+        ],
+        "selected_template": "rb_200",
+        "template_sql": "SELECT vdcName, SUM(size) AS total_volume_size FROM CLOUD_VOLUME GROUP BY vdcName",
+        "resource_coverage": {
+          "missing_from_sql": [
+            "VM_NOVA",
+            "GAUSSDB"
+          ],
+          "covered_by_lookup": [],
+          "unsupported": [
+            "VM_NOVA",
+            "GAUSSDB"
+          ],
+          "lookup": null
+        },
+        "reason": "resource_mismatch"
+      }
+    }
+  ],
+  "holdout_accessed": false,
+  "budget_used": 293,
+  "budget_limit": 450,
+  "unused_requests_nonreusable": 157,
+  "sources": {
+    "analyze_training_v2_coverage.py": "297a67bf5bfccc9f7d0aa6a009a1500a5c515cd9ea68fbfd961bfeb1841a9848",
+    "datasets/whitebox_150_50_v1/train.json": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+    "experiments/train150_v2_live_plan.json": "36f5fca2760ef4c2462a4cc236babfbb4d29e98c3c7df60ddfe24ed6d2085c81",
+    "experiments/train150_v2_resume_plan.json": "ed8d391dc501c8dfd715a33a1f83e24b7901c9ab9b576ebbd63aceb77b9bb0fa",
+    "experiments/train150_v2_live.jsonl": "ff200b8fc4a7f2cec91519a7d079bf54003a96c74f7f7915d3422be55aa0467e",
+    "experiments/train150_v2_resume_live.jsonl": "1e4b03e89a7afdf77640cf198b8d8b30fddd6691af57ec554c8d2d7713841c65",
+    "experiments/train150_v1_live.jsonl": "9aa91876c441ec6442744a7abcf7f1bad29e156337ff596797e3ca09c22c8527",
+    "experiments/train150_v2_authorization.json": "127abb55da99c4eccaf3cd13b872fe0b5200452c7d07a08df26ad12b0fe11c58",
+    "experiments/train150_v2_resume_authorization.json": "67e1e5674da9a74867f052e048ca7a3b84431f5eef348b7437428dd2a6e2da99"
+  },
+  "limitations": [
+    "Original150 run stopped after147; resume3 was explicitly approved. Do not combine timed scores into a purported complete single-pass score.",
+    "One timeout has no returned model identity or token usage; visible token sums are not a billing total.",
+    "Historical single run versus two-segment coverage is descriptive, not a stable or per-component causal improvement.",
+    "The fixed200 public template library and prior exposure remain; no heldout or official-model generalization claim."
+  ]
+}

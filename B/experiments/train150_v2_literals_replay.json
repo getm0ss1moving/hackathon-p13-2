@@ -1,0 +1,4979 @@
+{
+  "split_id": "whitebox_150_50_v1",
+  "scope": "train_only",
+  "cases": 150,
+  "metrics": {
+    "baseline": {
+      "untimed_score": 560.0,
+      "max_score": 750,
+      "full_quality_answers": 113,
+      "partial": 2,
+      "wrong": 10,
+      "refused": 25
+    },
+    "candidate": {
+      "untimed_score": 584.0,
+      "max_score": 750,
+      "full_quality_answers": 117,
+      "partial": 2,
+      "wrong": 6,
+      "refused": 25
+    }
+  },
+  "improved": 4,
+  "regressed": 0,
+  "changed_cases": [
+    {
+      "case_id": "CMDB-029",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT tenantName, name AS instance_name, 'ECS' AS type, privateIps AS ip FROM CLOUD_VM_NOVA UNION ALL SELECT tenantName, name AS instance_name, 'Volume' AS type, '' AS ip FROM CLOUD_VOLUME UNION ALL SELECT tenantName, name AS instance_name, 'ELB' AS type, ip AS ip FROM CLOUD_ELB",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "instance_name",
+        "type",
+        "ip"
+      ],
+      "result_row_count": 6289
+    },
+    {
+      "case_id": "CMDB-040",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "clusterName",
+                "value": "kvm_group1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress, COUNT(CLOUD_VM_NOVA.id) AS vm_count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id GROUP BY CLOUD_HOST.name, CLOUD_HOST.ipAddress",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "host_name",
+        "ipAddress",
+        "vm_count"
+      ],
+      "result_row_count": 11
+    },
+    {
+      "case_id": "CMDB-121",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT CLOUD_VOLUME.status AS status, 'N/A' AS type_name, COUNT(*) AS count FROM CLOUD_VOLUME GROUP BY CLOUD_VOLUME.status, 'N/A'",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "status",
+        "type_name",
+        "count"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-152",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, COUNT(*) AS volume_count FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id GROUP BY CLOUD_VM_NOVA.name ORDER BY volume_count DESC LIMIT 5",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "volume_count"
+      ],
+      "result_row_count": 5
+    }
+  ],
+  "cases_detail": [
+    {
+      "case_id": "CMDB-005",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT azoneName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY azoneName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "azoneName",
+        "count"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-010",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "total"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-013",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT tenantName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY tenantName ORDER BY count DESC",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "count"
+      ],
+      "result_row_count": 113
+    },
+    {
+      "case_id": "CMDB-017",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.status, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "status",
+        "vcpuSize",
+        "ramSize",
+        "diskSize"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-019",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, createdAt FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "createdAt"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-020",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "AdvanceService_System_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.status, CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "status",
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize"
+      ],
+      "result_row_count": 304
+    },
+    {
+      "case_id": "CMDB-021",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize ORDER BY count DESC LIMIT 10",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-022",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize ORDER BY count DESC LIMIT 10",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-023",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ],
+      "result_row_count": 56
+    },
+    {
+      "case_id": "CMDB-024",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "ManageOne-AutoOps",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "flavorId",
+                  "value": "{{id from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-025",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT tenantName, CLOUD_FLAVOR.name AS flavor_name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, COUNT(*) AS count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id GROUP BY tenantName, CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "count"
+      ],
+      "result_row_count": 530
+    },
+    {
+      "case_id": "CMDB-026",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "AdvanceService_System_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_FLAVOR.name AS flavor_name, CLOUD_VM_NOVA.status FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id ORDER BY azoneName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "azoneName",
+        "vm_name",
+        "flavor_name",
+        "status"
+      ],
+      "result_row_count": 304
+    },
+    {
+      "case_id": "CMDB-027",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS total, SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active_count FROM CLOUD_VM_NOVA GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "total",
+        "active_count"
+      ],
+      "result_row_count": 44
+    },
+    {
+      "case_id": "CMDB-028",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "status",
+                "value": "error",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-029",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT tenantName, name AS instance_name, 'ECS' AS type, privateIps AS ip FROM CLOUD_VM_NOVA UNION ALL SELECT tenantName, name AS instance_name, 'Volume' AS type, '' AS ip FROM CLOUD_VOLUME UNION ALL SELECT tenantName, name AS instance_name, 'ELB' AS type, ip AS ip FROM CLOUD_ELB",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "instance_name",
+        "type",
+        "ip"
+      ],
+      "result_row_count": 6289
+    },
+    {
+      "case_id": "CMDB-033",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "fixedIpAddress",
+                  "value": "54098a30",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "privateIps",
+                  "value": "{{fixedIpAddress from step 1}}",
+                  "operator": "contain"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_FLOATING_IPS.floatingIpAddress AS floating_ip, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps FROM CLOUD_FLOATING_IPS INNER JOIN CLOUD_VM_NOVA ON CLOUD_FLOATING_IPS.fixedIpAddress = CLOUD_VM_NOVA.privateIps",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-034",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_DeployNode?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "mgmtIp",
+                "value": "bba98a99",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT SYS_DeployNode.name AS node_name, SYS_DeployNode.mgmtIp AS node_ip, SYS_CloudService.name AS cloud_service_name FROM SYS_DeployNode INNER JOIN SYS_DeployInstance ON SYS_DeployNode.id = SYS_DeployInstance.deployNodeId INNER JOIN SYS_DeployComponent ON SYS_DeployInstance.deployComponentId = SYS_DeployComponent.id INNER JOIN SYS_Service ON SYS_DeployComponent.serviceId = SYS_Service.id INNER JOIN SYS_CloudService ON SYS_Service.cloudServiceId = SYS_CloudService.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-039",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "kvm_group1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.status, CLOUD_VM_NOVA.privateIps FROM CLOUD_CLUSTER INNER JOIN M_ClusterContainsPhyHost ON CLOUD_CLUSTER.id = M_ClusterContainsPhyHost.source_Instance_Id INNER JOIN CLOUD_HOST ON M_ClusterContainsPhyHost.target_Instance_Id = CLOUD_HOST.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "host_name",
+        "vm_name",
+        "status",
+        "privateIps"
+      ],
+      "result_row_count": 829
+    },
+    {
+      "case_id": "CMDB-040",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "clusterName",
+                "value": "kvm_group1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress, COUNT(CLOUD_VM_NOVA.id) AS vm_count FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id GROUP BY CLOUD_HOST.name, CLOUD_HOST.ipAddress",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "host_name",
+        "ipAddress",
+        "vm_count"
+      ],
+      "result_row_count": 11
+    },
+    {
+      "case_id": "CMDB-041",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "kvm-10",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.status, COUNT(*) AS count FROM CLOUD_HOST INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId GROUP BY CLOUD_VM_NOVA.status",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "status",
+        "count"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-042",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS host_ip, SYS_X86Server.name AS server_name, SYS_X86Server.id AS server_id FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "host_name",
+        "host_ip",
+        "server_name",
+        "server_id"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-043",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS host_ip FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "host_name",
+        "host_ip"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-044",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, clusterName, azoneName FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "clusterName",
+        "azoneName"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-046",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "kvm-10",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_HOST.name AS host_name, SYS_X86Server.cpuModel, SYS_X86Server.manufacturer, SYS_X86Server.cpuArch FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "host_name",
+        "cpuModel",
+        "manufacturer",
+        "cpuArch"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-049",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_CLUSTER.name AS cluster_name, COUNT(DISTINCT CLOUD_HOST.id) AS host_count, SUM(CLOUD_HOST.totalVcpuCores) AS total_vcpu, SUM(CASE WHEN CLOUD_VM_NOVA.status = 'active' THEN 1 ELSE 0 END) AS active_vm_count FROM CLOUD_CLUSTER INNER JOIN M_ClusterContainsPhyHost ON CLOUD_CLUSTER.id = M_ClusterContainsPhyHost.source_Instance_Id INNER JOIN CLOUD_HOST ON M_ClusterContainsPhyHost.target_Instance_Id = CLOUD_HOST.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId GROUP BY CLOUD_CLUSTER.name",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cluster_name",
+        "host_count",
+        "total_vcpu",
+        "active_vm_count"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-050",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "name",
+                "value": "kvm_group1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS host_ip, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.status AS vm_status, CLOUD_VOLUME.name AS volume_name, CLOUD_VOLUME.size AS volume_size FROM CLOUD_CLUSTER INNER JOIN M_ClusterContainsPhyHost ON CLOUD_CLUSTER.id = M_ClusterContainsPhyHost.source_Instance_Id INNER JOIN CLOUD_HOST ON M_ClusterContainsPhyHost.target_Instance_Id = CLOUD_HOST.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cluster_name",
+        "host_name",
+        "host_ip",
+        "vm_name",
+        "vm_status",
+        "volume_name",
+        "volume_size"
+      ],
+      "result_row_count": 1647
+    },
+    {
+      "case_id": "CMDB-051",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "hypervisorType",
+                "value": "KVM",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(DISTINCT CLOUD_CLUSTER.id) AS cluster_count, COUNT(DISTINCT CLOUD_HOST.id) AS host_count FROM CLOUD_HOST INNER JOIN M_ClusterContainsPhyHost ON CLOUD_HOST.id = M_ClusterContainsPhyHost.target_Instance_Id INNER JOIN CLOUD_CLUSTER ON M_ClusterContainsPhyHost.source_Instance_Id = CLOUD_CLUSTER.id",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-052",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "privateIps",
+        "status"
+      ],
+      "result_row_count": 320
+    },
+    {
+      "case_id": "CMDB-053",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "CodeArtsDeploy",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-057",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-060",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "vdcName",
+                "value": "paas-aom",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT tenantName, name, privateIps FROM CLOUD_VM_NOVA ORDER BY tenantName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "name",
+        "privateIps"
+      ],
+      "result_row_count": 44
+    },
+    {
+      "case_id": "CMDB-061",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "active",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "id",
+                  "value": "{{flavorId from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS private_ips, CLOUD_FLAVOR.name AS flavor_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "private_ips",
+        "flavor_name"
+      ],
+      "result_row_count": 1902
+    },
+    {
+      "case_id": "CMDB-066",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT 'ECS' AS type, vdcName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "type",
+        "vdcName",
+        "count"
+      ],
+      "result_row_count": 44
+    },
+    {
+      "case_id": "CMDB-067",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT a.vdcName, a.ecs_count, b.volume_count, b.total_volume_size FROM (SELECT vdcName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY vdcName) a LEFT JOIN (SELECT vdcName, COUNT(*) AS volume_count, SUM(size) AS total_volume_size FROM CLOUD_VOLUME GROUP BY vdcName) b ON a.vdcName = b.vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "ecs_count",
+        "volume_count",
+        "total_volume_size"
+      ],
+      "result_row_count": 44
+    },
+    {
+      "case_id": "CMDB-068",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT 'ECS' AS type, COUNT(*) AS count FROM CLOUD_VM_NOVA UNION ALL SELECT 'Volume' AS type, COUNT(*) AS count FROM CLOUD_VOLUME UNION ALL SELECT 'VPC' AS type, COUNT(*) AS count FROM CLOUD_ROUTER",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "type",
+        "count"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-069",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT 'ECS' AS type, vdcName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY vdcName UNION ALL SELECT 'Volume' AS type, vdcName, COUNT(*) AS count FROM CLOUD_VOLUME GROUP BY vdcName UNION ALL SELECT 'VPC' AS type, vdcName, COUNT(*) AS count FROM CLOUD_ROUTER GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "type",
+        "vdcName",
+        "count"
+      ],
+      "result_row_count": 183
+    },
+    {
+      "case_id": "CMDB-074",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT SYS_X86Server.cpuArch AS cpu_arch, COUNT(*) AS count FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id GROUP BY SYS_X86Server.cpuArch",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cpu_arch",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-075",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT SYS_X86Server.cpuArch AS cpu_arch, COUNT(*) AS count FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id GROUP BY SYS_X86Server.cpuArch",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cpu_arch",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-077",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-078",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_HOST GROUP BY status",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "status",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-080",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT cpuArch, COUNT(*) AS count FROM SYS_X86Server GROUP BY cpuArch",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cpuArch",
+        "count"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-081",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "贵安4虚拟",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT SYS_X86Server.cpuArch AS cpu_arch, CLOUD_HOST.azoneName AS azone_name, COUNT(CLOUD_VM_NOVA.id) AS vm_count FROM SYS_X86Server INNER JOIN CLOUD_HOST ON SYS_X86Server.id = CLOUD_HOST.serverId INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId GROUP BY SYS_X86Server.cpuArch, CLOUD_HOST.azoneName",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "cpu_arch",
+        "azone_name",
+        "vm_count"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-085",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, ipAddress, totalVmemoryMB, allocatedVmemoryMB, totalVmemoryMB - allocatedVmemoryMB AS remaining_memory FROM CLOUD_HOST ORDER BY remaining_memory DESC LIMIT 3",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "ipAddress",
+        "totalVmemoryMB",
+        "allocatedVmemoryMB",
+        "remaining_memory"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-086",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalVcpuCores AS total_vcpu, CLOUD_HOST.allocatedVcpuCores AS allocated_vcpu, SYS_X86Server.cpuArch AS cpu_arch FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "host_name",
+        "ip_address",
+        "total_vcpu",
+        "allocated_vcpu",
+        "cpu_arch"
+      ],
+      "result_row_count": 21
+    },
+    {
+      "case_id": "CMDB-087",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "nativeId",
+                  "value": "9EAE8CF9-63F0-D196-EE11-C7830A72D98C",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "hostId",
+                  "value": "{{id from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalCpu AS total_cpu, COUNT(CLOUD_VM_NOVA.id) AS vm_count FROM CLOUD_HOST INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId GROUP BY CLOUD_HOST.name, CLOUD_HOST.ipAddress, CLOUD_HOST.totalCpu",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "host_name",
+        "ip_address",
+        "total_cpu",
+        "vm_count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-088",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "运行中",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalVcpuCores AS total_vcpu, CLOUD_HOST.allocatedVcpuCores AS allocated_vcpu, SYS_X86Server.cpuArch AS cpu_arch, CLOUD_VM_NOVA.name AS vm_name FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id LEFT JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-089",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_DeployNode?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "APIGWLB-01_roma-guian-4",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name AS node_name, mgmtIp AS mgmt_ip FROM SYS_DeployNode",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "node_name",
+        "mgmt_ip"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-090",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "management",
+                "value": true,
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.vdcName AS vdc_name, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS private_ips, SYS_CloudService.indexName AS cloud_service_name FROM CLOUD_VM_NOVA INNER JOIN SYS_DeployNode ON CLOUD_VM_NOVA.id = SYS_DeployNode.vmId INNER JOIN SYS_DeployInstance ON SYS_DeployNode.id = SYS_DeployInstance.deployNodeId INNER JOIN SYS_DeployComponent ON SYS_DeployInstance.deployComponentId = SYS_DeployComponent.id INNER JOIN SYS_Service ON SYS_DeployComponent.serviceId = SYS_Service.id INNER JOIN SYS_CloudService ON SYS_Service.cloudServiceId = SYS_CloudService.id ORDER BY CLOUD_VM_NOVA.vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdc_name",
+        "vm_name",
+        "private_ips",
+        "cloud_service_name"
+      ],
+      "result_row_count": 2201
+    },
+    {
+      "case_id": "CMDB-091",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "productName",
+                "value": "Atlas 800T A2",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT logicalRegionName, COUNT(*) AS count FROM SYS_X86Server GROUP BY logicalRegionName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "logicalRegionName",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-093",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT manufacturer, COUNT(*) AS count FROM SYS_X86Server GROUP BY manufacturer",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "manufacturer",
+        "count"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-097",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.allocatedVcpuCores, CLOUD_HOST.totalVcpuCores, CAST(CLOUD_HOST.allocatedVcpuCores AS FLOAT) / CLOUD_HOST.totalVcpuCores AS allocation_rate FROM CLOUD_HOST INNER JOIN M_ClusterContainsPhyHost ON CLOUD_HOST.id = M_ClusterContainsPhyHost.target_Instance_Id INNER JOIN CLOUD_CLUSTER ON M_ClusterContainsPhyHost.source_Instance_Id = CLOUD_CLUSTER.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "cluster_name",
+        "host_name",
+        "ip_address",
+        "allocatedVcpuCores",
+        "totalVcpuCores",
+        "allocation_rate"
+      ],
+      "result_row_count": 34
+    },
+    {
+      "case_id": "CMDB-102",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Device?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "assetStatus",
+                "value": "scrapped",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-104",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT SYS_X86Server.hostName AS name, SYS_X86Server.hostIpAddress AS ip_address, SYS_X86Server.cpuArch AS cpu_arch, SYS_X86Server.cpuCores AS cpu_cores FROM SYS_X86Server",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "name",
+        "ip_address",
+        "cpu_arch",
+        "cpu_cores"
+      ],
+      "result_row_count": 45
+    },
+    {
+      "case_id": "CMDB-107",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT logicalRegionName, COUNT(*) AS count FROM SYS_X86Server GROUP BY logicalRegionName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "logicalRegionName",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-108",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Device?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "class_Name",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-112",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-113",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_CloudService?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "indexName",
+                "value": "ApiCom",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT SYS_DeployNode.name AS node_name, SYS_DeployNode.id AS node_id, SYS_DeployNode.hostName AS host_name, SYS_DeployNode.mgmtIp AS mgmt_ip\nFROM SYS_CloudService\nINNER JOIN SYS_Service ON SYS_CloudService.id = SYS_Service.cloudServiceId\nINNER JOIN SYS_DeployComponent ON SYS_Service.id = SYS_DeployComponent.serviceId\nINNER JOIN SYS_DeployInstance ON SYS_DeployComponent.id = SYS_DeployInstance.deployComponentId\nINNER JOIN SYS_DeployNode ON SYS_DeployInstance.deployNodeId = SYS_DeployNode.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "node_name",
+        "node_id",
+        "host_name",
+        "mgmt_ip"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-114",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_CloudService?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "indexName",
+                "value": "ApiCom",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT SYS_DeployNode.name AS node_name, SYS_DeployNode.hostClass AS host_class FROM SYS_CloudService INNER JOIN SYS_Service ON SYS_CloudService.id = SYS_Service.cloudServiceId INNER JOIN SYS_DeployComponent ON SYS_Service.id = SYS_DeployComponent.serviceId INNER JOIN SYS_DeployInstance ON SYS_DeployComponent.id = SYS_DeployInstance.deployComponentId INNER JOIN SYS_DeployNode ON SYS_DeployInstance.deployNodeId = SYS_DeployNode.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "node_name",
+        "host_class"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-115",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_api_filter",
+      "parameter_mode": "none",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-121",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT CLOUD_VOLUME.status AS status, 'N/A' AS type_name, COUNT(*) AS count FROM CLOUD_VOLUME GROUP BY CLOUD_VOLUME.status, 'N/A'",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "status",
+        "type_name",
+        "count"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-122",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT status, COUNT(*) AS count, MAX(size) AS max_size FROM CLOUD_VOLUME GROUP BY status ORDER BY count DESC",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "status",
+        "count",
+        "max_size"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-127",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "bootable",
+                  "value": "true",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "bootable",
+                  "value": "true",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT SUM(CASE WHEN bootable = 'true' THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS ratio FROM CLOUD_VOLUME",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "ratio"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-130",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "count",
+        "total_size"
+      ],
+      "result_row_count": 47
+    },
+    {
+      "case_id": "CMDB-132",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "count",
+        "total_size"
+      ],
+      "result_row_count": 47
+    },
+    {
+      "case_id": "CMDB-133",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "vdcName",
+                "value": "AdvanceService_Manage_VDC",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VOLUME.name AS name, CLOUD_VOLUME.size AS size, CLOUD_VOLUME.status AS status, 'N/A' AS type_name FROM CLOUD_VOLUME",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "size",
+        "status",
+        "type_name"
+      ],
+      "result_row_count": 819
+    },
+    {
+      "case_id": "CMDB-134",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VOLUME.name AS volume_name, CLOUD_VOLUME.size AS size_gb, CLOUD_VOLUME.bootable AS bootable, CLOUD_VOLUME.status AS status FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "volume_name",
+        "size_gb",
+        "bootable",
+        "status"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-135",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VOLUME.bootable AS bootable, CLOUD_VOLUME.name AS volume_name, CLOUD_VOLUME.size AS size FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id ORDER BY CLOUD_VOLUME.bootable",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "bootable",
+        "volume_name",
+        "size"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-136",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "functiongraph-manager-9oslr-volume-0000",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VOLUME.name AS volume_name, CLOUD_VOLUME.size AS size, CLOUD_VOLUME.status AS status, CLOUD_VM_NOVA.name AS vm_name FROM CLOUD_VOLUME INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VOLUME.id = R_VOLUME_MOUNTON_VM.volumeId INNER JOIN CLOUD_VM_NOVA ON R_VOLUME_MOUNTON_VM.vmId = CLOUD_VM_NOVA.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "volume_name",
+        "size",
+        "status",
+        "vm_name"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-137",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "functiongraph-manager-9oslr-volume-0000",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, status FROM CLOUD_VOLUME",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "status"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-139",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-140",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VOLUME.name AS volume_name, CLOUD_VOLUME.size AS size FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id ORDER BY CLOUD_VOLUME.size DESC LIMIT 1",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "volume_name",
+        "size"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-141",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cinder-kvm003@bussiness_storage02#0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, totalCapacityGB, freeCapacityGB, provisionedCapacityGB, (totalCapacityGB - freeCapacityGB) AS used_capacity, ROUND((totalCapacityGB - freeCapacityGB) * 100.0 / totalCapacityGB, 2) AS usage_rate, ROUND(provisionedCapacityGB * 100.0 / totalCapacityGB, 2) AS over_subscription_ratio FROM CLOUD_STORAGE_POOL",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "name",
+        "totalCapacityGB",
+        "freeCapacityGB",
+        "provisionedCapacityGB",
+        "used_capacity",
+        "usage_rate",
+        "over_subscription_ratio"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-143",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT azoneName, SUM(totalCapacityGB) AS total_capacity, SUM(freeCapacityGB) AS free_capacity, (SUM(totalCapacityGB) - SUM(freeCapacityGB)) AS used_capacity, ROUND((SUM(totalCapacityGB) - SUM(freeCapacityGB)) * 100.0 / SUM(totalCapacityGB), 2) AS usage_rate FROM CLOUD_STORAGE_POOL GROUP BY azoneName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "azoneName",
+        "total_capacity",
+        "free_capacity",
+        "used_capacity",
+        "usage_rate"
+      ],
+      "result_row_count": 3
+    },
+    {
+      "case_id": "CMDB-144",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, totalCapacityGB, freeCapacityGB, (totalCapacityGB - freeCapacityGB) AS used_capacity, ROUND((totalCapacityGB - freeCapacityGB) * 100.0 / totalCapacityGB, 2) AS usage_rate FROM CLOUD_STORAGE_POOL ORDER BY usage_rate DESC",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "totalCapacityGB",
+        "freeCapacityGB",
+        "used_capacity",
+        "usage_rate"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-147",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-148",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, bucketName, managedStatus FROM CLOUD_OBS_BUCKET",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "bucketName",
+        "managedStatus"
+      ],
+      "result_row_count": 434
+    },
+    {
+      "case_id": "CMDB-149",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(*) AS total_count FROM CLOUD_OBS_BUCKET",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "total_count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-150",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT tenantName, COUNT(*) AS count FROM CLOUD_OBS_BUCKET GROUP BY tenantName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "count"
+      ],
+      "result_row_count": 267
+    },
+    {
+      "case_id": "CMDB-151",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, AVG(size) AS avg_size, MAX(size) AS max_size FROM CLOUD_VOLUME GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "avg_size",
+        "max_size"
+      ],
+      "result_row_count": 47
+    },
+    {
+      "case_id": "CMDB-152",
+      "baseline": -1,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": true,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, COUNT(*) AS volume_count FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON CLOUD_VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId INNER JOIN CLOUD_VOLUME ON R_VOLUME_MOUNTON_VM.volumeId = CLOUD_VOLUME.id GROUP BY CLOUD_VM_NOVA.name ORDER BY volume_count DESC LIMIT 5",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "volume_count"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-153",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vendorName, SUM(totalCapacityGB) AS total_capacity, SUM(freeCapacityGB) AS free_capacity FROM CLOUD_STORAGE_POOL GROUP BY vendorName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vendorName",
+        "total_capacity",
+        "free_capacity"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-154",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT flavorCode, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY flavorCode",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "flavorCode",
+        "count"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-156",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS instance_count, SUM(dataVolumeSizeInGBs) AS total_storage FROM CLOUD_GAUSSDB_INSTANCE GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "instance_count",
+        "total_storage"
+      ],
+      "result_row_count": 8
+    },
+    {
+      "case_id": "CMDB-158",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "gauss-dbmind-4463",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_GAUSSDB_INSTANCE.name AS instance_name, CLOUD_GAUSSDB_NODE.name AS node_name, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS vm_ip FROM CLOUD_GAUSSDB_INSTANCE INNER JOIN CLOUD_GAUSSDB_NODE ON CLOUD_GAUSSDB_INSTANCE.id = CLOUD_GAUSSDB_NODE.ref_instanceId INNER JOIN CLOUD_VM_NOVA ON CLOUD_GAUSSDB_NODE.ref_vmbmsId = CLOUD_VM_NOVA.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "instance_name",
+        "node_name",
+        "vm_name",
+        "vm_ip"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-165",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "shared",
+                "value": "true",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, providerNetworkType, providerPhysicalNetworkSegId FROM CLOUD_NETWORK",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "providerNetworkType",
+        "providerPhysicalNetworkSegId"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-166",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "shared",
+                "value": "true",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "providerNetworkType",
+                "value": "vlan",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(*) AS total FROM CLOUD_NETWORK",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "total"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-169",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS count FROM CLOUD_FLOATING_IPS GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "count"
+      ],
+      "result_row_count": 59
+    },
+    {
+      "case_id": "CMDB-173",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_ELB.name AS elb_name, CLOUD_ELB.id AS elb_id, CLOUD_LISTENER.name AS listener_name, CLOUD_LISTENER.protocol AS listener_protocol, CLOUD_LISTENER.port AS listener_port FROM CLOUD_ELB INNER JOIN CLOUD_LISTENER ON CLOUD_ELB.id = CLOUD_LISTENER.elbId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "elb_name",
+        "elb_id",
+        "listener_name",
+        "listener_protocol",
+        "listener_port"
+      ],
+      "result_row_count": 1302
+    },
+    {
+      "case_id": "CMDB-174",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cloudpipeline_backend_elb",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_ELB.name AS elb_name, CLOUD_LISTENER.name AS listener_name, CLOUD_LISTENER.protocol AS protocol, CLOUD_LISTENER.port AS port FROM CLOUD_ELB INNER JOIN CLOUD_LISTENER ON CLOUD_ELB.id = CLOUD_LISTENER.elbId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "elb_name",
+        "listener_name",
+        "protocol",
+        "port"
+      ],
+      "result_row_count": 4
+    },
+    {
+      "case_id": "CMDB-175",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cloudpipeline_backend_elb",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_LISTENER.name AS listener_name, CLOUD_LISTENER.protocol AS protocol, CLOUD_LISTENER.port AS port FROM CLOUD_ELB INNER JOIN CLOUD_LISTENER ON CLOUD_ELB.id = CLOUD_LISTENER.elbId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "listener_name",
+        "protocol",
+        "port"
+      ],
+      "result_row_count": 4
+    },
+    {
+      "case_id": "CMDB-176",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cloudpipeline_backend_elb",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_ELB.name AS elb_name, CLOUD_FLOATING_IPS.floatingIpAddress AS floating_ip FROM CLOUD_ELB INNER JOIN CLOUD_FLOATING_IPS ON CLOUD_ELB.ip = CLOUD_FLOATING_IPS.fixedIpAddress",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "elb_name",
+        "floating_ip"
+      ],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-179",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_LISTENER.protocol AS protocol, COUNT(*) AS count FROM CLOUD_ELB INNER JOIN CLOUD_LISTENER ON CLOUD_ELB.id = CLOUD_LISTENER.elbId GROUP BY CLOUD_LISTENER.protocol",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "protocol",
+        "count"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-181",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_PORT.name AS port_name, CLOUD_PORT.mac AS mac, CLOUD_PORT.ipAddresses AS ip, CLOUD_SUBNET.cidr AS subnet_cidr, CLOUD_SUBNET.gatewayIp AS gateway FROM CLOUD_VM_NOVA INNER JOIN CLOUD_PORT ON CLOUD_VM_NOVA.resId = CLOUD_PORT.devId INNER JOIN R_PORT_IN_SUBNET ON CLOUD_PORT.id = R_PORT_IN_SUBNET.portId INNER JOIN CLOUD_SUBNET ON R_PORT_IN_SUBNET.subnetId = CLOUD_SUBNET.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "port_name",
+        "mac",
+        "ip",
+        "subnet_cidr",
+        "gateway"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-182",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-184",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "cse-engine-cluster-roma-guian-4-3-master-1",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_SECURITY_GROUP.name AS sg_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_PORT ON CLOUD_VM_NOVA.resId = CLOUD_PORT.devId INNER JOIN R_PORT_USE_SECURITY_GROUP ON CLOUD_PORT.id = R_PORT_USE_SECURITY_GROUP.portId INNER JOIN CLOUD_SECURITY_GROUP ON R_PORT_USE_SECURITY_GROUP.sgId = CLOUD_SECURITY_GROUP.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "sg_name"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-185",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "OM_ECMP",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_PORT.name AS port_name, CLOUD_PORT.mac AS mac, CLOUD_PORT.ipAddresses AS ip FROM CLOUD_SUBNET INNER JOIN R_PORT_IN_SUBNET ON CLOUD_SUBNET.id = R_PORT_IN_SUBNET.subnetId INNER JOIN CLOUD_PORT ON R_PORT_IN_SUBNET.portId = CLOUD_PORT.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "port_name",
+        "mac",
+        "ip"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-188",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/SECURITY_GROUP?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "default",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_PORT.name AS port_name, CLOUD_PORT.id AS port_id, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS vm_ip FROM CLOUD_SECURITY_GROUP INNER JOIN R_PORT_USE_SECURITY_GROUP ON CLOUD_SECURITY_GROUP.id = R_PORT_USE_SECURITY_GROUP.sgId INNER JOIN CLOUD_PORT ON R_PORT_USE_SECURITY_GROUP.portId = CLOUD_PORT.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_PORT.devId = CLOUD_VM_NOVA.resId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "port_name",
+        "port_id",
+        "vm_name",
+        "vm_ip"
+      ],
+      "result_row_count": 783
+    },
+    {
+      "case_id": "CMDB-189",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-196",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-197",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT tenantName, status, COUNT(*) AS count FROM CLOUD_FLOATING_IPS GROUP BY tenantName, status",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "tenantName",
+        "status",
+        "count"
+      ],
+      "result_row_count": 226
+    },
+    {
+      "case_id": "CMDB-200",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-202",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "OM_ECMP",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "OM_ECMP",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT name AS subnet_name, cidr AS subnet_cidr FROM CLOUD_SUBNET",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "subnet_name",
+        "subnet_cidr"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-204",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT cidr AS subnet_cidr FROM CLOUD_SUBNET",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "subnet_cidr"
+      ],
+      "result_row_count": 1138
+    },
+    {
+      "case_id": "CMDB-206",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT name AS subnet_name, cidr AS subnet_cidr FROM CLOUD_SUBNET",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "subnet_name",
+        "subnet_cidr"
+      ],
+      "result_row_count": 1138
+    },
+    {
+      "case_id": "CMDB-207",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/NET_NODE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_NET_NODE.name AS node_name, CLOUD_NET_NODE.ipAddress AS ip_address, CLOUD_NET_NODE.managedStatus AS status, CLOUD_NET_NODE.serviceType AS service_type FROM CLOUD_NET_NODE",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "node_name",
+        "ip_address",
+        "status",
+        "service_type"
+      ],
+      "result_row_count": 18
+    },
+    {
+      "case_id": "CMDB-208",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VFW?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "demo-env-ecs",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT * FROM CLOUD_VFW",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [
+        "adminStateUp",
+        "bizRegionId",
+        "bizRegionName",
+        "class_Id",
+        "class_Name",
+        "description",
+        "epsId",
+        "id",
+        "is_Local",
+        "last_Modified",
+        "logicalRegionId",
+        "logicalRegionName",
+        "name",
+        "nativeId",
+        "ownerId",
+        "ownerType",
+        "projectId",
+        "public",
+        "regionId",
+        "regionName",
+        "resId",
+        "resourcePoolId",
+        "resourcePoolName",
+        "resourcePoolType",
+        "status",
+        "tenantId",
+        "tenantName",
+        "type",
+        "vdcId",
+        "vdcName"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-212",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, engineName, engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "engineName",
+        "engineVersion",
+        "haMode",
+        "flavorCode"
+      ],
+      "result_row_count": 14
+    },
+    {
+      "case_id": "CMDB-214",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT engineVersion, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY engineVersion",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "engineVersion",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-215",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT haMode, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY haMode",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "haMode",
+        "count"
+      ],
+      "result_row_count": 2
+    },
+    {
+      "case_id": "CMDB-217",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "gauss-dbmind-4463",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "engineVersion",
+        "haMode",
+        "flavorCode"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-218",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name, engineVersion, dataVip FROM CLOUD_GAUSSDB_INSTANCE",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "name",
+        "engineVersion",
+        "dataVip"
+      ],
+      "result_row_count": 14
+    },
+    {
+      "case_id": "CMDB-221",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "dataVip",
+                "value": "690b8fb9",
+                "operator": "contain"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_GAUSSDB_INSTANCE.name AS instance_name, CLOUD_HOST.name AS host_name, CLOUD_GAUSSDB_INSTANCE.tenantName AS tenant_name\nFROM CLOUD_GAUSSDB_INSTANCE\nINNER JOIN CLOUD_GAUSSDB_NODE ON CLOUD_GAUSSDB_INSTANCE.id = CLOUD_GAUSSDB_NODE.ref_instanceId\nINNER JOIN CLOUD_VM_NOVA ON CLOUD_GAUSSDB_NODE.ref_vmbmsId = CLOUD_VM_NOVA.id\nINNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-223",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-224",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_api_filter",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-229",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/MIDDLEWARE_CLUSTER?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT COUNT(*) AS total FROM CLOUD_MIDDLEWARE_CLUSTER",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "total"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-230",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/MIDDLEWARE?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT managedStatus, COUNT(*) AS count FROM CLOUD_MIDDLEWARE GROUP BY managedStatus",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "managedStatus",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-231",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_parameters",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-234",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/MIDDLEWARE?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT engineVersion, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY engineVersion UNION ALL SELECT type, COUNT(*) AS count FROM CLOUD_MIDDLEWARE GROUP BY type",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "engineVersion",
+        "count"
+      ],
+      "result_row_count": 10
+    },
+    {
+      "case_id": "CMDB-236",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CCE_CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "service-cm-cluster-roma-guian-4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_CCE_NODE.name AS node_name, CLOUD_CCE_NODE.privateIP AS node_ip, CLOUD_CCE_NODE.status AS status FROM CLOUD_CCE_CLUSTER INNER JOIN CLOUD_CCE_NODE ON CLOUD_CCE_CLUSTER.id = CLOUD_CCE_NODE.ref_clusterId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-237",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CCE_WORKLOAD?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT DISTINCT CLOUD_CCE_WORKLOAD.name AS workload_name, CLOUD_CCE_WORKLOAD.managedStatus AS status FROM CLOUD_CCE_WORKLOAD",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "workload_name",
+        "status"
+      ],
+      "result_row_count": 203
+    },
+    {
+      "case_id": "CMDB-238",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CCE_CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "service-cm-cluster-roma-guian-4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_CCE_POD.name AS pod_name, CLOUD_CCE_POD.managedStatus AS status FROM CLOUD_CCE_CLUSTER INNER JOIN CLOUD_CCE_POD ON CLOUD_CCE_CLUSTER.nativeId = CLOUD_CCE_POD.clusterId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-239",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CCE_CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "service-cm-cluster-roma-guian-4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_CCE_NODE.name AS node_name, CLOUD_CCE_NODE.managedStatus AS status, CLOUD_CCE_NODE.cpu AS cpu FROM CLOUD_CCE_CLUSTER INNER JOIN CLOUD_CCE_NODE ON CLOUD_CCE_CLUSTER.nativeId = CLOUD_CCE_NODE.clusterId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-241",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/MODELARTS_INF_SERVICE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "pool-aaaa",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_MODELARTS_INF_SERVICE.name AS service_name, CLOUD_MODELARTS_INF_POOL.name AS pool_name, CLOUD_MODELARTS_INF_NODE.name AS node_name FROM CLOUD_MODELARTS_INF_SERVICE INNER JOIN CLOUD_MODELARTS_INF_POOL ON CLOUD_MODELARTS_INF_SERVICE.ref_poolId = CLOUD_MODELARTS_INF_POOL.id INNER JOIN CLOUD_MODELARTS_INF_NODE ON CLOUD_MODELARTS_INF_POOL.id = CLOUD_MODELARTS_INF_NODE.ref_poolId",
+      "reason": "matched",
+      "parameter_mode": "llm",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-243",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/MODELARTS_INF_MODEL?pageNo=1&pageSize=10000"
+      },
+      "sql": "SELECT DISTINCT CLOUD_MODELARTS_INF_MODEL.name AS model_name, CLOUD_MODELARTS_TRAINING_JOB.name AS training_job_name FROM CLOUD_MODELARTS_INF_MODEL INNER JOIN CLOUD_MODELARTS_TRAINING_JOB ON CLOUD_MODELARTS_INF_MODEL.ref_trainingJobId = CLOUD_MODELARTS_TRAINING_JOB.id",
+      "reason": "matched",
+      "parameter_mode": "none",
+      "result_columns": [
+        "model_name",
+        "training_job_name"
+      ],
+      "result_row_count": 100
+    },
+    {
+      "case_id": "CMDB-244",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/MODELARTS_INF_SERVICE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_MODELARTS_INF_SERVICE GROUP BY status",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "status",
+        "count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-247",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/Application?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "app-xy",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT CLOUD_ApplicationModule.name AS module_name, CLOUD_ApplicationModule.status AS status FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "module_name",
+        "status"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-248",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/Application?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "app-xy",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT DISTINCT CLOUD_ApplicationModule.name AS module_name, CLOUD_ApplicationModuleIns.name AS instance_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "module_name",
+        "instance_name"
+      ],
+      "result_row_count": 5
+    },
+    {
+      "case_id": "CMDB-249",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/Application?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ApplicationModule?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ApplicationModuleIns?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT CLOUD_ApplicationModuleIns.name AS instance_name, CLOUD_ApplicationModule.name AS module_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "instance_name",
+        "module_name"
+      ],
+      "result_row_count": 50
+    },
+    {
+      "case_id": "CMDB-252",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-255",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-256",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-258",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-259",
+      "baseline": -1,
+      "candidate": -1,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "error",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [],
+      "result_row_count": 0
+    },
+    {
+      "case_id": "CMDB-261",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-265",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT vdcName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY vdcName",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vdcName",
+        "ecs_count"
+      ],
+      "result_row_count": 44
+    },
+    {
+      "case_id": "CMDB-267",
+      "baseline": 2.5,
+      "candidate": 2.5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/Application?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "app-xy",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ApplicationModule?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ApplicationModuleIns?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT CLOUD_ApplicationModuleIns.name AS instance_name, CLOUD_ApplicationModule.name AS module_name FROM CLOUD_Application INNER JOIN CLOUD_ApplicationModule ON CLOUD_Application.id = CLOUD_ApplicationModule.appId INNER JOIN CLOUD_ApplicationModuleIns ON CLOUD_ApplicationModule.id = CLOUD_ApplicationModuleIns.appModuleId",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "instance_name",
+        "module_name"
+      ],
+      "result_row_count": 50
+    },
+    {
+      "case_id": "CMDB-268",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=10000",
+          "autoPagination": true
+        }
+      ],
+      "sql": "SELECT CLOUD_SUBNET.name AS subnet_name, CLOUD_SUBNET.cidr, COUNT(CLOUD_PORT.id) AS port_count FROM CLOUD_SUBNET LEFT JOIN R_PORT_IN_SUBNET ON CLOUD_SUBNET.id = R_PORT_IN_SUBNET.subnetId LEFT JOIN CLOUD_PORT ON CLOUD_PORT.id = R_PORT_IN_SUBNET.portId GROUP BY CLOUD_SUBNET.name, CLOUD_SUBNET.cidr ORDER BY port_count DESC LIMIT 1",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "subnet_name",
+        "cidr",
+        "port_count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-269",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true
+        }
+      ],
+      "sql": "SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.tenantName AS tenant_name FROM CLOUD_VM_NOVA",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "vm_name",
+        "tenant_name"
+      ],
+      "result_row_count": 2830
+    },
+    {
+      "case_id": "CMDB-270",
+      "baseline": 2.5,
+      "candidate": 2.5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "volume_name",
+        "volume_size",
+        "volume_status"
+      ],
+      "result_row_count": 3095
+    },
+    {
+      "case_id": "CMDB-274",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-275",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_api_filter",
+      "parameter_mode": "none",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-282",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/S_Device?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/S_Switch?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/S_StorDevice?pageNo=1&pageSize=10000"
+        }
+      ],
+      "sql": "SELECT \n    COUNT(*) AS device_count,\n    COUNT(CASE WHEN class_Name LIKE '%Switch%' THEN 1 END) AS switch_count,\n    COUNT(CASE WHEN class_Name LIKE '%Storage%' THEN 1 END) AS storage_count\nFROM SYS_Device",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "device_count",
+        "switch_count",
+        "storage_count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-283",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(*) AS pool_count, SUM(totalCapacityGB) AS total_capacity, SUM(allocatedCapacityGB) AS allocated_capacity, SUM(freeCapacityGB) AS free_capacity FROM CLOUD_STORAGE_POOL",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "pool_count",
+        "total_capacity",
+        "allocated_capacity",
+        "free_capacity"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-285",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-287",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-288",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "missing_api_filter",
+      "parameter_mode": "none",
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-290",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT name AS host_name, ipAddress AS host_ip, status AS host_status FROM CLOUD_HOST",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "host_name",
+        "host_ip",
+        "host_status"
+      ],
+      "result_row_count": 42
+    },
+    {
+      "case_id": "CMDB-291",
+      "baseline": 5,
+      "candidate": 5,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/MIDDLEWARE?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT COUNT(*) AS gaussdb_count FROM CLOUD_GAUSSDB_INSTANCE",
+      "reason": "matched",
+      "parameter_mode": "rules_complete",
+      "result_columns": [
+        "gaussdb_count"
+      ],
+      "result_row_count": 1
+    },
+    {
+      "case_id": "CMDB-297",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    },
+    {
+      "case_id": "CMDB-300",
+      "baseline": 0,
+      "candidate": 0,
+      "api_changed": false,
+      "sql_changed": false,
+      "api_call": null,
+      "sql": null,
+      "reason": "resource_mismatch",
+      "parameter_mode": null,
+      "result_columns": [],
+      "result_row_count": null
+    }
+  ],
+  "feature_flags": {
+    "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "1",
+    "RUNBOOK_RULE_ONLY_FILL": "1",
+    "RUNBOOK_PRESERVE_ROW_SEMANTICS": "1",
+    "RUNBOOK_RESOURCE_ATTRIBUTE_ROLES": "1",
+    "RUNBOOK_VALIDATE_API_DEPENDENCIES": "0",
+    "RUNBOOK_BOUNDED_API": "0",
+    "RUNBOOK_PRESERVE_AGGREGATE_GRAIN": "1",
+    "RUNBOOK_PRESERVE_LITERAL_LABELS": "1",
+    "RUNBOOK_PRUNE_UNUSED_LOOKUPS": "0",
+    "RUNBOOK_GROUND_ENUM_LABELS": "0"
+  },
+  "simulated_model_stage_counts": {
+    "select": 150,
+    "refine": 125,
+    "fill": 18
+  },
+  "real_model_requests": 0,
+  "blocked_external_attempts": [],
+  "network_failures": [
+    {
+      "kind": "schema",
+      "resource": "VOLUME_TYPE",
+      "status": 404
+    }
+  ],
+  "history_scope": "latest_train150_live",
+  "sources": {
+    "train_replay.py": "a170767a3b6663e0178c8eeb980434716294a08f4b6e489ecbc720a91fec9b91",
+    "training_data.py": "566bd21ed0c2beb887399c6b80d5a3312eb766b9c1859fc59e4cf1bac3450139",
+    "datasets/whitebox_150_50_v1/manifest.json": "82f8902c97093137711c7c3ab405718fc840bde68b920f5ee5a35d6a02d2b03f",
+    "datasets/whitebox_150_50_v1/train.json": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+    "experiments/train150_v1_live.jsonl": "9aa91876c441ec6442744a7abcf7f1bad29e156337ff596797e3ca09c22c8527",
+    "implementation/runbook_matcher.py": "347d7d16406eccfeadc13ef37703a64dc9dbe6d78bdaaf332cf97891631c101b",
+    "implementation/runbook_system.py": "9cb5a6b0ff2be9e7990aefe26bffcd90f7d5009c2d84cf4b0127720ff28599e5",
+    "implementation/runbook_items.py": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22"
+  },
+  "holdout_accessed": false,
+  "limitation": "Fixed historical selections, reconstructed fill values and accepted SQL proposals; original query/API/executor/scorer rerun. No fresh model, latency or holdout result; library and prior whole-200 exposure remain."
+}

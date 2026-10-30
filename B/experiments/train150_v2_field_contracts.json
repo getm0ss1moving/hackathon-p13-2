@@ -1,0 +1,389 @@
+{
+  "scope": "train_only",
+  "split_id": "whitebox_150_50_v1",
+  "cases": 7,
+  "evidence": [
+    {
+      "case_id": "CMDB-112",
+      "template": "rb_075",
+      "question": "查询租户AdvanceService_System_VDC的ECS虚拟机列表",
+      "resources": [
+        {
+          "ci": "VM_NOVA",
+          "source_rows": 2909,
+          "requested_fields": {
+            "tenantName": {
+              "requested_value": "AdvanceService_System_VDC",
+              "field_exists": true,
+              "exact_value_records": 385
+            }
+          },
+          "related_field_names": [
+            "azoneId",
+            "azoneName",
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": [
+            "vdcName"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-115",
+      "template": "rb_078",
+      "question": "查询区域region_guian4下各云服务的微服务实例数量",
+      "resources": [
+        {
+          "ci": "S_CloudService",
+          "source_rows": 144,
+          "requested_fields": {
+            "logicalRegionName": {
+              "requested_value": "region_guian4",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "logicalRegionId",
+            "regionId",
+            "regionName",
+            "timezone"
+          ],
+          "template_filter_fields": []
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-223",
+      "template": "rb_150",
+      "question": "查询租户paas-aom下MySQL和PostgreSQL实例分别有多少个",
+      "resources": [
+        {
+          "ci": "GAUSSDB_INSTANCE",
+          "source_rows": 14,
+          "requested_fields": {
+            "tenantName": {
+              "requested_value": "paas-aom",
+              "field_exists": true,
+              "exact_value_records": 1
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": [
+            "vdcName"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-224",
+      "template": "rb_151",
+      "question": "查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表",
+      "resources": [
+        {
+          "ci": "GAUSSDB_INSTANCE",
+          "source_rows": 14,
+          "requested_fields": {
+            "logicalRegionName": {
+              "requested_value": "region_guian4",
+              "field_exists": true,
+              "exact_value_records": 14
+            },
+            "azoneName": {
+              "requested_value": "az_guian4",
+              "field_exists": false,
+              "exact_value_records": null
+            },
+            "vdcName": {
+              "requested_value": "paas-mas",
+              "field_exists": true,
+              "exact_value_records": 1
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": [
+            "vdcName",
+            "logicalRegionName"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-231",
+      "template": "rb_155",
+      "question": "查询租户paas-aom在区域region_guian4中的RDS实例名、引擎类型、版本和业务IP",
+      "resources": [
+        {
+          "ci": "GAUSSDB_INSTANCE",
+          "source_rows": 14,
+          "requested_fields": {
+            "logicalRegionName": {
+              "requested_value": "region_guian4",
+              "field_exists": true,
+              "exact_value_records": 14
+            },
+            "tenantName": {
+              "requested_value": "paas-aom",
+              "field_exists": true,
+              "exact_value_records": 1
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": [
+            "vdcName",
+            "logicalRegionName"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-275",
+      "template": "rb_186",
+      "question": "查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数",
+      "resources": [
+        {
+          "ci": "ELB",
+          "source_rows": 728,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        },
+        {
+          "ci": "LISTENER",
+          "source_rows": 2604,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        },
+        {
+          "ci": "ELB_POOL_MEMBERS",
+          "source_rows": 586,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-288",
+      "template": "rb_193",
+      "question": "查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量",
+      "resources": [
+        {
+          "ci": "ELB",
+          "source_rows": 728,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        },
+        {
+          "ci": "LISTENER",
+          "source_rows": 2604,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        },
+        {
+          "ci": "ELB_POOL",
+          "source_rows": 1264,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        },
+        {
+          "ci": "ELB_POOL_MEMBERS",
+          "source_rows": 586,
+          "requested_fields": {
+            "azoneName": {
+              "requested_value": "az0.dc0",
+              "field_exists": false,
+              "exact_value_records": null
+            }
+          },
+          "related_field_names": [
+            "bizRegionId",
+            "bizRegionName",
+            "logicalRegionId",
+            "logicalRegionName",
+            "regionId",
+            "regionName",
+            "tenantId",
+            "tenantName",
+            "tenantType",
+            "vdcId",
+            "vdcName"
+          ],
+          "template_filter_fields": []
+        }
+      ]
+    }
+  ],
+  "real_model_requests": 0,
+  "holdout_accessed": false,
+  "http_failures": [
+    {
+      "path": "/rest/hackthon/db/schema/VOLUME_TYPE",
+      "status": 404
+    }
+  ],
+  "sources": {
+    "probe_training_field_contracts.py": "1bf899bd09b99984e8961a42affb6e92f2f718f3bcf5d4a972d562774ce5e2f3",
+    "training_data.py": "566bd21ed0c2beb887399c6b80d5a3312eb766b9c1859fc59e4cf1bac3450139",
+    "implementation/runbook_items.py": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+    "implementation/runbook_matcher.py": "4d2b1cbacb4c0115d0d54246a3a00642ad7674117040e83761108c4247295554"
+  },
+  "limitation": "Field presence and literal matches do not prove tenant/VDC equivalence or any name-to-ID relationship; runtime remains unchanged."
+}

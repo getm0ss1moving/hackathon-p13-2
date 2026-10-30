@@ -1,0 +1,14 @@
+{
+  "closed_at": "2026-10-30T09:58:05.387203+08:00",
+  "scope": "train_only",
+  "split_id": "whitebox_150_50_v1",
+  "completed_cases": 150,
+  "planned_max_requests": 450,
+  "used_requests": 293,
+  "unused_requests": 157,
+  "scope_closed": true,
+  "unused_requests_reusable": false,
+  "holdout_read_or_evaluated": false,
+  "raw_sha256": "9aa91876c441ec6442744a7abcf7f1bad29e156337ff596797e3ca09c22c8527",
+  "authorization_sha256": "42d78705d85cab8d9f7ceeca97f2c727b29b4498aa66d7f03ca6b24e58a0f689"
+}

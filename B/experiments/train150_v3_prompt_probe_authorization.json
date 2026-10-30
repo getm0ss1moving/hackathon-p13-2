@@ -1,0 +1,33 @@
+{
+  "type": "agent_decided_bounded_experiment",
+  "decided_at": "2026-10-30T03:09:36.492100+00:00",
+  "authority": "用户持续指令：之后有什么问题都自己决定不要问我；B/AGENTS.md据此允许有界训练测试。不是逐轮人工批准。",
+  "scope": "train_only_paired_refine",
+  "case_ids": [
+    "CMDB-005",
+    "CMDB-017",
+    "CMDB-021",
+    "CMDB-022",
+    "CMDB-060",
+    "CMDB-066",
+    "CMDB-068",
+    "CMDB-081",
+    "CMDB-121",
+    "CMDB-127",
+    "CMDB-152",
+    "CMDB-221",
+    "CMDB-259",
+    "CMDB-267",
+    "CMDB-270",
+    "CMDB-282"
+  ],
+  "model": "deepseek-flash",
+  "max_requests": 32,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "old_budget_reused": false,
+  "plan_sha256": "b13be570947bb9faa1fbfb5bec43ce90a468072f5a07cd898cad3f8981618c37",
+  "code_base": "8afa515a13a540b203db1b3c09fc66c32c2424d6",
+  "holdout_accessed": false,
+  "git_commit_or_push_authorized_for_B": false
+}

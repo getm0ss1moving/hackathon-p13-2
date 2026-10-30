@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "training_specialized_tests": 68,
+  "tests_log_sha256": "35028b661aab9c45238c997a62e23e887e0ceb0b1cd83381d7c976279054260d",
+  "protected_file_hashes_unchanged": 240,
+  "source_matches_plan": true,
+  "source_archive_sha256": "f8b138074337e8c0cf86b365fc0d34bd3447e7917698b0367fef4fb3b9a3de92",
+  "source_archive_files_verified": 16,
+  "sealed_file_gitignored": true,
+  "sealed_payload_accessed": false,
+  "secret_mode": "0600",
+  "paired_cases": 16,
+  "actual_requests": 32,
+  "request_response_model": "deepseek-flash",
+  "full150_evaluation": false,
+  "fresh_budget": true,
+  "future_goal": {
+    "raw_timed_score": 700,
+    "max_score": 750,
+    "achieved": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-10-30T10:26:47.354085+08:00",
+  "user_confirmation": "批准，运行这轮150题训练验收",
+  "plan_file": "experiments/train150_v2_live_plan.json",
+  "plan_sha256": "36f5fca2760ef4c2462a4cc236babfbb4d29e98c3c7df60ddfe24ed6d2085c81",
+  "split_id": "whitebox_150_50_v1",
+  "train_sha256": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+  "scope": {
+    "model": "deepseek-flash",
+    "cases": 150,
+    "repeats": 1,
+    "max_requests": 450,
+    "max_output_tokens": 1024,
+    "sdk_max_retries": 0,
+    "holdout_read_or_eval": false,
+    "git_stage_commit_push": false
+  },
+  "candidate_flags": {
+    "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "1",
+    "RUNBOOK_RULE_ONLY_FILL": "1",
+    "RUNBOOK_PRESERVE_ROW_SEMANTICS": "1",
+    "RUNBOOK_RESOURCE_ATTRIBUTE_ROLES": "1",
+    "RUNBOOK_VALIDATE_API_DEPENDENCIES": "0",
+    "RUNBOOK_BOUNDED_API": "0",
+    "RUNBOOK_PRESERVE_AGGREGATE_GRAIN": "1",
+    "RUNBOOK_PRESERVE_LITERAL_LABELS": "1",
+    "RUNBOOK_PRUNE_UNUSED_LOOKUPS": "1",
+    "RUNBOOK_GROUND_ENUM_LABELS": "1"
+  },
+  "credential": "local updated credential; not recorded",
+  "previous_unused_requests_reused": 0
+}

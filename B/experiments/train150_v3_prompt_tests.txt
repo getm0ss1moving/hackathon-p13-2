@@ -1,0 +1,103 @@
+test_conflicting_labels_are_not_chosen (test_training_enum_labels.EnumLabelTests.test_conflicting_labels_are_not_chosen) ... ok
+test_disabled_flag_preserves_previous_behavior (test_training_enum_labels.EnumLabelTests.test_disabled_flag_preserves_previous_behavior) ... ok
+test_explicit_ascii_state_is_not_rejected (test_training_enum_labels.EnumLabelTests.test_explicit_ascii_state_is_not_rejected) ... ok
+test_false_boolean_stays_false (test_training_enum_labels.EnumLabelTests.test_false_boolean_stays_false) ... ok
+test_known_semantics_translate (test_training_enum_labels.EnumLabelTests.test_known_semantics_translate) ... ok
+test_observed_chinese_catalog_value_is_allowed (test_training_enum_labels.EnumLabelTests.test_observed_chinese_catalog_value_is_allowed) ... ok
+test_untranslated_label_does_not_become_api_value (test_training_enum_labels.EnumLabelTests.test_untranslated_label_does_not_become_api_value) ... ok
+test_alias_only_change_is_allowed (test_training_grain.AggregateGrainTests.test_alias_only_change_is_allowed) ... ok
+test_disabled_flag_preserves_previous_policy (test_training_grain.AggregateGrainTests.test_disabled_flag_preserves_previous_policy) ... ok
+test_explicit_regroup_is_allowed (test_training_grain.AggregateGrainTests.test_explicit_regroup_is_allowed) ... ok
+test_global_count_cannot_silently_split (test_training_grain.AggregateGrainTests.test_global_count_cannot_silently_split) ... ok
+test_new_identity_dimension_changes_counts (test_training_grain.AggregateGrainTests.test_new_identity_dimension_changes_counts) ... ok
+test_same_identity_attributes_are_allowed (test_training_grain.AggregateGrainTests.test_same_identity_attributes_are_allowed) ... ok
+test_explicit_raw_column_request_is_allowed (test_training_literals.LiteralLabelTests.test_explicit_raw_column_request_is_allowed) ... ok
+test_keywords_commas_and_escaped_quotes_in_literal_are_preserved (test_training_literals.LiteralLabelTests.test_keywords_commas_and_escaped_quotes_in_literal_are_preserved) ... ok
+test_missing_label_in_changed_output_is_not_inferred (test_training_literals.LiteralLabelTests.test_missing_label_in_changed_output_is_not_inferred) ... ok
+test_nested_scope_is_not_guessed (test_training_literals.LiteralLabelTests.test_nested_scope_is_not_guessed) ... ok
+test_replacing_display_type_with_raw_class_is_rejected (test_training_literals.LiteralLabelTests.test_replacing_display_type_with_raw_class_is_rejected) ... ok
+test_union_branch_labels_are_checked (test_training_literals.LiteralLabelTests.test_union_branch_labels_are_checked) ... ok
+test_validation_flag_controls_fallback (test_training_literals.LiteralLabelTests.test_validation_flag_controls_fallback) ... ok
+test_preflight_is_training_only_without_network (test_training_live.TrainingLiveTests.test_preflight_is_training_only_without_network) ... ok
+test_run_requires_frozen_plan_before_network (test_training_live.TrainingLiveTests.test_run_requires_frozen_plan_before_network) ... usage: python -m unittest [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                          [--output OUTPUT] [--candidate-flags]
+                          [--refine-contract-prompt]
+python -m unittest: error: 真实运行必须指定冻结计划和新的输出路径
+ok
+test_wrong_plan_stops_before_any_network (test_training_live.TrainingLiveTests.test_wrong_plan_stops_before_any_network) ... usage: python -m unittest [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                          [--output OUTPUT] [--candidate-flags]
+                          [--refine-contract-prompt]
+python -m unittest: error: 候选/范围/配置与冻结计划不同，未调用模型
+ok
+test_chinese_following_conditions_do_not_enter_model (test_training_model_names.MultiwordProductTests.test_chinese_following_conditions_do_not_enter_model) ... ok
+test_conflicting_models_are_not_chosen (test_training_model_names.MultiwordProductTests.test_conflicting_models_are_not_chosen) ... ok
+test_explicit_quoted_chinese_name (test_training_model_names.MultiwordProductTests.test_explicit_quoted_chinese_name) ... ok
+test_no_prefix_before_another_explicit_field (test_training_model_names.MultiwordProductTests.test_no_prefix_before_another_explicit_field) ... ok
+test_other_fields_do_not_expand_to_multiple_words (test_training_model_names.MultiwordProductTests.test_other_fields_do_not_expand_to_multiple_words) ... ok
+test_punctuation_ends_model (test_training_model_names.MultiwordProductTests.test_punctuation_ends_model) ... ok
+test_synthetic_models_preserve_all_words (test_training_model_names.MultiwordProductTests.test_synthetic_models_preserve_all_words) ... ok
+test_terminal_explicit_field_and_single_word (test_training_model_names.MultiwordProductTests.test_terminal_explicit_field_and_single_word) ... ok
+test_candidate_allows_valid_new_statistics (test_training_prompt.RefineContractPromptTests.test_candidate_allows_valid_new_statistics) ... ok
+test_candidate_cannot_bypass_where_guard (test_training_prompt.RefineContractPromptTests.test_candidate_cannot_bypass_where_guard) ... ok
+test_candidate_keeps_inputs_and_existing_projection_fallback (test_training_prompt.RefineContractPromptTests.test_candidate_keeps_inputs_and_existing_projection_fallback) ... ok
+test_default_dispatch_keeps_original_prompt (test_training_prompt.RefineContractPromptTests.test_default_dispatch_keeps_original_prompt) ... ok
+test_budget_never_exceeds_32_and_failed_attempts_are_counted (test_training_prompt_probe.ProbeTests.test_budget_never_exceeds_32_and_failed_attempts_are_counted) ... ok
+test_drift_after_response_keeps_raw_and_prevents_execution (test_training_prompt_probe.ProbeTests.test_drift_after_response_keeps_raw_and_prevents_execution) ... ok
+test_drift_before_any_request_stops_with_zero_budget (test_training_prompt_probe.ProbeTests.test_drift_before_any_request_stops_with_zero_budget) ... ok
+test_execution_failure_never_becomes_completed_pair (test_training_prompt_probe.ProbeTests.test_execution_failure_never_becomes_completed_pair) ... ok
+test_frozen_checks_real_hash_and_environment_contract_before_network (test_training_prompt_probe.ProbeTests.test_frozen_checks_real_hash_and_environment_contract_before_network) ... ok
+test_full_16_case_budget_closes_exactly_32_refine_records (test_training_prompt_probe.ProbeTests.test_full_16_case_budget_closes_exactly_32_refine_records) ... ok
+test_full_fixed_training_history_and_source_link (test_training_prompt_probe.ProbeTests.test_full_fixed_training_history_and_source_link) ... ok
+test_input_mutation_cannot_change_both_arms_from_frozen_plan (test_training_prompt_probe.ProbeTests.test_input_mutation_cannot_change_both_arms_from_frozen_plan) ... ok
+test_known_bad_model_output_falls_back_without_retry_and_finishes_pair (test_training_prompt_probe.ProbeTests.test_known_bad_model_output_falls_back_without_retry_and_finishes_pair) ... ok
+test_missing_accepted_input_or_unique_refine_stops (test_training_prompt_probe.ProbeTests.test_missing_accepted_input_or_unique_refine_stops) ... ok
+test_only_prompt_and_train_runner_may_differ_from_historical_source (test_training_prompt_probe.ProbeTests.test_only_prompt_and_train_runner_may_differ_from_historical_source) ... ok
+test_pair_has_two_identical_inputs_and_complete_trace (test_training_prompt_probe.ProbeTests.test_pair_has_two_identical_inputs_and_complete_trace) ... ok
+test_preflight_prints_plan_without_runtime_or_network (test_training_prompt_probe.ProbeTests.test_preflight_prints_plan_without_runtime_or_network) ... ok
+test_real_refine_function_and_event_capture_with_synthetic_sdk (test_training_prompt_probe.ProbeTests.test_real_refine_function_and_event_capture_with_synthetic_sdk) ... ok
+test_run_requires_matching_plan_and_new_output_before_runtime (test_training_prompt_probe.ProbeTests.test_run_requires_matching_plan_and_new_output_before_runtime) ... usage: python -m unittest [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                          [--output OUTPUT]
+python -m unittest: error: --run需要匹配冻结计划和新的输出路径
+usage: python -m unittest [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                          [--output OUTPUT]
+python -m unittest: error: 与冻结计划不同，未调用模型
+usage: python -m unittest [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                          [--output OUTPUT]
+python -m unittest: error: 与冻结计划不同，未调用模型
+ok
+test_scope_training_hash_source_and_request_drift_rejected (test_training_prompt_probe.ProbeTests.test_scope_training_hash_source_and_request_drift_rejected) ... ok
+test_selected_ids_are_fixed_and_ordered_without_score_replacement (test_training_prompt_probe.ProbeTests.test_selected_ids_are_fixed_and_ordered_without_score_replacement) ... ok
+test_timeout_and_model_mismatch_stop_after_first_attempt (test_training_prompt_probe.ProbeTests.test_timeout_and_model_mismatch_stop_after_first_attempt) ... ok
+test_consumed_table_is_kept (test_training_prune.PruneLookupTests.test_consumed_table_is_kept) ... ok
+test_dependency_and_shared_placeholder_are_kept (test_training_prune.PruneLookupTests.test_dependency_and_shared_placeholder_are_kept) ... ok
+test_global_scope_removes_only_unconsumed_lookup (test_training_prune.PruneLookupTests.test_global_scope_removes_only_unconsumed_lookup) ... ok
+test_matching_flag_controls_unblocking (test_training_prune.PruneLookupTests.test_matching_flag_controls_unblocking) ... 2026-10-30 11:08:44,138 [INFO] LLM select runbook answer: 1
+2026-10-30 11:08:44,138 [INFO] 命中 runbook: synthetic groups
+2026-10-30 11:08:44,140 [INFO] 最终参数: {}
+2026-10-30 11:08:44,140 [INFO] 必要参数填充不完整，拒绝执行
+2026-10-30 11:08:44,140 [INFO] LLM select runbook answer: 1
+2026-10-30 11:08:44,140 [INFO] 命中 runbook: synthetic groups
+2026-10-30 11:08:44,140 [INFO] 最终参数: {}
+ok
+test_named_resource_and_absent_global_scope_are_kept (test_training_prune.PruneLookupTests.test_named_resource_and_absent_global_scope_are_kept) ... ok
+test_native_result_is_independent_of_removed_table (test_training_prune.PruneLookupTests.test_native_result_is_independent_of_removed_table) ... ok
+test_quoted_table_and_nested_sql_are_not_inferred (test_training_prune.PruneLookupTests.test_quoted_table_and_nested_sql_are_not_inferred) ... ok
+test_changed_candidate_cannot_reuse_old_resume (test_training_resume.ResumeTests.test_changed_candidate_cannot_reuse_old_resume) ... ok
+test_changed_resume_budget_is_rejected (test_training_resume.ResumeTests.test_changed_resume_budget_is_rejected) ... usage: resume_training_v2.py [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                             [--output OUTPUT]
+resume_training_v2.py: error: 补测提案不匹配
+ok
+test_missing_resume_plan_stops_before_network (test_training_resume.ResumeTests.test_missing_resume_plan_stops_before_network) ... usage: resume_training_v2.py [-h] [--run] [--expected-plan EXPECTED_PLAN]
+                             [--output OUTPUT]
+resume_training_v2.py: error: 需要新的补测授权、匹配计划、新进程与未存在的输出文件
+ok
+test_only_uncompleted_training_tail_and_budget (test_training_resume.ResumeTests.test_only_uncompleted_training_tail_and_budget) ... ok
+test_exact_reproducible_group_split_on_synthetic_cases (test_training_split.TrainingSplitTests.test_exact_reproducible_group_split_on_synthetic_cases) ... ok
+test_loader_never_opens_holdout_or_original (test_training_split.TrainingSplitTests.test_loader_never_opens_holdout_or_original) ... ok
+test_manifest_cannot_redirect_training_to_holdout (test_training_split.TrainingSplitTests.test_manifest_cannot_redirect_training_to_holdout) ... ok
+test_modified_training_data_fails_without_fallback (test_training_split.TrainingSplitTests.test_modified_training_data_fails_without_fallback) ... ok
+
+----------------------------------------------------------------------
+Ran 68 tests in 0.991s
+
+OK

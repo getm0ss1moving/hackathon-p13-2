@@ -2659,7 +2659,18 @@ RUNBOOK_ITEMS = [
     ],
     "api_call": {
       "method": "GET",
-      "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000"
+      "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
     },
     "sql": "SELECT SYS_X86Server.hostName AS name, SYS_X86Server.hostIpAddress AS ip_address, SYS_X86Server.hostType AS type FROM SYS_X86Server"
   },
@@ -6439,11 +6450,33 @@ RUNBOOK_ITEMS = [
     "api_call": [
       {
         "method": "GET",
-        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
       },
       {
         "method": "GET",
-        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000"
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
       }
     ],
     "sql": "SELECT vdcName, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName ORDER BY total_size DESC LIMIT 1"
@@ -6672,7 +6705,18 @@ RUNBOOK_ITEMS = [
     ],
     "api_call": {
       "method": "GET",
-      "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+      "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
     },
     "sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME"
   },

@@ -11,7 +11,7 @@
     "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
     "implementation/quick_eval.py": "34c53b82b0bc3ff0ad9b84a2b3a0f6547a5db0be9051dcbc3643bbf05140362d",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
-    "implementation/runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+    "implementation/runbook_items.py": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
     "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
     "output-server/CI+md数据-脱敏-最终-0924/AZONE-1.json": "ccff5535ed66b4ead8e0d6a227693b92312ce1a39c346c4bc32591f501972e8b",
     "output-server/CI+md数据-脱敏-最终-0924/Application-1.json": "9cfbc5748dbfddf77c6f0e0d52539b4c4ca2738f5d71ca78e6121d036e06156e",
@@ -253,7 +253,14 @@
       "repository_path": "implementation/runbook_retriever.py",
       "sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
       "handoff_evidence": "experiments/a_cache_20261029_integration.json",
-      "note": "A 原样快照；B 未改写该文件；其他只读文件仍以 source_commit 为准"
+      "note": "A 原样快照；B 未改写该文件；未列入 component_sources 的只读文件仍以原 source_commit 为准"
+    },
+    "implementation/runbook_items.py": {
+      "source_commit": "e9d76e456c17215525300869f198c61657a559a9",
+      "handoff_commit": "826525a",
+      "source_path": "implementation/runbook_items.py",
+      "sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+      "evidence": "experiments/a_826525a_integration.json"
     }
   }
 }

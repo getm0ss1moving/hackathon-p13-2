@@ -1,6 +1,8 @@
 """实体替换、条件完整性和类型回归；不读取题号或标准答案来驱动查询。"""
 
 import copy
+import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -9,6 +11,7 @@ from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "implementation"))
 import runbook_matcher as m
+from runbook_items import RUNBOOK_ITEMS
 
 
 def template(*parameters, resource="VM_NOVA"):
@@ -24,6 +27,52 @@ def template(*parameters, resource="VM_NOVA"):
 
 
 class ParameterTests(unittest.TestCase):
+    def test_five_unproven_A_mappings_remain_refusals_without_guesses(self):
+        scenarios = [
+            ("rb_078", "查询区域region_probe9下的云服务"),
+            ("rb_079", "查询区域region_probe9下的部署节点"),
+            ("rb_151", "查询VDC VDC_probe在区域region_probe9可用区az9.dc8下的GaussDB实例"),
+            ("rb_186", "查询可用区az9.dc8下的ELB"),
+            ("rb_193", "查询可用区az9.dc8下的ELB"),
+        ]
+        for id, question in scenarios:
+            item = copy.deepcopy(next(item for item in RUNBOOK_ITEMS if item["id"] == id))
+            original = copy.deepcopy(item)
+            retriever = Mock()
+            retriever.retrieve.return_value = [SimpleNamespace(id=id, tier="strong")]
+            values = {"vdcName": "VDC_probe", "logicalRegionName": "region_probe9", "azoneName": "az9.dc8"}
+            diagnostics = {}
+            def answer(prompt, stage):
+                self.assertNotEqual(stage, "refine", "映射未明，不能进入 SQL 精调")
+                return "1" if stage == "select" else json.dumps(values)
+            with self.subTest(id=id), patch.dict(os.environ, {"RUNBOOK_RULE_ONLY_FILL": "0"}), \
+                    patch.object(m, "llm_ask", side_effect=answer):
+                self.assertIsNone(m.match_runbook(question, [item], retriever, diagnostics))
+                self.assertEqual(diagnostics["reason"], "missing_api_filter")
+                self.assertEqual(item, original)
+
+    def test_null_blank_and_invalid_names_never_mutate_template(self):
+        for value in [None, "", " ", "\t\n", False, 0, {}, [], ["a", None], [["a"]], float("nan")]:
+            with self.subTest(value=value):
+                item = template("name")
+                original = copy.deepcopy(item)
+                self.assertFalse(m._fill_params(item, {"name": value}))
+                self.assertEqual(item, original)
+
+    def test_literal_null_false_zero_names_are_text(self):
+        for value in ["null", "False", "0"]:
+            with self.subTest(value=value):
+                item = template("name")
+                self.assertTrue(m._fill_params(item, {"name": value}))
+                self.assertEqual(item["api_call"]["condition"]["constraint"][0]["simple"]["value"], value)
+
+    def test_numeric_nonfinite_and_boolean_shape_validation(self):
+        for parameter, value, expected in [("port", 0, True), ("port", False, False),
+                                            ("port", float("inf"), False), ("management", False, True),
+                                            ("management", 0, False)]:
+            with self.subTest(parameter=parameter, value=value):
+                self.assertEqual(m._fill_params(template(parameter), {parameter: value}), expected)
+
     def test_adjacent_chinese_and_replaced_entities(self):
         for tenant, region, az in [("Tenant_Q7", "region_lab9", "az9.dc8"),
                                    ("NewOrg-42", "region_hidden_3", "az21.dc10")]:

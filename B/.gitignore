@@ -9,3 +9,4 @@ reports/*
 output-server/CI+md数据-脱敏-最终-0924/
 CMDB用例集-白盒200.json
 implementation/evaluation_result.json
+datasets/whitebox_150_50_v1/sealed_test.json

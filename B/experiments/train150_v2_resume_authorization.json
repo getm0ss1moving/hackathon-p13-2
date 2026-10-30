@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-30T10:41:06.034551+08:00",
+  "user_confirmation": "批准，补测剩余3题",
+  "plan_sha256": "ed8d391dc501c8dfd715a33a1f83e24b7901c9ab9b576ebbd63aceb77b9bb0fa",
+  "parent_sha256": "ff200b8fc4a7f2cec91519a7d079bf54003a96c74f7f7915d3422be55aa0467e",
+  "scope": {
+    "case_ids": [
+      "CMDB-291",
+      "CMDB-297",
+      "CMDB-300"
+    ],
+    "max_requests": 9,
+    "output_tokens": 1024,
+    "sdk_retries": 0,
+    "manual_retry_of_timeout_case": "CMDB-291",
+    "count_toward_original_450": true,
+    "holdout_evaluated": false,
+    "git_commit_push": false
+  },
+  "single_pass_full_150_claim_allowed": false
+}

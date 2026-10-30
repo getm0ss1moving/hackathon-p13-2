@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-30T09:46:28.709369+08:00",
+  "user_confirmation": "批准，仅运行150题训练集",
+  "plan_file": "experiments/train150_v1_live_plan.json",
+  "plan_sha256": "3154bb8b66ca80232772c830cf90b0854aa95111d59f54819706771bf530dad4",
+  "split_id": "whitebox_150_50_v1",
+  "train_sha256": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+  "scope": {
+    "model": "deepseek-flash",
+    "cases": 150,
+    "repeats": 1,
+    "max_requests": 450,
+    "max_output_tokens": 1024,
+    "sdk_max_retries": 0,
+    "holdout_read_or_eval": false,
+    "git_stage_commit_push": false
+  }
+}

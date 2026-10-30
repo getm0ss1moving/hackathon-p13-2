@@ -1,0 +1,43 @@
+{
+  "type": "training_plan",
+  "created_at": "2026-10-30T09:44:53.461577+08:00",
+  "split_id": "whitebox_150_50_v1",
+  "case_count": 150,
+  "repeats": 1,
+  "case_order": "fixed train file order",
+  "scope": "train_only",
+  "training_sha256": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+  "split_manifest_sha256": "82f8902c97093137711c7c3ab405718fc840bde68b920f5ee5a35d6a02d2b03f",
+  "source_sha256": {
+    "train_live.py": "953a040554138e3a651bddfbcc3e4574fb04e97e9942ea181a6bba2f3437f073",
+    "training_data.py": "566bd21ed0c2beb887399c6b80d5a3312eb766b9c1859fc59e4cf1bac3450139",
+    "run_whitebox.py": "2d62314348cb1e9421facb70f9263502875255c057b46ebd4eed4f64e9a67816",
+    "implementation/runbook_matcher.py": "478969ee4314d465538c0bfdafac3fd38f90fb242ee79e0db81869d2b4ab87ba",
+    "implementation/runbook_system.py": "9cb5a6b0ff2be9e7990aefe26bffcd90f7d5009c2d84cf4b0127720ff28599e5",
+    "implementation/runbook_items.py": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92"
+  },
+  "code_base": "826525a18487111ebaa84be89d1b6545f9f7e70b",
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "max_requests": 450,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "thinking": "provider default",
+  "temperature": "provider default",
+  "feature_flags": {
+    "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "1",
+    "RUNBOOK_RULE_ONLY_FILL": "1",
+    "RUNBOOK_PRESERVE_ROW_SEMANTICS": "1",
+    "RUNBOOK_RESOURCE_ATTRIBUTE_ROLES": "1",
+    "RUNBOOK_VALIDATE_API_DEPENDENCIES": "0",
+    "RUNBOOK_BOUNDED_API": "0"
+  },
+  "template_count": 200,
+  "holdout_evaluated": false,
+  "score_policy": "original query and evaluate_case; no weighting or template-count score",
+  "cache_policy": "fresh process; schema warmup excluded; executor cache shared across training cases",
+  "authorization": "proposal only; a new explicit user approval is required before --run"
+}

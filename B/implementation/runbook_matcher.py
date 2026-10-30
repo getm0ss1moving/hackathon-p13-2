@@ -13,6 +13,7 @@ LLM 选择 + 参数填充 + SQL精调 — 选手可修改此文件来优化匹�
 import copy
 import json
 import logging
+import math
 import os
 import re
 import ssl
@@ -319,6 +320,29 @@ REFINE_SQL_PROMPT = """你是SQL精调助手。根据用户问题调整SQL，使
 只输出调整后的SQL语句，不要解释："""
 
 
+REFINE_SQL_CONTRACT_PROMPT = """你是SQL精调助手。根据用户问题调整SQL，使其精确回答问题。
+
+调整规则：
+1. SELECT列：当前SQL已有输出列、别名和常量标签是已知输出合同，默认保留，不因问题未重复提及而删除、重命名或替换常量。只在用户明确要求和表结构依据下修正字段表达式或补充缺少输出。只能使用下方表结构中存在的列名。
+2. GROUP BY：默认保持当前GROUP BY键和聚合粒度，不擅自增加id或合并分组。只有用户明确提出改变统计粒度时才作必要调整。没有聚合统计要求的明细列表，不能仅因提到“各区域/各租户/各可用区”就添加GROUP BY或去重；可用ORDER BY组织展示。
+3. 聚合函数：默认保留当前聚合和DISTINCT/COUNT(DISTINCT)方式。用户明确新增统计要求时可补充COUNT、SUM、AVG、MAX或MIN；不得为新增比例等派生指标而删除、替换原有标签、计数或输出形状。
+4. 排序：问"最多/最大"加ORDER BY ... DESC；问"最少/最小"加ORDER BY ... ASC。用户明确要求前N/Top-N时使用对应LIMIT N，不得无故删除已有Top-N限制。
+5. 禁止添加WHERE子句！所有筛选条件已通过API条件实现，不要在SQL中加WHERE。
+6. 不改表名(CLOUD_*/M_*/R_*/SYS_*格式)。不改变表集合，JOIN条件必须使用下方关系参考中的正确关联字段。
+7. 使用SQLite方言语法。
+8. 如果当前SQL已经正确回答问题，或修改缺少明确必要性和表结构依据，原样返回；不要做等价格式化或整段重写。
+
+{join_relations}
+
+表结构信息：
+{schemas}
+
+用户问题：{question}
+当前SQL：{sql}
+
+只输出调整后的SQL语句，不要解释："""
+
+
 # ── 选择 + 填充 ────────────────────────────────────────
 
 def _format_runbook_list(items: list) -> str:
@@ -417,11 +441,17 @@ def _one(values):
     return unique[0] if len(unique) == 1 else None
 
 
-def _labeled_entity(question: str, labels: list):
+def _labeled_entity(question: str, labels: list, allow_spaces: bool = False):
     values = []
+    entity = _ASCII_ENTITY
+    if allow_spaces:
+        # 型号可含多个ASCII词；引号仍保留原边界，不将其他字段标签吞入值。
+        next_field = r"(?:tenantName|vdcName|logicalRegionName|azoneName|manufacturer|productName)\s*[:：=]"
+        entity += r"(?:[ \t]+(?!" + next_field + r")\+?" + _ASCII_ENTITY + r")*"
+        entity += r"(?=\s*(?:$|[^\x00-\x7f]|[,;!?]))"
     for label in labels:
         pattern = (r"(?:" + label + r")\s*(?:名称为|名为|名称|名)?\s*(?:为|是|[:：=])?\s*"
-                   r"(?:[\"“‘「]([^\"”’」]+)[\"”’」]|'([^']+)'|(" + _ASCII_ENTITY + r"))")
+                   r"(?:[\"“‘「]([^\"”’」]+)[\"”’」]|'([^']+)'|(" + entity + r"))")
         for match in re.finditer(pattern, question, re.IGNORECASE):
             value = next((v for v in match.groups() if v is not None), "").rstrip(",.;，。；")
             if value:
@@ -469,7 +499,7 @@ def _auto_fill_params(user_question: str, values: dict, placeholders: list, item
             labels = _NAME_LABELS.get(_param_resource(item, parameter), [])
             value = _labeled_entity(user_question, labels + [r"名称为", r"名为"])
         elif parameter in _FIELD_LABELS:
-            value = _labeled_entity(user_question, _FIELD_LABELS[parameter])
+            value = _labeled_entity(user_question, _FIELD_LABELS[parameter], allow_spaces=parameter == "productName")
         elif parameter in {"privateIps", "fixedIpAddress"}:
             value = _one(re.findall(r"@[\da-fA-F]+@(?:[\da-fA-F]+@)?|(?:\d{1,3}\.){3}\d{1,3}", user_question))
         if value is None and parameter in _ENUM_FIELDS:
@@ -515,13 +545,27 @@ def _parse_params_response(answer: str, placeholders: list) -> Optional[dict]:
     return {k: v for k, v in parsed.items() if k in placeholders}
 
 
-def _ground_params(question: str, values: dict, item: dict) -> dict:
+def _ground_params(question: str, values: dict, item: dict, diagnostics: dict = None) -> dict:
     """只接受问题中有依据的实体，或由字段语义解释的枚举值。"""
     grounded = {}
     for parameter, value in values.items():
         if value is None or value == "":
             continue
         if parameter in _ENUM_FIELDS:
+            if os.environ.get("RUNBOOK_GROUND_ENUM_LABELS") == "1" and isinstance(value, str) and re.search(r"[\u4e00-\u9fff]", value):
+                resource = _param_resource(item, parameter)
+                samples = _schema_values.get(resource, {}).get(parameter, [])
+                direct = [sample for sample in samples if str(sample).casefold() == value.casefold()]
+                translated = _semantic_values(value, item, parameter)
+                unique = {str(part): part for part in translated}
+                if direct:
+                    value = direct[0]
+                elif len(unique) == 1:
+                    value = next(iter(unique.values()))
+                else:
+                    if diagnostics is not None:
+                        diagnostics.setdefault("unmapped_enum_labels", []).append({"parameter": parameter, "resource": resource, "label": value})
+                    continue
             candidates = _semantic_values(question, item, parameter)
             if str(value).casefold() in question.casefold() or any(str(value).casefold() == str(v).casefold() for v in candidates):
                 grounded[parameter] = _canonical_enum(item, parameter, value)
@@ -534,18 +578,51 @@ def _ground_params(question: str, values: dict, item: dict) -> dict:
     return grounded
 
 
+def _missing_parameter(value):
+    return value is None or isinstance(value, str) and not value.strip()
+
+
+def _valid_parameter_value(parameter: str, value, item: dict) -> bool:
+    """校验值的形状，不从 API 可省略性推断业务可选，也不猜名称到 ID 映射。"""
+    text_fields = set(_FIELD_LABELS) | {"logicalRegionName", "azoneName", "name", "privateIps", "fixedIpAddress"}
+    calls = item.get("api_call", [])
+    calls = calls if isinstance(calls, list) else [calls]
+    target_fields = {constraint.get("simple", {}).get("name") for call in calls
+                     for constraint in call.get("condition", {}).get("constraint", [])
+                     if "{{" + parameter + "}}" in str(constraint.get("simple", {}).get("value"))}
+    text_value = parameter in text_fields or bool(target_fields & text_fields)
+    boolean_value = parameter in {"bootable", "shared", "management"} or bool(target_fields & {"bootable", "shared", "management"})
+
+    def scalar(part):
+        if _missing_parameter(part):
+            return False
+        if text_value:
+            return isinstance(part, str)
+        if isinstance(part, bool):
+            return boolean_value
+        if isinstance(part, int):
+            return not boolean_value
+        if isinstance(part, float):
+            return not boolean_value and math.isfinite(part)
+        return isinstance(part, str)
+
+    return bool(value) and all(scalar(part) for part in value) if isinstance(value, list) else scalar(value)
+
+
 def _fill_params(item: dict, values: dict, user_question: str = "") -> bool:
     """缺少必要参数时拒绝；API 保留类型，SQL 字符串值转义单引号。"""
     required = set(_get_placeholders(item))
     optional = set(item.get("optional_params", []))
-    missing = {p for p in required if p not in values or values[p] is None or values[p] == ""}
+    missing = {p for p in required if p not in values or _missing_parameter(values[p])}
     if missing - optional:
+        return False
+    if any(not _valid_parameter_value(p, values[p], item) for p in required - missing):
         return False
 
     def replace(obj, sql=False):
         if isinstance(obj, str):
             for key, value in values.items():
-                if value is None or value == "":
+                if _missing_parameter(value):
                     continue
                 placeholder = "{{" + key + "}}"
                 if obj == placeholder and not sql:
@@ -691,16 +768,83 @@ def _direct_api_lookup(item: dict):
             "target_table": reverse[target], "source_fields": sorted(fields)}
 
 
+def _resource_attribute_question(question: str, item: dict):
+    """背景知识中的 hostClass 是分类输出；只屏蔽被已投影字段覆盖的分类短语。"""
+    shape = _flat_grouping(item.get("sql", ""))
+    if (not shape or "hostClass" not in _schema_columns.get("S_DeployNode", [])
+            or "sys_deploynode.hostclass" not in shape["outputs"]):
+        return question, []
+    enum = r"(?:管理虚拟机|裸金属服务器|物理服务器|虚拟机|物理机|VM|PM|BMS|SDI)"
+    label = r"(?:(?:节点|主机)(?:的)?(?:类型)?|类型|hostClass)"
+    choices = enum + r"(?:\s*(?:还是|或者|或|和|与|及|、|/|,|，)\s*" + enum + r")+"
+    either_question = enum + r"(?:\s*还是\s*" + enum + r")+"
+    classification = (r"(?:" + label + r"\s*(?:是|为)?\s*" + either_question +
+                      r"|" + label + r"\s*(?:分布|分类|取值)\s*[（(:：]?\s*" + choices +
+                      r"|hostClass\s*[（(]\s*" + choices + r")\s*[）)]?\s*(?:分布|分类|取值)?(?=\s*(?:[，,。；;?？]|$))")
+    ignored = []
+    def replace(match):
+        ignored.append({"source_table": "SYS_DeployNode", "field": "hostClass", "classification": match[0]})
+        return " " * len(match[0])
+    return re.sub(classification, replace, question, flags=re.I), ignored
+
+
 def _resource_coverage(question: str, item: dict) -> dict:
-    """保持原资源词门禁，仅为经过证明的 API 查找补充覆盖。"""
+    """保持资源门禁；仅对有字段证据的属性词及已证明的 API 查找补覆盖。"""
     sql = (item.get("sql") or "").upper()
+    ignored = []
+    if os.environ.get("RUNBOOK_RESOURCE_ATTRIBUTE_ROLES") == "1":
+        question, ignored = _resource_attribute_question(question, item)
     question = question.lower()
     missing = [table for words, table in _RESOURCE_CHECKS
                if sql and table not in sql and any(_mentions_resource(question, word) for word in words)]
     lookup = _direct_api_lookup(item) if missing else None
     covered = [table for table in missing if lookup and table in lookup["source_table"].upper()]
-    return {"missing_from_sql": missing, "covered_by_lookup": covered,
-            "unsupported": [table for table in missing if table not in covered], "lookup": lookup}
+    result = {"missing_from_sql": missing, "covered_by_lookup": covered,
+              "unsupported": [table for table in missing if table not in covered], "lookup": lookup}
+    if ignored:
+        result["attribute_evidence"] = ignored
+    return result
+
+
+def _prune_unused_lookups(item, question):
+    """全量查询只裁剪无SQL消费者、无依赖且参数未指明的只读查找。"""
+    calls = item.get("api_call")
+    visible = re.sub(r'["“‘「][^"”’」]*["”’」]', " ", question)
+    if (not isinstance(calls, list) or len(calls) < 2
+            or not re.search(r"所有|全部|全量|(?<![A-Za-z0-9_])all(?![A-Za-z0-9_])", visible, re.I)
+            or any(call.get("method", "GET") != "GET" for call in calls)
+            or "from step" in json.dumps(calls, ensure_ascii=False).lower()):
+        return []
+    structure = _sql_structure(item.get("sql", ""))
+    sql_tables = {table.upper() for table in _extract_sql_tables(structure)}
+    if not sql_tables or re.search(r'["`\[\]]', structure) or _flat_grouping(item.get("sql", "")) is None:
+        return []
+    reverse = {value: key for key, value in _ORIG_TO_DESENS.items()}
+    shared = set(_get_placeholders({key: item[key] for key in ("sql", "params") if key in item}))
+    kept, evidence = [], []
+    for index, call in enumerate(calls, 1):
+        resource = re.fullmatch(r"/rest/hackthon/db/(?:instances|relations)/([^/?]+)(?:\?[^#]*)?", call.get("url", ""))
+        ci = resource[1] if resource else ""
+        table = reverse.get(ci, "").upper()
+        placeholders = _get_placeholders({"api_call": call})
+        words = [word for labels, name in _RESOURCE_CHECKS if name in table for word in labels]
+        grounded = {}
+        _auto_fill_params(question, grounded, placeholders, {"api_call": call})
+        values = [entry.get("simple", {}).get("value") for entry in call.get("condition", {}).get("constraint", [])]
+        specified_constant = any(isinstance(value, str) and value and "{{" not in value
+                                 and value.casefold() in question.casefold() for value in values)
+        safe = (table and table not in sql_tables and placeholders and words
+                and not shared.intersection(placeholders) and not grounded and not specified_constant
+                and not any(_mentions_resource(question, word) for word in words))
+        if safe:
+            evidence.append({"step": index, "resource": ci, "unused_parameters": placeholders,
+                             "reason": "unconsumed_unbound_lookup_in_explicit_global_scope"})
+        else:
+            kept.append(call)
+    if evidence and kept:
+        item["api_call"] = kept
+        return evidence
+    return []
 
 
 def _validate_resource_lookup(item: dict, lookup: dict) -> dict:
@@ -783,7 +927,8 @@ def _validate_api_dependencies(item: dict) -> Optional[dict]:
 
 
 def match_runbook(user_question: str, runbook_items: list,
-                  retriever: RunbookRetriever, diagnostics: dict = None) -> Optional[dict]:
+                  retriever: RunbookRetriever, diagnostics: dict = None,
+                  defer_api_validation: bool = False) -> Optional[dict]:
     """
     完整的 runbook 匹配流程：BM25 检索 → LLM 选择 → 参数填充。
 
@@ -840,6 +985,10 @@ def match_runbook(user_question: str, runbook_items: list,
     selected = copy.deepcopy(candidate_items[index - 1])
     diagnostics["selected_template"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
+    if os.environ.get("RUNBOOK_PRUNE_UNUSED_LOOKUPS") == "1":
+        pruned = _prune_unused_lookups(selected, user_question)
+        if pruned:
+            diagnostics["pruned_unused_lookups"] = pruned
     logger.info(f"命中 runbook: {selected['name']}")
 
     # 先证明资源覆盖；查找结果在填参后核验，不能只凭 resources 元数据放行。
@@ -850,25 +999,45 @@ def match_runbook(user_question: str, runbook_items: list,
     # 3. 参数填充
     placeholders = _get_placeholders(selected)
     parsed = {}
+    diagnostics["parameter_mode"] = "none"
     if placeholders:
-        examples_str = "\n".join(f"- {ex}" for ex in selected.get("examples", []))
-        placeholder_list = "\n".join("{{" + p + "}}" for p in placeholders)
-        prompt = FILL_PARAMS_PROMPT.format(
-            examples=examples_str, placeholder_list=placeholder_list, user_question=user_question)
-        try:
-            answer = llm_ask(prompt, stage="fill")
-        except ModelOutputError:
-            return reject("invalid_model_output_fill")
-        parsed = _parse_params_response(answer, placeholders)
-        if parsed is None:
-            return reject("invalid_parameters")
         rule_values = {}
-        _auto_fill_params(user_question, rule_values, placeholders, selected)
-        parsed.update(rule_values)
-        parsed = _ground_params(user_question, parsed, selected)
+        rule_only = os.environ.get("RUNBOOK_RULE_ONLY_FILL") == "1"
+        if rule_only:
+            _auto_fill_params(user_question, rule_values, placeholders, selected)
+            grounded_rules = _ground_params(user_question, rule_values, selected)
+            # 包括可选条件在内的全部占位符均须明确，不能因省略一次调用丢失显式过滤。
+            missing = [p for p in placeholders if p not in grounded_rules or _missing_parameter(grounded_rules[p])
+                       or not _valid_parameter_value(p, grounded_rules[p], selected)]
+            diagnostics["rule_missing_parameters"] = missing
+        if rule_only and not missing:
+            parsed = grounded_rules
+            diagnostics["parameter_mode"] = "rules_complete"
+        else:
+            diagnostics["parameter_mode"] = "llm"
+            examples_str = "\n".join(f"- {ex}" for ex in selected.get("examples", []))
+            placeholder_list = "\n".join("{{" + p + "}}" for p in placeholders)
+            prompt = FILL_PARAMS_PROMPT.format(
+                examples=examples_str, placeholder_list=placeholder_list, user_question=user_question)
+            try:
+                answer = llm_ask(prompt, stage="fill")
+            except ModelOutputError:
+                return reject("invalid_model_output_fill")
+            parsed = _parse_params_response(answer, placeholders)
+            if parsed is None:
+                return reject("invalid_parameters")
+            if not rule_only:
+                _auto_fill_params(user_question, rule_values, placeholders, selected)
+            parsed.update(rule_values)
+            parsed = _ground_params(user_question, parsed, selected, diagnostics)
         diagnostics["parameter_sources"] = {
             p: "question_rule" if p in rule_values else "llm" for p in parsed}
     diagnostics["filled_parameter_names"] = sorted(parsed)
+
+    invalid = [p for p in parsed if not _missing_parameter(parsed[p]) and not _valid_parameter_value(p, parsed[p], selected)]
+    if invalid:
+        diagnostics["invalid_parameter_names"] = sorted(invalid)
+        return reject("invalid_parameter_type")
 
     logger.info(f"最终参数: {parsed}")
 
@@ -894,13 +1063,15 @@ def match_runbook(user_question: str, runbook_items: list,
         if not any(value == v or isinstance(v, list) and value in v for v in actual.get(name, [])):
             return reject("missing_api_filter")
 
-    if coverage["covered_by_lookup"]:
+    if coverage["covered_by_lookup"] and defer_api_validation:
+        diagnostics["resource_lookup"] = {"valid": None, "reason": "deferred_to_bounded_query_execution"}
+    elif coverage["covered_by_lookup"]:
         validation = _validate_resource_lookup(selected, coverage["lookup"])
         diagnostics["resource_lookup"] = validation
         if not validation["valid"]:
             return reject("invalid_resource_lookup")
 
-    if os.environ.get("RUNBOOK_VALIDATE_API_DEPENDENCIES") == "1":
+    if os.environ.get("RUNBOOK_VALIDATE_API_DEPENDENCIES") == "1" and not defer_api_validation:
         dependencies = _validate_api_dependencies(selected)
         if dependencies is not None:
             diagnostics["api_dependencies"] = dependencies
@@ -934,8 +1105,8 @@ def _query_signature(sql):
     return grouping, tuple(word.casefold() for word in aggregations)
 
 
-def _projection_contract(original, refined):
-    if _query_signature(original) != _query_signature(refined):
+def _projection_contract(original, refined, require_same_structure=True):
+    if require_same_structure and _query_signature(original) != _query_signature(refined):
         return {"reject": False, "reason": "query_structure_changed"}
     tables = _extract_sql_tables(original)
     schemas = {table: _schema_columns.get(_ORIG_TO_DESENS.get(table, table)) for table in tables}
@@ -957,6 +1128,223 @@ def _projection_contract(original, refined):
     missing = [name for name in before if normalize(name) not in after_keys]
     return {"reject": bool(missing), "reason": "missing_template_columns" if missing else "columns_preserved",
             "original_columns": before, "refined_columns": after, "missing_columns": missing}
+
+
+def _split_sql_expressions(text):
+    parts, start, depth = [], 0, 0
+    for index, character in enumerate(text):
+        depth += (character == "(") - (character == ")")
+        if character == "," and depth == 0:
+            parts.append(text[start:index].strip())
+            start = index + 1
+    parts.append(text[start:].strip())
+    return parts
+
+
+def _flat_grouping(sql):
+    """仅核对平面 SELECT 的列与分组；复杂表达式不猜函数依赖。"""
+    text = _sql_structure(re.sub(r"'(?:''|[^'])*'", "NULL", sql)).strip().rstrip(";")
+    if len(re.findall(r"\bSELECT\b", text, re.I)) != 1 or re.search(r"\b(?:UNION|INTERSECT|EXCEPT|OVER)\b", text, re.I):
+        return None
+    select = re.match(r"SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", text, re.I | re.S)
+    if not select:
+        return None
+    aliases = {}
+    for match in re.finditer(r"\b(?:FROM|JOIN)\s+(\w+)(?:\s+(?:AS\s+)?(\w+))?", text, re.I):
+        table, alias = match.groups()
+        aliases[table.casefold()] = table.casefold()
+        if alias and alias.upper() not in {"ON", "INNER", "LEFT", "RIGHT", "FULL", "CROSS", "JOIN", "GROUP", "ORDER", "LIMIT", "WHERE", "HAVING"}:
+            aliases[alias.casefold()] = table.casefold()
+    tables = set(aliases.values())
+
+    def column(expression):
+        expression = re.sub(r"\s+", "", expression).casefold()
+        if expression in {"null", "true", "false"} or not re.fullmatch(r"[a-z_]\w*(?:\.[a-z_]\w*)?", expression):
+            return None
+        if "." in expression:
+            prefix, name = expression.split(".")
+            return aliases.get(prefix, prefix) + "." + name
+        if len(tables) == 1:
+            return next(iter(tables)) + "." + expression
+        owners = [table for table in tables if expression in {
+            field.casefold() for field in _schema_columns.get(next((ci for orig, ci in _ORIG_TO_DESENS.items()
+                                                                   if orig.casefold() == table), table), [])}]
+        return owners[0] + "." + expression if len(owners) == 1 else None
+
+    outputs, output_aliases = set(), {}
+    for expression in _split_sql_expressions(select[1]):
+        alias = re.search(r"\s+AS\s+(\w+)\s*$", expression, re.I)
+        value = column(expression[:alias.start()] if alias else expression)
+        if value:
+            outputs.add(value)
+            if alias:
+                output_aliases[alias[1].casefold()] = value
+    group = re.search(r"\bGROUP\s+BY\s+(.+?)(?=\bHAVING\b|\bORDER\s+BY\b|\bLIMIT\b|$)", text, re.I | re.S)
+    if group and any(re.fullmatch(r"\d+", part) for part in _split_sql_expressions(group[1])):
+        return None  # GROUP BY 序号依赖 SELECT 表达式，当前平面列检查不推断。
+    keys = {output_aliases.get(part.casefold()) or column(part) for part in _split_sql_expressions(group[1])} if group else set()
+    keys.discard(None)
+    aggregated = bool(re.search(r"\b(?:COUNT|SUM|AVG|MIN|MAX|TOTAL|GROUP_CONCAT)\s*\(", select[1], re.I))
+    unsafe = outputs - keys if group or aggregated else set()
+    return {"keys": keys, "unsafe": unsafe, "outputs": outputs}
+
+
+def _recover_grouped_identity_columns(original, refined, question):
+    """仅恢复已按同表 id 分组的简单属性列；不推断跨表函数依赖。"""
+    old, new = _flat_grouping(original), _flat_grouping(refined)
+    if (not old or not new or not old["keys"] or not new["keys"]
+            or _query_signature(original)[1] != _query_signature(refined)[1]
+            or re.search(r"按.{1,24}(?:分组|统计|汇总|聚合)|只要|只返回|仅返回|仅需", question)):
+        return refined, []
+    projection = _projection_contract(original, refined, require_same_structure=False)
+    if projection.get("reason") != "missing_template_columns":
+        return refined, []
+    before = re.match(r"\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", original, re.I | re.S)
+    after = re.match(r"\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", refined, re.I | re.S)
+    grouping = re.search(r"\bGROUP\s+BY\s+(.+?)(?=\bHAVING\b|\bORDER\s+BY\b|\bLIMIT\b|;?\s*$)", refined, re.I | re.S)
+    if not before or not after or not grouping or "'" in after[1] or "'" in grouping[1]:
+        return refined, []
+    normalize = lambda name: re.sub(r"[_\-\s]", "", name.casefold())
+    missing = {normalize(name) for name in projection["missing_columns"]}
+    expressions, keys, restored = [], [], []
+    for expression in _split_sql_expressions(before[1]):
+        found = re.fullmatch(r"([A-Za-z_]\w*)\.([A-Za-z_]\w*)(?:\s+AS\s+([A-Za-z_]\w*))?", expression, re.I)
+        if not found or normalize(found[3] or found[2]) not in missing:
+            continue
+        table, field = found[1], found[2]
+        ci = _ORIG_TO_DESENS.get(table, table)
+        if (table.casefold()+".id" not in new["keys"] or "id" not in _schema_columns.get(ci, [])
+                or field not in _schema_columns.get(ci, [])):
+            return refined, []
+        expressions.append(expression)
+        keys.append(table+"."+field)
+        restored.append(found[3] or found[2])
+    if {normalize(name) for name in restored} != missing:
+        return refined, []
+    result = refined[:grouping.end(1)] + ", " + ", ".join(keys) + " " + refined[grouping.end(1):]
+    result = result[:after.end(1)] + ", " + ", ".join(expressions) + result[after.end(1):]
+    if _projection_contract(original, result, require_same_structure=False).get("reason") != "columns_preserved":
+        return refined, []
+    return result, restored
+
+
+def _row_semantics_contract(original, refined, question):
+    before, after = _sql_structure(original), _sql_structure(refined)
+    explicit_unique = bool(re.search(r"去重|不重复|唯一|distinct", question, re.I))
+    explicit_duplicates = bool(re.search(r"不去重|不要去重|保留重复|包含重复|允许重复|重复记录也", question))
+    if not explicit_duplicates and re.match(r"\s*SELECT\s+DISTINCT\b", before, re.I) and not re.match(r"\s*SELECT\s+DISTINCT\b", after, re.I):
+        return {"reject": True, "reason": "removed_template_distinct"}
+    def count_contracts(text):
+        select = re.match(r"\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", text, re.I | re.S)
+        if not select or len(re.findall(r"\bSELECT\b", text, re.I)) != 1:
+            return {}
+        contracts = {}
+        for index, expression in enumerate(_split_sql_expressions(select[1])):
+            modes = tuple(bool(match[1]) for match in re.finditer(r"\bCOUNT\s*\(\s*(DISTINCT\b)?", expression, re.I))
+            if modes:
+                alias = re.search(r"\s+AS\s+(\w+)\s*$", expression, re.I)
+                contracts[alias[1].casefold() if alias else "@" + str(index)] = modes
+        return contracts
+    old_counts, new_counts = count_contracts(before), count_contracts(after)
+    changed_count = any(old_counts[key] != new_counts[key] for key in old_counts.keys() & new_counts.keys())
+    if not changed_count and not (old_counts.keys() & new_counts.keys()) and len(old_counts) == len(new_counts) == 1:
+        changed_count = next(iter(old_counts.values())) != next(iter(new_counts.values()))
+    if not explicit_unique and not explicit_duplicates and changed_count:
+        return {"reject": True, "reason": "changed_count_distinct_contract"}
+    old_group, new_group = _flat_grouping(original), _flat_grouping(refined)
+    if old_group is None or new_group is None:
+        return {"reject": False, "reason": "complex_grouping_not_inferred"}
+    newly_unsafe = new_group["unsafe"] - old_group["unsafe"]
+    if newly_unsafe:
+        return {"reject": True, "reason": "introduced_ungrouped_detail_columns", "columns": sorted(newly_unsafe)}
+    explicit_regroup = bool(re.search(r"按.{1,24}(?:分组|统计|汇总|聚合)", question))
+    if (new_group["keys"] < old_group["keys"] and not explicit_regroup
+            and _query_signature(original)[1] == _query_signature(refined)[1]):
+        projection = _projection_contract(original, refined, require_same_structure=False)
+        if projection["reject"]:
+            return {**projection, "reason": "coarser_grouping_lost_output_columns"}
+    if os.environ.get("RUNBOOK_PRESERVE_AGGREGATE_GRAIN") == "1" and not explicit_regroup:
+        has_aggregate = bool(_query_signature(original)[1] or _query_signature(refined)[1])
+        added = new_group["keys"] - old_group["keys"]
+        removed = old_group["keys"] - new_group["keys"]
+        # 已按同表id分组时补回该表属性，不改变实体粒度；新增id则不能假定等价。
+        identity_attributes = bool(added) and not removed and all(
+            key.rsplit(".", 1)[0] + ".id" in old_group["keys"] for key in added)
+        if has_aggregate and old_group["keys"] != new_group["keys"] and not identity_attributes:
+            return {"reject": True, "reason": "changed_aggregate_grain_without_request",
+                    "original_keys": sorted(old_group["keys"]), "refined_keys": sorted(new_group["keys"])}
+    return {"reject": False, "reason": "row_semantics_preserved_in_checked_scope"}
+
+
+def _literal_label_contract(original, refined, question):
+    """仅保护平面SELECT/UNION中同别名的常量标签，不猜嵌套或缺失输出。"""
+    tokens = r"'(?:''|[^'])*'|\"(?:\"\"|[^\"])*\"|--[^\n]*|/\*[\s\S]*?\*/|\b[A-Za-z_]\w*\b|[(),]"
+
+    def projections(sql):
+        depth, start, arms = 0, None, []
+        for match in re.finditer(tokens, sql):
+            token = match[0]
+            if token.startswith(("'", '"', "--", "/*")):
+                continue
+            if token == "(":
+                depth += 1
+            elif token == ")":
+                depth -= 1
+                if depth < 0:
+                    return None
+            elif token.upper() == "SELECT":
+                if depth or start is not None:
+                    return None
+                start = match.end()
+            elif token.upper() == "FROM" and not depth and start is not None:
+                arms.append(sql[start:match.start()])
+                start = None
+        if depth or start is not None or not arms:
+            return None
+        result = []
+        for arm in arms:
+            arm = re.sub(r"^\s*DISTINCT\b", "", arm, flags=re.I)
+            pieces, offset, nesting = [], 0, 0
+            for match in re.finditer(tokens, arm):
+                token = match[0]
+                if token.startswith(("'", '"', "--", "/*")):
+                    continue
+                nesting += (token == "(") - (token == ")")
+                if token == "," and not nesting:
+                    pieces.append(arm[offset:match.start()].strip())
+                    offset = match.end()
+            pieces.append(arm[offset:].strip())
+            outputs = {}
+            for expression in pieces:
+                alias = re.search(r"\s+AS\s+([A-Za-z_]\w*)\s*$", expression, re.I)
+                if alias:
+                    name, value = alias[1].casefold(), expression[:alias.start()].strip()
+                elif re.fullmatch(r"(?:[A-Za-z_]\w*\.)?[A-Za-z_]\w*", expression):
+                    name, value = expression.rsplit(".", 1)[-1].casefold(), expression
+                else:
+                    continue
+                if name in outputs:
+                    return None
+                literal = re.fullmatch(r"'((?:''|[^'])*)'", value)
+                outputs[name] = {"literal": literal[1].replace("''", "'") if literal else None, "expression": value}
+            result.append(outputs)
+        return result
+
+    before, after = projections(original), projections(refined)
+    if before is None or after is None or len(before) != len(after):
+        return {"reject": False, "reason": "literal_labels_outside_checked_scope"}
+    changed = []
+    for index, (old, new) in enumerate(zip(before, after), 1):
+        for name in old.keys() & new.keys():
+            value = old[name]["literal"]
+            if value is None or new[name]["literal"] == value:
+                continue
+            explicit = re.fullmatch(r"(?:[A-Za-z_]\w*\.)?([A-Za-z_]\w*)", new[name]["expression"])
+            if explicit and re.search(r"(?<![A-Za-z0-9_])"+re.escape(explicit[1])+r"(?![A-Za-z0-9_])", question, re.I):
+                continue
+            changed.append({"arm": index, "alias": name, "template_value": value, "proposed_expression": new[name]["expression"]})
+    return {"reject": bool(changed), "reason": "replaced_literal_output_label" if changed else "literal_labels_preserved_in_checked_scope",
+            "changed_labels": changed}
 
 
 def _validated_refinement(candidate: str, original: str, question: str, diagnostics: dict = None) -> str:
@@ -991,6 +1379,21 @@ def _validated_refinement(candidate: str, original: str, question: str, diagnost
             conn.execute("EXPLAIN " + candidate)
     except sqlite3.Error:
         return original
+    if os.environ.get("RUNBOOK_PRESERVE_ROW_SEMANTICS") == "1":
+        candidate, restored_columns = _recover_grouped_identity_columns(original, candidate, question)
+        if diagnostics is not None and restored_columns:
+            diagnostics["restored_identity_columns"] = restored_columns
+        decision = _row_semantics_contract(original, candidate, question)
+        if diagnostics is not None:
+            diagnostics["row_semantics_contract"] = decision
+        if decision["reject"]:
+            return original
+    if os.environ.get("RUNBOOK_PRESERVE_LITERAL_LABELS") == "1":
+        decision = _literal_label_contract(original, candidate, question)
+        if diagnostics is not None:
+            diagnostics["literal_label_contract"] = decision
+        if decision["reject"]:
+            return original
     if os.environ.get("RUNBOOK_PRESERVE_TEMPLATE_COLUMNS") == "1":
         decision = _projection_contract(original, candidate)
         if diagnostics is not None:
@@ -1002,7 +1405,10 @@ def _validated_refinement(candidate: str, original: str, question: str, diagnost
 
 def _refine_sql(question: str, sql: str, schemas: str = "", diagnostics: dict = None) -> str:
     """保留精调环节，不合法或不可编译的模型SQL回退到原模板。"""
-    prompt = REFINE_SQL_PROMPT.format(
+    contract_prompt = os.environ.get("RUNBOOK_REFINE_CONTRACT_PROMPT") == "1"
+    if diagnostics is not None:
+        diagnostics["refine_prompt_policy"] = "preserve_output_contract" if contract_prompt else "original"
+    prompt = (REFINE_SQL_CONTRACT_PROMPT if contract_prompt else REFINE_SQL_PROMPT).format(
         question=question, sql=sql, schemas=schemas or "(无)", join_relations=JOIN_RELATIONS)
     try:
         refined = llm_ask(prompt, stage="refine").strip()

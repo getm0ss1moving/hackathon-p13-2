@@ -1,0 +1,1323 @@
+{
+  "scope": "train_only",
+  "split_id": "whitebox_150_50_v1",
+  "status": "complete",
+  "metrics": {
+    "score": 477.0,
+    "untimed_score": 560.0,
+    "max_score": 750,
+    "full_quality_answers": 113,
+    "partial": 2,
+    "wrong": 10,
+    "refused": 25,
+    "time_penalty": 83.0,
+    "generation_requests": 293,
+    "failed_requests": 10,
+    "prompt_tokens": 347043,
+    "completion_tokens": 55573,
+    "latency_p50": 2.95,
+    "latency_p95": 7.81,
+    "wall_seconds": 547.438,
+    "peak_evaluation_process_mib": 495.05
+  },
+  "baseline_training_metrics": {
+    "case_count": 150,
+    "untimed_score": 567.0,
+    "full_quality_answers": 114,
+    "partial_answers": 2,
+    "wrong_answers": 8,
+    "refusals": 26,
+    "measurement": "historical iteration3 training subset; not a new model run"
+  },
+  "independent_runs_each": 1,
+  "pairs": [
+    {
+      "case_id": "CMDB-005",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-010",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-013",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-017",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-019",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-020",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-021",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-022",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-023",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-024",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-025",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-026",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-027",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-028",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-029",
+      "historical_quality": 5,
+      "current_quality": -1,
+      "delta": -6,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-033",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-034",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-039",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-040",
+      "historical_quality": 5,
+      "current_quality": -1,
+      "delta": -6,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-041",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-042",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-043",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-044",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-046",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-049",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-050",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-051",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-052",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-053",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-057",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-060",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-061",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-066",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-067",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-068",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-069",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-074",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-075",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-077",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-078",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-080",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-081",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-085",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-086",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-087",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-088",
+      "historical_quality": 0,
+      "current_quality": -1,
+      "delta": -1,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-089",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-090",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-091",
+      "historical_quality": -1,
+      "current_quality": 5,
+      "delta": 6,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-093",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-097",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-102",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-104",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-107",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-108",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-112",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-113",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-114",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-115",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-121",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-122",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-127",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-130",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-132",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-133",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-134",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-135",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-136",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-137",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-139",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-140",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-141",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-143",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-144",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-147",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-148",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-149",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-150",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-151",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-152",
+      "historical_quality": 5,
+      "current_quality": -1,
+      "delta": -6,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-153",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-154",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-156",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-158",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-165",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-166",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-169",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-173",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-174",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-175",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-176",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-179",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-181",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-182",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-184",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-185",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-188",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-189",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-196",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-197",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-200",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-202",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-204",
+      "historical_quality": -1,
+      "current_quality": 5,
+      "delta": 6,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-206",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-207",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-208",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-212",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-214",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-215",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-217",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-218",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-221",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-223",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-224",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-229",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-230",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-231",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-234",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-236",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-237",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-238",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-239",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-241",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-243",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-244",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-247",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-248",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-249",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-252",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-255",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-256",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-258",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-259",
+      "historical_quality": -1,
+      "current_quality": -1,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-261",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-265",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-267",
+      "historical_quality": 2.5,
+      "current_quality": 2.5,
+      "delta": 0.0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-268",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-269",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-270",
+      "historical_quality": 2.5,
+      "current_quality": 2.5,
+      "delta": 0.0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-274",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-275",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-282",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-283",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-285",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-287",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-288",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-290",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-291",
+      "historical_quality": 5,
+      "current_quality": 5,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-297",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    },
+    {
+      "case_id": "CMDB-300",
+      "historical_quality": 0,
+      "current_quality": 0,
+      "delta": 0,
+      "selected_changed": false
+    }
+  ],
+  "quality_improved": 2,
+  "quality_regressed": 4,
+  "stages": {
+    "select": {
+      "requests": 150,
+      "failures": 0,
+      "seconds": 152.0773
+    },
+    "refine": {
+      "requests": 125,
+      "failures": 10,
+      "seconds": 329.0679
+    },
+    "fill": {
+      "requests": 18,
+      "failures": 0,
+      "seconds": 25.5573
+    }
+  },
+  "model_error_types": {
+    "ModelOutputError": 10
+  },
+  "refusal_reasons": {
+    "missing_parameters": 3,
+    "missing_api_filter": 7,
+    "resource_mismatch": 15
+  },
+  "nonperfect_training_cases": [
+    {
+      "case_id": "CMDB-028",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-029",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-040",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-053",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-057",
+      "quality": 0,
+      "reason": "missing_parameters"
+    },
+    {
+      "case_id": "CMDB-077",
+      "quality": 0,
+      "reason": "missing_parameters"
+    },
+    {
+      "case_id": "CMDB-088",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-102",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-112",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-115",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-121",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-127",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-139",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-147",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-152",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-182",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-189",
+      "quality": 0,
+      "reason": "missing_parameters"
+    },
+    {
+      "case_id": "CMDB-196",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-200",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-223",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-224",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-231",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-252",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-255",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-256",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-258",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-259",
+      "quality": -1,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-261",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-267",
+      "quality": 2.5,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-270",
+      "quality": 2.5,
+      "reason": "matched"
+    },
+    {
+      "case_id": "CMDB-274",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-275",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-285",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-287",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-288",
+      "quality": 0,
+      "reason": "missing_api_filter"
+    },
+    {
+      "case_id": "CMDB-297",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    },
+    {
+      "case_id": "CMDB-300",
+      "quality": 0,
+      "reason": "resource_mismatch"
+    }
+  ],
+  "unused_requests": 157,
+  "budget_scope_closed": true,
+  "unused_requests_reusable": false,
+  "holdout_accessed_or_evaluated": false,
+  "formal_model_confirmed": false,
+  "logged_question_preview_limit": 60,
+  "truncated_log_question_count": 14,
+  "full_input_source": "fixed train.json; frozen runner passes full case['question']; raw logs remain unchanged",
+  "source_sha256": {
+    "analyze_training.py": "2a2963b62715c01cf155da4709e155b64f2523a9cbbcfd9dd0d0d6f11ac5e24b",
+    "experiments/train150_v1_live.jsonl": "9aa91876c441ec6442744a7abcf7f1bad29e156337ff596797e3ca09c22c8527",
+    "experiments/train150_v1_live_plan.json": "3154bb8b66ca80232772c830cf90b0854aa95111d59f54819706771bf530dad4",
+    "experiments/train150_v1_authorization.json": "42d78705d85cab8d9f7ceeca97f2c727b29b4498aa66d7f03ca6b24e58a0f689",
+    "datasets/whitebox_150_50_v1/manifest.json": "82f8902c97093137711c7c3ab405718fc840bde68b920f5ee5a35d6a02d2b03f",
+    "datasets/whitebox_150_50_v1/train.json": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+    "datasets/whitebox_150_50_v1/train_history.jsonl": "eccd1b44c95d1d38c28e3a48fe0506ca17cbf5b0d806103b4d9b99843a6bc606"
+  },
+  "limitations": [
+    "Historical single training subset versus current single run; model outputs and provider load may differ; no causal or stable speed claim.",
+    "All original questions/outcomes and fixed 200-template examples were exposed before split; prospective tuning exclusion only.",
+    "Training fit is not generalization; no holdout metrics, independent final test, blackbox or formal aggregate score.",
+    "Process memory excludes data service; per-step data HTTP status and provider backend are not recorded."
+  ],
+  "decision": "继续按训练集改进，候选保持本地；不查看封存集反馈。"
+}

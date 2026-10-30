@@ -1,0 +1,69 @@
+{
+  "scope": "train_only_paired_refine",
+  "status": "complete",
+  "planned_cases": 16,
+  "completed_pairs": 16,
+  "max_requests": 32,
+  "actual_requests": 32,
+  "metrics": {
+    "original": {
+      "completed_arms": 16,
+      "full_quality": 11,
+      "untimed_score": 57.0,
+      "rejected_by_contract": 7,
+      "contract_reasons": {
+        "projection_contract:missing_template_columns": 3,
+        "row_semantics_contract:coarser_grouping_lost_output_columns": 2,
+        "row_semantics_contract:changed_aggregate_grain_without_request": 1,
+        "row_semantics_contract:introduced_ungrouped_detail_columns": 1
+      },
+      "model_returned_exact_original": 5,
+      "accepted_sql_unchanged": 13,
+      "length_truncated": 1,
+      "failed_events": 1,
+      "prompt_tokens": 27324,
+      "completion_tokens": 5120
+    },
+    "candidate": {
+      "completed_arms": 16,
+      "full_quality": 13,
+      "untimed_score": 69.0,
+      "rejected_by_contract": 1,
+      "contract_reasons": {
+        "row_semantics_contract:changed_aggregate_grain_without_request": 1
+      },
+      "model_returned_exact_original": 11,
+      "accepted_sql_unchanged": 12,
+      "length_truncated": 0,
+      "failed_events": 0,
+      "prompt_tokens": 28684,
+      "completion_tokens": 5596
+    }
+  },
+  "paired_improvements": 2,
+  "paired_regressions": 0,
+  "changed_pairs": [
+    {
+      "type": "pair",
+      "case_id": "CMDB-127",
+      "input_sha256": "88d67adb7cb3d3e3edbb72f2a1258d38ddea17dd6084bcaa841bb5962f29a6f2",
+      "original_untimed_score": -1,
+      "candidate_untimed_score": 5,
+      "delta": 6
+    },
+    {
+      "type": "pair",
+      "case_id": "CMDB-282",
+      "input_sha256": "e04e64483f5d6eb83686810b4be8e09562082842c21f11049a722c93de82247f",
+      "original_untimed_score": -1,
+      "candidate_untimed_score": 5,
+      "delta": 6
+    }
+  ],
+  "holdout_accessed": false,
+  "source": {
+    "experiments/train150_v3_prompt_probe_live.jsonl": "e1d0c6173e2141858e0e91e1b78d9d0ea5ede435ffbca248e4e25739dc84536f",
+    "analyzer_sha256": "9fac64f0455235fd6055a02ff36ec16fdd21a856c6b32522e107a4e9e898ecca"
+  },
+  "limitation": "Reviewer-selected training subset, one response per arm, original always first; same fixed v2 selection/API/SQL input, only refine prompt changed. No full query(), full150, holdout or official result; remaining rejected/missing capabilities not solved."
+}

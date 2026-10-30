@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 import sys
 import tempfile
-import subprocess
 import unittest
 from unittest.mock import Mock, patch
 
@@ -24,8 +23,21 @@ import runbook_system as system_module
 class ResourceRunnerTests(unittest.TestCase):
     def setUp(self):
         self.scope = json.loads((HERE / "experiments/resource_gate_20261029_plan.json").read_text())
-        # 历史计划固定旧源码；入口测试使用当前源码的临时计划，不改写历史授权或结果。
-        self.scope["candidate_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip()
+        # 仅在 mock 入口测试中冻结工作区字节，不要求为了跑测试先 commit。
+        # 真实入口、历史计划及其他 Git 引用仍走真实的源码漂移检查。
+        self.scope["candidate_commit"] = "unittest-frozen-working-tree"
+        frozen = {path.name: path.read_bytes() for path in (HERE / "implementation").glob("*.py")}
+        native_git = runner.subprocess.check_output
+
+        def fixture_git(command, *args, **kwargs):
+            prefix = "unittest-frozen-working-tree:B/implementation/"
+            if len(command) == 3 and command[:2] == ["git", "show"] and command[2].startswith(prefix):
+                return frozen[command[2][len(prefix):]]
+            return native_git(command, *args, **kwargs)
+
+        git_fixture = patch.object(runner.subprocess, "check_output", side_effect=fixture_git)
+        git_fixture.start()
+        self.addCleanup(git_fixture.stop)
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         self.plan_file = Path(temp.name) / "fixture_plan.json"
@@ -96,6 +108,19 @@ class ResourceRunnerTests(unittest.TestCase):
             self.assertEqual(os.environ["RUNBOOK_PRESERVE_TEMPLATE_COLUMNS"], "0")
             llm.assert_not_called()
         self.assertIn("预检完成，未调用模型", captured.getvalue())
+
+    def test_working_tree_drift_from_frozen_fixture_still_stops_before_model(self):
+        original_sha = runner.sha
+
+        def drift(path):
+            return "0" * 64 if path == HERE / "implementation/runbook_matcher.py" else original_sha(path)
+
+        with patch.object(runner, "sha", side_effect=drift), \
+             patch.object(Path, "read_text", lambda path, *a, **k: self.safe_read(path, *a, **k)), \
+             patch.object(matcher, "llm_ask", side_effect=AssertionError("不得调用模型")) as llm, \
+             contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit): runner.main(self.args())
+            llm.assert_not_called()
 
     def run_fake_system(self, output, factory):
         captured = io.StringIO()

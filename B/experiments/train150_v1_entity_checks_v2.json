@@ -1,0 +1,18 @@
+{
+  "status": "NOT_AVAILABLE",
+  "scope": "derived_from_training_contract",
+  "split_id": "whitebox_150_50_v1",
+  "training_source_case": "CMDB-091",
+  "alternate_real_models": 0,
+  "checks": [],
+  "source_rows": 45,
+  "missing_product_name_rows": 42,
+  "real_model_requests": 0,
+  "holdout_accessed": false,
+  "http_statuses": [
+    200
+  ],
+  "reason": "原数据没有训练型号之外的非空型号，不能冒称完成真实新型号泛化验证",
+  "matcher_sha256": "478969ee4314d465538c0bfdafac3fd38f90fb242ee79e0db81869d2b4ab87ba",
+  "script_sha256": "dba36c7fce9fec7ded2508b1ed1284c73baaac934c8a9e48b8e6482490f03492"
+}

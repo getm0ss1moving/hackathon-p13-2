@@ -1,0 +1,22 @@
+{
+  "closed_at": "2026-10-30T10:43:12.718721+08:00",
+  "scope": "train150_v2_with_explicit_resume",
+  "original_limit": 450,
+  "original_incomplete_run_requests": 289,
+  "authorized_resume_limit": 9,
+  "resume_requests": 4,
+  "total_used_requests": 293,
+  "unused_requests": 157,
+  "scope_closed": true,
+  "unused_requests_reusable": false,
+  "coverage_cases": 150,
+  "single_pass_complete": false,
+  "parent_status": "incomplete_after_147",
+  "resume_status": "complete_3",
+  "sources": {
+    "experiments/train150_v2_live.jsonl": "ff200b8fc4a7f2cec91519a7d079bf54003a96c74f7f7915d3422be55aa0467e",
+    "experiments/train150_v2_resume_live.jsonl": "1e4b03e89a7afdf77640cf198b8d8b30fddd6691af57ec554c8d2d7713841c65",
+    "experiments/train150_v2_authorization.json": "127abb55da99c4eccaf3cd13b872fe0b5200452c7d07a08df26ad12b0fe11c58",
+    "experiments/train150_v2_resume_authorization.json": "67e1e5674da9a74867f052e048ca7a3b84431f5eef348b7437428dd2a6e2da99"
+  }
+}

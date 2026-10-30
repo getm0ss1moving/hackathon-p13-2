@@ -1,0 +1,14 @@
+{
+  "status": "closed",
+  "max_requests": 32,
+  "used_requests": 32,
+  "remaining_requests": 0,
+  "retries": 0,
+  "failed_model_outputs": 1,
+  "transport_errors": 0,
+  "prompt_tokens_visible": 56008,
+  "completion_tokens_visible": 10716,
+  "unused_previous_budgets_reused": false,
+  "plan_sha256": "b13be570947bb9faa1fbfb5bec43ce90a468072f5a07cd898cad3f8981618c37",
+  "trace_sha256": "e1d0c6173e2141858e0e91e1b78d9d0ea5ede435ffbca248e4e25739dc84536f"
+}
