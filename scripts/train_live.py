@@ -35,7 +35,7 @@ def a170_source_contract(root):
     expected = {
         "implementation/runbook_items.py": "040040177f8db8bcfa62252567ffbc41199dd0ae8bfd8d2a34aa68364680b28c",
         "implementation/runbook_retriever.py": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
-        "implementation/runbook_family_views.py": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+        "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
     }
     if (candidate.get("A_ref") != "6d3b47318ce767ef947c68019a2dce522de98c7a"
             or candidate.get("template_json_sha256") != "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c"

@@ -1,0 +1,42 @@
+{
+  "status": "free_view_schema_and_role_fix_checked_not_real_retested_yet",
+  "fixes": [
+    "prompt JSON Schema requires string-array required_filters, keys coupled to reviewed view/filter profiles",
+    "resource+explicit-name-role canonicalization inserts clause separator while preserving exact parsed entity"
+  ],
+  "no_dict_to_array_repair": true,
+  "no_unconditional_name_prefix_stripping": true,
+  "view_materializer_and_grounding_contracts_unchanged": true,
+  "A_view_module_base_sha256": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+  "B_runtime_view_module_sha256": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+  "B_runtime_view_changed_functions": [
+    "_normalize_named_instance"
+  ],
+  "matcher_sha256": "2668bf06805ecafd2a3d757787bb236b084feba401e3d783d7576fae173d0eb1",
+  "free_training_tests": 289,
+  "schema_profile_counts": {
+    "F02": 7,
+    "F19": 4
+  },
+  "quoted_real_ECS_prefix_positive_and_wrong_strip_negative_checks": true,
+  "additional_false_accepts_paid": false,
+  "previous_bad_model_response_preserved_and_rejected": true,
+  "real_retest_requests": 0,
+  "budget_recheck_proposal": {
+    "already_used": 2,
+    "closed_unused": 1,
+    "not_started_probe_reserve": 9,
+    "replanned_cases": [
+      "CMDB-019",
+      "CMDB-148",
+      "CMDB-217"
+    ],
+    "each_maximum": 3,
+    "dropped_not_run_control": "CMDB-214",
+    "full_reserve_unchanged": 438,
+    "total_allocations": 450
+  },
+  "official_SDK_empty_semantic_gate_passed": false,
+  "raw_private_response_uploaded": false,
+  "sealed_or_mixed200_feedback_read": false
+}

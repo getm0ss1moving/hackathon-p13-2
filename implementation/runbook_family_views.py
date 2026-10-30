@@ -285,7 +285,9 @@ def _normalize_named_instance(text, family, filters):
     if re.fullmatch(r'[A-Za-z0-9_@][A-Za-z0-9_@./:#%+\-]*', value):
         alternatives.append(escaped + r'(?![A-Za-z0-9_@./:#%+\-])')
     resource = r'(?:ECS|VM_NOVA|虚拟机)' if family == 'F02' else r'(?:GaussDB|GAUSSDB_INSTANCE)'
-    pattern = (r'(?<![A-Za-z0-9_])(?P<resource>' + resource + r'(?:\s*实例)?)\s*'
+    explicit_name_role = (r'(?:(?:实例名称|虚拟机名称|实例名|虚拟机名|名称)\s*(?:等于|为|是|=|:|：)?\s*'
+                          r'|name(?![A-Za-z0-9_])\s*(?:等于|为|是|=|:|：)\s*)?')
+    pattern = (r'(?<![A-Za-z0-9_])(?P<resource>' + resource + r'(?:\s*实例)?)\s*' + explicit_name_role
                + '(?-i:(?:' + '|'.join(alternatives) + '))')
     quoted = _quoted(text)
     matches = [m for m in re.finditer(pattern, text, re.I) if not _inside(m.span(), quoted)]

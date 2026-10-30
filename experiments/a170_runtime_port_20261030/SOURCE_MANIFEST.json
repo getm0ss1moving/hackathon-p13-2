@@ -7,7 +7,7 @@
   "runtime_hashes": {
     "implementation/runbook_items.py": "040040177f8db8bcfa62252567ffbc41199dd0ae8bfd8d2a34aa68364680b28c",
     "implementation/runbook_retriever.py": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
-    "implementation/runbook_family_views.py": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e"
+    "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7"
   },
   "families": [
     "F01",
@@ -119,5 +119,13 @@
     "experiments/a_family_candidate_20261030/manifest.json": "ba1a10923e1ea7ac738f53a846da582cc059712f238cae8a1dc93bcbc79d62c2"
   },
   "private_expansion_publishable": false,
-  "private70_or537_fixture_replayed": false
+  "private70_or537_fixture_replayed": false,
+  "view_module_local_variant": {
+    "A_base_sha256": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+    "runtime_sha256": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+    "changed_functions": [
+      "_normalize_named_instance"
+    ],
+    "reason": "bind explicit resource+name role with clause separator; preserve exact parsed entity including real ECS prefix; no unconditional prefix stripping"
+  }
 }
