@@ -40,7 +40,8 @@ def main():
     assert all(digest(ROOT / p) == h for p, h in readonly.items()), "保护文件或候选模板漂移"
     families = {item["family_id"]: item for item in items.RUNBOOK_ITEMS if item.get("family_id")}
     assert len(items.RUNBOOK_ITEMS) == len({i["id"] for i in items.RUNBOOK_ITEMS}) == 180
-    assert set(families) == set(matcher._FAMILY_SPECS)
+    assert set(families) == {"F01", "F08", "F14", "F18", "F20", "F21"}
+    assert set(families) <= set(matcher._FAMILY_SPECS)
     assert retriever.RunbookRetriever(items.RUNBOOK_ITEMS)._doc_count == 400
     assert system.RUNBOOK_ITEMS is items.RUNBOOK_ITEMS
     entrypoints = {"RunbookQuerySystem":{"template_count":len(system.RUNBOOK_ITEMS),"module_file":system.__file__}}

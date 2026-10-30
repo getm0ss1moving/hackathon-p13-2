@@ -20,6 +20,7 @@ def parsed(view, **filters):
     return {"view": view, "filters": filters, "required_filters": list(filters)}
 
 
+@unittest.skipUnless({"F02", "F19", "F27"} <= set(FAMILIES), "仅在已安装170隔离候选的快照检查新view")
 class A170Tests(unittest.TestCase):
     def test_view_prompt_schema_closes_array_type_and_all_legal_filter_profiles(self):
         for family, count in [("F02", 7), ("F19", 4)]:

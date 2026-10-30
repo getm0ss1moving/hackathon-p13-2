@@ -51,7 +51,13 @@ class A180Tests(unittest.TestCase):
     def test_runtime_count_and_imports(self):
         if not any(item.get("family_id") for item in RUNBOOK_ITEMS):
             self.skipTest("仅在已展开的私有180验证快照检查活动数量")
-        expected = 170 if (ROOT / "experiments/a170_runtime_port_20261030/SOURCE_MANIFEST.json").exists() else 180
+        active = frozenset(item["family_id"] for item in RUNBOOK_ITEMS if item.get("family_id"))
+        modes = {
+            frozenset({"F01", "F08", "F14", "F18", "F20", "F21"}): 180,
+            frozenset({"F01", "F02", "F08", "F14", "F18", "F19", "F20", "F21", "F27"}): 170,
+        }
+        self.assertIn(active, modes)
+        expected = modes[active]
         self.assertEqual(len(RUNBOOK_ITEMS), expected)
         self.assertEqual(len({item["id"] for item in RUNBOOK_ITEMS}), expected)
         self.assertEqual(set(FAMILIES), {"F01", "F08", "F14", "F18", "F20", "F21"})
