@@ -482,6 +482,35 @@ def _labeled_entity(question: str, labels: list, allow_spaces: bool = False):
     return _one(values)
 
 
+def _eip_association_status(question: str, item: dict) -> list:
+    """在已有EIP→ECS固定IP关联合同内，解释明确的已关联措辞。"""
+    visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', " ", question)
+    if (_param_resource(item, "status") != "FLOATING_IPS"
+            or not {"status", "fixedIpAddress"} <= set(_schema_columns.get("FLOATING_IPS", []))
+            or "privateIps" not in _schema_columns.get("VM_NOVA", [])
+            or re.search(r"未|不|非|没有|无|尚未|排除|除了|或|或者|!=|<>|[<>]|大于|小于|至少|至多|状态|运行中|已停止|停止中|故障|异常|\b(?:OR|active|stopped|error)\b", visible, re.I)
+            or not re.search(r"(?:已关联|关联了)\s*(?:弹性\s*IP|EIP)", visible, re.I)
+            or _labeled_entity(question, _NAME_LABELS["VM_NOVA"]) is not None):
+        return []
+    calls = item.get("api_call", [])
+    calls = calls if isinstance(calls, list) else [calls]
+    targets = [entry for call in calls for entry in call.get("condition", {}).get("constraint", [])
+               if "{{status}}" in str(entry.get("simple", {}).get("value"))]
+    if (len(targets) != 1 or targets[0].get("logOp", "and") != "and"
+            or targets[0]["simple"].get("name") != "status"
+            or targets[0]["simple"].get("value") != "{{status}}"
+            or targets[0]["simple"].get("operator", "equal") != "equal"):
+        return []
+    sql = item.get("sql", "")
+    if _extract_sql_tables(sql) != {"CLOUD_FLOATING_IPS", "CLOUD_VM_NOVA"}:
+        return []
+    left, right = r"CLOUD_FLOATING_IPS\.fixedIpAddress", r"CLOUD_VM_NOVA\.privateIps"
+    if not re.search(r"\b(?:" + left + r"\s*=\s*" + right + "|" + right + r"\s*=\s*" + left + r")\b", sql, re.I):
+        return []
+    # 随包字典active=绑定；不以fixedIpAddress非空推断绑定状态。
+    return [_canonical_enum(item, "status", "active")]
+
+
 def _semantic_values(question: str, item: dict, parameter: str) -> list:
     if parameter == "status":
         aliases = _STATUS_LABELS.get(_param_resource(item, parameter), {})
@@ -506,6 +535,8 @@ def _semantic_values(question: str, item: dict, parameter: str) -> list:
                 continue
             occupied |= positions
             found.append(_canonical_enum(item, parameter, aliases[label]))
+    if parameter == "status":
+        found.extend(_eip_association_status(question, item))
     return found
 
 

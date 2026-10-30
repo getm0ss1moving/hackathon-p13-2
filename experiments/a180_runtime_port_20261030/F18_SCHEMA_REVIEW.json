@@ -1,0 +1,232 @@
+{
+  "status": "offline_static_review_complete",
+  "model_requests": 0,
+  "runtime_F18_modified": false,
+  "schema_location": "inline _match_family_candidate; no _family_output_schema function exists",
+  "current_prompt_notes_already_state_pair_constraint": true,
+  "schema_transport": "JSON Schema text embedded in ordinary model prompt; no response_format or provider enforcement",
+  "independent_axis_combinations": 8,
+  "runtime_legal_combinations": 4,
+  "matrix": [
+    {
+      "group": "flavorCode",
+      "metrics": "count",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": true,
+      "runtime_reason": null,
+      "proposed_branch_count": 1
+    },
+    {
+      "group": "flavorCode",
+      "metrics": "count_storage",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": false,
+      "runtime_reason": "unreviewed_metric_group",
+      "proposed_branch_count": 0
+    },
+    {
+      "group": "vdcName",
+      "metrics": "count",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": false,
+      "runtime_reason": "unreviewed_metric_group",
+      "proposed_branch_count": 0
+    },
+    {
+      "group": "vdcName",
+      "metrics": "count_storage",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": true,
+      "runtime_reason": null,
+      "proposed_branch_count": 1
+    },
+    {
+      "group": "engineVersion",
+      "metrics": "count",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": true,
+      "runtime_reason": null,
+      "proposed_branch_count": 1
+    },
+    {
+      "group": "engineVersion",
+      "metrics": "count_storage",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": false,
+      "runtime_reason": "unreviewed_metric_group",
+      "proposed_branch_count": 0
+    },
+    {
+      "group": "haMode",
+      "metrics": "count",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": true,
+      "runtime_reason": null,
+      "proposed_branch_count": 1
+    },
+    {
+      "group": "haMode",
+      "metrics": "count_storage",
+      "current_prompt_axis_enums_allow": true,
+      "runtime_accepts": false,
+      "runtime_reason": "unreviewed_metric_group",
+      "proposed_branch_count": 0
+    }
+  ],
+  "controls": [
+    {
+      "name": "flavor_count",
+      "accepted": true,
+      "reason": null,
+      "expected": true
+    },
+    {
+      "name": "engine_count",
+      "accepted": true,
+      "reason": null,
+      "expected": true
+    },
+    {
+      "name": "ha_count",
+      "accepted": true,
+      "reason": null,
+      "expected": true
+    },
+    {
+      "name": "vdc_storage",
+      "accepted": true,
+      "reason": null,
+      "expected": true
+    },
+    {
+      "name": "negation",
+      "accepted": false,
+      "reason": "unsupported_predicate_operator:logicalRegionName",
+      "expected": false
+    },
+    {
+      "name": "or_scope",
+      "accepted": false,
+      "reason": "unsupported_disjunction",
+      "expected": false
+    },
+    {
+      "name": "missing_region",
+      "accepted": false,
+      "reason": "scope_filter_mismatch",
+      "expected": false
+    },
+    {
+      "name": "null_region",
+      "accepted": false,
+      "reason": "unbound_or_wrong_role:logicalRegionName",
+      "expected": false
+    },
+    {
+      "name": "unknown_field",
+      "accepted": false,
+      "reason": "unknown_structural_parameter",
+      "expected": false
+    },
+    {
+      "name": "missing_metric",
+      "accepted": false,
+      "reason": "metric_required",
+      "expected": false
+    },
+    {
+      "name": "unsupported_filter",
+      "accepted": false,
+      "reason": "unbound_or_wrong_role:tenantName",
+      "expected": false
+    }
+  ],
+  "proposed_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "group": {
+        "type": "string",
+        "enum": [
+          "flavorCode",
+          "vdcName",
+          "engineVersion",
+          "haMode"
+        ]
+      },
+      "metrics": {
+        "type": "string",
+        "enum": [
+          "count",
+          "count_storage"
+        ]
+      },
+      "scope": {
+        "type": "string",
+        "enum": [
+          "global",
+          "filtered"
+        ]
+      },
+      "filters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "logicalRegionName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "required_filters": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "logicalRegionName"
+          ]
+        }
+      }
+    },
+    "required": [
+      "scope",
+      "filters",
+      "required_filters",
+      "group",
+      "metrics"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "group": {
+            "enum": [
+              "flavorCode",
+              "engineVersion",
+              "haMode"
+            ]
+          },
+          "metrics": {
+            "const": "count"
+          }
+        }
+      },
+      {
+        "properties": {
+          "group": {
+            "const": "vdcName"
+          },
+          "metrics": {
+            "const": "count_storage"
+          }
+        }
+      }
+    ]
+  },
+  "verification_limit": "const/enum branch membership enumerated, not a complete JSON Schema validator or model test; no dependencies installed",
+  "matcher_sha256": "efb503a12143c2a66818748535c2f6a62c9b14477b1ad5f0373fd5b1bffb50ac",
+  "sealed_read": false,
+  "full200_read": false
+}
