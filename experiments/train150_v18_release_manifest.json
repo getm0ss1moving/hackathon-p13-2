@@ -27,7 +27,7 @@
     "experiments/a_2707ff9_training_handoff.json": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a"
   },
   "historical_runtime_base": "d912b48c3119469dbdbae325581696a61dc117fa",
-  "publication_commit": "resolve the Git commit containing this file; not the historical code_base",
+  "publication_commit": "8a167936caede9f96e2e1318c82f8f98e7d5ec68",
   "model": "deepseek-flash",
   "thinking_mode": "disabled",
   "feature_flags": {
@@ -68,5 +68,21 @@
     "source ZIP local recovery",
     "unvalidated external candidates"
   ],
-  "historical_plans_or_logs_rewritten": false
+  "historical_plans_or_logs_rewritten": false,
+  "runtime_hash_scope": "measured_B_release_commit, not latest merged main",
+  "integrated_main_differs_from_v18": {
+    "implementation/runbook_retriever.py": {
+      "before_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "after_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+      "source_commit": "484e44a",
+      "equals_remote_source": true
+    },
+    "implementation/runbook_system.py": {
+      "before_sha256": "5bca4985696b141a323097bc08bb99f3b2d6bfc9585a764936e55ec0cad070d8",
+      "after_sha256": "7e27a8fc1f3a1d7216e556217b505cae7d93187f30336cbf193f16eda49b9aa0",
+      "source_commit": "dfa61b5",
+      "equals_remote_source": true
+    }
+  },
+  "integrated_main_full_real_score": "not measured"
 }

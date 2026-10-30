@@ -1,0 +1,27 @@
+{
+  "scope": "integration of remote A retrieval views and unsupported empty output; no model calls",
+  "B_measured_release_commit": "8a167936caede9f96e2e1318c82f8f98e7d5ec68",
+  "remote_parent": "dfa61b5aa8ca919aa929a6715c340462f7b93953",
+  "component_changes": {
+    "implementation/runbook_retriever.py": {
+      "before_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "after_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+      "source_commit": "484e44a",
+      "equals_remote_source": true
+    },
+    "implementation/runbook_system.py": {
+      "before_sha256": "5bca4985696b141a323097bc08bb99f3b2d6bfc9585a764936e55ec0cad070d8",
+      "after_sha256": "7e27a8fc1f3a1d7216e556217b505cae7d93187f30336cbf193f16eda49b9aa0",
+      "source_commit": "dfa61b5",
+      "equals_remote_source": true
+    }
+  },
+  "synthetic_tests": {
+    "retrieval_views": 6,
+    "empty_output_contract": 6,
+    "C_reporting": 9
+  },
+  "full_real_train150_on_merged_runtime": "not run; do not transfer v18 score",
+  "model_requests": 0,
+  "historical_plans_rewritten": false
+}

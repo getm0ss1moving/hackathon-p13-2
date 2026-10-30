@@ -8,6 +8,7 @@ import json
 import math
 from pathlib import Path
 import statistics
+import subprocess
 import zipfile
 
 
@@ -49,6 +50,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--source-revision", default="8a167936caede9f96e2e1318c82f8f98e7d5ec68",
+                        help="当前源码已变化时，从此Git提交核验历史v18源码；不切换工作树")
     args = parser.parse_args()
     root, out = args.root, args.out
     trace = root / "experiments/train150_v18_full_live.jsonl"
@@ -73,13 +76,20 @@ def main():
     assert all(r["score"] == r["score_without_time_penalty"] for r in cases)
     archive = root / "reports/train150_v18_A198_revised_source.zip"
     source_archive_sha256 = None
+    source_verification = "local archive"
     if archive.exists():
         with zipfile.ZipFile(archive) as z:
             assert all(hashlib.sha256(z.read(name)).hexdigest() == digest for name, digest in plan["source_sha256"].items())
         source_archive_sha256 = sha(archive)
     else:
-        # Git交付不含本机恢复ZIP；当前发布的源码可直接逐项核验。
-        assert all(sha(root / name) == digest for name, digest in plan["source_sha256"].items())
+        # Git交付不含本机恢复ZIP；已测发布提交固定，不把合并后代码冒充v18。
+        if all(sha(root / name) == digest for name, digest in plan["source_sha256"].items()):
+            source_verification = "published source files"
+        else:
+            for name, digest in plan["source_sha256"].items():
+                blob = subprocess.check_output(["git", "show", args.source_revision + ":" + name], cwd=root)
+                assert hashlib.sha256(blob).hexdigest() == digest, name
+            source_verification = "Git commit " + args.source_revision
     case_ids = set(plan["case_ids"])
     per_case = []
     for r in cases:
@@ -159,7 +169,7 @@ def main():
               "trace_sha256": sha(trace), "plan_sha256": sha(planpath),
               "source_archive_sha256": source_archive_sha256,
               "source_archive_matches_plan": True if source_archive_sha256 else None,
-              "source_verification": "local archive" if source_archive_sha256 else "published source files",
+              "source_verification": source_verification,
               "request_diagnostics_match": True,
               "model": plan["model"], "thinking_mode": plan["thinking_mode"], "scoring_revision": plan["scoring_revision"],
               "summary": summary, "query_seconds": describe([r["elapsed"] for r in cases]), "query_total_seconds": query_total,

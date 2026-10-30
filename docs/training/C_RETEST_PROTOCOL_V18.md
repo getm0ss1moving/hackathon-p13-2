@@ -2,6 +2,20 @@
 
 **B的640分是固定150训练题的640/750，不是200题总分、黑盒或正式比赛总分。** 这次发布交付已实际运行的B实现和配置；不能只比较“都在调用DeepSeek”。v18使用当时main `d912b48`上的未提交工作树，因此当时只pull该旧提交不会得到本轮全部实现。运行源码由冻结source_sha256精确标识，源码包也已逐项核对。新发布不引入尚未验证的外部候选。
 
+## 先固定复测提交
+
+**已测v18源码提交为 `8a167936caede9f96e2e1318c82f8f98e7d5ec68`。** 同步期间远端新增484e44a检索文本视图与dfa61b5未支持空输出；main已保留合并。合并后retriever、system及来源清单发生变化，只有免费检查，尚无新完整真实分数；不能把main最新源码称为已测640版。
+
+若要严格对照640，在独立的干净目录获取固定提交，不动你已有开发目录：
+
+```bash
+git clone --no-checkout https://github.com/getm0ss1moving/hackathon-p13-2.git ../hackathon-p13-2-b-v18
+git -C ../hackathon-p13-2-b-v18 checkout --detach 8a167936caede9f96e2e1318c82f8f98e7d5ec68
+cd ../hackathon-p13-2-b-v18
+```
+
+然后按根README建立本机环境、用自己的密钥、启动唯一数据服务，再执行下列协议。该固定提交在main历史里，没有新建分支。最新main如需测，应生成自己的新计划，明确这是合并版新实验；其source hash应与本轮集成证据核对，不能要求它与历史v18相同。集成证据见experiments/v18_remote_integration_handoff.json（最新main）。
+
 ## 一、实际测法和结果
 
 | 条件 | v18实际值 |
@@ -38,7 +52,7 @@
 
 上述是合成/训练协议检查，不证明模型准确率。C报告单元测试使用合成题，不加载原全200。不要运行历史全量测试套件来替代本固定150协议。
 
-本机设置自己的密钥，不提交。`scripts/train_live.py`读取根`.env.local`的密钥/模型/地址/SDK timeout；若其中model仍是deepseek-chat，它会覆盖shell export的模型。v18用的是deepseek-flash，必须从新计划实际字段确认。SDK timeout在历史v18计划未单独冻结；源码未设置时默认60秒。它与官方时间扣分阈值不同，不通过更改评分时限消除TLE。
+本机设置自己的密钥，不提交。`.env.local`只支持无引号、无export、键名无空格的`NAME=value`格式；不能把shell写法直接粘进去。`scripts/train_live.py`读取根`.env.local`的密钥/模型/地址/SDK timeout；若其中model仍是deepseek-chat，它会覆盖shell export的模型。v18用的是deepseek-flash，必须从新计划实际字段确认。SDK timeout在历史v18计划未单独冻结；源码未设置时默认60秒。它与官方时间扣分阈值不同，不通过更改评分时限消除TLE。
 
 普通C入口不会自动加载`.env.example`或`.env.local`。需要显式加载无密钥的v18环境：
 
@@ -76,7 +90,7 @@ v18_retest_live="experiments/c_v18_${v18_retest_stamp}_live.jsonl"
 .venv/bin/python scripts/train_live.py "${v18_flags[@]}" > "$v18_retest_plan"
 ```
 
-预检应为150题、train_only、full_training、198模板、deepseek-flash、thinking disabled、450/1024/retry0。feature_flags须与`experiments/train150_v18_full_plan.json`完全一致。新计划source_sha256也应与该历史计划一致；提交后code_base改变是正常的，必须使用**新生成的计划**，不能把旧expected-plan的code_base改成新值或绕过freeze。
+预检应为150题、train_only、full_training、198模板、deepseek-flash、thinking disabled、450/1024/retry0。feature_flags须与`experiments/train150_v18_full_plan.json`完全一致。在上述固定v18提交上，新计划source_sha256也应与该历史计划一致；提交后code_base改变是正常的，必须使用**新生成的计划**，不能把旧expected-plan的code_base改成新值或绕过freeze。
 
 确认该次复测有自己的模型预算、资源窗口后，以下命令才会实际调用模型；本次GitHub交付没有替C执行它：
 

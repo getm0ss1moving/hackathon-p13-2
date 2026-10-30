@@ -1,5 +1,9 @@
 # CMDB 智能查询系统 — Hackathon
 
+用户查询的未支持输出已统一：[空输出合同](docs/handoffs/EMPTY_OUTPUT_CONTRACT.md)。SDK结果为null、CLI不打印解释；成功零行保留原结果对象，内部诊断和原评分语义保留。
+
+检索第一阶段已发布：[可选文本视图支持与独立验证](docs/handoffs/RETRIEVAL_STAGE1.md)。生产仍198条，180组合候选未启用；检索覆盖恢复不代表参数语义或模型得分通过。
+
 模板参数化候选设计已单独归档：[27族逐族说明及200条映射](docs/template_family_design_20261030/README.md)。当前生产仍为198条；129/181/180均为待验证条件估计，首批实现等待对齐与独立审查，未应用候选补丁。
 
 2026-10-30 严格等价去重：根 `implementation/` 现为 **198条**（054→052、087→086），保留原检索文本权重与旧编号映射；[变更说明与免费回归](experiments/a_strict_dedup_20261030/README.md)。B已统一根目录，与A/C共用这198条模板；下文既有200条记录与中文阅读表均保留原版本含义。没有新模型评分。
@@ -38,7 +42,7 @@ output-server/        原数据服务
 
 ## 当前统一工作入口（2026-10-30）
 
-B最新交付：修订评分器下固定150题连续真实测试640/750，301请求、无时延扣分。C请先读[复测协议](docs/training/C_RETEST_PROTOCOL_V18.md)，使用[无密钥v18配置](configs/train150_v18.env)；时间分析见[profile](docs/training/V18_TIME_PROFILE.md)；已做/可交付/需要A/C的内容见[B交接清单](docs/training/B_AC_HANDOFF_V18.md)。该成绩不是200题或正式比赛总分。
+B最新交付：固定提交`8a16793`在修订评分器下固定150题连续真实测试640/750，301请求、无时延扣分。main随后合并了远端检索视图/空输出更新，合并版尚无完整真实成绩。C请先读[复测协议](docs/training/C_RETEST_PROTOCOL_V18.md)，使用[无密钥v18配置](configs/train150_v18.env)；时间分析见[profile](docs/training/V18_TIME_PROFILE.md)；已做/可交付/需要A/C的内容见[B交接清单](docs/training/B_AC_HANDOFF_V18.md)。该成绩不是200题或正式比赛总分。
 
 按用户要求，B独立项目已与根目录合并。A/B/C共同使用根目录的同一套模板、检索、匹配、执行与评测，不再进入B开发，也不再复制implementation或数据服务。
 

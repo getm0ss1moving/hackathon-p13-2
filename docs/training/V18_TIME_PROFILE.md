@@ -86,7 +86,7 @@ REFINE占总时间49.25%，每次平均输入1664.23 token、输出69.07 token�
 .venv/bin/python -B scripts/profile_training_time.py --root . --out reports/time_profile_v18_reproduced
 ```
 
-输入：[完整v18请求日志](../../experiments/train150_v18_full_live.jsonl)、[冻结计划](../../experiments/train150_v18_full_plan.json)、[冻结证明](../../experiments/train150_v18_freeze.json)。历史对照为experiments/train150_v5_thinking_default4/disabled4_live.jsonl及train150_v3_prompt_probe_live.jsonl，均先校验只含训练成员。源码ZIP与计划hash逐项一致，详见[聚合JSON](../../experiments/train150_v18_time_profile/profile.json)。ZIP仅本机保留；新clone无ZIP时脚本逐项核验发布源码，并将archive核验字段记为null、source_verification记为published source files，数值统计不变。
+输入：[完整v18请求日志](../../experiments/train150_v18_full_live.jsonl)、[冻结计划](../../experiments/train150_v18_full_plan.json)、[冻结证明](../../experiments/train150_v18_freeze.json)。历史对照为experiments/train150_v5_thinking_default4/disabled4_live.jsonl及train150_v3_prompt_probe_live.jsonl，均先校验只含训练成员。源码ZIP与计划hash逐项一致，详见[聚合JSON](../../experiments/train150_v18_time_profile/profile.json)。ZIP仅本机保留；新clone无ZIP时脚本逐项核验发布源码，并将archive核验字段记为null、source_verification记为published source files，数值统计不变。若最新main源码已因合并而变化，脚本从固定Git提交8a16793核验历史源码，不切换工作树；该提交必须已fetch。
 
 输出：[逐题CSV](../../experiments/train150_v18_time_profile/cases.csv)、[可重跑计算脚本](../../scripts/profile_training_time.py)。只生成profile产物，没有修改冻结运行源码、评分器或模板，没有读取封存50/独立200反馈，未提交/推送。
 

@@ -12,7 +12,7 @@
     "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
     "implementation/runbook_items.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
-    "implementation/runbook_retriever.py": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+    "implementation/runbook_retriever.py": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
     "output-server/CI+md数据-脱敏-最终-0924/AZONE-1.json": "ccff5535ed66b4ead8e0d6a227693b92312ce1a39c346c4bc32591f501972e8b",
     "output-server/CI+md数据-脱敏-最终-0924/Application-1.json": "9cfbc5748dbfddf77c6f0e0d52539b4c4ca2738f5d71ca78e6121d036e06156e",
     "output-server/CI+md数据-脱敏-最终-0924/ApplicationModule-1.json": "d22bd11f44a45a976285bccb357528b3a814c877e076547907480b416d110f1c",
@@ -292,13 +292,22 @@
       },
       "implementation/runbook_retriever.py": {
         "B_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
-        "previous_integrated_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
-        "integrated_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
-        "source_commit": "2707ff9",
-        "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
-        "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
-        "change_policy": "only equivalent execution contracts merged; metadata alias mapping is explicit; real model behavior requires revalidation",
-        "previous_reconciliation": null
+        "previous_integrated_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+        "integrated_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+        "source_commit": "484e44a",
+        "handoff_evidence": "experiments/v18_remote_integration_handoff.json",
+        "handoff_evidence_sha256": "c0c3c7bc5a00956eb12d1cf9c4e5f0ea6330e9b0a364a26225c6ff37395e95a2",
+        "change_policy": "reviewed remote optional retrieval views; current198 has no views; synthetic checks pass; new full real score not measured",
+        "previous_reconciliation": {
+          "B_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+          "previous_integrated_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+          "integrated_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+          "source_commit": "2707ff9",
+          "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
+          "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
+          "change_policy": "only equivalent execution contracts merged; metadata alias mapping is explicit; real model behavior requires revalidation",
+          "previous_reconciliation": null
+        }
       }
     },
     "note": "原B快照留在Git 51f0aad；统一采用根A模板和C评测入口，原评分器/执行器/数据未变"
@@ -344,5 +353,10 @@
     "evaluator_revision": "numeric_ratio_tolerance_20261030",
     "thinking_mode": "disabled",
     "replay_policy": "legacy score verified using original scorer; historical output and candidate rescored with authorized corrected scorer; aliases explicitly mapped; source and model change are not fresh model evidence"
+  },
+  "post_v18_integration": {
+    "measured_B_commit": "8a167936caede9f96e2e1318c82f8f98e7d5ec68",
+    "handoff_evidence": "experiments/v18_remote_integration_handoff.json",
+    "full_real_score": "not measured on combined main; historical v18=640/750 only at pinned B source"
   }
 }
