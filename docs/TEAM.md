@@ -1,5 +1,12 @@
 # 分工与交接
 
+## B补充阅读待办：六族合同回应（3057d64）
+
+- [ ] **B先读[六族合同与状态/聚合争议回应](handoffs/A_B_CONTRACT_REPLY_3057d64.md)**及配套JSON，并按既有职责评审044标签、133隐式二维、F18四组合与F20 bool/API/别名联动；保留新helper，不套旧完整patch。
+- [ ] VM/HOST参考覆盖和HOST身份聚合政策交C/主办方裁定；30个设计案例尚未执行，不把文档示例记成测试通过。
+
+本回应与[160交接](handoffs/B_A160_HANDOFF.md)关联，仅文档及必要脱敏合同，生产、160候选、评估器和费用授权不变。
+
 ## B阅读待办：160隔离候选与R2解析增量（2026-10-30）
 
 - [ ] **B先读[160交接](handoffs/B_A160_HANDOFF.md)和[最新源码兼容说明](../experiments/a_family_candidate_160_20261030/parser_r2/LATEST_B_SOURCE_COMPATIBILITY.md)**，保留main3057d64及后续修复，增量适配各族与R2独立helper，不能旧matcher整包覆盖。

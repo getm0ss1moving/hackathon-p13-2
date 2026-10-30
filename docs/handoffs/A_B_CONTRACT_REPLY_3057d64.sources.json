@@ -1,0 +1,156 @@
+{
+  "status": "DOCUMENTATION_ONLY_SOURCE_AND_AGGREGATE_EVIDENCE_NOT_NEW_TEST_RESULTS",
+  "source_commit": "3057d64b47d4926d463eedfe0dfc3e683251e576",
+  "repository": "getm0ss1moving/hackathon-p13-2",
+  "source_report_sha256": "35d4efbdf4034b82a52558bda527669699193d7c85ae4020a63e0fc48f938281",
+  "source_contracts_sha256": "e21b843e04d5b8860476edac7dd5aa2d2af6e49bee5b5d78cf1f26a66efff57c",
+  "source_examples_sha256": "df5522ecfe0d18cf97ba906ed67d9753f15bf474a5bad796dc27f6d136b317ad",
+  "repository_source_blobs_rechecked_for_publication": 13,
+  "repository_sources": [
+    {
+      "path": "AGENTS.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/AGENTS.md",
+      "git_blob_sha": "f67322d76c3be26c1c335bd2c45876e1f2318162",
+      "sha256": "43542868e0a4193ff49f67693ba28ab226f316975f21c396f19e68d2e50ed8c7"
+    },
+    {
+      "path": "docs/handoffs/B_A180_HANDOFF.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/docs/handoffs/B_A180_HANDOFF.md",
+      "git_blob_sha": "11fa1b3fb0ac2178556bfc0e9be038ab2ab32e9c",
+      "sha256": "4880a5395aa3e867f72e228994a4a6e17013ea34003c8ca9d2c5b4b4de605966"
+    },
+    {
+      "path": "docs/handoffs/B_TO_A_180_STATUS.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/docs/handoffs/B_TO_A_180_STATUS.md",
+      "git_blob_sha": "b47aa0c25d6ce436d45d6925e4842e0a3701b51a",
+      "sha256": "a8ab0b819a21f0597c51f0eec4e0a977e2e8b51fef73f84f524e1b7169920285"
+    },
+    {
+      "path": "docs/training/F18_SCHEMA_COMBINATIONS_20261030.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/docs/training/F18_SCHEMA_COMBINATIONS_20261030.md",
+      "git_blob_sha": "480bfc16d28786f5f2b33fc1311f6dfa8fa3a333",
+      "sha256": "ddb65c70cf48a9937caf9b4cda0189ae22c989ebde4e12a76cb9794ef881b9a0"
+    },
+    {
+      "path": "experiments/a170_runtime_port_20261030/README.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a170_runtime_port_20261030/README.md",
+      "git_blob_sha": "a637c0e0fbe7566115f4167301c2bafcafd836d8",
+      "sha256": "c328b86859f3dabba383a3af8bb16f5f900ea4c87631419d59c9e5205360410a"
+    },
+    {
+      "path": "experiments/a_family_candidate_170_20261030/README.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a_family_candidate_170_20261030/README.md",
+      "git_blob_sha": "3377db66aec5513ea101b0ec72dc504ac3b46f41",
+      "sha256": "00ea0b45b88a4d95209c75d1394761ddfe6078b77d76f8a7d87766b7adad9f14"
+    },
+    {
+      "path": "experiments/a_family_candidate_20261030/family_candidates.json",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a_family_candidate_20261030/family_candidates.json",
+      "git_blob_sha": "d544cd578e80a878e352d46ecfedbb11905c45b1",
+      "sha256": "b204237ec7b069428aa0be8b76d701eda1b7248c2c0c7558b74c90dbc242a320"
+    },
+    {
+      "path": "experiments/a_family_candidate_20261030/parameter_mapping.json",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a_family_candidate_20261030/parameter_mapping.json",
+      "git_blob_sha": "2cc6b3eb2669185c61f4c44a89d7c0cd87ae0b76",
+      "sha256": "27381828ba6a45900ca87437f8b768f85988254f33fb107b71d0c67b6cb0a813"
+    },
+    {
+      "path": "experiments/a_family_candidate_20261030/r5_family_additions.py",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a_family_candidate_20261030/r5_family_additions.py",
+      "git_blob_sha": "397d21af99ecc213418865bf667bb29b1cd3687f",
+      "sha256": "3c91b3d479d86116d6cf550eec8af243d296361831180f8b7c6cb144489efa5f"
+    },
+    {
+      "path": "experiments/a_family_candidate_20261030/templates180.definitions.json",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/experiments/a_family_candidate_20261030/templates180.definitions.json",
+      "git_blob_sha": "434ac541936ce7f37c0464e5124c2ed4f4feaa1c",
+      "sha256": "db0f8bb4e8711eee7d24f5f9aadb6b7303c952cdb2611793fa453e01292aeb96"
+    },
+    {
+      "path": "implementation/runbook_items.py",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/implementation/runbook_items.py",
+      "git_blob_sha": "7f261a486b04c8a5439afd373de829c6ba059efe",
+      "sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465"
+    },
+    {
+      "path": "implementation/runbook_matcher.py",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/implementation/runbook_matcher.py",
+      "git_blob_sha": "2397db01fd0db95d6a05d3b05d8bf447d27adfa1",
+      "sha256": "2668bf06805ecafd2a3d757787bb236b084feba401e3d783d7576fae173d0eb1"
+    },
+    {
+      "path": "背景知识.md",
+      "url": "https://github.com/getm0ss1moving/hackathon-p13-2/blob/3057d64b47d4926d463eedfe0dfc3e683251e576/背景知识.md",
+      "git_blob_sha": "56ec87f5f84c2d6aee634e4e7eee001d485d3fb9",
+      "sha256": "df1840ebbfa8893020cc70475cef84b875d6c18a738c5ea101a54bca48136da9"
+    }
+  ],
+  "source_author_native_resource_blobs_verified": 11,
+  "native_audit_reexecuted_for_publication": false,
+  "native_raw_objects_or_exact_entity_scope_published": false,
+  "cluster_names_anonymized": true,
+  "declarative_design_cases": 30,
+  "design_cases_executed": false,
+  "new_model_matcher_or_native_success_claim": false,
+  "necessary_aggregate_evidence": {
+    "source_060_fixed_scope": {
+      "distinct_VM": 1335,
+      "VM_active": 1287,
+      "VM_stopped": 48,
+      "explicit_VM_active_same_scope": 1287,
+      "reference_rows_independently_confirmed": false
+    },
+    "source_034_fixed_scope": {
+      "anonymous_groups": [
+        {
+          "label": "A",
+          "HOST_count": 2,
+          "JOIN_rows": 14,
+          "JOIN_SUM": 2436,
+          "SUM_DISTINCT_numeric": 174,
+          "HOST_identity_once": 348
+        },
+        {
+          "label": "B",
+          "HOST_count": 8,
+          "JOIN_rows": 492,
+          "JOIN_SUM": 132840,
+          "SUM_DISTINCT_numeric": 270,
+          "HOST_identity_once": 2160
+        },
+        {
+          "label": "C",
+          "HOST_count": 11,
+          "JOIN_rows": 829,
+          "JOIN_SUM": 268596,
+          "SUM_DISTINCT_numeric": 324,
+          "HOST_identity_once": 3564
+        }
+      ],
+      "totals": {
+        "HOST_count": 21,
+        "JOIN_rows": 1335,
+        "JOIN_SUM": 403872,
+        "SUM_DISTINCT_numeric": 768,
+        "HOST_identity_once": 6072
+      },
+      "identity_once_total_is_not_a_replacement_reference_answer": true
+    },
+    "NETWORK_shared_field_type_sample": {
+      "rows": 3806,
+      "string_false": 3804,
+      "string_true": 2,
+      "does_not_change_structural_boolean_requirement": true
+    }
+  },
+  "unresolved": [
+    "VM running predicate versus reference coverage",
+    "HOST identity aggregation versus repeated JOIN sum and reference policy",
+    "SDK emptyCOUNT/missing column/failed-or-partial response ambiguity"
+  ],
+  "business_runtime_or160_or_evaluator_changed": false,
+  "model_calls_for_publication": 0,
+  "http_service_calls_for_publication": 0,
+  "sealed_or_full200_per_item_feedback_read": false
+}

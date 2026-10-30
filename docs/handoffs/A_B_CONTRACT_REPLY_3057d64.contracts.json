@@ -1,0 +1,255 @@
+{
+  "status": "DOCUMENTATION_ONLY_NOT_RUNTIME_SCHEMA_OR_ROUTING",
+  "commit": "3057d64b47d4926d463eedfe0dfc3e683251e576",
+  "common": {
+    "required_top_level": [
+      "scope",
+      "filters",
+      "required_filters"
+    ],
+    "scope_enum": [
+      "global",
+      "filtered"
+    ],
+    "required_filters_type": "unique string array; exactly equal to filters keys",
+    "filters_type": "object; no unsupported/empty/null/placeholders; omit unrequested optional fields",
+    "scope_relation": "global requires explicit global intent and zero filters, only F01/F08; filtered nonempty filters. F14/F18/F21 and filtered F08 require region. F20 requires shared, region optional.",
+    "operator": "equal only; multiple fields AND; no OR/negation/contains/range",
+    "grounding": "correct original question role/value; no defaults; grouping field is not null filter",
+    "unknown_keys": "rejected; code defaults do not prove legacy output defaults",
+    "api_boundary": "ordinary api_call+sql, existing B SQL refinement/guards; no new DSL/executor"
+  },
+  "families": [
+    {
+      "family": "F01",
+      "ci": "VM_NOVA",
+      "sql_table": "CLOUD_VM_NOVA",
+      "required_axes": [
+        "group",
+        "metrics"
+      ],
+      "all_axes_single_string_enums": {
+        "group": [
+          "none",
+          "status",
+          "azoneName",
+          "management",
+          "tenantName",
+          "vdcName"
+        ],
+        "metrics": [
+          "count",
+          "total_active",
+          "status_counts"
+        ],
+        "count_alias": [
+          "count",
+          "total"
+        ],
+        "label": [
+          "none",
+          "ECS"
+        ],
+        "order": [
+          "none",
+          "count_desc"
+        ]
+      },
+      "allowed_filter_types": {
+        "logicalRegionName": "nonempty original question string",
+        "tenantName": "nonempty original question string",
+        "vdcName": "nonempty original question string",
+        "azoneName": "nonempty original question string",
+        "status": "nonempty original question string",
+        "management": "JSON boolean exactly"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。",
+      "legacy_output_policy": {
+        "offline_reference": "rb_044 only as source evidence, never runtime routing",
+        "intent": "区域下各VDC的ECS数量",
+        "legacy_label": "ECS",
+        "legacy_columns": [
+          "type",
+          "vdcName",
+          "count"
+        ],
+        "does_not_label_every_ECS_mention": true,
+        "explicit_other_output_requires_separate_view_policy": true
+      }
+    },
+    {
+      "family": "F08",
+      "ci": "HOST",
+      "sql_table": "CLOUD_HOST",
+      "required_axes": [
+        "group"
+      ],
+      "all_axes_single_string_enums": {
+        "group": [
+          "hypervisorType",
+          "azoneName",
+          "status"
+        ]
+      },
+      "allowed_filter_types": {
+        "logicalRegionName": "nonempty original question string"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。"
+    },
+    {
+      "family": "F14",
+      "ci": "VOLUME",
+      "sql_table": "CLOUD_VOLUME",
+      "required_axes": [
+        "metrics"
+      ],
+      "all_axes_single_string_enums": {
+        "metrics": [
+          "count_sum",
+          "avg_max"
+        ]
+      },
+      "allowed_filter_types": {
+        "logicalRegionName": "nonempty original question string"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。"
+    },
+    {
+      "family": "F18",
+      "ci": "GAUSSDB_INSTANCE",
+      "sql_table": "CLOUD_GAUSSDB_INSTANCE",
+      "required_axes": [
+        "group",
+        "metrics"
+      ],
+      "all_axes_single_string_enums": {
+        "group": [
+          "flavorCode",
+          "vdcName",
+          "engineVersion",
+          "haMode"
+        ],
+        "metrics": [
+          "count",
+          "count_storage"
+        ]
+      },
+      "allowed_filter_types": {
+        "logicalRegionName": "nonempty original question string"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。",
+      "legal_group_metrics_pairs": [
+        {
+          "group": "flavorCode",
+          "metrics": "count"
+        },
+        {
+          "group": "engineVersion",
+          "metrics": "count"
+        },
+        {
+          "group": "haMode",
+          "metrics": "count"
+        },
+        {
+          "group": "vdcName",
+          "metrics": "count_storage"
+        }
+      ],
+      "other_group_metrics_pairs_rejected": true
+    },
+    {
+      "family": "F20",
+      "ci": "NETWORK",
+      "sql_table": "CLOUD_NETWORK",
+      "required_axes": [
+        "view"
+      ],
+      "all_axes_single_string_enums": {
+        "view": [
+          "rows",
+          "count"
+        ],
+        "count_alias": [
+          "total",
+          "count"
+        ]
+      },
+      "allowed_filter_types": {
+        "shared": "JSON boolean exactly",
+        "providerNetworkType": "nonempty original question string",
+        "logicalRegionName": "nonempty original question string"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。",
+      "strict_structural_bool": {
+        "field": "shared",
+        "accepted_json_types": [
+          "boolean"
+        ],
+        "false_is_present": true,
+        "string_false_numbers_or_null_rejected": true
+      },
+      "NETWORK_shared_API_representation": {
+        "true": "true",
+        "false": "false",
+        "boundary": "CI/field-specific proven string enum conversion after structural validation; no global string conversion of VM.management"
+      },
+      "legacy_count_aliases": [
+        {
+          "offline_reference": "rb_111",
+          "intent_filters": [
+            "shared",
+            "providerNetworkType"
+          ],
+          "count_alias": "total"
+        },
+        {
+          "offline_reference": "rb_112",
+          "intent_filters": [
+            "logicalRegionName",
+            "shared"
+          ],
+          "count_alias": "count"
+        }
+      ],
+      "new_combined_filter_default_alias_policy": "Not inferred; require separately reviewed view or explicit output policy."
+    },
+    {
+      "family": "F21",
+      "ci": "FLOATING_IPS",
+      "sql_table": "CLOUD_FLOATING_IPS",
+      "required_axes": [
+        "group"
+      ],
+      "all_axes_single_string_enums": {
+        "group": [
+          "vdcName",
+          "tenantName_status"
+        ]
+      },
+      "allowed_filter_types": {
+        "logicalRegionName": "nonempty original question string"
+      },
+      "conditions_source": "A_B_CONTRACT_REPLY_3057d64.md 对应族联动表；仅文档，不是运行时Schema或旧ID路由。",
+      "legacy_implicit_view": {
+        "offline_reference": "rb_133 only as source evidence",
+        "intent": "明确区域下各租户的弹性IP绑定状态",
+        "group": "tenantName_status",
+        "columns": [
+          "tenantName",
+          "status",
+          "count"
+        ],
+        "extra_quantity_word_required": false,
+        "does_not_allow_extra_status_or_named_tenant_filters_detail_or_ratio": true
+      }
+    }
+  ],
+  "design_cases": {
+    "count": 30,
+    "executed": false,
+    "model_or_matcher_success_claim": false
+  },
+  "source_report_sha256": "35d4efbdf4034b82a52558bda527669699193d7c85ae4020a63e0fc48f938281",
+  "axes_are_single_enum_strings_not_arrays": true
+}
