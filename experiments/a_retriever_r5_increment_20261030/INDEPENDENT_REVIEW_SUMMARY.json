@@ -1,0 +1,51 @@
+{
+  "status": "PASS_INDEPENDENT_R5_INCREMENTAL_RETRIEVAL_GRANULARITY",
+  "granularity": {
+    "total": 33,
+    "original14_atomic": 14,
+    "original14_all_single_goal_rb052_recalled": true,
+    "original_other": 8,
+    "fresh_independent": 11,
+    "ordered_profile_and_public_span_checks": true,
+    "granularity_only_unknown_capabilities_not_called_supported": true,
+    "cases_sha256": "88df28b6ec0aaa98fa25ea1b91d0529bdb56e4ddf1f62a2039fbd32b2aa3ca01",
+    "no_default_region_applied": true
+  },
+  "regression": {
+    "original1148": {
+      "supported": 1006,
+      "recall": 1006,
+      "compound_ordered_complete": 159,
+      "unsupported": 142,
+      "all_three_empty": 142
+    },
+    "prior_r4_extra18": "PASS",
+    "all1166": {
+      "supported": 1016,
+      "recall": 1016,
+      "false_empty": 0,
+      "compound_ordered_complete": 161,
+      "unsupported": 150,
+      "all_three_empty": 150
+    },
+    "ordinary603_times4_public_and_profile_exact": 2412,
+    "all132_200profiles_aliases42_named_views": true
+  },
+  "own_attribute_comparisons": {
+    "strict": 44,
+    "enhanced": 88,
+    "all_passed": true
+  },
+  "over_budget_4clauses_20strong_profiles_all_three_empty": true,
+  "historical200": "No new200 run; previous actual200 same603x4 comparison remains2368 exact+44 attribute-channel differences, maintained transitively via exact identity to original132 baseline. Not200 testcase/end-to-end execution.",
+  "region_boundary": "rb052 native region condition/default_params unchanged. No parameter filling/API/SQL executed; absent region is not silently asserted as a global-scope business result. B must enforce missing-scope policy.",
+  "scope_exclusions": [
+    "B atomic-goal consumption/selection/extraction/refine/native execution",
+    "COUNT/API failure/missing-column/pagination",
+    "F03 compact/B prompt adaptation/official serialization/depth",
+    "Official CPU/index-build/2GB/4KB/time/score compliance",
+    "Actual model tokens"
+  ],
+  "packaging_reexecuted_tests": false,
+  "patches_applied_during_packaging": false
+}

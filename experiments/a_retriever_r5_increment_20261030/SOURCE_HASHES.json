@@ -1,0 +1,11 @@
+{
+  "review_inputs": {
+    "REVIEW_RECEIPT.json": "f7ac821ee7d7253acc513af4dc7be1f40483d06beb2e2ac8680401b10b2447cc",
+    "MINIMUM_RUNTIME_CLOSURE.json": "99d712630e90a8592c59f5c90014dcb36d0248762642bba8b9c43c117ed84db8",
+    "HANDOFF.md": "3ef0feaa567d170cdff90a75a86aa2a2257dd3771ab98dee5776eee34120f725"
+  },
+  "base_r4_package_manifest_sha256": "30075daecabe811616ac2fe780036845eccaf303f449d91f93a823f31ebcb885",
+  "r4_package_unchanged": true,
+  "review_receipt_export": "sanitized summary; original receipt kept by independent reviewer",
+  "exact_module_and_delta_fingerprints": "INCREMENT_INTERFACE.json"
+}

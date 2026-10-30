@@ -1,0 +1,21 @@
+{
+  "status": "READY_ISOLATED_R5_INCREMENT_UNIQUE_PUBLISHER_NOT_PUSHED",
+  "files": {
+    "B_HANDOFF.md": "c30f30b867d7579b009d32df215df7ac13023bc6d6f4a107a021a50952df6f3b",
+    "INCREMENT_INTERFACE.json": "41388d0a1cd0ee457188904595422ea92501693853c7238dfad7ee59f563ef09",
+    "INDEPENDENT_REVIEW_SUMMARY.json": "b2e460f625c8080ac9e335320111b16638e08470d349f7f6fe1ca0147f7cfe7e",
+    "README.md": "cafdcf4c5943d784b4f741217a9e4e9a84fca94d663411593713351ea491c893",
+    "SOURCE_HASHES.json": "f3ce14d76b1a5664d04b9a7252930d951f1e20f4a0ac2cd705cbb293bd193729",
+    "patches/from-r4.enhanced.patch": "df5119e12cca11efa92ca155711181f162afdb9b44fff7eb0eb37b8e57eb558e",
+    "patches/from-r4.strict.patch": "6b99338b310880bd56ec4722ca5a177f1a7e894526cad704cf6bd9af494610ef",
+    "reproduce_delta.py": "b3a0343b82c0c4eefee38282eb166652ee0a3b7d624b21478ae18d35ebb0554e",
+    "runbook_retriever.enhanced.py": "b3294dcd7672d2ccf283bc79712b85509e877bf89527344830d3434ee9e7bd6e",
+    "runbook_retriever.strict.py": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6"
+  },
+  "base_r4_preserved": true,
+  "templates_B_changed": false,
+  "auto_apply": false,
+  "official_submission_ready": false,
+  "tests_reexecuted": false,
+  "Git_performed": false
+}

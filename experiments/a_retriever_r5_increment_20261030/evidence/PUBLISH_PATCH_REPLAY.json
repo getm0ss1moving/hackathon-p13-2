@@ -1,0 +1,24 @@
+{
+  "scope": "Actual publisher delta replay only; no rerun of private33/1166, current compact/B chain or models",
+  "variants": {
+    "strict": {
+      "variant": "strict",
+      "r4_sha256": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+      "r5_sha256": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6",
+      "patch_sha256": "6b99338b310880bd56ec4722ca5a177f1a7e894526cad704cf6bd9af494610ef",
+      "source_unchanged": true,
+      "scope": "patch reproducibility only; no retrieval/model/API/SQL test or B activation"
+    },
+    "enhanced": {
+      "variant": "enhanced",
+      "r4_sha256": "dbaf4381493907a8f3b19d14344700884f8b9c1d9703f573c4385b216d4fcedc",
+      "r5_sha256": "b3294dcd7672d2ccf283bc79712b85509e877bf89527344830d3434ee9e7bd6e",
+      "patch_sha256": "df5119e12cca11efa92ca155711181f162afdb9b44fff7eb0eb37b8e57eb558e",
+      "source_unchanged": true,
+      "scope": "patch reproducibility only; no retrieval/model/API/SQL test or B activation"
+    }
+  },
+  "root_runtime_or_templates_changed": false,
+  "auto_enable": false,
+  "private_arrays_or_logs_copied": false
+}

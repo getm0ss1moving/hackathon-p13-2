@@ -1,0 +1,189 @@
+--- a/implementation/runbook_retriever.py
++++ b/implementation/runbook_retriever.py
+@@ -146,20 +146,21 @@
+     r"delete\b|rebuild\b|update\b|create\b|restart\b)", re.I)
+ 
+ 
+-def _compound_parts(query):
++def _compound_parts(query, merge_aggregation=True):
+     visible = _intent_literal_mask(query)
+-    if visible is None:
+-        return None
+-    parts = []
+-    start = 0
+-    for marker in _CLAUSE_BREAK.finditer(visible):
+-        if query[start:marker.start()].strip():
+-            parts.append((start, marker.start(), query[start:marker.start()].strip()))
+-        start = marker.end()
+-    if query[start:].strip():
+-        parts.append((start, len(query), query[start:].strip()))
+-    return parts if 1 <= len(parts) <= MAX_COMPOUND_CLAUSES else None
+-
++    if visible is None:return None
++    markers=list(_CLAUSE_BREAK.finditer(visible))
++    parts=[];start=0
++    for n,marker in enumerate(markers):
++        end=markers[n+1].start() if n+1<len(markers) else len(query)
++        left=query[start:marker.start()].strip()
++        right=query[marker.end():end].strip()
++        if merge_aggregation and left and _aggregation_continuation(left,right,marker.group()):
++            continue
++        if left:parts.append((start,marker.start(),left))
++        start=marker.end()
++    if query[start:].strip():parts.append((start,len(query),query[start:].strip()))
++    return parts if 1<=len(parts)<=MAX_COMPOUND_CLAUSES else None
+ 
+ 
+ # Intents are bounded against actual native fields, never a resource blacklist.
+@@ -237,21 +238,28 @@
+ 
+ def _intent_literal_mask(query):
+     visible = _attribute_literal_mask(query)
+-    if visible is None:
+-        return None
+-    chars = list(visible)
+-    for pattern in (_NAME_VALUE,_ENTITY_ATTRIBUTE):
+-        for match in pattern.finditer(visible):
+-            start,end = match.span('value');value=visible[start:end]
+-            if pattern is _ENTITY_ATTRIBUTE:
+-                if (_NOT_ENTITY_BODY.search(value.strip())
+-                        and not _STATIC_PROPERTY_HEAD.match(visible[match.end():])):
+-                    continue
+-                suffix = _ENTITY_RELATION_SUFFIX.search(value)
+-                if suffix:end=start+suffix.start()
+-            chars[start:end] = ' '*(end-start)
++    if visible is None:return None
++    chars=list(visible)
++    # Explicit/quoted names win over apparent connectives within their values.
++    for match in _NAME_VALUE.finditer(visible):
++        start,end=match.span('value');chars[start:end]=' '*(end-start)
++    named=''.join(chars);cuts=[0]
++    for marker in _INDEPENDENT_REQUEST.finditer(named):
++        if _COMPLETE_READ_TARGET.search(named[cuts[-1]:marker.start()]):
++            cuts.append(marker.end())
++    cuts.append(len(named))
++    # NP values are matched inside a proven request scope, never across a new
++    # read-verb + resource request. This also preserves the RHS entity masking.
++    for start,end in zip(cuts,cuts[1:]):
++        fragment=named[start:end]
++        for match in _ENTITY_ATTRIBUTE.finditer(fragment):
++            a,b=match.span('value');value=fragment[a:b]
++            if (_NOT_ENTITY_BODY.search(value.strip())
++                    and not _STATIC_PROPERTY_HEAD.match(fragment[match.end():])):continue
++            suffix=_ENTITY_RELATION_SUFFIX.search(value)
++            if suffix:b=a+suffix.start()
++            chars[start+a:start+b]=' '*(b-a)
+     return ''.join(chars)
+-
+ 
+ 
+ # One grammar supplies BOTH command boundaries and leading normalization. These
+@@ -319,6 +327,52 @@
+         if not _scope_negates(command[:verb.start()]):
+             return True
+     return False
++
++
++
++# Split only explicit requests after AND, with ASCII boundaries; entity values
++# are protected first. Group-count continuations are adjudicated separately.
++_CLAUSE_BREAK = re.compile(_CLAUSE_BREAK.pattern +
++    r'|(?:[,，]\s*)?(?<![A-Za-z0-9_.-])AND(?![A-Za-z0-9_.-])\s*[,，:：]?\s*(?='+_REQUEST_VERB+r')',re.I)
++_INDEPENDENT_REQUEST = re.compile(
++    r'(?:并且|以及|同时|并|(?<![A-Za-z0-9_.-])AND(?![A-Za-z0-9_.-]))\s*[,，:：]?\s*'
++    r'(?='+_REQUEST_VERB+r'\s*'+_RESOURCE_NOUN+r')',re.I)
++_COMPLETE_READ_TARGET = re.compile(
++    r'(?:架构(?:类型|分布|统计)?|类型(?:分布|统计)?|状态(?:分布|统计)?|协议(?:分布|统计)?|版本(?:分布|统计)?|创建时间|规格|数量|IP|列表)\s*[,，]?\s*$',re.I)
++_GROUP_AXES = (
++    ('architecture',r'架构|cpuArch'),('status',r'状态|status'),
++    ('protocol',r'协议|protocol'),('version',r'版本|engineVersion'),
++    ('os',r'操作系统|osType'),('tenant',r'租户|tenant'),('zone',r'可用区|azone'),
++)
++_GROUP_AXES = tuple((axis,re.compile(pattern,re.I)) for axis,pattern in _GROUP_AXES)
++_GENERIC_GROUP = re.compile(r'类型|种类|类别')
++_ROW_OUTPUT = re.compile(r'每台|逐台|逐个|每个实例|明细|详情|详细|名称|名字|编号|(?<![A-Za-z])(?:IP|ID)(?![A-Za-z])',re.I)
++_COUNT_CONTINUATION = re.compile(
++    r'^\s*(?:请\s*)?(?:统计|计算|计数|查询|列出|展示|给出|返回|输出)\s*'
++    r'(?P<group>各类(?:型)?|每类(?:型)?|各(?:种|个)?(?:CPU)?(?:架构|状态|协议|版本|类型|种类|类别)|每(?:种|个)?(?:CPU)?(?:架构|状态|协议|版本|类型|种类|类别))'
++    r'\s*(?:的)?\s*(?:数量|台数|数目|个数|计数|count)\s*[。.!]?\s*$',re.I)
++
++
++def _group_axis(text):
++    axes={axis for axis,pattern in _GROUP_AXES if pattern.search(text)}
++    if len(axes)>1:return None
++    return next(iter(axes)) if axes else 'type' if _GENERIC_GROUP.search(text) else None
++
++
++def _aggregation_continuation(left,right,connector):
++    # A strong separator, new resource/scope/value, or row-detail projection is
++    # never folded just because the following verb happens to be 'statistics'.
++    if re.search(r'[；;。]|然后|随后|接着|下一步|再',connector):return False
++    lhs=_intent_literal_mask(left)
++    if lhs is None or not re.search(_RESOURCE_NOUN,lhs,re.I) or _ROW_OUTPUT.search(lhs):return False
++    axis=_group_axis(lhs)
++    if axis is None:return False
++    if re.search(_MUTATION_VERB,lhs,re.I):return False
++    if re.search(_RESOURCE_NOUN,right,re.I) or re.search(r'[="“”\'‘’]|区域|可用区|筛选|条件|限定',right,re.I):return False
++    match=_COUNT_CONTINUATION.fullmatch(right.strip(' ，,'))
++    if match is None:return False
++    right_axis=_group_axis(match['group'])
++    return right_axis in (None,'type',axis)
+ 
+ 
+ # ── 检索器 ────────────────────────────────────────────
+@@ -579,7 +633,7 @@
+             # Quoted entity values do not describe requested capabilities and
+             # must not dilute a clause's coverage. Keep the original span/text.
+             lexical = _intent_literal_mask(text)
+-            strong = [c for c in self._single_profiles(lexical) if c.tier == "strong"]
++            strong = [c for c in self._atomic_profiles(lexical) if c.tier == "strong"]
+             if not strong:
+                 return []
+             evidence.append(dict(start=start, end=end, text=text,
+@@ -588,6 +642,24 @@
+         if len(required) > MAX_COMPOUND_PROFILES:
+             return []
+         return evidence
++
++    def _atomic_profiles(self, query, top_k=None, base_profiles=None):
++        """One atomic goal can use bounded local BM25 views for recall."""
++        original = self._single_profiles(query) if base_profiles is None else base_profiles
++        views = _compound_parts(query, merge_aggregation=False)
++        if views is None or len(views) < 2:
++            return original if top_k is None else original[:top_k]
++        seeds = [c for _,_,text in views
++                 for c in self._single_profiles(_intent_literal_mask(text))
++                 if c.tier == 'strong']
++        order=[];best={}
++        for candidate in seeds+original:
++            if candidate.id not in best:order.append(candidate.id)
++            prior=best.get(candidate.id)
++            if prior is None or (candidate.tier=='strong',candidate.score)>(prior.tier=='strong',prior.score):
++                best[candidate.id]=candidate
++        result=[best[identifier] for identifier in order][:MAX_COMPOUND_PROFILES]
++        return result if top_k is None else result[:top_k]
+ 
+     def _retrieve_profile_bundle(self, query, top_k=None):
+         """Expose original profiles before canonical family deduplication.
+@@ -604,7 +676,10 @@
+             return [], []
+         original = self._single_profiles(query)
+         if len(parts) == 1:
+-            return (original if top_k is None else original[:top_k]), []
++            original_by_id = {c.id:c for c in original}
++            supported = self._atomic_profiles(query,top_k,base_profiles=original)
++            # Public scores retain whole-query provenance when available.
++            return [original_by_id.get(c.id,c) for c in supported], []
+         obligations = self.retrieve_obligations(query)
+         if not obligations:
+             return [], []
+@@ -645,8 +720,7 @@
+                 seen.add(item_id)
+                 owned_results = [c for c in results
+                                  if self._canonical_ids.get(c.id,c.id)==item_id]
+-                if obligations:
+-                    candidate = max(owned_results,key=lambda c:(c.tier=='strong',c.score))
++                candidate = max(owned_results,key=lambda c:(c.tier=='strong',c.score))
+                 profiles = tuple(c.id for c in owned_results) if obligations else ()
+                 spans = []
+                 for obligation in obligations:

@@ -1,0 +1,18 @@
+{
+  "publication_base_commit": "ed5d2a579d63c394126f1b467f68cb898be77be8",
+  "B_runtime_commit": "b00e85a8c9b6d7638550adaf598357e2a890fdb4",
+  "current_default": "132 strict compact + r4",
+  "root_runtime_unchanged": true,
+  "r5_auto_applied": false,
+  "files": {
+    "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+    "implementation/runbook_retriever.py": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+    "implementation/runbook_matcher.py": "aa710e09bbdacd14aed4346bd789afe7e6f37cdecd5441bdb160d437adaf5104",
+    "implementation/runbook_system.py": "b29b036d7cc10bb46ca091570a784f7946ad992c781727cd2dc2c9d2deaaf1c2",
+    "implementation/runbook_issue3.py": "ec911c27aa8cb9cf1e61f62a300d0f6a001c6cdc7b70ebe749bde9e4ac9efbc7"
+  },
+  "root_item_count": 132,
+  "root_canonical_compact_array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+  "strict_root_patch_base_matches_reviewed_r4": true,
+  "root_python_items_matches_frozen_strict_compact": true
+}

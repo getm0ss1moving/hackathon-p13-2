@@ -1,0 +1,32 @@
+{
+  "status": "DEFAULT_DISABLED_R5_INCREMENT_READY_FOR_B_ADOPTION_TESTS",
+  "source_overlay_manifest_sha256": "37dc0721cb68597961a42b397fd8bc27822f653b22a2fa20da6b20a0ad255b2f",
+  "current_root_default_preserved": "132 strict compact + r4",
+  "auto_apply": false,
+  "template_or_B_changes": false,
+  "official_submission_ready": false,
+  "tools": {
+    "scripts/reproduce_a_r5_delta.py": "9dfadca19aa4d1716eaa42a6b96f9564521a792833c737a473f682682282dc38"
+  },
+  "external_files": {
+    "docs/handoffs/B_A_R5_RETRIEVAL_INCREMENT.md": "eafa4c12daa2fbc23e4a9e504d421db5d3da6abc0951b6300a3d7875d89b3dc3"
+  },
+  "files": {
+    "B_HANDOFF.md": "259f2bb56cbef0b52ba4c73d5fa99831e9427f266a5842e462e166b98a06e161",
+    "INCREMENT_INTERFACE.json": "41388d0a1cd0ee457188904595422ea92501693853c7238dfad7ee59f563ef09",
+    "INDEPENDENT_REVIEW_SUMMARY.json": "b2e460f625c8080ac9e335320111b16638e08470d349f7f6fe1ca0147f7cfe7e",
+    "README.md": "8af2d6b4d8eac31b0740f4c4360cabfe6b5afadce03fa95c6e015876ec20f9b3",
+    "ROOT_B_BASELINE.json": "ee897600e268db6668797bf6f4101136b0d298a2c6b1b214ac36bba2a28eb2d4",
+    "SOURCE_CLOSURE.json": "9f86195433587d425d117959ea7bfefaf5501ca1a751e7b7d544a1576411485e",
+    "SOURCE_HASHES.json": "f3ce14d76b1a5664d04b9a7252930d951f1e20f4a0ac2cd705cbb293bd193729",
+    "SOURCE_MANIFEST.json": "37dc0721cb68597961a42b397fd8bc27822f653b22a2fa20da6b20a0ad255b2f",
+    "evidence/PUBLISH_PATCH_REPLAY.json": "6fb24944584d2c7f733cba1b6b1dbf73243ad2f61cdefdaf60f1606416367b23",
+    "evidence/SOURCE_B_HANDOFF.md": "c30f30b867d7579b009d32df215df7ac13023bc6d6f4a107a021a50952df6f3b",
+    "evidence/SOURCE_README.md": "cafdcf4c5943d784b4f741217a9e4e9a84fca94d663411593713351ea491c893",
+    "patches/from-r4.enhanced.patch": "df5119e12cca11efa92ca155711181f162afdb9b44fff7eb0eb37b8e57eb558e",
+    "patches/from-r4.strict.patch": "6b99338b310880bd56ec4722ca5a177f1a7e894526cad704cf6bd9af494610ef",
+    "runbook_retriever.enhanced.py": "b3294dcd7672d2ccf283bc79712b85509e877bf89527344830d3434ee9e7bd6e",
+    "runbook_retriever.strict.py": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6",
+    "source/reproduce_delta.original.py.txt": "b3a0343b82c0c4eefee38282eb166652ee0a3b7d624b21478ae18d35ebb0554e"
+  }
+}

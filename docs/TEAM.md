@@ -58,6 +58,13 @@
 
 仅region筛管理VM父域，VDC为原生身份/显示桶，不含命名VDC过滤或VDC总容量汇总。bootable/132/默认198/B/官方不改，实际N变化0、不启用、不关闭issue，不称原题满分或完整业务通过。
 
+## B阅读待办：r5检索义务粒度增量（独立默认关闭）
+
+- [ ] **B先读[r5中文交接](handoffs/B_A_R5_RETRIEVAL_INCREMENT.md)与[精确r4补丁/完整引擎](../experiments/a_retriever_r5_increment_20261030/README.md)**。当前main保持132 strict compact＋r4，r5不自动替换；根strict模块99d15b69…与补丁基底一致，只证明源码兼容，不是B/compact全链验收。
+- [ ] 单统计空obligations应走普通检索；多目标保留profile_ids/Unicode字符span/各自view和参数，完整义务用top_k=None。r5未补region，rb052召回不能称无区域全域统计。15强profile预算及guess/真实空/失败区分保留。
+
+独立33专项＋原1166各自通过，历史200模板44属性差异保留，未新跑200题或模型。发布者已实际重放两版补丁且r5完整hash匹配；实际r5＋compact/adapter/B链仍待锁定联调。本次不改r4/132/B/官方或当前默认，不混管理VM/bootable/新日志修复，不关闭issue。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

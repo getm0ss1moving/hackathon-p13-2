@@ -1,0 +1,45 @@
+{
+  "status": "PASS_INDEPENDENT_R5_INCREMENTAL_RETRIEVAL_GRANULARITY",
+  "default_variant_when_explicitly_chosen": "strict",
+  "optional_variant": "enhanced",
+  "auto_apply_or_enable": false,
+  "variants": {
+    "strict": {
+      "module": "runbook_retriever.strict.py",
+      "r5_module_sha256": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6",
+      "patch": "patches/from-r4.strict.patch",
+      "patch_sha256": "6b99338b310880bd56ec4722ca5a177f1a7e894526cad704cf6bd9af494610ef",
+      "r4_module_sha256": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+      "reviewed_original132_array_sha256": "4d790887d487f3f371d8597b517a7e2b2bda1898c591b0e8123b11b79637aac5",
+      "reviewed_original132_runtime_files": 2,
+      "existing_compact_B_bundle_array_reference": "../a_family_candidate_132_v2_r4_20261030/templates132.strict.private.json",
+      "existing_compact_B_bundle_array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+      "new_r5_compact_full_replay_in_this_package": false,
+      "dependencies": "stdlib only"
+    },
+    "enhanced": {
+      "module": "runbook_retriever.enhanced.py",
+      "r5_module_sha256": "b3294dcd7672d2ccf283bc79712b85509e877bf89527344830d3434ee9e7bd6e",
+      "patch": "patches/from-r4.enhanced.patch",
+      "patch_sha256": "df5119e12cca11efa92ca155711181f162afdb9b44fff7eb0eb37b8e57eb558e",
+      "r4_module_sha256": "dbaf4381493907a8f3b19d14344700884f8b9c1d9703f573c4385b216d4fcedc",
+      "reviewed_original132_array_sha256": "3806aaa7248861c826263d2779dde3f4209e2238e3c7e33227b3e13bca468f9e",
+      "reviewed_original132_runtime_files": 2,
+      "existing_compact_B_bundle_array_reference": "../a_family_candidate_132_v2_r4_20261030/templates132.enhanced.private.json",
+      "existing_compact_B_bundle_array_sha256": "897798c3ee26bfc6fba2b625b6e7e820146ac49db7d2fb299b68a5d15701466b",
+      "new_r5_compact_full_replay_in_this_package": false,
+      "dependencies": "stdlib only"
+    }
+  },
+  "constructor": "RunbookRetriever(items)",
+  "APIs": [
+    "retrieve(query,top_k=None)",
+    "retrieve_profiles(query,top_k=None)",
+    "retrieve_obligations(query)"
+  ],
+  "template_B_prepare_schema_changes": false,
+  "parameter_filling_or_region_injection": false,
+  "source_independent_interface_sha256": "6374a277ccd34da91127e94b0cb10ffef7bb42aaebe4b711ae2ac7adea661d7d",
+  "B_native_business_official_ready": false,
+  "Git_performed": false
+}
