@@ -1,0 +1,19 @@
+{
+  "source_publication_zip_sha256": "e27f6aab111e53f73e6a4ca8d7663def5d6800ee2a7455ad7f2098a092379e92",
+  "source_publication_receipt_sha256": "986334b636e97fb06d92aabf879420f45296aa79324ad245baa28104f84d2198",
+  "source_minimum_receipt_sha256": "757aaf9f278603142f439ee1420792e2e361ca90976a0c6b6d3246bcf7e33315",
+  "source_review_sha256": "df6b533596e5abb14cf70b431f9640c158e84b34e27ff2033e084f9ea9f23b6b",
+  "source_results_sha256": "2edc891172acc6a9f38a19193e1ecf468245f3bec1773668eb6011aaea2821cf",
+  "source_harness_sha256": "16fd7d8c18fa542cc4d0f112543daeb90468c458ae21587840d42f9366518ae3",
+  "source_zip_minimum_manifest_sha256": "cc5a16b69a5771ae7f099523fa7083aac7fed9bbbd61eb8f217008e9f7c1ce77",
+  "source_doc_sha256": "e96ecc98fc9ba12a800fa7375c768588c082e8c3dbb184e948a250611be6fb37",
+  "owner_manifest_sha256": "4ee2ec24f859f8db48693b5f0eccfe57cb67055780007400c477ac5dd7505711",
+  "owner_manifest_entries_hash_checked": 9,
+  "owner_source_audit_sha256": "c7641a3a00da1da2c97732a42233a6f2d5f79049bf41ab61022320d55707b5a8",
+  "runtime_source_and_contract_byte_identical": true,
+  "native_records_read_or_copied_by_publisher": false,
+  "bootable_imported_or_retested": false,
+  "owner92_suite_run": false,
+  "publication_base_B_commit": "b00e85a8c9b6d7638550adaf598357e2a890fdb4",
+  "root_B_runtime_preserved": "Current132 strict+r4 preserved; no restoration of historical198 default"
+}

@@ -1,0 +1,210 @@
+{
+  "family_id": "family_management_vm_details",
+  "view": "management_vm_service_flavor_volume_rows",
+  "enabled": false,
+  "runtime_N_delta": 0,
+  "stage": "isolated source candidate; native complete original obligation still blocked by source/semantic gaps",
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "view",
+      "logicalRegionName",
+      "ip_role",
+      "capacity_mode"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "view": {
+        "const": "management_vm_service_flavor_volume_rows"
+      },
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ip_role": {
+        "enum": [
+          "both_raw",
+          "private_ips_raw",
+          "vm_ip_address_raw"
+        ]
+      },
+      "capacity_mode": {
+        "const": "per_volume_raw_and_numeric_summary"
+      }
+    }
+  },
+  "full_question_prepare": "complete original question, explicit region, management VM and unique name/IP/service/flavor/mounted-volume-capacity obligations; no extra clauses",
+  "IP_binding": "generic IP requires both_raw; explicit 私网IP/private_ips_raw or 原生IP地址/vm_ip_address_raw; no default address choice, codec, first-IP or deployment-IP substitution",
+  "native_management": "API JSON boolean true, never lowercase string. Prepared derived management=1 is explicit local encoding only.",
+  "entrypoints": [
+    "build(params)",
+    "prepare_candidate(question,item,params,diagnostics=None)",
+    "prepare/preflight(params,receipts)",
+    "execute_local(params,receipts)"
+  ],
+  "source_schema": {
+    "VM_NOVA": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "management",
+      "vdcId",
+      "vdcName",
+      "privateIps",
+      "ipAddress",
+      "flavorId"
+    ],
+    "FLAVOR": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "vcpuSize",
+      "ramSize",
+      "diskSize"
+    ],
+    "VOLUME": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "size"
+    ],
+    "R_VOLUME_MOUNTON_VM": [
+      "id",
+      "vmId",
+      "volumeId"
+    ],
+    "S_DeployNode": [
+      "id",
+      "vmId",
+      "hostClass"
+    ],
+    "S_DeployInstance": [
+      "id",
+      "deployNodeId",
+      "deployComponentId"
+    ],
+    "S_DeployComponent": [
+      "id",
+      "serviceId"
+    ],
+    "S_Service": [
+      "id",
+      "cloudServiceId"
+    ],
+    "S_CloudService": [
+      "id",
+      "name"
+    ]
+  },
+  "prepared_schema": {
+    "A_MANAGEMENT_VM_DETAILS": [
+      "vm_id",
+      "vm_name",
+      "logical_region_name",
+      "vdc_id",
+      "vdc_name",
+      "vdc_status",
+      "private_ips_raw",
+      "vm_ip_address_raw",
+      "requested_ip_role",
+      "flavor_reference_id",
+      "flavor_id",
+      "flavor_name",
+      "flavor_vcpu_raw",
+      "flavor_ram_raw",
+      "flavor_disk_raw",
+      "flavor_status",
+      "services_json",
+      "service_status",
+      "unknown_service_link_count",
+      "mounted_volumes_json",
+      "known_size_sum_native_numbers",
+      "unknown_size_reference_count",
+      "complete_size_sum_native_numbers",
+      "mount_status",
+      "declared_values_complete",
+      "management"
+    ]
+  },
+  "grain": "one selected VM.id; independent distinct service and mounted-volume collections serialized by stdlib json, no JSON SQL extensions",
+  "prepared_SQL_requirement": "SQL runs only on A_MANAGEMENT_VM_DETAILS prepared table, not raw CIs or official executor fake-empty tables",
+  "receipt_contract": {
+    "request": "exact canonical JSON including value types; VM region AND native bool true, global child context. Assertions must originate in B trusted fetch.",
+    "state": "ok true; success if present true; all provided HTTP aliases explicit 2xx; contradictory/unknown/failed state rejects at envelope/page",
+    "schema": "verified schema for all declared fields even empty; id, VM management and VM region required per row; optional sparse fields project NULL and diagnostics",
+    "pages": "fixed pageSize1000, sequential pageNo, stable totals, full expected row counts and exact number of pages; missing/extra/truncated reject",
+    "identity": "unique nonblank string IDs per resource; duplicate identities reject even identical; distinct relation IDs with same business pair dedup by documented VM/volume pair",
+    "sparse": "missing optional display/FK keys permitted only with trusted schema evidence; null/blank remains unknown; no value invention",
+    "trust_limit": "not authentication or source completeness proof against forged B metadata, no atomic snapshot claim"
+  },
+  "relations": [
+    {
+      "from": "VM_NOVA",
+      "field": "flavorId",
+      "to": "FLAVOR",
+      "target_field": "id"
+    },
+    {
+      "from": "R_VOLUME_MOUNTON_VM",
+      "field": "vmId",
+      "to": "VM_NOVA",
+      "target_field": "id"
+    },
+    {
+      "from": "R_VOLUME_MOUNTON_VM",
+      "field": "volumeId",
+      "to": "VOLUME",
+      "target_field": "id"
+    },
+    {
+      "from": "S_DeployNode",
+      "field": "vmId",
+      "to": "VM_NOVA",
+      "target_field": "id"
+    },
+    {
+      "from": "S_DeployInstance",
+      "field": "deployNodeId",
+      "to": "S_DeployNode",
+      "target_field": "id"
+    },
+    {
+      "from": "S_DeployInstance",
+      "field": "deployComponentId",
+      "to": "S_DeployComponent",
+      "target_field": "id"
+    },
+    {
+      "from": "S_DeployComponent",
+      "field": "serviceId",
+      "to": "S_Service",
+      "target_field": "id"
+    },
+    {
+      "from": "S_Service",
+      "field": "cloudServiceId",
+      "to": "S_CloudService",
+      "target_field": "id"
+    }
+  ],
+  "policies": {
+    "VDC": "preserve source id/name; no directory namespace or missing owner inference; NULL VDC parent retained",
+    "flavor": "LEFT by id; resolved flavor region must equal parent; missing reference/target/values diagnostic",
+    "services": "all distinct CloudService IDs via documented deployment graph; unknown node owners/orphan instances conservatively prevent completeness. No-known-service is unknown, not definitive no-service.",
+    "volumes": "distinct (VM.id,volume reference); missing target kept with reference and NULL values; known-source-number subtotal independent of service fanout",
+    "size_numbers": "nonnegative plain decimal strings ≤12 fractional places, ≤64 chars; exact scaled integer arithmetic; unsupported precision/type/invalid values unknown, no rounding. Numeric completeness is not unit authority.",
+    "no_mounts": "zero only for no recorded links in fully collected known-owner snapshot; unknown global mount owner makes full number NULL",
+    "arrays": "standard JSON strings with raw names/values, stable ID order; no name-based dedup",
+    "complete_flags": "declared_values_complete is qualified prepared snapshot field/graph completeness; full_answer_certified always false pending unit/IP/business/actual B adoption, not a model-set flag"
+  },
+  "remaining_authority": [
+    "VDC missing-source ownership cannot be inferred",
+    "IP native field role vs business meaning and multi-address codec",
+    "capacity physical units/conversion",
+    "deployment graph service association versus broader service ownership",
+    "unresolved source foreign keys",
+    "actual B registry/loader/final envelope integration and independent acceptance"
+  ],
+  "transport": "compact expanded API+SQL measured separately from metadata and final B envelope; no truncation; >4096 diagnostic blocked_core_length, no formal runtime enablement",
+  "tests": "VALIDATION.json owner synthetic only; audit SOURCE_AUDIT.json field/key aggregates only, no native business SQL"
+}

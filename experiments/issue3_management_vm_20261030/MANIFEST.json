@@ -1,0 +1,27 @@
+{
+  "status": "DEFAULT_DISABLED_MANAGEMENT_VM_A_CONTRACT_PASS_B_FULL_BUSINESS_PENDING",
+  "source_publication_zip_sha256": "e27f6aab111e53f73e6a4ca8d7663def5d6800ee2a7455ad7f2098a092379e92",
+  "source_contract_files": 2,
+  "full_answer_certified": false,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "bootable132_and_default198_unchanged": true,
+  "tools": {
+    "scripts/verify_a_issue3_management_vm_synthetic.py": "c976fb3413ee168e42e3d30c33e1b4fdea00e913050493b867080cbf880ee6c6"
+  },
+  "external_files": {
+    "docs/handoffs/B_A_ISSUE3_MANAGEMENT_VM.md": "7ca615d719e424acca2b7b4048f1afab9c6a9639f0ff4369d6c88923d92c42f2"
+  },
+  "files": {
+    "CONTRACT.json": "d620b1364422d4214ce3fb9f7d4d39862934dbf7c078d562374389731136b163",
+    "README.md": "e33e2a04240f1f6b8a84a38b104b0c294e80ded18153d66b92dd45b20f08b4df",
+    "SOURCE_CLOSURE.json": "1a402abe008e2d04574c86656c863aee38885348cf5cba9509335d3c4fd03663",
+    "SOURCE_PROVENANCE.json": "3a525ca62ebbba8b1a8ff9d1490ba56f46e8077fb2401db6f00e48d7e01f678e",
+    "candidate.py": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad",
+    "evidence/INDEPENDENT_RESULTS.summary.json": "04b635deb81cf250d1c29821fea4c7580b526e5755b9d99cb505ae1871e2c194",
+    "evidence/INDEPENDENT_REVIEW_MATRIX.json": "4f2f2ca86ac00af04560e32e241f404f45d35c6190e304657c0030da9407b1c2",
+    "evidence/PUBLISH_VERIFICATION.json": "44931eb142d10b87c1b927cd9d39346e9ced18b93472cf0a51badacac0613aa7"
+  },
+  "publication_base_B_commit": "b00e85a8c9b6d7638550adaf598357e2a890fdb4",
+  "current_B_default_unchanged": "132 strict+r4"
+}

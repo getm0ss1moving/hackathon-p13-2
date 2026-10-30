@@ -1,0 +1,30 @@
+{
+  "status": "DEFAULT_DISABLED_MANAGEMENT_VM_A_CONTRACT_HANDOFF",
+  "source_publication_zip_sha256": "e27f6aab111e53f73e6a4ca8d7663def5d6800ee2a7455ad7f2098a092379e92",
+  "source_contract_file_count": 2,
+  "files": [
+    {
+      "source_zip_member": "a-issue3-response/update6528118926/management-vm-candidate/candidate.py",
+      "path": "candidate.py",
+      "sha256": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad",
+      "same_bytes_as_reviewed": true,
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-response/update6528118926/management-vm-candidate/CONTRACT.json",
+      "path": "CONTRACT.json",
+      "sha256": "d620b1364422d4214ce3fb9f7d4d39862934dbf7c078d562374389731136b163",
+      "same_bytes_as_reviewed": true,
+      "runtime_enablement_approved": false
+    }
+  ],
+  "per_template_doc": "docs/handoffs/B_A_ISSUE3_MANAGEMENT_VM.md",
+  "source_doc_sha256": "e96ecc98fc9ba12a800fa7375c768588c082e8c3dbb184e948a250611be6fb37",
+  "published_doc_sha256": "7ca615d719e424acca2b7b4048f1afab9c6a9639f0ff4369d6c88923d92c42f2",
+  "full_answer_certified": false,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "bootable_and132_unchanged": true,
+  "scope": "Two exact source/contract files plus reviewed per-template document and public synthetic verifier; not the full9-file owner archive.",
+  "publication_base_B_commit": "b00e85a8c9b6d7638550adaf598357e2a890fdb4"
+}

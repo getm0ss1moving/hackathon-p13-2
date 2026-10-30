@@ -1,0 +1,41 @@
+{
+  "status": "A_CONTRACT_MINIMAL_INDEPENDENT_PASS_DEFAULT_DISABLED_HANDOFF_ALLOWED",
+  "checks": 17,
+  "passed": 17,
+  "failed": 0,
+  "HTTP_matrix_subcases_not_added": 20,
+  "owner92_not_counted": true,
+  "bootable_not_retested": true,
+  "accepted": [
+    "native management JSON bool and exact typed request binding",
+    "LEFT-preserved selected VM parent identities despite missing VDC/flavor/service/volume",
+    "distinct cloud-service and per-VM volume-reference collections independent, no service-volume fanout",
+    "shared volume retained per VM, same-size distinct volume sums not DISTINCT values",
+    "exact source-number subtotal; unresolved/dirty/unknown-owner complete amount NULL",
+    "both raw IP fields preserved without first-address/token/substitution/role guessing",
+    "explicit region on managed VM API and parent SQL, global service context not given fabricated region",
+    "resolved flavor/volume exact parent region, unproven mismatch rejected",
+    "complete original five-field obligations and IP role grounding",
+    "new legal entities and region accepted; no historical data-content gate"
+  ],
+  "scope_limit": "region selects management VM parents; VDC id/name are native output identity/display buckets. Named-VDC filtering or VDC grand-capacity aggregation is not this closed parameter profile.",
+  "remaining": [
+    "B registry/card/unified_prepare and real loader integration",
+    "trusted actual request/schema/complete pages and cross-CI consistent capture",
+    "typed prepared table A_MANAGEMENT_VM_DETAILS, never SQL directly on raw CI tables",
+    "field coverage gaps in current source audit, not repaired here",
+    "IP business role and multi-value codec",
+    "source capacity physical unit/conversion and deployment association vs broader ownership",
+    "actual final B envelope and official depth policy"
+  ],
+  "full_original_business_pass": false,
+  "full_answer_certified_fixed_false": true,
+  "actual_runtime_N_delta": 0,
+  "conditional_N": "standalone new family+1 or reviewed extension+0; neither applied,132 not changed",
+  "default_disabled_source_contract_commit_allowed": true,
+  "runtime_default_production_or_enabled_competition_activation_approved": false,
+  "source_sha256": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad",
+  "contract_sha256": "d620b1364422d4214ce3fb9f7d4d39862934dbf7c078d562374389731136b163",
+  "manifest_sha256": "4ee2ec24f859f8db48693b5f0eccfe57cb67055780007400c477ac5dd7505711",
+  "source_audit": "owner aggregate evidence file hashes27/27 checked; native counts not independently recomputed"
+}

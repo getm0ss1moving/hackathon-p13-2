@@ -49,6 +49,15 @@
 
 独立12/12，公开12分组复放通过（最后为公开artifact/历史聚合校验，未重读原生记录）；owner71只引用不加总。B真实schema/HTTP/分页/typed-empty/失败传播及正式封装待验，实际N变化0，132/默认198/B/官方未改，不预启用或关闭issue。
 
+## B阅读待办：管理VM通用明细（独立默认关闭包）
+
+发布基线为B `b00e85a`，保留当前132 strict＋r4入口；以下198沿历史冻结阶段含义，不回切默认。
+
+- [ ] **B先读[管理VM逐模板中文交接](handoffs/B_A_ISSUE3_MANAGEMENT_VM.md)与[两文件闭包/17项合成复放](../experiments/issue3_management_vm_20261030/README.md)**。原生management保留JSON bool true，不与bootable字符串混用；多值IP原样保留，服务/卷独立集合不扇出，未知父/引用/容量诊断不丢。
+- [ ] 独立17/17、公开复放17/17，20子项不另加；owner92/bootable未重测。B需新registry/card/unified_prepare、可信请求/schema/分页/跨CI采集与typed A_MANAGEMENT_VM_DETAILS装载；IP/单位/服务角色和现场缺失仍未解，full_answer_certified固定false。
+
+仅region筛管理VM父域，VDC为原生身份/显示桶，不含命名VDC过滤或VDC总容量汇总。bootable/132/默认198/B/官方不改，实际N变化0、不启用、不关闭issue，不称原题满分或完整业务通过。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

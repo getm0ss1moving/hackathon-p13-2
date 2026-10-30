@@ -1,0 +1,99 @@
+{
+  "status": "INDEPENDENT_MANAGEMENT_VM_MINIMAL_REVIEW_COMPLETE",
+  "checks": 17,
+  "passed": 17,
+  "failed": 0,
+  "owner92_not_counted": true,
+  "bootable_not_imported_or_retested": true,
+  "manifest_sha256": "4ee2ec24f859f8db48693b5f0eccfe57cb67055780007400c477ac5dd7505711",
+  "source_sha256": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad",
+  "contract_sha256": "d620b1364422d4214ce3fb9f7d4d39862934dbf7c078d562374389731136b163",
+  "manifest_files_verified": 9,
+  "source_audit_file_hashes_verified": 27,
+  "native_counts_rederived": false,
+  "sources_unchanged": true,
+  "actual_N_delta": 0,
+  "not_run": [
+    "owner92",
+    "bootable",
+    "model",
+    "service",
+    "B",
+    "official executor/evaluator",
+    "native candidate SQL",
+    "sealed50 answers/reference/scoring",
+    "full200 or feedback"
+  ],
+  "HTTP_matrix_subcases_not_added": 20,
+  "case_verdicts": [
+    {
+      "id": "M01_services_times_volumes_do_not_multiply_same_size_sum",
+      "status": "PASS"
+    },
+    {
+      "id": "M02_native_bool_and_typed_API_binding",
+      "status": "PASS"
+    },
+    {
+      "id": "M03_missing_VDC_flavor_retains_parent",
+      "status": "PASS"
+    },
+    {
+      "id": "M04_unresolved_flavor_not_inner_dropped",
+      "status": "PASS"
+    },
+    {
+      "id": "M05_broken_deployment_chain_keeps_known_services_and_unknown",
+      "status": "PASS"
+    },
+    {
+      "id": "M06_no_service_is_not_certified_none",
+      "status": "PASS"
+    },
+    {
+      "id": "M07_missing_volume_target_reference_preserved_NULL_total",
+      "status": "PASS"
+    },
+    {
+      "id": "M08_unknown_mount_owner_prevents_full_capacity",
+      "status": "PASS"
+    },
+    {
+      "id": "M09_exact_source_numbers_dirty_not_zero_or_rounded",
+      "status": "PASS"
+    },
+    {
+      "id": "M10_raw_multiIP_no_first_token_or_role_fallback",
+      "status": "PASS"
+    },
+    {
+      "id": "M11_resolved_scope_mismatch_or_unknown_not_joined",
+      "status": "PASS"
+    },
+    {
+      "id": "M12_full_question_obligations_not_silently_dropped",
+      "status": "PASS"
+    },
+    {
+      "id": "M13_HTTP_failure_missing_schema_and_payload_not_empty",
+      "status": "PASS"
+    },
+    {
+      "id": "M14_duplicate_object_and_unknown_service_owner_not_full",
+      "status": "PASS"
+    },
+    {
+      "id": "M15_verified_no_recorded_mount_zero_distinct_from_unknown",
+      "status": "PASS"
+    },
+    {
+      "id": "M16_new_legal_region_entities_not_historical_hash_locked",
+      "status": "PASS"
+    },
+    {
+      "id": "M17_core_encoding_measurement_and_no_truncation",
+      "status": "PASS"
+    }
+  ],
+  "native_file_hash_check_scope": "Prior independent receipt only; publisher does not read native files or rederive counts."
+}

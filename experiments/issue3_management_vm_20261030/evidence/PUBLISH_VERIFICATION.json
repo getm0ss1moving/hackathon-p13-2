@@ -1,0 +1,26 @@
+{
+  "scope": "public17 pure synthetic scenarios; delivery-only integrity audit, not full owner/native acceptance",
+  "checks": 17,
+  "passed": 17,
+  "failed": 0,
+  "HTTP_matrix_subcases_not_added": 20,
+  "source_contract_files_verified": 2,
+  "source_files_unchanged": true,
+  "owner92_suite_run": false,
+  "bootable_imported_or_retested": false,
+  "native_records_read": false,
+  "native_statistics_rederived": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_runtime_calls": 0,
+  "official_executor_or_scorer_calls": 0,
+  "full_answer_certified": false,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "remaining": [
+    "B registry/card/unified_prepare and trusted capture/typed prepared loader",
+    "field coverage gaps",
+    "IP role/multivalue codec, capacity units and deployment-service meaning",
+    "actual final B envelope/official depth"
+  ]
+}
