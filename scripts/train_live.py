@@ -28,6 +28,24 @@ def runtime_source_paths(modules):
     return result
 
 
+def a170_source_contract(root):
+    """只接受已复建并审查的170库与全部来源；不放宽原保护文件。"""
+    name = "experiments/a170_runtime_port_20261030/SOURCE_MANIFEST.json"
+    candidate = json.loads((root / name).read_text())
+    expected = {
+        "implementation/runbook_items.py": "040040177f8db8bcfa62252567ffbc41199dd0ae8bfd8d2a34aa68364680b28c",
+        "implementation/runbook_retriever.py": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+        "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+    }
+    if (candidate.get("A_ref") != "6d3b47318ce767ef947c68019a2dce522de98c7a"
+            or candidate.get("template_json_sha256") != "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c"
+            or candidate.get("runtime_hashes") != expected
+            or any(sha(root / path) != digest for path, digest in expected.items())
+            or any(sha(root / path) != digest for path, digest in candidate["source_files"].items())):
+        raise ValueError("A170库、检索、视图或来源指纹变化，停止")
+    return candidate, [name, *sorted(candidate["source_files"]), "implementation/runbook_family_views.py"]
+
+
 def select_cases(cases, requested_ids, phase):
     """只缩小load_training给出的固定成员；题号只用于冻结实验范围。"""
     if len(cases) != 150 or len({case["case_id"] for case in cases}) != 150:
@@ -91,6 +109,7 @@ def main(argv=None):
     parser.add_argument("--output", type=Path)
     parser.add_argument("--request-limit", type=int, help="本次最多请求数；仅可收紧默认3倍题数及450上限")
     parser.add_argument("--a180-candidate", action="store_true", help="显式采用已审查A180构建指纹；不改变原198基线清单")
+    parser.add_argument("--a170-candidate", action="store_true", help="采用已审查A170完整来源清单；仅隔离候选")
     parser.add_argument("--candidate-flags", action="store_true", help="启用已通过训练回放的本轮通用保护")
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
@@ -156,16 +175,36 @@ def main(argv=None):
     import runbook_system as system_module
     import runbook_items
     from evaluator import evaluate_case
+    is170 = args.a170_candidate or len(runbook_items.RUNBOOK_ITEMS) == 170
+    if args.a180_candidate and is170:
+        parser.error("不能同时选择180与170候选")
+    module_names = ["runbook_matcher", "runbook_system", "runbook_items", "runbook_retriever", "runbook_executor", "evaluator"]
+    if is170:
+        import runbook_family_views
+        module_names.append("runbook_family_views")
     try:
-        runtime_paths = runtime_source_paths({name: sys.modules[name] for name in
-            ("runbook_matcher", "runbook_system", "runbook_items", "runbook_retriever", "runbook_executor", "evaluator")})
+        runtime_paths = runtime_source_paths({name: sys.modules[name] for name in module_names})
     except ValueError as exc:
         parser.error(str(exc))
     runtime_manifest = json.loads((HERE/"baseline_manifest.json").read_text())
     readonly = dict(runtime_manifest["readonly_files"])
     template_revision = {"mode": "baseline", "expected_items_sha256": readonly["implementation/runbook_items.py"]}
     candidate_sources = []
-    if args.a180_candidate or any(item.get("family_id") for item in runbook_items.RUNBOOK_ITEMS):
+    if is170:
+        try:
+            candidate, candidate_sources = a170_source_contract(HERE)
+        except (ValueError, KeyError, OSError) as exc:
+            parser.error(str(exc))
+        if (len(runbook_items.RUNBOOK_ITEMS) != 170
+                or len({item["id"] for item in runbook_items.RUNBOOK_ITEMS}) != 170
+                or sorted(item["family_id"] for item in runbook_items.RUNBOOK_ITEMS if item.get("family_id")) != candidate["families"]):
+            parser.error("A170活动库结构不符，停止")
+        for path in ("implementation/runbook_items.py", "implementation/runbook_retriever.py"):
+            readonly[path] = candidate["runtime_hashes"][path]
+        template_revision = {"mode": "a170_reviewed_private_build", "A_ref": candidate["A_ref"],
+                             "manifest_sha256": sha(HERE / "experiments/a170_runtime_port_20261030/SOURCE_MANIFEST.json"),
+                             "runtime_hashes": candidate["runtime_hashes"]}
+    elif args.a180_candidate or any(item.get("family_id") for item in runbook_items.RUNBOOK_ITEMS):
         package = HERE / "experiments/a_family_candidate_20261030"
         candidate = json.loads((package / "manifest.json").read_text())
         if any(sha(package / name) != digest for name, digest in candidate["files"].items()):
@@ -243,9 +282,12 @@ def main(argv=None):
         parser.error("不覆盖已有训练记录")
     original_ask, original_create = matcher.llm_ask, None
     records, identities, mismatch = [], {}, []
+    fatal_request_errors = []
     started, exit_code = time.perf_counter(), 1
 
     def frozen():
+        if fatal_request_errors:
+            raise RuntimeError("本轮已有模型请求或来源异常，禁止发起后续请求")
         if (runtime_source_paths({name: sys.modules[name] for name in runtime_paths}) != runtime_paths
                 or any(sha(HERE/name) != digest for name, digest in plan["source_sha256"].items())
                 or sha(SPLIT/"train.json") != plan["training_sha256"]
@@ -301,6 +343,7 @@ def main(argv=None):
                     return value
                 except Exception as exc:
                     error = {"error_type": type(exc).__name__, "http_status": getattr(exc, "status_code", None)}
+                    fatal_request_errors.append(error)
                     raise
                 finally:
                     for index, event in enumerate(matcher.get_llm_events()[before:], before):
