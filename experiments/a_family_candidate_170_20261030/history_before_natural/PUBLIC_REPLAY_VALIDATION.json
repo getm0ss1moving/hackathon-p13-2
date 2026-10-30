@@ -1,0 +1,60 @@
+{
+  "status": "PASS170_OFFLINE_DATA_INDEX_CLOSED_CONTRACT_ONLY",
+  "baseline_N": 179,
+  "candidate_N": 170,
+  "production_activated": false,
+  "nonmembers_exactly_unchanged": 168,
+  "raw_profile_order_and_BM25_statistics_identical": true,
+  "known_exposed_query_count": 0,
+  "additional_synthetic_queries": 12,
+  "paired_top_k_checks": 48,
+  "normalized_ID_order_tier_score_coverage_differences": 0,
+  "template_IDs_unique": true,
+  "text_profiles": 200,
+  "index_documents": 400,
+  "old_contracts_equal": 11,
+  "explicit_prepare_positives": 11,
+  "synthetic_SQL_API_comparisons": 33,
+  "negative_controls": {
+    "missing_terminal_projection": "unsupported_empty_candidate",
+    "contains_name": "unsupported_empty_candidate",
+    "OR_extra_name": "unsupported_empty_candidate",
+    "cross_resource": "unsupported_empty_candidate",
+    "unknown_projection": "unsupported_empty_candidate",
+    "global_scope": "unsupported_empty_candidate",
+    "null_name": "unsupported_empty_candidate",
+    "extra_metric": "unsupported_empty_candidate"
+  },
+  "original_surface_prepare_ordinary_count": 0,
+  "original_surface_prepare_total": 11,
+  "original_surface_diagnostic_counts": {
+    "batch3_complete_explicit_projection_required": 10,
+    "batch3_order_evidence_mismatch": 1
+  },
+  "measurements_ms": {
+    "179": {
+      "samples": 12,
+      "p95": 0.9335000000000038,
+      "p99": 0.9335000000000038,
+      "max": 1.0349170000000103
+    },
+    "170": {
+      "samples": 12,
+      "p95": 0.9317080000000033,
+      "p99": 0.9317080000000033,
+      "max": 1.0244169999999997
+    }
+  },
+  "model_calls": 0,
+  "service_calls": 0,
+  "shared_data_or_sealed_or_200_eval_accessed": false,
+  "B_adapter_installed": false,
+  "native_empty_schema_or_pagination_tested": false,
+  "limits": [
+    "Explicit terminal ordered projection and explicit equality roles only; original implicit wording is not equivalent yet.",
+    "Compound retrieval equality does not prove obligation execution; repeated family views need B composition.",
+    "rb038 defaults-versus-question conflict remains unresolved; placeholders do not fix it.",
+    "SQLite tables have predefined columns and synthetic filtered records; native empty-table behavior, pagination and unique-resource semantics are not proven.",
+    "No new model score, official total or black-box improvement is established."
+  ]
+}

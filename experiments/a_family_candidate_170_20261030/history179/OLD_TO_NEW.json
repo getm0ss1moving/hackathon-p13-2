@@ -1,0 +1,75 @@
+{
+  "mappings": [
+    {
+      "old_id": "rb_099",
+      "candidate_id": "family_f27",
+      "family_id": "F27",
+      "parameters": {
+        "scope": "filtered",
+        "view": "rows",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "sql_contract": "SELECT name, bucketName, managedStatus FROM CLOUD_OBS_BUCKET",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "status": "FINITE_LANGUAGE_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_101",
+      "candidate_id": "family_f27",
+      "family_id": "F27",
+      "parameters": {
+        "scope": "filtered",
+        "view": "tenant_count",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "sql_contract": "SELECT tenantName, COUNT(*) AS count FROM CLOUD_OBS_BUCKET GROUP BY tenantName",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "status": "FINITE_LANGUAGE_CANDIDATE_NOT_PRODUCTION"
+    }
+  ],
+  "current_active_old_ids": [
+    "rb_099",
+    "rb_101"
+  ],
+  "first_batch_intersection": [],
+  "strict_dedup_intersection": [],
+  "independent_conditional_reduction": 1
+}

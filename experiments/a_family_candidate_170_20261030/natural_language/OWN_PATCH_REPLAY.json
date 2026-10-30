@@ -1,0 +1,25 @@
+{
+  "status": "PASS_PRIVATE_REPLAY_ONLY",
+  "base_matcher_sha256": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e",
+  "target_matcher_sha256": "829a7e41c9340f9bdbd1d0232ebbda94f41efbc0920e30da75c6b7d5f927fc5a",
+  "target_module_sha256": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+  "patch_sha256": "e587d1b7fd9481ac5da39d07ef7a807211ba22381bbd49008c6377922e28969f",
+  "actions": [
+    {
+      "action": [
+        "--check"
+      ],
+      "exit_code": 0,
+      "error": ""
+    },
+    {
+      "action": [],
+      "exit_code": 0,
+      "error": ""
+    }
+  ],
+  "target_hashes_exact": true,
+  "syntax_compile_only": true,
+  "B_production_modified": false,
+  "Git_index_or_commits_written": false
+}

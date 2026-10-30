@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "all_existing_functions_unchanged": true,
+  "match_runbook_only_new_F02_F19_dispatch": true,
+  "source_sha256": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e"
+}

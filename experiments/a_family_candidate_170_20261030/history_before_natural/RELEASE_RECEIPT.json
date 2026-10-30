@@ -1,0 +1,20 @@
+{
+  "status": "READY_UNIFIED170_PACKAGE_FOR_UNIQUE_PUBLISHER",
+  "separate179_publication": false,
+  "build_179_from_published180_files_exit": 0,
+  "generated179_matches_frozen_sha256": true,
+  "build_170_replay_exit": 0,
+  "generated170_matches_frozen_sha256": true,
+  "public_replay_exit": 0,
+  "public_paired_topk_checks": 48,
+  "private_full_paired_topk_checks": 2148,
+  "sanitization_pattern_findings": 0,
+  "raw_private_templates_questions_and_results_excluded": true,
+  "git_stage_commit_push_or_fetch_this_task": false,
+  "production_switch": false,
+  "B_full_matcher_port_gate": "NOT_COMPLETED",
+  "original_implicit_language_gate": "0/11 ordinary items, not production ready",
+  "fee": 0,
+  "model_calls": 0,
+  "service_calls": 0
+}

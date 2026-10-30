@@ -1,0 +1,42 @@
+{
+  "status": "A170_DATA_INDEX_ONLY_NOT_PRODUCTION",
+  "source_N": 179,
+  "candidate_N": 170,
+  "source179_sha256": "1743b73df31b420a5d9f3a0f775d5c93e0277ce9c5e2d85585adef79b4f3d026",
+  "candidate170_sha256": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+  "retired_to_family": {
+    "rb_006": "family_f02",
+    "rb_009": "family_f02",
+    "rb_029": "family_f02",
+    "rb_037": "family_f02",
+    "rb_038": "family_f02",
+    "rb_039": "family_f02",
+    "rb_042": "family_f02",
+    "rb_142": "family_f19",
+    "rb_145": "family_f19",
+    "rb_146": "family_f19",
+    "rb_148": "family_f19"
+  },
+  "nonmember_items_exactly_unchanged": 168,
+  "active_families": [
+    "F01",
+    "F02",
+    "F08",
+    "F14",
+    "F18",
+    "F19",
+    "F20",
+    "F21",
+    "F27"
+  ],
+  "text_profiles": 200,
+  "index_documents": 400,
+  "raw_profile_order_tokens_DF_IDF_TF_tau_identical": true,
+  "max_compact_template_bytes": 2690,
+  "max_template_dict_list_depth": 7,
+  "outer_array_depth": 8,
+  "matcher_or_system_copied": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "warning": "Private expansion inherits original entities; publish source references, not this raw JSON. B adapter and implicit-language coverage are not established."
+}

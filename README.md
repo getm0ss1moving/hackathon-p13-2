@@ -1,5 +1,7 @@
 # CMDB 智能查询系统 — Hackathon
 
+**统一170隔离候选交付，生产仍198：** [170主包/构建/变更/验证](experiments/a_family_candidate_170_20261030/README.md) · **[B请先读统一交接](docs/handoffs/B_A170_HANDOFF.md)** · [团队B阅读待办](docs/TEAM.md)。显式/隐式70/70、默认检索46/46通过；top5为44/46，2148对照中2140全同、8次预期变化。B真实模型/原生执行仍待测，stage2不启，不代表正式总分提升。
+
 **180条隔离候选已交接，生产仍198：** [给B的适配与重测说明](docs/handoffs/B_A180_HANDOFF.md) · [候选定义/代码/构建包](experiments/a_family_candidate_20261030/README.md)。B v18需移植R5，旧补丁不可直贴；候选发布不表示上线或已有真实模型得分。
 
 用户查询的未支持输出已统一：[空输出合同](docs/handoffs/EMPTY_OUTPUT_CONTRACT.md)。SDK结果为null、CLI不打印解释；成功零行保留原结果对象，内部诊断和原评分语义保留。

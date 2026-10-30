@@ -1,0 +1,209 @@
+[
+  {
+    "id": "family_f02",
+    "family_id": "F02",
+    "name": "ECS直接属性投影与等值筛选",
+    "description": "ECS直接属性投影与等值筛选；只接受已审投影/筛选/排序组合，名称不是包含条件，不支持额外列或关系。",
+    "resources": [
+      "VM_NOVA"
+    ],
+    "examples": [
+      "ECS实例按名称等值查询，输出name、createdAt"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "azoneName",
+              "value": "{{azoneName}}",
+              "operator": "equal"
+            }
+          },
+          {
+            "simple": {
+              "name": "status",
+              "value": "{{status}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT name, privateIps, tenantName FROM CLOUD_VM_NOVA",
+    "parameter_contract": {
+      "scope": [
+        "filtered"
+      ],
+      "profiles": [
+        {
+          "projection": [
+            "name",
+            "privateIps",
+            "tenantName"
+          ],
+          "order": "none",
+          "filters": [
+            "azoneName",
+            "status"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "createdAt"
+          ],
+          "order": "none",
+          "filters": [
+            "name"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "clusterName",
+            "azoneName"
+          ],
+          "order": "none",
+          "filters": [
+            "name"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "privateIps",
+            "status"
+          ],
+          "order": "none",
+          "filters": [
+            "tenantName",
+            "logicalRegionName"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "privateIps",
+            "status"
+          ],
+          "order": "none",
+          "filters": [
+            "tenantName",
+            "logicalRegionName",
+            "azoneName"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "privateIps",
+            "tenantName"
+          ],
+          "order": "none",
+          "filters": [
+            "logicalRegionName",
+            "azoneName"
+          ]
+        },
+        {
+          "projection": [
+            "tenantName",
+            "name",
+            "privateIps"
+          ],
+          "order": "tenantName",
+          "filters": [
+            "vdcName",
+            "logicalRegionName",
+            "azoneName"
+          ]
+        }
+      ],
+      "types": "all filters are nonempty original text; no defaults"
+    }
+  },
+  {
+    "id": "family_f19",
+    "family_id": "F19",
+    "name": "GaussDB直接属性投影与等值筛选",
+    "description": "GaussDB直接属性投影与等值筛选；只接受已审投影/筛选/排序组合，名称不是包含条件，不支持额外列或关系。",
+    "resources": [
+      "GAUSSDB_INSTANCE"
+    ],
+    "examples": [
+      "GaussDB实例按名称等值查询，输出haMode、dataVip"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT name, engineName, engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+    "parameter_contract": {
+      "scope": [
+        "filtered"
+      ],
+      "profiles": [
+        {
+          "projection": [
+            "name",
+            "engineName",
+            "engineVersion",
+            "haMode",
+            "flavorCode"
+          ],
+          "order": "none",
+          "filters": [
+            "logicalRegionName"
+          ]
+        },
+        {
+          "projection": [
+            "engineVersion",
+            "haMode",
+            "flavorCode"
+          ],
+          "order": "none",
+          "filters": [
+            "name"
+          ]
+        },
+        {
+          "projection": [
+            "name",
+            "engineVersion",
+            "dataVip"
+          ],
+          "order": "none",
+          "filters": [
+            "logicalRegionName"
+          ]
+        },
+        {
+          "projection": [
+            "haMode",
+            "dataVip"
+          ],
+          "order": "none",
+          "filters": [
+            "name"
+          ]
+        }
+      ],
+      "types": "all filters are nonempty original text; no defaults"
+    }
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "id": "family_f27",
+  "family_id": "F27",
+  "name": "OBS桶列表与租户计数",
+  "description": "指定区域OBS桶的固定三列列表，或按租户统计桶数量；不包含容量、名称筛选或任意投影。",
+  "resources": [
+    "OBS_BUCKET"
+  ],
+  "examples": [
+    "列出指定区域的OBS桶列表",
+    "按租户统计指定区域的OBS桶数量"
+  ],
+  "api_call": {
+    "method": "GET",
+    "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+    "condition": {
+      "constraint": [
+        {
+          "simple": {
+            "name": "logicalRegionName",
+            "value": "{{logicalRegionName}}",
+            "operator": "equal"
+          }
+        }
+      ]
+    }
+  },
+  "sql": "SELECT name, bucketName, managedStatus FROM CLOUD_OBS_BUCKET"
+}

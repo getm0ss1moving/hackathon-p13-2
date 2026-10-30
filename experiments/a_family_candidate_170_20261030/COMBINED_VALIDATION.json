@@ -1,0 +1,316 @@
+{
+  "status": "PASS_FIXED170_COMBINED_LOCAL_GATE_NOT_REAL_MODEL_OR_PRODUCTION",
+  "active_templates": 170,
+  "source170_sha256": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+  "candidate170_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c",
+  "base_retriever_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+  "candidate_retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "semantic_prototype_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "semantic70": {
+    "passed": 70,
+    "false_empty": 0,
+    "false_nonempty": 0,
+    "wrong_contract": 0
+  },
+  "real_positive_cases": 46,
+  "coverage_after_by_k": {
+    "None": 46,
+    "1": 40,
+    "5": 44,
+    "10": 45
+  },
+  "original198_family_coverage": 38,
+  "original170_family_coverage": 38,
+  "original198_exact_contract_coverage": 37,
+  "original198_exact_contract_missing": [
+    "explicit-0",
+    "explicit-1",
+    "explicit-2",
+    "explicit-3",
+    "explicit-4",
+    "explicit-5",
+    "explicit-6",
+    "explicit-7",
+    "paraphrase-0"
+  ],
+  "upstream_baseline_correction": "On these coordinator-frozen46, original198 family coverage is38 but exact old-contract coverage is37. paraphrase-0 has another family member only; do not conflate these metrics.",
+  "inherited_explicit_gaps": [
+    "explicit-0",
+    "explicit-1",
+    "explicit-2",
+    "explicit-3",
+    "explicit-4",
+    "explicit-5",
+    "explicit-6",
+    "explicit-7"
+  ],
+  "new_merge_regressions": 0,
+  "new_attribute_improvements": 8,
+  "original179_to_base170_exact_comparisons": 2148,
+  "attribute_full_field_exact_comparisons": 2140,
+  "intentional_attribute_differences": [
+    {
+      "id": "synthetic170-0",
+      "k": null,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011",
+        "rb_022"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011",
+        "rb_022"
+      ]
+    },
+    {
+      "id": "synthetic170-0",
+      "k": 1,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185"
+      ],
+      "after_ids": [
+        "family_f02"
+      ]
+    },
+    {
+      "id": "synthetic170-0",
+      "k": 5,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107"
+      ]
+    },
+    {
+      "id": "synthetic170-0",
+      "k": 10,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172"
+      ]
+    },
+    {
+      "id": "synthetic170-1",
+      "k": null,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011",
+        "rb_022"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011",
+        "rb_022"
+      ]
+    },
+    {
+      "id": "synthetic170-1",
+      "k": 1,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185"
+      ],
+      "after_ids": [
+        "family_f02"
+      ]
+    },
+    {
+      "id": "synthetic170-1",
+      "k": 5,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107"
+      ]
+    },
+    {
+      "id": "synthetic170-1",
+      "k": 10,
+      "attribute_owners": [
+        "family_f02"
+      ],
+      "before_ids": [
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172",
+        "rb_011"
+      ],
+      "after_ids": [
+        "family_f02",
+        "rb_185",
+        "rb_147",
+        "rb_093",
+        "rb_107",
+        "rb_165",
+        "rb_132",
+        "rb_182",
+        "rb_131",
+        "rb_172"
+      ]
+    }
+  ],
+  "original525_all_four_k_exact": true,
+  "fixed24_semantic_negatives_pass": true,
+  "raw_negative_nonempty_before": 23,
+  "raw_negative_nonempty_after": 23,
+  "negative_new_candidate_ID_exposures": 0,
+  "deterministic_attribute_projection_negatives": 33,
+  "projection_negative_attribute_exposures": 0,
+  "primary_index_documents": 400,
+  "attribute_index_documents": 11,
+  "original200_profile_owners_and_aliases_unchanged": true,
+  "primary_BM25_statistics_unchanged": true,
+  "primary_query_body_AST_unchanged": true,
+  "unchanged_primary_methods": [
+    "_build_docs",
+    "_build_df",
+    "_doc_weight",
+    "_query_weight",
+    "_is_content_token",
+    "_coverage_base",
+    "_aggregate_items",
+    "_bm25_score",
+    "_classify",
+    "_assemble_results"
+  ],
+  "general_attribute_matching_no_old_ID_or_test_entity_dispatch_in_patch": true,
+  "query_timings_ms": {
+    "base170": {
+      "samples": 537,
+      "p95": 1.5483749999999907,
+      "p99": 1.6735420000000278,
+      "max": 1.8728329999992965
+    },
+    "attribute170": {
+      "samples": 537,
+      "p95": 1.533583000000005,
+      "p99": 1.6854159999999396,
+      "max": 2.2716250000005545
+    }
+  },
+  "index_build_python_memory": {
+    "base170": {
+      "build_ms_under_tracemalloc": 8.31716600000032,
+      "live_python_allocated_bytes": 1024758,
+      "peak_python_allocated_bytes": 1025342
+    },
+    "attribute170": {
+      "build_ms_under_tracemalloc": 8.29141699999969,
+      "live_python_allocated_bytes": 1065511,
+      "peak_python_allocated_bytes": 1068341
+    },
+    "live_delta_bytes": 40753
+  },
+  "B_full_model_selection_or_native_executor_tested": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "stage2_enabled": false,
+  "production_modified": false,
+  "Git_publication": false,
+  "limits": [
+    "The70 are exposed regression controls, not a new hidden blackbox.",
+    "Default46/46 is not top5 or top10 full coverage; B must respect candidate list semantics.",
+    "New attribute candidate scores come from a separate normalized text query and are not original full-question score probabilities.",
+    "No native SDK, actual model, official200, sealed50 or official score measured.",
+    "Container depth7/outer8 unresolved; known relation, default-value, pagination and empty-table limitations remain."
+  ]
+}

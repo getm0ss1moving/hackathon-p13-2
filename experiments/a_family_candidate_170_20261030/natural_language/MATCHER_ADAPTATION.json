@@ -1,0 +1,16 @@
+{
+  "main_head": "7b7271e3ab322914244f9047eb985174c2a92d9f",
+  "source_matcher_sha256": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e",
+  "candidate_matcher_sha256": "829a7e41c9340f9bdbd1d0232ebbda94f41efbc0920e30da75c6b7d5f927fc5a",
+  "family_module_sha256": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+  "prototype_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "frozen_batch3_sha256": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+  "patch_sha256": "e587d1b7fd9481ac5da39d07ef7a807211ba22381bbd49008c6377922e28969f",
+  "B_production_modified": false,
+  "selected_family_ids": [
+    "F02",
+    "F19"
+  ],
+  "hook_position": "after selection metadata, before identity/resource/composition paths",
+  "source_hash_must_match_before_apply": true
+}

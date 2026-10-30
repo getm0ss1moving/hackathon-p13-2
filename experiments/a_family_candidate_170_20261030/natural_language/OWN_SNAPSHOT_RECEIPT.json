@@ -1,0 +1,13 @@
+{
+  "source_mtime_utc": "2026-10-30T08:02:55.010489+00:00",
+  "source_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "stable_during_copy": true,
+  "exact70_cases_preserved": true,
+  "known_test_entity_literals_in_source": 0,
+  "source_or_B_files_modified": false,
+  "stdlib_imports": [
+    "copy",
+    "itertools",
+    "re"
+  ]
+}
