@@ -287,17 +287,18 @@ class SubsetTests(unittest.TestCase):
 
     def test_thinking_default_full150_and_invalid_or_changed_mode_are_rejected(self):
         with ExitStack() as stack:
+            stack.enter_context(patch.dict(os.environ, {"RUNBOOK_THINKING_MODE": "disabled"}))
             self.fake_inputs(stack)
             state = self.fake_runtime(stack)
             plan = self.preflight([])
-            self.assertEqual((plan["case_count"], plan["max_requests"], plan["thinking_mode"]), (150, 450, "provider_default"))
-            self.assertIsNone(plan["thinking_extra_body"])
+            self.assertEqual((plan["case_count"], plan["max_requests"], plan["thinking_mode"]), (150, 450, "disabled"))
+            self.assertEqual(plan["thinking_extra_body"], {"thinking": {"type": "disabled"}})
             with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 train_live.main(["--thinking-mode", "unsupported"])
             self.assertEqual(state.sdk_calls, 0)
         with ExitStack() as stack, self.assertRaises(SystemExit):
             self.run_fixture(stack, ["--case-id", "SYNTH-000", "--phase", "failure_probe"],
-                             mutate_plan=lambda plan: plan.update(thinking_mode="disabled"))
+                             mutate_plan=lambda plan: plan.update(thinking_mode="provider_default"))
 
 
 if __name__ == "__main__":

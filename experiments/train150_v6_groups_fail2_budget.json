@@ -1,0 +1,8 @@
+{
+  "status": "closed",
+  "used": 4,
+  "maximum": 6,
+  "unused_closed": 2,
+  "reused": false,
+  "trace_sha256": "a4cde10863d06f32bca1153b47e0134dd5e6b7dba9fe15ccf9f24a18628f2131"
+}

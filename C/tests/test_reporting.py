@@ -20,10 +20,14 @@ from eval_report import EvaluationReport
 
 class ReportingTests(unittest.TestCase):
     def test_original_entry_to_report_and_analysis(self):
-        spec = importlib.util.spec_from_file_location('root_quick_eval', ROOT / 'implementation/quick_eval.py')
+        spec = importlib.util.spec_from_file_location('root_quick_eval', ROOT / 'C/quick_eval_diagnostics.py')
         runner = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(runner)
-        cases = json.loads((ROOT / 'CMDB用例集-白盒200.json').read_text(encoding='utf-8'))['cases'][:2]
+        cases = [{'case_id': f'SYNTH_REPORT_{i}', 'question': f'合成报告用例{i}',
+                  'api_call': {'method': 'GET', 'url': '/rest/hackthon/db/instances/SYNTHETIC_RESOURCE?pageNo=1&pageSize=10000'},
+                  'sql': 'SELECT name FROM CLOUD_SYNTHETIC_RESOURCE',
+                  'answer': {'columns': ['name'], 'rows': [{'name': f'fixture_value_{i}'}], 'row_count': 1}}
+                 for i in (1, 2)]
         answers = iter(cases)
         fake = types.ModuleType('runbook_system')
 
@@ -40,7 +44,9 @@ class ReportingTests(unittest.TestCase):
         try:
             with tempfile.TemporaryDirectory(dir=ROOT / 'C/reports') as folder:
                 path = Path(folder) / 'run.jsonl'
+                (Path(folder) / 'CMDB用例集-白盒200.json').write_text(json.dumps({'cases': cases}))
                 with patch.dict(sys.modules, {'runbook_system': fake}), \
+                        patch.object(runner, '_HERE', str(Path(folder) / 'implementation')), \
                         patch.dict('os.environ', {'DEEPSEEK_API_KEY': 'fixture-key'}), \
                         patch.object(runner.http.client, 'HTTPConnection') as connection, \
                         patch('socket.socket.connect', side_effect=AssertionError('no network')), \

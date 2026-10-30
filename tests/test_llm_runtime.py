@@ -91,6 +91,7 @@ class RuntimeTests(unittest.TestCase):
         self.client(handler)
         with patch.object(matcher, "DEEPSEEK_MODEL", "organizer-provided-id"), \
              patch.dict(os.environ, {"RUNBOOK_MAX_LLM_CALLS": "1", "RUNBOOK_MAX_OUTPUT_TOKENS": "128"}):
+            os.environ.pop("RUNBOOK_THINKING_MODE", None)
             matcher.llm_ask("private-fixture-prompt", "select")
         request = requests_seen[0]
         payload = json.loads(request.content)
@@ -98,6 +99,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(request.headers["authorization"], "Bearer local-test-only")
         self.assertEqual(payload["model"], "organizer-provided-id")
         self.assertEqual(payload["max_tokens"], 128)
+        self.assertEqual(payload["thinking"], {"type": "disabled"})
         self.assertEqual([m["role"] for m in payload["messages"]], ["system", "user"])
         diagnostics = json.dumps(matcher.get_llm_events())
         self.assertNotIn("local-test-only", diagnostics)

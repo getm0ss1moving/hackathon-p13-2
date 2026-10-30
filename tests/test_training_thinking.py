@@ -44,6 +44,16 @@ class ThinkingContractTests(unittest.TestCase):
         self.assertIsNone(event["reasoning_tokens"])
         self.assertIsNone(event["reasoning_content_chars"])
 
+    def test_unset_mode_explicitly_disables_thinking(self):
+        create=Mock(return_value=self.response(reasoning=None,details=False))
+        client=SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+        with patch.dict(os.environ,{"RUNBOOK_MAX_LLM_CALLS":"1"}), \
+                patch.object(m,"get_llm",return_value=client),patch.object(m,"_llm_events",[]):
+            os.environ.pop("RUNBOOK_THINKING_MODE",None)
+            m.llm_ask("synthetic default-mode prompt",stage="select")
+            self.assertEqual(create.call_args.kwargs["extra_body"],{"thinking":{"type":"disabled"}})
+            self.assertEqual(m.get_llm_events()[0]["thinking_mode"],"disabled")
+
     def test_invalid_mode_fails_before_client_or_budget_event(self):
         with patch.dict(os.environ,{"RUNBOOK_THINKING_MODE":"unknown"}),patch.object(m,"get_llm") as client,patch.object(m,"_llm_events",[]):
             with self.assertRaises(ValueError):m.llm_ask("synthetic")

@@ -1,0 +1,16 @@
+{
+  "authority": "持续自主授权；网卡CIDR原拒答真5分后，同源回归原过4题，含既有完整网卡列表以查误触发",
+  "case_ids": [
+    "CMDB-005",
+    "CMDB-068",
+    "CMDB-181",
+    "CMDB-221"
+  ],
+  "max_requests": 12,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "1a97ab28d865bfaa78d0c26272901fd17cd07e861770919c8db888f90395d6f5",
+  "previous_unused_budgets_reused": false,
+  "holdout_file_accessed": false,
+  "isolation_note": "docs/training/ITERATION_700_STATE.md"
+}

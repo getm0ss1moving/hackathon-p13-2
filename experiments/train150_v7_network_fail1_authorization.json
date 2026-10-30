@@ -1,0 +1,13 @@
+{
+  "authority": "持续自主授权；native schema/known JOIN证明的网卡数量与CIDR明细补全，agent决定单题一次真实测试",
+  "case_ids": [
+    "CMDB-182"
+  ],
+  "max_requests": 3,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "previous_unused_budgets_reused": false,
+  "plan_sha256": "412e8971f3bc32225a7ace7be5c43f5f69739960795f2532f70b04c6fae3be86",
+  "holdout_file_accessed": false,
+  "isolation_note": "docs/training/ITERATION_700_STATE.md"
+}

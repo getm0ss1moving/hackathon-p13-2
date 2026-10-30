@@ -1,0 +1,10 @@
+{
+  "status": "closed",
+  "actual_requests": 2,
+  "maximum": 3,
+  "unused_closed": 1,
+  "reused": false,
+  "trace_sha256": "59884e4a255348f0d4a65b84ab8e2e0687a643ed248e4adb7722f96c8df716b2",
+  "prompt_tokens": 2766,
+  "completion_tokens": 41
+}

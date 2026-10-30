@@ -7,12 +7,12 @@
   },
   "readonly_files": {
     "CMDB用例集-白盒200.json": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
-    "implementation/blackbox_eval.py": "bff923a0572a88bc13b2258fbbd2a04cd5a1fa5d28c32348a0c23c59a195ec04",
-    "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
-    "implementation/quick_eval.py": "211ea890b74b2586e77402c37402f316a5c4b44e292ad4977f1b04321615071b",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+    "implementation/evaluator.py": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
-    "implementation/runbook_items.py": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
-    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "implementation/runbook_items.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+    "implementation/runbook_retriever.py": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
     "output-server/CI+md数据-脱敏-最终-0924/AZONE-1.json": "ccff5535ed66b4ead8e0d6a227693b92312ce1a39c346c4bc32591f501972e8b",
     "output-server/CI+md数据-脱敏-最终-0924/Application-1.json": "9cfbc5748dbfddf77c6f0e0d52539b4c4ca2738f5d71ca78e6121d036e06156e",
     "output-server/CI+md数据-脱敏-最终-0924/ApplicationModule-1.json": "d22bd11f44a45a976285bccb357528b3a814c877e076547907480b416d110f1c",
@@ -249,19 +249,20 @@
   },
   "component_sources": {
     "implementation/runbook_retriever.py": {
-      "source_commit": "1928514a1f2c722286ecb98463ad6425b4100dc7",
+      "source_commit": "2707ff9",
       "repository_path": "implementation/runbook_retriever.py",
-      "sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
-      "handoff_evidence": "experiments/a_cache_20261029_integration.json",
-      "note": "A 原样快照；B 未改写该文件；未列入 component_sources 的只读文件仍以原 source_commit 为准"
+      "sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
+      "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
+      "note": "A equivalent deduplication with retrieval aliases; verified 200 to198, no new execution contracts"
     },
     "implementation/runbook_items.py": {
-      "source_commit": "3c6e1227f5f3e92e3158d156b6deed13a66d6495",
-      "handoff_commit": "ad45ecc",
-      "source_path": "implementation/runbook_items.py",
-      "sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
-      "evidence": "experiments/a_826525a_integration.json",
-      "note": "合并时保留根A已有的稀疏列修复；不以B旧快照覆盖。"
+      "source_commit": "2707ff9",
+      "repository_path": "implementation/runbook_items.py",
+      "sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+      "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
+      "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
+      "note": "A equivalent deduplication with retrieval aliases; verified 200 to198, no new execution contracts"
     }
   },
   "integration": {
@@ -278,9 +279,70 @@
       },
       "implementation/runbook_items.py": {
         "B_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
-        "integrated_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35"
+        "previous_integrated_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+        "integrated_sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+        "source_commit": "2707ff9",
+        "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
+        "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
+        "change_policy": "only equivalent execution contracts merged; metadata alias mapping is explicit; real model behavior requires revalidation",
+        "previous_reconciliation": {
+          "B_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+          "integrated_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35"
+        }
+      },
+      "implementation/runbook_retriever.py": {
+        "B_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+        "previous_integrated_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+        "integrated_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+        "source_commit": "2707ff9",
+        "handoff_evidence": "experiments/a_2707ff9_training_handoff.json",
+        "handoff_evidence_sha256": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a",
+        "change_policy": "only equivalent execution contracts merged; metadata alias mapping is explicit; real model behavior requires revalidation",
+        "previous_reconciliation": null
       }
     },
     "note": "原B快照留在Git 51f0aad；统一采用根A模板和C评测入口，原评分器/执行器/数据未变"
+  },
+  "official_entrypoint_restoration": {
+    "reason": "用户要求官方测试脚本与下发文件逐字节一致；诊断入口移到C，不修改官方评分或执行代码",
+    "files": {
+      "implementation/quick_eval.py": {
+        "previous_diagnostic_sha256": "211ea890b74b2586e77402c37402f316a5c4b44e292ad4977f1b04321615071b",
+        "official_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "diagnostic_path": "C/quick_eval_diagnostics.py",
+        "restored_from_commit": "d79c316",
+        "verified_equal_to_supplied_parent": true
+      },
+      "implementation/blackbox_eval.py": {
+        "previous_diagnostic_sha256": "bff923a0572a88bc13b2258fbbd2a04cd5a1fa5d28c32348a0c23c59a195ec04",
+        "official_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "diagnostic_path": "C/blackbox_eval_diagnostics.py",
+        "restored_from_commit": "d79c316",
+        "verified_equal_to_supplied_parent": true
+      }
+    },
+    "evaluator_and_executor_previously_unchanged": true
+  },
+  "authorized_official_revisions": [
+    {
+      "revision_id": "numeric_ratio_tolerance_20261030",
+      "authority": "用户提供的评分器修订通知，2026-10-30",
+      "file": "implementation/evaluator.py",
+      "base_commit": "d79c316",
+      "previous_sha256": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+      "revised_sha256": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+      "before": "if abs(ratio - 100.0) < 0.1:",
+      "after": "if abs(ratio - 1.0) < 0.1:",
+      "evaluator_exact_single_line_patch": true,
+      "historical_results_rewritten": false,
+      "model_requests": 0
+    }
+  ],
+  "training_acceptance": {
+    "current_template_count": 198,
+    "A_source_commit": "2707ff9",
+    "evaluator_revision": "numeric_ratio_tolerance_20261030",
+    "thinking_mode": "disabled",
+    "replay_policy": "legacy score verified using original scorer; historical output and candidate rescored with authorized corrected scorer; aliases explicitly mapped; source and model change are not fresh model evidence"
   }
 }

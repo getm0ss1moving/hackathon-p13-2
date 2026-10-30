@@ -100,7 +100,7 @@ def main(argv=None):
     import runbook_matcher as matcher
     import runbook_system as system_module
     import evaluator
-    import quick_eval
+    from C import quick_eval_diagnostics as quick_eval
 
     manifest = json.loads((HERE / "baseline_manifest.json").read_text())
     for relative, expected in manifest["readonly_files"].items():

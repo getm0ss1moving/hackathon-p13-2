@@ -1,11 +1,13 @@
 # C 的职责和使用方法
 
+**复现B的640/750先读[固定150题v18协议](../docs/training/C_RETEST_PROTOCOL_V18.md)，不要把下文历史“前N题”诊断命令当成随机固定150训练集。v18完整开关见[配置](../configs/train150_v18.env)。**
+
 2026-10-30统一完成：根`implementation/`已接入B最新流程，支持`query(question, diagnostics=...)`。A/B/C使用同一套代码，无需再合并独立B目录。固定训练150题开发优先使用根`scripts/train_live.py`/`scripts/train_replay.py`，完整白盒仅用于明确授权后的评估；训练工具、测试与历史材料路径见[根README](../README.md)。
 
 
 C 负责把根目录集成后的系统跑完原评测，保存执行证据，统计得分与耗时，整理失分题，并在 A/B 修复后比较前后结果。
 
-实际代码是根目录 `implementation/quick_eval.py`、`blackbox_eval.py`、共用的 `eval_report.py`，以及 `C/analyze_results.py`。查询系统仍使用根目录 A/B 的实现，评分仍调用原 `evaluator.evaluate_case()`。无需把 C 的文件合并进查询模块，也无需另建 C 查询系统。A/B 的候选版本应先交接到根目录，再评测该集成版本。
+官方 `implementation/quick_eval.py`、`blackbox_eval.py`已恢复下发原件、保持只读。C增强诊断入口为 `C/quick_eval_diagnostics.py`、`C/blackbox_eval_diagnostics.py`，共用 `implementation/eval_report.py`，分析使用 `C/analyze_results.py`。查询系统仍使用根目录 A/B 的实现，评分仍调用原 `evaluator.evaluate_case()`。无需把 C 的文件合并进查询模块，也无需另建 C 查询系统。A/B 的候选版本应先交接到根目录，再评测该集成版本。
 
 这些评测、分析文件应提交团队 Git 仓库，方便复测；它们属于开发验证工具，不进入 `RunbookQuerySystem.query()` 的答题链路。最终比赛提交包的内容按主办要求核对，不能把 C 的日志分析工具当作参赛算法。旧版重复评估器、冻结套件和复杂审计工具已移除。
 
@@ -44,7 +46,7 @@ export PYTHONIOENCODING=utf-8
 python3 -B output-server/data_server.py --host 127.0.0.1 --port 8080
 ```
 
-## 3. 运行原评测，再分析
+## 3. 扩展诊断入口，再分析（非官方脚本）
 
 在第二个已配置密钥的终端运行。下面取白盒文件前20题，每题一次：
 
@@ -52,7 +54,7 @@ python3 -B output-server/data_server.py --host 127.0.0.1 --port 8080
 run_stamp="$(date +%Y%m%d-%H%M%S)-$$"
 result_path="C/reports/whitebox-${run_stamp}.jsonl"
 git rev-parse HEAD
-python3 -B -u implementation/quick_eval.py 20 --report "$result_path"
+python3 -B -u C/quick_eval_diagnostics.py 20 --report "$result_path"
 eval_exit_code=$?
 python3 -B C/analyze_results.py "$result_path" --expected 20 --exit-code "$eval_exit_code"
 ```

@@ -1,0 +1,14 @@
+{
+  "status": "closed",
+  "actual_requests": 33,
+  "maximum": 450,
+  "unused_closed": 417,
+  "reused": false,
+  "trace_sha256": "e8fb59ceefdf2e811185dfe1cffe5d5a2ec37fc724549831cb16ea79195521e9",
+  "prompt_tokens": 41436,
+  "completion_tokens": 1152,
+  "usage_complete": false,
+  "unavailable_usage_events": 1,
+  "token_totals_policy": "sum of observed usage only; one successful SDK response was followed by source-file relocation before usage extraction",
+  "stop_reason": "concurrent authorized directory move; full training incomplete at 15/150; no stitching"
+}

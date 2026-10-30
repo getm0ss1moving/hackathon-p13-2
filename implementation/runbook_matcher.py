@@ -212,7 +212,7 @@ def get_llm():
 
 def llm_ask(prompt: str, stage: str = "unknown") -> str:
     """调用 LLM，返回文本响应。"""
-    thinking_mode = os.environ.get("RUNBOOK_THINKING_MODE", "provider_default")
+    thinking_mode = os.environ.get("RUNBOOK_THINKING_MODE", "disabled")
     if thinking_mode not in {"provider_default", "disabled"}:
         raise ValueError("RUNBOOK_THINKING_MODE只允许provider_default或disabled")
     limit = int(os.environ.get("RUNBOOK_MAX_LLM_CALLS", "0"))
@@ -227,7 +227,7 @@ def llm_ask(prompt: str, stage: str = "unknown") -> str:
     _llm_events.append(event)
     started = time.perf_counter()
     try:
-        # DeepSeek官方thinking_mode指南；默认不传，保留原请求行为。
+        # 默认显式关闭思考；仅provider_default不传额外参数。
         options = {"extra_body": {"thinking": {"type": "disabled"}}} if thinking_mode == "disabled" else {}
         resp = client.chat.completions.create(
             model=DEEPSEEK_MODEL,
@@ -1202,6 +1202,12 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if os.environ.get("RUNBOOK_COMPLETE_IDENTITY_PROJECTION") == "1":
+        from runbook_projection_roles import complete_identity_projection
+        completed, evidence = complete_identity_projection(user_question, selected, runbook_items)
+        if evidence:
+            selected["sql"] = completed
+            diagnostics["identity_projection_evidence"] = evidence
     phase = "resource_coverage"
     if os.environ.get("RUNBOOK_PRUNE_UNUSED_LOOKUPS") == "1":
         pruned = _prune_unused_lookups(selected, user_question)
@@ -1217,11 +1223,61 @@ def match_runbook(user_question: str, runbook_items: list,
     if not scalar_plan and os.environ.get("RUNBOOK_COMPLETE_GROUPED_AGGREGATES") == "1":
         import runbook_aggregates as aggregates
         group_plan = aggregates.plan_groups(user_question, selected)
+    network_plan = None
+    if not scalar_plan and not group_plan and os.environ.get("RUNBOOK_COMPLETE_NETWORK_DETAILS") == "1":
+        import runbook_network_details as network_details
+        network_plan = network_details.plan_network(user_question, selected)
+        if network_plan:
+            selected = network_plan["item"]
+            diagnostics["network_details_plan"] = {key:value for key,value in network_plan.items()
+                                                   if key not in {"item", "preview_sql"}}
+    vpc_plan = None
+    if not scalar_plan and not group_plan and not network_plan and os.environ.get("RUNBOOK_COMPLETE_VPC_SUBNETS") == "1":
+        import runbook_vpc_subnets as vpc_subnets
+        vpc_plan = vpc_subnets.plan_vpc(user_question, selected)
+        if vpc_plan:
+            selected = vpc_plan["item"]
+            diagnostics["vpc_subnets_plan"] = {key:value for key,value in vpc_plan.items()
+                                               if key not in {"item", "preview_sql"}}
+    tenant_plan = None
+    if not scalar_plan and not group_plan and not network_plan and not vpc_plan and os.environ.get("RUNBOOK_COMPLETE_TENANT_RESOURCES") == "1":
+        import runbook_tenant_resources as tenant_resources
+        tenant_plan = tenant_resources.plan_tenants(user_question, selected)
+        if tenant_plan:
+            selected = tenant_plan["item"]
+            diagnostics["tenant_resources_plan"] = {key:value for key,value in tenant_plan.items()
+                                                    if key not in {"item", "preview_sql"}}
+    vm_volume_plan = None
+    if not any((scalar_plan, group_plan, network_plan, vpc_plan, tenant_plan)) and os.environ.get("RUNBOOK_COMPLETE_VM_VOLUME_DETAILS") == "1":
+        import runbook_vm_volume_details as vm_volume_details
+        vm_volume_plan = vm_volume_details.plan(user_question, selected)
+        if vm_volume_plan:
+            selected = vm_volume_plan["item"]
+            diagnostics["vm_volume_details_plan"] = {key:value for key,value in vm_volume_plan.items()
+                                                      if key not in {"item", "preview_sql"}}
+    parallel_plan = None
+    if not any((scalar_plan, group_plan, network_plan, vpc_plan, tenant_plan, vm_volume_plan)) and os.environ.get("RUNBOOK_COMPLETE_PARALLEL_LISTS") == "1":
+        import runbook_parallel_resource_lists as parallel_lists
+        parallel_plan = parallel_lists.plan(user_question, selected)
+        if parallel_plan:
+            selected = parallel_plan["item"]
+            diagnostics["parallel_resource_lists_plan"] = {key:value for key,value in parallel_plan.items()
+                                                            if key not in {"item", "preview_sql"}}
     coverage_item = selected
     if scalar_plan:
         coverage_item = dict(selected, sql=_compose_independent_scalars(selected["sql"], scalar_plan))
     elif group_plan:
         coverage_item = dict(selected, sql=aggregates.compose_groups(selected["sql"], group_plan))
+    elif network_plan:
+        coverage_item = dict(selected, sql=network_plan["preview_sql"])
+    elif vpc_plan:
+        coverage_item = dict(selected, sql=vpc_plan["preview_sql"])
+    elif tenant_plan:
+        coverage_item = dict(selected, sql=tenant_plan["preview_sql"])
+    elif vm_volume_plan:
+        coverage_item = dict(selected, sql=vm_volume_plan["preview_sql"])
+    elif parallel_plan:
+        coverage_item = dict(selected, sql=parallel_plan["preview_sql"])
     coverage = _resource_coverage(user_question, coverage_item)
     if scalar_plan:
         diagnostics["independent_scalar_plan"] = scalar_plan
@@ -1230,6 +1286,15 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["resource_coverage"] = coverage
     if coverage["unsupported"]:
         return reject("resource_mismatch")
+    scope_binding = None
+    if os.environ.get("RUNBOOK_BIND_TENANT_VDC") == "1":
+        from runbook_scope_bindings import resolve_tenant_vdc
+        bound, scope_binding = resolve_tenant_vdc(user_question, selected)
+        if scope_binding is not None:
+            diagnostics["tenant_vdc_binding"] = scope_binding
+            if not scope_binding["valid"]:
+                return reject("unproven_tenant_vdc_binding")
+            selected = bound
     # 3. 参数填充
     phase = "parameters"
     placeholders = _get_placeholders(selected)
@@ -1303,6 +1368,8 @@ def match_runbook(user_question: str, runbook_items: list,
     requested = {}
     _auto_fill_params(user_question, requested,
                       ["logicalRegionName", "tenantName", "azoneName", "vdcName"], selected)
+    if scope_binding and scope_binding["valid"]:
+        requested.update(scope_binding["question_scope"])
     calls = selected.get("api_call", [])
     calls = calls if isinstance(calls, list) else [calls]
     actual = {}
@@ -1325,6 +1392,31 @@ def match_runbook(user_question: str, runbook_items: list,
         diagnostics["independent_group_validation"] = validation
         if not validation["valid"]:
             return reject("invalid_independent_group_resources")
+    if network_plan:
+        validation = network_details.validate_network(user_question, selected, network_plan)
+        diagnostics["network_details_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_network_details_resources")
+    if vpc_plan:
+        validation = vpc_subnets.validate_vpc(user_question, selected, vpc_plan)
+        diagnostics["vpc_subnets_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_vpc_subnet_resources")
+    if tenant_plan:
+        validation = tenant_resources.validate_tenants(user_question, selected, tenant_plan)
+        diagnostics["tenant_resources_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_tenant_resources")
+    if vm_volume_plan:
+        validation = vm_volume_details.validate(user_question, selected, vm_volume_plan)
+        diagnostics["vm_volume_details_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_vm_volume_resources")
+    if parallel_plan:
+        validation = parallel_lists.validate(user_question, selected, parallel_plan)
+        diagnostics["parallel_resource_lists_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_parallel_list_resources")
 
     if coverage["covered_by_lookup"] and defer_api_validation:
         diagnostics["resource_lookup"] = {"valid": None, "reason": "deferred_to_bounded_query_execution"}
@@ -1349,6 +1441,14 @@ def match_runbook(user_question: str, runbook_items: list,
         refined = _refine_sql(user_question, original_sql, schemas, diagnostics)
         if refined:
             selected["sql"] = refined
+        identity_evidence = diagnostics.get("identity_projection_evidence")
+        if identity_evidence:
+            from runbook_identity_guard import validate_identity_refinement
+            identity_contract = validate_identity_refinement(original_sql, selected["sql"], identity_evidence)
+            diagnostics["identity_refinement_contract"] = identity_contract
+            if identity_contract["reject"]:
+                selected["sql"] = original_sql
+                diagnostics["identity_base_fallback"] = identity_contract["reason"]
         if scalar_plan:
             if not _preserves_scalar_base(original_sql, selected["sql"]):
                 diagnostics["independent_scalar_base_fallback"] = "changed_known_aggregate_expression_or_output"
@@ -1370,6 +1470,51 @@ def match_runbook(user_question: str, runbook_items: list,
                 combined = aggregates.compose_groups(original_sql, group_plan)
             if combined is None:
                 return reject("refinement_changed_group_shape")
+            selected["sql"] = combined
+        elif network_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = network_details.compose_network(selected["sql"], network_plan)
+            if combined is None:
+                diagnostics["network_details_base_fallback"] = "changed_known_port_count_shape"
+                combined = network_details.compose_network(original_sql, network_plan)
+            if combined is None:
+                return reject("refinement_changed_network_shape")
+            selected["sql"] = combined
+        elif vpc_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = vpc_subnets.compose_vpc(selected["sql"], vpc_plan)
+            if combined is None:
+                diagnostics["vpc_subnets_base_fallback"] = "changed_known_vpc_identity_or_detail_shape"
+                combined = vpc_subnets.compose_vpc(original_sql, vpc_plan)
+            if combined is None:
+                return reject("refinement_changed_vpc_shape")
+            selected["sql"] = combined
+        elif tenant_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = tenant_resources.compose_tenants(selected["sql"], tenant_plan)
+            if combined is None:
+                diagnostics["tenant_resources_base_fallback"] = "changed_known_tenant_group_or_count"
+                combined = tenant_resources.compose_tenants(original_sql, tenant_plan)
+            if combined is None:
+                return reject("refinement_changed_tenant_shape")
+            selected["sql"] = combined
+        elif vm_volume_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = vm_volume_details.compose(selected["sql"], vm_volume_plan)
+            if combined is None:
+                diagnostics["vm_volume_details_base_fallback"] = "changed_known_volume_detail_projection"
+                combined = vm_volume_details.compose(original_sql, vm_volume_plan)
+            if combined is None:
+                return reject("refinement_changed_vm_volume_shape")
+            selected["sql"] = combined
+        elif parallel_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = parallel_lists.compose(selected["sql"], parallel_plan)
+            if combined is None:
+                diagnostics["parallel_resource_lists_base_fallback"] = "changed_known_volume_detail_projection"
+                combined = parallel_lists.compose(original_sql, parallel_plan)
+            if combined is None:
+                return reject("refinement_changed_parallel_shape")
             selected["sql"] = combined
         diagnostics["sql_before_refine"] = original_sql
         diagnostics["sql_after_refine"] = selected["sql"]

@@ -54,7 +54,7 @@ def _vals_equal(v1, v2) -> bool:
             return True
         if v1 != 0 and v2 != 0:
             ratio = max(abs(v1), abs(v2)) / min(abs(v1), abs(v2))
-            if abs(ratio - 100.0) < 0.1:
+            if abs(ratio - 1.0) < 0.1:
                 return True
     if str(v1).strip() == str(v2).strip():
         return True

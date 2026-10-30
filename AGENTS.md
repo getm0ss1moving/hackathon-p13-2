@@ -5,8 +5,9 @@
 - 用户于 2026-10-30 要求先合并已有分支，后续直接在现有 `main` 开发和提交，不再为每次提交创建分支。原始基线保留在 Git 历史中；同步时不强推、重置或删除他人工作。
 - 用户于2026-10-30明确要求将B与根目录合并并提交推送GitHub；本轮已授权纳入B最新本地实现、必要工具和训练证据。之后每轮遵循当次提交授权，不顺带加入无关本地文件。
 - 保留 `implementation/`、`output-server/`、用例和原接口；不新增 `src/tools` 框架、适配层、中间表示或复杂审计系统。
-- 可修改 `runbook_items.py`、`runbook_retriever.py`、`runbook_matcher.py`、`runbook_system.py`、`quick_eval.py`、`blackbox_eval.py` 及协作文档。
-- 不修改 `runbook_executor.py`、`evaluator.py`、数据服务、原数据及测试用例；不通过改评分器提高得分。
+- 可修改 `runbook_items.py`、`runbook_retriever.py`、`runbook_matcher.py`、`runbook_system.py`、自有训练/诊断工具及协作文档。
+- 官方测试文件保持只读：`implementation/quick_eval.py`、`blackbox_eval.py`、`runbook_executor.py`以官方快照`d79c316`核验；`evaluator.py`采用该快照加用户2026-10-30提供的数值比值修订，仅将`abs(ratio - 100.0) < 0.1`改为`abs(ratio - 1.0) < 0.1`。修订记录和精确哈希见`baseline_manifest.json`及`scripts/check_official_integrity.py`。历史C增强入口保留在`C/`，不得写回官方入口。
+- 除已确认的主办方修订外，不修改 `runbook_executor.py`、`evaluator.py`、数据服务、原数据及测试用例；不通过改评分器提高得分。
 - 保留原有 SQL 精调及 `api_call + sql` 执行链路；检索沿用 BM25 词袋家族，不引入向量或神经网络检索。
 - 不新增题号、测试实体或答案硬编码，不按题号/完整问题查答案。已有示例和默认值属于基线，后续按实体替换表现逐步泛化。
 - 先核实文件是否存在，再声明可测范围；黑盒缺失时不得造题替代或称已测黑盒。
@@ -19,7 +20,7 @@
 ## 统一目录后的协作
 
 - 唯一运行时代码位于根`implementation/`，唯一数据服务位于根`output-server/`。B目录仅留迁移说明，不再创建独立源码或复制数据。用户本次合并指令优先于旧B“只能修改B”的隔离约定。
-- A维护模板与检索；B维护matcher/system/aggregates及scripts/下的训练脚本；C维护原评测入口、报告和`C/analyze_results.py`。同一文件一轮一人修改，先交接再集成。
+- A维护模板与检索；B维护matcher/system/aggregates及scripts/下的训练脚本；C维护扩展诊断入口、报告和`C/analyze_results.py`，官方评测文件只读。同一文件一轮一人修改，先交接再集成。
 - 固定划分为`datasets/whitebox_150_50_v1/manifest.json`，seed=20261030。开发只读train.json、train_history.jsonl及仅训练范围的后续结果；不读sealed_test.json、不用完整200题或历史全200逐题输出指导修改，不重抽划分，也不反推留出分数。
 - 原200模板和历史题目暴露保留披露；50题只隔离未来调参。最终留出评估需冻结候选，并由用户明确要求后单次执行；看反馈继续调参时应标记为验证集。
 - 日常免费回归使用`test_training_*.py`及合成语义/报告测试。完整白盒、旧全200测试、历史脚本不作为默认开发回归。

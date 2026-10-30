@@ -18,7 +18,7 @@ sys.path.insert(0, str(HERE / "implementation"))
 import runbook_matcher as matcher
 import runbook_system as system_module
 from evaluator import evaluate_case
-import quick_eval
+from C import quick_eval_diagnostics as quick_eval
 from test_llm_runtime import completion
 
 

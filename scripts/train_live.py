@@ -81,11 +81,23 @@ def main(argv=None):
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
     parser.add_argument("--grouped-aggregates", action="store_true", help="同范围各VDC网络资源完整计数，默认关闭")
-    parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="provider_default",
-                        help="固定思考模式；默认不传extra_body，disabled显式关闭thinking")
+    parser.add_argument("--network-details", action="store_true", help="具名VM网卡计数与CIDR对应明细，默认关闭")
+    parser.add_argument("--identity-projection", action="store_true", help="固定SQL角色证明的实例标识补列，默认关闭")
+    parser.add_argument("--vpc-subnets", action="store_true", help="逐VPC透明子网统计，默认关闭")
+    parser.add_argument("--tenant-resources", action="store_true", help="同区域各租户完整资源及规格统计，默认关闭")
+    parser.add_argument("--vm-volume-details", action="store_true", help="同租户区域VM及卷完整明细，默认关闭")
+    parser.add_argument("--tenant-vdc-binding", action="store_true", help="同CI原生查询证明租户对应VDC条件，默认关闭")
+    parser.add_argument("--parallel-resource-lists", action="store_true", help="同范围VM/卷/VPC三份独立列表，默认关闭")
+    parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="disabled",
+                        help="固定思考模式；默认disabled显式关闭thinking，provider_default不传额外参数")
     parser.add_argument("--case-id", action="append", help="可重复指定固定训练成员；最终按原train顺序运行")
     parser.add_argument("--phase", choices=("failure_probe", "passed_regression"), help="子集实验阶段，必须显式指定")
     args = parser.parse_args(argv)
+    from check_official_integrity import require_official_files
+    try:
+        official_integrity = require_official_files(HERE)
+    except ValueError as exc:
+        parser.error(str(exc))
     manifest, all_cases, _ = load_training()  # 失败即停；不打开原200题或封存文件。
     try:
         cases, scope, phase = select_cases(all_cases, args.case_id, args.phase)
@@ -109,6 +121,13 @@ def main(argv=None):
     flags["RUNBOOK_REFINE_CONTRACT_PROMPT"] = "1" if args.refine_contract_prompt else "0"
     flags["RUNBOOK_COMPLETE_INDEPENDENT_AGGREGATES"] = "1" if args.independent_aggregates else "0"
     flags["RUNBOOK_COMPLETE_GROUPED_AGGREGATES"] = "1" if args.grouped_aggregates else "0"
+    flags["RUNBOOK_COMPLETE_NETWORK_DETAILS"] = "1" if args.network_details else "0"
+    flags["RUNBOOK_COMPLETE_IDENTITY_PROJECTION"] = "1" if args.identity_projection else "0"
+    flags["RUNBOOK_COMPLETE_VPC_SUBNETS"] = "1" if args.vpc_subnets else "0"
+    flags["RUNBOOK_COMPLETE_TENANT_RESOURCES"] = "1" if args.tenant_resources else "0"
+    flags["RUNBOOK_COMPLETE_VM_VOLUME_DETAILS"] = "1" if args.vm_volume_details else "0"
+    flags["RUNBOOK_BIND_TENANT_VDC"] = "1" if args.tenant_vdc_binding else "0"
+    flags["RUNBOOK_COMPLETE_PARALLEL_LISTS"] = "1" if args.parallel_resource_lists else "0"
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
     os.environ.update(flags)
@@ -119,12 +138,28 @@ def main(argv=None):
     import runbook_system as system_module
     import runbook_items
     from evaluator import evaluate_case
-    readonly = json.loads((HERE/"baseline_manifest.json").read_text())["readonly_files"]
+    runtime_manifest = json.loads((HERE/"baseline_manifest.json").read_text())
+    readonly = runtime_manifest["readonly_files"]
     if not all(sha(HERE/name) == digest for name, digest in readonly.items()):
         parser.error("只读文件变化，停止")
-    sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py"] + ["implementation/"+name for name in
+    sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py", "scripts/check_official_integrity.py", "baseline_manifest.json"] + ["implementation/"+name for name in
                ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "evaluator.py", "runbook_executor.py"]]
     sources.append("implementation/runbook_aggregates.py")
+    sources += ["implementation/runbook_network_details.py", "implementation/runbook_projection_roles.py"]
+    sources.append("implementation/runbook_vpc_subnets.py")
+    sources.append("implementation/runbook_tenant_resources.py")
+    sources.append("implementation/runbook_vm_volume_details.py")
+    sources += ["implementation/runbook_scope_bindings.py", "implementation/runbook_identity_guard.py"]
+    sources.append("implementation/runbook_parallel_resource_lists.py")
+    sources += ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]
+    handoff_evidence = {}
+    for record in runtime_manifest.get("integration", {}).get("reconciled_files", {}).values():
+        path, expected = record.get("handoff_evidence"), record.get("handoff_evidence_sha256")
+        if path and expected:
+            if sha(HERE/path) != expected:
+                parser.error("来源交接证据哈希不符，未调用模型")
+            handoff_evidence[path] = expected
+    sources += sorted(handoff_evidence)
     if scope == "train_subset":
         sources.append("scripts/train_prompt_probe.py")
     plan = {"type": "training_plan", "created_at": now(), "split_id": manifest["split_id"],
@@ -135,6 +170,8 @@ def main(argv=None):
             "training_sha256": manifest["train_sha256"], "split_manifest_sha256": sha(SPLIT/"manifest.json"),
             "training_history_sha256": manifest["train_history_sha256"],
             "source_sha256": {name: sha(HERE/name) for name in sources},
+            "scoring_revision": official_integrity.get("accepted_revisions", {}),
+            "source_handoff_sha256": handoff_evidence,
             "code_base": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip(),
             "model": matcher.DEEPSEEK_MODEL, "base_url": matcher.DEEPSEEK_BASE_URL,
             "max_requests": max_requests, "max_output_tokens": 1024, "sdk_max_retries": 0,

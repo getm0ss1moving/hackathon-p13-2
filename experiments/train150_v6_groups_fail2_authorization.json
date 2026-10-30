@@ -1,0 +1,14 @@
+{
+  "authority": "持续自主授权；统一根目录5f04481后重新冻结，按各VDC网络资源计数失败小集，agent决定",
+  "case_ids": [
+    "CMDB-200",
+    "CMDB-258"
+  ],
+  "max_requests": 6,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "28410b248e827d13f7ca05fb558a80342f86b0adcce90feea500a387cdaf2972",
+  "previous_unused_budgets_reused": false,
+  "holdout_file_accessed": false,
+  "isolation_deviation_disclosed": "docs/training/ITERATION_700_STATE.md"
+}

@@ -17,7 +17,7 @@ from openai import OpenAI
 
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE / "implementation"))
-import quick_eval
+from C import quick_eval_diagnostics as quick_eval
 import runbook_matcher as matcher
 import runbook_system as system_module
 from test_llm_runtime import completion

@@ -1,0 +1,16 @@
+{
+  "authority": "用户持续自主授权；失败小测后回归原通过题，agent决定具体范围",
+  "case_ids": [
+    "CMDB-112",
+    "CMDB-223",
+    "CMDB-231"
+  ],
+  "phase": "failure_probe",
+  "max_requests": 9,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "previous_unused_budgets_reused": false,
+  "plan_sha256": "f19915d27efcbc939439a0091069a2794b184ba91238d0c900d8e1438af50459",
+  "holdout_file_accessed": false,
+  "isolation_note": "docs/training/ITERATION_700_STATE.md"
+}

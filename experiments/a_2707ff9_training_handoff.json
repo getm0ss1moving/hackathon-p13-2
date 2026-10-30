@@ -1,0 +1,46 @@
+{
+  "source_commit": "2707ff9",
+  "current_layout_commit": "d912b48c3119469dbdbae325581696a61dc117fa",
+  "scope": "prior fixed template library compatibility, no case or holdout evaluation",
+  "old_source_archive": "reports/train150_v13_parallel_source.zip",
+  "old_source_archive_sha256": "cce27f2e8ca74bcc94f9f59ab3d623aaa1da56c8667875bc315843b36d7d5cc2",
+  "old_count": 200,
+  "new_count": 198,
+  "aliases": [
+    {
+      "retired_id": "rb_054",
+      "canonical_id": "rb_052",
+      "execution_contract_equal": true,
+      "compared_fields": [
+        "api_call",
+        "default_params",
+        "resources",
+        "sql"
+      ]
+    },
+    {
+      "retired_id": "rb_087",
+      "canonical_id": "rb_086",
+      "execution_contract_equal": true,
+      "compared_fields": [
+        "api_call",
+        "default_params",
+        "resources",
+        "sql"
+      ]
+    }
+  ],
+  "common_contracts_unchanged": true,
+  "component_files": {
+    "implementation/runbook_items.py": {
+      "previous_integrated_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+      "accepted_sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+      "equals_A_commit": true
+    },
+    "implementation/runbook_retriever.py": {
+      "previous_integrated_sha256": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+      "accepted_sha256": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "equals_A_commit": true
+    }
+  }
+}

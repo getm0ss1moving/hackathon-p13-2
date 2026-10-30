@@ -1,0 +1,40 @@
+{
+  "official_commit": "d79c316",
+  "unchanged": true,
+  "files": [
+    {
+      "file": "implementation/evaluator.py",
+      "expected_sha256": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+      "actual_sha256": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+      "unchanged": true
+    },
+    {
+      "file": "implementation/runbook_executor.py",
+      "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+      "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+      "unchanged": true
+    },
+    {
+      "file": "implementation/quick_eval.py",
+      "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+      "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+      "unchanged": true
+    },
+    {
+      "file": "implementation/blackbox_eval.py",
+      "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+      "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+      "unchanged": true
+    }
+  ],
+  "accepted_revisions": {
+    "implementation/evaluator.py": {
+      "revision_id": "numeric_ratio_tolerance_20261030",
+      "authority": "用户提供的评分器修订通知，2026-10-30",
+      "base_commit": "d79c316",
+      "change": "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+    }
+  },
+  "scripts_executed": false,
+  "model_requests": 0
+}

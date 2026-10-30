@@ -1,0 +1,16 @@
+{
+  "authority": "持续自主授权；group2均真实5分后按同源码回归4道原通过题，agent决定独立预算",
+  "case_ids": [
+    "CMDB-005",
+    "CMDB-068",
+    "CMDB-121",
+    "CMDB-221"
+  ],
+  "max_requests": 12,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "61a9840636171ae1c51af14619b702c3e8e19d1b4de0a625b101f49b0664c38a",
+  "previous_unused_budgets_reused": false,
+  "holdout_file_accessed": false,
+  "isolation_note": "docs/training/ITERATION_700_STATE.md"
+}

@@ -38,13 +38,16 @@ output-server/        原数据服务
 
 ## 当前统一工作入口（2026-10-30）
 
+B最新交付：修订评分器下固定150题连续真实测试640/750，301请求、无时延扣分。C请先读[复测协议](docs/training/C_RETEST_PROTOCOL_V18.md)，使用[无密钥v18配置](configs/train150_v18.env)；时间分析见[profile](docs/training/V18_TIME_PROFILE.md)；已做/可交付/需要A/C的内容见[B交接清单](docs/training/B_AC_HANDOFF_V18.md)。该成绩不是200题或正式比赛总分。
+
 按用户要求，B独立项目已与根目录合并。A/B/C共同使用根目录的同一套模板、检索、匹配、执行与评测，不再进入B开发，也不再复制implementation或数据服务。
 
 | 位置 | 当前用途 |
 |---|---|
 | `implementation/runbook_items.py`、`runbook_retriever.py` | A的当前198模板、BM25检索（严格去重映射见上方） |
 | `implementation/runbook_matcher.py`、`runbook_system.py`、`runbook_aggregates.py` | B的最新选择、填参、SQL精调及默认关闭的聚合候选 |
-| `implementation/quick_eval.py`、`blackbox_eval.py`、`eval_report.py` | C的原评分入口与可选诊断；调用同一套B流程 |
+| `implementation/quick_eval.py`、`blackbox_eval.py` | 主办方原评测入口，逐字节恢复后只读 |
+| `C/quick_eval_diagnostics.py`、`C/blackbox_eval_diagnostics.py`、`implementation/eval_report.py` | 独立扩展诊断入口，原评分函数不变 |
 | `output-server/` | 唯一的原数据服务和230个数据JSON |
 | `scripts/train_live.py`、`scripts/train_replay.py`、`scripts/train_prompt_probe.py` | 固定150训练题的预检、真实诊断、免费回放和提示词探针 |
 | `datasets/whitebox_150_50_v1/` | 原字节迁入的划分清单、150训练题与历史；不上传封存50题 |
@@ -70,11 +73,15 @@ output-server/        原数据服务
 .venv/bin/python scripts/train_replay.py --history-v2 --candidate-flags --output reports/train-replay-new.json
 ```
 
-`scripts/train_live.py`默认只预检，读取本机`.env.local`中列出的模型配置；真实运行需显式`--run`、匹配的新冻结计划与新结果路径。原`quick_eval.py`/`blackbox_eval.py`读取进程环境变量，仍支持`--report`；配置密钥后会实际调用模型。模型、特性开关、数据范围和调用预算必须在运行前确定。
+`scripts/train_live.py`默认只预检，读取本机`.env.local`中列出的模型配置；真实运行需显式`--run`、匹配的新冻结计划与新结果路径。原`implementation/quick_eval.py`/`blackbox_eval.py`读取进程环境变量，已恢复主办方原件，不支持`--report`。C扩展报告功能移至`C/quick_eval_diagnostics.py`、`C/blackbox_eval_diagnostics.py`。模型、特性开关、数据范围和调用预算必须在运行前确定。
+
+本次发布默认显式关闭thinking；旧提交`d912b48`仍是`provider_default`。复测该已提交版本时，普通入口设置`RUNBOOK_THINKING_MODE=disabled`，训练入口显式加`--thinking-mode disabled`（旧CLI会覆盖环境变量）。详见[思考模式复测说明](docs/training/THINKING_RETEST.md)。
 
 开发继续遵守固定150/50隔离：只使用训练集，完整白盒和旧全200测试仅留作历史/明确授权后的最终评估入口，不能用其反馈指导当前调参。全200题和模板示例在划分前已公开，50题不是完全未见的泛化集。黑盒JSON仍缺失。
 
 合并保留根A的稀疏服务器字段修复和C的报告接口；B新增诊断同时可经`query(question, diagnostics=...)`收集，并保留结果中的阶段诊断。旧实验计划不会因搬目录而改写，源哈希漂移时须重新预检，不能把旧成绩当成统一版本成绩。当前合并验证见[交付记录](experiments/unified_20261030/README.md)。训练详细协议与待办见[训练说明](docs/training/TRAINING.md)、[问题清单](docs/training/TRAINING_ISSUES.md)。
+
+官方文件核验：`.venv/bin/python scripts/check_official_integrity.py`。该命令不运行模型或评测。`evaluator.py`采用用户提供的比值容差修订，仅将`100.0`改为`1.0`；`runbook_executor.py`保持官方原件。`quick_eval.py`、`blackbox_eval.py`曾加诊断，现已恢复`d79c316`原件。当前训练入口在运行前强制核验四个文件，失败即停。详见[原件核验与思考模式](docs/training/OFFICIAL_INTEGRITY.md)。
 
 ## 以下为既有交接和历史环境记录
 

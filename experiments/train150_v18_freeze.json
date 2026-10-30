@@ -1,0 +1,147 @@
+{
+  "status": "frozen_complete_continuous_training_run",
+  "this_task_model_requests": "finished; zero in flight",
+  "new_real_requests_allowed": false,
+  "coordination_state": "wait for isolated evaluation resource release; shared runtime frozen until isolated snapshot confirmation",
+  "goal_score": 700,
+  "goal_achieved": false,
+  "scoring_revision": {
+    "implementation/evaluator.py": {
+      "revision_id": "numeric_ratio_tolerance_20261030",
+      "authority": "用户提供的评分器修订通知，2026-10-30",
+      "base_commit": "d79c316",
+      "change": "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+    }
+  },
+  "template_count": 198,
+  "model": "deepseek-flash",
+  "thinking_mode": "disabled",
+  "feature_flags": {
+    "RUNBOOK_PRESERVE_TEMPLATE_COLUMNS": "1",
+    "RUNBOOK_RULE_ONLY_FILL": "1",
+    "RUNBOOK_PRESERVE_ROW_SEMANTICS": "1",
+    "RUNBOOK_RESOURCE_ATTRIBUTE_ROLES": "1",
+    "RUNBOOK_VALIDATE_API_DEPENDENCIES": "0",
+    "RUNBOOK_BOUNDED_API": "0",
+    "RUNBOOK_PRESERVE_AGGREGATE_GRAIN": "1",
+    "RUNBOOK_PRESERVE_LITERAL_LABELS": "1",
+    "RUNBOOK_PRUNE_UNUSED_LOOKUPS": "1",
+    "RUNBOOK_GROUND_ENUM_LABELS": "1",
+    "RUNBOOK_REFINE_CONTRACT_PROMPT": "1",
+    "RUNBOOK_COMPLETE_INDEPENDENT_AGGREGATES": "1",
+    "RUNBOOK_COMPLETE_GROUPED_AGGREGATES": "1",
+    "RUNBOOK_COMPLETE_NETWORK_DETAILS": "1",
+    "RUNBOOK_COMPLETE_IDENTITY_PROJECTION": "1",
+    "RUNBOOK_COMPLETE_VPC_SUBNETS": "1",
+    "RUNBOOK_COMPLETE_TENANT_RESOURCES": "1",
+    "RUNBOOK_COMPLETE_VM_VOLUME_DETAILS": "1",
+    "RUNBOOK_BIND_TENANT_VDC": "1",
+    "RUNBOOK_COMPLETE_PARALLEL_LISTS": "1",
+    "RUNBOOK_THINKING_MODE": "disabled"
+  },
+  "summary": {
+    "completed_cases": 150,
+    "total_score": 640.0,
+    "untimed_score": 640.0,
+    "full_quality_answers": 126,
+    "generation_requests": 301,
+    "failed_requests": 0,
+    "latency_p50": 1.66,
+    "latency_p95": 2.58,
+    "peak_evaluation_process_mib": 684.38,
+    "wall_seconds": 263.747
+  },
+  "max_case_seconds": 3.81,
+  "cases_over_4_seconds": 0,
+  "all_case_scores_without_time_penalty": true,
+  "source_sha256": {
+    "scripts/train_live.py": "c171421eefb7bafc17ba7e98952e2fa712f92e26c04554c8cff33ab2de3d9728",
+    "scripts/training_data.py": "6dc978a343da2cdcb0fe27ddeade7ccd69147984752c3b3a600d3791bff8ab89",
+    "scripts/run_whitebox.py": "e5e889a276c91b5a3785227f4f4e7faf9dc73dd825248e907f9effc877c7ec7e",
+    "scripts/check_official_integrity.py": "4171bf70d9db8a088c1702dae54ae9fbcbf974b9f0081983318c25a7112e9c30",
+    "baseline_manifest.json": "c91453736bd4d798144083d08f3f47965f0db764e5173a19e831e106eae01597",
+    "implementation/runbook_matcher.py": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e",
+    "implementation/runbook_system.py": "5bca4985696b141a323097bc08bb99f3b2d6bfc9585a764936e55ec0cad070d8",
+    "implementation/runbook_items.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+    "implementation/runbook_retriever.py": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+    "implementation/evaluator.py": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/runbook_aggregates.py": "6fcf02feb99dc7e1619d1aab80e126da8889b8d2f58f51ed3279732c0961ffdb",
+    "implementation/runbook_network_details.py": "116f3fccae6720b5f66702bb5fd2be3fc67fa1031a0c62c7b597e983167be2a0",
+    "implementation/runbook_projection_roles.py": "c547725575ba39233ec8f80be63a85631964db39c61a4fd66ee588a47bda5507",
+    "implementation/runbook_vpc_subnets.py": "83916953fc7579158f46a7d5e9fdb9eea1af452aff9c02b63eaae35097128a0c",
+    "implementation/runbook_tenant_resources.py": "3b1e85d0b34affb569c3afd672fa442593cc880482814be72f63a1d0a89549c1",
+    "implementation/runbook_vm_volume_details.py": "4eac5dfad31ecb5ce4e19701f7dfcb339926c21802b459431ba7baf2a16021ca",
+    "implementation/runbook_scope_bindings.py": "b1d686d7db572c5f6fc89509659312f4da5e6b8faaba20c46eca5df498d612bd",
+    "implementation/runbook_identity_guard.py": "94536a1427b983ac4691d735876d746efb1878464287f30b73ddc7178cbee39f",
+    "implementation/runbook_parallel_resource_lists.py": "5580f9c23447692679ce4ae7808b57298ec64570516f61ba75c437a7dfe0181f",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+    "experiments/a_2707ff9_training_handoff.json": "19abf3f44bc025a4b5059f9e20a5a2d98f3fc1f5b0efa0cdf5848dbda4c4603a"
+  },
+  "evidence_sha256": {
+    "experiments/train150_v18_full_plan.json": "01dbd6bc6879aceae4327d010c244412497438a7db78e085c95a28b031013eee",
+    "experiments/train150_v18_full_live.jsonl": "6ce70e2339b874f1d1667838337d006ff8785b62273a0ced037df1c2d6e0ddad",
+    "experiments/train150_v18_full_budget.json": "36ec40fd807cd1bd0f0b187a331032678b77b3852c4571c57046be267d420cc7",
+    "reports/train150_v18_A198_revised_source.zip": "aaa3f3e3815d5f06d57a1816918fcc44fdd8a491f9d51073fa43e313046e0997"
+  },
+  "split_id": "whitebox_150_50_v1",
+  "training_sha256": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+  "holdout_evaluated": false,
+  "git_head": "d912b48c3119469dbdbae325581696a61dc117fa",
+  "git_write_performed_by_this_task": false,
+  "free_candidate_work": [
+    "detail count plus atomic CIDR list",
+    "bound network loading with unchanged original SQL and complete output",
+    "single-ID equality dependency correction",
+    "boolean ratio grammar and denominator labels"
+  ],
+  "source_archive_matches_plan": true,
+  "usage_complete": true,
+  "prompt_tokens": 366005,
+  "completion_tokens": 9773,
+  "remaining_cases": {
+    "wrong": [
+      "CMDB-028",
+      "CMDB-053",
+      "CMDB-102",
+      "CMDB-112",
+      "CMDB-204",
+      "CMDB-259"
+    ],
+    "zero": [
+      "CMDB-057",
+      "CMDB-077",
+      "CMDB-088",
+      "CMDB-115",
+      "CMDB-139",
+      "CMDB-147",
+      "CMDB-189",
+      "CMDB-224",
+      "CMDB-261",
+      "CMDB-275",
+      "CMDB-287",
+      "CMDB-288",
+      "CMDB-297",
+      "CMDB-300"
+    ],
+    "partial": [
+      {
+        "id": "CMDB-252",
+        "score": 4.8
+      },
+      {
+        "id": "CMDB-256",
+        "score": 4.7
+      },
+      {
+        "id": "CMDB-270",
+        "score": 2.5
+      },
+      {
+        "id": "CMDB-274",
+        "score": 4.0
+      }
+    ]
+  }
+}

@@ -24,6 +24,9 @@ import runbook_matcher as matcher
 import runbook_system as system_module
 from runbook_items import RUNBOOK_ITEMS
 from evaluator import evaluate_case, _compare_answers
+from replay_compat import (SelectionReplay, guard_retrieve, load_verified_scorers,
+                           reconcile_sources, require_official_hashes, verified_library_aliases,
+                           verify_legacy_then_rescore)
 
 
 def recorded_parameters(template, actual):
@@ -57,8 +60,17 @@ def main():
     parser.add_argument("--candidate-flags", action="store_true", help="启用本轮通用候选，仍不调用模型")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立标量补全候选，默认关闭")
     parser.add_argument("--grouped-aggregates", action="store_true", help="各VDC完整网络资源计数候选，默认关闭")
+    parser.add_argument("--network-details", action="store_true", help="VM网卡数量与CIDR明细补全，默认关闭")
+    parser.add_argument("--identity-projection", action="store_true", help="固定SQL角色证明的实例标识补列，默认关闭")
+    parser.add_argument("--vpc-subnets", action="store_true", help="逐VPC透明子网统计，默认关闭")
+    parser.add_argument("--tenant-resources", action="store_true", help="同区域各租户完整资源及规格统计，默认关闭")
+    parser.add_argument("--vm-volume-details", action="store_true", help="同租户区域VM及卷完整明细，默认关闭")
+    parser.add_argument("--tenant-vdc-binding", action="store_true", help="同CI原生查询证明租户对应VDC条件，默认关闭")
+    parser.add_argument("--parallel-resource-lists", action="store_true", help="同范围VM/卷/VPC三份独立列表，默认关闭")
     parser.add_argument("--candidate-feature", choices=["grain", "literals", "prune", "enum"], action="append", default=[])
     args = parser.parse_args()
+    from check_official_integrity import require_official_files
+    official_integrity = require_official_files(HERE)
     if args.output.exists():
         parser.error("不覆盖已有训练结果")
     manifest, cases, history = load_training()
@@ -93,22 +105,36 @@ def main():
     flags["RUNBOOK_REFINE_CONTRACT_PROMPT"] = "0"  # 固定历史模型输出的回放不验证新提示词效果。
     flags["RUNBOOK_COMPLETE_INDEPENDENT_AGGREGATES"] = "1" if args.independent_aggregates else "0"
     flags["RUNBOOK_COMPLETE_GROUPED_AGGREGATES"] = "1" if args.grouped_aggregates else "0"
+    flags["RUNBOOK_COMPLETE_NETWORK_DETAILS"] = "1" if args.network_details else "0"
+    flags["RUNBOOK_COMPLETE_IDENTITY_PROJECTION"] = "1" if args.identity_projection else "0"
+    flags["RUNBOOK_COMPLETE_VPC_SUBNETS"] = "1" if args.vpc_subnets else "0"
+    flags["RUNBOOK_COMPLETE_TENANT_RESOURCES"] = "1" if args.tenant_resources else "0"
+    flags["RUNBOOK_COMPLETE_VM_VOLUME_DETAILS"] = "1" if args.vm_volume_details else "0"
+    flags["RUNBOOK_BIND_TENANT_VDC"] = "1" if args.tenant_vdc_binding else "0"
+    flags["RUNBOOK_COMPLETE_PARALLEL_LISTS"] = "1" if args.parallel_resource_lists else "0"
     flags["RUNBOOK_THINKING_MODE"] = "provider_default"  # 固定响应回放不能证明模型模式差异。
     snapshot = json.loads((HERE/"baseline_manifest.json").read_text())
     readonly = snapshot["readonly_files"]
     assert all(sha(HERE/name) == value for name, value in readonly.items())
     items = {item["id"]: item for item in RUNBOOK_ITEMS}
-    library_reconciliation = {}
-    for name in ["runbook_items.py", "runbook_retriever.py", "runbook_executor.py", "evaluator.py"]:
-        relative = "implementation/" + name
-        historical = manifest["initial_runtime_sha256"][relative]
-        current = sha(HERE/relative)
-        if current != historical:
-            reconciled = snapshot.get("integration", {}).get("reconciled_files", {}).get(relative, {})
-            assert (name == "runbook_items.py" and reconciled.get("B_sha256") == historical
-                    and reconciled.get("integrated_sha256") == current), "固定知识库/保护文件发生未交接变化"
-            library_reconciliation[relative] = reconciled
+    protected_names = ["implementation/" + name for name in
+                       ["runbook_items.py", "runbook_retriever.py", "runbook_executor.py", "evaluator.py"]]
+    protected_current = {name: sha(HERE/name) for name in
+                         protected_names + ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]}
+    require_official_hashes(protected_current)
+    library_reconciliation = reconcile_sources(
+        {name: manifest["initial_runtime_sha256"][name] for name in protected_names}, protected_current)
+    aliases = verified_library_aliases(RUNBOOK_ITEMS, protected_current)
+    revisions = [entry for entry in snapshot.get("authorized_official_revisions", [])
+                 if entry.get("file") == "implementation/evaluator.py"]
+    assert len(revisions) == 1, "缺少唯一用户授权评分器修订"
+    legacy_evaluate, revised_evaluate, scoring_revision = load_verified_scorers(
+        (HERE/"implementation/evaluator.py").read_bytes(), revisions[0], HERE/"implementation/evaluator.py")
+    for entry in snapshot.get("integration", {}).get("reconciled_files", {}).values():
+        if entry.get("handoff_evidence_sha256"):
+            assert sha(HERE/entry["handoff_evidence"]) == entry["handoff_evidence_sha256"]
     native_request, wire, blocked, outputs, calls = requests.Session.request, [], [], [], []
+    active = {}
 
     class ForbiddenModel(BaseException):
         pass
@@ -118,19 +144,21 @@ def main():
         if target.hostname != "127.0.0.1" or target.port != 8080 or method.upper() != "GET":
             blocked.append("nonlocal_request")
             raise ForbiddenModel("训练回放只允许本地数据GET")
+        if "/schema" not in target.path:
+            active["gate"].require_ready()
         response = native_request(session, method, url, *values, **options)
         wire.append({"kind": target.path.rsplit("/", 2)[-2], "resource": target.path.rsplit("/", 1)[-1], "status": response.status_code})
         return response
-
-    active = {}
 
     def fake_model(prompt, stage="unknown"):
         row = active["record"]
         details = row["diagnostics"]["matching"]
         calls.append({"case_id": row["case_id"], "stage": stage})
-        selected = details.get("selected_template")
+        gate = active["gate"]
+        gate.require_ready()
+        selected = gate.selected_canonical_id
         if stage == "select":
-            return str(details["candidate_ids"].index(selected)+1) if selected else "0"
+            return str(gate.model_index())
         if stage == "fill":
             return json.dumps(recorded_parameters(items[selected], row.get("api_call")), ensure_ascii=False)
         if stage == "refine" and row.get("sql"):
@@ -145,20 +173,35 @@ def main():
             patch.object(httpx.Client, "send", side_effect=ForbiddenModel("禁止模型请求")), \
             patch.object(system_module, "get_llm", return_value=None), patch.object(matcher, "llm_ask", side_effect=fake_model):
         system = system_module.RunbookQuerySystem()
+        gates = []
+        # 全部150题先做纯检索核对；不按旧序号误选去重后的候选，不读取逐题API。
         for case, row in zip(cases, history):
+            details = row["diagnostics"]["matching"]
+            gate = SelectionReplay(details["candidate_ids"], details.get("selected_template"), items, aliases,
+                                   details.get("selection", {}).get("model_index"))
+            gate.observe([candidate.id for candidate in system.retriever.retrieve(case["question"])])
+            gates.append(gate)
+        system.retriever.retrieve = guard_retrieve(system.retriever.retrieve, lambda: active.get("gate"))
+        for case, row, gate in zip(cases, history, gates):
             active["record"] = row
+            active["gate"] = gate
             if row.get("matched_runbook"):
                 baseline = executor.execute({"api_call": row["api_call"], "sql": row["sql"]})
                 baseline_output = {"matched_runbook": row["matched_runbook"], "api_call": row["api_call"],
                                    "sql": row["sql"], "result": baseline["result"], "error": baseline["error"]}
             else:
                 baseline_output = {"matched_runbook": None, "result": None}
-            old_score = evaluate_case(case, baseline_output, 0)["score"]
-            assert old_score == row["score_without_time_penalty"], f"训练历史未重现：{case['case_id']}"
-            current = system.query(case["question"])
+            candidate_output = {}
+            def query_candidate():
+                candidate_output["output"] = system.query(case["question"])
+                return candidate_output["output"]
+            score_proof = verify_legacy_then_rescore(case, baseline_output, row, legacy_evaluate,
+                                                   revised_evaluate, query_candidate)
+            old_score = score_proof["revised_baseline"]["score"]
+            current = candidate_output["output"]
             details = current["diagnostics"]["matching"]
-            assert details["candidate_ids"] == row["diagnostics"]["matching"]["candidate_ids"], "候选顺序漂移，不能冒充固定模型选择"
-            scored = evaluate_case(case, current, 0)
+            gate.observe(details["candidate_ids"])
+            scored = score_proof["revised_candidate"]
             new_score = scored["score"]
             answer_match, answer_ratio = _compare_answers(case.get("answer"), current.get("result")) if current.get("matched_runbook") else (False, 0)
             if args.require_baseline:
@@ -168,6 +211,9 @@ def main():
                         f"基线API/SQL漂移：{case['case_id']}，API相同={current['api_call'] == row['api_call']}，"
                         f"SQL前={row['sql']!r}，SQL后={current['sql']!r}")
             outputs.append({"case_id": case["case_id"], "baseline": old_score, "candidate": new_score,
+                            "legacy_historical_score": score_proof["legacy_historical_expected"],
+                            "legacy_replay_verified": score_proof["legacy_verified"],
+                            "selection_replay": gate.proof,
                             "api_changed": current.get("api_call") != row.get("api_call"),
                             "sql_changed": (current.get("sql") or "").strip() != (row.get("sql") or "").strip(),
                             "api_call": current.get("api_call"), "sql": current.get("sql"),
@@ -200,8 +246,19 @@ def main():
               "network_failures": [entry for entry in wire if entry["status"] != 200],
               "history_scope": "v2_segmented_train150" if args.history_v2 else "latest_train150_live" if args.latest_live else "initial_training_subset",
               "library_reconciliation": library_reconciliation,
+              "scoring_revision": scoring_revision,
+              "official_integrity": official_integrity,
+              "legacy_score_policy": "verified with byte-identical original evaluator; baseline and candidate metrics are rescored with authorized revision",
               "sources": {str(path.relative_to(HERE)): sha(path) for path in [Path(__file__), HERE/"scripts/training_data.py", HERE/"baseline_manifest.json", SPLIT/"manifest.json", SPLIT/"train.json", history_path,
                           *extra_history, HERE/"implementation/runbook_aggregates.py",
+                          HERE/"implementation/runbook_network_details.py", HERE/"implementation/runbook_projection_roles.py",
+                          HERE/"implementation/runbook_vpc_subnets.py",
+                          HERE/"implementation/runbook_tenant_resources.py",
+                          HERE/"implementation/runbook_vm_volume_details.py",
+                          HERE/"scripts/check_official_integrity.py", HERE/"implementation/quick_eval.py", HERE/"implementation/blackbox_eval.py",
+                          HERE/"implementation/runbook_scope_bindings.py", HERE/"implementation/runbook_identity_guard.py",
+                          HERE/"implementation/runbook_parallel_resource_lists.py",
+                          HERE/"scripts/replay_compat.py", HERE/"experiments/a_2707ff9_training_handoff.json",
                           *[HERE/"implementation"/name for name in ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "runbook_executor.py", "evaluator.py"]]]},
               "holdout_accessed": False, "limitation": "Fixed historical selections, reconstructed fill values and accepted SQL proposals; original query/API/executor/scorer rerun. No fresh model, latency or holdout result; library and prior whole-200 exposure remain."}
     with args.output.open("x", encoding="utf-8") as stream:

@@ -1,0 +1,14 @@
+{
+  "status": "preflight_failed",
+  "real_model_requests": 0,
+  "reason": "new A commits changed frozen library and retrieval sources; original official evaluator/executor/entrypoints remain byte-identical",
+  "new_head": "d912b48",
+  "old_runtime_base": "5f04481",
+  "changed_components": [
+    "implementation/runbook_items.py",
+    "implementation/runbook_retriever.py"
+  ],
+  "candidate_templates": 198,
+  "full_training_result": null,
+  "holdout_evaluated": false
+}
