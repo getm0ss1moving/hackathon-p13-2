@@ -76,6 +76,7 @@ class SubsetTests(unittest.TestCase):
         state = SimpleNamespace(events=[], sdk_calls=0, system_calls=0, closed=False, request_options=[])
         matcher = SimpleNamespace(DEEPSEEK_API_KEY="synthetic-key", DEEPSEEK_MODEL="synthetic-model",
                                   DEEPSEEK_BASE_URL="https://example.invalid", _llm_client=None,
+                                  __file__=str(train_live.HERE / "implementation/runbook_matcher.py"),
                                   get_llm_events=lambda: copy.deepcopy(state.events))
 
         def create(**options):
@@ -124,9 +125,12 @@ class SubsetTests(unittest.TestCase):
             return {"case_id": case["case_id"], "elapsed": elapsed, "score": 5, "reason": "synthetic"}
 
         stack.enter_context(patch.dict(sys.modules, {
-            "runbook_matcher": matcher, "runbook_system": SimpleNamespace(RunbookQuerySystem=System),
-            "runbook_items": SimpleNamespace(RUNBOOK_ITEMS=[{}] * 200),
-            "evaluator": SimpleNamespace(evaluate_case=score)}))
+            "runbook_matcher": matcher, "runbook_system": SimpleNamespace(RunbookQuerySystem=System,
+                __file__=str(train_live.HERE / "implementation/runbook_system.py")),
+            "runbook_items": SimpleNamespace(RUNBOOK_ITEMS=[{}] * 200,
+                __file__=str(train_live.HERE / "implementation/runbook_items.py")),
+            "evaluator": SimpleNamespace(evaluate_case=score,
+                __file__=str(train_live.HERE / "implementation/evaluator.py"))}))
         return state
 
     def fake_inputs(self, stack, digest_function=None):
@@ -134,7 +138,7 @@ class SubsetTests(unittest.TestCase):
 
         def read(path, *args, **kwargs):
             if path.name == "baseline_manifest.json":
-                return '{"readonly_files":{}}'
+                return json.dumps({"readonly_files":{"implementation/runbook_items.py":"d" * 64}})
             if path.name in {"sealed_test.json", "CMDB用例集-白盒200.json"}:
                 raise AssertionError("不能读取封存或原200题")
             return native_read(path, *args, **kwargs)

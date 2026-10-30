@@ -1,0 +1,193 @@
+{
+  "status": "complete_minimal_f18_closure",
+  "round": "independent round9",
+  "maximum_all_requests": 12,
+  "requests": 12,
+  "failed_requests": 0,
+  "unused_closed": 0,
+  "closed_balances_reused": false,
+  "scope": "train150 subset: observed F18 flavor count failure plus three v11-passed related F18 cases",
+  "probe_score": 5,
+  "probe_max": 5,
+  "regression_score": 15,
+  "regression_max": 15,
+  "parts": [
+    {
+      "label": "a180_v14_case154",
+      "case_ids": [
+        "CMDB-154"
+      ],
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "failure_probe",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-154"
+        ],
+        "status": "complete",
+        "completed_cases": 1,
+        "planned_cases": 1,
+        "max_score": 5,
+        "total_score": 5,
+        "untimed_score": 5,
+        "full_quality_answers": 1,
+        "runtime_abstentions": 0,
+        "scorer_abstentions": 0,
+        "generation_requests": 3,
+        "failed_requests": 0,
+        "max_requests": 3,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 2.84,
+        "peak_evaluation_process_mib": 198.2,
+        "latency_p50": 2.61,
+        "latency_p95": 2.61
+      },
+      "case_scores": [
+        {
+          "case_id": "CMDB-154",
+          "timed": 5,
+          "quality": 5,
+          "selected": "family_f18"
+        }
+      ],
+      "family_fills": [
+        {
+          "case_id": "CMDB-154",
+          "group": "flavorCode",
+          "metrics": "count",
+          "legal": true
+        }
+      ],
+      "plan_sha256": "8b9bf51a7aceb66cbe0502fdd5e68de79aeb64b7bb9a24e80f233a3dbf000513",
+      "source_zip_sha256": "e11416501d1aa945d6a9a695921423710cfa1558a6d5b292bf0b4d6a97b9eca2",
+      "trace_sha256": "148cdaf430f6e8e42c944afb7581327990b1a5bd4ae14e575dc5e4ba272acfdf"
+    },
+    {
+      "label": "a180_v14_pass3_f18",
+      "case_ids": [
+        "CMDB-156",
+        "CMDB-214",
+        "CMDB-215"
+      ],
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "passed_regression",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-156",
+          "CMDB-214",
+          "CMDB-215"
+        ],
+        "status": "complete",
+        "completed_cases": 3,
+        "planned_cases": 3,
+        "max_score": 15,
+        "total_score": 15,
+        "untimed_score": 15,
+        "full_quality_answers": 3,
+        "runtime_abstentions": 0,
+        "scorer_abstentions": 0,
+        "generation_requests": 9,
+        "failed_requests": 0,
+        "max_requests": 9,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 8.057,
+        "peak_evaluation_process_mib": 223.34,
+        "latency_p50": 2.56,
+        "latency_p95": 2.72
+      },
+      "case_scores": [
+        {
+          "case_id": "CMDB-156",
+          "timed": 5,
+          "quality": 5,
+          "selected": "family_f18"
+        },
+        {
+          "case_id": "CMDB-214",
+          "timed": 5,
+          "quality": 5,
+          "selected": "family_f18"
+        },
+        {
+          "case_id": "CMDB-215",
+          "timed": 5,
+          "quality": 5,
+          "selected": "family_f18"
+        }
+      ],
+      "family_fills": [
+        {
+          "case_id": "CMDB-156",
+          "group": "vdcName",
+          "metrics": "count_storage",
+          "legal": true
+        },
+        {
+          "case_id": "CMDB-214",
+          "group": "engineVersion",
+          "metrics": "count",
+          "legal": true
+        },
+        {
+          "case_id": "CMDB-215",
+          "group": "haMode",
+          "metrics": "count",
+          "legal": true
+        }
+      ],
+      "plan_sha256": "36bb0515bf29a154fe07d7c311e114924d06a2f34881704332606b3295a7b72c",
+      "source_zip_sha256": "012891b1ce50c0c05b2d282c8ea4ee6b92cb7d615c47b26c170bdd57e1247240",
+      "trace_sha256": "39c3245da316a1c1900f42f2195eff2109af79e66d91e5b921bf09fc74bf9c2a"
+    }
+  ],
+  "family_fill_total": 4,
+  "family_fill_legal": 4,
+  "family_fill_legal_rate": 1.0,
+  "reviewed_contracts_covered": [
+    [
+      "engineVersion",
+      "count"
+    ],
+    [
+      "flavorCode",
+      "count"
+    ],
+    [
+      "haMode",
+      "count"
+    ],
+    [
+      "vdcName",
+      "count_storage"
+    ]
+  ],
+  "all_case_quality_full": true,
+  "prompt_tokens": 11612,
+  "completion_tokens": 280,
+  "requested_and_response_model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "thinking_mode": "disabled",
+  "max_output_tokens": 1024,
+  "sdk_retries": 0,
+  "model_usage_complete": true,
+  "actual_head_at_freeze": "c384576ae151c91f5e44c334e7d09425a8cefbcb",
+  "matcher_sha256": "dced03e08a68670a7c4899060b6c2ac1fee57c680bf91de53322928f7a7b96d9",
+  "source_unchanged_during_round": true,
+  "EIP_candidate_present_but_not_modified_or_evaluated": true,
+  "EIP_not_declared_stable": true,
+  "schema_enforced_by_provider": false,
+  "runtime_guards_retained": true,
+  "prior_free_training_checks": 281,
+  "holdout_evaluated": false,
+  "full200_loaded": false,
+  "new_full150_run": false,
+  "latest_complete_full150_score": 639.1,
+  "no_small_sample_score_stitching": true,
+  "raw_responses_uploaded": false,
+  "private_items_uploaded": false
+}

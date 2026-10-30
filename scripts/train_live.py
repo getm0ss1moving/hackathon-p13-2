@@ -16,6 +16,18 @@ HERE = Path(__file__).resolve().parents[1]
 V2_HISTORY_FILES = ("train150_v2_live.jsonl", "train150_v2_resume_live.jsonl")
 
 
+def runtime_source_paths(modules):
+    """拒绝被旧目录/PYTHONPATH/sys.modules污染的运行时。"""
+    result = {}
+    for name, module in modules.items():
+        actual = Path(getattr(module, "__file__", "")).resolve()
+        expected = (HERE / "implementation" / (name + ".py")).resolve()
+        if actual != expected:
+            raise ValueError("运行时源码不来自本clone：" + name)
+        result[name] = str(actual)
+    return result
+
+
 def select_cases(cases, requested_ids, phase):
     """只缩小load_training给出的固定成员；题号只用于冻结实验范围。"""
     if len(cases) != 150 or len({case["case_id"] for case in cases}) != 150:
@@ -77,6 +89,8 @@ def main(argv=None):
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--expected-plan", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--request-limit", type=int, help="本次最多请求数；仅可收紧默认3倍题数及450上限")
+    parser.add_argument("--a180-candidate", action="store_true", help="显式采用已审查A180构建指纹；不改变原198基线清单")
     parser.add_argument("--candidate-flags", action="store_true", help="启用已通过训练回放的本轮通用保护")
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
@@ -105,6 +119,10 @@ def main(argv=None):
     except (ValueError, KeyError, OSError) as exc:
         parser.error(str(exc))
     case_count, max_requests = len(cases), 3 * len(cases)
+    if args.request_limit is not None:
+        if not 1 <= args.request_limit <= min(max_requests, 450):
+            parser.error("--request-limit只能在1与默认预算之间收紧")
+        max_requests = args.request_limit
     training_indices = {case["case_id"]: index+1 for index, case in enumerate(all_cases)}
     local = HERE/".env.local"
     if local.exists():
@@ -138,8 +156,32 @@ def main(argv=None):
     import runbook_system as system_module
     import runbook_items
     from evaluator import evaluate_case
+    try:
+        runtime_paths = runtime_source_paths({name: sys.modules[name] for name in
+            ("runbook_matcher", "runbook_system", "runbook_items", "runbook_retriever", "runbook_executor", "evaluator")})
+    except ValueError as exc:
+        parser.error(str(exc))
     runtime_manifest = json.loads((HERE/"baseline_manifest.json").read_text())
-    readonly = runtime_manifest["readonly_files"]
+    readonly = dict(runtime_manifest["readonly_files"])
+    template_revision = {"mode": "baseline", "expected_items_sha256": readonly["implementation/runbook_items.py"]}
+    candidate_sources = []
+    if args.a180_candidate or any(item.get("family_id") for item in runbook_items.RUNBOOK_ITEMS):
+        package = HERE / "experiments/a_family_candidate_20261030"
+        candidate = json.loads((package / "manifest.json").read_text())
+        if any(sha(package / name) != digest for name, digest in candidate["files"].items()):
+            parser.error("A180候选来源指纹变化，停止")
+        if (len(runbook_items.RUNBOOK_ITEMS) != 180
+                or len({item["id"] for item in runbook_items.RUNBOOK_ITEMS}) != 180
+                or sorted(item["family_id"] for item in runbook_items.RUNBOOK_ITEMS if item.get("family_id"))
+                != ["F01", "F08", "F14", "F18", "F20", "F21"]):
+            parser.error("A180活动库结构不符，停止")
+        readonly["implementation/runbook_items.py"] = candidate["materialized_candidate_Python_sha256"]
+        template_revision = {"mode": "a180_reviewed_build", "base_ref": candidate["base_ref"],
+                             "previous_items_sha256": runtime_manifest["readonly_files"]["implementation/runbook_items.py"],
+                             "expected_items_sha256": readonly["implementation/runbook_items.py"],
+                             "manifest_sha256": sha(package / "manifest.json")}
+        candidate_sources = ["scripts/build_a180_candidate.py", "experiments/a_family_candidate_20261030/manifest.json"]
+        candidate_sources += ["experiments/a_family_candidate_20261030/" + name for name in sorted(candidate["files"])]
     if not all(sha(HERE/name) == digest for name, digest in readonly.items()):
         parser.error("只读文件变化，停止")
     sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py", "scripts/check_official_integrity.py", "baseline_manifest.json"] + ["implementation/"+name for name in
@@ -152,6 +194,7 @@ def main(argv=None):
     sources += ["implementation/runbook_scope_bindings.py", "implementation/runbook_identity_guard.py"]
     sources.append("implementation/runbook_parallel_resource_lists.py")
     sources += ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]
+    sources += candidate_sources
     handoff_evidence = {}
     for record in runtime_manifest.get("integration", {}).get("reconciled_files", {}).values():
         path, expected = record.get("handoff_evidence"), record.get("handoff_evidence_sha256")
@@ -170,6 +213,9 @@ def main(argv=None):
             "training_sha256": manifest["train_sha256"], "split_manifest_sha256": sha(SPLIT/"manifest.json"),
             "training_history_sha256": manifest["train_history_sha256"],
             "source_sha256": {name: sha(HERE/name) for name in sources},
+            "runtime_source_paths": runtime_paths,
+            "template_revision": template_revision,
+            "family_ids": sorted({item["family_id"] for item in runbook_items.RUNBOOK_ITEMS if item.get("family_id")}),
             "scoring_revision": official_integrity.get("accepted_revisions", {}),
             "source_handoff_sha256": handoff_evidence,
             "code_base": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip(),
@@ -200,7 +246,8 @@ def main(argv=None):
     started, exit_code = time.perf_counter(), 1
 
     def frozen():
-        if (any(sha(HERE/name) != digest for name, digest in plan["source_sha256"].items())
+        if (runtime_source_paths({name: sys.modules[name] for name in runtime_paths}) != runtime_paths
+                or any(sha(HERE/name) != digest for name, digest in plan["source_sha256"].items())
                 or sha(SPLIT/"train.json") != plan["training_sha256"]
                 or sha(SPLIT/"train_history.jsonl") != plan["training_history_sha256"]
                 or sha(SPLIT/"manifest.json") != plan["split_manifest_sha256"]

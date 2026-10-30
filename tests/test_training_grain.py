@@ -14,7 +14,7 @@ import runbook_matcher as m
 
 class AggregateGrainTests(unittest.TestCase):
     def setUp(self):
-        context = patch.object(m, "_schema_columns", {"HOST": ["id", "name", "ipAddress", "status"],
+        context = patch.object(m, "_schema_columns", {"HOST": ["id", "name", "ipAddress", "status", "totalVcpuCores"],
                                                      "VM_NOVA": ["id", "name", "hostId", "status", "tenantName"]})
         context.start()
         self.addCleanup(context.stop)
@@ -56,6 +56,42 @@ class AggregateGrainTests(unittest.TestCase):
         with patch.dict(os.environ, {"RUNBOOK_PRESERVE_AGGREGATE_GRAIN": "0"}):
             self.assertFalse(m._row_semantics_contract("SELECT name,COUNT(*) AS n FROM CLOUD_HOST GROUP BY name",
                                                      "SELECT name,COUNT(*) AS n FROM CLOUD_HOST GROUP BY id,name", "主机数量")["reject"])
+
+    def test_equal_cpu_values_belong_to_different_hosts(self):
+        before = "SELECT SUM(totalVcpuCores) AS total FROM CLOUD_HOST"
+        after = "SELECT SUM(DISTINCT totalVcpuCores) AS total FROM CLOUD_HOST"
+        with closing(sqlite3.connect(":memory:")) as c:
+            c.execute("CREATE TABLE CLOUD_HOST (id TEXT,totalVcpuCores INTEGER)")
+            c.executemany("INSERT INTO CLOUD_HOST VALUES (?,?)", [("h-a",8),("h-b",8),("h-c",16)])
+            self.assertEqual(c.execute(before).fetchone()[0],32)
+            self.assertEqual(c.execute(after).fetchone()[0],24)
+        decision=m._row_semantics_contract(before,after,"宿主机vCPU总量")
+        self.assertTrue(decision["reject"],decision)
+
+    def test_value_aggregate_distinct_modes_are_preserved_both_directions(self):
+        for function in ["SUM","AVG"]:
+            before="SELECT "+function+"(totalVcpuCores) AS result FROM CLOUD_HOST"
+            after="SELECT "+function+"(DISTINCT totalVcpuCores) AS result FROM CLOUD_HOST"
+            self.assertTrue(m._row_semantics_contract(before,after,"宿主机统计")["reject"])
+            self.assertTrue(m._row_semantics_contract(after,before,"宿主机统计")["reject"])
+
+    def test_new_distinct_statistic_does_not_replace_original(self):
+        before="SELECT SUM(totalVcpuCores) AS total FROM CLOUD_HOST"
+        after="SELECT SUM(totalVcpuCores) AS total,COUNT(DISTINCT name) AS names FROM CLOUD_HOST"
+        self.assertFalse(m._row_semantics_contract(before,after,"vCPU总量及不同主机名数")["reject"])
+
+    def test_disabled_grain_flag_keeps_old_sum_distinct_policy(self):
+        before="SELECT SUM(totalVcpuCores) AS total FROM CLOUD_HOST"
+        after="SELECT SUM(DISTINCT totalVcpuCores) AS total FROM CLOUD_HOST"
+        with patch.dict(os.environ,{"RUNBOOK_PRESERVE_AGGREGATE_GRAIN":"0"}):
+            self.assertFalse(m._row_semantics_contract(before,after,"宿主机总量")["reject"])
+
+    def test_real_refinement_path_rejects_value_deduplication(self):
+        before="SELECT SUM(totalVcpuCores) AS total FROM CLOUD_HOST"
+        after="SELECT SUM(DISTINCT totalVcpuCores) AS total FROM CLOUD_HOST"
+        with patch.dict(os.environ,{"RUNBOOK_PRESERVE_ROW_SEMANTICS":"1"}):
+            d={};self.assertEqual(m._validated_refinement(after,before,"宿主机vCPU总量",d),before)
+            self.assertEqual(d["row_semantics_contract"]["reason"],"changed_value_aggregate_distinct_contract")
 
 
 if __name__ == "__main__":

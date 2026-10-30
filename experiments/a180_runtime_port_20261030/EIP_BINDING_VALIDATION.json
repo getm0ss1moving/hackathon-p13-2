@@ -1,0 +1,108 @@
+{
+  "status": "paid_probe_complete_then_free_hardening",
+  "paid_matcher_sha256": "914e56c095a4c1a8bb40489b20c05040877a299989695c27a7bf6f88f93e058c",
+  "current_hardened_matcher_sha256": "efb503a12143c2a66818748535c2f6a62c9b14477b1ad5f0373fd5b1bffb50ac",
+  "paid_parts": [
+    {
+      "label": "a180_v12_case057",
+      "case_ids": [
+        "CMDB-057"
+      ],
+      "score": 5,
+      "untimed_score": 5,
+      "max_score": 5,
+      "requests": 2,
+      "failed": 0,
+      "plan_sha256": "bc3f841bbc056c044d50a68a3bd628db8455e256066a83eb390d1d3214821a59",
+      "source_zip_sha256": "b4cd81aef25f5f319862dc03a67cdd8a23fc1c96f3165e773c9944659e16072c",
+      "trace_sha256": "61f354e8b6fa88d98c6022c5622aac65b3b30986703daf764832b131a6b4dc5b",
+      "case_scores": [
+        {
+          "case_id": "CMDB-057",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "label": "a180_v12_pass6_binding",
+      "case_ids": [
+        "CMDB-027",
+        "CMDB-033",
+        "CMDB-049",
+        "CMDB-061",
+        "CMDB-169",
+        "CMDB-176"
+      ],
+      "score": 25,
+      "untimed_score": 25,
+      "max_score": 30,
+      "requests": 14,
+      "failed": 0,
+      "plan_sha256": "c87ebb598582e5da8e370e143fd6570ea7ba8813854982c9941c39897de297f9",
+      "source_zip_sha256": "6c89ba5325072c5c2945241fb532fed4a9d7d2e7b909512be43730fc7acce925",
+      "trace_sha256": "7f147cb4b2937a4ad0e6c025a46c444ea266f3ef3d2280cb32d746c012bf1dc2",
+      "case_scores": [
+        {
+          "case_id": "CMDB-027",
+          "score": 0
+        },
+        {
+          "case_id": "CMDB-033",
+          "score": 5
+        },
+        {
+          "case_id": "CMDB-049",
+          "score": 5
+        },
+        {
+          "case_id": "CMDB-061",
+          "score": 5
+        },
+        {
+          "case_id": "CMDB-169",
+          "score": 5
+        },
+        {
+          "case_id": "CMDB-176",
+          "score": 5
+        }
+      ]
+    }
+  ],
+  "requests": 16,
+  "failed_requests": 0,
+  "maximum_all_requests": 30,
+  "unused_closed": 14,
+  "prompt_tokens": 19600,
+  "completion_tokens": 618,
+  "prior_closed_134_not_reused": true,
+  "request_usage_complete": true,
+  "f18_runtime_functions_unchanged_from_v11": true,
+  "regression_failure": "F01 total_active with count_alias=total rejected unreviewed_metric_options; family branch returns before EIP path",
+  "target_result_rows": 0,
+  "target_valid_empty_result_not_abstention": true,
+  "target_empty_result_limit": "5/5 validates this scoped empty result, not populated native association rows",
+  "native_status_counts": {
+    "DOWN": 6780,
+    "ACTIVE": 968
+  },
+  "nonempty_fixed_ip_by_status": {
+    "DOWN": 6540,
+    "ACTIVE": 968
+  },
+  "does_not_infer_bound_from_nonempty_fixed_ip": true,
+  "free_controls_found_after_paid_probe": 3,
+  "free_hardening": "ignore quoted names, reject extra named ECS/status/OR and invalid status slot operators; no later model calls",
+  "free_training_checks": 278,
+  "hardened_current_source_real_api_tested": false,
+  "new_paid_calls_or_remote_writes_after_coordination_notice": 0,
+  "holdout_evaluated": false,
+  "raw_logs_uploaded": false,
+  "private_expanded_items_uploaded": false,
+  "latest_complete_full150": {
+    "version": "v11",
+    "score": 639.1,
+    "max_score": 750,
+    "source_matcher_sha256": "bdf15014cb4a14a232b561a88b13503d82524cd20d6b781079ade9f5bf4841c1"
+  }
+}
