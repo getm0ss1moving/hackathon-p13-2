@@ -13,5 +13,5 @@ else
     fi
     .venv/bin/python -m pip install -r requirements.txt
 fi
-.venv/bin/python prepare_data.py
-.venv/bin/python check_env.py
+.venv/bin/python scripts/prepare_data.py
+.venv/bin/python scripts/check_env.py

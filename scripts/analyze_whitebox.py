@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 import statistics
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def percentile(values, q):

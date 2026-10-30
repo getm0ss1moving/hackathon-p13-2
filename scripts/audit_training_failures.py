@@ -16,7 +16,7 @@ import requests
 
 from training_data import load_training, sha, SPLIT
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE/"implementation"))
 import runbook_matcher as matcher
 import runbook_executor as executor

@@ -3,7 +3,7 @@
 A/B/C现在使用同一套根目录代码，请从[根README](../README.md)进入。
 
 - 查询实现：`../implementation/`，不再保留B源码副本。
-- 训练脚本：仓库根的`train_live.py`、`train_replay.py`、`train_prompt_probe.py`。
+- 训练脚本：仓库根的`scripts/train_live.py`、`scripts/train_replay.py`、`scripts/train_prompt_probe.py`。
 - 测试：`../tests/`；C报告工具仍在`../C/`。
 - 固定训练集：`../datasets/whitebox_150_50_v1/`。
 - 训练文档：[TRAINING.md](../docs/training/TRAINING.md)；历史来源和实验记录迁到`../experiments/`，历史字节和哈希不改写。

@@ -16,6 +16,7 @@ import httpx
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_live
 
 
@@ -171,7 +172,7 @@ class SubsetTests(unittest.TestCase):
             self.assertEqual(plan["case_ids"], ["SYNTH-000", "SYNTH-002"])
             self.assertEqual(plan["feature_flags"]["RUNBOOK_COMPLETE_INDEPENDENT_AGGREGATES"], "1")
             self.assertEqual(plan["feature_flags"]["RUNBOOK_REFINE_CONTRACT_PROMPT"], "1")
-            self.assertIn("train_prompt_probe.py", plan["source_sha256"])
+            self.assertIn("scripts/train_prompt_probe.py", plan["source_sha256"])
             self.assertEqual(set(plan["phase_reference"]["file_sha256"]), set(train_live.V2_HISTORY_FILES))
             self.assertNotIn("synthetic-key", json.dumps(plan))
             self.assertEqual((state.sdk_calls, state.system_calls), (0, 0))

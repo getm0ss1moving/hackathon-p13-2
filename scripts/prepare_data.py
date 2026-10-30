@@ -5,7 +5,7 @@ import json
 import shutil
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 DATA_DIR = Path("output-server/CI+md数据-脱敏-最终-0924")
 
 

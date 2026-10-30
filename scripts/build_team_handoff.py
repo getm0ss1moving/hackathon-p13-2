@@ -7,7 +7,7 @@ import zipfile
 
 from training_data import sha
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def main():
@@ -18,11 +18,11 @@ def main():
         parser.error("不覆盖历史交接包")
     names = ["AGENTS.md", "docs/training/TRAINING.md", "docs/training/TRAINING_ISSUES.md",
              "docs/training/A_REQUESTS_TRAINING.md", "docs/training/C_REQUESTS_TRAINING.md",
-             "docs/training/TEAM_TRAINING_HANDOFF.md", "training_data.py", "train_live.py", "train_replay.py", "analyze_training.py",
-             "audit_training_failures.py", "probe_training_field_contracts.py", "make_training_split.py",
-             "resume_training_v2.py", "analyze_training_v2_coverage.py",
-             "train_prompt_probe.py", "analyze_prompt_probe.py", "run_whitebox.py", "baseline_manifest.json",
-             "requirements.in", "requirements.txt", "setup.sh", "prepare_data.py", "check_env.py",
+             "docs/training/TEAM_TRAINING_HANDOFF.md", "scripts/training_data.py", "scripts/train_live.py", "scripts/train_replay.py", "scripts/analyze_training.py",
+             "scripts/audit_training_failures.py", "scripts/probe_training_field_contracts.py", "scripts/make_training_split.py",
+             "scripts/resume_training_v2.py", "scripts/analyze_training_v2_coverage.py",
+             "scripts/train_prompt_probe.py", "scripts/analyze_prompt_probe.py", "scripts/run_whitebox.py", "baseline_manifest.json",
+             "requirements.in", "requirements.txt", "setup.sh", "scripts/prepare_data.py", "scripts/check_env.py",
              "implementation/runbook_matcher.py", "implementation/runbook_system.py", "implementation/runbook_aggregates.py",
              "implementation/runbook_items.py", "implementation/runbook_retriever.py",
              "implementation/runbook_executor.py", "implementation/evaluator.py",

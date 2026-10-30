@@ -8,6 +8,34 @@
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
+## 当前目录与入口
+
+开发脚本统一收在`scripts/`，根目录只保留项目说明、依赖/环境配置、安装入口和原始资料。
+
+```text
+implementation/       查询实现与评测入口
+scripts/              训练、回放、分析、环境检查和交接工具
+tests/                训练与语义回归
+C/                    扩展诊断和报告工具
+datasets/             固定训练划分
+experiments/           历史来源与实验记录
+docs/                 协作、训练、复现与A交接文档
+output-server/        原数据服务
+```
+
+常用命令在仓库根目录执行：
+
+```bash
+./setup.sh
+.venv/bin/python scripts/check_env.py
+.venv/bin/python scripts/train_live.py --candidate-flags
+.venv/bin/python scripts/train_replay.py --history-v2 --candidate-flags --output reports/new-replay.json
+.venv/bin/python -B -W error::ResourceWarning -m unittest discover -s tests -p 'test_training_*.py' -v
+```
+
+训练入口默认只预检；真实模型调用仍需显式运行与匹配的新计划。脚本索引见[scripts/README.md](scripts/README.md)，分工见[docs/TEAM.md](docs/TEAM.md)。下文中“统一根目录”指共享项目与实现，开发脚本的实际路径以本节为准。
+
+
 ## 当前统一工作入口（2026-10-30）
 
 按用户要求，B独立项目已与根目录合并。A/B/C共同使用根目录的同一套模板、检索、匹配、执行与评测，不再进入B开发，也不再复制implementation或数据服务。
@@ -18,7 +46,7 @@
 | `implementation/runbook_matcher.py`、`runbook_system.py`、`runbook_aggregates.py` | B的最新选择、填参、SQL精调及默认关闭的聚合候选 |
 | `implementation/quick_eval.py`、`blackbox_eval.py`、`eval_report.py` | C的原评分入口与可选诊断；调用同一套B流程 |
 | `output-server/` | 唯一的原数据服务和230个数据JSON |
-| `train_live.py`、`train_replay.py`、`train_prompt_probe.py` | 固定150训练题的预检、真实诊断、免费回放和提示词探针 |
+| `scripts/train_live.py`、`scripts/train_replay.py`、`scripts/train_prompt_probe.py` | 固定150训练题的预检、真实诊断、免费回放和提示词探针 |
 | `datasets/whitebox_150_50_v1/` | 原字节迁入的划分清单、150训练题与历史；不上传封存50题 |
 | `tests/`、`C/tests/` | B的训练/语义测试与C的诊断/报告集成测试 |
 | `experiments/`、`docs/training/` | 原实验来源和训练交接文档；历史哈希和旧目录含义保留 |
@@ -28,7 +56,7 @@
 
 ```bash
 ./setup.sh
-.venv/bin/python check_env.py
+.venv/bin/python scripts/check_env.py
 .venv/bin/python output-server/data_server.py --host 127.0.0.1 --port 8080
 ```
 
@@ -38,11 +66,11 @@
 # 免费：只用合成用例/固定训练范围，不调用模型
 .venv/bin/python -B -W error::ResourceWarning -m unittest discover -s tests -p 'test_training_*.py' -v
 .venv/bin/python -B -W error::ResourceWarning -m unittest discover -s C/tests -v
-.venv/bin/python train_live.py --candidate-flags
-.venv/bin/python train_replay.py --history-v2 --candidate-flags --output reports/train-replay-new.json
+.venv/bin/python scripts/train_live.py --candidate-flags
+.venv/bin/python scripts/train_replay.py --history-v2 --candidate-flags --output reports/train-replay-new.json
 ```
 
-`train_live.py`默认只预检，读取本机`.env.local`中列出的模型配置；真实运行需显式`--run`、匹配的新冻结计划与新结果路径。原`quick_eval.py`/`blackbox_eval.py`读取进程环境变量，仍支持`--report`；配置密钥后会实际调用模型。模型、特性开关、数据范围和调用预算必须在运行前确定。
+`scripts/train_live.py`默认只预检，读取本机`.env.local`中列出的模型配置；真实运行需显式`--run`、匹配的新冻结计划与新结果路径。原`quick_eval.py`/`blackbox_eval.py`读取进程环境变量，仍支持`--report`；配置密钥后会实际调用模型。模型、特性开关、数据范围和调用预算必须在运行前确定。
 
 开发继续遵守固定150/50隔离：只使用训练集，完整白盒和旧全200测试仅留作历史/明确授权后的最终评估入口，不能用其反馈指导当前调参。全200题和模板示例在划分前已公开，50题不是完全未见的泛化集。黑盒JSON仍缺失。
 
@@ -59,7 +87,7 @@
 
 第三轮已完成原入口前20题模型基线（75.5/100，53次HTTP请求）及固定无费用实验；当前状态以[实验合同与结果](experiments/round3/README.md)和下方第三轮记录为准，不能将历史“未运行”记录当作当前状态。
 
-整体任务清单、词汇/短语贡献实验、模板价值与精简、A/B/C 分工和验收标准见 [TEAM.md](TEAM.md#整体任务清单)。实验从词、短语、同义词组和检索字段开始，不仅以完整模板为单位。
+整体任务清单、词汇/短语贡献实验、模板价值与精简、A/B/C 分工和验收标准见 [TEAM.md](docs/TEAM.md#整体任务清单)。实验从词、短语、同义词组和检索字段开始，不仅以完整模板为单位。
 
 2026-10-30 集成交付：已同步远端 `aecdc09` 并保留协作提交，重放主 agent 的4个本地验收提交。原20题授权已有完成记录，本次无费用复算仍为 **75.5/100**，没有重新调用模型；该结果属于 `d534a08`，同步后的实现尚无本轮模型评分。当前原入口已支持 `--report 新路径.jsonl`。受保护236文件、当前语法、7个无网络CLI与报告写入检查通过，详情见[本次交付回执](experiments/integration_20261030/README.md)。200模板保留，完整白盒/黑盒与正式总分仍未运行。
 

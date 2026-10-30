@@ -11,7 +11,7 @@ import time
 from training_data import load_training, sha
 from run_whitebox import now, result_preview
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def main():
@@ -55,7 +55,9 @@ def main():
             "previous_used_requests": 289, "original_total_limit": 450, "max_total_after_resume": 298,
             "manual_retry_of_timeout_case": cases[0]["case_id"], "new_process_and_executor_cache": True,
             "claim_boundary": "147 incomplete plus separate 3-case coverage; never a complete single-pass score"}
-    if not all(sha(HERE/name) == digest for name, digest in plan["source_sha256"].items()):
+    historical_paths = {name: HERE / ("scripts/" + name if "/" not in name else name)
+                        for name in plan["source_sha256"]}
+    if not all(sha(historical_paths[name]) == digest for name, digest in plan["source_sha256"].items()):
         parser.error("源代码已偏离父运行，未调用模型")
     if matcher.DEEPSEEK_MODEL != plan["model"] or matcher.DEEPSEEK_BASE_URL != plan["base_url"]:
         parser.error("模型配置偏离父运行")

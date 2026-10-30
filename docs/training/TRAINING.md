@@ -50,10 +50,10 @@ v1有10错误、2部分、25拒答；v2分段覆盖已改善至5错误、2部分
 
 ```bash
 .venv/bin/python -W error::ResourceWarning -m unittest discover -s tests -p 'test_training_*.py' -v
-.venv/bin/python train_replay.py --latest-live --candidate-flags --output reports/train150-v2-replay-recheck.json
-.venv/bin/python train_live.py --candidate-flags
+.venv/bin/python scripts/train_replay.py --latest-live --candidate-flags --output reports/train150-v2-replay-recheck.json
+.venv/bin/python scripts/train_live.py --candidate-flags
 ```
 
 真实完整入口只有固定150题，没有`--case-file`、`--limit`或留出选项；仅`--run`且给定匹配的冻结计划/新输出文件才调用模型。用户已持续授权后续问题由B自行决定，有界训练实验由agent先冻结范围、来源和独立账目，不再逐轮询问，也不能伪称逐轮人工批准。划分后的训练阶段不要再运行旧的全200脚本。旧轮次命令需先恢复对应源码副本，不能在当前候选上套旧计划；v2补测已经结束，当前源码漂移时必须拒绝复用其计划。
 
-新增`train_prompt_probe.py`仅做固定16训练题的新旧SQL精调提示词配对，最多32次refine请求，选择/填参与API输入固定。该探针没有留出入口；它的结果须与完整150题query成绩分列，见[协议与报告](../../experiments/train150_v3_prompt_notes.md)。
+新增`scripts/train_prompt_probe.py`仅做固定16训练题的新旧SQL精调提示词配对，最多32次refine请求，选择/填参与API输入固定。该探针没有留出入口；它的结果须与完整150题query成绩分列，见[协议与报告](../../experiments/train150_v3_prompt_notes.md)。

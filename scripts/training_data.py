@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-SPLIT = Path(__file__).resolve().parent/"datasets/whitebox_150_50_v1"
+SPLIT = Path(__file__).resolve().parents[1]/"datasets/whitebox_150_50_v1"
 
 
 def sha(path):

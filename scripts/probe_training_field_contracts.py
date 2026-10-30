@@ -13,7 +13,7 @@ import requests
 
 from training_data import load_training, sha
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE/"implementation"))
 import runbook_matcher as matcher
 import runbook_executor as executor
@@ -76,7 +76,7 @@ def main():
     report = {"scope": "train_only", "split_id": manifest["split_id"], "cases": len(evidence), "evidence": evidence,
               "real_model_requests": 0, "holdout_accessed": False,
               "http_failures": [entry for entry in wire if entry["status"] != 200],
-              "sources": {str(path.relative_to(HERE)): sha(path) for path in [Path(__file__), HERE/"training_data.py", HERE/"implementation/runbook_items.py", HERE/"implementation/runbook_matcher.py"]},
+              "sources": {str(path.relative_to(HERE)): sha(path) for path in [Path(__file__), HERE/"scripts/training_data.py", HERE/"implementation/runbook_items.py", HERE/"implementation/runbook_matcher.py"]},
               "limitation": "Field presence and literal matches do not prove tenant/VDC equivalence or any name-to-ID relationship; runtime remains unchanged."}
     with args.output.open("x") as stream:
         json.dump(report, stream, ensure_ascii=False, indent=2)

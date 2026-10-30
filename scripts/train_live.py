@@ -12,7 +12,7 @@ import time
 from training_data import load_training, sha, SPLIT
 from run_whitebox import now, result_preview, peak_memory_mib, percentile
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 V2_HISTORY_FILES = ("train150_v2_live.jsonl", "train150_v2_resume_live.jsonl")
 
 
@@ -122,11 +122,11 @@ def main(argv=None):
     readonly = json.loads((HERE/"baseline_manifest.json").read_text())["readonly_files"]
     if not all(sha(HERE/name) == digest for name, digest in readonly.items()):
         parser.error("只读文件变化，停止")
-    sources = ["train_live.py", "training_data.py", "run_whitebox.py"] + ["implementation/"+name for name in
+    sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py"] + ["implementation/"+name for name in
                ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "evaluator.py", "runbook_executor.py"]]
     sources.append("implementation/runbook_aggregates.py")
     if scope == "train_subset":
-        sources.append("train_prompt_probe.py")
+        sources.append("scripts/train_prompt_probe.py")
     plan = {"type": "training_plan", "created_at": now(), "split_id": manifest["split_id"],
             "record_format": 2,
             "case_count": case_count, "case_ids": [case["case_id"] for case in cases], "phase": phase,

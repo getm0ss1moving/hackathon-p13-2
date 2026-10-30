@@ -134,7 +134,7 @@ VOLUME.attachBackendId = STORAGE_POOL.id
 
 ## 4. 历史 199 模板候选
 
-**A 已完成并验证：**历史基底 `5755b93435270a01d0df96c9faf777da60217a40` 的模板字节，与公开初始提交 `d79c3166ef81ed0c809f8233ce1b1ebd40c9e0ea` 相同。[生成脚本](experiments/a_199_candidate.py) 显式读取 Git 对象，只删除 rb_087、保留 rb_086，验证其余 199 项字段和顺序不变，不回退到当前工作区内容。
+**A 已完成并验证：**历史基底 `5755b93435270a01d0df96c9faf777da60217a40` 的模板字节，与公开初始提交 `d79c3166ef81ed0c809f8233ce1b1ebd40c9e0ea` 相同。[生成脚本](../../experiments/a_199_candidate.py) 显式读取 Git 对象，只删除 rb_087、保留 rb_086，验证其余 199 项字段和顺序不变，不回退到当前工作区内容。
 
 - 基底模板 SHA256：`cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b`
 - 199 JSON SHA256：`7aa441b426f3d5e1ae3160cb347285b70be4240337231fc662d12ce73f2a55a8`
@@ -166,7 +166,7 @@ python3 -B experiments/a_199_candidate.py --repo . --base-commit d79c3166ef81ed0
 
 ## 原生复现命令及保护边界
 
-[原生探针](experiments/a_native_boundary_probes.py) 不调用模型，不修改源码或缓存；每条命令在新解释器运行。先用已有依赖环境启动原 `output-server/data_server.py --host 127.0.0.1 --port 8080`，将 stdout/stderr 重定向至仓库外 `../a-local-evidence/service.log`，保持独占日志窗口。报告仅输出聚合，不保存 URL、实体值或原结果；本地参数可用 `--params-json` 提供，该文件不得提交。
+[原生探针](../../experiments/a_native_boundary_probes.py) 不调用模型，不修改源码或缓存；每条命令在新解释器运行。先用已有依赖环境启动原 `output-server/data_server.py --host 127.0.0.1 --port 8080`，将 stdout/stderr 重定向至仓库外 `../a-local-evidence/service.log`，保持独占日志窗口。报告仅输出聚合，不保存 URL、实体值或原结果；本地参数可用 `--params-json` 提供，该文件不得提交。
 
 ```sh
 python3 -B experiments/a_native_boundary_probes.py --repo . --mode empty-step --template-id rb_021 --empty-param fixedIpAddress --server-log ../a-local-evidence/service.log --report ../a-local-evidence/empty021.json
@@ -192,7 +192,7 @@ python3 -B experiments/a_native_boundary_probes.py --repo . --mode native --temp
 
 旧版 400 题次的 4s/6s 时延扣分审计与 SDK 一致；仍是本地环境，不是赛题方正式评测。172 题旧模型及 72 题早期候选均为不完整运行，单列且不混入。全 200 题此前已曝光，固定留出只隔离调优，不能称真正未见黑盒。无真实黑盒成绩，不能给官方总分或声称黑盒提升。
 
-描述索引实验仅以 [补丁](experiments/a_description_index_candidate.patch) 保留，可用 `git apply --check experiments/a_description_index_candidate.patch` 核验；本交付不应用。开发排名改善不足以抵消负对照风险和单遍分数下降，暂不采用。缓存的历史等值/速度数据保留在 JSON 历史部分，不能代替模板效果证据。
+描述索引实验仅以 [补丁](../../experiments/a_description_index_candidate.patch) 保留，可用 `git apply --check experiments/a_description_index_candidate.patch` 核验；本交付不应用。开发排名改善不足以抵消负对照风险和单遍分数下降，暂不采用。缓存的历史等值/速度数据保留在 JSON 历史部分，不能代替模板效果证据。
 
 下一步由 B 落实参数、依赖、错误可见性及请求规划合同，C 按原执行器和评分器验证；A 待权威关系明确再补余下模板。B 修改后作为联合新版本评分，不能与固定旧 B 的结果冒称 A 单变量对照。本轮不新增付费调用，不自动启动新 A 第二遍。
 

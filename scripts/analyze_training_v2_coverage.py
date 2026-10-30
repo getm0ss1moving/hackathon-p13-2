@@ -7,7 +7,7 @@ from pathlib import Path
 
 from training_data import load_training, sha, SPLIT
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def read(name):
@@ -46,7 +46,7 @@ def main():
     assert not resume_auth["single_pass_full_150_claim_allowed"]
     assert all(sha(HERE/name) == digest for name, digest in parent[0]["source_sha256"].items())
     assert resume[0]["source_sha256"] == parent[0]["source_sha256"]
-    assert sha(HERE/"resume_training_v2.py") == resume[0]["runner_sha256"]
+    assert sha(HERE/"scripts/resume_training_v2.py") == resume[0]["runner_sha256"]
     unknown = [row for row in events if row.get("response_model") is None]
     assert len(unknown) == 1 and unknown[0]["error_type"] == "APITimeoutError"
     assert all(row["requested_model"] == "deepseek-flash" for row in events)

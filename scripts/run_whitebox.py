@@ -14,7 +14,7 @@ import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def file_sha(path):

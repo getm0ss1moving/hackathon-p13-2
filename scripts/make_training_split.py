@@ -9,7 +9,7 @@ from pathlib import Path
 import random
 from zoneinfo import ZoneInfo
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def sha(path):

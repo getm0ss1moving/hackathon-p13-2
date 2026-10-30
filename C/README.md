@@ -1,6 +1,6 @@
 # C 的职责和使用方法
 
-2026-10-30统一完成：根`implementation/`已接入B最新流程，支持`query(question, diagnostics=...)`。A/B/C使用同一套代码，无需再合并独立B目录。固定训练150题开发优先使用根`train_live.py`/`train_replay.py`，完整白盒仅用于明确授权后的评估；训练工具、测试与历史材料路径见[根README](../README.md)。
+2026-10-30统一完成：根`implementation/`已接入B最新流程，支持`query(question, diagnostics=...)`。A/B/C使用同一套代码，无需再合并独立B目录。固定训练150题开发优先使用根`scripts/train_live.py`/`scripts/train_replay.py`，完整白盒仅用于明确授权后的评估；训练工具、测试与历史材料路径见[根README](../README.md)。
 
 
 C 负责把根目录集成后的系统跑完原评测，保存执行证据，统计得分与耗时，整理失分题，并在 A/B 修复后比较前后结果。

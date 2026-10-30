@@ -16,6 +16,7 @@ import httpx
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_prompt_probe as probe
 
 
@@ -349,12 +350,12 @@ class ProbeTests(unittest.TestCase):
 
     def test_frozen_checks_real_hash_and_environment_contract_before_network(self):
         root, split = Path("/synthetic/B"), Path("/synthetic/train")
-        hashes = {root / "train_prompt_probe.py": "runner", split / "train.json": "training",
+        hashes = {root / "scripts/train_prompt_probe.py": "runner", split / "train.json": "training",
                   split / "train_history.jsonl": "training-history", split / "manifest.json": "manifest",
                   root / "experiments/parent.jsonl": "parent"}
         config = {"DEEPSEEK_API_KEY": "synthetic-secret", "DEEPSEEK_MODEL": "synthetic-model",
                   "DEEPSEEK_BASE_URL": "https://example.invalid"}
-        plan = {"source_sha256": {"train_prompt_probe.py": "runner"}, "training_sha256": "training",
+        plan = {"source_sha256": {"scripts/train_prompt_probe.py": "runner"}, "training_sha256": "training",
                 "training_history_sha256": "training-history", "split_manifest_sha256": "manifest",
                 "history_sha256": {"parent.jsonl": "parent"}, "feature_flags": dict(probe.V2_FLAGS),
                 "variants": {"original": "0", "candidate": "1"}, "max_requests": 32, "timeout_seconds": 60.0,

@@ -17,7 +17,7 @@ import requests
 
 from training_data import load_training, sha, SPLIT
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE/"implementation"))
 import runbook_executor as executor
 import runbook_matcher as matcher
@@ -72,7 +72,7 @@ def main():
         resume = [json.loads(line) for line in RESUME.read_text().splitlines()]
         _, history = validate_history(manifest, cases, parent, resume, sha(PARENT), sha(SPLIT/"manifest.json"))
         history_path = PARENT
-        extra_history = [RESUME, HERE/"train_prompt_probe.py"]
+        extra_history = [RESUME, HERE/"scripts/train_prompt_probe.py"]
     if args.latest_live:
         history_path = HERE/"experiments/train150_v1_live.jsonl"
         records = [json.loads(line) for line in history_path.read_text().splitlines()]
@@ -200,7 +200,7 @@ def main():
               "network_failures": [entry for entry in wire if entry["status"] != 200],
               "history_scope": "v2_segmented_train150" if args.history_v2 else "latest_train150_live" if args.latest_live else "initial_training_subset",
               "library_reconciliation": library_reconciliation,
-              "sources": {str(path.relative_to(HERE)): sha(path) for path in [Path(__file__), HERE/"training_data.py", HERE/"baseline_manifest.json", SPLIT/"manifest.json", SPLIT/"train.json", history_path,
+              "sources": {str(path.relative_to(HERE)): sha(path) for path in [Path(__file__), HERE/"scripts/training_data.py", HERE/"baseline_manifest.json", SPLIT/"manifest.json", SPLIT/"train.json", history_path,
                           *extra_history, HERE/"implementation/runbook_aggregates.py",
                           *[HERE/"implementation"/name for name in ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "runbook_executor.py", "evaluator.py"]]]},
               "holdout_accessed": False, "limitation": "Fixed historical selections, reconstructed fill values and accepted SQL proposals; original query/API/executor/scorer rerun. No fresh model, latency or holdout result; library and prior whole-200 exposure remain."}

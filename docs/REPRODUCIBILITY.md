@@ -25,20 +25,20 @@
 
 |相对路径|SHA-256|
 |---|---|
-|[README.md](README.md)|`6413c8ef62150211fe08c9243f8deb2682d13b4c3f1cc2bf621332bf7ac12723`|
+|[README.md](../README.md)|`6413c8ef62150211fe08c9243f8deb2682d13b4c3f1cc2bf621332bf7ac12723`|
 |[TEAM.md](TEAM.md)|`6a3d7348f01079cc6d2aa19d052dfaf7e7c74f52ba022a95a86949d4df18ad7f`|
-|[experiments/a_cache_acceptance_20261029/queries.json](experiments/a_cache_acceptance_20261029/queries.json)|`37bf913bfe3c25ed8950634792a16549a780aca8f1f71026aa5b5cad06f440a0`|
-|[experiments/a_cache_acceptance_20261029/result.json](experiments/a_cache_acceptance_20261029/result.json)|`71f310538ca2e6e105b13dcc39b05258e30c94b47b1822a29cac0d21a34c990c`|
-|[experiments/a_cache_acceptance_20261029/verify.py](experiments/a_cache_acceptance_20261029/verify.py)|`e04af37f75eafe6365a0464c25eb3db78cb512869128bf23696b1a1eec408746`|
-|[experiments/a_merge_086_check_20261029.json](experiments/a_merge_086_check_20261029.json)|`536d7e3ad5ca8a5278946cb090ab64ebf8a6e4a45883b4e41b57e77c44abd272`|
-|[experiments/a_merge_086_check_20261029.jsonl](experiments/a_merge_086_check_20261029.jsonl)|`30cffe6870afbf36eb088030d2cae1bffcc7a1afa2c049e73e122ccd47b5509a`|
-|[experiments/a_merge_086_check_20261029.py](experiments/a_merge_086_check_20261029.py)|`6cba053eb587e4375ffceb61a73b9e6b440819b8e08a71853371ef17799e8eb1`|
-|[experiments/a_merge_086_negative_region_20261029.json](experiments/a_merge_086_negative_region_20261029.json)|`b3f9f61a58517826c8e80497f903024975b99312e3c6df5860f0bfd50ff84dce`|
-|[experiments/integration_20261030/README.md](experiments/integration_20261030/README.md)|`0604ebfd689ef9d5b3ca35b1b46de52fb0762874462113e5219a5e206b5ad5d3`|
-|[experiments/integration_20261030/receipt.json](experiments/integration_20261030/receipt.json)|`caf6e5451a74aa6dc645be9364eb3b16ce23faeabbc752de2c35aaaa95ac182e`|
-|[experiments/integration_20261030/verify_delivery.py](experiments/integration_20261030/verify_delivery.py)|`55c35267cf40a30edae8328e94402f95efc52274622a8be9bce54d8e95517ea4`|
+|[experiments/a_cache_acceptance_20261029/queries.json](../experiments/a_cache_acceptance_20261029/queries.json)|`37bf913bfe3c25ed8950634792a16549a780aca8f1f71026aa5b5cad06f440a0`|
+|[experiments/a_cache_acceptance_20261029/result.json](../experiments/a_cache_acceptance_20261029/result.json)|`71f310538ca2e6e105b13dcc39b05258e30c94b47b1822a29cac0d21a34c990c`|
+|[experiments/a_cache_acceptance_20261029/verify.py](../experiments/a_cache_acceptance_20261029/verify.py)|`e04af37f75eafe6365a0464c25eb3db78cb512869128bf23696b1a1eec408746`|
+|[experiments/a_merge_086_check_20261029.json](../experiments/a_merge_086_check_20261029.json)|`536d7e3ad5ca8a5278946cb090ab64ebf8a6e4a45883b4e41b57e77c44abd272`|
+|[experiments/a_merge_086_check_20261029.jsonl](../experiments/a_merge_086_check_20261029.jsonl)|`30cffe6870afbf36eb088030d2cae1bffcc7a1afa2c049e73e122ccd47b5509a`|
+|[experiments/a_merge_086_check_20261029.py](../experiments/a_merge_086_check_20261029.py)|`6cba053eb587e4375ffceb61a73b9e6b440819b8e08a71853371ef17799e8eb1`|
+|[experiments/a_merge_086_negative_region_20261029.json](../experiments/a_merge_086_negative_region_20261029.json)|`b3f9f61a58517826c8e80497f903024975b99312e3c6df5860f0bfd50ff84dce`|
+|[experiments/integration_20261030/README.md](../experiments/integration_20261030/README.md)|`0604ebfd689ef9d5b3ca35b1b46de52fb0762874462113e5219a5e206b5ad5d3`|
+|[experiments/integration_20261030/receipt.json](../experiments/integration_20261030/receipt.json)|`caf6e5451a74aa6dc645be9364eb3b16ce23faeabbc752de2c35aaaa95ac182e`|
+|[experiments/integration_20261030/verify_delivery.py](../experiments/integration_20261030/verify_delivery.py)|`55c35267cf40a30edae8328e94402f95efc52274622a8be9bce54d8e95517ea4`|
 
-其他既有参考材料包括 [旧模型原记录](experiments/round3/model20.json)、[旧模型汇总](experiments/round3/model20_summary.json)、[该轮冻结清单](experiments/round3/manifest.json)、[分组](experiments/round3/groups.json) 和 [既有复现说明](experiments/round3/README.md)。这些参考文件没有被本次重新写入。
+其他既有参考材料包括 [旧模型原记录](../experiments/round3/model20.json)、[旧模型汇总](../experiments/round3/model20_summary.json)、[该轮冻结清单](../experiments/round3/manifest.json)、[分组](../experiments/round3/groups.json) 和 [既有复现说明](../experiments/round3/README.md)。这些参考文件没有被本次重新写入。
 
 缓存输入 SHA 为 `37bf913bfe3c25ed8950634792a16549a780aca8f1f71026aa5b5cad06f440a0`。缓存结果中记录的原脚本 SHA 为 `a1581595531f9a5bf34285fe56a9d5d8eedd1b453ec9a9cce735341dedffb95b`；当前交付脚本 SHA 为 `e04af37f75eafe6365a0464c25eb3db78cb512869128bf23696b1a1eec408746`，后来只为归档输入与安全退出调整过路径/保护，不能称脚本逐字未变。
 

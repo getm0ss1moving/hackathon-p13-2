@@ -14,7 +14,7 @@ import time
 from training_data import SPLIT, load_training, sha
 from run_whitebox import result_preview
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 PARENT = HERE / "experiments/train150_v2_live.jsonl"
 RESUME = HERE / "experiments/train150_v2_resume_live.jsonl"
 PROMPT_FLAG = "RUNBOOK_REFINE_CONTRACT_PROMPT"
@@ -33,7 +33,7 @@ HISTORICAL_SOURCES = (
     "implementation/runbook_matcher.py", "implementation/runbook_system.py",
     "implementation/runbook_items.py", "implementation/runbook_retriever.py",
     "implementation/evaluator.py", "implementation/runbook_executor.py")
-CURRENT_SOURCES = HISTORICAL_SOURCES + ("train_prompt_probe.py",)
+CURRENT_SOURCES = tuple("scripts/" + name if "/" not in name else name for name in HISTORICAL_SOURCES) + ("scripts/train_prompt_probe.py",)
 CONTRACT_KEYS = ("projection_contract", "row_semantics_contract", "literal_label_contract")
 
 

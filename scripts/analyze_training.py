@@ -7,7 +7,7 @@ from pathlib import Path
 
 from training_data import load_training, sha, SPLIT
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]
 
 
 def main():

@@ -13,6 +13,7 @@ import httpx
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import resume_training_v2
 
 
@@ -34,7 +35,8 @@ class ResumeTests(unittest.TestCase):
                 name = str(Path(path).relative_to(resume_training_v2.HERE))
             except ValueError:
                 return self.native_sha(path)
-            return self.frozen_sources.get(name, self.native_sha(path))
+            logical = name.removeprefix("scripts/") if name.startswith("scripts/") else name
+            return self.frozen_sources.get(logical, self.native_sha(path))
 
         context = patch.object(resume_training_v2, "sha", side_effect=frozen_sha)
         context.start()
@@ -73,7 +75,7 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual(result.exception.code, 2)
 
     def test_changed_candidate_cannot_reuse_old_resume(self):
-        if all(self.native_sha(resume_training_v2.HERE/name) == value for name,value in self.frozen_sources.items()):
+        if all(self.native_sha(resume_training_v2.HERE/("scripts/"+name if "/" not in name else name)) == value for name,value in self.frozen_sources.items()):
             self.skipTest("当前恰为v2冻结来源；漂移候选适用")
         errors = io.StringIO()
         with patch.object(resume_training_v2, "sha", side_effect=self.native_sha), \

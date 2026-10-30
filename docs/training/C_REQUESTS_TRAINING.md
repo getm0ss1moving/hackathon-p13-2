@@ -38,7 +38,7 @@ B已用原执行器/评分器重新执行37条训练参考查询：全部可复�
 
 ## B提供给C的材料
 
-- [训练协议](TRAINING.md)、[固定划分清单](../../datasets/whitebox_150_50_v1/manifest.json)、仅训练入口 `train_live.py` / `train_replay.py` / `training_data.py`。
+- [训练协议](TRAINING.md)、[固定划分清单](../../datasets/whitebox_150_50_v1/manifest.json)、仅训练入口 `scripts/train_live.py` / `scripts/train_replay.py` / `scripts/training_data.py`。
 - [最近真实训练报告](../../experiments/train150_v1_summary.md)、原始训练JSONL/请求账目、可恢复源码补丁和只读240文件核验。报告里的60字问题预览仅为日志合并顺序，实际模型输入为完整训练题。
 - 本轮[37项参考复核](../../experiments/train150_v2_failure_audit_final.json)、[逐项责任清单](TRAINING_ISSUES.md)、[最终组合回放](../../experiments/train150_v2_combined_replay.json)及[字段证据](../../experiments/train150_v2_field_contracts.json)；含逐阶段150回放、通用合成反例和源码。
 - [给A的字段/模板需求](A_REQUESTS_TRAINING.md)，方便C把合同问题和B实现问题分开。

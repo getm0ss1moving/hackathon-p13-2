@@ -17,6 +17,7 @@ from openai import OpenAI
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "implementation"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import run_whitebox
 import evaluator
 import quick_eval
