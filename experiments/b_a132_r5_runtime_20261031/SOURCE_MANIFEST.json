@@ -1,0 +1,19 @@
+{
+  "A_ref": "50638fe108c57a881f471fbd1d95e42dcd8b70ca",
+  "base_manifest_path": "experiments/a132_runtime_port_20261030/SOURCE_MANIFEST.json",
+  "base_manifest_sha256": "d40cad13f915ce09ba936cf5c50ed801d1404a0c3e1b1625c8191973617cd2d5",
+  "base_variant": "strict",
+  "runtime_variant": "strict_r5",
+  "retrieval_revision": "r5",
+  "A_r5_package": "experiments/a_retriever_r5_increment_20261030",
+  "A_r5_manifest_sha256": "078fd61e2b18b998f31bc7e6bd8e536298306cbf591529cbbb5a4b00d1290743",
+  "paired_array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+  "runtime_hashes": {
+    "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+    "implementation/runbook_retriever.py": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6"
+  },
+  "previous_retriever_sha256": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+  "actual_N": 132,
+  "user_authorization": "user2026-10-31 explicitly requested integrating latestA and continuing development on it",
+  "default_enabled": true
+}

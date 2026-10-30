@@ -1,0 +1,231 @@
+R4冻结候选：完整200题实测结果（2026-10-31）
+====================================================================
+范围：用户明确指定原白盒200题全部用于开发；严格原题序，前100＋后100两个新进程，同一份135文件源码/配置冻结，恰好覆盖200题一次。不是单进程连续轮。
+结果：计时812.9/1000；质量813.9/1000。质量164满分、3部分、17错误、16零分。实际482请求，无请求失败；Flash，thinking disabled，1024输出token，SDK retries0。
+计时口径为163满分、4部分、17错误、16零分；1题仅时间扣1。没有调用正式黑盒、模板数权重或多次平均，不称正式比赛成绩。
+原150成员质量640.9/750、计时639.9；原50成员173/250。全200现已曝光用于开发，不称未见留出泛化，也不再把后50用于独立泛化断言。
+20次猜空中4次-1、16次API门槛0，无猜空满分；runtime输出未答为0不等于没有题目失败。
+最初误按150启动的17题/47请求轮已因用户澄清而中止，完整工件保留，其结果/额度未混入这份200结果。
+本轮原始查询、官方评分和数据/用例未修改；完整源码/配置/账本/每题结果与分批汇总校验均在reports/b_full_whitebox200_20261031/。
+该结果属于旧r4候选，之后用户要求接入50638fe r5；两版报告严格分开。本轮B新修改尚未提交/推送。
+
+本轮未满分题（按不计时间；原题保留）：
+
+[CMDB-024 | 质量-1 / 计时-1]
+原题：规格为ManageOne-AutoOps的ECS实例目前有多少台
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_014
+
+[CMDB-028 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_018
+
+[CMDB-051 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_036
+
+[CMDB-052 | 质量0 / 计时0]
+原题：查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例列表
+评分：弃权（API条件不合规: 标准答案有条件{'tenantName', 'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：invalid_a132_family_contract
+猜空：True；选择：family_f02
+
+[CMDB-053 | 质量-1 / 计时-1]
+原题：查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表
+评分：答案错误
+原始原因：matched
+猜空：False；选择：family_f02
+
+[CMDB-077 | 质量0 / 计时0]
+原题：查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：incomplete_obligation
+猜空：True；选择：None
+
+[CMDB-088 | 质量4.8 / 计时4.8]
+原题：查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表
+评分：部分正确(96%)
+原始原因：matched
+猜空：False；选择：rb_060
+
+[CMDB-102 | 质量-1 / 计时-1]
+原题：资产状态为报废的设备有多少台，分别属于哪些类别
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_068
+
+[CMDB-105 | 质量0 / 计时0]
+原题：查询区域region_guian4下交换机数量和路由器数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：unverified_api_condition
+猜空：True；选择：family_next_n28
+
+[CMDB-106 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下X86服务器列表
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_071
+
+[CMDB-112 | 质量-1 / 计时-1]
+原题：查询租户AdvanceService_System_VDC的ECS虚拟机列表
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_075
+
+[CMDB-114 | 质量0 / 计时0]
+原题：云服务ApiCom的微服务部署在哪些节点上，节点类型是虚拟机还是物理机
+评分：弃权（API条件不合规: 标准答案有条件{'indexName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：invalid_a132_family_contract
+猜空：True；选择：family_deployment_graph
+
+[CMDB-115 | 质量3.6 / 计时3.6]
+原题：查询区域region_guian4下各云服务的微服务实例数量
+评分：部分正确(71%)
+原始原因：matched
+猜空：False；选择：rb_078
+
+[CMDB-116 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下部署节点按hostClass(VM/PM)分布
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_079
+
+[CMDB-123 | 质量-1 / 计时-1]
+原题：当前处于异常状态的云硬盘有多少块，分别是什么类型
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_083
+
+[CMDB-128 | 质量-1 / 计时-1]
+原题：查询区域region_guian4可用区az0.dc0中可启动云硬盘列表
+评分：答案错误
+原始原因：matched
+猜空：False；选择：family_volume_rows
+
+[CMDB-139 | 质量0 / 计时0]
+原题：查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_093
+
+[CMDB-161 | 质量-1 / 计时-1]
+原题：一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机
+评分：答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]
+原始原因：resource_mismatch
+猜空：True；选择：rb_108
+
+[CMDB-166 | 质量-1 / 计时-1]
+原题：共享网络中providerNetworkType为vlan的有多少个
+评分：答案错误
+原始原因：matched
+猜空：False；选择：family_f20
+
+[CMDB-192 | 质量0 / 计时0]
+原题：VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP
+评分：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_130
+
+[CMDB-224 | 质量0 / 计时0]
+原题：查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：missing_api_filter
+猜空：True；选择：rb_151
+
+[CMDB-251 | 质量0 / 计时0]
+原题：查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_168
+
+[CMDB-253 | 质量0 / 计时0]
+原题：查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_170
+
+[CMDB-259 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_174
+
+[CMDB-260 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量
+评分：答案错误
+原始原因：matched
+猜空：False；选择：rb_175
+
+[CMDB-261 | 质量0 / 计时0]
+原题：查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_176
+
+[CMDB-262 | 质量-1 / 计时-1]
+原题：查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情
+评分：答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）]
+原始原因：resource_mismatch
+猜空：True；选择：rb_177
+
+[CMDB-264 | 质量0 / 计时0]
+原题：查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机
+评分：弃权（API条件不合规: 标准答案有条件{'azoneName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_178
+
+[CMDB-270 | 质量2.5 / 计时2.5]
+原题：查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量
+评分：部分正确(50%)
+原始原因：matched
+猜空：False；选择：rb_183
+
+[CMDB-275 | 质量-1 / 计时-1]
+原题：查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数
+评分：答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]
+原始原因：missing_api_filter
+猜空：True；选择：rb_186
+
+[CMDB-287 | 质量0 / 计时0]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_192
+
+[CMDB-288 | 质量-1 / 计时-1]
+原题：查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量
+评分：答案错误
+原始原因：missing_api_filter
+猜空：True；选择：rb_193
+
+[CMDB-297 | 质量0 / 计时0]
+原题：查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_197
+
+[CMDB-298 | 质量0 / 计时0]
+原题：查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表
+评分：弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_198
+
+[CMDB-299 | 质量0 / 计时0]
+原题：查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_199
+
+[CMDB-300 | 质量0 / 计时0]
+原题：查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数
+评分：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+原始原因：resource_mismatch
+猜空：True；选择：rb_200
+
+本轮新增/回归关注：052模型漏view，114模型用输出别名作filter键；已在后续r5候选单独修复与小集复测，不能回写成本轮满分。
+全部结果：reports/b_full_whitebox200_20261031/combined/{analysis.json,case_results.json,failures.json}。

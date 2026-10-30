@@ -1,0 +1,252 @@
+未满分题清单与本轮迭代（2026-10-31）
+====================================================================
+Goal保持active：固定训练150目标700/750；目前未取得该分数。
+最近用户提供全200日志796.4/1000，157满分、7部分、17错误、19零分，共43未满分；其中181只因时间扣分。该日志未记录源码/配置。
+后续小集已有8道观察到质量5分（194/210/236/252/256/274/289/291）；210/236历史失败未复现。剩余35道尚无后续质量满分证据，其中181质量已正确、只计时间。
+这些是逐题状态，绝不是最新版全量仍有35错误或可拼出的新分数；本轮未重跑150/50/200。
+
+本轮修改：
+1.252：原卷858行+无卷VM35行的布局，改为858卷行+独立无卷VM JSON；35个VM全保留，挂载与未知规格仍如实保留。实际5/5。
+2.274：原卷/ECS/VPC共2129行，改为1716卷行+完整385个VM与28个VPC JSON；不推断其相互关联、不按名称合并身份。实际5/5。
+3.256：保留VM租户逐行统计；卷独有的租户全部放入独立JSON，NULL与空串仍分开，不删容量或规格分布。实际5/5。
+各布局都有显式summary_only载体和typed-zero合成控制，未把载体当虚构卷/租户；现有原生完整性门禁仍保留。
+局部分段：layout2=10/10（4请求）；tenant1=5/5（2请求）；最终019/052/252/274回归20/20（10请求）。本轮共16请求，0失败、0猜空。
+本地布局及必要训练范围检查分别22项、33项通过，0网络/模型；不是新增全量模型成绩。
+
+A新推送实际状态：
+ed5d2a5已经快进至本地main。本地B修改保留，未新建分支、未提交推送。
+A管理VM：公开17项复放通过；独立原生采集34 GET，A preflight和typed投影SQL通过，得到826台管理VM；603缺VDC，完整性标记为真的VM为0。
+它改善字段与未知信息展示，不代表已纳入BM25/模型选择或260得分提升。IP多值编码、容量单位、服务部署与所有权口径仍未认证；不改bool为字符串来查空。
+原生回执/结果和源码快照保存在reports/b_goal_20261031/A_management_native。原260参考为空的分歧仍需核定。
+A反馈：https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6529445564
+
+逐题原文与当前状态：
+
+[CMDB-024 | train150 | 用户日志-1分 | C_REVIEW]
+原题：规格为ManageOne-AutoOps的ECS实例目前有多少台
+历史原因：实际与参考API/SQL一致；成功空输入的COUNT(*)返回一行0，参考却为无列无行。
+下一步：C核定COUNT成功空的输出约定；B不得为匹配空参考把真实COUNT0改为无行。
+
+[CMDB-028 | train150 | 用户日志-1分 | C_REVIEW]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名
+历史原因：题文写异常状态；B按语义筛status=error，参考API却筛stopped。SQL一致。
+下一步：C确认异常的状态定义或修正参考；保留两个筛选值差异，不改通用错误状态映射迎合此题。
+
+[CMDB-051 | train150 | 用户日志-1分 | C_REVIEW]
+原题：查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机
+历史原因：B用已证HOST.hypervisorType规范值kvm返回5集群/34宿主；参考用大写KVM且答案为空。
+下一步：C核定枚举大小写和参考快照；不把规范值退回查不到数据的错误大小写。
+
+[CMDB-053 | train150 | 用户日志-1分 | C_REVIEW]
+原题：查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表
+历史原因：填参/view误拒已修；按题目租户CodeArtsDeploy执行0行，参考API却用AdvanceService_System_VDC并给316行，最新实测-1。
+下一步：C核定题目与参考租户冲突；不能要求A或B把题目租户替换成参考租户。
+
+[CMDB-077 | train150 | 用户日志0分 | 口径待核定]
+原题：查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量
+历史原因：原题只说整个Region，未明确区域实体；参考指定region_guian4，不从参考补默认区域。
+下一步：C先明确区域范围；B/A核对拆分是否保留同一聚合义务，已有rb_052能力不需新造。不能补默认区域。
+
+[CMDB-088 | train150 | 用户日志4.8分 | C_REVIEW]
+原题：查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表
+历史原因：B按题文筛运行中VM得到1287行；参考只在HOST筛normal，包含48个stopped VM，共1335行。
+下一步：C裁定运行中是VM还是HOST语义；已有原生归因，不删除VM active筛选追求分数。
+
+[CMDB-102 | train150 | 用户日志-1分 | C_REVIEW]
+原题：资产状态为报废的设备有多少台，分别属于哪些类别
+历史原因：题文写报废，B筛assetStatus=scrapped；参考API却筛running，返回45台。
+下一步：C核对报废的枚举和参考条件，不把报废通用映射改成运行中。
+
+[CMDB-105 | exposed_validation50 | 用户日志0分 | A字段/关系证据]
+原题：查询区域region_guian4下交换机数量和路由器数量
+历史原因：物理服务器CPU/内存资源统计所需证据仍待核验。
+下一步：A提供S_Switch/S_Router权威schema及区域作用依据，C确认COUNT空表口径；B接可信抓取和typed空。无需再造两类COUNT模板。
+
+[CMDB-106 | exposed_validation50 | 用户日志-1分 | A_EVIDENCE]
+原题：查询区域region_guian4下X86服务器列表
+历史原因：rb_071为缺失hostName/hostIpAddress注入NULL并带region筛选，得到6行；参考全局S_X86Server为45行。字段角色与范围同时有争议。
+下一步：A给S_X86Server字段/CI身份和区域绑定证据，再改有依据的投影；C核定参考是否忽略题目区域。不能以NULL占位当完成。
+
+[CMDB-112 | train150 | 用户日志-1分 | C_REVIEW]
+原题：查询租户AdvanceService_System_VDC的ECS虚拟机列表
+历史原因：题目是租户，B按tenantName及已证VDC集合取得385行；参考把相同字面量直接当vdcName，答案为空。
+下一步：C裁定tenant与VDC角色；保留B现有绑定证据，不为匹配空答案交换字段角色。
+
+[CMDB-115 | train150 | 用户日志3.6分 | C_REVIEW]
+原题：查询区域region_guian4下各云服务的微服务实例数量
+历史原因：B已通过AZONE把显式region绑定到logicalRegionId，返回106组；参考未按region过滤，107组。SQL相同。
+下一步：C核定区域范围和参考；B保留未知/多解区域拒绝，不要求A再加同一绑定模板。
+
+[CMDB-116 | exposed_validation50 | 用户日志-1分 | B_ONLY]
+原题：查询区域region_guian4下部署节点按hostClass(VM/PM)分布
+历史原因：部署节点API没有logicalRegionName筛选，B门禁拒绝；已有部署节点区域ID绑定候选，基线开关为0。
+下一步：B复核已有--bind-deploy-node-region候选及S_DeployNode的真实logicalRegionId来源，再定向验收；不得给不存在字段硬塞条件。
+
+[CMDB-123 | exposed_validation50 | 用户日志-1分 | C_REVIEW]
+原题：当前处于异常状态的云硬盘有多少块，分别是什么类型
+历史原因：API和COUNT SQL均与参考一致；真实typed空COUNT为0，参考给1，符合旧_empty占位行被计数的风险。原题还要求类型，参考也未输出类型。
+下一步：C复核COUNT1来源及类型输出义务；不能把占位行1作为正确业务数。若确认需按类型分组，再由A补受控view。
+
+[CMDB-128 | exposed_validation50 | 用户日志-1分 | A已交付，待原子接入；参考AZ冲突]
+原题：查询区域region_guian4可用区az0.dc0中可启动云硬盘列表
+历史原因：冻结family_volume_rows只允许bootable字符串True/False，而参考/数据示例为小写true；题目AZ=az0.dc0，参考AZ却为az_guian4。
+下一步：A bootable模块/卡片/registry必须同步新SHA，不覆盖旧冻结132；题文az0.dc0与参考az_guian4仍冲突。
+
+[CMDB-139 | train150 | 用户日志0分 | A字段/关系证据]
+原题：查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称
+历史原因：数据库专用盘到存储池关系仍缺权威依据。
+下一步：A给实例/节点→数据库专用卷→存储池的权威关系与用途，不用宿主挂载卷冒充；无证则继续标不支持。
+
+[CMDB-161 | exposed_validation50 | 用户日志-1分 | A新合同待原生接入]
+原题：一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机
+历史原因：rb_108只有VPC COUNT，资源和执行API没有完整SUBNET/VM路径；缺两层关系与明细输出。
+下一步：A next/network_hierarchy已交VPC层级；完整PORT目录有重复ID风险，不能直接关闭完整性检查。
+
+[CMDB-166 | train150 | 用户日志-1分 | C_REVIEW]
+原题：共享网络中providerNetworkType为vlan的有多少个
+历史原因：API条件与参考一致，SQL均COUNT NETWORK；实际为0，参考为1，存在成功空的占位计数风险。
+下一步：C复核参考1是否来自_empty；B保留真实成功空COUNT0与失败的区分，不以改COUNT模板凑1。
+
+[CMDB-181 | train150 | 用户日志4分 | time_only]
+原题：帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1的网卡端口及关联的子网信息
+历史原因：仅时间扣分，答案正确；依用户要求本轮不优化时延。
+下一步：不因一次峰时超时修改正确查询。
+
+[CMDB-192 | exposed_validation50 | 用户日志0分 | A新合同待原生接入]
+原题：VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP
+历史原因：远端a8d4fe1已交付具名VPC双计数，已快进合入但尚未接入/原生验收。
+下一步：A named_vpc双计数已交；须验证完整父目录/重复PORT/未知归属，以及实际API-name条件，不能拿SQL-only名字条件冒充API筛选。
+
+[CMDB-194 | exposed_validation50 | 用户日志0分 | latest_small_set_full_observed]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量
+历史原因：本轮A vdc_network执行通过，区域/VDC API条件均有真实执行账本。
+下一步：B接入modules/vdc_network，保留VDC与region、分支独立输出、未知CIDR和typed空；不要求A重写合同。
+后续实际：质量5分 / 含时延5分；reports/b_api_log_20261031/validation_probe3/case_results.json
+
+[CMDB-210 | exposed_validation50 | 用户日志0分 | latest_small_set_full_observed_historical_failure_not_reproduced]
+原题：查询区域region_guian4下各VDC的虚拟防火墙数量
+历史原因：本轮family_f26按区域统计通过；缺旧逐题JSONL，不能断言其先前失败根因。
+下一步：不因一次峰时超时修改正确查询。
+后续实际：质量5分 / 含时延5分；reports/b_api_log_20261031/validation_probe3/case_results.json
+
+[CMDB-224 | train150 | 用户日志0分 | A字段/关系证据]
+原题：查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表
+历史原因：GaussDB可用区namespace与题文量词仍有证据缺口。
+下一步：A证明AZONE命名空间、NODE.azCode到实例的路径以及多AZ任一/全部/主节点量词；C核定业务口径。不凭空添加AZ字段。
+
+[CMDB-236 | train150 | 用户日志0分 | latest_small_set_full_observed_historical_failure_not_reproduced]
+原题：查询CCE集群service-cm-cluster-roma-guian-4下的容器节点列表及节点IP
+历史原因：本轮family_cce_children按具名集群查节点通过；缺旧逐题JSONL，不能断言先前失败根因。
+下一步：不因一次峰时超时修改正确查询。
+后续实际：质量5分 / 含时延5分；reports/b_api_log_20261031/train_probe2/case_results.json
+
+[CMDB-251 | exposed_validation50 | 用户日志0分 | A模板/组合合同]
+原题：查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示
+历史原因：按AZ分别统计ECS/卷/VPC完整三分支尚未接入支持。
+下一步：A补同region按AZ的VM/卷/VPC独立COUNT与完整分组域，明确哪些CI真有AZ、缺AZ/未知桶及真空政策；不能按实例表直接JOIN计数。
+
+[CMDB-252 | train150 | 用户日志4.8分 | latest_small_set_full_observed]
+原题：查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例及规格、云硬盘列表及容量
+历史原因：B已完整补VM/规格及卷，893行；参考只保留858行卷，额外VM明细被行数规则扣分。不是再次缺模板。
+下一步：C核定多输出义务与行数口径；B可评估不删义务的结果封装兼容，但不直接裁掉无卷VM追分。
+后续实际：质量5分 / 含时延5分；reports/b_goal_20261031/layout_regression4/case_results.json
+
+[CMDB-253 | exposed_validation50 | 用户日志0分 | A原生合同阻塞]
+原题：查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量
+历史原因：VOLUME行省略vdcName，被冻结preflight拒绝；已向A发原生证据。
+下一步：B接入已有三独立聚合、VDC名称域UNION与typed空；保留实例而非节点语义。
+
+[CMDB-256 | train150 | 用户日志4.7分 | latest_small_set_full_observed]
+原题：查询区域region_guian4下各租户的ECS实例数量、云硬盘数量、云硬盘总容量和ECS规格分布
+历史原因：B已补卷数量/容量和规格分布，按VM与卷租户域并集得到119组；参考仅VM计数113组，缺另外三项义务。
+下一步：C核定分组域、未知租户与额外资源行；B检查合法NULL/未知传播，不删卷独有租户或额外指标来凑参考。
+后续实际：质量5分 / 含时延5分；reports/b_goal_20261031/tenant1/case_results.json
+
+[CMDB-259 | train150 | 用户日志-1分 | C_REVIEW]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示
+历史原因：与028同类：题文异常，实际status=error，参考status=stopped；左连接与输出字段已具备。
+下一步：C裁定状态语义；B保留按AZ展示，不能把error通用改成stopped。
+
+[CMDB-260 | exposed_validation50 | 用户日志-1分 | A原生投影已通过，模型/业务未验收]
+原题：查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量
+历史原因：旧SQL只有VDC、VM名和卷容量，缺IP、所属云服务、规格；同时JSON bool true与参考字符串true产生233行对0行差异。
+下一步：本轮真实GET+新A preflight+SQL产生826台管理VM；603缺VDC，declared complete=0。未注册到132、未模型评分。
+
+[CMDB-261 | train150 | 用户日志0分 | A原生合同阻塞]
+原题：查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘
+历史原因：VM租户/IP字段存在行级省略和未知人口，被冻结preflight拒绝；已向A发原生证据。
+下一步：B接tenant_details的vm_count与preflight投影；C先确认tenantId、all_ties及unknown策略。不重复要求A写同一候选。
+
+[CMDB-262 | exposed_validation50 | 用户日志-1分 | A新合同待原生接入/未知人口]
+原题：查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情
+历史原因：rb_177仅算最大容量VDC，没有存储池详情；已有capacity合同按VDC汇总，不含最大VDC后的池详情view。
+下一步：A next/ranked_vdc_pool_http_r2已交；未知卷owner/全局排名及VDC→池关联证据仍有完整性门禁。
+
+[CMDB-264 | exposed_validation50 | 用户日志0分 | A模板/组合合同]
+原题：查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机
+历史原因：按可用区的完整多资源查询尚需合同。
+下一步：A补AZ内按clusterId排名、并列政策、cluster→host与host→active VM链，保证先排名再接明细且vCPU不因VM行扇出重复加总。
+
+[CMDB-270 | train150 | 用户日志2.5分 | B_INTEGRATE]
+原题：查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量
+历史原因：旧rb_183是普通卷列表，没有最大租户筛选；A tenant R2已交付volume_count明细view。参考还缺题文region筛选。
+下一步：B接现有volume_count合同，保留tenantId与all_ties/unknown门禁；C单独核定参考范围，不要求A重做同一排名view。
+
+[CMDB-274 | train150 | 用户日志4分 | latest_small_set_full_observed]
+原题：查询租户AdvanceService_System_VDC的ECS实例名和IP、云硬盘名称和容量、VPC名称列表
+历史原因：B已补ECS/IP、卷及VPC独立清单，2129行；参考仅1716行卷。额外列可容忍，但额外行仍扣分。
+下一步：C核定多清单输出格式/行数；B评估保留全部义务的兼容封装，不能只删掉ECS/VPC来追分。
+后续实际：质量5分 / 含时延5分；reports/b_goal_20261031/layout_regression4/case_results.json
+
+[CMDB-275 | train150 | 用户日志-1分 | A_EVIDENCE]
+原题：查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数
+历史原因：旧SQL只COUNT ELB；A已给ELB/监听器/成员聚合候选，但明确不支持AZ，而原题要求AZ。
+下一步：A补权威ELB部署AZ归属；保留父ELB范围与独立子表聚合。后端VM的AZ不能代替ELB部署AZ；拿到证据后B接现有候选。
+
+[CMDB-287 | train150 | 用户日志0分 | A原生合同阻塞]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量
+历史原因：完整区域ROUTER目录存在未知VDC，冻结preflight拒绝；已向A发原生证据。
+下一步：B接network/candidate.py，按预检投影装表，保留同region全VPC目录、重复ID与不完整图门禁。
+
+[CMDB-288 | train150 | 用户日志-1分 | A_EVIDENCE]
+原题：查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量
+历史原因：旧SQL只列ELB；A已交付per_elb监听器/成员候选，但AZ关联仍未证明，当前被missing_api_filter拦下。
+下一步：同275，A补部署AZ依据后B复用已有ELB候选；不能删除题文AZ，不需再写监听器/成员基础聚合。
+
+[CMDB-289 | exposed_validation50 | 用户日志0分 | latest_small_set_full_observed]
+原题：查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表
+历史原因：本轮tenant_lists三资源清单保留完整输出通过。
+下一步：B接现有tenant_lists，保留未明示区域时不加区域、跨CI身份区分和unknown名称诊断。
+后续实际：质量5分 / 含时延5分；reports/b_api_log_20261031/validation_probe3/case_results.json
+
+[CMDB-291 | train150 | 用户日志0分 | latest_small_set_full_observed]
+原题：查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量
+历史原因：本轮真实native namespace证明、三COUNT执行通过。
+下一步：B构造真实capture reader、验证执行namespace和区域ID空间，再接现有R3候选；不是让模型伪造receipt或再索要相同模板。
+后续实际：质量5分 / 含时延5分；reports/b_api_log_20261031/train_probe2/case_results.json
+
+[CMDB-297 | train150 | 用户日志0分 | A字段/关系证据]
+原题：查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量
+历史原因：交换机/路由器/VFW统计的物理资源区域范围尚缺可信证明。
+下一步：B先修物理/云路由器识别；A/C补S_Switch/S_Router权威schema、区域与成功空COUNT依据，随后复用已有physical候选，不重造三计数。
+
+[CMDB-298 | exposed_validation50 | 用户日志0分 | A部分合同待核验]
+原题：查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表
+历史原因：A新vm_eip_host仅已知EIP关联子集，尚不保证原题要求的完整EIP列表。
+下一步：A next/vm_eip_host只有已知EIP关联子集；不等于原题完整私有IP/EIP/宿主清单。
+
+[CMDB-299 | exposed_validation50 | 用户日志0分 | A模板/组合合同]
+原题：查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量
+历史原因：CCE集群清单与各集群节点/VM双计数完整义务尚未支持。
+下一步：A补clusterId→CCE_NODE及节点→VM的有证关系、分别COUNT DISTINCT与零子项父集群，未知关联保留不完整诊断，不按名称猜VM。
+
+[CMDB-300 | train150 | 用户日志0分 | 范围/业务口径待核定]
+原题：查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数
+历史原因：现有能力能执行，但区域、分组域及未知vCPU与参考冲突；未默认启用capacity。
+下一步：B接已有capacity，保留未知规格VM、源单位/NULL、不完整总量和节点/实例区别；C核定单位，不需A再写同一候选。
+
+阶段与边界：
+官方quick_eval/blackbox_eval/executor保持原件，evaluator保持已授权三处修订，四文件哈希检查通过；原生服务/数据/原始划分均未改。
+后50已曝光，只称验证集；本轮模型只读取3道失败训练题及相关训练控制。A管理VM260仅做显式原题的隔离原生合同诊断，不读封存答案、不调用模型或官方评分。
+本轮生产改动仅3个既有B布局helper，3个对应合成测试；新增A管理VM诊断脚本和本地配置/记录。默认已验收3个A profile未扩展。
+下一步：继续失败小集；A已交付的192/161/262/128按原生/结构政策接入；253/261/287需新稀疏字段/未知归属合同。C核定明确参考矛盾。未取得可验证口径时不伪造数据或删除题目条件凑分。

@@ -33,7 +33,10 @@ class A132IntakeTests(unittest.TestCase):
 
     def test_strict_binding_and_all_changed_modules_have_frozen_sources(self):
         source, files, variant = matcher._verify_a132_sources()
-        self.assertEqual(variant, 'strict');self.assertEqual(source['template_count'], 132)
+        self.assertIn(variant, {'strict','strict_r5'});self.assertEqual(source['template_count'], 132)
+        if variant=='strict_r5':
+            self.assertEqual(source['retrieval_revision'],'r5')
+            self.assertIn('experiments/a_retriever_r5_increment_20261030/MANIFEST.json',files)
         self.assertEqual(sum(bool(x.get('family_id')) for x in RUNBOOK_ITEMS), 26)
         self.assertGreater(len(files), 40)
         entry = matcher._a132_module('unified_prepare')
@@ -160,6 +163,36 @@ class A132IntakeTests(unittest.TestCase):
             with self.subTest(extra=extra):
                 result, _, _ = self.fill('family_f02', question+extra, None)
                 self.assertIsNone(result)
+
+    def test_missing_structural_view_preserves_filters_and_requires_unique_full_question(self):
+        raw={'filters':{'tenantName':'SyntheticTenant','logicalRegionName':'region_synthetic'},
+             'required_filters':['tenantName','logicalRegionName']}
+        question='查询租户SyntheticTenant在区域region_synthetic中的ECS实例列表'
+        result,diagnostics,_=self.fill('family_f02',question,raw)
+        self.assertIsNotNone(result,diagnostics)
+        effective=diagnostics['parameters']['effective']
+        self.assertEqual(effective['filters'],raw['filters'])
+        self.assertIn('view',effective)
+        for wrong in ['和管理员密码','，排除实例bad_vm']:
+            self.assertIsNone(self.fill('family_f02',question+wrong,raw)[0])
+        bad=copy.deepcopy(raw);bad['filters']['tenantName']='DifferentTenant'
+        self.assertIsNone(self.fill('family_f02',question,bad)[0])
+
+    def test_graph_output_alias_as_filter_key_is_repaired_only_by_closed_question_prepare(self):
+        question='云服务ExampleService的微服务部署在哪些节点上，节点类型是虚拟机还是物理机'
+        raw={'view':'node_cloud_services','filters':{'cloud_service_name':'ExampleService'},
+             'required_filters':['cloud_service_name']}
+        # 与真实入口一致：只有已获schema证据并启用属性角色保护，VM/PM才是hostClass枚举。
+        with patch.dict(os.environ,{'RUNBOOK_RESOURCE_ATTRIBUTE_ROLES':'1'}),\
+             patch.object(matcher,'_schema_columns',{'S_DeployNode':['hostClass']}):
+            result,diagnostics,_=self.fill('family_deployment_graph',question,raw)
+            self.assertIsNotNone(result,diagnostics)
+            self.assertEqual(diagnostics['parameters']['effective'],{'view':'service_node_kind',
+                'filters':{'indexName':'ExampleService'},'required_filters':['indexName']})
+            self.assertEqual(result['api_call']['condition']['constraint'][0]['simple']['operator'],'contain')
+            bad=copy.deepcopy(raw);bad['filters']['cloud_service_name']='DifferentService'
+            self.assertIsNone(self.fill('family_deployment_graph',question,bad)[0])
+            self.assertIsNone(self.fill('family_deployment_graph',question+'和管理员密码',raw)[0])
 
     def test_vm_status_alias_recovery_does_not_override_opposite_status(self):
         raw={'view':'scoped_vm_ip_flavor','filters':{'logicalRegionName':'region_demo','status':'运行中'},

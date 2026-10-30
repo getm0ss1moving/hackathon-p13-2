@@ -1,4 +1,4 @@
-"""同租户、同区域VM配置与卷完整明细；卷行含挂载VM，另列无范围内卷的VM。"""
+"""同租户、同区域VM配置与卷完整明细；无范围内卷VM保留在独立JSON清单。"""
 
 import copy
 import json
@@ -23,7 +23,7 @@ _FIELDS = {"VM_NOVA": ["id", "name", "flavorId", "tenantName", "logicalRegionNam
 _EDGES = [("CLOUD_VM_NOVA.flavorId", "CLOUD_FLAVOR.id"),
           ("CLOUD_VM_NOVA.id", "R_VOLUME_MOUNTON_VM.vmId"),
           ("R_VOLUME_MOUNTON_VM.volumeId", "CLOUD_VOLUME.id")]
-_EXTRA_COLUMNS = {"detail_kind", "volume_id", "vm_attachments"}
+_EXTRA_COLUMNS = {"detail_kind", "volume_id", "vm_attachments", "vms_without_scoped_volume_json"}
 _MAX_ID_LENGTH = 256
 _MAX_REQUEST_BYTES = 60000
 
@@ -164,7 +164,7 @@ def _vm_object(prefix):
 
 
 def compose(base_sql, plan):
-    """每卷一行+每个无范围内卷VM一行；多挂载在JSON内展开，绝不删无卷VM。"""
+    """每卷一行，多挂载与无范围内卷VM分别保留JSON；无卷时有显式清单载体。"""
     shape = _shape(base_sql)
     if not _plan_contract(plan) or shape is None or shape != plan["base_shape"]:
         return None
@@ -184,11 +184,16 @@ def compose(base_sql, plan):
                "LEFT JOIN CLOUD_VOLUME AS d ON r.volumeId=d.id "
                "LEFT JOIN CLOUD_FLAVOR AS f ON v.flavorId=f.id "
                "GROUP BY v.id,v.name,v.flavorId,f.id,f.name,f.vcpuSize,f.ramSize,f.diskSize HAVING COUNT(d.id)=0")
-    return ("SELECT " + ",".join(volume_columns) + ",d.id AS volume_id,'volume' AS detail_kind,"
-            "COALESCE(volume_vms.vm_attachments,'[]') AS vm_attachments FROM CLOUD_VOLUME AS d LEFT JOIN (" +
-            attachments + ") AS volume_vms ON volume_vms.volume_id=d.id UNION ALL SELECT " +
-            ",".join(null_columns) + ",NULL AS volume_id,'vm_without_scoped_volume' AS detail_kind,"
-            "json_array(" + _vm_object("orphan_vm") + ") AS vm_attachments FROM (" + orphans + ") AS orphan_vm")
+    projected = ','.join('a."'+output['alias']+'"' for output in shape['outputs'])
+    first = 'a.volume_id IS (SELECT id FROM CLOUD_VOLUME ORDER BY id LIMIT 1)'
+    return ("WITH orphan_vm AS (" + orphans + "),b_anchor AS (SELECT " + ",".join(volume_columns) +
+            ",d.id AS volume_id,COALESCE(volume_vms.vm_attachments,'[]') AS vm_attachments "
+            "FROM CLOUD_VOLUME AS d LEFT JOIN (" + attachments + ") AS volume_vms ON volume_vms.volume_id=d.id "
+            "UNION ALL SELECT " + ",".join(null_columns) + ",NULL,'[]' WHERE NOT EXISTS(SELECT 1 FROM CLOUD_VOLUME) "
+            "AND EXISTS(SELECT 1 FROM orphan_vm)) SELECT " + projected +
+            ",a.volume_id,CASE WHEN a.volume_id IS NULL THEN 'summary_only' ELSE 'volume' END AS detail_kind,"
+            "a.vm_attachments,CASE WHEN " + first + " THEN (SELECT json_group_array(" + _vm_object('orphan_vm') +
+            ") FROM orphan_vm) END AS vms_without_scoped_volume_json FROM b_anchor a ORDER BY a.volume_id")
 
 
 def _schema_proof(sql):
@@ -223,7 +228,7 @@ def plan(question, item):
               "schema": copy.deepcopy(_FIELDS), "resources": [{"ci": ci, "table": table} for ci, table in _TABLES.items()],
               "call_resources": api["resources"] + ["R_VOLUME_MOUNTON_VM"], "dependency": api["dependency"],
               "relation_lookup_policy": "global paginated GET; no added ID-list dependency",
-              "coverage_policy": "one row per scoped volume plus one row per VM with no scoped volume; preserve unknown flavor",
+              "coverage_policy": "one row per scoped volume; attached VMs in per-volume JSON; all VMs without scoped volume in first-row JSON; preserve unknown flavor",
               "unresolved_relation_policy": "report references outside the retrieved scope as unresolved_or_out_of_scope; do not infer their objects"}
     sql = compose(item["sql"], result)
     if sql is None or not _schema_proof(sql):
@@ -338,7 +343,7 @@ def validate(question, filled_item, proposed):
     counts = Counter(volume_id for _, volume_id in same_scope)
     return result(True, "verified_complete_vm_volume_details", vm_count=len(vms), volume_count=len(volumes),
                   same_scope_mount_pairs=len(same_scope), mounted_vm_count=len(mounted),
-                  vm_without_scoped_volume_count=len(vm_ids - mounted), expected_output_rows=len(volumes) + len(vm_ids - mounted),
+                  vm_without_scoped_volume_count=len(vm_ids - mounted), expected_output_rows=len(volumes),
                   per_volume_vm_count_distribution=dict(Counter(counts.get(volume_id, 0) for volume_id in volume_ids)),
                   duplicate_mount_pairs=len(relations) - len(pairs),
                   unresolved_or_out_of_scope_volume_references=sum(vm_id in vm_ids and volume_id not in volume_ids for vm_id, volume_id in pairs),

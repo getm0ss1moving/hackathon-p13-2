@@ -446,6 +446,21 @@ def _dependent_count_eligibility(item):
     return all(isinstance(call, dict) and call.get("method", "GET") == "GET" for call in calls)
 
 
+def _original_obligation_span(question,obligation):
+    """只对齐A文本裁掉的原文边缘空白；中间文本、实体与Unicode位置均不重写。"""
+    if not isinstance(question,str) or not isinstance(obligation,dict):return None
+    start,end,text=obligation.get('start'),obligation.get('end'),obligation.get('text')
+    if (type(start)is not int or type(end)is not int or not 0<=start<end<=len(question)
+            or not isinstance(text,str) or not text.strip()):
+        return None
+    original=question[start:end]
+    if original==text:return start,end,text
+    if original.strip()!=text:return None
+    first=start+len(original)-len(original.lstrip())
+    last=start+len(original.rstrip())
+    return (first,last,text) if question[first:last]==text else None
+
+
 class RunbookQuerySystem:
     def __init__(self):
         if len(RUNBOOK_ITEMS) == 132:
@@ -455,6 +470,10 @@ class RunbookQuerySystem:
             source_files()
             os.environ.setdefault('RUNBOOK_ISSUE3_CONTRACTS','1')
             os.environ.setdefault('RUNBOOK_ISSUE3_PROFILES',json.dumps(list(VERIFIED_PROFILES)))
+            if os.environ.get('RUNBOOK_A132_NATIVE_BOOTABLE','1') == '1':
+                from runbook_bootable_native import sources as bootable_sources
+                bootable_sources()
+            os.environ.setdefault('RUNBOOK_A132_NATIVE_BOOTABLE','1')
         get_llm()  # 仅检查客户端配置，不发送模型请求。
         self.items = RUNBOOK_ITEMS
         started = time.perf_counter()
@@ -485,14 +504,18 @@ class RunbookQuerySystem:
         results, calls, statements, names = [], [], [], []
         previous_end = 0
         for obligation in obligations:
-            start, end = obligation['start'], obligation['end']
-            if (type(start) is not int or type(end) is not int or not previous_end <= start < end <= len(question)
-                    or question[start:end] != obligation['text']):
+            bound=_original_obligation_span(question,obligation)
+            if bound is None or bound[0]<previous_end:
                 diagnostics['rejection'] = {'stage': 'retrieval', 'reason': 'invalid_obligation_span'}
                 break
+            start,end,text=bound
+            if [start,end]!=[obligation['start'],obligation['end']]:
+                diagnostics.setdefault('obligation_span_normalization',[]).append({
+                    'source_start':obligation['start'],'source_end':obligation['end'],
+                    'execution_start':start,'execution_end':end,'reason':'original_edge_whitespace_only'})
             previous_end = end
             part_diagnostics = {}
-            output = self._query(obligation['text'], part_diagnostics)
+            output = self._query(text, part_diagnostics)
             part_calls = output.get('api_call') or []
             calls.extend(part_calls if isinstance(part_calls, list) else [part_calls])
             if isinstance(output.get('sql'), str): statements.append(output['sql'])

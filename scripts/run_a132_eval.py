@@ -58,6 +58,11 @@ def main():
                              for target in node.targets))
         if len(items) != 132 or len({item["id"] for item in items}) != 132:
             raise ValueError("当前目录未加载132条唯一模板，评测未启动")
+        sys.path.insert(0,str(ROOT/'implementation'))
+        from runbook_matcher import _verify_a132_sources
+        from runbook_bootable_native import sources as bootable_sources
+        _,_,runtime_variant=_verify_a132_sources(ROOT)
+        bootable_sources()
         environment = os.environ.copy()
         environment.update(read_environment(ROOT / ".env.local", lambda name: name in {
             "DEEPSEEK_API_KEY", "DEEPSEEK_MODEL", "DEEPSEEK_BASE_URL", "RUNBOOK_LLM_TIMEOUT"}))
@@ -77,6 +82,7 @@ def main():
             "RUNBOOK_BIND_DEPLOY_NODE_REGION": "1",
             "RUNBOOK_ISSUE3_CONTRACTS": "1",
             "RUNBOOK_ISSUE3_PROFILES": json.dumps(["namespace_counts","tenant_lists","vdc_network"]),
+            "RUNBOOK_A132_NATIVE_BOOTABLE": "1",
         })
         if not environment.get("DEEPSEEK_API_KEY", "").strip():
             raise ValueError("本机未配置DEEPSEEK_API_KEY，请在.env.local配置；不要发送密钥")
@@ -96,8 +102,10 @@ def main():
                    f"thinking={environment['RUNBOOK_THINKING_MODE']}；"
                    f"最多{environment['RUNBOOK_MAX_LLM_CALLS']}次模型请求；猜空兜底开启")
     print(description, flush=True)
+    print('检索配对：'+runtime_variant,flush=True)
     print("入口：" + ("C诊断（原评分函数）" if args.diagnostics else "官方quick_eval（原文件）"), flush=True)
     print("A合同启用：" + ", ".join(json.loads(environment["RUNBOOK_ISSUE3_PROFILES"])), flush=True)
+    print("原生bootable合同：开启（保留原文region/AZ；不转换管理VM布尔类型）", flush=True)
     if args.check:
         print("预检通过，未调用模型。", flush=True)
         return 0

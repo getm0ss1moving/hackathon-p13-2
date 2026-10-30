@@ -1,8 +1,8 @@
 # CMDB 智能查询系统 — Hackathon
 
-**当前B发布（2026-10-31）：根运行库已切换为132 strict（26族＋106固定项），配套A的r4检索器。** [API条件零分与最新运行说明](docs/handoffs/B_API_CONDITION_LOG_REVIEW_20261031.md) · [16题逐题处理结果](docs/handoffs/B_16问题处理结果与口径说明_20261031.txt) · [实际5题诊断摘要](experiments/b_api_log_review_20261031/VALIDATION_SUMMARY.json)。已合入A的 `a8d4fe1`，其新增next/具名VPC能力仍未启用；Issue3只默认启用已验收的namespace_counts、tenant_lists、vdc_network。
+**当前 B 发布（2026-10-31）：132 strict（26族＋106固定项）已接入 A 的 R5 检索器（基线 `50638fe`）。** [最新交接与复现说明](docs/handoffs/B_R5_CURRENT_20261031.md) · [R5 已完成验证摘要](experiments/b_r5_intake_20261031/VALIDATION_SUMMARY.json) · [此前 R4 全200结果](experiments/b_all200_r4_20261031/VALIDATION_SUMMARY.json)。本轮包含原文义务跨度校验、封闭参数恢复、完整明细输出及 bootable 原生合同修复；Issue3 仅默认启用已验收的 namespace_counts、tenant_lists、vdc_network。
 
-最新用户提供全200日志为796.4/1000、19个零分，没有绑定源码及完整环境。本轮只复测相关5题，25/25、12次Flash请求、0猜空，不宣称取得新版完整200成绩。此前16题中10道在分段小集取得质量满分，另外3道原生合同阻塞、3道口径冲突。官方四文件未改；evaluator保持三处已授权修订。
+本轮相关离线检查76项通过；R5相关7题实测30/35、17次请求、0失败；R5前100题质量411.4/500、计时405.4/500、263次请求、0失败，后100题待完成，尚无R5全200总分。此前冻结R4两批连续覆盖200题质量813.9/1000、计时812.9/1000，不能当作当前R5成绩。全部200题现在按用户要求用于开发，原50题已曝光。官方四文件本次未改，evaluator保持三处已授权修订。
 
 ```bash
 git pull --ff-only origin main
@@ -10,7 +10,7 @@ git pull --ff-only origin main
 .venv/bin/python -B scripts/run_a132_eval.py --diagnostics --check
 ```
 
-上述检查不调用模型。B启动器显式配置Flash、关闭思考及本轮特性；可选`--diagnostics`复用C现有诊断入口保存逐题JSONL，未修改官方测试脚本。日常继续只测失败子集；不要执行下面历史160安装命令覆盖当前132。密钥、环境、封存数据和本地原始日志不上传。
+上述检查不调用模型。B启动器显式配置Flash、关闭思考及当前特性。真实训练必须先生成匹配当前源码与HEAD的新计划，并使用新输出目录；详情见最新交接。密钥、本机环境、封存文件和原始模型日志不上传。
 
 以下保留2026-10-30及更早阶段记录；其中“默认198”“160待启用”和旧成绩只按当时版本理解。
 

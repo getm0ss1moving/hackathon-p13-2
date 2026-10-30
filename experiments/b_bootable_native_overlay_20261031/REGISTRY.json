@@ -1,0 +1,24 @@
+{
+  "base_runtime_array_sha256": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+  "base_registry_path": "experiments/a_family_candidate_132_v2_r4_20261030/FAMILY_ROUTE_REGISTRY.json",
+  "base_registry_sha256": "52ce7f14b4f3c5a51cfaf406079ddda716d6528edd59e1d24e349267f90d7f32",
+  "family_id": "family_volume_rows",
+  "base_card_sha256": "b235feb7e19e223146227be8964c44f8feafe128e3218f7678f839f3c86626fd",
+  "old_module_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+  "new_module_path": "experiments/issue3_bootable_contract_20261030/candidate.py",
+  "new_module_sha256": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+  "A_manifest_path": "experiments/issue3_bootable_contract_20261030/MANIFEST.json",
+  "A_manifest_sha256": "c8f331869fd7e0bfcf5b4bbf004f7917a4093547988bc494d01cd631fd9cfa2d",
+  "old_bootable_enum": [
+    "True",
+    "False"
+  ],
+  "new_bootable_enum": [
+    "true",
+    "false"
+  ],
+  "selection_card_and_parameter_schema": "both prompt boundaries updated together; original base array and A registry remain byte-identical",
+  "runtime_registry": "isolated in-memory copy selects new A module for one existing family only",
+  "default_enabled": true,
+  "default_authorization": "user active optimization goal; native literal type fixed, no reference AZ substitution; CLI explicit0 keeps old behavior"
+}

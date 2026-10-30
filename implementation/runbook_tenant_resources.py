@@ -17,7 +17,8 @@ _TABLES = {"VM_NOVA": "CLOUD_VM_NOVA", "VOLUME": "CLOUD_VOLUME", "FLAVOR": "CLOU
 _FIELDS = {"VM_NOVA": ["id", "tenantName", "flavorId", "logicalRegionName"],
            "VOLUME": ["id", "tenantName", "size", "logicalRegionName"],
            "FLAVOR": ["id", "name", "vcpuSize", "ramSize", "diskSize"]}
-_ADDED_COLUMNS = ("volume_count", "total_volume_size", "flavor_distribution", "unresolved_flavor_vm_count")
+_ADDED_COLUMNS = ("volume_count", "total_volume_size", "flavor_distribution", "unresolved_flavor_vm_count",
+                  "row_kind", "volume_only_tenants_json")
 _MAX_REQUEST_BYTES = 60000
 _MAX_ID_LENGTH = 256
 
@@ -147,7 +148,7 @@ def _plan_contract(plan):
 
 
 def compose_tenants(base_sql, plan):
-    """原计数放入独立子查询；完整名称域包含仅有卷的桶及独立NULL/空串桶。"""
+    """VM租户逐行，只有卷的租户完整放入JSON；NULL和空串仍为不同桶。"""
     shape = _shape(base_sql)
     if not _plan_contract(plan) or shape is None or shape != plan["base_shape"]:
         return None
@@ -163,7 +164,7 @@ def compose_tenants(base_sql, plan):
         "'vcpu',vcpuSize,'ram',ramSize,'disk',diskSize,'ecs_count',n,'resolved',resolved)) AS flavor_distribution,"
         "SUM(CASE WHEN resolved=0 THEN n ELSE 0 END) AS unresolved_flavor_vm_count FROM (" + specs +
         ") AS tenant_specs GROUP BY tenantName")
-    return (
+    complete = (
         'SELECT tenant_domain.tenantName,COALESCE(tenant_base."' + alias + '",0) AS "' + alias + '",'
         "COALESCE(tenant_volumes.volume_count,0) AS volume_count,"
         "COALESCE(tenant_volumes.total_volume_size,0) AS total_volume_size,"
@@ -174,6 +175,20 @@ def compose_tenants(base_sql, plan):
         "LEFT JOIN (SELECT tenantName,COUNT(*) AS volume_count,SUM(CAST(size AS REAL)) AS total_volume_size "
         "FROM CLOUD_VOLUME GROUP BY tenantName) AS tenant_volumes ON tenant_volumes.tenantName IS tenant_domain.tenantName "
         "LEFT JOIN (" + distribution + ") AS tenant_flavors ON tenant_flavors.tenantName IS tenant_domain.tenantName")
+    columns = ['tenantName',alias,'volume_count','total_volume_size','flavor_distribution','unresolved_flavor_vm_count']
+    quoted = lambda prefix: ','.join(prefix+'."'+name+'"' for name in columns)
+    first = 'a.tenantName IS (SELECT tenantName FROM b_anchor ORDER BY tenantName LIMIT 1)'
+    extra = ("SELECT json_group_array(json_object('tenantName',x.tenantName,'"+alias+"',x.\""+alias+"\","
+             "'volume_count',x.volume_count,'total_volume_size',x.total_volume_size,"
+             "'flavor_distribution',json(x.flavor_distribution),"
+             "'unresolved_flavor_vm_count',x.unresolved_flavor_vm_count)) FROM b_complete x "
+             "WHERE NOT EXISTS(SELECT 1 FROM CLOUD_VM_NOVA v WHERE v.tenantName IS x.tenantName)")
+    return ('WITH b_complete AS ('+complete+'),b_anchor AS (SELECT '+quoted('c')+
+            ",'vm_tenant' AS row_kind FROM b_complete c WHERE EXISTS(SELECT 1 FROM CLOUD_VM_NOVA v "
+            'WHERE v.tenantName IS c.tenantName) UNION ALL SELECT '+','.join('NULL' for _ in columns)+
+            ",'summary_only' WHERE NOT EXISTS(SELECT 1 FROM CLOUD_VM_NOVA) AND EXISTS(SELECT 1 FROM CLOUD_VOLUME)) "
+            'SELECT '+quoted('a')+',a.row_kind,CASE WHEN '+first+' THEN ('+extra+
+            ') END AS volume_only_tenants_json FROM b_anchor a ORDER BY a.tenantName')
 
 
 def _schema_proof(sql):
@@ -211,7 +226,7 @@ def plan_tenants(question, item):
             "schema": copy.deepcopy(_FIELDS), "call_resources": api["call_resources"],
             "dependency": api["dependency"], "volume_scope_added": api["volume_scope_added"],
             "unknown_flavor_policy": "retain all VM rows; NULL or dangling flavor is an explicit unresolved bucket",
-            "domain_policy": "UNION of VM and VOLUME tenantName, preserving NULL and empty string separately"}
+            "domain_policy": "complete VM/VOLUME tenantName union; VM tenant rows plus first-row JSON for volume-only groups; NULL and empty string separate"}
     sql = compose_tenants(item["sql"], plan)
     if sql is None or not _schema_proof(sql):
         return None
@@ -322,6 +337,7 @@ def validate_tenants(question, filled_item, plan):
     return result(True, "verified_independent_tenant_resources", vm_count=len(vms), volume_count=len(volumes),
                   tenant_domain_count=len(vm_tenants | volume_tenants), vm_tenant_group_count=len(vm_tenants),
                   volume_tenant_group_count=len(volume_tenants), volume_only_tenant_groups=len(volume_tenants - vm_tenants),
+                  expected_output_rows=len(vm_tenants), volume_only_groups_retained_in_json=True,
                   missing_flavor_field_rows=sum("flavorId" not in row for row in vms),
                   null_or_empty_flavor_rows=sum(row.get("flavorId") in (None, "") for row in vms),
                   dangling_flavor_rows=sum(row.get("flavorId") not in (None, "") and row["flavorId"] not in known_flavors for row in vms),

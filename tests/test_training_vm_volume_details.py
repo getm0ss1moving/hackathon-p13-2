@@ -3,6 +3,7 @@
 from contextlib import ExitStack, closing
 import copy
 import json
+import sqlite3
 import sys
 from pathlib import Path
 import unittest
@@ -124,14 +125,15 @@ class VMVolumeDetailsTests(unittest.TestCase):
         proof, _ = self.validate(proposed, data)
         self.assertTrue(proof["valid"], proof)
         self.assertEqual((proof["vm_count"], proof["volume_count"], proof["mounted_vm_count"]), (5, 3, 2))
-        self.assertEqual((proof["vm_without_scoped_volume_count"], proof["expected_output_rows"]), (3, 6))
+        self.assertEqual((proof["vm_without_scoped_volume_count"], proof["expected_output_rows"]), (3, 3))
         self.assertEqual(proof["duplicate_mount_pairs"], 1)
         self.assertEqual(proof["unresolved_or_out_of_scope_volume_references"], 2)
         self.assertEqual(proof["unresolved_or_out_of_scope_vm_references"], 1)
         rows = self.execute(d.compose(proposed["base_sql"], proposed), data)
-        self.assertEqual(len(rows), 6)
+        self.assertEqual(len(rows), 3)
         volume_rows = [row for row in rows if row["detail_kind"] == "volume"]
-        vm_rows = [row for row in rows if row["detail_kind"] == "vm_without_scoped_volume"]
+        orphan_objects=[obj for row in rows if row['vms_without_scoped_volume_json'] is not None
+                        for obj in json.loads(row['vms_without_scoped_volume_json'])]
         self.assertEqual({row["volume_id"] for row in volume_rows}, {"d1", "d2", "d3"})
         self.assertEqual(len(volume_rows), 3)
         self.assertEqual(sum(float(row["volume_size"]) for row in volume_rows), 25)
@@ -139,15 +141,16 @@ class VMVolumeDetailsTests(unittest.TestCase):
         self.assertEqual({obj["vm_id"] for obj in attached["d1"]}, {"v1", "v2"})
         self.assertEqual(len(attached["d1"]), 2)
         self.assertEqual(attached["d3"], [])
-        self.assertEqual({json.loads(row["vm_attachments"])[0]["vm_id"] for row in vm_rows}, {"v3", "v4", "v5"})
-        objects = [obj for row in rows for obj in json.loads(row["vm_attachments"])]
+        self.assertEqual({obj['vm_id'] for obj in orphan_objects}, {"v3", "v4", "v5"})
+        self.assertEqual(len(orphan_objects),3)
+        objects = [obj for row in rows for obj in json.loads(row["vm_attachments"])] + orphan_objects
         self.assertEqual({obj["vm_id"] for obj in objects}, {"v1", "v2", "v3", "v4", "v5"})
         unknown = {obj["vm_id"]: obj for obj in objects if obj["flavor_resolved"] == 0}
         self.assertEqual(set(unknown), {"v2", "v3"})
         self.assertEqual(unknown["v2"]["flavor_id"], "missing-flavor")
         self.assertIsNone(unknown["v2"]["flavor_name"])
         self.assertIsNone(unknown["v3"]["flavor_id"])
-        self.assertTrue(all(row["volume_name"] is None and row["volume_size"] is None for row in vm_rows))
+        self.assertEqual(sum(row['vms_without_scoped_volume_json'] is not None for row in rows),1)
 
     def test_global_relation_without_any_scoped_mount_keeps_every_vm_and_volume(self):
         data = fixture()
@@ -156,9 +159,28 @@ class VMVolumeDetailsTests(unittest.TestCase):
         proof, _ = self.validate(proposed, data)
         self.assertTrue(proof["valid"])
         rows = self.execute(d.compose(proposed["base_sql"], proposed), data)
-        self.assertEqual((len(rows), proof["expected_output_rows"]), (8, 8))
+        self.assertEqual((len(rows), proof["expected_output_rows"]), (3, 3))
         self.assertEqual(sum(row["detail_kind"] == "volume" for row in rows), 3)
-        self.assertEqual(sum(row["detail_kind"] == "vm_without_scoped_volume" for row in rows), 5)
+        orphans=[obj for row in rows if row['vms_without_scoped_volume_json'] is not None
+                 for obj in json.loads(row['vms_without_scoped_volume_json'])]
+        self.assertEqual({obj['vm_id'] for obj in orphans},{'v1','v2','v3','v4','v5'})
+        self.assertEqual(len(orphans),5)
+
+    def test_typed_zero_volume_input_keeps_vm_list_on_labeled_carrier(self):
+        proposed=self.plan();data=fixture();data['VOLUME']=[]
+        with closing(sqlite3.connect(':memory:')) as connection:
+            for ci,fields in d._FIELDS.items():
+                connection.execute('CREATE TABLE '+d._TABLES[ci]+' ('+','.join(fields)+')')
+                connection.executemany('INSERT INTO '+d._TABLES[ci]+' VALUES ('+','.join('?' for _ in fields)+')',
+                    [tuple(row.get(field) for field in fields) for row in data[ci]])
+            cursor=connection.execute(d.compose(proposed['base_sql'],proposed));columns=[c[0] for c in cursor.description]
+            rows=[dict(zip(columns,row)) for row in cursor.fetchall()]
+            self.assertEqual(len(rows),1);self.assertEqual(rows[0]['detail_kind'],'summary_only')
+            self.assertIsNone(rows[0]['volume_id']);self.assertIsNone(rows[0]['volume_size'])
+            orphans=json.loads(rows[0]['vms_without_scoped_volume_json'])
+            self.assertEqual({obj['vm_id'] for obj in orphans},{'v1','v2','v3','v4','v5'})
+            for table in d._TABLES.values():connection.execute('DELETE FROM '+table)
+            self.assertEqual(connection.execute(proposed['preview_sql']).fetchall(),[])
 
     def test_alias_projection_or_base_semantics_change_returns_none(self):
         proposed = self.plan()

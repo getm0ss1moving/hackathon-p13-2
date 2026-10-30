@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from validation_data import load_explicit_whitebox200
+from validation_data import load_explicit_whitebox200,select_whitebox_batch
 
 
 class ExplicitWhiteboxScopeTests(unittest.TestCase):
@@ -44,6 +44,16 @@ class ExplicitWhiteboxScopeTests(unittest.TestCase):
                          [dict(self.training[0], case_id='UNKNOWN'), *self.training[1:]]]:
             with self.assertRaisesRegex(ValueError, '成员/题序'):
                 load_explicit_whitebox200(self.root, self.manifest, training)
+
+    def test_two_contiguous_batches_cover_exact200_without_overlap_or_reordering(self):
+        one=select_whitebox_batch(self.cases,1,100);two=select_whitebox_batch(self.cases,101,200)
+        self.assertEqual(one+two,self.cases)
+        self.assertFalse({c['case_id'] for c in one}&{c['case_id'] for c in two})
+
+    def test_invalid_unpaired_boolean_out_of_range_and_oversized_batches_are_rejected(self):
+        for first,last in [(None,100),(1,None),(True,100),(1,False),(0,100),(101,201),(100,99),(1,151),(1,200)]:
+            with self.subTest(first=first,last=last),self.assertRaises(ValueError):
+                select_whitebox_batch(self.cases,first,last)
 
 
 if __name__ == '__main__':

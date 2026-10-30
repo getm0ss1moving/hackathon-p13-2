@@ -1,0 +1,225 @@
+{
+  "goal_status": "active; 700/750 not reached or remeasured",
+  "baseline_commit": "ed5d2a5",
+  "branch": "main",
+  "code_committed_or_pushed": false,
+  "changes": "single existing family bootable native string overlay, copied runtime registration, both prompt/schema boundaries, source closure and exact full original question prepare; old A files and base132 bytes unchanged",
+  "default_native_bootable": true,
+  "CLI_explicit_opt_in": "--native-bootable records flag1; old CLI configurations explicitly record0; ordinary132/own whitebox launcher defaults1",
+  "template_count": 132,
+  "runtime_N_delta": 0,
+  "management_VM_bool_unchanged": true,
+  "new_module_sha256": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+  "runs": {
+    "bootable128": {
+      "type": "summary",
+      "scope": "validation_subset",
+      "phase": "user_authorized_validation_failure_subset",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-128"
+      ],
+      "status": "complete",
+      "completed_cases": 1,
+      "planned_cases": 1,
+      "max_score": 5,
+      "total_score": -1,
+      "untimed_score": -1,
+      "full_quality_answers": 0,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 3,
+      "failed_requests": 0,
+      "max_requests": 3,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": true,
+      "wall_seconds": 2.649,
+      "peak_evaluation_process_mib": 220.75,
+      "latency_p50": 2.4,
+      "latency_p95": 2.4
+    },
+    "bootable_regression3": {
+      "type": "summary",
+      "scope": "train_subset",
+      "phase": "failure_probe",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-052",
+        "CMDB-133",
+        "CMDB-252"
+      ],
+      "status": "complete",
+      "completed_cases": 3,
+      "planned_cases": 3,
+      "max_score": 15,
+      "total_score": 15,
+      "untimed_score": 15,
+      "full_quality_answers": 3,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 8,
+      "failed_requests": 0,
+      "max_requests": 9,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": false,
+      "wall_seconds": 6.727,
+      "peak_evaluation_process_mib": 258.67,
+      "latency_p50": 2.38,
+      "latency_p95": 2.52
+    }
+  },
+  "generation_requests": 11,
+  "failed_requests": 0,
+  "bootable128": {
+    "case_id": "CMDB-128",
+    "question": "查询区域region_guian4可用区az0.dc0中可启动云硬盘列表",
+    "score": -1,
+    "score_without_time_penalty": -1,
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "region_guian4",
+              "operator": "equal"
+            }
+          },
+          {
+            "simple": {
+              "name": "azoneName",
+              "value": "az0.dc0",
+              "operator": "equal"
+            }
+          },
+          {
+            "simple": {
+              "name": "bootable",
+              "value": "true",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT name, size, status, bootable FROM CLOUD_VOLUME",
+    "result": {
+      "columns": [
+        "name",
+        "size",
+        "status",
+        "bootable"
+      ],
+      "row_count": 0,
+      "rows_preview": []
+    }
+  },
+  "bootable128_guess": false,
+  "bootable128_native_binding": {
+    "family": "family_volume_rows",
+    "module_sha256": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+    "array_and_A_registry_unchanged": true,
+    "full_original_question_prepare": true
+  },
+  "bootable128_remaining_failure": "reference az_guian4 differs from original question az0.dc0; native query returns0, not a guess; score remains-1; no claimed score gain",
+  "local_checks": {
+    "tests": 66,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--test-module",
+      "test_training_bootable_native",
+      "--test-module",
+      "test_training_a132_intake",
+      "--test-module",
+      "test_training_issue3",
+      "--test-module",
+      "test_training_subset",
+      "--output-dir",
+      "reports/b_goal2_20261031/bootable_checks2"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "official_integrity": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "launcher_preflight": {
+    "pass": true,
+    "model_requests": 0,
+    "native_schema_GET": 1,
+    "A132_pair_and_bootable_sources_verified": true
+  },
+  "A_feedback": {
+    "sent": true,
+    "http_status": 201,
+    "id": 6529766979,
+    "url": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6529766979",
+    "created_at": "2026-10-30T17:55:43Z",
+    "body_sha256": "d79eaa371e4b2b6ecfa872d78d92f770b9ac6a082f5af3448eb544086a0861de",
+    "code_committed_or_pushed": false
+  },
+  "training_reference_review": "REFERENCE_CONFLICT_EVIDENCE.json (read-only,14 training cases,no new model/service/scoring)",
+  "full150_or50_or200_rerun": false,
+  "no_new_full_training_score": true,
+  "current_source_sha256": {
+    "implementation/runbook_bootable_native.py": "b6d3ba332f782700a0800fc1db24783a2f9f7d2bf99ecc96fcc1e4f3acfe7278",
+    "implementation/runbook_matcher.py": "6dd8d28d96bdba417aeb570d7bb1f0be868ae09d94a2f5be8ba50ab269ab5f42",
+    "implementation/runbook_system.py": "2fbb869c730a90af2e6db5f7a2d7e951b76e07a66c3b712cfbf987dbec351ce0",
+    "scripts/train_live.py": "c048b6d73fb17fd388adca958f77b1d4806faea77b393c1ace59968b06c2515d",
+    "scripts/run_a132_eval.py": "ed3ec2a42f4cbabad352a77a1ccc8919883d8873f9cc55e56cd3e437f5e5dabe",
+    "experiments/b_bootable_native_overlay_20261031/REGISTRY.json": "721de1cbcf9b4ede739ec71058d5ad394e884fdceedfe5153e5b9caebd5ac41d"
+  }
+}

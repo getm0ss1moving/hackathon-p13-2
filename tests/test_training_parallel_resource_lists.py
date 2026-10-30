@@ -2,6 +2,8 @@
 
 from contextlib import ExitStack, closing
 import copy
+import json
+import sqlite3
 import sys
 from pathlib import Path
 import unittest
@@ -98,7 +100,6 @@ class ParallelResourceListTests(unittest.TestCase):
         self.assertEqual(proposed["item"], saved)
         self.assertNotIn("JOIN", proposed["preview_sql"].upper())
         self.assertNotIn("R_VOLUME", proposed["preview_sql"])
-        self.assertEqual(proposed["preview_sql"].upper().count("UNION ALL"), 2)
 
     def test_complete_all_resource_ids_with_duplicate_names_and_unmounted_vm(self):
         proposed, data = self.plan(), fixture()
@@ -106,31 +107,46 @@ class ParallelResourceListTests(unittest.TestCase):
         self.assertTrue(proof["valid"], proof)
         self.assertEqual(calls, ["VM_NOVA", "VOLUME", "ROUTER"])
         self.assertEqual(proof["resource_counts"], {"ECS": 3, "Volume": 2, "VPC": 2})
-        self.assertEqual(proof["expected_output_rows"], 7)
+        self.assertEqual(proof["expected_output_rows"], 2)
         rows = self.execute(p.compose(proposed["base_sql"], proposed), data)
-        self.assertEqual(len(rows), 7)
-        self.assertEqual(len({(row["resource_type"], row["resource_id"]) for row in rows}), 7)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(len({(row["resource_type"], row["resource_id"]) for row in rows}), 2)
         self.assertIn(("Volume", "same-id"), {(row["resource_type"], row["resource_id"]) for row in rows})
-        self.assertIn(("ECS", "same-id"), {(row["resource_type"], row["resource_id"]) for row in rows})
         self.assertEqual(sum(float(row["volume_size"]) for row in rows if row["resource_type"] == "Volume"), 30)
-        self.assertTrue(any(row["vm_name"] == "unmounted-vm" for row in rows))
-        self.assertEqual(sum(row["vpc_name"] == "same-vpc" for row in rows), 2)
+        vms=[obj for row in rows if row['ecs_list_json'] is not None for obj in json.loads(row['ecs_list_json'])]
+        vpcs=[obj for row in rows if row['vpc_list_json'] is not None for obj in json.loads(row['vpc_list_json'])]
+        self.assertEqual({obj['vm_id'] for obj in vms},{'same-id','vm2','vm3'})
+        self.assertEqual(len(vms),3)
+        self.assertEqual({obj['vm_ip'] for obj in vms},{'opaque-ip-A','opaque-ip-B','opaque-ip-C'})
+        self.assertTrue(any(obj['vm_name']=='unmounted-vm' for obj in vms))
+        self.assertEqual({obj['vpc_id'] for obj in vpcs},{'vpc1','vpc2'})
+        self.assertEqual(sum(obj['vpc_name']=='same-vpc' for obj in vpcs),2)
 
-    def test_null_values_are_only_non_applicable_fields(self):
+    def test_independent_lists_are_complete_once_and_not_repeated_per_volume(self):
         proposed = self.plan()
         rows = self.execute(p.compose(proposed["base_sql"], proposed), fixture())
         for row in rows:
             self.assertIsNotNone(row["resource_type"])
             self.assertIsNotNone(row["resource_id"])
-            if row["resource_type"] == "Volume":
-                self.assertTrue(all(row[field] is not None for field in ["volume_name", "volume_size", "volume_status"]))
-                self.assertTrue(all(row[field] is None for field in ["vm_name", "vm_ip", "vpc_name"]))
-            elif row["resource_type"] == "ECS":
-                self.assertTrue(all(row[field] is None for field in ["volume_name", "volume_size", "volume_status", "vpc_name"]))
-                self.assertTrue(all(row[field] is not None for field in ["vm_name", "vm_ip"]))
-            else:
-                self.assertTrue(all(row[field] is None for field in ["volume_name", "volume_size", "volume_status", "vm_name", "vm_ip"]))
-                self.assertIsNotNone(row["vpc_name"])
+            self.assertTrue(all(row[field] is not None for field in ["volume_name", "volume_size", "volume_status"]))
+        self.assertEqual(sum(row['ecs_list_json'] is not None for row in rows),1)
+        self.assertEqual(sum(row['vpc_list_json'] is not None for row in rows),1)
+
+    def test_typed_zero_volumes_keep_other_lists_without_inventing_a_volume(self):
+        proposed=self.plan();data=fixture();data['VOLUME']=[]
+        with closing(sqlite3.connect(':memory:')) as connection:
+            for ci,fields in p._schema({'logicalRegionName':REGION}).items():
+                connection.execute('CREATE TABLE '+p._TABLES[ci]+' ('+','.join(fields)+')')
+                connection.executemany('INSERT INTO '+p._TABLES[ci]+' VALUES ('+','.join('?' for _ in fields)+')',
+                    [tuple(row.get(field) for field in fields) for row in data[ci]])
+            cursor=connection.execute(p.compose(proposed['base_sql'],proposed));columns=[c[0] for c in cursor.description]
+            rows=[dict(zip(columns,row)) for row in cursor.fetchall()]
+            self.assertEqual(len(rows),1);self.assertEqual(rows[0]['resource_type'],'summary_only')
+            self.assertIsNone(rows[0]['resource_id']);self.assertIsNone(rows[0]['volume_name'])
+            self.assertEqual({v['vm_id'] for v in json.loads(rows[0]['ecs_list_json'])},{'same-id','vm2','vm3'})
+            self.assertEqual({v['vpc_id'] for v in json.loads(rows[0]['vpc_list_json'])},{'vpc1','vpc2'})
+            for table in p._TABLES.values():connection.execute('DELETE FROM '+table)
+            self.assertEqual(connection.execute(proposed['preview_sql']).fetchall(),[])
 
     def test_optional_region_requires_same_explicit_filter_on_all_three_calls(self):
         proposed = self.plan(True)

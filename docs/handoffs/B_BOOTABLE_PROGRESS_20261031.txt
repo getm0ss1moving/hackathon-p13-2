@@ -1,0 +1,31 @@
+B：bootable原生合同接入与第二轮进展（2026-10-31）
+====================================================================
+Goal仍active：固定训练150目标700/750，尚未取得新全量分数。上一轮252/256/274的三个布局修复及证据全部保留。
+本轮不是得分提升报告：128修复原生API类型后依然-1，但真实请求/原题scope已正确；最终052/133/252回归15/15。
+共11次Flash生成请求（128为3，回归为8），0失败、0猜空；每轮1024 token、SDK retries0、独立预算，不复用余额。未重复全150/50/200。
+
+实现：
+- 新implementation/runbook_bootable_native.py核对旧数组、旧registry、原卡和A新模块；只复制运行时映射，不修改A registry全局或文件。
+- 新A模块SHA为56c6a58c...；A原始bb6f0dace...与固定132数组/检索器仍保持原字节。
+- 选择提示和填参提示同时展示小写枚举与JSON bool/文本联合schema；完整原文prepare使用新模块。原生响应不转换，其他family不走此绑定。
+- 132普通query入口默认启用，显式RUNBOOK_A132_NATIVE_BOOTABLE=0保留旧行为；训练CLI必须用--native-bootable，计划显式冻结开关及源码闭包，旧配置会记录0。
+- 自有run_a132_eval入口固定开关1，--check增加132配对与bootable源绑定核验；不修改官方入口/执行器/评分器。
+- 未改变管理VM bool、查询实体、region或AZ，不新增模板条目或按题号路由。
+
+实际结果：
+128原题：查询区域region_guian4可用区az0.dc0中可启动云硬盘列表
+最终API：{"method":"GET","url":"/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000","condition":{"constraint":[{"simple":{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}},{"simple":{"name":"azoneName","value":"az0.dc0","operator":"equal"}},{"simple":{"name":"bootable","value":"true","operator":"equal"}}]}}
+原题az0.dc0，参考az_guian4；真实输出0行，score=-1，未猜空。API类型修复不等于参考冲突已解决。
+最终候选052/133/252全部5分，质量/计时均15/15，8请求。133同一family的VDC view仍保持正确。
+66项相关本地检查通过，网络/模型0；包含默认/显式0、参数类型、反谓词、scope/额外义务、注册映射不变与缓存后源漂移拦截。
+
+700目标依赖项：
+本轮核对训练150时确认261的参考是未知tenantName=NULL人口862一行，没有IP/挂载；287参考是全局子网名2276行，没有指定VPC双计数。
+它们不仅有原生preflight问题，还要C核定参考的字段/人口/范围。不能为了追参考而把NULL862当真实租户，或把所有子网当指定VDC的计数。
+条件算术：若已有8道训练参考争议仍各-1，其余全5上限702；若270/300也维持当前已证范围候选-1，条件上限690。这不是无条件数学上限证明，更不是新成绩。
+14题原文/API/SQL及冻结结果摘要见docs/handoffs/B_训练目标与参考冲突证据_20261031.txt及本实验REFERENCE_CONFLICT_EVIDENCE.json。
+
+A反馈已发：https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6529766979
+所有原始工件保存在reports/b_goal2_20261031/{bootable128,bootable_regression3}，包含plan/source.zip/config/commands/live/case_results/summary/budget；128位于已曝光验证集，未称未见泛化。
+128先按显式flag1验收，再提升默认开关；最终回归按提升后的源码/绑定另行冻结。旧128工件没有回写或重评分。
+官方四文件哈希保持核准版本，数据服务/原始数据/划分/用例未修改。本轮代码仅本地main，未暂存、提交、推送。

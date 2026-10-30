@@ -1,0 +1,779 @@
+{
+  "goal": "active; fixed training150 target700/750 not yet achieved",
+  "branch": "main",
+  "baseline_commit": "ed5d2a5",
+  "new_changes_committed_or_pushed": false,
+  "last_user_full_run": {
+    "score": 796.4,
+    "correct": 157,
+    "partial": 7,
+    "wrong": 17,
+    "no_answer": 19,
+    "not_full_total": 43,
+    "source_commit_and_flags": "not recorded"
+  },
+  "historical_not_full_cases_with_subsequent_full_observation": 8,
+  "historical_not_full_cases_without_subsequent_full_observation": 35,
+  "full_dataset_rerun": false,
+  "new_recovered_cases": [
+    "CMDB-252",
+    "CMDB-256",
+    "CMDB-274"
+  ],
+  "real_runs": {
+    "layout2": {
+      "type": "summary",
+      "scope": "train_subset",
+      "phase": "failure_probe",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-252",
+        "CMDB-274"
+      ],
+      "status": "complete",
+      "completed_cases": 2,
+      "planned_cases": 2,
+      "max_score": 10,
+      "total_score": 10,
+      "untimed_score": 10,
+      "full_quality_answers": 2,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 4,
+      "failed_requests": 0,
+      "max_requests": 6,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": false,
+      "wall_seconds": 4.97,
+      "peak_evaluation_process_mib": 255.25,
+      "latency_p50": 2.07,
+      "latency_p95": 2.22
+    },
+    "tenant1": {
+      "type": "summary",
+      "scope": "train_subset",
+      "phase": "failure_probe",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-256"
+      ],
+      "status": "complete",
+      "completed_cases": 1,
+      "planned_cases": 1,
+      "max_score": 5,
+      "total_score": 5,
+      "untimed_score": 5,
+      "full_quality_answers": 1,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 2,
+      "failed_requests": 0,
+      "max_requests": 3,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": false,
+      "wall_seconds": 2.149,
+      "peak_evaluation_process_mib": 252.95,
+      "latency_p50": 1.91,
+      "latency_p95": 1.91
+    },
+    "layout_regression4": {
+      "type": "summary",
+      "scope": "train_subset",
+      "phase": "failure_probe",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-019",
+        "CMDB-052",
+        "CMDB-252",
+        "CMDB-274"
+      ],
+      "status": "complete",
+      "completed_cases": 4,
+      "planned_cases": 4,
+      "max_score": 20,
+      "total_score": 20,
+      "untimed_score": 20,
+      "full_quality_answers": 4,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 10,
+      "failed_requests": 0,
+      "max_requests": 12,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": false,
+      "wall_seconds": 9.183,
+      "peak_evaluation_process_mib": 279.23,
+      "latency_p50": 1.86,
+      "latency_p95": 2.41
+    }
+  },
+  "generation_requests": 16,
+  "failed_requests": 0,
+  "free_local_checks": {
+    "layout_checks1": {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "socket_attempts": 0,
+      "model_requests": 0,
+      "success": true,
+      "command": [
+        "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+        "scripts/run_training_checks.py",
+        "--test-module",
+        "test_training_parallel_resource_lists",
+        "--test-module",
+        "test_training_vm_volume_details",
+        "--output-dir",
+        "reports/b_goal_20261031/layout_checks1"
+      ],
+      "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+    },
+    "tenant_checks1": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "socket_attempts": 0,
+      "model_requests": 0,
+      "success": true,
+      "command": [
+        "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+        "scripts/run_training_checks.py",
+        "--test-module",
+        "test_training_tenant_resources",
+        "--test-module",
+        "test_training_subset",
+        "--output-dir",
+        "reports/b_goal_20261031/tenant_checks1"
+      ],
+      "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+    }
+  },
+  "A_management_native": {
+    "mode": "isolated_A_contract_native_probe_not_B_query_or_model_score",
+    "model_requests": 0,
+    "template_registered": false,
+    "production_enabled": false,
+    "official_integrity": {
+      "official_commit": "d79c316",
+      "unchanged": true,
+      "files": [
+        {
+          "file": "implementation/evaluator.py",
+          "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+          "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+          "unchanged": true
+        },
+        {
+          "file": "implementation/runbook_executor.py",
+          "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+          "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+          "unchanged": true
+        },
+        {
+          "file": "implementation/quick_eval.py",
+          "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+          "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+          "unchanged": true
+        },
+        {
+          "file": "implementation/blackbox_eval.py",
+          "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+          "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+          "unchanged": true
+        }
+      ],
+      "accepted_revisions": {
+        "implementation/evaluator.py": {
+          "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+          "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+          "base_commit": "d79c316",
+          "changes": [
+            "_tuples_match允许系统额外值",
+            "别名不完全一致时按行值兜底",
+            "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+          ],
+          "numeric_ratio_threshold": 1.0,
+          "alias_and_extra_columns_revision_included": true
+        }
+      },
+      "scripts_executed": false,
+      "model_requests": 0
+    },
+    "parameters": {
+      "view": "management_vm_service_flavor_volume_rows",
+      "logicalRegionName": "region_guian4",
+      "ip_role": "both_raw",
+      "capacity_mode": "per_volume_raw_and_numeric_summary"
+    },
+    "preparation": {
+      "status": "materialized_requires_receipts",
+      "contract_evidence": {
+        "scope": {
+          "logicalRegionName": "region_guian4",
+          "management": true
+        },
+        "ip_role": "both_raw",
+        "fields": [
+          "name",
+          "ip",
+          "service",
+          "flavor",
+          "volume"
+        ],
+        "aggregation": "per-VM independent collections; no VDC grand sum"
+      }
+    },
+    "status": "native_preflight_and_SQL_passed",
+    "SQL_executed": true,
+    "projection_loaded_not_raw": true,
+    "source_snapshot": {
+      "pid": "64094",
+      "process_started": "Fri Oct 30 21:57:20 2026",
+      "server_sha256": "8cdb84922267446e7632d763e236eca9120fd5f1d84fd255b0d5ec590b002fa7",
+      "data_manifest_sha256": "9d447dafdd8dbb81e38e9a6d01982ba71cf4f3290068625911c1e73db1ea7d7e",
+      "source_contract": "pinned native data_server.py loads static JSON into private in-memory SQLite; GET-only API"
+    },
+    "diagnostics": {
+      "selected_VM_count": 826,
+      "unknown_VDC_count": 603,
+      "unknown_global_service_owner_nodes": 174,
+      "unresolved_global_instance_nodes": 125,
+      "unknown_global_mount_owners": 0,
+      "requested_values_complete_in_declared_snapshot": false,
+      "empty_parent_scope": false,
+      "full_answer_certified": false,
+      "unit_policy": "source native size numbers only; physical capacity unit/conversion unverified",
+      "service_policy": "documented deployment graph membership only; no broader service ownership claim",
+      "IP_policy": "raw native fields, no tokenization/substitution",
+      "receipt_trust": "B normalized complete request/schema/page assertions; not an authenticator or live atomic snapshot proof"
+    },
+    "row_count": 826,
+    "declared_complete_VM_count": 0
+  },
+  "A_management_HTTP_requests": 34,
+  "A_management_feedback": {
+    "sent": true,
+    "http_status": 201,
+    "id": 6529445564,
+    "url": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6529445564",
+    "created_at": "2026-10-30T17:43:16Z",
+    "body_sha256": "57555dc079a5a6496d38ea107c5254fd714f2417376a45d348a82b5f6b1812a7",
+    "code_committed_or_pushed": false
+  },
+  "official_integrity": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "inventory": [
+    {
+      "case_id": "CMDB-024",
+      "partition": "train150",
+      "question": "规格为ManageOne-AutoOps的ECS实例目前有多少台",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "实际与参考API/SQL一致；成功空输入的COUNT(*)返回一行0，参考却为无列无行。",
+      "next_step": "C核定COUNT成功空的输出约定；B不得为匹配空参考把真实COUNT0改为无行。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-028",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "题文写异常状态；B按语义筛status=error，参考API却筛stopped。SQL一致。",
+      "next_step": "C确认异常的状态定义或修正参考；保留两个筛选值差异，不改通用错误状态映射迎合此题。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-051",
+      "partition": "train150",
+      "question": "查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "B用已证HOST.hypervisorType规范值kvm返回5集群/34宿主；参考用大写KVM且答案为空。",
+      "next_step": "C核定枚举大小写和参考快照；不把规范值退回查不到数据的错误大小写。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-053",
+      "partition": "train150",
+      "question": "查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "填参/view误拒已修；按题目租户CodeArtsDeploy执行0行，参考API却用AdvanceService_System_VDC并给316行，最新实测-1。",
+      "next_step": "C核定题目与参考租户冲突；不能要求A或B把题目租户替换成参考租户。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-077",
+      "partition": "train150",
+      "question": "查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量",
+      "user_log_score": 0.0,
+      "status": "口径待核定",
+      "historical_diagnosis": "原题只说整个Region，未明确区域实体；参考指定region_guian4，不从参考补默认区域。",
+      "next_step": "C先明确区域范围；B/A核对拆分是否保留同一聚合义务，已有rb_052能力不需新造。不能补默认区域。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-088",
+      "partition": "train150",
+      "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表",
+      "user_log_score": 4.8,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "B按题文筛运行中VM得到1287行；参考只在HOST筛normal，包含48个stopped VM，共1335行。",
+      "next_step": "C裁定运行中是VM还是HOST语义；已有原生归因，不删除VM active筛选追求分数。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-102",
+      "partition": "train150",
+      "question": "资产状态为报废的设备有多少台，分别属于哪些类别",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "题文写报废，B筛assetStatus=scrapped；参考API却筛running，返回45台。",
+      "next_step": "C核对报废的枚举和参考条件，不把报废通用映射改成运行中。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-105",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下交换机数量和路由器数量",
+      "user_log_score": 0.0,
+      "status": "A字段/关系证据",
+      "historical_diagnosis": "物理服务器CPU/内存资源统计所需证据仍待核验。",
+      "next_step": "A提供S_Switch/S_Router权威schema及区域作用依据，C确认COUNT空表口径；B接可信抓取和typed空。无需再造两类COUNT模板。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-106",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下X86服务器列表",
+      "user_log_score": -1.0,
+      "status": "A_EVIDENCE",
+      "historical_diagnosis": "rb_071为缺失hostName/hostIpAddress注入NULL并带region筛选，得到6行；参考全局S_X86Server为45行。字段角色与范围同时有争议。",
+      "next_step": "A给S_X86Server字段/CI身份和区域绑定证据，再改有依据的投影；C核定参考是否忽略题目区域。不能以NULL占位当完成。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-112",
+      "partition": "train150",
+      "question": "查询租户AdvanceService_System_VDC的ECS虚拟机列表",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "题目是租户，B按tenantName及已证VDC集合取得385行；参考把相同字面量直接当vdcName，答案为空。",
+      "next_step": "C裁定tenant与VDC角色；保留B现有绑定证据，不为匹配空答案交换字段角色。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-115",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各云服务的微服务实例数量",
+      "user_log_score": 3.6,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "B已通过AZONE把显式region绑定到logicalRegionId，返回106组；参考未按region过滤，107组。SQL相同。",
+      "next_step": "C核定区域范围和参考；B保留未知/多解区域拒绝，不要求A再加同一绑定模板。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-116",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下部署节点按hostClass(VM/PM)分布",
+      "user_log_score": -1.0,
+      "status": "B_ONLY",
+      "historical_diagnosis": "部署节点API没有logicalRegionName筛选，B门禁拒绝；已有部署节点区域ID绑定候选，基线开关为0。",
+      "next_step": "B复核已有--bind-deploy-node-region候选及S_DeployNode的真实logicalRegionId来源，再定向验收；不得给不存在字段硬塞条件。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-123",
+      "partition": "exposed_validation50",
+      "question": "当前处于异常状态的云硬盘有多少块，分别是什么类型",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "API和COUNT SQL均与参考一致；真实typed空COUNT为0，参考给1，符合旧_empty占位行被计数的风险。原题还要求类型，参考也未输出类型。",
+      "next_step": "C复核COUNT1来源及类型输出义务；不能把占位行1作为正确业务数。若确认需按类型分组，再由A补受控view。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-128",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4可用区az0.dc0中可启动云硬盘列表",
+      "user_log_score": -1.0,
+      "status": "A已交付，待原子接入；参考AZ冲突",
+      "historical_diagnosis": "冻结family_volume_rows只允许bootable字符串True/False，而参考/数据示例为小写true；题目AZ=az0.dc0，参考AZ却为az_guian4。",
+      "next_step": "A bootable模块/卡片/registry必须同步新SHA，不覆盖旧冻结132；题文az0.dc0与参考az_guian4仍冲突。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-139",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称",
+      "user_log_score": 0.0,
+      "status": "A字段/关系证据",
+      "historical_diagnosis": "数据库专用盘到存储池关系仍缺权威依据。",
+      "next_step": "A给实例/节点→数据库专用卷→存储池的权威关系与用途，不用宿主挂载卷冒充；无证则继续标不支持。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-161",
+      "partition": "exposed_validation50",
+      "question": "一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机",
+      "user_log_score": -1.0,
+      "status": "A新合同待原生接入",
+      "historical_diagnosis": "rb_108只有VPC COUNT，资源和执行API没有完整SUBNET/VM路径；缺两层关系与明细输出。",
+      "next_step": "A next/network_hierarchy已交VPC层级；完整PORT目录有重复ID风险，不能直接关闭完整性检查。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-166",
+      "partition": "train150",
+      "question": "共享网络中providerNetworkType为vlan的有多少个",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "API条件与参考一致，SQL均COUNT NETWORK；实际为0，参考为1，存在成功空的占位计数风险。",
+      "next_step": "C复核参考1是否来自_empty；B保留真实成功空COUNT0与失败的区分，不以改COUNT模板凑1。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-181",
+      "partition": "train150",
+      "question": "帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1的网卡端口及关联的子网信息",
+      "user_log_score": 4.0,
+      "status": "time_only",
+      "historical_diagnosis": "仅时间扣分，答案正确；依用户要求本轮不优化时延。",
+      "next_step": "不因一次峰时超时修改正确查询。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-192",
+      "partition": "exposed_validation50",
+      "question": "VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP",
+      "user_log_score": 0.0,
+      "status": "A新合同待原生接入",
+      "historical_diagnosis": "远端a8d4fe1已交付具名VPC双计数，已快进合入但尚未接入/原生验收。",
+      "next_step": "A named_vpc双计数已交；须验证完整父目录/重复PORT/未知归属，以及实际API-name条件，不能拿SQL-only名字条件冒充API筛选。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-194",
+      "partition": "exposed_validation50",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量",
+      "user_log_score": 0.0,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "本轮A vdc_network执行通过，区域/VDC API条件均有真实执行账本。",
+      "next_step": "B接入modules/vdc_network，保留VDC与region、分支独立输出、未知CIDR和typed空；不要求A重写合同。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_api_log_20261031/validation_probe3/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-210",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下各VDC的虚拟防火墙数量",
+      "user_log_score": 0.0,
+      "status": "latest_small_set_full_observed_historical_failure_not_reproduced",
+      "historical_diagnosis": "本轮family_f26按区域统计通过；缺旧逐题JSONL，不能断言其先前失败根因。",
+      "next_step": "不因一次峰时超时修改正确查询。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_api_log_20261031/validation_probe3/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-224",
+      "partition": "train150",
+      "question": "查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表",
+      "user_log_score": 0.0,
+      "status": "A字段/关系证据",
+      "historical_diagnosis": "GaussDB可用区namespace与题文量词仍有证据缺口。",
+      "next_step": "A证明AZONE命名空间、NODE.azCode到实例的路径以及多AZ任一/全部/主节点量词；C核定业务口径。不凭空添加AZ字段。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-236",
+      "partition": "train150",
+      "question": "查询CCE集群service-cm-cluster-roma-guian-4下的容器节点列表及节点IP",
+      "user_log_score": 0.0,
+      "status": "latest_small_set_full_observed_historical_failure_not_reproduced",
+      "historical_diagnosis": "本轮family_cce_children按具名集群查节点通过；缺旧逐题JSONL，不能断言先前失败根因。",
+      "next_step": "不因一次峰时超时修改正确查询。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_api_log_20261031/train_probe2/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-251",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示",
+      "user_log_score": 0.0,
+      "status": "A模板/组合合同",
+      "historical_diagnosis": "按AZ分别统计ECS/卷/VPC完整三分支尚未接入支持。",
+      "next_step": "A补同region按AZ的VM/卷/VPC独立COUNT与完整分组域，明确哪些CI真有AZ、缺AZ/未知桶及真空政策；不能按实例表直接JOIN计数。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-252",
+      "partition": "train150",
+      "question": "查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例及规格、云硬盘列表及容量",
+      "user_log_score": 4.8,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "B已完整补VM/规格及卷，893行；参考只保留858行卷，额外VM明细被行数规则扣分。不是再次缺模板。",
+      "next_step": "C核定多输出义务与行数口径；B可评估不删义务的结果封装兼容，但不直接裁掉无卷VM追分。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_goal_20261031/layout_regression4/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-253",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量",
+      "user_log_score": 0.0,
+      "status": "A原生合同阻塞",
+      "historical_diagnosis": "VOLUME行省略vdcName，被冻结preflight拒绝；已向A发原生证据。",
+      "next_step": "B接入已有三独立聚合、VDC名称域UNION与typed空；保留实例而非节点语义。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-256",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各租户的ECS实例数量、云硬盘数量、云硬盘总容量和ECS规格分布",
+      "user_log_score": 4.7,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "B已补卷数量/容量和规格分布，按VM与卷租户域并集得到119组；参考仅VM计数113组，缺另外三项义务。",
+      "next_step": "C核定分组域、未知租户与额外资源行；B检查合法NULL/未知传播，不删卷独有租户或额外指标来凑参考。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_goal_20261031/tenant1/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-259",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示",
+      "user_log_score": -1.0,
+      "status": "C_REVIEW",
+      "historical_diagnosis": "与028同类：题文异常，实际status=error，参考status=stopped；左连接与输出字段已具备。",
+      "next_step": "C裁定状态语义；B保留按AZ展示，不能把error通用改成stopped。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-260",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量",
+      "user_log_score": -1.0,
+      "status": "A原生投影已通过，模型/业务未验收",
+      "historical_diagnosis": "旧SQL只有VDC、VM名和卷容量，缺IP、所属云服务、规格；同时JSON bool true与参考字符串true产生233行对0行差异。",
+      "next_step": "本轮真实GET+新A preflight+SQL产生826台管理VM；603缺VDC，declared complete=0。未注册到132、未模型评分。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-261",
+      "partition": "train150",
+      "question": "查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘",
+      "user_log_score": 0.0,
+      "status": "A原生合同阻塞",
+      "historical_diagnosis": "VM租户/IP字段存在行级省略和未知人口，被冻结preflight拒绝；已向A发原生证据。",
+      "next_step": "B接tenant_details的vm_count与preflight投影；C先确认tenantId、all_ties及unknown策略。不重复要求A写同一候选。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-262",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情",
+      "user_log_score": -1.0,
+      "status": "A新合同待原生接入/未知人口",
+      "historical_diagnosis": "rb_177仅算最大容量VDC，没有存储池详情；已有capacity合同按VDC汇总，不含最大VDC后的池详情view。",
+      "next_step": "A next/ranked_vdc_pool_http_r2已交；未知卷owner/全局排名及VDC→池关联证据仍有完整性门禁。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-264",
+      "partition": "exposed_validation50",
+      "question": "查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机",
+      "user_log_score": 0.0,
+      "status": "A模板/组合合同",
+      "historical_diagnosis": "按可用区的完整多资源查询尚需合同。",
+      "next_step": "A补AZ内按clusterId排名、并列政策、cluster→host与host→active VM链，保证先排名再接明细且vCPU不因VM行扇出重复加总。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-270",
+      "partition": "train150",
+      "question": "查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量",
+      "user_log_score": 2.5,
+      "status": "B_INTEGRATE",
+      "historical_diagnosis": "旧rb_183是普通卷列表，没有最大租户筛选；A tenant R2已交付volume_count明细view。参考还缺题文region筛选。",
+      "next_step": "B接现有volume_count合同，保留tenantId与all_ties/unknown门禁；C单独核定参考范围，不要求A重做同一排名view。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-274",
+      "partition": "train150",
+      "question": "查询租户AdvanceService_System_VDC的ECS实例名和IP、云硬盘名称和容量、VPC名称列表",
+      "user_log_score": 4.0,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "B已补ECS/IP、卷及VPC独立清单，2129行；参考仅1716行卷。额外列可容忍，但额外行仍扣分。",
+      "next_step": "C核定多清单输出格式/行数；B评估保留全部义务的兼容封装，不能只删掉ECS/VPC来追分。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_goal_20261031/layout_regression4/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-275",
+      "partition": "train150",
+      "question": "查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数",
+      "user_log_score": -1.0,
+      "status": "A_EVIDENCE",
+      "historical_diagnosis": "旧SQL只COUNT ELB；A已给ELB/监听器/成员聚合候选，但明确不支持AZ，而原题要求AZ。",
+      "next_step": "A补权威ELB部署AZ归属；保留父ELB范围与独立子表聚合。后端VM的AZ不能代替ELB部署AZ；拿到证据后B接现有候选。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-287",
+      "partition": "train150",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量",
+      "user_log_score": 0.0,
+      "status": "A原生合同阻塞",
+      "historical_diagnosis": "完整区域ROUTER目录存在未知VDC，冻结preflight拒绝；已向A发原生证据。",
+      "next_step": "B接network/candidate.py，按预检投影装表，保留同region全VPC目录、重复ID与不完整图门禁。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-288",
+      "partition": "train150",
+      "question": "查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量",
+      "user_log_score": -1.0,
+      "status": "A_EVIDENCE",
+      "historical_diagnosis": "旧SQL只列ELB；A已交付per_elb监听器/成员候选，但AZ关联仍未证明，当前被missing_api_filter拦下。",
+      "next_step": "同275，A补部署AZ依据后B复用已有ELB候选；不能删除题文AZ，不需再写监听器/成员基础聚合。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-289",
+      "partition": "exposed_validation50",
+      "question": "查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表",
+      "user_log_score": 0.0,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "本轮tenant_lists三资源清单保留完整输出通过。",
+      "next_step": "B接现有tenant_lists，保留未明示区域时不加区域、跨CI身份区分和unknown名称诊断。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_api_log_20261031/validation_probe3/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-291",
+      "partition": "train150",
+      "question": "查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量",
+      "user_log_score": 0.0,
+      "status": "latest_small_set_full_observed",
+      "historical_diagnosis": "本轮真实native namespace证明、三COUNT执行通过。",
+      "next_step": "B构造真实capture reader、验证执行namespace和区域ID空间，再接现有R3候选；不是让模型伪造receipt或再索要相同模板。",
+      "latest_observation": {
+        "quality_score": 5,
+        "timed_score": 5,
+        "evidence": "reports/b_api_log_20261031/train_probe2/case_results.json"
+      }
+    },
+    {
+      "case_id": "CMDB-297",
+      "partition": "train150",
+      "question": "查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量",
+      "user_log_score": 0.0,
+      "status": "A字段/关系证据",
+      "historical_diagnosis": "交换机/路由器/VFW统计的物理资源区域范围尚缺可信证明。",
+      "next_step": "B先修物理/云路由器识别；A/C补S_Switch/S_Router权威schema、区域与成功空COUNT依据，随后复用已有physical候选，不重造三计数。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-298",
+      "partition": "exposed_validation50",
+      "question": "查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表",
+      "user_log_score": 0.0,
+      "status": "A部分合同待核验",
+      "historical_diagnosis": "A新vm_eip_host仅已知EIP关联子集，尚不保证原题要求的完整EIP列表。",
+      "next_step": "A next/vm_eip_host只有已知EIP关联子集；不等于原题完整私有IP/EIP/宿主清单。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-299",
+      "partition": "exposed_validation50",
+      "question": "查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量",
+      "user_log_score": 0.0,
+      "status": "A模板/组合合同",
+      "historical_diagnosis": "CCE集群清单与各集群节点/VM双计数完整义务尚未支持。",
+      "next_step": "A补clusterId→CCE_NODE及节点→VM的有证关系、分别COUNT DISTINCT与零子项父集群，未知关联保留不完整诊断，不按名称猜VM。",
+      "latest_observation": null
+    },
+    {
+      "case_id": "CMDB-300",
+      "partition": "train150",
+      "question": "查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数",
+      "user_log_score": 0.0,
+      "status": "范围/业务口径待核定",
+      "historical_diagnosis": "现有能力能执行，但区域、分组域及未知vCPU与参考冲突；未默认启用capacity。",
+      "next_step": "B接已有capacity，保留未知规格VM、源单位/NULL、不完整总量和节点/实例区别；C核定单位，不需A再写同一候选。",
+      "latest_observation": null
+    }
+  ]
+}

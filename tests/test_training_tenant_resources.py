@@ -3,6 +3,7 @@
 from contextlib import ExitStack, closing
 import copy
 import json
+import sqlite3
 import sys
 from pathlib import Path
 import unittest
@@ -128,20 +129,43 @@ class TenantResourcesTests(unittest.TestCase):
         self.assertEqual((proof["vm_count"], proof["volume_count"], proof["tenant_domain_count"]), (5, 5, 4))
         self.assertEqual((proof["missing_flavor_field_rows"], proof["dangling_flavor_rows"], proof["unresolved_flavor_vm_count"]), (1, 1, 3))
         rows = self.execute(t.compose_tenants(plan["base_sql"], plan), data)
-        keyed = {row["tenantName"]: row for row in rows}
+        extra = [obj for row in rows if row['volume_only_tenants_json'] is not None
+                 for obj in json.loads(row['volume_only_tenants_json'])]
+        self.assertEqual(len(rows),3);self.assertEqual(len(extra),1)
+        self.assertEqual(extra[0]['tenantName'],'only-volume')
+        keyed = {row["tenantName"]: row for row in rows + extra}
         self.assertEqual(set(keyed), {"alpha", "only-volume", None, ""})
         self.assertEqual((keyed[None]["ecs_count"], keyed[""]["ecs_count"]), (2, 1))
         self.assertEqual((keyed["only-volume"]["ecs_count"], keyed["only-volume"]["volume_count"]), (0, 1))
-        self.assertEqual(json.loads(keyed["only-volume"]["flavor_distribution"]), [])
+        self.assertEqual(keyed["only-volume"]["flavor_distribution"], [])
         self.assertEqual((keyed["alpha"]["ecs_count"], keyed["alpha"]["volume_count"], keyed["alpha"]["total_volume_size"]), (2, 2, 30))
-        self.assertEqual(sum(row["ecs_count"] for row in rows), 5)
-        self.assertEqual(sum(row["volume_count"] for row in rows), 5)
-        self.assertEqual(sum(row["total_volume_size"] for row in rows), 45)
+        self.assertEqual(sum(row["ecs_count"] for row in rows + extra), 5)
+        self.assertEqual(sum(row["volume_count"] for row in rows + extra), 5)
+        self.assertEqual(sum(row["total_volume_size"] for row in rows + extra), 45)
         distribution = [value for row in rows for value in json.loads(row["flavor_distribution"])]
         self.assertEqual(sum(value["ecs_count"] for value in distribution), 5)
         self.assertEqual(sum(value["ecs_count"] for value in distribution if value["resolved"] == 0), 3)
         self.assertEqual(sum(row["unresolved_flavor_vm_count"] for row in rows), 3)
         self.assertTrue(any(value["flavor_id"] == "missing-flavor" and value["flavor_name"] is None for value in distribution))
+
+    def test_typed_zero_vm_input_keeps_volume_only_tenants_without_fake_vm_group(self):
+        plan=self.plan();data=fixture();data['VM_NOVA']=[]
+        with closing(sqlite3.connect(':memory:')) as connection:
+            for ci,fields in t._FIELDS.items():
+                connection.execute('CREATE TABLE '+t._TABLES[ci]+' ('+','.join(fields)+')')
+                connection.executemany('INSERT INTO '+t._TABLES[ci]+' VALUES ('+','.join('?' for _ in fields)+')',
+                    [tuple(row.get(field) for field in fields) for row in data[ci]])
+            cursor=connection.execute(t.compose_tenants(plan['base_sql'],plan));columns=[c[0] for c in cursor.description]
+            rows=[dict(zip(columns,row)) for row in cursor.fetchall()]
+            self.assertEqual(len(rows),1);self.assertEqual(rows[0]['row_kind'],'summary_only')
+            self.assertIsNone(rows[0]['ecs_count'])
+            extra=json.loads(rows[0]['volume_only_tenants_json'])
+            self.assertEqual({row['tenantName'] for row in extra},{'alpha','only-volume',None,''})
+            self.assertTrue(all(row['ecs_count']==0 for row in extra))
+            self.assertEqual(sum(row['volume_count'] for row in extra),5)
+            self.assertEqual(sum(row['total_volume_size'] for row in extra),45)
+            for table in t._TABLES.values():connection.execute('DELETE FROM '+table)
+            self.assertEqual(connection.execute(plan['preview_sql']).fetchall(),[])
 
     def test_original_count_alias_is_preserved_and_refinement_cannot_change_contract(self):
         source = item()

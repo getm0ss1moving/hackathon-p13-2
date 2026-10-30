@@ -35,9 +35,10 @@ def main():
             return process.returncode
         plan = json.loads(process.stdout)
         full200 = plan['scope'] == 'whitebox200_explicit' and '--whitebox200' in flags
+        batch200 = plan['scope'] == 'whitebox200_batch' and '--whitebox200' in flags
         resume = plan['scope'] == 'sealed50_resume' and '--validation-resume' in flags
-        validation = full200 or plan['scope'] in {'sealed50_validation','sealed50_resume','validation_subset'} and '--sealed-validation-freeze' in flags
-        if (plan["scope"] not in {"train_subset", "train_only", "sealed50_validation", "sealed50_resume", "whitebox200_explicit", "validation_subset"}
+        validation = full200 or batch200 or plan['scope'] in {'sealed50_validation','sealed50_resume','validation_subset'} and '--sealed-validation-freeze' in flags
+        if (plan["scope"] not in {"train_subset", "train_only", "sealed50_validation", "sealed50_resume", "whitebox200_explicit", "whitebox200_batch", "validation_subset"}
                 or plan["model"] != "deepseek-flash" or plan["thinking"] != "disabled"
                 or not 1 <= plan["case_count"] <= (200 if full200 else 150) or not 1 <= plan["max_requests"] <= 450
                 or (plan["holdout_evaluated"] is not validation)
@@ -46,6 +47,9 @@ def main():
                                                          or plan['max_requests'] > 3*plan['case_count'])
                 or plan['scope'] == 'validation_subset' and ('--validation-case-id' not in flags
                         or not 1 <= plan['case_count'] < 50 or plan['max_requests'] > 3*plan['case_count'])
+                or plan['scope']=='whitebox200_batch' and (not batch200 or not 1<=plan['case_count']<=150
+                        or plan['max_requests']>3*plan['case_count'] or len(plan.get('whitebox_range',[]))!=2
+                        or plan['case_count']!=plan['whitebox_range'][1]-plan['whitebox_range'][0]+1)
                 or full200 and plan['case_count'] != 200):
             parser.error("仅允许Flash关闭思考的固定训练或显式50/200诊断，每轮最多450请求")
         (out / "plan.json").write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n")

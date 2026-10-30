@@ -134,6 +134,7 @@ def main(argv=None):
     parser.add_argument("--a170-candidate", action="store_true", help="采用已审查A170完整来源清单；仅隔离候选")
     parser.add_argument("--a160-candidate", action="store_true", help="采用固定A160完整来源与R2解析；仅训练候选")
     parser.add_argument("--a132-candidate", action="store_true", help="显式采用固定A132v2/r4数组引擎配对及12变更族入口")
+    parser.add_argument("--native-bootable",action="store_true",help="A已交付bootable原生字符串合同的原子单族绑定；候选默认关闭")
     parser.add_argument("--candidate-flags", action="store_true", help="启用已通过训练回放的本轮通用保护")
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
@@ -165,9 +166,14 @@ def main(argv=None):
     parser.add_argument("--validation-resume", type=Path, help="只补固定50因本地文件中断、且尚无模型流量的后缀")
     parser.add_argument("--validation-case-id", action="append", help="已曝光验证题失败子集；必须有绑定相同成员的新冻结")
     parser.add_argument("--whitebox200", action="store_true", help="用户明确要求后显式全200诊断；默认入口仍只训练150，请求上限450")
+    parser.add_argument('--whitebox-first',type=int,help='显式全200的连续分批起点，原题序1起；必须同时给终点')
+    parser.add_argument('--whitebox-last',type=int,help='显式全200的连续分批终点，含该题；单批最多150题')
     args = parser.parse_args(argv)
     from check_official_integrity import require_official_files
     try:
+        batched_whitebox=args.whitebox_first is not None or args.whitebox_last is not None
+        if batched_whitebox and (not args.whitebox200 or args.whitebox_first is None or args.whitebox_last is None):
+            raise ValueError('全200分批必须显式启用并完整指定起终点')
         if args.issue3_profile and (not args.issue3_contracts or len(set(args.issue3_profile))!=len(args.issue3_profile)):
             raise ValueError('A合同profile要求显式启用且不能重复')
         official_integrity = require_official_files(HERE)
@@ -189,6 +195,10 @@ def main(argv=None):
             from validation_data import load_explicit_whitebox200
             cases = load_explicit_whitebox200(HERE, manifest, all_cases)
             scope, phase = 'whitebox200_explicit', 'user_authorized_full_whitebox_once'
+            if batched_whitebox:
+                from validation_data import select_whitebox_batch
+                cases=select_whitebox_batch(cases,args.whitebox_first,args.whitebox_last)
+                scope,phase='whitebox200_batch','user_authorized_all200_development_batch'
         elif sealed_validation:
             if args.case_id is not None or args.phase is not None:
                 raise ValueError('50验证不允许子集、挑题或重抽')
@@ -247,6 +257,7 @@ def main(argv=None):
     flags["RUNBOOK_PRESERVE_SPARSE_NULLS"] = '1' if args.preserve_sparse_nulls else '0'
     flags["RUNBOOK_BIND_DEPLOY_NODE_REGION"] = '1' if args.bind_deploy_node_region else '0'
     flags['RUNBOOK_ISSUE3_CONTRACTS']='1' if args.issue3_contracts else '0'
+    flags['RUNBOOK_A132_NATIVE_BOOTABLE']='1' if args.native_bootable else '0'
     flags['RUNBOOK_ISSUE3_PROFILES']=json.dumps(sorted(args.issue3_profile) if args.issue3_profile else None,separators=(',',':'))
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
@@ -261,6 +272,8 @@ def main(argv=None):
     is170 = args.a170_candidate or len(runbook_items.RUNBOOK_ITEMS) == 170
     is160 = args.a160_candidate or len(runbook_items.RUNBOOK_ITEMS) == 160
     is132 = args.a132_candidate or len(runbook_items.RUNBOOK_ITEMS) == 132
+    if args.native_bootable and not is132:
+        parser.error('--native-bootable要求已核验的132来源配对')
     flags['RUNBOOK_A132_CANDIDATE'] = '1' if is132 else '0'
     os.environ['RUNBOOK_A132_CANDIDATE'] = flags['RUNBOOK_A132_CANDIDATE']
     if sum([bool(args.a180_candidate), bool(is170), bool(is160), bool(is132)]) > 1:
@@ -293,6 +306,8 @@ def main(argv=None):
         readonly.update(candidate['variants'][variant]['runtime_hashes'])
         template_revision = {'mode': 'a132_reviewed_private_build', 'A_ref': candidate['A_ref'],
                              'variant': variant, 'package_manifest_sha256': candidate['package_manifest_sha256'],
+                             'retrieval_revision':candidate.get('retrieval_revision','r4'),
+                             'retrieval_binding_sha256':candidate.get('retrieval_binding_sha256'),
                              'runtime_hashes': candidate['variants'][variant]['runtime_hashes']}
     elif is160:
         try:
@@ -344,6 +359,11 @@ def main(argv=None):
     sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py", "scripts/check_official_integrity.py", "baseline_manifest.json"] + ["implementation/"+name for name in
                ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "evaluator.py", "runbook_executor.py"]]
     sources.append("implementation/runbook_aggregates.py")
+    sources.append('implementation/runbook_bootable_native.py')
+    if args.native_bootable:
+        from runbook_bootable_native import sources as bootable_sources
+        _,bootable_files=bootable_sources()
+        sources+=list(bootable_files)
     sources += ["implementation/runbook_network_details.py", "implementation/runbook_projection_roles.py"]
     sources.append("implementation/runbook_vpc_subnets.py")
     sources.append("implementation/runbook_tenant_resources.py")
@@ -408,8 +428,10 @@ def main(argv=None):
             plan['authorization'] = 'user explicitly requested fixing B_ONLY and B_INTEGRATE on 2026-10-31; bounded exposed validation failure subset'
     elif args.whitebox200:
         plan.update(evaluation_sha256=manifest['source_dataset_sha256'],
-                    partition_status='development_whitebox_after_holdout_exposure',
-                    authorization='user explicitly requested a complete run on 2026-10-30; original200 once, up to450 calls')
+                    partition_status='all200_development_after_user_explicit_20261031',
+                    authorization='user clarified all200 on2026-10-31; bounded original-order batches, each no more than450 requests')
+        if batched_whitebox:
+            plan['whitebox_range']=[args.whitebox_first,args.whitebox_last]
     if resume_evidence:
         plan['resume_parent'] = resume_evidence
     if args.expected_plan:
@@ -504,7 +526,7 @@ def main(argv=None):
                 elapsed = time.perf_counter()-t0
                 frozen()
                 scored, untimed = evaluate_case(case, output, elapsed), evaluate_case(case, output, 0)
-                row = {"type": "case", "case_index": index+1, **scored, "question": case["question"],
+                row = {"type": "case", "case_index": index+(args.whitebox_first if batched_whitebox else 1), **scored, "question": case["question"],
                        "training_case_index": training_indices.get(case["case_id"]),
                        "score_without_time_penalty": untimed["score"], "matched_runbook": output.get("matched_runbook"),
                        "api_call": output.get("api_call"), "sql": output.get("sql"), "result": result_preview(output.get("result")),

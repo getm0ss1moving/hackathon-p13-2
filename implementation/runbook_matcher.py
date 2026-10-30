@@ -11,6 +11,7 @@ LLM 选择 + 参数填充 + SQL精调 — 选手可修改此文件来优化匹�
 """
 
 import copy
+import itertools
 import importlib.util
 import hashlib
 import json
@@ -394,6 +395,31 @@ def _verify_a132_sources(root=None):
         raise ValueError('a132_source_closure_drift')
     runtime = {name: digest(root/name) for name in ['implementation/runbook_items.py', 'implementation/runbook_retriever.py']}
     matches = [variant for variant, hashes in source['variants'].items() if runtime == hashes['runtime_hashes']]
+    r5_binding = root/'experiments/b_a132_r5_runtime_20261031/SOURCE_MANIFEST.json'
+    if not matches and r5_binding.is_file():
+        binding=json.loads(r5_binding.read_text())
+        package_r5=root/'experiments/a_retriever_r5_increment_20261030'
+        if (binding.get('base_manifest_sha256')!=digest(manifest_path)
+                or binding.get('base_variant')!='strict' or binding.get('runtime_variant')!='strict_r5'
+                or binding.get('runtime_hashes')!=runtime
+                or binding.get('paired_array_sha256')!=source['variants']['strict']['array_sha256']
+                or runtime['implementation/runbook_items.py']!=source['variants']['strict']['runtime_hashes']['implementation/runbook_items.py']
+                or digest(package_r5/'MANIFEST.json')!=binding.get('A_r5_manifest_sha256')):
+            raise ValueError('a132_array_engine_binding_mismatch')
+        manifest_r5=json.loads((package_r5/'MANIFEST.json').read_text())
+        interface=json.loads((package_r5/'INCREMENT_INTERFACE.json').read_text())['variants']['strict']
+        if (runtime['implementation/runbook_retriever.py']!=interface['r5_module_sha256']
+                or interface['r4_module_sha256']!=source['variants']['strict']['runtime_hashes']['implementation/runbook_retriever.py']):
+            raise ValueError('a132_r5_published_engine_binding_mismatch')
+        extra={str(r5_binding.relative_to(root)):digest(r5_binding),
+               str((package_r5/'MANIFEST.json').relative_to(root)):binding['A_r5_manifest_sha256']}
+        extra.update({str((package_r5/name).relative_to(root)):value for name,value in manifest_r5['files'].items()})
+        if any(not (root/name).resolve().is_relative_to(root.resolve()) or digest(root/name)!=value for name,value in extra.items()):
+            raise ValueError('a132_r5_source_closure_drift')
+        files.update(extra);source=copy.deepcopy(source)
+        source['variants']['strict_r5']={'array_sha256':binding['paired_array_sha256'],'runtime_hashes':runtime}
+        source['retrieval_revision']='r5';source['retrieval_binding_sha256']=digest(r5_binding)
+        matches=['strict_r5']
     if len(matches) != 1:
         raise ValueError('a132_array_engine_binding_mismatch')
     return source, files, matches[0]
@@ -435,6 +461,24 @@ def _recover_a132_parameters(question, item, parsed, entry):
     contract = item.get('parameter_contract', {})
     trials = []
     expected_signature = None
+    if (isinstance(parsed,dict) and set(parsed) in ({'filters','required_filters'},{'view','filters','required_filters'})
+            and isinstance(parsed.get('filters'),dict) and isinstance(parsed.get('required_filters'),list)
+            and all(isinstance(k,str) for k in parsed['required_filters'])
+            and len(set(parsed['required_filters']))==len(parsed['required_filters'])
+            and set(parsed['required_filters'])==set(parsed['filters'])):
+        views=contract.get('natural_views',{}) if item.get('family_id')=='F02' else contract.get('views',{})
+        view_specs=views.items() if isinstance(views,dict) else ((view,{}) for view in views) if isinstance(views,list) else []
+        for view,spec in view_specs:
+            if 'view' not in parsed:
+                # 只补结构枚举，原模型的筛选键和值一个不丢；完整原文prepare仍须唯一通过。
+                trials.append(dict(parsed,view=view))
+            fields=spec.get('exact_filter_keys') if isinstance(spec,dict) else None
+            if (isinstance(fields,list) and 1<=len(fields)<=3 and len(fields)==len(parsed['filters'])
+                    and set(fields)!=set(parsed['filters'])
+                    and all(isinstance(value,str) and value and value in question for value in parsed['filters'].values())):
+                # 模型把输出别名当API键：只重排原文已有值到合同字段，角色由完整原文证明。
+                for values in dict.fromkeys(itertools.permutations(parsed['filters'].values())):
+                    trials.append({'view':view,'filters':dict(zip(fields,values)),'required_filters':fields.copy()})
     if (item.get('family_id') == 'F02' and isinstance(parsed, dict)
             and set(parsed) == {'scope', 'projection', 'order', 'filters', 'required_filters'}
             and parsed.get('scope') == 'filtered' and isinstance(parsed['filters'], dict)
@@ -545,7 +589,10 @@ def _match_a132_changed(question, item, diagnostics):
     entry = _a132_module('unified_prepare')
     if not entry.handles_item(item):
         raise LookupError('unchanged_B_route_required')
+    import runbook_bootable_native as bootable_native
+    entry = bootable_native.bind(entry,item)
     shown = _a132_module('prompt_metadata').prompt_item(item)
+    shown = bootable_native.prompt_item(shown)
     contract = shown.get('parameter_contract', {})
     prompt = (
         '为已选闭合查询族提取参数，仅输出JSON对象或null，不输出SQL。\n'
@@ -615,6 +662,8 @@ def _format_runbook_list(items: list) -> str:
         a132 = os.environ.get('RUNBOOK_A132_CANDIDATE') == '1'
         if a132:
             item = _a132_module('prompt_metadata').prompt_item(item)
+            from runbook_bootable_native import prompt_item as bootable_prompt_item
+            item = bootable_prompt_item(item)
         examples_str = "; ".join(item.get("examples", []))
         resources_str = "/".join(item.get("resources", []))
         line = (f"{i + 1}. {item['name']} - {item.get('description', '')} "

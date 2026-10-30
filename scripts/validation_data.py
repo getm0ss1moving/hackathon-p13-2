@@ -81,3 +81,14 @@ def load_explicit_whitebox200(root, manifest, training):
     if observed != [(row['case_id'], row['question']) for row in training]:
         raise ValueError('原白盒与固定训练成员/题序不符')
     return cases
+
+
+def select_whitebox_batch(cases, first, last):
+    """原200题连续区间，单批最多150题；不重排、不挑题、不重抽。"""
+    if (not isinstance(cases,list) or len(cases)!=200
+            or len({row['case_id'] for row in cases})!=200):
+        raise ValueError('白盒分批必须来自完整固定200题')
+    if (type(first)is not int or type(last)is not int
+            or not 1<=first<=last<=200 or last-first+1>150):
+        raise ValueError('白盒区间须为1..200内连续整数，单批最多150题')
+    return cases[first-1:last]

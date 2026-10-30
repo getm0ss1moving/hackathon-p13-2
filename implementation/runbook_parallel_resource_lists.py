@@ -15,7 +15,7 @@ _TABLES = {"VOLUME": "CLOUD_VOLUME", "VM_NOVA": "CLOUD_VM_NOVA", "ROUTER": "CLOU
 _LABELS = {"VOLUME": "Volume", "VM_NOVA": "ECS", "ROUTER": "VPC"}
 _FIELDS = {"VOLUME": ["id", "name", "size", "status", "tenantName"],
            "VM_NOVA": ["id", "name", "privateIps", "tenantName"], "ROUTER": ["id", "name", "tenantName"]}
-_METADATA_COLUMNS = {"resource_type", "resource_id", "vm_name", "vm_ip", "vpc_name"}
+_METADATA_COLUMNS = {"resource_type", "resource_id", "ecs_list_json", "vpc_list_json"}
 
 
 def _scope(question):
@@ -138,17 +138,22 @@ def _plan_contract(proposed):
 
 
 def compose(sql, proposed):
+    """卷明细逐行，独立ECS/VPC清单完整置于首行JSON；不推断三者关联。"""
     shape = _shape(sql)
     if not _plan_contract(proposed) or shape is None or shape != proposed["base_shape"]:
         return None
     volume = ["d." + output["field"] + ' AS "' + output["alias"] + '"' for output in shape["outputs"]]
     missing = ['NULL AS "' + output["alias"] + '"' for output in shape["outputs"]]
-    return ("SELECT " + ",".join(volume) + ",'Volume' AS resource_type,d.id AS resource_id,"
-            "NULL AS vm_name,NULL AS vm_ip,NULL AS vpc_name FROM CLOUD_VOLUME AS d UNION ALL "
-            "SELECT " + ",".join(missing) + ",'ECS' AS resource_type,v.id AS resource_id,"
-            "v.name AS vm_name,v.privateIps AS vm_ip,NULL AS vpc_name FROM CLOUD_VM_NOVA AS v UNION ALL "
-            "SELECT " + ",".join(missing) + ",'VPC' AS resource_type,r.id AS resource_id,"
-            "NULL AS vm_name,NULL AS vm_ip,r.name AS vpc_name FROM CLOUD_ROUTER AS r")
+    projected = ','.join('a."'+output['alias']+'"' for output in shape['outputs'])
+    first = 'a.resource_id IS (SELECT id FROM CLOUD_VOLUME ORDER BY id LIMIT 1)'
+    return ("WITH b_anchor AS (SELECT " + ",".join(volume) + ",d.id AS resource_id FROM CLOUD_VOLUME d "
+            "UNION ALL SELECT " + ",".join(missing) + ",NULL WHERE NOT EXISTS(SELECT 1 FROM CLOUD_VOLUME) "
+            "AND (EXISTS(SELECT 1 FROM CLOUD_VM_NOVA) OR EXISTS(SELECT 1 FROM CLOUD_ROUTER))) SELECT " +
+            projected + ",CASE WHEN a.resource_id IS NULL THEN 'summary_only' ELSE 'Volume' END AS resource_type,"
+            "a.resource_id,CASE WHEN " + first + " THEN (SELECT json_group_array(json_object("
+            "'vm_id',v.id,'vm_name',v.name,'vm_ip',v.privateIps)) FROM CLOUD_VM_NOVA v) END AS ecs_list_json,"
+            "CASE WHEN " + first + " THEN (SELECT json_group_array(json_object('vpc_id',r.id,'vpc_name',r.name)) "
+            "FROM CLOUD_ROUTER r) END AS vpc_list_json FROM b_anchor a ORDER BY a.resource_id")
 
 
 def _schema_proof(sql, schema):
@@ -176,7 +181,8 @@ def plan(question, item):
                 "base_shape": shape, "base_tables": ["CLOUD_VOLUME"], "scope_values": scope, "schema": _schema(scope),
                 "resources": [{"ci": ci, "table": table, "label": _LABELS[ci]} for ci, table in _TABLES.items()],
                 "call_resources": resources, "coverage_policy": "all rows from all three same-scope CIs; no inferred attachment or VPC relationship",
-                "null_policy": "NULL only in output columns not applicable to a resource type"}
+                "output_layout": "volume detail rows; complete independent ECS/VPC JSON lists on first row; labeled carrier if no volumes",
+                "null_policy": "nonfirst list cells NULL; empty lists are JSON []; summary_only carrier is not a volume"}
     sql = compose(item["sql"], proposed)
     if sql is None or not _schema_proof(sql, proposed["schema"]):
         return None
@@ -244,4 +250,5 @@ def validate(question, filled_item, proposed):
             return result(False, "parallel_resource_scope_mismatch", ci=ci)
         counts[_LABELS[ci]] = len(rows)
     return result(True, "verified_complete_parallel_lists", resource_counts=counts,
-                  expected_output_rows=sum(counts.values()), identity_key=["resource_type", "resource_id"])
+                  expected_output_rows=counts['Volume'], identity_key=["resource_type", "resource_id"],
+                  independent_list_identity_keys={"ecs_list_json":"vm_id","vpc_list_json":"vpc_id"})

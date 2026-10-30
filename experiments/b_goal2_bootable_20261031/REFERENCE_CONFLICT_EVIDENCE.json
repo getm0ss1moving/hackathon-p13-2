@@ -1,0 +1,1214 @@
+{
+  "purpose": "只读原固定训练150及已冻结诊断；不调用模型/数据服务、不重新评分、不修改参考",
+  "train_sha256": "3d4933355b7f5f539ab18414e14fc7833da4e090660bc9f213b58da8ea938928",
+  "preserve_reference_conflicts_not_invent_new_API_values": true,
+  "records": [
+    {
+      "case_id": "CMDB-024",
+      "question": "规格为ManageOne-AutoOps的ECS实例目前有多少台",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "ManageOne-AutoOps",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true,
+          "totalNum": 15406,
+          "totalPages": 2
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "flavorId",
+                  "value": "{{id from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "reference_sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "reference_columns": [],
+      "reference_rows": 0,
+      "reference_conflict": "实际与参考API/SQL一致；成功空输入的COUNT(*)返回一行0，参考却为无列无行。",
+      "requested_action": "C核定COUNT成功空的输出约定；B不得为匹配空参考把真实COUNT0改为无行。",
+      "frozen_actual_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "ManageOne-AutoOps",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "flavorId",
+                  "value": "{{id from step 1}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "frozen_actual_sql": "SELECT COUNT(*) AS total FROM CLOUD_VM_NOVA INNER JOIN CLOUD_FLAVOR ON CLOUD_VM_NOVA.flavorId = CLOUD_FLAVOR.id",
+      "frozen_actual_result": {
+        "columns": [
+          "total"
+        ],
+        "row_count": 1,
+        "rows_preview": [
+          {
+            "total": 0
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-028",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "status",
+                "value": "stopped",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+      "reference_columns": [
+        "azoneName",
+        "vm_name",
+        "privateIps",
+        "tenantName",
+        "host_name"
+      ],
+      "reference_rows": 58,
+      "reference_conflict": "题文写异常状态；B按语义筛status=error，参考API却筛stopped。SQL一致。",
+      "requested_action": "C确认异常的状态定义或修正参考；保留两个筛选值差异，不改通用错误状态映射迎合此题。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "status",
+                "value": "error",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps, CLOUD_VM_NOVA.tenantName, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA INNER JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+      "frozen_actual_result": {
+        "columns": [
+          "azoneName",
+          "vm_name",
+          "privateIps",
+          "tenantName",
+          "host_name"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-051",
+      "question": "查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "hypervisorType",
+                "value": "KVM",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT COUNT(DISTINCT CLOUD_CLUSTER.id) AS cluster_count, COUNT(DISTINCT CLOUD_HOST.id) AS host_count FROM CLOUD_HOST INNER JOIN M_ClusterContainsPhyHost ON CLOUD_HOST.id = M_ClusterContainsPhyHost.target_Instance_Id INNER JOIN CLOUD_CLUSTER ON M_ClusterContainsPhyHost.source_Instance_Id = CLOUD_CLUSTER.id",
+      "reference_columns": [],
+      "reference_rows": 0,
+      "reference_conflict": "B用已证HOST.hypervisorType规范值kvm返回5集群/34宿主；参考用大写KVM且答案为空。",
+      "requested_action": "C核定枚举大小写和参考快照；不把规范值退回查不到数据的错误大小写。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "hypervisorType",
+                "value": "kvm",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT COUNT(DISTINCT CLOUD_CLUSTER.id) AS cluster_count, COUNT(DISTINCT CLOUD_HOST.id) AS host_count FROM CLOUD_HOST INNER JOIN M_ClusterContainsPhyHost ON CLOUD_HOST.id = M_ClusterContainsPhyHost.target_Instance_Id INNER JOIN CLOUD_CLUSTER ON M_ClusterContainsPhyHost.source_Instance_Id = CLOUD_CLUSTER.id",
+      "frozen_actual_result": {
+        "columns": [
+          "cluster_count",
+          "host_count"
+        ],
+        "row_count": 1,
+        "rows_preview": [
+          {
+            "cluster_count": 5,
+            "host_count": 34
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-053",
+      "question": "查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "reference_columns": [
+        "name",
+        "privateIps",
+        "status"
+      ],
+      "reference_rows": 316,
+      "reference_conflict": "填参/view误拒已修；按题目租户CodeArtsDeploy执行0行，参考API却用AdvanceService_System_VDC并给316行，最新实测-1。",
+      "requested_action": "C核定题目与参考租户冲突；不能要求A或B把题目租户替换成参考租户。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "CodeArtsDeploy",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "az0.dc0",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "frozen_actual_result": {
+        "columns": [
+          "name",
+          "privateIps",
+          "status"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-102",
+      "question": "资产状态为报废的设备有多少台，分别属于哪些类别",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Device?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "assetStatus",
+                "value": "running",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+      "reference_columns": [
+        "class_Name",
+        "count"
+      ],
+      "reference_rows": 1,
+      "reference_conflict": "题文写报废，B筛assetStatus=scrapped；参考API却筛running，返回45台。",
+      "requested_action": "C核对报废的枚举和参考条件，不把报废通用映射改成运行中。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Device?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "assetStatus",
+                "value": "scrapped",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT class_Name, COUNT(*) AS count FROM SYS_Device GROUP BY class_Name",
+      "frozen_actual_result": {
+        "columns": [
+          "class_Name",
+          "count"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-112",
+      "question": "查询租户AdvanceService_System_VDC的ECS虚拟机列表",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "vdcName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT name, status, nativeId FROM CLOUD_VM_NOVA",
+      "reference_columns": [],
+      "reference_rows": 0,
+      "reference_conflict": "题目是租户，B按tenantName及已证VDC集合取得385行；参考把相同字面量直接当vdcName，答案为空。",
+      "requested_action": "C裁定tenant与VDC角色；保留B现有绑定证据，不为匹配空答案交换字段角色。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "vdcName",
+                "value": [
+                  "AdvanceService_Manage_VDC",
+                  "AdvanceService_Manage_VDC_vr"
+                ],
+                "operator": "in"
+              }
+            },
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "AdvanceService_System_VDC",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT name, status, nativeId FROM CLOUD_VM_NOVA",
+      "frozen_actual_result": {
+        "columns": [
+          "name",
+          "status",
+          "nativeId"
+        ],
+        "row_count": 385,
+        "rows_preview": [
+          {
+            "name": "DevUIMsgService-0002",
+            "status": "active",
+            "nativeId": "a9c38ea2-20fe-422a-84cf-83af60f2399d"
+          },
+          {
+            "name": "ProjectInfo-0001",
+            "status": "active",
+            "nativeId": "cc527655-765d-4b95-8d17-d3285ae095a1"
+          },
+          {
+            "name": "CodeArtsBoard-DWUserEtl-0002",
+            "status": "active",
+            "nativeId": "2eea94f9-fd70-4401-aac3-d7c614c65911"
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-166",
+      "question": "共享网络中providerNetworkType为vlan的有多少个",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "shared",
+                "value": "true",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "providerNetworkType",
+                "value": "vlan",
+                "operator": "equal"
+              },
+              "logOp": "and"
+            }
+          ]
+        }
+      },
+      "reference_sql": "SELECT COUNT(*) AS total FROM CLOUD_NETWORK",
+      "reference_columns": [
+        "total"
+      ],
+      "reference_rows": 1,
+      "reference_conflict": "API条件与参考一致，SQL均COUNT NETWORK；实际为0，参考为1，存在成功空的占位计数风险。",
+      "requested_action": "C复核参考1是否来自_empty；B保留真实成功空COUNT0与失败的区分，不以改COUNT模板凑1。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "shared",
+                "value": "true",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "providerNetworkType",
+                "value": "vlan",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT COUNT(*) AS total FROM CLOUD_NETWORK",
+      "frozen_actual_result": {
+        "columns": [
+          "total"
+        ],
+        "row_count": 1,
+        "rows_preview": [
+          {
+            "total": 0
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-259",
+      "question": "查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "stopped",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000"
+        }
+      ],
+      "reference_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id",
+      "reference_columns": [
+        "azoneName",
+        "vm_name",
+        "ip",
+        "tenantName",
+        "cluster_name",
+        "host_name"
+      ],
+      "reference_rows": 58,
+      "reference_conflict": "与028同类：题文异常，实际status=error，参考status=stopped；左连接与输出字段已具备。",
+      "requested_action": "C裁定状态语义；B保留按AZ展示，不能把error通用改成stopped。",
+      "frozen_actual_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "error",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=10000"
+        }
+      ],
+      "frozen_actual_sql": "SELECT CLOUD_VM_NOVA.azoneName, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS ip, CLOUD_VM_NOVA.tenantName, CLOUD_CLUSTER.name AS cluster_name, CLOUD_HOST.name AS host_name FROM CLOUD_VM_NOVA LEFT JOIN CLOUD_CLUSTER ON CLOUD_VM_NOVA.clusterId = CLOUD_CLUSTER.id LEFT JOIN CLOUD_HOST ON CLOUD_VM_NOVA.hostId = CLOUD_HOST.id ORDER BY CLOUD_VM_NOVA.azoneName",
+      "frozen_actual_result": {
+        "columns": [
+          "azoneName",
+          "vm_name",
+          "ip",
+          "tenantName",
+          "cluster_name",
+          "host_name"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-088",
+      "question": "查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "normal",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        }
+      ],
+      "reference_sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalVcpuCores AS total_vcpu, CLOUD_HOST.allocatedVcpuCores AS allocated_vcpu, SYS_X86Server.cpuArch AS cpu_arch, CLOUD_VM_NOVA.name AS vm_name FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId",
+      "reference_columns": [
+        "host_name",
+        "ip_address",
+        "total_vcpu",
+        "allocated_vcpu",
+        "cpu_arch",
+        "vm_name"
+      ],
+      "reference_rows": 1335,
+      "reference_conflict": "B按题文筛运行中VM得到1287行；参考只在HOST筛normal，包含48个stopped VM，共1335行。",
+      "requested_action": "C裁定运行中是VM还是HOST语义；已有原生归因，不删除VM active筛选追求分数。",
+      "frozen_actual_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "az0.dc0",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "active",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "frozen_actual_sql": "SELECT CLOUD_HOST.name AS host_name, CLOUD_HOST.ipAddress AS ip_address, CLOUD_HOST.totalVcpuCores AS total_vcpu, CLOUD_HOST.allocatedVcpuCores AS allocated_vcpu, SYS_X86Server.cpuArch AS cpu_arch, CLOUD_VM_NOVA.name AS vm_name FROM CLOUD_HOST INNER JOIN SYS_X86Server ON CLOUD_HOST.serverId = SYS_X86Server.id INNER JOIN CLOUD_VM_NOVA ON CLOUD_HOST.id = CLOUD_VM_NOVA.hostId",
+      "frozen_actual_result": {
+        "columns": [
+          "host_name",
+          "ip_address",
+          "total_vcpu",
+          "allocated_vcpu",
+          "cpu_arch",
+          "vm_name"
+        ],
+        "row_count": 1287,
+        "rows_preview": [
+          {
+            "host_name": "kvm-10",
+            "ip_address": "cceef1c5",
+            "total_vcpu": 324,
+            "allocated_vcpu": 262,
+            "cpu_arch": "x86",
+            "vm_name": "7a6a5bdf-6fd3-430f-b931-7788cb943941_node_group_1HFmR-0002"
+          },
+          {
+            "host_name": "kvm-10",
+            "ip_address": "cceef1c5",
+            "total_vcpu": 324,
+            "allocated_vcpu": 262,
+            "cpu_arch": "x86",
+            "vm_name": "AOM-LTS-ES03"
+          },
+          {
+            "host_name": "kvm-10",
+            "ip_address": "cceef1c5",
+            "total_vcpu": 324,
+            "allocated_vcpu": 262,
+            "cpu_arch": "x86",
+            "vm_name": "AOM-LTS-Master02"
+          }
+        ]
+      },
+      "frozen_actual_quality_score": 4.8,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-115",
+      "question": "查询区域region_guian4下各云服务的微服务实例数量",
+      "reference_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_CloudService?pageNo=1&pageSize=10000"
+      },
+      "reference_sql": "SELECT SYS_CloudService.indexName AS cloud_service_name, COUNT(*) AS instance_count FROM SYS_CloudService INNER JOIN SYS_Service ON SYS_CloudService.id = SYS_Service.cloudServiceId INNER JOIN SYS_DeployComponent ON SYS_Service.id = SYS_DeployComponent.serviceId INNER JOIN SYS_DeployInstance ON SYS_DeployComponent.id = SYS_DeployInstance.deployComponentId GROUP BY SYS_CloudService.indexName",
+      "reference_columns": [
+        "cloud_service_name",
+        "instance_count"
+      ],
+      "reference_rows": 107,
+      "reference_conflict": "B已通过AZONE把显式region绑定到logicalRegionId，返回106组；参考未按region过滤，107组。SQL相同。",
+      "requested_action": "C核定区域范围和参考；B保留未知/多解区域拒绝，不要求A再加同一绑定模板。",
+      "frozen_actual_api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_CloudService?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionId",
+                "value": "9E2E3F0CCB4A3831A59B64A616AF10B9",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "frozen_actual_sql": "SELECT SYS_CloudService.indexName AS cloud_service_name, COUNT(*) AS instance_count FROM SYS_CloudService INNER JOIN SYS_Service ON SYS_CloudService.id = SYS_Service.cloudServiceId INNER JOIN SYS_DeployComponent ON SYS_Service.id = SYS_DeployComponent.serviceId INNER JOIN SYS_DeployInstance ON SYS_DeployComponent.id = SYS_DeployInstance.deployComponentId GROUP BY SYS_CloudService.indexName",
+      "frozen_actual_result": {
+        "columns": [
+          "cloud_service_name",
+          "instance_count"
+        ],
+        "row_count": 106,
+        "rows_preview": [
+          {
+            "cloud_service_name": "AOM",
+            "instance_count": 57
+          },
+          {
+            "cloud_service_name": "APIGateway",
+            "instance_count": 7
+          },
+          {
+            "cloud_service_name": "APIGatewayIAM",
+            "instance_count": 5
+          }
+        ]
+      },
+      "frozen_actual_quality_score": 3.6,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-261",
+      "question": "查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+        }
+      ],
+      "reference_sql": "SELECT tenantName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY tenantName ORDER BY ecs_count DESC LIMIT 1",
+      "reference_columns": [
+        "tenantName",
+        "ecs_count"
+      ],
+      "reference_rows": 1,
+      "reference_conflict": "参考tenantName=NULL、ecs_count=862是未知名称人口桶，并未列出IP/挂载；A正确的tenantId排名只统计已知身份、未知人口必须单列，不可把862当成同一真实租户。原生缺字段修通也不能自动宣称满分。",
+      "requested_action": "B接tenant_details的vm_count与preflight投影；C先确认tenantId、all_ties及unknown策略。不重复要求A写同一候选。",
+      "frozen_actual_api": null,
+      "frozen_actual_sql": "SELECT NULL AS value WHERE 0",
+      "frozen_actual_result": {
+        "columns": [
+          "value"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": 0,
+      "new_live_test_this_turn": false,
+      "reference_scalar_preview": [
+        {
+          "tenantName": null,
+          "ecs_count": 862
+        }
+      ]
+    },
+    {
+      "case_id": "CMDB-287",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "vdcName",
+                  "value": "AdvanceService_Manage_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000"
+        }
+      ],
+      "reference_sql": "SELECT name AS subnet_name FROM CLOUD_SUBNET",
+      "reference_columns": [
+        "subnet_name"
+      ],
+      "reference_rows": 2276,
+      "reference_conflict": "参考SQL仅SELECT name FROM CLOUD_SUBNET，2276行；没有按VPC输出两个计数，也没有沿题目VDC/region解析子网范围。修复未知VDC门禁后仍必须核定参考。",
+      "requested_action": "B接network/candidate.py，按预检投影装表，保留同region全VPC目录、重复ID与不完整图门禁。",
+      "frozen_actual_api": null,
+      "frozen_actual_sql": "SELECT NULL AS value WHERE 0",
+      "frozen_actual_result": {
+        "columns": [
+          "value"
+        ],
+        "row_count": 0,
+        "rows_preview": []
+      },
+      "frozen_actual_quality_score": 0,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-270",
+      "question": "查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+        }
+      ],
+      "reference_sql": "SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME",
+      "reference_columns": [
+        "volume_name",
+        "volume_size",
+        "volume_status"
+      ],
+      "reference_rows": 6190,
+      "reference_conflict": "参考6190行全局卷，既未按题目区域过滤也未选最大租户。已证区域known-tenant策略858行不应扩大成全局卷。",
+      "requested_action": "B接现有volume_count合同，保留tenantId与all_ties/unknown门禁；C单独核定参考范围，不要求A重做同一排名view。",
+      "frozen_actual_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "frozen_actual_sql": "WITH scoped AS (\n SELECT * FROM CLOUD_VOLUME WHERE logicalRegionName='region_guian4'\n), tenant_counts AS (\n SELECT tenantId, COUNT(DISTINCT id) AS resource_count\n FROM scoped WHERE tenantId IS NOT NULL GROUP BY tenantId\n), winners AS (\n SELECT tenantId, resource_count FROM tenant_counts\n WHERE resource_count=(SELECT MAX(resource_count) FROM tenant_counts)\n)\nSELECT w.tenantId AS tenant_id, d.tenantName AS tenant_name, w.resource_count,\n d.id AS volume_id, d.name AS volume_name, d.size AS volume_size_raw, d.status AS volume_status\nFROM winners w JOIN scoped d ON d.tenantId=w.tenantId\nORDER BY w.tenantId,d.id",
+      "frozen_actual_result": {
+        "columns": [
+          "tenant_id",
+          "tenant_name",
+          "resource_count",
+          "volume_id",
+          "volume_name",
+          "volume_size_raw",
+          "volume_status"
+        ],
+        "row_count": 858,
+        "rows_preview": [
+          {
+            "tenant_id": "8fa72e1296c244eeb09a9b7ab03baeb2",
+            "tenant_name": "AdvanceService_System_VDC",
+            "resource_count": 858,
+            "volume_id": "0027B54395E233259AEF697EB39D40A8",
+            "volume_name": "CPTS-PTDatacenter-0001-volume-0000",
+            "volume_size_raw": "50",
+            "volume_status": "in-use"
+          },
+          {
+            "tenant_id": "8fa72e1296c244eeb09a9b7ab03baeb2",
+            "tenant_name": "AdvanceService_System_VDC",
+            "resource_count": 858,
+            "volume_id": "00B9DCE626A834028928316DC35C9D08",
+            "volume_name": "AOM-UniAgent-Master-01-volume-0001",
+            "volume_size_raw": "100",
+            "volume_status": "in-use"
+          },
+          {
+            "tenant_id": "8fa72e1296c244eeb09a9b7ab03baeb2",
+            "tenant_name": "AdvanceService_System_VDC",
+            "resource_count": 858,
+            "volume_id": "0152C0A959443407B322CE15FD96F6E3",
+            "volume_name": "AOM-Uniagent-Server-01-volume-0002",
+            "volume_size_raw": "100",
+            "volume_status": "in-use"
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    },
+    {
+      "case_id": "CMDB-300",
+      "question": "查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数",
+      "reference_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=10000",
+          "autoPagination": true,
+          "totalNum": 15406,
+          "totalPages": 2
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_NODE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "reference_sql": "SELECT vdcName, SUM(size) AS total_volume_size FROM CLOUD_VOLUME GROUP BY vdcName",
+      "reference_columns": [
+        "vdcName",
+        "total_volume_size"
+      ],
+      "reference_rows": 47,
+      "reference_conflict": "参考只计算全局卷的VDC容量，没有筛卷区域、没有ECS vCPU或GaussDB节点；与正确区域内独立聚合的源容量/分组域不同。",
+      "requested_action": "B接已有capacity，保留未知规格VM、源单位/NULL、不完整总量和节点/实例区别；C核定单位，不需A再写同一候选。",
+      "frozen_actual_api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_NODE?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        }
+      ],
+      "frozen_actual_sql": "WITH\nv AS (SELECT v.vdcName d,COUNT(*) n,\n SUM(CASE WHEN (TRIM(CAST(f.vcpuSize AS TEXT))<>'' AND TRIM(CAST(f.vcpuSize AS TEXT)) NOT GLOB '*[^0-9]*') THEN CAST(f.vcpuSize AS INTEGER) ELSE 0 END) k,\n SUM(CASE WHEN (TRIM(CAST(f.vcpuSize AS TEXT))<>'' AND TRIM(CAST(f.vcpuSize AS TEXT)) NOT GLOB '*[^0-9]*') THEN 0 ELSE 1 END) u\n FROM CLOUD_VM_NOVA v LEFT JOIN CLOUD_FLAVOR f\n ON v.flavorId=f.id AND v.logicalRegionName=f.logicalRegionName\n WHERE v.logicalRegionName='region_guian4' GROUP BY v.vdcName),\nw AS (SELECT vdcName d,COUNT(*) n,\n SUM(CASE WHEN (TRIM(CAST(size AS TEXT))<>'' AND TRIM(CAST(size AS TEXT)) NOT GLOB '*[^0-9.]*' AND LENGTH(TRIM(CAST(size AS TEXT)))-LENGTH(REPLACE(TRIM(CAST(size AS TEXT)),'.',''))<=1 AND TRIM(CAST(size AS TEXT))<>'.') THEN CAST(size AS REAL) ELSE 0 END) k,\n SUM(CASE WHEN (TRIM(CAST(size AS TEXT))<>'' AND TRIM(CAST(size AS TEXT)) NOT GLOB '*[^0-9.]*' AND LENGTH(TRIM(CAST(size AS TEXT)))-LENGTH(REPLACE(TRIM(CAST(size AS TEXT)),'.',''))<=1 AND TRIM(CAST(size AS TEXT))<>'.') THEN 0 ELSE 1 END) u\n FROM CLOUD_VOLUME WHERE logicalRegionName='region_guian4' GROUP BY vdcName),\ng AS (SELECT vdcName d,COUNT(*) n FROM CLOUD_GAUSSDB_NODE\n WHERE logicalRegionName='region_guian4' GROUP BY vdcName),\nd AS (SELECT d FROM v UNION SELECT d FROM w UNION SELECT d FROM g)\nSELECT d.d AS vdc_name,COALESCE(v.k,0) AS known_vcpu,\n COALESCE(v.u,0) AS unknown_cpu_vm_count,\n CASE WHEN COALESCE(v.u,0)=0 THEN COALESCE(v.k,0) END AS total_vcpu_if_complete,\n COALESCE(w.k,0) AS known_volume_size,COALESCE(w.u,0) AS unknown_volume_count,\n CASE WHEN COALESCE(w.u,0)=0 THEN COALESCE(w.k,0) END AS total_volume_size_if_complete,\n COALESCE(g.n,0) AS gaussdb_node_count\nFROM d LEFT JOIN v ON d.d IS v.d LEFT JOIN w ON d.d IS w.d\nLEFT JOIN g ON d.d IS g.d ORDER BY d.d IS NOT NULL,d.d",
+      "frozen_actual_result": {
+        "columns": [
+          "vdc_name",
+          "known_vcpu",
+          "unknown_cpu_vm_count",
+          "total_vcpu_if_complete",
+          "known_volume_size",
+          "unknown_volume_count",
+          "total_volume_size_if_complete",
+          "gaussdb_node_count"
+        ],
+        "row_count": 48,
+        "rows_preview": [
+          {
+            "vdc_name": null,
+            "known_vcpu": 0,
+            "unknown_cpu_vm_count": 0,
+            "total_vcpu_if_complete": 0,
+            "known_volume_size": 163443.0,
+            "unknown_volume_count": 0,
+            "total_volume_size_if_complete": 163443.0,
+            "gaussdb_node_count": 0
+          },
+          {
+            "vdc_name": "",
+            "known_vcpu": 6055,
+            "unknown_cpu_vm_count": 881,
+            "total_vcpu_if_complete": null,
+            "known_volume_size": 0,
+            "unknown_volume_count": 0,
+            "total_volume_size_if_complete": 0,
+            "gaussdb_node_count": 0
+          },
+          {
+            "vdc_name": "AdvanceService_Manage_VDC",
+            "known_vcpu": 1115,
+            "unknown_cpu_vm_count": 16,
+            "total_vcpu_if_complete": null,
+            "known_volume_size": 171500.0,
+            "unknown_volume_count": 0,
+            "total_volume_size_if_complete": 171500.0,
+            "gaussdb_node_count": 0
+          }
+        ]
+      },
+      "frozen_actual_quality_score": -1,
+      "new_live_test_this_turn": false
+    }
+  ],
+  "conditional_score_budget": {
+    "unresolved_wrong_training_ids": [
+      "CMDB-024",
+      "CMDB-028",
+      "CMDB-051",
+      "CMDB-053",
+      "CMDB-102",
+      "CMDB-112",
+      "CMDB-166",
+      "CMDB-259"
+    ],
+    "if_these_eight_stay_minus1_and_others_five": 702,
+    "if_270_300_also_stay_minus1_and_remaining_all_five": 690,
+    "kind": "conditional arithmetic, not proof of unconditional ceiling or new model score",
+    "target": 700
+  }
+}
