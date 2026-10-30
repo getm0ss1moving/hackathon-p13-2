@@ -1,5 +1,7 @@
 # CMDB 智能查询系统 — Hackathon
 
+2026-10-30 模板阅读资料：新增独立的 [200条中文阅读表](reports/template_classification_20261030/模板分类阅读版.md)、[可筛选 Excel](reports/template_classification_20261030/模板分类阅读版.xlsx) 和 [CSV](reports/template_classification_20261030/模板分类阅读版.csv)。该表冻结在 `ad45ecc1` 的200条模板，区分查询用途、实际实现和未验证的合并候选；原 JSON、技术证据和业务代码保持原样。
+
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
 当前协作分支为 `main`：按用户于 2026-10-30 的要求，已有协作分支的已提交历史统一合并，之后直接沿 `main` 工作，不为每次提交新建分支。本地B未提交成果继续等待用户明确提交指令；历史记录中的分支名称保留其原时间含义。

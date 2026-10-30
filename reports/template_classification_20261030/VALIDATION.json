@@ -1,0 +1,60 @@
+{
+  "status": "PASS_FILE_COVERAGE_CONSISTENCY_SOURCE_PRESERVATION_AND_VISUAL_REVIEW",
+  "source_main": "ad45ecc1cf1c54f445ada616e4ba7d0c84576e54",
+  "source_template_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+  "record_count": 200,
+  "unique_ids": 200,
+  "columns": 9,
+  "resource_groups": {
+    "云计算实例": 61,
+    "平台与其他资源": 15,
+    "网络与连接": 27,
+    "应用与部署": 11,
+    "主机与物理基础设施": 34,
+    "存储与云硬盘": 22,
+    "数据库": 19,
+    "访问控制与负载均衡": 11
+  },
+  "candidate_reference_groups": 36,
+  "candidate_reference_is_exhaustive": false,
+  "CSV_MD_XLSX_consistent": true,
+  "xlsx_frozen_header_rows": 6,
+  "xlsx_frozen_identifier_columns": 2,
+  "xlsx_formula_errors": 0,
+  "summary_recalculation": "PASS_RESTORED",
+  "preserved_original_files": 11,
+  "new_model_calls": 0,
+  "new_service_calls": 0,
+  "read_B_sealed_cases": false,
+  "merge_implemented": false,
+  "commit_or_push_performed": false,
+  "remaining_blockers": [],
+  "limits": [
+    "静态实现核对不证明答案业务正确或模型合并不退化",
+    "没有新增完整模型/服务测试",
+    "原36组候选不是最终参数化方案"
+  ],
+  "files": {
+    "模板分类阅读版.md": {
+      "path": "模板分类阅读版.md",
+      "bytes": 131644,
+      "sha256": "fbef18e93592980892055bd5038197ecb104fb79bef34a9eb925ffa9eebe3d54"
+    },
+    "模板分类阅读版.csv": {
+      "path": "模板分类阅读版.csv",
+      "bytes": 112685,
+      "sha256": "899da687ae9d23c0ce7520cde81eea2995e67cb2adadb4d271cf45a73d68f164"
+    },
+    "模板分类阅读版.xlsx": {
+      "path": "模板分类阅读版.xlsx",
+      "bytes": 39919,
+      "sha256": "531f7662ba3b6b1ce88682f083e866fbeeb78d2e9315a80c898091ba5d8fd063"
+    },
+    "候选讨论参考.csv": {
+      "path": "候选讨论参考.csv",
+      "bytes": 14846,
+      "sha256": "1a2f61d3a8ff998ce798bc425f96d7a3a9d622f52af2a7e3f29dcacff7299419"
+    }
+  },
+  "publication_note": "仅将原回执中的本机绝对路径转换为同目录文件名；源回执保留，内容校验和结果不变。"
+}
