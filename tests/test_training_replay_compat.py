@@ -166,7 +166,11 @@ class ScorerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.path = ROOT / "implementation/evaluator.py"
-        cls.source = cls.path.read_bytes()  # 唯一读取的仓库文件：已授权评分器代码。
+        # 本组专测历史original→ratio1回放合同，继续使用精确冻结的ratio1源码；
+        # 最新别名版由test_training_evaluator_alias_revision独立验证，不能混称同一版本。
+        import subprocess
+        cls.source = subprocess.check_output([
+            "git", "show", "e0f34ed42937203631eef0309964431c376cd179:implementation/evaluator.py"], cwd=ROOT)
         legacy, revised, cls.provenance = c.load_verified_scorers(cls.source, c.AUTHORIZED_REVISION, cls.path)
         cls.legacy, cls.revised = staticmethod(legacy), staticmethod(revised)
 

@@ -369,13 +369,46 @@ REFINE_SQL_CONTRACT_PROMPT = """你是SQL精调助手。根据用户问题调整
 # ── 选择 + 填充 ────────────────────────────────────────
 
 def _format_runbook_list(items: list) -> str:
-    """格式化为 LLM prompt 中的编号列表。"""
+    """保留原候选卡；仅向选择阶段展示已声明、闭集核验的属性view配对。"""
     lines = []
     for i, item in enumerate(items):
         examples_str = "; ".join(item.get("examples", []))
         resources_str = "/".join(item.get("resources", []))
-        lines.append(f"{i + 1}. {item['name']} - {item.get('description', '')} "
-                     f"[资源类型：{resources_str}] (示例：{examples_str})")
+        line = (f"{i + 1}. {item['name']} - {item.get('description', '')} "
+                f"[资源类型：{resources_str}] (示例：{examples_str})")
+        family = item.get("family_id")
+        if isinstance(family, str) and family in {"F02", "F19"}:
+            from runbook_family_views import _B3_SPECS
+            spec = _B3_SPECS.get(family, {})
+            contract = item.get("parameter_contract")
+            profiles = contract.get("profiles") if isinstance(contract, dict) else None
+            if (isinstance(contract, dict) and not set(contract) - {"scope", "profiles", "types"}
+                    and contract.get("scope") == ["filtered"]
+                    and isinstance(profiles, list) and profiles
+                    and item.get("resources") == [spec.get("ci")]):
+                combinations = []
+                for profile in profiles:
+                    if not isinstance(profile, dict) or set(profile) != {"projection", "order", "filters"}:
+                        combinations = []
+                        break
+                    projection, order, filters = profile["projection"], profile["order"], profile["filters"]
+                    if (not isinstance(projection, list) or not projection
+                            or not all(isinstance(field, str) for field in projection)
+                            or len(set(projection)) != len(projection)
+                            or not isinstance(filters, list) or not filters
+                            or not all(isinstance(field, str) for field in filters)
+                            or len(set(filters)) != len(filters) or not isinstance(order, str)):
+                        combinations = []
+                        break
+                    shapes = spec.get("shapes", {}).get(tuple(projection), {})
+                    if order not in shapes or not any(set(fields) == set(filters) for fields in shapes[order]):
+                        combinations = []
+                        break
+                    combinations.append("输出(" + ",".join(projection) + ")←全部等值筛选("
+                                        + ",".join(filters) + "),排序=" + order)
+                if combinations:
+                    line += " [已审配对（逐条明细，排序不是分组统计）：" + "；".join(combinations) + "]"
+        lines.append(line)
     return "\n".join(lines)
 
 
@@ -408,6 +441,7 @@ _FIELD_LABELS = {
 }
 _NAME_LABELS = {
     "VM_NOVA": [r"ECS(?:实例)?", r"虚拟机(?:实例)?"], "HOST": [r"宿主机"],
+    "FLAVOR": [r"规格(?!编码|ID|代码|编号|类型)"],
     "CLUSTER": [r"集群"], "ROUTER": [r"VPC", r"虚拟私有云"],
     "ELB": [r"ELB", r"负载均衡器?"], "VOLUME": [r"云硬盘"], "SUBNET": [r"子网"],
     "SECURITY_GROUP": [r"安全组"], "GAUSSDB_INSTANCE": [r"GaussDB实例"],
@@ -842,6 +876,50 @@ def _resource_attribute_question(question: str, item: dict):
     return re.sub(classification, replace, question, flags=re.I), ignored
 
 
+def _mentions_obs_resource(question: str) -> bool:
+    """Only F27's resource names; explicit entity/column values own their text."""
+    quotes = r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|‘[^’\n]*’|「[^」\n]*」'''
+    literal = "(?:" + quotes + r"|[A-Za-z0-9_@][A-Za-z0-9_@./:#%+\-]*)"
+    role = (r"(?:区域|地区|地域|租户名称|租户名|租户|VDC名称|VDC名|可用区名称|可用区|"
+            r"实例名称|虚拟机名称|资源名称|实例名|虚拟机名|资源名|名称|名字|"
+            r"(?<![A-Za-z0-9_])(?:logicalRegionName|tenantName|vdcName|azoneName|name|region|VDC|AZ)(?![A-Za-z0-9_]))")
+    equal = r"\s*(?:(?:名称|名字|名)\s*)?(?:(?:等于|为|是|=|:|：)\s*)?"
+    text = re.sub(role + equal + literal, " ", question, flags=re.I)
+    named = r"(?<![A-Za-z0-9_@.\-])(?:ECS|VM_NOVA|虚拟机|GaussDB|GAUSSDB_INSTANCE)(?:\s*实例)?"
+    text = re.sub(named + r"\s*" + literal, " ", text, flags=re.I)
+    text = re.sub(literal + r"\s*(?:(?:为|是|等于)\s*)?" + role
+                  + r"(?=\s*(?:下|中|内|的|[，,。;；!?！？]|$))", " ", text, flags=re.I)
+    # A field/column identifier is not a requested OBS resource.
+    text = re.sub(r"(?:字段|列)(?:名称|名)?" + equal + literal, " ", text, flags=re.I)
+    text = re.sub(literal + r"\s*(?:字段|列)(?!出|表)", " ", text, flags=re.I)
+    resource = r"(?:CLOUD_OBS_BUCKET|OBS_BUCKET|OBS\s*(?:存储桶|桶)|对象存储桶)"
+    def quoted(match):
+        value = match.group()[1:-1]
+        return value if re.fullmatch(resource, value, re.I) else " "
+    text = re.sub(quotes, quoted, text)
+    edge = r"[A-Za-z0-9_@./:#%+\-]"
+    return bool(re.search(r"(?<!" + edge + ")" + resource + r"(?!" + edge + ")", text, re.I))
+
+
+def _obs_sql_table_covered(sql: str) -> bool:
+    """Finite FROM/JOIN proof; literals/comments/aliases cannot supply a table."""
+    tokens = re.findall(r'"(?:[^"\\]|\\.|"")*"|`(?:[^`]|``)*`|\[(?:[^\]]|\]\])*\]|[A-Za-z_]\w*|[^\s]', _sql_structure(sql))
+    if any(token.casefold() == "with" for token in tokens):
+        return False  # CTE names may shadow physical tables; no new proof here.
+    for index, token in enumerate(tokens[:-1]):
+        if token.casefold() not in {"from", "join"}:
+            continue
+        position = index + 1
+        if position + 2 < len(tokens) and tokens[position + 1] == ".":
+            position += 2
+        table = tokens[position]
+        if table[:1] in {'"', '`', '['}:
+            table = table[1:-1]
+        if table.upper() == "CLOUD_OBS_BUCKET":
+            return True
+    return False
+
+
 def _resource_coverage(question: str, item: dict) -> dict:
     """保持资源门禁；仅对有字段证据的属性词及已证明的 API 查找补覆盖。"""
     sql = (item.get("sql") or "").upper()
@@ -851,6 +929,8 @@ def _resource_coverage(question: str, item: dict) -> dict:
     question = question.lower()
     missing = [table for words, table in _RESOURCE_CHECKS
                if sql and table not in sql and any(_mentions_resource(question, word) for word in words)]
+    if sql and _mentions_obs_resource(question) and not _obs_sql_table_covered(sql):
+        missing.append("OBS_BUCKET")
     lookup = _direct_api_lookup(item) if missing else None
     covered = [table for table in missing if lookup and table in lookup["source_table"].upper()]
     result = {"missing_from_sql": missing, "covered_by_lookup": covered,
@@ -1414,6 +1494,35 @@ def _family_question_evidence(question: str, family: str, parameters: dict) -> d
                 r"\s*(?:的)?(?:数量分布|分布|分组|(?:为)?维度|(?:为)?单位)", question[label.end():]):
             dimensions.add(field)
             dim_spans.append(label.span())
+    if family == "F21":
+        # Binding state is an output axis only in a complete EIP grouping
+        # expression. Do not infer it from the model's group or an equality.
+        f21_tenant = r"(?:tenantName|租户名称|租户名|租户)"
+        f21_resource = r"(?:弹性\s*IP(?:地址)?|(?<![A-Za-z0-9_])(?:EIP|FLOATING_IPS)(?![A-Za-z0-9_]))"
+        f21_binding = r"绑定\s*状态"
+        f21_boundary = r"(?=\s*(?:[。?？]\s*)?$)"
+        f21_joiner = r"\s*(?:和|与|及|以及|、|/)\s*"
+        f21_group_tail = r"\s*(?:分组(?:统计|计数)?|统计|汇总)\s*" + f21_resource + r"\s*(?:的)?\s*(?:数量|数目|计数|个数)" + f21_boundary
+        f21_patterns = [
+            r"(?<![A-Za-z0-9_])(?P<tenant>(?:各个|各|每个|每一|逐|不同)\s*" + f21_tenant + r")\s*(?:的)?\s*" + f21_resource + r"\s*(?:的)?\s*(?P<binding>" + f21_binding + r")(?:\s*(?:的)?\s*(?:数量分布|数量|数目|计数|分布))?" + f21_boundary,
+            r"(?<![A-Za-z0-9_])(?:按照|依照|按|以)\s*(?P<tenant>" + f21_tenant + r")" + f21_joiner + r"(?P<binding>" + f21_binding + r")" + f21_group_tail,
+            r"(?<![A-Za-z0-9_])(?:按照|依照|按|以)\s*(?P<binding>" + f21_binding + r")" + f21_joiner + r"(?P<tenant>" + f21_tenant + r")" + f21_group_tail,
+        ]
+        f21_scope_value = r'(?:(?:"[^"\n]+"|\'[^\'\n]+\'|“[^”\n]+”|「[^」\n]+」)|[A-Za-z0-9_@][A-Za-z0-9_@./:#%+\-]*)'
+        f21_prefix = (r"\s*(?:请\s*)?(?:(?:查询|查看|列出|统计|汇总)\s*)?(?:在\s*)?"
+                      r"(?:(?:区域|地区|地域|logicalRegionName|(?<![A-Za-z0-9_])region(?![A-Za-z0-9_]))\s*)?"
+                      + f21_scope_value + r"\s*(?:(?:下|中|内)(?:的)?)?\s*(?:[，,]\s*)?")
+        f21_quoted = quoted + [part.span() for part in re.finditer(r"‘[^’\n]*’|『[^』\n]*』|`[^`\n]*`", question)]
+        for pattern in f21_patterns:
+            for binding_expr in re.finditer(pattern, question, re.I):
+                if re.fullmatch(f21_prefix, question[:binding_expr.start()], re.I) is None:
+                    continue
+                if any(max(binding_expr.start(), left) < min(binding_expr.end(), right) for left, right in f21_quoted):
+                    continue
+                if re.search(r"(?:名称|名字|名为|叫做|租户|tenantName|区域|region|logicalRegionName|VDC)\s*(?:名称|名字|名)?\s*(?:等于|为|是|=|:|：)?\s*$", question[:binding_expr.start()], re.I):
+                    continue
+                dimensions.update({"tenantName", "status"})
+                dim_spans.extend([binding_expr.span("tenant"), binding_expr.span("binding")])
     if dimensions and dimensions != expected:
         raise ValueError("requested_dimension_mismatch")
 
@@ -1628,6 +1737,17 @@ def _family_question_evidence(question: str, family: str, parameters: dict) -> d
     for match in re.finditer(unsupported_output, question, re.I):
         if not inside(match.span(), [*quoted, *entity_spans]):
             raise ValueError("unsupported_output_metric")
+    if family in {"F14", "F18"}:
+        visible_metrics = question
+        for left, right in sorted([*quoted, *entity_spans], reverse=True):
+            visible_metrics = visible_metrics[:left] + " " * (right-left) + visible_metrics[right:]
+        extrema = bool(re.search(r"平均|均值|最大|最高|最小|最低|(?<![A-Za-z0-9_])(?:AVG|MAX|MIN)(?![A-Za-z0-9_])", visible_metrics, re.I))
+        storage = bool(re.search(r"容量|存储空间|存储量|大小|(?<![A-Za-z0-9_])(?:size|storageCapacity)(?![A-Za-z0-9_])", visible_metrics, re.I))
+        counts_or_sum = bool(re.search(r"数量|数目|计数|总容量|容量总|大小总|总大小|总存储|存储总|(?<![A-Za-z0-9_])(?:COUNT|SUM)(?![A-Za-z0-9_])", visible_metrics, re.I))
+        metric = parameters.get("metrics")
+        if (family == "F18" and (extrema or metric == "count" and storage)
+                or family == "F14" and (metric == "count_sum" and extrema or metric == "avg_max" and counts_or_sum)):
+            raise ValueError("unsupported_requested_aggregate_metric")
     for field, values in roles.items():
         if len(set(values)) > 1:
             raise ValueError("multiple_values_not_supported:" + field)
@@ -1808,6 +1928,149 @@ def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
 
 
 
+_A160_EXTRA_FAMILIES = {"F10", "F11_CORE", "F16", "F17_SAFE", "F26", "NEXT_N28"}
+
+
+def _a160_parameter_contract(item):
+    """A的六个闭合合同；只定义模型抽参格式，原文验证仍由各helper完成。"""
+    family = item.get("family_id")
+    properties = {}
+    required = ["filters", "required_filters"]
+    combinations = None
+    if family in {"F11_CORE", "F16", "F26"}:
+        import runbook_family_batch4 as helper
+        spec = helper.SPECS[family]
+        fields = spec["filters"]
+        properties["view"] = {"type": "string", "enum": list(spec["views"])}
+        required.append("view")
+        detail = {"views": spec["views"], "scope": "所有明确等值条件；至少一个筛选"}
+    elif family in {"F10", "F17_SAFE"}:
+        import runbook_family_single as helper
+        fields = ["logicalRegionName", "azoneName"]
+        if family == "F10":
+            properties.update(metric={"type": "string", "enum": list(helper.HOST_COLUMNS)},
+                              direction={"const": "desc"},
+                              top_k={"type": "integer", "minimum": 1, "maximum": 2147483647})
+            required += ["metric", "direction", "top_k"]
+            detail = {"metrics": helper.HOST_COLUMNS, "sort": helper.HOST_SORT_KEY,
+                      "scope": "原文区域或可用区至少一项；K取原文整数；CPU率是比值，内存仍为MB"}
+        else:
+            fields.append("vendorName")
+            properties["view"] = {"type": "string", "enum": list(helper.POOL_COLUMNS)}
+            required.append("view")
+            detail = {"views": helper.POOL_COLUMNS, "scope": "区域必需，可用区/厂商条件可选且全部保留"}
+    elif family == "NEXT_N28":
+        import runbook_family_count as helper
+        fields = ["logicalRegionName"]
+        properties.update(resource_set={"type": "array", "uniqueItems": True,
+                                        "items": {"type": "string", "enum": list(helper._N28_RESOURCES)}},
+                          group={"type": "string", "enum": ["none", "vdcName"]},
+                          layout={"type": "string", "enum": ["labeled_rows", "single_grouped", "single_scalar"]},
+                          metric={"const": "count_rows"})
+        required += ["resource_set", "group", "layout", "metric"]
+        combinations = [{"properties": {"resource_set": {"const": list(resources)},
+                                         "group": {"const": group}, "layout": {"const": layout}}}
+                        for resources, groups in helper._N28_LAYOUTS.items() for group, layout in groups.items()]
+        detail = {"legal_combinations": combinations, "scope": "恰好一个原文区域；多个资源保持受控顺序，不创建JOIN"}
+    else:
+        raise ValueError("unknown_a160_family")
+    properties["filters"] = {"type": "object", "additionalProperties": False, "minProperties": 1,
+                             "properties": {field: {"type": "string", "minLength": 1} for field in fields}}
+    properties["required_filters"] = {"type": "array", "uniqueItems": True, "minItems": 1,
+                                      "items": {"type": "string", "enum": fields}}
+    if family in {"F17_SAFE", "NEXT_N28"}:
+        properties["filters"]["required"] = ["logicalRegionName"]
+    schema = {"type": "object", "additionalProperties": False,
+              "properties": properties, "required": required}
+    if combinations:
+        schema["oneOf"] = combinations
+    return schema, detail
+
+
+def _match_a160_candidate(question, selected, diagnostics):
+    family = selected["family_id"]
+    schema, detail = _a160_parameter_contract(selected)
+    prompt = (
+        "为已选中的闭合家族抽取参数，仅返回JSON对象或null。不要返回SQL。\n"
+        "家族：" + family + "\nJSON Schema：" + json.dumps(schema, ensure_ascii=False) + "\n"
+        "默认输出和合法组合：" + json.dumps(detail, ensure_ascii=False) + "\n"
+        "view/metric/group/layout/direction是单个枚举字符串；required_filters是字段名字符串数组，"
+        "必须恰好覆盖filters全部键。filters值必须来自当前问题，不填默认实体、空值或猜测值。"
+        "未出现的可选字段省略，全部明确条件保留；区域、可用区、厂商等角色不能互换。"
+        "实体内部英文角色词和业务词属于实体值，不截短名称；引号实体完整保留。"
+        "遵循原合同默认列、单位、公式、分组及排序，用户不必逐列念出默认输出。"
+        "多资源、多指标、多范围或额外投影必须完整表达，当前合同不支持时返回null，不能只答半句。"
+        "F16的capacity_detail含总/可用/预分配/已用容量、使用率和超配比；usage_list按使用率降序。"
+        "F17_SAFE的az_usage按可用区汇总容量和使用率；vendor_capacity按厂商汇总总/可用容量。"
+        "F10的vcpu_allocation_rate为vCPU分配率排名；remaining_memory_mb为剩余内存排名，"
+        "两者均降序，top_k取原文，不能默认5或3。"
+        "NEXT_N28只允许Schema列出的资源、group和layout组合，保持该资源顺序和全部数量义务。\n"
+        "问题：" + question)
+    try:
+        answer = llm_ask(prompt, stage="family_fill")
+        if not isinstance(answer, str):
+            raise ValueError("invalid_a160_response")
+        parsed = json.loads(answer)
+        helper_diagnostics = {}
+        if family in {"F11_CORE", "F16", "F26"}:
+            import runbook_family_batch4 as helper
+            ordinary = helper.prepare_batch4(question, selected, parsed, helper_diagnostics)
+            if (ordinary is None and helper_diagnostics.get("reason") == "view_intent_required"
+                    and isinstance(parsed, dict) and set(parsed) == {"view", "filters", "required_filters"}
+                    and parsed.get("view") in helper.SPECS[family]["views"]):
+                alternatives = []
+                for view in helper.SPECS[family]["views"]:
+                    if view == parsed["view"]:
+                        continue
+                    trial, evidence = dict(parsed, view=view), {}
+                    prepared = helper.prepare_batch4(question, selected, trial, evidence)
+                    if prepared is not None:
+                        alternatives.append((prepared, trial, evidence))
+                if len(alternatives) == 1:
+                    old_view = parsed["view"]
+                    ordinary, parsed, helper_diagnostics = alternatives[0]
+                    diagnostics["view_repair"] = {"from": old_view, "to": parsed["view"],
+                                                  "reason": "unique_legal_view_grounded_in_full_question",
+                                                  "filters_unchanged": True}
+            columns = helper.SPECS[family]["views"].get(parsed.get("view")) if isinstance(parsed, dict) else None
+        elif family in {"F10", "F17_SAFE"}:
+            import runbook_family_single as helper
+            ordinary = helper.prepare_single_table_candidate(question, selected, parsed, helper_diagnostics)
+            columns = ((helper.HOST_COLUMNS.get(parsed.get("metric")) if family == "F10"
+                        else helper.POOL_COLUMNS.get(parsed.get("view"))) if isinstance(parsed, dict) else None)
+        else:
+            import runbook_family_count as helper
+            ordinary = helper.prepare_count_candidate(question, selected, parsed, helper_diagnostics)
+            columns = []
+            if ordinary is not None:
+                if parsed["layout"] == "labeled_rows":
+                    columns.append("device_type" if parsed["resource_set"][0].startswith("S_") else "type")
+                if parsed["group"] == "vdcName":
+                    columns.append("vdcName")
+                columns.append("total" if parsed["resource_set"][0].startswith("S_") else "count")
+        diagnostics["a160_contract"] = helper_diagnostics
+    except (ValueError, TypeError, KeyError) as exc:
+        diagnostics.update(family_status="invalid_or_ungrounded_parameters", family_error=str(exc))
+        return None
+    if ordinary is None:
+        diagnostics.update(family_status="invalid_or_ungrounded_parameters",
+                           family_error=helper_diagnostics.get("reason", "unsupported_a160_contract"))
+        return None
+    original_sql = ordinary["sql"]
+    diagnostics.update(family_id=family, family_status="materialized", parameter_mode="a160_family_llm",
+                       view_parameters=copy.deepcopy(parsed), sql_before_refine=original_sql)
+    refined = _refine_sql(question, original_sql, _get_table_schemas(original_sql), diagnostics=diagnostics)
+    normalize = lambda sql: sql.strip().rstrip(";").strip() if isinstance(sql, str) else None
+    diagnostics.update(family_refinement_kept=normalize(refined) == normalize(original_sql), sql_after_refine=original_sql)
+    diagnostics.setdefault("sql", {}).update(before_refine=original_sql, after_refine=refined,
+                                             final=original_sql, after_fill=original_sql)
+    ordinary["sql"] = original_sql
+    ordinary["_expected_result_columns"] = list(columns)
+    if family == "NEXT_N28":
+        ordinary["_closed_independent_count"] = True
+    return ordinary
+
+
 def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dict):
     import runbook_family_views as family_views
     family = selected.get('family_id')
@@ -1857,6 +2120,29 @@ def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dic
         parsed = json.loads(answer)
         ordinary = family_views.prepare_natural_candidate(
             question, selected, parsed, family_views._prepare_batch3_candidate, diagnostics)
+        # 模型仍决定family与实体参数；仅在错误view的筛选配对不合法时，
+        # 按未改动的闭合合同和完整原文寻找唯一可行view，不补删任何筛选。
+        if (ordinary is None and diagnostics.get('family_error') == 'unreviewed_projection_filter_pair'
+                and isinstance(parsed, dict) and set(parsed) == {'view', 'filters', 'required_filters'}
+                and parsed.get('view') in {choice['view'] for choice in choices}):
+            alternatives = []
+            for choice in choices:
+                if choice['view'] == parsed['view']:
+                    continue
+                trial = dict(parsed, view=choice['view'])
+                evidence = {}
+                prepared = family_views.prepare_natural_candidate(
+                    question, selected, trial, family_views._prepare_batch3_candidate, evidence)
+                if prepared is not None:
+                    alternatives.append((prepared, trial, evidence))
+            if len(alternatives) == 1:
+                old_view = parsed['view']
+                ordinary, parsed, evidence = alternatives[0]
+                diagnostics.update(evidence)
+                diagnostics.pop('family_error', None)
+                diagnostics['view_repair'] = {'from': old_view, 'to': parsed['view'],
+                                              'reason': 'unique_legal_view_grounded_in_full_question',
+                                              'filters_unchanged': True}
     except (ValueError, TypeError) as exc:
         diagnostics.update(family_status='invalid_or_ungrounded_parameters', family_error=str(exc))
         return None
@@ -1902,6 +2188,33 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
                      "F18": ["group", "metrics"], "F20": ["view"], "F21": ["group"]}[family]
     schema = {"type": "object", "additionalProperties": False, "properties": properties,
               "required": ["scope", "filters", "required_filters", *required_axes]}
+    if family == "F01":
+        schema["oneOf"] = [
+            {"required": ["count_alias"], "properties": {
+                "group": {"const": "none"}, "metrics": {"const": "count"},
+                "count_alias": {"const": "total"}, "label": {"const": "none"},
+                "order": {"const": "none"},
+            }},
+            {"properties": {
+                "group": {"enum": ["status", "azoneName", "management", "tenantName"]},
+                "metrics": {"const": "count"}, "count_alias": {"const": "count"},
+                "label": {"const": "none"},
+            }},
+            {"properties": {
+                "group": {"const": "vdcName"}, "metrics": {"const": "count"},
+                "count_alias": {"const": "count"}, "label": {"enum": ["none", "ECS"]},
+            }},
+            {"properties": {
+                "group": {"const": "vdcName"}, "metrics": {"const": "total_active"},
+                "count_alias": {"const": "count"}, "label": {"const": "none"},
+                "order": {"const": "none"},
+            }},
+            {"properties": {
+                "group": {"const": "azoneName"}, "metrics": {"const": "status_counts"},
+                "count_alias": {"const": "count"}, "label": {"const": "none"},
+                "order": {"const": "none"},
+            }},
+        ]
     if family == "F18":
         schema["oneOf"] = [
             {"properties": {
@@ -1917,14 +2230,22 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
         "F01": "group由明确的各/每/按维度决定；具名租户、区域、可用区属于filters，不能凭其出现增加分组。"
                "没有分组要求则group=none，metrics=count，count_alias=total；分组count的别名是count。"
                "metrics=count表示数量；total_active表示各VDC总数与运行中数量；status_counts仅用于各AZ的运行/停止/其他三桶。"
-               "label默认为none，只有明确要求输出type=ECS常量列时才为ECS；问题中的ECS资源名本身不是标签指令。"
+               "label是现有资源类别列，不是数据字段或筛选：仅本族实际单VM_NOVA资源、group=vdcName且metrics=count时，"
+               "若问题明确统计ECS/虚拟机数量且未限定输出列，选label=ECS，输出已有type=ECS标签。"
+               "group、metrics、filters与required_filters各自按题意保留，不能为了标签改变分组、指标或条件。"
+               "题文明示仅/只要指定列或只要两列、不要type/资源类型/标签列，或无法确定未限定投影时，label=none。"
+               "其他group或metrics一律label=none；多资源请求不能凭标签成为本族支持，仍须原资源覆盖校验。"
+               "total_active/status_counts的label和order只能为none、count_alias只能为count，可省略这些默认选项。"
                "order默认为none，只有明确数量降序时为count_desc。",
         "F08": "按问题选择一个group，统计数量固定；不要添加metrics、alias或其他键。",
         "F14": "VDC分组固定，不输出group。metrics=count_sum表示数量和总容量；avg_max表示平均及最大容量。",
         "F18": "group为vdcName时metrics=count_storage表示实例数与存储总量；其他三个分组metrics=count表示数量。",
         "F20": "共享/公用网络明确要求filters.shared=true；非共享/非公用要求false，并列入required_filters。"
                "即使写所有共享网络，也属于filtered，因为shared是筛选条件。"
-               "view=rows表示清单，禁止count_alias；view=count表示数量，必须给count_alias，未指定别名时用total。",
+               "view=rows表示清单，禁止count_alias；view=count表示数量，必须给count_alias。"
+               "兼容已证默认输出：filters恰为shared+providerNetworkType时别名total；"
+               "恰为logicalRegionName+shared时别名count。用户明确指定别名时保留其输出要求；"
+               "同时含region与providerNetworkType的新组合不能从旧view推断默认别名。",
         "F21": "group是单个字符串：vdcName为各VDC；tenantName_status表示租户和状态二维，不输出数组或metric。",
     }[family]
     prompt = (
@@ -2044,6 +2365,40 @@ def _correct_host_vm_status_role(question: str, item: dict):
     return result
 
 
+def _complete_single_ci_scope(item, requested):
+    """仅给单CI单表读取补原文明示且原生字典存在的范围字段。"""
+    calls = item.get("api_call") or []
+    calls = calls if isinstance(calls, list) else [calls]
+    if len(calls) != 1 or not isinstance(calls[0], dict) or calls[0].get("method", "GET") != "GET":
+        return []
+    call = calls[0]
+    endpoint = re.fullmatch(r"/rest/hackthon/db/instances/([^/?]+)(?:\?[^#]*)?", call.get("url", ""))
+    if endpoint is None:
+        return []
+    ci = endpoint[1]
+    tables = {table.casefold() for table in _extract_sql_tables(item.get("sql", ""))}
+    owners = {table.casefold() for table, resource in _ORIG_TO_DESENS.items() if resource == ci}
+    if len(tables) != 1 or tables != owners:
+        return []
+    constraints = call.get("condition", {}).get("constraint", [])
+    if not isinstance(constraints, list):
+        return []
+    present = {constraint.get("simple", {}).get("name") for constraint in constraints if isinstance(constraint, dict)}
+    additions = []
+    for field, value in requested.items():
+        if (field in {"logicalRegionName", "tenantName", "azoneName", "vdcName"}
+                and field not in present and field in _schema_columns.get(ci, [])
+                and _valid_parameter_value(field, value, item)):
+            additions.append({"simple": {"name": field, "value": value, "operator": "equal"}})
+    if additions:
+        target = call.setdefault("condition", {}).setdefault("constraint", [])
+        for constraint in additions:
+            if target:
+                constraint["logOp"] = "and"
+            target.append(constraint)
+    return [constraint["simple"]["name"] for constraint in additions]
+
+
 def match_runbook(user_question: str, runbook_items: list,
                   retriever: RunbookRetriever, diagnostics: dict = None,
                   defer_api_validation: bool = False) -> Optional[dict]:
@@ -2113,6 +2468,16 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if selected.get("family_id") in _A160_EXTRA_FAMILIES:
+        phase = "parameters"
+        try:
+            ordinary = _match_a160_candidate(user_question, selected, diagnostics)
+        except ModelOutputError:
+            return reject("invalid_model_output_family_fill")
+        if ordinary is None:
+            return reject("unsupported_a160_family_contract")
+        diagnostics["reason"] = "matched"
+        return ordinary
     if selected.get("family_id") in {"F02", "F19"}:
         phase = "parameters"
         try:
@@ -2202,6 +2567,21 @@ def match_runbook(user_question: str, runbook_items: list,
             selected = parallel_plan["item"]
             diagnostics["parallel_resource_lists_plan"] = {key:value for key,value in parallel_plan.items()
                                                             if key not in {"item", "preview_sql"}}
+    detail_plan = None
+    detail_validation = None
+    if not any((scalar_plan, group_plan, network_plan, vpc_plan, tenant_plan, vm_volume_plan, parallel_plan)) and os.environ.get("RUNBOOK_COMPLETE_DETAIL_COUNT") == "1":
+        import runbook_detail_count as detail_count
+        detail_plan = detail_count.plan_detail_count(user_question, selected)
+        if detail_plan:
+            diagnostics["detail_count_plan"] = {key:value for key,value in detail_plan.items()
+                                                if key not in {"item", "preview_sql"}}
+    pool_plan = None
+    if not any((scalar_plan, group_plan, network_plan, vpc_plan, tenant_plan, vm_volume_plan, parallel_plan, detail_plan)) and os.environ.get("RUNBOOK_PARTIAL_STORAGE_POOLS") == "1":
+        import runbook_storage_pool_partial as partial_pools
+        pool_plan = partial_pools.plan_storage_pool_partial(user_question, selected)
+        if pool_plan:
+            diagnostics["partial_storage_pool_plan"] = {key:value for key,value in pool_plan.items()
+                                                       if key not in {"item", "preview_sql", "coverage_question"}}
     coverage_item = selected
     if scalar_plan:
         coverage_item = dict(selected, sql=_compose_independent_scalars(selected["sql"], scalar_plan))
@@ -2217,7 +2597,10 @@ def match_runbook(user_question: str, runbook_items: list,
         coverage_item = dict(selected, sql=vm_volume_plan["preview_sql"])
     elif parallel_plan:
         coverage_item = dict(selected, sql=parallel_plan["preview_sql"])
-    coverage = _resource_coverage(user_question, coverage_item)
+    coverage_question = pool_plan["coverage_question"] if pool_plan else user_question
+    coverage = _resource_coverage(coverage_question, coverage_item)
+    if pool_plan:
+        coverage["unavailable_attribute_spans"] = pool_plan["matched_attribute_spans"]
     if scalar_plan:
         diagnostics["independent_scalar_plan"] = scalar_plan
     if group_plan:
@@ -2309,6 +2692,10 @@ def match_runbook(user_question: str, runbook_items: list,
                       ["logicalRegionName", "tenantName", "azoneName", "vdcName"], selected)
     if scope_binding and scope_binding["valid"]:
         requested.update(scope_binding["question_scope"])
+    added_scope = _complete_single_ci_scope(selected, requested)
+    if added_scope:
+        diagnostics["single_ci_scope_completion"] = {"fields": added_scope, "source": "question_rules_and_native_schema"}
+        parameter_details["effective_api"] = copy.deepcopy(selected.get("api_call"))
     calls = selected.get("api_call", [])
     calls = calls if isinstance(calls, list) else [calls]
     actual = {}
@@ -2357,6 +2744,16 @@ def match_runbook(user_question: str, runbook_items: list,
         if not validation["valid"]:
             return reject("invalid_parallel_list_resources")
 
+    if detail_plan:
+        detail_validation = detail_count.validate_detail_count(user_question, selected, detail_plan)
+        diagnostics["detail_count_validation"] = detail_validation
+        if detail_validation["valid"]:
+            selected["sql"] = detail_plan["preview_sql"]
+    if pool_plan:
+        validation = partial_pools.validate_storage_pool_partial(user_question, selected, pool_plan)
+        diagnostics["partial_storage_pool_validation"] = validation
+        if not validation["valid"]:
+            return reject("invalid_partial_storage_pool_resources")
     if coverage["covered_by_lookup"] and defer_api_validation:
         diagnostics["resource_lookup"] = {"valid": None, "reason": "deferred_to_bounded_query_execution"}
     elif coverage["covered_by_lookup"]:
@@ -2455,6 +2852,21 @@ def match_runbook(user_question: str, runbook_items: list,
             if combined is None:
                 return reject("refinement_changed_parallel_shape")
             selected["sql"] = combined
+        elif detail_plan:
+            selected["sql"], detail_guard = detail_count.protect_detail_count(
+                selected["sql"], detail_plan, detail_validation)
+            diagnostics["detail_count_refinement_contract"] = detail_guard
+        elif pool_plan:
+            diagnostics["sql_base_after_refine"] = selected["sql"]
+            combined = partial_pools.compose_storage_pool_partial(selected["sql"], pool_plan)
+            if combined is None:
+                diagnostics["partial_storage_pool_base_fallback"] = "changed_known_capacity_group_or_measure"
+                combined = partial_pools.compose_storage_pool_partial(original_sql, pool_plan)
+            if combined is None:
+                return reject("refinement_changed_partial_storage_pool_shape")
+            selected["sql"] = combined
+            diagnostics["answer_completeness"] = "partial"
+            diagnostics["unavailable_attributes"] = ["disk_type"]
         diagnostics["sql_before_refine"] = original_sql
         diagnostics["sql_after_refine"] = selected["sql"]
 
@@ -2773,6 +3185,13 @@ def _validated_refinement(candidate: str, original: str, question: str, diagnost
             conn.execute("EXPLAIN " + candidate)
     except sqlite3.Error:
         return original
+    if os.environ.get("RUNBOOK_GROUND_SQL_MEASURES") == "1":
+        from runbook_measurement_guard import measurement_source_contract
+        decision = measurement_source_contract(original, candidate, schemas)
+        if diagnostics is not None:
+            diagnostics["measurement_source_contract"] = decision
+        if decision["reject"]:
+            return original
     if os.environ.get("RUNBOOK_PRESERVE_ROW_SEMANTICS") == "1":
         candidate, restored_columns = _recover_grouped_identity_columns(original, candidate, question)
         if diagnostics is not None and restored_columns:

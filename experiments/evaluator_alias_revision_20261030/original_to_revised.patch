@@ -1,0 +1,36 @@
+--- a/implementation/evaluator.py
++++ b/implementation/evaluator.py
+@@ -65,2 +65,2 @@
+-    """比较两个值元组是否匹配（含容差）。"""
+-    if len(t1) != len(t2):
++    """比较两个值元组，允许系统输出额外值。"""
++    if len(t1) > len(t2):
+@@ -67,0 +68,14 @@
++
++    # 系统值更多时，标准值全部匹配即可，额外值忽略
++    if len(t1) < len(t2):
++        remaining = list(t2)
++        for a in t1:
++            for i, b in enumerate(remaining):
++                if _vals_equal(a, b):
++                    remaining.pop(i)
++                    break
++            else:
++                return False
++        return True
++
++    # 数量一致时，保持原比较逻辑
+@@ -169,0 +184,13 @@
++    # 列别名不完全一致时，按行值比较，允许系统输出额外列
++    if available_keys != set(std_col_map.keys()) and len(std_cols) <= len(sys_cols):
++        std_value_tuples = [_row_to_sorted_tuple(r) for r in std_rows]
++        sys_value_tuples = [_row_to_sorted_tuple(r) for r in sys_rows]
++        matched = _count_matches(std_value_tuples, sys_value_tuples)
++
++        if std_row_count == sys_row_count and matched == len(std_value_tuples):
++            return True, 1.0
++
++        total = max(std_row_count, sys_row_count)
++        ratio = matched / total if total > 0 else 0.0
++        return False, ratio
++

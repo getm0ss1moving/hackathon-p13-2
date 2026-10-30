@@ -44,9 +44,13 @@ class FamilySchemaTests(unittest.TestCase):
                 m._materialize_family({"family_id": "F18"}, params)
 
     def test_other_families_do_not_receive_the_f18_constraint(self):
+        f18_constraint = capture_schema("F18")["oneOf"]
         for family in ["F01", "F08", "F14", "F20", "F21"]:
             with self.subTest(family=family):
-                self.assertNotIn("oneOf", capture_schema(family))
+                schema = capture_schema(family)
+                self.assertNotEqual(schema.get("oneOf"), f18_constraint)
+                if family != "F01":
+                    self.assertNotIn("oneOf", schema)
 
 
 if __name__ == "__main__": unittest.main()

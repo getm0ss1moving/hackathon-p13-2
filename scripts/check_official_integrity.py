@@ -7,17 +7,14 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parents[1]
 OFFICIAL_COMMIT = "d79c316"
 OFFICIAL_SHA256 = {
-    "implementation/evaluator.py": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+    "implementation/evaluator.py": "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
     "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
     "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
 }
 
 
-ACCEPTED_REVISIONS = {'implementation/evaluator.py': {'revision_id': 'numeric_ratio_tolerance_20261030',
-                                 'authority': '用户提供的评分器修订通知，2026-10-30',
-                                 'base_commit': 'd79c316',
-                                 'change': 'abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1'}}
+ACCEPTED_REVISIONS = {'implementation/evaluator.py': {'revision_id': 'alias_extra_columns_original_20261030', 'authority': '用户提供的最新版评分器修订方案，2026-10-30：以最初版为基线，仅两处修改', 'base_commit': 'd79c316', 'changes': ['_tuples_match完整替换', 'available_keys之后增加别名及额外列值匹配兜底'], 'numeric_ratio_threshold': 100.0, 'previous_ratio1_patch_included': False}}
 
 
 def verify_official_files(root=HERE):

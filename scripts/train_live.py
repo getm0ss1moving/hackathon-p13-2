@@ -67,6 +67,27 @@ def select_cases(cases, requested_ids, phase):
     return [case for case in cases if case["case_id"] in requested_ids], "train_subset", phase
 
 
+def a160_source_contract(root):
+    """固定A160数据与纯函数来源；官方保护清单保持原判定。"""
+    name = "experiments/a160_runtime_port_20261030/SOURCE_MANIFEST.json"
+    candidate = json.loads((root / name).read_text())
+    expected = {
+        "implementation/runbook_items.py": "8df154209342b3b983cb2f73015cd00ce8603ffc7e480397ae32f8030e3007a6",
+        "implementation/runbook_retriever.py": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+        "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+        "implementation/runbook_family_batch4.py": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781",
+        "implementation/runbook_family_single.py": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+        "implementation/runbook_family_count.py": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87",
+    }
+    if (candidate.get("A_ref") != "e0f34ed42937203631eef0309964431c376cd179"
+            or candidate.get("template_json_sha256") != "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182"
+            or candidate.get("runtime_hashes") != expected
+            or any(sha(root / path) != digest for path, digest in expected.items())
+            or any(sha(root / path) != digest for path, digest in candidate["source_files"].items())):
+        raise ValueError("A160库、检索、helper或来源指纹变化，停止")
+    return candidate, [name, *sorted(candidate["source_files"]), *sorted(expected)]
+
+
 def phase_metadata(selected, history, phase):
     """回归严格限v2已过题；失败小测是显式标签，可包含之后新发现的失败。"""
     if phase not in {"failure_probe", "passed_regression"}:
@@ -110,6 +131,7 @@ def main(argv=None):
     parser.add_argument("--request-limit", type=int, help="本次最多请求数；仅可收紧默认3倍题数及450上限")
     parser.add_argument("--a180-candidate", action="store_true", help="显式采用已审查A180构建指纹；不改变原198基线清单")
     parser.add_argument("--a170-candidate", action="store_true", help="采用已审查A170完整来源清单；仅隔离候选")
+    parser.add_argument("--a160-candidate", action="store_true", help="采用固定A160完整来源与R2解析；仅训练候选")
     parser.add_argument("--candidate-flags", action="store_true", help="启用已通过训练回放的本轮通用保护")
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
@@ -121,6 +143,12 @@ def main(argv=None):
     parser.add_argument("--vm-volume-details", action="store_true", help="同租户区域VM及卷完整明细，默认关闭")
     parser.add_argument("--tenant-vdc-binding", action="store_true", help="同CI原生查询证明租户对应VDC条件，默认关闭")
     parser.add_argument("--parallel-resource-lists", action="store_true", help="同范围VM/卷/VPC三份独立列表，默认关闭")
+    parser.add_argument("--sg-rule-semijoin", action="store_true", help="规则按真实安全组父ID分批读取，默认关闭")
+    parser.add_argument("--verified-empty-root", action="store_true", help="已证空根保留SQL列并停止后续依赖，默认关闭")
+    parser.add_argument("--typed-empty-root", action="store_true", help="单CI真实空集按正确空表执行，COUNT为0，默认关闭")
+    parser.add_argument("--detail-count", action="store_true", help="同范围原明细与对象总数完整输出，默认关闭")
+    parser.add_argument("--ground-sql-measures", action="store_true", help="拒绝SQL时钟/随机伪造业务测量，默认关闭")
+    parser.add_argument("--partial-storage-pools", action="store_true", help="存储池明细/容量与明确磁盘类型缺项，默认关闭")
     parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="disabled",
                         help="固定思考模式；默认disabled显式关闭thinking，provider_default不传额外参数")
     parser.add_argument("--case-id", action="append", help="可重复指定固定训练成员；最终按原train顺序运行")
@@ -165,6 +193,12 @@ def main(argv=None):
     flags["RUNBOOK_COMPLETE_VM_VOLUME_DETAILS"] = "1" if args.vm_volume_details else "0"
     flags["RUNBOOK_BIND_TENANT_VDC"] = "1" if args.tenant_vdc_binding else "0"
     flags["RUNBOOK_COMPLETE_PARALLEL_LISTS"] = "1" if args.parallel_resource_lists else "0"
+    flags["RUNBOOK_SG_RULE_SEMIJOIN"] = "1" if args.sg_rule_semijoin else "0"
+    flags["RUNBOOK_VERIFIED_EMPTY_ROOT"] = "1" if args.verified_empty_root else "0"
+    flags["RUNBOOK_TYPED_EMPTY_ROOT"] = "1" if args.typed_empty_root else "0"
+    flags["RUNBOOK_COMPLETE_DETAIL_COUNT"] = "1" if args.detail_count else "0"
+    flags["RUNBOOK_GROUND_SQL_MEASURES"] = "1" if args.ground_sql_measures else "0"
+    flags["RUNBOOK_PARTIAL_STORAGE_POOLS"] = "1" if args.partial_storage_pools else "0"
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
     os.environ.update(flags)
@@ -176,12 +210,16 @@ def main(argv=None):
     import runbook_items
     from evaluator import evaluate_case
     is170 = args.a170_candidate or len(runbook_items.RUNBOOK_ITEMS) == 170
-    if args.a180_candidate and is170:
-        parser.error("不能同时选择180与170候选")
+    is160 = args.a160_candidate or len(runbook_items.RUNBOOK_ITEMS) == 160
+    if sum([bool(args.a180_candidate), bool(is170), bool(is160)]) > 1:
+        parser.error("不能同时选择不同条数的候选")
     module_names = ["runbook_matcher", "runbook_system", "runbook_items", "runbook_retriever", "runbook_executor", "evaluator"]
-    if is170:
+    if is170 or is160:
         import runbook_family_views
         module_names.append("runbook_family_views")
+    if is160:
+        import runbook_family_batch4, runbook_family_single, runbook_family_count
+        module_names += ["runbook_family_batch4", "runbook_family_single", "runbook_family_count"]
     try:
         runtime_paths = runtime_source_paths({name: sys.modules[name] for name in module_names})
     except ValueError as exc:
@@ -190,7 +228,21 @@ def main(argv=None):
     readonly = dict(runtime_manifest["readonly_files"])
     template_revision = {"mode": "baseline", "expected_items_sha256": readonly["implementation/runbook_items.py"]}
     candidate_sources = []
-    if is170:
+    if is160:
+        try:
+            candidate, candidate_sources = a160_source_contract(HERE)
+        except (ValueError, KeyError, OSError) as exc:
+            parser.error(str(exc))
+        if (len(runbook_items.RUNBOOK_ITEMS) != 160
+                or len({item["id"] for item in runbook_items.RUNBOOK_ITEMS}) != 160
+                or sorted(item["family_id"] for item in runbook_items.RUNBOOK_ITEMS if item.get("family_id")) != candidate["families"]):
+            parser.error("A160活动库结构不符，停止")
+        for path in ("implementation/runbook_items.py", "implementation/runbook_retriever.py"):
+            readonly[path] = candidate["runtime_hashes"][path]
+        template_revision = {"mode": "a160_reviewed_private_build", "A_ref": candidate["A_ref"],
+                             "manifest_sha256": sha(HERE / "experiments/a160_runtime_port_20261030/SOURCE_MANIFEST.json"),
+                             "runtime_hashes": candidate["runtime_hashes"]}
+    elif is170:
         try:
             candidate, candidate_sources = a170_source_contract(HERE)
         except (ValueError, KeyError, OSError) as exc:
@@ -232,6 +284,11 @@ def main(argv=None):
     sources.append("implementation/runbook_vm_volume_details.py")
     sources += ["implementation/runbook_scope_bindings.py", "implementation/runbook_identity_guard.py"]
     sources.append("implementation/runbook_parallel_resource_lists.py")
+    sources.append("implementation/runbook_sg_rule_semijoin.py")
+    sources.append("implementation/runbook_empty_root.py")
+    sources.append("implementation/runbook_detail_count.py")
+    sources.append("implementation/runbook_measurement_guard.py")
+    sources.append("implementation/runbook_storage_pool_partial.py")
     sources += ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]
     sources += candidate_sources
     handoff_evidence = {}

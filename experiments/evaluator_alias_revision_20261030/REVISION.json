@@ -1,0 +1,22 @@
+{
+  "revision_id": "alias_extra_columns_original_20261030",
+  "authority": "用户提供的最新版评分器修订方案，2026-10-30：以最初版为基线，仅两处修改",
+  "file": "implementation/evaluator.py",
+  "base_commit": "d79c316",
+  "base_sha256": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+  "previous_deployed_sha256": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1",
+  "revised_sha256": "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75",
+  "changes": [
+    "_tuples_match完整替换",
+    "available_keys之后增加别名及额外列值匹配兜底"
+  ],
+  "original_relative_diff_hunks": 2,
+  "supersedes": [
+    "numeric_ratio_tolerance_20261030"
+  ],
+  "numeric_ratio_threshold": 100.0,
+  "previous_ratio1_patch_included": false,
+  "historical_results_rewritten": false,
+  "model_requests": 0,
+  "published_patch_format": "zero-context unified diff; apply to original with git apply --unidiff-zero"
+}

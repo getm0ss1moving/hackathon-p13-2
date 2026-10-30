@@ -58,13 +58,28 @@ def _data_url(ci, conditions, page, page_size):
 def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=60000,
                          max_values=500, max_batches=64, max_http_requests=128,
                          max_records=1000000, seconds_limit=15, page_size=10000,
-                         lookup_sources=()):
+                         lookup_sources=(), empty_root_only=False, sg_rule_semijoin=False):
     """B 实验编排：真实 GET → 稳定键并集 → 原装载函数 → 一次原 SQL；不注入执行器缓存。"""
     if not (32 <= request_line_limit <= 65536 and 1 <= max_values <= 500
             and 1 <= max_batches <= 64 and 1 <= max_http_requests <= 128
             and max_records > 0 and seconds_limit > 0 and 1 <= page_size <= 10000):
         raise ValueError("分批资源边界无效")
     diagnostics.update(http_requests=0, steps=[], sql_executed=False, max_request_line_bytes=0)
+    def stable_text_key(value):
+        # 排除数字文本：SQLite可能依另一列的affinity将其与不同的服务端TEXT值判等。
+        return isinstance(value, str) and bool(
+            re.fullmatch(r"[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}", value)
+            or (re.fullmatch(r"[0-9a-fA-F]{32}", value) and re.search(r"[a-dfA-DF]", value)))
+
+    semijoin_root = None
+    if sg_rule_semijoin:
+        from runbook_sg_rule_semijoin import plan_security_group_rule_semijoin
+        proof = plan_security_group_rule_semijoin(item, schema_columns=matcher._schema_columns,
+                                                  ci_name_map=executor.CI_NAME_MAP)
+        if empty_root_only or not proof["eligible"] or not proof["proof"]["already_prepared"]:
+            raise _APIPlanRefusal("unverified_semijoin_plan")
+        semijoin_root = proof["proof"]["root_table"]
+        diagnostics["bound_api_calls"] = []
     deadline = time.perf_counter() + seconds_limit
     total_received = 0
     sql = item.get("sql", "")
@@ -104,6 +119,11 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
                 raise _APIPlanRefusal("invalid_api_condition_value")
         if "{{" in json.dumps(checked_call):
             raise _APIPlanRefusal("unsupported_dependency_location")
+    if empty_root_only and (
+            len(resources) != 1 or executor.CI_NAME_MAP[resources[0]].casefold() not in sql_tables
+            or len(re.findall(r"\bSELECT\b", structure, re.I)) != 1
+            or re.search(r"\b(?:LEFT|RIGHT|FULL|UNION|INTERSECT|EXCEPT|WITH)\b", structure, re.I)):
+        raise _APIPlanRefusal("empty_root_mode_requires_single_mandatory_root")
     tables = {}
     own_session = session is None
     if own_session:
@@ -137,13 +157,25 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
             objects = payload.get("objList") if isinstance(payload, dict) else None
             total = payload.get("totalNum") if isinstance(payload, dict) else None
             pages = payload.get("totalPageNo") if isinstance(payload, dict) else None
-            if (not isinstance(objects, list) or not all(isinstance(record, dict) for record in objects)
+            if (not isinstance(payload, dict) or payload.get("error") is not None
+                    or payload.get("success") is False
+                    or not isinstance(objects, list) or not all(isinstance(record, dict) for record in objects)
                     or type(total) is not int or total < 0 or type(pages) is not int or pages < 0
+                    or type(payload.get("currentPage")) is not int or type(payload.get("pageSize")) is not int
                     or payload.get("currentPage") != page or payload.get("pageSize") != page_size
                     or pages != (total + page_size - 1) // page_size or len(objects) > page_size):
                 raise RuntimeError(f"本地数据响应/分页格式异常：{ci}")
             if expected_total is not None and expected_total != total:
                 raise RuntimeError(f"本地数据分页期间总量变化：{ci}")
+            if sg_rule_semijoin:
+                endpoint = "relations" if ci.startswith(("R_", "M_")) else "instances"
+                actual_call = {"method": "GET", "url": f"/rest/hackthon/db/{endpoint}/{ci}?pageNo={page}&pageSize={page_size}"}
+                if conditions:
+                    actual_call["condition"] = {"constraint": [
+                        {"simple": {"name": condition["key"], "operator": condition["operator"],
+                                    "value": copy.deepcopy(condition["value"])}, **({"logOp": "and"} if index else {})}
+                        for index, condition in enumerate(conditions)]}
+                diagnostics["bound_api_calls"].append(actual_call)
             expected_total = total
             records.extend(objects)
             total_received += len(objects)
@@ -229,16 +261,22 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
                     if not previous:
                         if previous_table in lookup_sources:
                             raise _APIPlanRefusal("empty_lookup_source")
+                        # 原执行器以最后一次同CI读取覆盖表；空前步若还会被覆盖，不能推出最终空域。
+                        later_tables = {table_name(resource).casefold() for resource in resources[step - 1:]}
+                        if previous_table.casefold() in later_tables:
+                            raise _APIPlanRefusal("empty_dependency_source_overwritten")
                         simple_inner = (previous_table.casefold() in sql_tables and len(re.findall(r"\bSELECT\b", structure, re.I)) == 1
                                         and not re.search(r"\b(?:LEFT|RIGHT|FULL|UNION)\b", structure, re.I))
-                        if not simple_inner:
+                        verified_join_root = semijoin_root == previous_table and step == 2
+                        if not simple_inner and not verified_join_root:
                             raise _APIPlanRefusal("empty_dependency_source")
                         for folded, name in sql_tables.items():
                             canonical = next((table for table in executor.ORIG_TO_DESENS if table.casefold() == folded), None)
                             if canonical is None:
                                 raise _APIPlanRefusal("unknown_empty_table_schema")
                             tables[canonical] = []
-                        diagnostics["short_circuit"] = "empty_inner_join_input"
+                        diagnostics["short_circuit"] = ("empty_verified_semijoin_root" if verified_join_root
+                                                        else "empty_inner_join_input")
                         diagnostics["derived_empty_tables"] = sorted(tables)
                         return sql_result()
                     values = []
@@ -258,13 +296,32 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
                     raise _APIPlanRefusal("list_requires_in_operator")
                 conditions.append({"key": field, "value": value, "operator": operator})
             planned = batches(ci, conditions)
+            if sg_rule_semijoin and step == 1 and len(planned) > 1:
+                # 根表重复行也参与原JOIN；通用按id并集可能改变它的重数，首版不优化分批根读取。
+                diagnostics["semijoin_outcome"] = "unsupported_root_batches_defer_to_original_executor"
+                return None
             if len(planned) > 1 and table_name(ci).casefold() not in sql_tables:
                 raise _APIPlanRefusal("batched_resource_not_consumed_by_sql")
             if len(planned) > 1 and "id" not in matcher._schema_columns.get(ci, []):
                 raise _APIPlanRefusal("unverified_batch_merge_key")
             combined, by_id, key_type = [], {}, None
+            semijoin_child_ids = set()
             for batch in planned:
                 records = fetch(ci, batch)
+                if sg_rule_semijoin and step == 2:
+                    requested_parent_ids = set(batch[0]["value"])
+                    for record in records:
+                        parent_id = record.get("securityGroupId")
+                        if not isinstance(parent_id, str) or parent_id not in requested_parent_ids:
+                            raise _APIPlanRefusal("semijoin_child_outside_requested_parent_ids")
+                        identity = record.get("id")
+                        if not stable_text_key(identity):
+                            diagnostics["semijoin_outcome"] = "unsupported_key_defer_to_original_executor"
+                            return None
+                        key = (type(identity), identity)
+                        if key in semijoin_child_ids:
+                            raise _APIPlanRefusal("duplicate_semijoin_child_key")
+                        semijoin_child_ids.add(key)
                 if len(planned) == 1:
                     combined = records
                     continue
@@ -284,6 +341,24 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
             tables[table_name(ci)] = combined  # 后一逻辑步骤覆盖同名表，保持原执行器语义。
             previous, previous_table = combined, table_name(ci)
             diagnostics["steps"].append({"step": step, "ci": ci, "batches": len(planned), "rows": len(combined)})
+            if sg_rule_semijoin and step == 1 and combined:
+                # 非数字文本标识避免原SQLite JOIN与服务端TEXT IN在混合类型下发生不同的数值强制转换。
+                if not all(stable_text_key(record.get("id")) for record in combined):
+                    diagnostics["semijoin_outcome"] = "unsupported_key_defer_to_original_executor"
+                    return None
+            if empty_root_only:
+                if combined:
+                    diagnostics["empty_root_outcome"] = "nonempty_defer_to_original_executor"
+                    return None
+                # 此模式的调用方须先证明题文根条件；只在单GET根表真实为空时推导INNER域为空。
+                for folded in sql_tables:
+                    canonical = next((table for table in executor.ORIG_TO_DESENS if table.casefold() == folded), None)
+                    if canonical is None:
+                        raise _APIPlanRefusal("unknown_empty_table_schema")
+                    tables[canonical] = []
+                diagnostics["short_circuit"] = "verified_empty_root"
+                diagnostics["derived_empty_tables"] = sorted(tables)
+                return sql_result()
         for folded, name in sql_tables.items():
             if any(table.casefold() == folded for table in tables):
                 continue
@@ -295,6 +370,50 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
     finally:
         if own_session:
             session.close()
+
+
+def _single_ci_empty_eligibility(item):
+    """单次已填参GET只消费同一张真实表；不认证题意，只证明空表执行域。"""
+    calls = item.get("api_call") or []
+    calls = calls if isinstance(calls, list) else [calls]
+    if len(calls) != 1 or not isinstance(calls[0], dict) or calls[0].get("method", "GET") != "GET":
+        return {"eligible": False, "reason": "not_one_get"}
+    resource = re.fullmatch(r"/rest/hackthon/db/(?:instances|relations)/([^/?]+)(?:\?[^#]*)?", calls[0].get("url", ""))
+    ci = resource[1] if resource else None
+    table = executor.CI_NAME_MAP.get(ci)
+    if not table or not matcher._schema_columns.get(ci) or matcher._get_placeholders(item):
+        return {"eligible": False, "reason": "unknown_schema_or_parameters"}
+    structure = matcher._sql_structure(item.get("sql", ""))
+    if (not re.match(r"^\s*SELECT\b", structure, re.I)
+            or len(re.findall(r"\bSELECT\b", structure, re.I)) != 1
+            or re.search(r"\b(?:JOIN|WITH|UNION|INTERSECT|EXCEPT)\b", structure, re.I)
+            or not re.search(r"\bFROM\s+" + re.escape(table) + r"\s*(?:;|$|WHERE\b|GROUP\b|HAVING\b|ORDER\b|LIMIT\b)", structure, re.I)
+            or {name.casefold() for name in matcher._extract_sql_tables(structure)} != {table.casefold()}):
+        return {"eligible": False, "reason": "not_one_direct_table"}
+    return {"eligible": True, "reason": "same_single_get_sql_domain", "resource": ci, "table": table}
+
+
+def _execution_has_result_columns(result):
+    """原executor吞掉缺列错误会返回空columns；合法空SELECT仍有列名。"""
+    if isinstance(result, list):
+        return bool(result) and all(_execution_has_result_columns(part) for part in result)
+    if not isinstance(result, dict):
+        return False
+    columns = result.get("columns")
+    return (isinstance(columns, list) and bool(columns)
+            and all(isinstance(name, str) and bool(name.strip()) for name in columns))
+
+def _dependent_count_eligibility(item):
+    """仅把已有相邻依赖COUNT计划交给有界执行器，保留其API和SQL。"""
+    calls = item.get("api_call") or []
+    if not isinstance(calls, list) or len(calls) < 2 or not any("from step" in json.dumps(call) for call in calls):
+        return False
+    structure = matcher._sql_structure(item.get("sql", ""))
+    if (not re.match(r"^\s*SELECT\s+COUNT\s*\(\s*(?:\*|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)?)\s*\)\s+(?:AS\s+)?[A-Za-z_]\w*\s+FROM\b", structure, re.I)
+            or len(re.findall(r"\bSELECT\b", structure, re.I)) != 1
+            or re.search(r"\b(?:LEFT|RIGHT|FULL|GROUP|HAVING|UNION|INTERSECT|EXCEPT|WITH)\b", structure, re.I)):
+        return False
+    return all(isinstance(call, dict) and call.get("method", "GET") == "GET" for call in calls)
 
 
 class RunbookQuerySystem:
@@ -354,30 +473,105 @@ class RunbookQuerySystem:
                 "diagnostics": diagnostics,
             }
 
+        original_runbook_item = runbook_item
+        semijoin = False
+        if os.environ.get("RUNBOOK_SG_RULE_SEMIJOIN") == "1":
+            from runbook_sg_rule_semijoin import plan_security_group_rule_semijoin
+            decision = plan_security_group_rule_semijoin(runbook_item, schema_columns=matcher._schema_columns,
+                                                         ci_name_map=executor.CI_NAME_MAP)
+            diagnostics["sg_rule_semijoin_plan"] = {key: value for key, value in decision.items() if key != "item"}
+            if decision["eligible"]:
+                runbook_item, semijoin = decision["item"], True
+
         logger.info(f"命中 runbook: {runbook_item['name']}")
 
         # 2. 执行
         diagnostics["execution"] = {"status": "started", "input_sql": runbook_item.get("sql")}
-        if bounded:
+        execution = None
+        sources = ()
+        direct_empty = (_single_ci_empty_eligibility(runbook_item)
+                        if os.environ.get("RUNBOOK_TYPED_EMPTY_ROOT") == "1" else None)
+        dependent_count = (os.environ.get("RUNBOOK_TYPED_EMPTY_ROOT") == "1"
+                           and _dependent_count_eligibility(runbook_item))
+        independent_count = (os.environ.get("RUNBOOK_TYPED_EMPTY_ROOT") == "1"
+                             and runbook_item.get("_closed_independent_count") is True)
+        if semijoin:
+            execution = diagnostics.setdefault("sg_rule_semijoin", {})
+        elif bounded:
             execution = diagnostics.setdefault("bounded_api", {})
             lookup = match_details.get("resource_coverage", {})
             sources = [lookup["lookup"]["source_table"]] if lookup.get("covered_by_lookup") else []
+        elif independent_count:
+            execution = diagnostics.setdefault("typed_independent_count", {})
+        elif direct_empty and direct_empty["eligible"]:
+            diagnostics["typed_empty_root_eligibility"] = direct_empty
+            execution = diagnostics.setdefault("typed_empty_root", {})
+        elif dependent_count:
+            execution = diagnostics.setdefault("typed_dependent_count", {})
+            lookup = match_details.get("resource_coverage", {})
+            sources = [lookup["lookup"]["source_table"]] if lookup.get("covered_by_lookup") else []
+        elif os.environ.get("RUNBOOK_VERIFIED_EMPTY_ROOT") == "1":
+            from runbook_empty_root import empty_root_eligibility
+            schemas = {table: matcher._schema_columns.get(ci, []) for table, ci in executor.ORIG_TO_DESENS.items()}
+            decision = empty_root_eligibility(user_question, runbook_item, schemas)
+            diagnostics["verified_empty_root_eligibility"] = decision
+            if decision["eligible"]:
+                execution = diagnostics.setdefault("verified_empty_root", {})
+        if execution is not None:
             try:
-                result = _execute_bounded_api(runbook_item, execution, lookup_sources=sources)
+                options = {"lookup_sources": sources}
+                if semijoin:
+                    options["sg_rule_semijoin"] = True
+                elif not bounded and not dependent_count and not independent_count:
+                    options["empty_root_only"] = True
+                result = _execute_bounded_api(runbook_item, execution, **options)
             except _APIPlanRefusal as error:
                 execution["refusal_reason"] = error.reason
                 diagnostics["execute_seconds"] = round(time.perf_counter() - matched_at, 4)
                 return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
                         "error": None, "diagnostics": diagnostics}
+            if result is None:
+                # 当前受限优化没有完成证明时，使用原始未改计划；探测数据不写原缓存。
+                runbook_item = original_runbook_item
+                semijoin = False
+                result = execute(runbook_item)
         else:
             result = execute(runbook_item)
+        if (os.environ.get("RUNBOOK_TYPED_EMPTY_ROOT") == "1" and not semijoin and not bounded
+                and result["error"] is None and not _execution_has_result_columns(result["result"])):
+            recovery = diagnostics.setdefault("typed_result_recovery", {})
+            try:
+                recovered = _execute_bounded_api(runbook_item, recovery, lookup_sources=sources)
+            except (_APIPlanRefusal, RuntimeError, ValueError, requests.RequestException, sqlite3.Error) as exc:
+                recovery.update(status="unverified", error_type=type(exc).__name__, reason=str(exc))
+            else:
+                if recovered is not None and _execution_has_result_columns(recovered.get("result")):
+                    result = recovered
+                    recovery["status"] = "verified_original_plan_reexecuted"
         diagnostics["execute_seconds"] = round(time.perf_counter() - matched_at, 4)
         diagnostics["execution"].update(status="finished", sql=result["sql"], error=result["error"])
+        if result["error"] is None and not _execution_has_result_columns(result["result"]):
+            diagnostics["execution"].update(status="rejected", reason="unverified_result_schema")
+            diagnostics["rejection"] = {"stage": "execution", "reason": "unverified_result_schema"}
+            return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
+                    "error": None, "diagnostics": diagnostics}
 
+        expected_columns = runbook_item.get("_expected_result_columns")
+        if (result["error"] is None and expected_columns is not None
+                and (not isinstance(result["result"], dict)
+                     or result["result"].get("columns") != expected_columns)):
+            diagnostics["execution"].update(status="rejected", reason="closed_family_result_schema_mismatch",
+                                           expected_columns=expected_columns)
+            diagnostics["rejection"] = {"stage": "execution", "reason": "closed_family_result_schema_mismatch"}
+            return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
+                    "error": None, "diagnostics": diagnostics}
+
+        response_api_call = (execution["bound_api_calls"] if semijoin
+                             else runbook_item.get("api_call"))
         return {
             "question": user_question,
             "matched_runbook": runbook_item["name"],
-            "api_call": runbook_item.get("api_call"),
+            "api_call": response_api_call,
             "sql": result["sql"],
             "result": result["result"],
             "error": result["error"],

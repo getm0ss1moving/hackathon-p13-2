@@ -55,6 +55,8 @@ class A180Tests(unittest.TestCase):
         modes = {
             frozenset({"F01", "F08", "F14", "F18", "F20", "F21"}): 180,
             frozenset({"F01", "F02", "F08", "F14", "F18", "F19", "F20", "F21", "F27"}): 170,
+            frozenset({"F01", "F02", "F08", "F10", "F11_CORE", "F14", "F16", "F17_SAFE",
+                       "F18", "F19", "F20", "F21", "F26", "F27", "NEXT_N28"}): 160,
         }
         self.assertIn(active, modes)
         expected = modes[active]

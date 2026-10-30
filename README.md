@@ -1,6 +1,17 @@
 # CMDB 智能查询系统 — Hackathon
 
-**160隔离资料交付，生产仍198：** [160候选/构建/变更/验证](experiments/a_family_candidate_160_20261030/README.md) · **[B请先读R2交接与兼容说明](docs/handoffs/B_A160_HANDOFF.md)**。原51/70/41解析控制及等价压缩PASS；COUNT总体业务仍BLOCKED，最新B完整160兼容/真实模型/原生执行未测。stage2不启，历史180成绩不归160。
+**B160接入与简单修复已整合：** [接入/验证摘要](experiments/a160_runtime_port_20261030/README.md) · [训练结果](docs/training/A160_V33.md) · [A/C交接](docs/handoffs/B_A160_V33_STATUS.md) · [最新评分器两处修订](docs/training/EVALUATOR_ALIAS_REVISION_20261030.md)。旧ratio1版连续150题为626.8→632.8/750；最新别名版仅三题15/15，尚无新版完整150成绩。默认库仍198，160以本地候选显式启用；整体业务限制保留，stage2不启。
+
+拉取后在仓库根用一条命令复建并启用同一份160（全程离线，不调用模型；输出目录须为新的仓库外路径）：
+
+```bash
+.venv/bin/python -B scripts/prepare_a160_candidate.py --output ../a160-private-new --activate
+.venv/bin/python -B scripts/run_training_checks.py --output-dir reports/a160-check-new --bounded
+# 免费生成当前源码/模型/评分版本的150题计划；真实运行需再显式加--run
+.venv/bin/python -B scripts/run_saved_training.py --config configs/train150_a160_v33.json
+```
+
+展开库、密钥和原始测试日志不上传。默认198源码与160候选均提供免费回归；完整复建需普通git clone的固定Git历史与已有Python环境，不能只下载单个源码文件。模型配置沿用本机忽略的.env.local，开发验收需deepseek-flash并关闭thinking。
 
 2026-10-30 分支融合：main已整合180与170开发的已提交历史，默认仍使用198条库和原BM25检索器。180/170候选需在隔离目录按构建说明私有展开安装；不上传展开库或凭据。下列分数与检查结果各归其历史冻结版本，本次合并没有新增模型评测。
 

@@ -54,7 +54,7 @@ def _vals_equal(v1, v2) -> bool:
             return True
         if v1 != 0 and v2 != 0:
             ratio = max(abs(v1), abs(v2)) / min(abs(v1), abs(v2))
-            if abs(ratio - 1.0) < 0.1:
+            if abs(ratio - 100.0) < 0.1:
                 return True
     if str(v1).strip() == str(v2).strip():
         return True
@@ -62,9 +62,23 @@ def _vals_equal(v1, v2) -> bool:
 
 
 def _tuples_match(t1: tuple, t2: tuple) -> bool:
-    """比较两个值元组是否匹配（含容差）。"""
-    if len(t1) != len(t2):
+    """比较两个值元组，允许系统输出额外值。"""
+    if len(t1) > len(t2):
         return False
+
+    # 系统值更多时，标准值全部匹配即可，额外值忽略
+    if len(t1) < len(t2):
+        remaining = list(t2)
+        for a in t1:
+            for i, b in enumerate(remaining):
+                if _vals_equal(a, b):
+                    remaining.pop(i)
+                    break
+            else:
+                return False
+        return True
+
+    # 数量一致时，保持原比较逻辑
     return all(_vals_equal(a, b) for a, b in zip(t1, t2))
 
 
@@ -167,6 +181,19 @@ def _compare_answers(std_answer, sys_result) -> Tuple[bool, float]:
     
     available_keys = set(std_col_map.keys()) & set(sys_col_map.keys())
     
+    # 列别名不完全一致时，按行值比较，允许系统输出额外列
+    if available_keys != set(std_col_map.keys()) and len(std_cols) <= len(sys_cols):
+        std_value_tuples = [_row_to_sorted_tuple(r) for r in std_rows]
+        sys_value_tuples = [_row_to_sorted_tuple(r) for r in sys_rows]
+        matched = _count_matches(std_value_tuples, sys_value_tuples)
+
+        if std_row_count == sys_row_count and matched == len(std_value_tuples):
+            return True, 1.0
+
+        total = max(std_row_count, sys_row_count)
+        ratio = matched / total if total > 0 else 0.0
+        return False, ratio
+
     if available_keys != set(std_col_map.keys()):
         if not available_keys:
             return False, 0.0

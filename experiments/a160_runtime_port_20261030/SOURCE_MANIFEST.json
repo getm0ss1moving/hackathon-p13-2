@@ -1,0 +1,38 @@
+{
+  "A_ref": "e0f34ed42937203631eef0309964431c376cd179",
+  "template_json_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "families": [
+    "F01",
+    "F02",
+    "F08",
+    "F10",
+    "F11_CORE",
+    "F14",
+    "F16",
+    "F17_SAFE",
+    "F18",
+    "F19",
+    "F20",
+    "F21",
+    "F26",
+    "F27",
+    "NEXT_N28"
+  ],
+  "runtime_hashes": {
+    "implementation/runbook_items.py": "8df154209342b3b983cb2f73015cd00ce8603ffc7e480397ae32f8030e3007a6",
+    "implementation/runbook_retriever.py": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+    "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+    "implementation/runbook_family_batch4.py": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781",
+    "implementation/runbook_family_single.py": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+    "implementation/runbook_family_count.py": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87"
+  },
+  "source_files": {
+    "experiments/a_family_candidate_160_20261030/MANIFEST.json": "c2dd9d615b7f315ed368ab3413030d9cdd436d90831f89e6a9b9107d5362fb76",
+    "experiments/a_family_candidate_160_20261030/base160/MANIFEST.json": "4420a37588846d9dceaf58441a80c06cac404886e8c6814d420206da828c97aa",
+    "experiments/a_family_candidate_160_20261030/parser_r2/MANIFEST.json": "474942aeb2dbfaba4c0d5e22841ee6e503d378a968d27acce14190276f057075",
+    "experiments/a_family_candidate_160_20261030/base160/stage166/family_batch4.py": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781",
+    "experiments/a_family_candidate_160_20261030/base160/sources/count/count_family_additions.py": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87",
+    "experiments/a_family_candidate_160_20261030/parser_r2/single_table_families.py": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+    "experiments/a_family_candidate_160_20261030/templates160.definitions.references.json": "64f91c2e0139d078e8834a57b2211c3b1e332ae33e61f4713a94b4565992a4d9"
+  }
+}

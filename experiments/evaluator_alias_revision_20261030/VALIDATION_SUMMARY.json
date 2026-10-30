@@ -1,0 +1,14 @@
+{
+  "revision_id": "alias_extra_columns_original_20261030",
+  "tests": 505,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "model_requests_in_free_suite": 0,
+  "fixed_training_standard_self_comparisons": 150,
+  "self_comparison_differences": 0,
+  "official_executor_quick_black_unchanged": true,
+  "numeric_ratio_threshold": 100.0,
+  "previous_ratio1_patch_included": false,
+  "new_scorer_full150_run": false
+}
