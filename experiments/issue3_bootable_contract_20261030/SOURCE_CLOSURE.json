@@ -1,0 +1,64 @@
+{
+  "status": "DEFAULT_DISABLED_BOOTABLE_SOURCE_CONTRACT_CARD_REGISTRY_PROPOSAL",
+  "family_id": "family_volume_rows",
+  "runtime_minimum": [
+    "candidate.py"
+  ],
+  "B_contract_and_patch_minimum": [
+    "CONTRACT.json",
+    "FAMILY_CARD_PATCH.json",
+    "REGISTRY_PATCH.json",
+    "B_INTEGRATION.md"
+  ],
+  "selected_exact_source_files": [
+    {
+      "path": "candidate.py",
+      "source_sha256": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+      "published_sha256": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "CONTRACT.json",
+      "source_sha256": "20fd92a0e526bb7a41ef7d9a98f50db59b49d4be72857ca32cf896880f24ec0c",
+      "published_sha256": "20fd92a0e526bb7a41ef7d9a98f50db59b49d4be72857ca32cf896880f24ec0c",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "FAMILY_CARD_PATCH.json",
+      "source_sha256": "3e5f1cd67cd4332b70b0c930ab329f7a546261c175324efbe0f0b6cd69cfa547",
+      "published_sha256": "3e5f1cd67cd4332b70b0c930ab329f7a546261c175324efbe0f0b6cd69cfa547",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "REGISTRY_PATCH.json",
+      "source_sha256": "b9afb8850601986a86205d2892d955e39823ca61bc291aedd58cc7cfcfb26a51",
+      "published_sha256": "b9afb8850601986a86205d2892d955e39823ca61bc291aedd58cc7cfcfb26a51",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "CHANGES.patch",
+      "source_sha256": "c254cf2b5aad4a997463f877cbecbac4a5919756e63b4aa5b519ac195f32c45c",
+      "published_sha256": "c254cf2b5aad4a997463f877cbecbac4a5919756e63b4aa5b519ac195f32c45c",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "NATIVE_BOOTABLE_EVIDENCE.json",
+      "source_sha256": "282a7288273f7855c7a237b3c523fe09e2ec64b6bd1ba00e9d1899bca6239a66",
+      "published_sha256": "282a7288273f7855c7a237b3c523fe09e2ec64b6bd1ba00e9d1899bca6239a66",
+      "same_bytes_as_reviewed": true
+    },
+    {
+      "path": "source/family_volume_rows.original.py",
+      "source_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+      "published_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+      "same_bytes_as_reviewed": true
+    }
+  ],
+  "original_public_closure_sha256": "d0eb12377c11580d0973b1b05d4734750962edfab824d3cfa7a633874cf2cea2",
+  "original_public_closure_entries_hash_checked": 13,
+  "owner71_not_retested_or_added": true,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "management_VM_implementation_included": false,
+  "scope": "Explicit minimum delivery with exact source/contract/patch evidence; not the full13-entry owner public archive or an updated132 array."
+}

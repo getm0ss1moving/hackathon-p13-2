@@ -1,0 +1,143 @@
+{
+  "family_id": "family_volume_rows",
+  "revision": "bootable_native_string_v1",
+  "enabled": false,
+  "runtime_N_delta": 0,
+  "entrypoints": [
+    "materialize_candidate(item,parsed)",
+    "prepare_candidate(question,item,parsed,diagnostics=None)",
+    "normalize_bootable(value)"
+  ],
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "view",
+      "filters",
+      "required_filters"
+    ],
+    "additionalProperties": false,
+    "oneOf": [
+      {
+        "properties": {
+          "view": {
+            "const": "bootable_scoped_rows"
+          },
+          "filters": {
+            "type": "object",
+            "required": [
+              "logicalRegionName",
+              "azoneName",
+              "bootable"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "logicalRegionName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "azoneName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bootable": {
+                "oneOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^(?:[tT][rR][uU][eE]|[fF][aA][lL][sS][eE])$"
+                  }
+                ]
+              }
+            }
+          },
+          "required_filters": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "logicalRegionName",
+                "azoneName",
+                "bootable"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "properties": {
+          "view": {
+            "const": "vdc_scoped_rows"
+          },
+          "filters": {
+            "type": "object",
+            "required": [
+              "vdcName",
+              "logicalRegionName"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "vdcName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "logicalRegionName": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required_filters": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "vdcName",
+                "logicalRegionName"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "normalization": {
+    "scope": "bootable field of bootable_scoped_rows only",
+    "accepted": "JSON bool or exact non-whitespace case-insensitive true/false string",
+    "canonical_API_type": "string",
+    "canonical_API_enum": [
+      "true",
+      "false"
+    ],
+    "rejected": [
+      "integers including 0/1",
+      "floats",
+      "null",
+      "lists/dicts",
+      "yes/no/on/off",
+      "whitespace-wrapped strings",
+      "arbitrary truthy/falsy values"
+    ],
+    "entities": "case-sensitive original role/value binding unchanged",
+    "input_mutation": false,
+    "natural_predicate": "可启动 maps to true; false requires explicit field/value, no arbitrary negation inference"
+  },
+  "native_response": "Raw native bootable values are not rewritten; same four source columns and SQL. NULL/duplicates unchanged.",
+  "other_view": "vdc_scoped_rows unchanged, including its existing type_name placeholder limitation",
+  "authorization_boundary": "materialize structural only; original question prepare required before B runtime. No success/schema/pagination claims added.",
+  "sources": {
+    "module_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+    "frozen132_module_matches_source": true,
+    "native_evidence": "NATIVE_BOOTABLE_EVIDENCE.json"
+  },
+  "remaining": [
+    "AZ/reference scope adjudication belongs to C; preserve requested region/AZ",
+    "B must bind trusted fetch, typed-empty/schema and complete pages; no official executor modifications",
+    "B patch source registry and card together in isolated integration, independent review before enabling"
+  ]
+}

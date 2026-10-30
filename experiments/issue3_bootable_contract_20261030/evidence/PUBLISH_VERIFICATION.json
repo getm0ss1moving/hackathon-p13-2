@@ -1,0 +1,17 @@
+{
+  "scope": "public12 grouped controls; final artifact check differs from original native reread control",
+  "checks": 12,
+  "passed": 12,
+  "failed": 0,
+  "source_files_unchanged": true,
+  "owner71_suite_run": false,
+  "native_records_read": false,
+  "prior_native_field_evidence_referenced_only": true,
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_runtime_calls": 0,
+  "official_executor_or_scorer_calls": 0,
+  "management_VM_implemented_or_bool_changed": false,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0
+}

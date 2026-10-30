@@ -1,0 +1,54 @@
+{
+  "scope": "hash-locked VOLUME bootable field type/value aggregates only; no identifiers/names/reference/answer accessed",
+  "source_evidence_sha256": "ba4f6af5d2a637ff132ce4afce171e49aceadbefb5b538fc9ee1e08fa321c9ce",
+  "files": [
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-1.json",
+      "sha256": "5c72bad9030358acc0b19e7c6b681b791f64bba9ffefa8b4ddee91958d6a5d95",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-2.json",
+      "sha256": "bdd50881e0b918a77006acf2c315f95a1c8750426e50d56cb8c85e8955ea5647",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-3.json",
+      "sha256": "554bcf208d25cecf3e07e0e2f27bd5b0edca3ad32384d6454784f2f88877363c",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-4.json",
+      "sha256": "79941140e35c86ea8fb7051d33d442ac6591f50fa7d19bb6e568522ac9a693fa",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-5.json",
+      "sha256": "982a53229b5745ba017374625b84515e750e74428597dc214cfa74051c09c891",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-6.json",
+      "sha256": "84f0ddeadbdf67d696611286c9c69fc7a979ba3590837ebbc818000806d2c4e6",
+      "records": 1000
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-7.json",
+      "sha256": "39f5c12fc640fef0054a2978968c103f067677ba94ca5171bf195177ab2ecb7f",
+      "records": 190
+    }
+  ],
+  "type_value_counts": [
+    {
+      "type": "str",
+      "representation": "'false'",
+      "count": 3516
+    },
+    {
+      "type": "str",
+      "representation": "'true'",
+      "count": 2674
+    }
+  ],
+  "missing": 0
+}

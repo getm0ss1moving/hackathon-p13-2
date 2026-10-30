@@ -1,0 +1,157 @@
+{
+  "status": "PASS_LOCAL_BOOTABLE_BOUNDARY_B_INTEGRATION_PENDING",
+  "independent_checks": 12,
+  "passed": 12,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "01_normalization_bool_and_case_variants",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "02_no_numeric_null_container_truthiness_coercion",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "03_true_input_API_string_and_scope_preserved",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "04_false_input_requires_explicit_false_and_is_string",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "05_opposite_predicate_never_rebound",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "06_region_AZ_case_and_role_mismatch_rejected",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "07_exact_schema_roles_and_extra_obligation_rejected",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "08_other_view_old_new_equivalence",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "09_only_canonical_bootable_value_changes_in_materialized_item",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "10_AST_diff_limited_and_all_view_API_SQL_unchanged",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "changed": [
+          "_bind",
+          "_ground",
+          "_literal",
+          "_materialize"
+        ],
+        "added": [
+          "_normalize_bootable_parameters",
+          "normalize_bootable"
+        ],
+        "VIEWS_identical": true
+      }
+    },
+    {
+      "name": "11_SQL_preserves_NULL_duplicate_and_typed_empty",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "12_manifest_exact_patch_and_hash_locked_native_field_evidence",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "manifest_all_files_match": true,
+        "patch_replays_exactly": true,
+        "native_total": 6190,
+        "native_values_only_lowercase_strings": true
+      }
+    }
+  ],
+  "native_field_aggregate_only": {
+    "files": [
+      {
+        "file": "VOLUME-1.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-2.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-3.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-4.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-5.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-6.json",
+        "sha256_matches": true,
+        "rows": 1000
+      },
+      {
+        "file": "VOLUME-7.json",
+        "sha256_matches": true,
+        "rows": 190
+      }
+    ],
+    "type_value_counts": [
+      {
+        "type": "str",
+        "value": "'true'",
+        "count": 2674
+      },
+      {
+        "type": "str",
+        "value": "'false'",
+        "count": 3516
+      }
+    ],
+    "missing": 0
+  },
+  "source_hashes": {
+    "candidate.py": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+    "source/family_volume_rows.original.py": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+    "CHANGES.patch": "c254cf2b5aad4a997463f877cbecbac4a5919756e63b4aa5b519ac195f32c45c",
+    "MANIFEST.json": "cffa698aac04d8cf57daef07e7d5beae9c6a4dd6e3d89015fc2d056a9b6ecde9",
+    "FAMILY_CARD_PATCH.json": "3e5f1cd67cd4332b70b0c930ab329f7a546261c175324efbe0f0b6cd69cfa547"
+  },
+  "sources_unchanged": true,
+  "boundaries": {
+    "owner71_suite_run": false,
+    "model_calls": 0,
+    "service_calls": 0,
+    "official_runtime_calls": 0,
+    "sealed_or_200_answers_read": false,
+    "shared_writes": false,
+    "management_VM_implemented": false
+  },
+  "publication_note": "Historical independent12 controls; source_hashes refer to owner review inputs, not the public delivery manifest. Publisher replay does not reread native files."
+}

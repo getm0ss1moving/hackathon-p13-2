@@ -1,0 +1,13 @@
+{
+  "owner_public_closure_sha256": "d0eb12377c11580d0973b1b05d4734750962edfab824d3cfa7a633874cf2cea2",
+  "independent_receipt_sha256": "c24a8ea98e5b7a61a11ff18fe83c0f82057ef8643807f0c0d0454f16a0bc6fa6",
+  "independent_results_sha256": "a2e7dc302ad15d85f6f20f30217119652d4a60fc2b1028cda561620c8d6931e0",
+  "independent_harness_sha256": "f66ffd811ae0ef161c5cd5476c00f89d1760277b9e49927d161cbc5fe9640e3f",
+  "owner_validation_sha256": "5e8625dbd66034bc67e7fb5db3140c4b0537eda951106e5b090e04a40fb86e57",
+  "owner_source_lock_sha256": "1081494a6964d148ca8cc8bdbe5cdc3d80ce58ccd178802a5724c2bd8e381752",
+  "owner_B_integration_sha256": "f283118f7334efa65191740d8510c200dcb085b739438c3b1ca3fac06218d647",
+  "raw_native_records_copied_or_reread_by_publisher": false,
+  "raw_native_field_scan_scope": "Prior independent receipt only:6190 field observations were str true/false; publisher verifies the aggregate evidence artifact, not native records.",
+  "owner71_not_retested_or_added": true,
+  "management_VM_bool_contract_changed": false
+}

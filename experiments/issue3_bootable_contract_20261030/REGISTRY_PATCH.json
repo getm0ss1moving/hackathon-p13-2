@@ -1,0 +1,19 @@
+{
+  "kind": "selector_based_proposal_not_applied",
+  "registry_basename": "FAMILY_ROUTE_REGISTRY.json",
+  "selector": {
+    "family_id": "family_volume_rows"
+  },
+  "field": "module_sha256",
+  "test": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+  "replace": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+  "must_sync": [
+    "module bytes",
+    "registry module_sha256",
+    "parameter schema",
+    "selection card",
+    "affected manifests/array hashes/compound bindings"
+  ],
+  "actual_registry_path_and_shape": "B resolves current pinned source; no invented JSON pointer or whole registry replacement",
+  "default_enablement": false
+}

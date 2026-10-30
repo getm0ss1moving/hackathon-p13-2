@@ -1,0 +1,25 @@
+{
+  "kind": "proposed_patch_only_not_applied",
+  "target_family_id": "family_volume_rows",
+  "source_card_sha256": "2e7436eede49378d098cc8cc80f86b50dec3ab614015e16669cf297b70f57061",
+  "json_patch": [
+    {
+      "op": "test",
+      "path": "/parameter_contract/bootable",
+      "value": [
+        "True",
+        "False"
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/parameter_contract/bootable",
+      "value": [
+        "true",
+        "false"
+      ]
+    }
+  ],
+  "all_other_fields": "unchanged",
+  "no_registry_or_default_change": true
+}

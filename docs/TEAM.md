@@ -35,6 +35,13 @@
 
 本增量交付前一next尚未包含的192 A侧合同，旧next冻结文件不改写，057仍未纳入。实际N变化0，132/默认198/B/官方不变、不注册、不关闭issue，不能称B完整业务已过。
 
+## B阅读待办：bootable原生小写字符串合同（独立默认关闭包）
+
+- [ ] **B先读[bootable合同交接](handoffs/B_A_ISSUE3_BOOTABLE_CONTRACT.md)与[模块/schema/卡片/registry同步说明](../experiments/issue3_bootable_contract_20261030/B_INTEGRATION.md)**。仅bootable_scoped_rows输入bool/大小写true-false到原生字符串true/false，数字和truthiness不接受；管理VM bool合同不变、未实施。
+- [ ] 同步模块SHA、registry与受影响绑定、参数schema、卡片test/replace四项；实际源码/卡漂移先对照，不沿旧registry配新源码，不覆盖132。完整原文prepare、region/AZ角色、其他view和API/SQL保持，AZ参考争议仍交C。
+
+独立12/12，公开12分组复放通过（最后为公开artifact/历史聚合校验，未重读原生记录）；owner71只引用不加总。B真实schema/HTTP/分页/typed-empty/失败传播及正式封装待验，实际N变化0，132/默认198/B/官方未改，不预启用或关闭issue。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

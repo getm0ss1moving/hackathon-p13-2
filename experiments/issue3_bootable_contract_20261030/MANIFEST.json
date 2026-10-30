@@ -1,0 +1,29 @@
+{
+  "status": "DEFAULT_DISABLED_BOOTABLE_LOCAL_BOUNDARY_PASS_B_INTEGRATION_PENDING",
+  "family_id": "family_volume_rows",
+  "management_VM_bool_contract_unchanged": true,
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "prior132_and_default198_unchanged": true,
+  "tools": {
+    "scripts/verify_a_issue3_bootable_synthetic.py": "08f76e63683f7e16b33bc34e84daeb634c64b147fa375583a7033f45d1a8004c"
+  },
+  "external_files": {
+    "docs/handoffs/B_A_ISSUE3_BOOTABLE_CONTRACT.md": "1f2fdf5c0b67cff5845da2d6a2e344b48d7a5b03fb85770ff862fae399781aa6"
+  },
+  "files": {
+    "B_INTEGRATION.md": "54297662fa2fe4007851b0a4cee8edf8bf456e506d9a7a6bb12d1ddd5b302ed2",
+    "CHANGES.patch": "c254cf2b5aad4a997463f877cbecbac4a5919756e63b4aa5b519ac195f32c45c",
+    "CONTRACT.json": "20fd92a0e526bb7a41ef7d9a98f50db59b49d4be72857ca32cf896880f24ec0c",
+    "FAMILY_CARD_PATCH.json": "3e5f1cd67cd4332b70b0c930ab329f7a546261c175324efbe0f0b6cd69cfa547",
+    "NATIVE_BOOTABLE_EVIDENCE.json": "282a7288273f7855c7a237b3c523fe09e2ec64b6bd1ba00e9d1899bca6239a66",
+    "README.md": "e12bd45532c39da4c80b67018d11c60e3442ad4574e2347303ab3ea926c4d004",
+    "REGISTRY_PATCH.json": "b9afb8850601986a86205d2892d955e39823ca61bc291aedd58cc7cfcfb26a51",
+    "SOURCE_CLOSURE.json": "f7b04dab9742ace8f5bf7f0c338540c60f4f0e09cdd1b78bca85f3b8af5a3b5d",
+    "SOURCE_PROVENANCE.json": "1b83202adf39c5ce17973df28679e40ed849a3ce06f863b256c44ee492f506f4",
+    "candidate.py": "56c6a58c9b8108cb7c0545e1c2da9e5ad00a35101d007f4b8415b703d05514d0",
+    "evidence/INDEPENDENT_RESULTS.json": "6917dbbf0a9fe616c7ef43197baa0e56ec35001f5c89e72bfe21eb10bbb4792a",
+    "evidence/PUBLISH_VERIFICATION.json": "81ced53198ec960e928b6484c00aa9ce590323697e0cbd6bc18aeef41a4f5027",
+    "source/family_volume_rows.original.py": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138"
+  }
+}
