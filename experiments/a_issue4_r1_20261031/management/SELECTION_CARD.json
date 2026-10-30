@@ -1,0 +1,68 @@
+{
+  "id": "family_management_vm_details",
+  "family_id": "family_management_vm_details",
+  "name": "管理虚拟机的服务、规格与挂载卷明细",
+  "view": "management_vm_service_flavor_volume_rows",
+  "description": "查询显式区域内各VDC管理虚拟机名称、IP原字段、部署关联云服务、规格和挂载云硬盘容量；保留缺VDC/服务/规格/卷的父VM和不完整诊断。泛称IP同时保留两种原生字段；不猜归属、单位或缺失值。",
+  "resources": [
+    "VM_NOVA",
+    "FLAVOR",
+    "VOLUME",
+    "R_VOLUME_MOUNTON_VM",
+    "S_DeployNode",
+    "S_DeployInstance",
+    "S_DeployComponent",
+    "S_Service",
+    "S_CloudService"
+  ],
+  "examples": [
+    "查询区域“geo-sable”下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量",
+    "请列出区域“geo-copper”下各VDC的管理虚拟机名称、私网IP、云服务、规格和挂载卷容量"
+  ],
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "view",
+      "logicalRegionName",
+      "ip_role",
+      "capacity_mode"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "view": {
+        "const": "management_vm_service_flavor_volume_rows"
+      },
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1
+      },
+      "ip_role": {
+        "enum": [
+          "both_raw",
+          "private_ips_raw",
+          "vm_ip_address_raw"
+        ]
+      },
+      "capacity_mode": {
+        "const": "per_volume_raw_and_numeric_summary"
+      }
+    }
+  },
+  "execution_contract": {
+    "requires_prepared_inputs": true,
+    "prepared_table": "A_MANAGEMENT_VM_DETAILS",
+    "pipeline": "trusted fetch→core preflight→typed prepared table→SQL",
+    "raw_CI_SQL_execution_supported": false
+  },
+  "selection_contract": {
+    "required_parameters": [
+      "view",
+      "logicalRegionName",
+      "ip_role",
+      "capacity_mode"
+    ],
+    "defaults": null,
+    "enabled_by_default": false,
+    "source_ID_aliases": []
+  }
+}

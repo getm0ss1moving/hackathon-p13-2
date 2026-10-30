@@ -1,0 +1,55 @@
+{
+  "family_id": "family_volume_status_type_counts",
+  "enabled": false,
+  "runtime_N_delta": 0,
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "view",
+      "filters"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "view": {
+        "enum": [
+          "human_type_names",
+          "native_type_references"
+        ]
+      },
+      "filters": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "logicalRegionName": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "human_type_names": "complete only for verified successful empty matching VOLUME set; any nonempty set raises Unsupported until authoritative type-name relationship exists",
+  "native_type_references": "explicitly requested raw native volumeTypeId group counts with separate total; no name or resolved directory-object claim",
+  "full_question_grounding": "source-preserving native filters plus total/type obligations; initial starter status=error seed and documented error=错误 only for narrow anomaly wording; no hidden scope",
+  "entrypoints": [
+    "build(params)",
+    "prepare_candidate(question,item,params,diagnostics=None)",
+    "preflight(params,receipt)",
+    "execute_local(params,receipt)"
+  ],
+  "input_pipeline": "trusted request+success+schema+complete pages→typed A_VOLUME_STATUS_TYPE_COUNTS→contract SQL",
+  "no_remote_catalog_probe": true,
+  "failure_policy": "missing/error/truncated/schema-less/duplicate/wrong-scope never empty; metadata is B trusted assertion, not authentication",
+  "sparse_type_field": "schema-proven missing/NULL/blank volumeTypeId becomes unknown reference; no identity/name fabrication",
+  "counter_semantics": "true empty COUNT0 summary kept; group rows separate from total; no _empty placeholder count",
+  "local_core_byte_limit": 4096,
+  "final_B_envelope_or_official_depth_verified": false,
+  "B_registry_or_selection_integration": "not implemented or enabled in this review"
+}

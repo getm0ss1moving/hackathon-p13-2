@@ -1,0 +1,81 @@
+{
+  "status": "INTERFACE_COMPATIBLE_R3_TYPE_EXACT_RECHECK",
+  "provider_module": "shared_policy.py",
+  "protocol": "a-port-batches-v1",
+  "sole_provider_owner": "this A provider task",
+  "consumer_owner": "address owner01a18e5b; no consumer code in provider task",
+  "signatures": {
+    "collect_port_batches": "collect_port_batches(batches: list[dict]) -> dict",
+    "recheck_port_batches": "recheck_port_batches(prepared: dict) -> dict"
+  },
+  "batch_exact_keys": [
+    "request",
+    "receipt"
+  ],
+  "batch_request": "consumer's expected planned actual PORT request, independently paired against receipt.request and each page.request; never rewritten in/equal",
+  "receipt": "existing raw schema/page protocol: ok, actual integer HTTP2xx, exact request, schema_verified, schema_source, schema, pages; every page actual HTTP2xx plus exact request and original pagination",
+  "scope_forms": [
+    "unfiltered global PORT request",
+    "flat AND logicalRegionName equal exact nonblank string",
+    "optional devId equal exact nonblank string",
+    "optional devId in nonempty list of unique exact nonblank strings; no scalar, CSV or JSON-string list decoding"
+  ],
+  "scope_limits": "only logicalRegionName equal and devId equal/in; each field at most once; no OR/nesting/unknown keys/operators; exact text, case and opaque literals preserved",
+  "PORT_source_projection": {
+    "columns": [
+      "id",
+      "devId",
+      "logicalRegionName"
+    ],
+    "types": {
+      "id": "TEXT",
+      "devId": "TEXT NULL",
+      "logicalRegionName": "TEXT"
+    },
+    "nullable_if_actual_schema_declares": [
+      "devId"
+    ],
+    "normalize_blank_to_NULL": [
+      "devId"
+    ],
+    "identity_and_region": "required native text, nonblank; never filled from scope"
+  },
+  "output_keys": [
+    "protocol",
+    "resource",
+    "columns",
+    "rows",
+    "raw_receipts",
+    "canonical_receipts",
+    "canonical_receipt",
+    "typed_port_table",
+    "input_evidence",
+    "input_evidence_sha256",
+    "canonical_projection_sha256",
+    "default_enabled",
+    "full_answer"
+  ],
+  "output_semantics": {
+    "protocol": "a-port-batches-v1",
+    "resource": "PORT",
+    "rows": "canonical PORT rows in stable first-observation order",
+    "raw_receipts": "list of unchanged copies of every actual batch receipt; original request, per-page request, total/page metadata and raw rows retained",
+    "canonical_receipts": "one canonical metadata receipt per actual batch, same order as input; not HTTP",
+    "canonical_receipt": "union projection metadata: per-batch raw total list, raw observation sum, sum of per-batch canonical counts, union canonical count, within-batch and cross-batch duplicate counts; never a fabricated single raw total",
+    "typed_port_table": "CLOUD_PORT schema/rows for consumer typed loader only; not source schema or HTTP envelope",
+    "input_evidence": "exact supplied request+raw receipt batch pairs retained for recomputation",
+    "recheck": "recompute from retained actual raw batches; compare finite canonical encoded JSON bytes for complete output, preserving bool/int/float distinctions; reject NaN/inf and invalid JSON; caller markers or rehashed projections alone are insufficient",
+    "external_pin": "consumer must pin actual provider file SHA before import and check protocol; source hash delivered after implementation freeze",
+    "full_answer": false,
+    "default_enabled": false
+  },
+  "duplicates": "same existing single policy inside and across all batches: all raw business source fields, key presence, JSON types and values exact; only last_Modified/last_update_date ignored; id/devId/region and unprojected business conflicts reject; use one provider-owned equivalence implementation",
+  "raw_derived_boundary": "provider output has no HTTP success envelope. Explicit derived receipt/page markers or source_raw_receipt_sha256 rejected even if caller adds200. No derived-to-raw converter is supplied. HTTP/schema assertions remain B-trusted local evidence, not independently authenticated server facts.",
+  "EIP_boundary": "provider batch API accepts PORT only; FLOATING_IPS isInternal JSON bool stays with consumer EIP role validation. Generic old text projection is not an EIP decoder.",
+  "compatibility": "legacy collect/equal_filters public behavior and existing call signature remain equal-only; in is available only through the new PORT batch API. Old115/33/293 controls reused, no new runtime family or N.",
+  "failure": "shared_policy.Unsupported(ValueError); failed/unbound/derived/partial/schema-missing/type-invalid/scope-mismatching/conflicting input never becomes zero result",
+  "minimum_pairing": "consumer passes actual raw PORT batch request/receipt pairs, consumes typed_port_table and separate dual evidence, calls recheck_port_batches; does not pass provider result to legacy HTTP validator or supply fake200",
+  "scope_coverage_limit": "batch completeness is within each requested scope only. Union of scopes is not proof of full-region/global PORT coverage, EIP binding coverage, VM cross-tenant identity, live atomic snapshot or original full answer. Consumer diagnoses uncovered/unknown endpoints.",
+  "revision": "r3 one-line recheck correction; signatures, protocol, scopes, rows and output keys unchanged",
+  "superseded_provider_sha256": "0dfc3633b8c2583572abf5170e110ae6c8d3b295e250be52531316424c21d928"
+}

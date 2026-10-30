@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": [
+    "view",
+    "logicalRegionName",
+    "ip_role",
+    "capacity_mode"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "view": {
+      "const": "management_vm_service_flavor_volume_rows"
+    },
+    "logicalRegionName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ip_role": {
+      "enum": [
+        "both_raw",
+        "private_ips_raw",
+        "vm_ip_address_raw"
+      ]
+    },
+    "capacity_mode": {
+      "const": "per_volume_raw_and_numeric_summary"
+    }
+  }
+}

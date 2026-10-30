@@ -1,0 +1,173 @@
+{
+  "protocol": "opaque-address-membership-r1.1",
+  "family_id": "fixed_address_member_vm_rows",
+  "state": "FIRST_ROUND_OFFLINE_PASS_DEFAULT_DISABLED_NATIVE_PENDING",
+  "parameters": {
+    "required": [
+      "profile",
+      "filters",
+      "required_filters",
+      "address_codec",
+      "unknown_policy"
+    ],
+    "additionalProperties": false,
+    "profile": "fixed_address_member_vm_rows",
+    "filters": {
+      "nonempty": true,
+      "exact_fields": [
+        "logicalRegionName",
+        "status",
+        "fixedIpAddress"
+      ],
+      "values": "nonblank control-free UTF-8 opaque strings; preserve original full values; no defaults"
+    },
+    "required_filters": "unique list equal to all filters keys; original-question completeness still B obligation",
+    "address_codec": [
+      "at_or_scalar_v1"
+    ],
+    "unknown_policy": [
+      "reject",
+      "known_only_with_diagnostic"
+    ]
+  },
+  "codec": {
+    "evidence": "Original source codec audit SHA256 8d383430ef4f4a0358c8b7b67c2c21f8d4a787ebea4709b88e09b4a1911ccac4; source audit remains local; public controls are synthetic.",
+    "grammar": "at-wrapped: @T(@T)*@; otherwise scalar T; T nonblank exact UTF-8 text with no controls, @, comma, semicolon or JSON-looking prefix [/{ after lstrip",
+    "raw_preservation": "privateIps passed to output exactly; no casefold, IP/IPv6 canonicalization, trimming, int/hex conversion or substring recovery",
+    "duplicates": "duplicate exact tokens within one VM decoded once, count retained; duplicate object IDs always fail",
+    "unknown_states": [
+      "unknown_missing",
+      "unknown_null",
+      "unknown_empty",
+      "unknown_whitespace",
+      "unsupported_or_malformed_codec",
+      "unsupported_fixed_scalar_encoding"
+    ],
+    "non_text_native_row": "schema_failure; standalone decoder reports unsupported_native_type",
+    "unproven_encodings": "CSV/JSON/scalar_v1 not supported even by explicit opt-in in this revision"
+  },
+  "source_schema": {
+    "FLOATING_IPS": [
+      "id",
+      "logicalRegionName",
+      "status",
+      "fixedIpAddress",
+      "floatingIpAddress"
+    ],
+    "VM_NOVA": [
+      "id",
+      "logicalRegionName",
+      "name",
+      "privateIps"
+    ]
+  },
+  "roles": {
+    "selected_eips": "exact required EIP predicates, complete current receipt",
+    "vm_region_context": "one complete same-capture VM population per EIP region, including all unknown address rows",
+    "vm_contain_candidates": "one explicit literal contain per distinct(region,fixed token); candidate superset only; independent role/lookup receipt"
+  },
+  "receipt_interface": "strict actual request JSON types, explicit http_status and per-page metadata, B verified schema on zero rows, same capture, unique receipt IDs",
+  "same_capture_limit": "B source assertions cannot be authenticated here; non-atomic capture cannot claim snapshot completeness",
+  "typed_tables": {
+    "CLOUD_FLOATING_IPS": [
+      "id",
+      "logicalRegionName",
+      "status",
+      "fixedIpAddress",
+      "floatingIpAddress"
+    ],
+    "CLOUD_VM_NOVA": [
+      "id",
+      "logicalRegionName",
+      "name",
+      "privateIps"
+    ],
+    "A_VM_ADDRESS_MEMBERS": [
+      "vm_id",
+      "logical_region_name",
+      "address_token"
+    ],
+    "A_EIP_MEMBER_STATE": [
+      "eip_id",
+      "eip_region",
+      "known_matching_vm_count",
+      "membership_status"
+    ]
+  },
+  "SQL_types": "all TEXT COLLATE BINARY except known_matching_vm_count INTEGER; true zero-row tables, no _empty rows; A_* never remote CIs",
+  "outputs": [
+    "eip_id",
+    "eip_region",
+    "floating_ip",
+    "fixed_ip",
+    "vm_id",
+    "vm_name",
+    "private_ips_raw",
+    "known_matching_vm_count",
+    "membership_status",
+    "relationship_evidence"
+  ],
+  "grain": "each selected EIP identity x each exact same-region VM token member, or one NULL-VM row if none known",
+  "membership_status": [
+    "unknown_fixed_address",
+    "known_candidates_population_incomplete",
+    "known_candidates_non_atomic_capture",
+    "multiple_address_member_candidates",
+    "one_address_member_candidate",
+    "no_address_member_in_declared_snapshot"
+  ],
+  "unknown_policy": "Known-only retains known results plus all unknown diagnostics. Reject returns unknown_population failure. Unknown addresses never certify no binding.",
+  "zero_policy": "Verified complete typed zero EIP rows => success rows=[] and no followups. Failed/missing schema/pages never means empty.",
+  "failure_interface": {
+    "evaluate": "ok=false,rows=null,error={code,message,details}; preserves unknown diagnostics in rejection details",
+    "codes": [
+      "invalid_params",
+      "unsupported_codec",
+      "scope_drift",
+      "invalid_text",
+      "invalid_json",
+      "request_too_large",
+      "evidence_failure",
+      "capture_failure",
+      "receipt_failure",
+      "request_drift",
+      "schema_failure",
+      "pagination_failure",
+      "duplicate_identity",
+      "context_drift",
+      "candidate_recall_gap",
+      "unknown_population",
+      "prepared_drift"
+    ]
+  },
+  "entrypoints": {
+    "build": "pure staged EIP plan, SQL, typed schemas",
+    "plan_followups": "explicit per-region context and per-token contain requests",
+    "prepare": "validate retained staged receipts and derive typed exact member tables",
+    "execute_prepared": "recompute from retained evidence, check tampering, then offline SQLite only",
+    "execute_local": "prepare+offline SQLite",
+    "evaluate": "structured controlled-failure facade"
+  },
+  "transport": "per request compact UTF-8 provisional4096; block oversize without truncation. B separately measures encoded URL, full envelope and official depth/length.",
+  "tenant_298": "keep frozen view IDs/params; no PORT policy written here; no address candidate promoted to EIP-object binding",
+  "full_eip_binding_complete": false,
+  "full_original_question_certified": false,
+  "official_executor_modified": false,
+  "official_executor_payload": false,
+  "B_runtime_integrated": false,
+  "candidate_imported": true,
+  "synthetic_tests_run": true,
+  "native_tests_run": false,
+  "independent_review": false,
+  "actual_runtime_N_delta": 0,
+  "frozen132_changed": false,
+  "push": false,
+  "candidate_syntax_compile_checked": true,
+  "owner_test_results": "Original source receipt only; final acceptance summary at ../ACCEPTANCE.json",
+  "independent_boundary_methods": 8,
+  "owner_cli_replay_checks": {
+    "count": 2,
+    "all_passed": true,
+    "evidence": "Original source receipt only; not included in public payload"
+  }
+}

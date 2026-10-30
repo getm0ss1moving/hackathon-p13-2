@@ -1,0 +1,36 @@
+--- runbook_retriever.strict.before.py
++++ runbook_retriever.strict.py
+@@ -146,6 +146,14 @@
+     r"delete\b|rebuild\b|update\b|create\b|restart\b)", re.I)
+ 
+ 
++def _trimmed_query_part(query, start, end):
++    # Python str offsets: trim only at this original interval's boundaries.
++    # isspace() agrees with str.strip(); internal characters stay untouched.
++    while start < end and query[start].isspace():start += 1
++    while end > start and query[end - 1].isspace():end -= 1
++    return start, end, query[start:end]
++
++
+ def _compound_parts(query, merge_aggregation=True):
+     visible = _intent_literal_mask(query)
+     if visible is None:return None
+@@ -153,13 +161,14 @@
+     parts=[];start=0
+     for n,marker in enumerate(markers):
+         end=markers[n+1].start() if n+1<len(markers) else len(query)
+-        left=query[start:marker.start()].strip()
++        left=_trimmed_query_part(query,start,marker.start())
+         right=query[marker.end():end].strip()
+-        if merge_aggregation and left and _aggregation_continuation(left,right,marker.group()):
++        if merge_aggregation and left[2] and _aggregation_continuation(left[2],right,marker.group()):
+             continue
+-        if left:parts.append((start,marker.start(),left))
++        if left[2]:parts.append(left)
+         start=marker.end()
+-    if query[start:].strip():parts.append((start,len(query),query[start:].strip()))
++    tail=_trimmed_query_part(query,start,len(query))
++    if tail[2]:parts.append(tail)
+     return parts if 1<=len(parts)<=MAX_COMPOUND_CLAUSES else None
+ 
+ 

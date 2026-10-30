@@ -1,0 +1,303 @@
+{
+  "synthetic_only": true,
+  "params": {
+    "view": "known_port_eip_host_rows",
+    "tenantName": "tenant",
+    "logicalRegionName": "review-region"
+  },
+  "legacy_source_sha256": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4",
+  "address_sha256": "0d3e9663ede6b55ba465066a84bfaa37c8c8ece2f22e10fa57affa5a78c0113e",
+  "minimal_raw_receipts": {
+    "VM_NOVA": {
+      "ok": true,
+      "http_status": 200,
+      "request": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+        "autoPagination": true,
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "review-region",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "schema_verified": true,
+      "schema_source": "independent-synthetic-schema-only",
+      "schema": [
+        "id",
+        "name",
+        "tenantName",
+        "logicalRegionName",
+        "privateIps",
+        "floatingIp",
+        "hostId",
+        "resId"
+      ],
+      "pages": [
+        {
+          "ok": true,
+          "http_status": 200,
+          "pageNo": 1,
+          "currentPage": 1,
+          "pageSize": 1000,
+          "totalNum": 1,
+          "totalPageNo": 1,
+          "request": {
+            "method": "GET",
+            "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+            "autoPagination": true,
+            "condition": {
+              "constraint": [
+                {
+                  "simple": {
+                    "name": "logicalRegionName",
+                    "value": "review-region",
+                    "operator": "equal"
+                  }
+                }
+              ]
+            }
+          },
+          "objList": [
+            {
+              "id": "vm",
+              "logicalRegionName": "review-region",
+              "name": "vm",
+              "tenantName": "tenant",
+              "privateIps": "@token@",
+              "floatingIp": null,
+              "hostId": "host",
+              "resId": "res"
+            }
+          ]
+        }
+      ]
+    },
+    "HOST": {
+      "ok": true,
+      "http_status": 200,
+      "request": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=1000",
+        "autoPagination": true,
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "review-region",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "schema_verified": true,
+      "schema_source": "independent-synthetic-schema-only",
+      "schema": [
+        "id",
+        "name",
+        "ipAddress",
+        "logicalRegionName"
+      ],
+      "pages": [
+        {
+          "ok": true,
+          "http_status": 200,
+          "pageNo": 1,
+          "currentPage": 1,
+          "pageSize": 1000,
+          "totalNum": 1,
+          "totalPageNo": 1,
+          "request": {
+            "method": "GET",
+            "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=1000",
+            "autoPagination": true,
+            "condition": {
+              "constraint": [
+                {
+                  "simple": {
+                    "name": "logicalRegionName",
+                    "value": "review-region",
+                    "operator": "equal"
+                  }
+                }
+              ]
+            }
+          },
+          "objList": [
+            {
+              "id": "host",
+              "logicalRegionName": "review-region",
+              "name": "host",
+              "ipAddress": "host-IP"
+            }
+          ]
+        }
+      ]
+    },
+    "PORT": {
+      "ok": true,
+      "http_status": 200,
+      "request": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=1000",
+        "autoPagination": true,
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "review-region",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "schema_verified": true,
+      "schema_source": "independent-synthetic-schema-only",
+      "schema": [
+        "id",
+        "devId",
+        "logicalRegionName"
+      ],
+      "pages": [
+        {
+          "ok": true,
+          "http_status": 200,
+          "pageNo": 1,
+          "currentPage": 1,
+          "pageSize": 1000,
+          "totalNum": 2,
+          "totalPageNo": 1,
+          "request": {
+            "method": "GET",
+            "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=1000",
+            "autoPagination": true,
+            "condition": {
+              "constraint": [
+                {
+                  "simple": {
+                    "name": "logicalRegionName",
+                    "value": "review-region",
+                    "operator": "equal"
+                  }
+                }
+              ]
+            }
+          },
+          "objList": [
+            {
+              "id": "port",
+              "logicalRegionName": "review-region",
+              "devId": "res"
+            },
+            {
+              "id": "port",
+              "logicalRegionName": "review-region",
+              "devId": "res",
+              "last_Modified": "later"
+            }
+          ]
+        }
+      ]
+    },
+    "FLOATING_IPS": {
+      "ok": true,
+      "http_status": 200,
+      "request": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=1000",
+        "autoPagination": true,
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "review-region",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "schema_verified": true,
+      "schema_source": "independent-synthetic-schema-only",
+      "schema": [
+        "id",
+        "portId",
+        "floatingIpAddress",
+        "isInternal",
+        "logicalRegionName"
+      ],
+      "pages": [
+        {
+          "ok": true,
+          "http_status": 200,
+          "pageNo": 1,
+          "currentPage": 1,
+          "pageSize": 1000,
+          "totalNum": 1,
+          "totalPageNo": 1,
+          "request": {
+            "method": "GET",
+            "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=1000",
+            "autoPagination": true,
+            "condition": {
+              "constraint": [
+                {
+                  "simple": {
+                    "name": "logicalRegionName",
+                    "value": "review-region",
+                    "operator": "equal"
+                  }
+                }
+              ]
+            }
+          },
+          "objList": [
+            {
+              "id": "eip",
+              "logicalRegionName": "review-region",
+              "portId": "port",
+              "floatingIpAddress": "public",
+              "isInternal": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "observed": {
+    "review_only_manual_derived_wrapper": {
+      "rows": [
+        {
+          "vm_id": "vm",
+          "vm_name": "vm",
+          "logical_region_name": "review-region",
+          "private_ips_raw": "@token@",
+          "native_floating_ip_raw": null,
+          "host_reference_id": "host",
+          "host_id": "host",
+          "host_name": "host",
+          "host_ip": "host-IP",
+          "host_link_status": "resolved",
+          "native_ip_status": "null_native_attribute",
+          "vm_reference_res_id": "res",
+          "binding_port_id": "port",
+          "eip_id": "eip",
+          "eip_address": "public",
+          "eip_internal_role_raw": "false",
+          "eip_link_status": "known_port_link_only"
+        }
+      ]
+    }
+  }
+}

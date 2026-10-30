@@ -1,0 +1,196 @@
+{
+  "family_id": "A_NEXT_VOLUME_CAPACITY_VDC_POOLS",
+  "profile": "volume_capacity_max_vdc_pools",
+  "owner": "ranked_vdc_pool",
+  "parameter_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "logicalRegionName",
+      "tie_policy",
+      "unknown_owner_policy",
+      "unknown_size_policy"
+    ],
+    "properties": {
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tie_policy": {
+        "enum": [
+          "all_ties"
+        ]
+      },
+      "unknown_owner_policy": {
+        "enum": [
+          "reject",
+          "known_only"
+        ]
+      },
+      "unknown_size_policy": {
+        "enum": [
+          "reject",
+          "known_only"
+        ]
+      }
+    }
+  },
+  "actual_runtime_N_change": 0,
+  "potential_new_candidate": "existing bounded family revision only; no new equivalent template or runtime family. Actual runtime N delta0; integration requires explicit v4 pin and unified review.",
+  "status": "ISOLATED_V4_NULLABLE_VDC_DISPLAY_PENDING_UNIFIED_REVIEW",
+  "native_coverage_gate": "No new native validation. B reports region3095 volumes/3 pools and1825 missing display/unknown owner in a prior capture; older global2540/6190 and3650 statistics are separate evidence, not a same-time completeness certificate. Strict unknown-owner gate remains; known_only stays conditional.",
+  "scope": "Only explicit logicalRegionName is implemented, equal and AND-bound to both VOLUME and STORAGE_POOL requests and SQL. No implicit region. Global/missing-region, AZ/tenant/VDC-name-filtered variants remain unsupported; this is not an arbitrary ranking DSL.",
+  "population": "Observed VDC IDs owning at least one volume in the requested logical region. No VDC directory is fetched, so a no-volume response cannot prove that all VDCs have zero capacity.",
+  "identity": "logicalRegionName+vdcId, not vdcName. Fixed whitespace-only unknown IDs normalize to NULL on fresh schema-projected copies. Nonblank IDs preserve exact whitespace and are never guessed from names. Distinct display names yieldNULL label; identity remains the ID.",
+  "ranking": "Normalize each valid nonnegative raw size into exact integer units at scale1e6. SUM every volume ID independently before any pool join; no TEXT ordering, dirty CAST or SUM(DISTINCT size). Select every equal maximum with explicit all_ties. Decimal0.1+0.2 ties0.3 exactly.",
+  "size_parsing": "Source raw unit is preserved and not asserted to be GB/GiB. Bounded lexical grammar: ASCII digits with optional decimal point and1..6 fractional digits, after fixed-edge whitespace removal; no signs/exponents/units/commas/rounding. NULL/blank/dirty/too-fine precision are unknown, not zero. Per-value and sum scaled magnitude must fit signed64-bit; overflow is explicitly blocked.",
+  "unknown_policies": "unknown_owner_policy and unknown_size_policy are both required. reject stops. known_only retains excluded/unknown counts in final diagnostics, reports only known-capacity lower-bound leaders, sets scope_max_certified=false and full_answer_certified=false whenever any unknown could change a winner. Complete owner total isNULL if its size is incomplete or any owner ID in scope is unknown.",
+  "pool_link": "VOLUME.attachBackendId=STORAGE_POOL.id and same logicalRegionName. Only after choosing VDC leaders, expand DISTINCT referenced backend IDs; retain no_pool_reference parent rows and unresolved_pool references, with unknown/unresolved volume counts. Many volumes/pools do not multiply capacity.",
+  "pool_role": "Generic volume storage pools, not database-dedicated disks or pools. Shared pool details are whole-pool capacity fields, never a claim of exclusive VDC allocation. Same pool may appear once for each tied VDC.",
+  "output_columns": [
+    "logical_region_name",
+    "vdc_id",
+    "vdc_name",
+    "volume_count",
+    "known_volume_size_source_units",
+    "unknown_size_volume_count",
+    "total_volume_size_if_complete_source_units",
+    "unknown_backend_volume_count",
+    "referenced_pool_id",
+    "pool_id",
+    "pool_name",
+    "pool_state",
+    "pool_total_capacity_raw",
+    "pool_free_capacity_raw",
+    "pool_allocated_capacity_raw",
+    "pool_provisioned_capacity_raw"
+  ],
+  "grain": "one observed winning regionalVDC ID x distinct referenced pool ID, or one placeholder detail row retaining a winner with no pool reference",
+  "schema": {
+    "VOLUME": [
+      "id",
+      "logicalRegionName",
+      "vdcId",
+      "vdcName",
+      "size",
+      "attachBackendId"
+    ],
+    "STORAGE_POOL": [
+      "id",
+      "logicalRegionName",
+      "poolName",
+      "totalCapacityGB",
+      "freeCapacityGB",
+      "allocatedCapacityGB",
+      "provisionedCapacityGB"
+    ]
+  },
+  "prepared_schema": {
+    "VOLUME": [
+      "id",
+      "logicalRegionName",
+      "vdcId",
+      "vdcName",
+      "size",
+      "attachBackendId",
+      "size_scaled"
+    ],
+    "STORAGE_POOL": [
+      "id",
+      "logicalRegionName",
+      "poolName",
+      "totalCapacityGB",
+      "freeCapacityGB",
+      "allocatedCapacityGB",
+      "provisionedCapacityGB"
+    ]
+  },
+  "NULL_and_empty": "Only VOLUME.vdcName may be omitted at row level when actual source schema declares it. A fresh local row copy supplies NULL for that field only. Every other source key remains required; present NULL/blank display semantics stay unchanged. Failed/unknown/schema-missing/placeholder data never becomes zero.",
+  "receipts": "Per resource {ok:true,schema_source:nonblank,columns:required schema,pages:[{ok:true,currentPage,pageSize,totalNum,totalPageNo,request:exact generated method/url/condition for that page,objList:...}]}. Pagination pageSize1..1000; all contiguous ordered pages and unchanged totals are required, every object ID unique. Wrong method/operator/CI/region/page binding and cross-region rows are rejected.",
+  "projection": "same ID/parameter/API/SQL/output and numeric/ranking rules; new v4 projection tag explicitly rejects old v3 prepared objects; no vdcId/owner/region/default inference",
+  "entrypoints": [
+    "build(params)",
+    "prepare(params,snapshots)",
+    "preflight(params,snapshots)",
+    "execute_local(params,snapshots)",
+    "execute_prepared(params,prepared)",
+    "envelope_budget(actual_final_payload,boundary,limit)"
+  ],
+  "transport": "Static placeholder core, expanded API+SQL wire, complete metadata plan and actual final B wrapper are separate boundaries in BYTE_BOUNDARIES. Only expanded core has a local4096B gate here. Formal final wrapper/depth4 definitions and acceptance remain pending; no source-file byte limit is asserted.",
+  "needs_C": [
+    "VDC identity namespace and in-scope volume-owner population",
+    "all tied maxima and unknown-owner/size policies",
+    "source capacity unit and six-decimal bounded numeric policy",
+    "pool detail display semantics; whole-pool capacities are not exclusive VDC allocations"
+  ],
+  "B_gates": [
+    "Adopt validated numeric/identity projections, not SQL over raw rows",
+    "truthful success+request binding+schema+pagination and zero-row typed loading",
+    "propagate all partial/unknown/NULL outputs and policy status; do not claim native known_only is complete",
+    "actual outgoing final wrapper4KB and depth4 validation",
+    "C acceptance of identity/population/ties/unknown/numeric/unit/detail display policies",
+    "authorized runtime and full-scope acceptance later; not run here"
+  ],
+  "tests": "25 local synthetic methods, VALIDATION.json; no model/business/official or native SQL runs",
+  "boundaries": "Only this new exclusive directory written. R1/R2/P0/B/official/shared/data/reference frozen files unchanged by this task. No sealed answers/ended200 feedback read. No push.",
+  "revision": "R2_HTTP_RECEIPT_FIX",
+  "repair_scope": "Only resource/page receipt-state gate, prepared-validation version metadata and completeness diagnostic labels changed. SQL, params, numeric normalization and ranking algorithm unchanged; original25 test methods preserved byte-for-byte.",
+  "receipt_state": "The same receipt_state function is used for each resource and page. ok must be isTrue. If success is declared it must be isTrue. Every declared http_status/httpStatus/status_code must have type exactly int (notbool) and be200..299 inclusive. All declared aliases must pass; a successful alias cannot hide another failure/unknown. Missing HTTP fields are not fabricated; trusted fetch-layer ok remains required.",
+  "error_policy": "If error is declared, onlyNone,False,or exact empty string are recognized no-error markers. Any other error declaration blocks, including nonempty error strings/objects, empty unrecognized objects/arrays and numeric0. A failed/unknown receipt never becomes successful empty SQL input.",
+  "diagnostic_labels": "pool_link_complete means selected winner backend links are covered. attribute_values_complete additionally requires nonNULL/nonblank poolName and all four requested raw-capacity display fields on referenced pools. It is presence-only, not capacity validity/unit/business certification. complete_winner_pool_details remains a deprecated compatibility alias for link coverage only, with an explicit semantics string; B must not describe it as all attributes known.",
+  "original_failure_evidence": "source/COUNTEREXAMPLES.json is a byte-for-byte copy of both independent HTTP_envelope/HTTP_page original fixtures, retaining their old incorrect successful actual outputs. COUNTEREXAMPLE_RESULTS.json records both corrected blocked results; source and old candidate remain unchanged.",
+  "test_evidence": "VALIDATION.json:36 methods = original25+11 new. Separate subcase counters:132 HTTP aliases/resource/page/type cases,120 ok/success identity cases,36 error cases,12 conflicting-alias cases. These are synthetic guard controls, not additional independent/business evaluations.",
+  "deferred": "PORT canonicalization and trusted normalization-source engineering are not implemented in this revision and belong to root/other owner.",
+  "runtime_N_change": 0,
+  "old_frozen_inputs_unchanged_verified": true,
+  "prepared_version_boundary": "projection_contract=volume-capacity-vdc-pool-v3-source-rechecked. New preflight stores an independent copy of this invocation actual source snapshots and params (all supplied HTTP/ok/success/error fields preserved). execute_prepared requires those input_evidence receipts, re-runs the same preflight locally, and checks canonical projection/diagnostics against the candidate prepared object. Missing evidence, merely upgrading a tag, actualHTTP503 receipts, or mismatched source projection is rejected. Version/digest alone is not treated as a successful validation.",
+  "input_evidence_boundary": "Input evidence is local preparation metadata containing supplied raw records/receipts, not a fixed historical-data lookup or an authenticity service. B remains responsible for trusted actual fetch origin and must not fabricate status evidence. If B transmits prepared/evidence metadata it must separately measure that actual payload; the build core/full-plan metrics do not cover per-input prepared size.",
+  "source_lock": "source/ORIGINAL_LOCK.json",
+  "remaining_gates": [
+    "B truthful actual HTTP/method/scope/page receipts and schema provenance",
+    "B validated projection loading with typed true-empty tables",
+    "complete native VDC identity coverage remains unresolved",
+    "C accepts existing rank/unknown/numeric/unit/detail policies",
+    "actual final B wrapper4KB and official depth4 acceptance",
+    "authorized runtime/end-to-end evaluation later"
+  ],
+  "not_run": [
+    "nativeSQL",
+    "API/service",
+    "model",
+    "B",
+    "official/evaluator",
+    "sealed answers/references",
+    "full200"
+  ],
+  "tool_state": {
+    "denied": [],
+    "pending": [],
+    "uncertain": []
+  },
+  "owner_root_recheck": {
+    "path": "../ROOT_VALIDATION.json",
+    "sha256": "5a9ad0f3b066a8bbc6d50a38e96a1f176a880956677b1ddd0ff222a3bdba649d",
+    "cases": 7,
+    "passed": 7,
+    "failed": 0,
+    "independent_reacceptance_claimed": false
+  },
+  "projection_contract": "volume-capacity-vdc-pool-v4-nullable-vdc-name",
+  "source_candidate_sha256": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+  "candidate_sha256": "c1715e0e0ed0a5a50bac1aa336a7a8df3324a47b11bfbd6a1d6cb0e01a158d01",
+  "default_enabled": false,
+  "new_family_count": 0,
+  "nullable_row_keys": {
+    "VOLUME": [
+      "vdcName"
+    ],
+    "STORAGE_POOL": []
+  },
+  "raw_immutability": "raw snapshots retain absent vdcName; input_evidence stores exact unchanged source snapshots; execute_prepared rechecks those original snapshots before SQL",
+  "compatibility_judgment": "shared adapters already normalize declared optional vdcName; this is an explicit standalone native-candidate fix, not permission to loosen every missing key or replace B253 NULL/empty policy",
+  "source_comment": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/4#issuecomment-6533134007",
+  "scope_boundary": "VM floatingIp belongs address owner; provider-r3 frozen and unchanged",
+  "native_validation": "not performed; B reported counts/units/relationships are not same-time certification or a new score",
+  "B_integration": "new explicit v4 source/contract pin and actual raw receipts needed; default off"
+}

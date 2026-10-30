@@ -1,0 +1,72 @@
+{
+  "binding_version": 1,
+  "family_id": "family_management_vm_details",
+  "view": "management_vm_service_flavor_volume_rows",
+  "default_enabled": false,
+  "assets": {
+    "adapter": {
+      "path": "adapter.py",
+      "sha256": "76a86958e807040eeb9cfc3de46c8fac5054032dd17d560821d551a88eb7331f"
+    },
+    "selection_card": {
+      "path": "SELECTION_CARD.json",
+      "sha256": "e7b30d1293a61f4d1633fbc866c7d94f57a71a8356a56e4f278d35ed5a5bfeed"
+    },
+    "parameter_schema": {
+      "path": "PARAMETER_SCHEMA.json",
+      "sha256": "64ee8e43717e5b7838545f66e5ab44c0803e0600041fabd97fed182bb5bbaf74"
+    },
+    "management_core": {
+      "path": "core/candidate.py",
+      "sha256": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad"
+    },
+    "core_contract": {
+      "path": "core/CONTRACT.json",
+      "sha256": "d620b1364422d4214ce3fb9f7d4d39862934dbf7c078d562374389731136b163"
+    },
+    "registry_overlay": {
+      "path": "REGISTRY_OVERLAY.json",
+      "sha256": "9638ea1b9cf337ea92dad2842595a4fb01927e8c2fa2d5d580e4561774b39457"
+    }
+  },
+  "legacy132_source": {
+    "label": "frozen candidate132_v1 source provenance and old prepare compatibility baseline; not B current compact+r5 runtime pair",
+    "N": 132,
+    "files": [
+      {
+        "role": "unified_prepare_source",
+        "path": "unified_prepare.py",
+        "sha256": "55168cc75f94a2398d8a2b08e09d93eaa852318226cea275ebc7c98d3fb54a05"
+      },
+      {
+        "role": "family_registry_source",
+        "path": "FAMILY_ROUTE_REGISTRY.json",
+        "sha256": "52ce7f14b4f3c5a51cfaf406079ddda716d6528edd59e1d24e349267f90d7f32"
+      },
+      {
+        "role": "review_interface_source",
+        "path": "REVIEW_INTERFACE.json",
+        "sha256": "c37235c6cfda20b054e9622b16192dbe6ad6c4a0a086fad0d39261b6ca8d7768"
+      },
+      {
+        "role": "strict132_source_array",
+        "path": "templates132.strict.private.json",
+        "sha256": "4d790887d487f3f371d8597b517a7e2b2bda1898c591b0e8123b11b79637aac5"
+      }
+    ],
+    "private_array_included_in_package": false,
+    "runtime_pair_recertified": false
+  },
+  "factory": "adapter.bind(legacy_source_root, expected_binding_sha256, enable_experimental=False, prepared_pipeline=False)",
+  "entry": "BoundRouter.prepare_candidate(question,item,parsed,diagnostics=None)",
+  "prepared_input_entry": "BoundRouter.prepare_inputs(question,item,parsed,receipts,diagnostics=None)",
+  "actual_runtime_N_delta": 0,
+  "experimental_additive_pool_if_explicitly_enabled": {
+    "base_N": 132,
+    "new_family_count": 1,
+    "total_N": 133,
+    "no_replacement_of_rb175_or_other_existing_IDs": true
+  },
+  "authority": "publisher/B pins BINDING hash out of band; pins/config are never model parameters",
+  "current_B_pair_note": "B latest reports compact132+r5. B/publisher must separately bind its real current arrays, retriever and surrounding runtime; this package does not claim that pair accepted."
+}

@@ -1,0 +1,27 @@
+{
+  "status": "DEFAULT_DISABLED_CANDIDATE_FOR_B_REVIEW",
+  "runtime_default_changed": false,
+  "arrays_included": false,
+  "source_modules_sha256": {
+    "strict": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52",
+    "enhanced": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9"
+  },
+  "tools": {
+    "scripts/verify_a_r6_release_smoke.py": "41e1b80126b088037c2fd9816f6bddd7ad27489d3997731155592fe399f957fb"
+  },
+  "external_files": {
+    "docs/handoffs/B_A_R6_EXACT_OBLIGATION_SPANS_20261031.md": "677cb2b3b9ecc92a3cf5ddff1b58fdf3ae7509ca721a2cf661abda2586f5ab44"
+  },
+  "files": {
+    "R6_INTERFACE.json": "0424f2236bed36563a74d154e2102fad19caca9d83def7e613aec908c87fc645",
+    "README.md": "6c705d6d271be5ac5e24f905cc71b0ff5ddd0baf4a8030665c0e5d3ddbe15872",
+    "SOURCE_CLOSURE.json": "f393faa512f0c55cf97c259a0e948ff6adfdd2d4df67cda1f1bba9359b73abd7",
+    "evidence/B_2c6ddfd_SOURCE_REFERENCE.json": "fbf36ebd6d03ef4628005288564ad9d5f382b121cb7cec5eb7c11dc5c36bd396",
+    "evidence/INDEPENDENT_REVIEW_SUMMARY.json": "b43090b0d3e5740a1f40217bbbe8b3bea7716e6cb8acd2843e71d1a9af7a9f8a",
+    "evidence/PUBLISHER_MINIMAL_SMOKE.json": "1077a9a66d1f3f72677a6eb0d54454099956b7fb30366c28785585b124a274aa",
+    "patches/from-r5.enhanced.patch": "bbafd6f8c722a33b96922275c0ca9916dd94be4d8af53c5c36341282b36a1263",
+    "patches/from-r5.strict.patch": "a8487a50852e511a0753983569225713030abf70ad80bc2ac68d2c8f4ac57303",
+    "runbook_retriever.enhanced.py": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9",
+    "runbook_retriever.strict.py": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52"
+  }
+}

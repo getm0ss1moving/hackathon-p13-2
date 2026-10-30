@@ -1,0 +1,221 @@
+{
+  "status": "FIRST_ROUND_OFFLINE_CANDIDATES_READY_FOR_B_REVIEW",
+  "baseline_main": "2c6ddfd532d5ee7990d6f642d577af1a18b8aa55",
+  "default_enabled": false,
+  "runtime_N_delta": 0,
+  "second_round_generalization": "not_started_or_certified",
+  "original_independent_receipts": [
+    {
+      "label": "unified_report",
+      "sha256": "dac6d01bbbce55fd73fe38668182556b3e89f240cd5fb2af94ea65c187f82e7c",
+      "bytes": 18890
+    },
+    {
+      "label": "unified_results",
+      "sha256": "14595a753d9ea7861859698e565b7c9a535187109125fed9297585133dc49baf",
+      "bytes": 9943
+    },
+    {
+      "label": "unified_review_manifest",
+      "sha256": "95cb91ab0548c3c5ac9c3e6d9d1baa5581eb0d3e3076125f06c10f033cb24570",
+      "bytes": 9891
+    },
+    {
+      "label": "capacity_v4_independent_results",
+      "sha256": "30273410edee7c1ff2510aded33554912786105913e76bf157e7a0741685eec6",
+      "bytes": 9620
+    },
+    {
+      "label": "management_independent_report",
+      "sha256": "3978ee82555be5d4dc9813372f413fde6c9dfc6bf7f1d3d04c3626e1bedb6223",
+      "bytes": 5243
+    },
+    {
+      "label": "r6_independent_receipt",
+      "sha256": "aef2af619e24aa72d9ec8d06898db7b98f18436b4e06c8cd809c6f975c5b28fe",
+      "bytes": 2996
+    }
+  ],
+  "original_counts_by_scope": {
+    "main_owner": {
+      "checks": 115,
+      "passed": 115
+    },
+    "inherited_volume_owner": {
+      "checks": 33,
+      "passed": 33
+    },
+    "main_independent": {
+      "checks": 293,
+      "passed": 293
+    },
+    "address_independent": {
+      "checks": 47,
+      "passed": 47
+    },
+    "provider_r3_independent_increment": {
+      "checks": 33,
+      "passed": 33
+    },
+    "consumer_actual_pair_independent": {
+      "checks": 78,
+      "passed": 78
+    },
+    "floatingIp_nullable_independent_supplement": {
+      "checks": 28,
+      "passed": 28
+    },
+    "management_independent": {
+      "checks": 171,
+      "passed": 171
+    },
+    "capacity_v4_independent_increment": {
+      "checks": 80,
+      "passed": 80
+    },
+    "r6_independent_per_variant": {
+      "positive_controls": 50,
+      "local_negative_controls": 12,
+      "variants": 2,
+      "shared_input_not_additive": true
+    }
+  },
+  "original_counts_not_rerun_or_added_as_new_scores": true,
+  "publisher_public_replay": {
+    "main_owner115": {
+      "status": "PASS",
+      "checks": 115,
+      "source_result_sha256": "5ff7aef11547d8685ff9b30ec331ce8705eec833318c2ae20e1ce769014508fb"
+    },
+    "volume33": {
+      "status": "PASS",
+      "checks": 33,
+      "source_result_sha256": "d25303d0a8de3d1912ec870eda11800c6b9bdc4ec780de229185061b382c845a"
+    },
+    "provider_controls": {
+      "status": "PASS",
+      "checks": 73,
+      "source_result_sha256": "b871620b3e683302f2c44d466f3bb0206228678de72a2930cc4c6284b7347594"
+    },
+    "capacity_nullable": {
+      "status": "PASS",
+      "checks": 56,
+      "source_result_sha256": "e4030c974ea9e6df7402f26c84d527fe381139eb4aedff0da73e5091aa13e564"
+    },
+    "consumer_owner43": {
+      "status": "PASS",
+      "checks": 43,
+      "local_log_sha256": "1b58f161931afa059d4410dd630068aa43f8a666bf1c88546657b37442e0ae9c"
+    },
+    "address_owner23": {
+      "status": "PASS",
+      "checks": 23,
+      "local_log_sha256": "82689ac7703e1fc26b2a362a4975d324238c40fef2d6f3967f3613cc7af25ff2"
+    },
+    "address_owner8": {
+      "status": "PASS",
+      "checks": 8,
+      "local_log_sha256": "6dba0201025d4d2046d06af44b1728b17b3504a65a689dba8a5c066136bb1d41"
+    },
+    "actual_provider_consumer_pair": {
+      "status": "PASS",
+      "checks": 14,
+      "actual_provider_function_calls": {
+        "collect_port_batches": 24,
+        "recheck_port_batches": 10
+      },
+      "consumer_sha256": "85eaf2c4f1eb1251d9a66fe3fcdf07905f2d75c9c0f2ef4af8aa4d5ea78b9590",
+      "provider_sha256": "ae861eebdd59a6b0bcb7b3e17156ffe0718411288e18b7d9a819aab295cbd609"
+    },
+    "management_with_original_legacy_source": {
+      "status": "PASS",
+      "checks": 50,
+      "current_B_pair_certified": false
+    },
+    "capacity_original_controls": {
+      "status": "PASS",
+      "checks": 25
+    },
+    "r6": {
+      "scope": "exact patch replay, AST and six segmentation cases per variant",
+      "B_actual_runtime_or_model_execution": false,
+      "template_arrays_read": false,
+      "independent50_and12_not_rerun": true,
+      "root_runtime_changed": false,
+      "variants": {
+        "strict": {
+          "patch_sha256": "a8487a50852e511a0753983569225713030abf70ad80bc2ac68d2c8f4ac57303",
+          "r6_sha256": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52",
+          "exact_replay": true,
+          "AST_only_span_boundary_delta": true,
+          "minimal_smoke_cases_passed": 6,
+          "case_names": [
+            "reported_AND",
+            "repeated_Unicode",
+            "one_aggregate",
+            "quoted_AND",
+            "only_whitespace",
+            "five_clauses"
+          ],
+          "isolated_B_helper_accepts_unchanged_exact_spans": true
+        },
+        "enhanced": {
+          "patch_sha256": "bbafd6f8c722a33b96922275c0ca9916dd94be4d8af53c5c36341282b36a1263",
+          "r6_sha256": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9",
+          "exact_replay": true,
+          "AST_only_span_boundary_delta": true,
+          "minimal_smoke_cases_passed": 6,
+          "case_names": [
+            "reported_AND",
+            "repeated_Unicode",
+            "one_aggregate",
+            "quoted_AND",
+            "only_whitespace",
+            "five_clauses"
+          ],
+          "isolated_B_helper_accepts_unchanged_exact_spans": true
+        }
+      }
+    }
+  },
+  "source_identity": {
+    "main_original_closure": "5899a9f76ee6b95513c74d189428260c051dcd0156ac5cd3c99fbf7bceb3294d",
+    "provider_r3_sha256": "ae861eebdd59a6b0bcb7b3e17156ffe0718411288e18b7d9a819aab295cbd609",
+    "provider_original_closure": "9e70f36c6d6c0691f48fde839e8e7837d7f6e5b084de0b65243b03326fd9655b",
+    "consumer_original_sha256": "8b09b5c901917b46e662524b762acc46337729e3af1b4e781d2befda7f63c730",
+    "consumer_original_closure": "2d0056a7ac309066555a103f3576f55a5a55c01760ae950fe8ce9c20c65aeb3b",
+    "consumer_public_sha256": "85eaf2c4f1eb1251d9a66fe3fcdf07905f2d75c9c0f2ef4af8aa4d5ea78b9590",
+    "address_sha256": "0d3e9663ede6b55ba465066a84bfaa37c8c8ece2f22e10fa57affa5a78c0113e",
+    "capacity_v4_sha256": "c1715e0e0ed0a5a50bac1aa336a7a8df3324a47b11bfbd6a1d6cb0e01a158d01",
+    "capacity_original_closure": "20533611fefac671e457ffdebad712dda77ddef33c21c5b6c8a80078b37dcd57",
+    "management_binding_sha256": "b0abb0bb21ef2a42bd38090cc4a82375812e5b9b77a19e7063033ea98077483a",
+    "r6_strict_sha256": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52",
+    "r6_enhanced_sha256": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9"
+  },
+  "public_changes": [
+    "consumer default provider path resolved relative to its package; no business-policy change",
+    "script imports/root paths relocated under scripts; tests retain semantics",
+    "capacity contract private exclusive_root metadata removed; candidate source unchanged",
+    "synthetic paired fixture cropped to required anonymous fields and source pins",
+    "public metadata/closure/concise handoff generated; original private audit artifacts excluded"
+  ],
+  "remaining_gates": [
+    "B complete original question grounding and actual tenant/name API conditions",
+    "real trusted HTTP/schema/pages/capture and B typed loader/SQL protection",
+    "final envelope/URL UTF8 wire4096 and official depth",
+    "authoritative physical/database/AZ/EIP/VM relationships and C source units/scope/partial policies",
+    "explicit current compact132+r6 and management current-B pair binding"
+  ],
+  "restrictions": {
+    "model_calls": 0,
+    "business_API_calls": 0,
+    "native_business_SQL_runs": 0,
+    "official_evaluation_runs": 0,
+    "new_score_claim": false,
+    "sealed_or_question_content_published": false,
+    "native_receipts_or_business_rows_published": false,
+    "private_arrays_published": false,
+    "old_rejected_commit_included": false,
+    "runtime_or_official_source_changed": false
+  }
+}

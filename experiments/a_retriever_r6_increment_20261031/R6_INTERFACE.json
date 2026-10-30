@@ -1,0 +1,71 @@
+{
+  "status": "INDEPENDENT_OFFLINE_PASS_PREPARED_FOR_PUBLICATION_REVIEW_NOT_ENABLED",
+  "variants": {
+    "strict": {
+      "module": "runbook_retriever.strict.py",
+      "module_sha256": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52",
+      "patch": "patches/from-r5.strict.patch",
+      "patch_sha256": "a8487a50852e511a0753983569225713030abf70ad80bc2ac68d2c8f4ac57303",
+      "r5_base_sha256": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6",
+      "required_local_array": {
+        "logical_name": "templates132.strict.private.json",
+        "sha256": "4d790887d487f3f371d8597b517a7e2b2bda1898c591b0e8123b11b79637aac5",
+        "included": false,
+        "scope": "original132v1 independent pairing, not current B compact pair"
+      },
+      "runtime_file_count_with_external_array": 2,
+      "auto_apply": false
+    },
+    "enhanced": {
+      "module": "runbook_retriever.enhanced.py",
+      "module_sha256": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9",
+      "patch": "patches/from-r5.enhanced.patch",
+      "patch_sha256": "bbafd6f8c722a33b96922275c0ca9916dd94be4d8af53c5c36341282b36a1263",
+      "r5_base_sha256": "b3294dcd7672d2ccf283bc79712b85509e877bf89527344830d3434ee9e7bd6e",
+      "required_local_array": {
+        "logical_name": "templates132.enhanced.private.json",
+        "sha256": "3806aaa7248861c826263d2779dde3f4209e2238e3c7e33227b3e13bca468f9e",
+        "included": false,
+        "scope": "original132v1 independent pairing, not current B compact pair"
+      },
+      "runtime_file_count_with_external_array": 2,
+      "auto_apply": false
+    }
+  },
+  "contract": {
+    "lowest_entry": "module._compound_parts(query: str, merge_aggregation=True) -> list[(start,end,text)] | None",
+    "public": "retriever.retrieve(query, top_k=None) -> list[Candidate]",
+    "source_profiles": "retriever.retrieve_profiles(query, top_k=None) -> list[Candidate]",
+    "obligation_evidence": "retriever.retrieve_obligations(query) -> list[dict(start,end,text,candidates)]",
+    "coordinates": "Original Python str Unicode code-point indices, start inclusive/end exclusive; not UTF-8 bytes or UTF-16 units. No Unicode normalization.",
+    "exactness": "0 <= start < end <= len(query); text == query[start:end]; text == text.strip(). Boundary whitespace uses Python str.isspace, matching default str.strip. Internal whitespace and characters unchanged.",
+    "implementation": "Trim start/end locally within the original interval; slice text from that interval. No global find or occurrence guessing.",
+    "same_family": "Separate ordered original spans retained even for same canonical family/profile, different entity or repeated identical substring. Candidate.profile_ids and the ordered source-ID tuples within obligation_spans remain unchanged.",
+    "candidate_fields": [
+      "id",
+      "tier",
+      "score",
+      "coverage",
+      "profile_ids",
+      "obligation_spans"
+    ],
+    "candidate_spans": "tuple[(start,end,tuple[source_profile_ids,...]),...] in original obligation order; exact corrected offsets from evidence. B source_start/source_end should consume these original coordinates without relaxed matching.",
+    "single_requests": "retrieve_obligations(single atomic query) returns [] as before. Use _compound_parts for atomic span and retrieve_profiles for support.",
+    "retrieval_views": "merge_aggregation=False only exposes bounded local BM25 views, not execution obligations; these views also have exact spans.",
+    "budgets": {
+      "max_atomic_clauses": 4,
+      "max_strong_profiles_per_clause": 5,
+      "max_source_profiles": 15,
+      "max_public_candidates": 15,
+      "top_k": "Use None for all-obligation certification; other values may truncate intentionally"
+    },
+    "purity": "No network/model/business API/SQL/filesystem mutation during construction or retrieval; template data unchanged.",
+    "validation_boundary": "Invalid ranges/wrong entity/occurrence controls test an exact local validator. No new range-accepting runtime API or changes to B validator; B execution/selection/parameter policy require independent testing.",
+    "region": "No region or default parameter introduced or applied."
+  },
+  "B_current_commit_reference": "2c6ddfd532d5ee7990d6f642d577af1a18b8aa55",
+  "B_current_runtime": "strict_r5 + compact132, remains unchanged",
+  "B_current_r6_pair_verified": false,
+  "full_test_baseline_modified": false,
+  "template_arrays_included": false
+}

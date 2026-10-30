@@ -1,0 +1,9 @@
+{
+  "status": "FROZEN_PROVIDER_INTERFACE",
+  "provider_root": "../provider",
+  "source_sha256": "ae861eebdd59a6b0bcb7b3e17156ffe0718411288e18b7d9a819aab295cbd609",
+  "version": "a-shared-policy-issue4-v1",
+  "protocol": "a-port-batches-v1",
+  "pin_authority": "explicit final r3 SHA from unified independent acceptance; public payload closure is pinned by PUBLIC_MANIFEST.json",
+  "original_provider_closure_sha256": "9e70f36c6d6c0691f48fde839e8e7837d7f6e5b084de0b65243b03326fd9655b"
+}

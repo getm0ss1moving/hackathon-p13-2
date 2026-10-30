@@ -1,0 +1,1211 @@
+{
+  "status": "isolated conditional candidates, not release",
+  "actual_runtime_N_delta": 0,
+  "new_family_ids_total": 3,
+  "inherited_new_family_ids": 1,
+  "this_continuation_new_family_ids": 2,
+  "complete_business_coverage_from_AZ_diagnostic": false,
+  "failure_never_becomes_zero": true,
+  "contracts": [
+    {
+      "family": "vdc_counts",
+      "ids": {
+        "family_id": "NEXT_N28",
+        "profile": "vdc_vm_volume_gaussdb_instance_counts"
+      },
+      "parameter_example_synthetic": {
+        "profile": "vdc_vm_volume_gaussdb_instance_counts",
+        "resource_set": [
+          "VM_NOVA",
+          "VOLUME",
+          "GAUSSDB_INSTANCE"
+        ],
+        "group": "vdcName",
+        "layout": "grouped_counts_wide",
+        "metric": "count_rows",
+        "filters": {
+          "logicalRegionName": "region-test"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_validator": "core/vdc_counts.py unchanged original closed validator",
+      "input_schema": {
+        "VM_NOVA": [
+          "id",
+          "logicalRegionName",
+          "vdcName"
+        ],
+        "VOLUME": [
+          "id",
+          "logicalRegionName",
+          "vdcName"
+        ],
+        "GAUSSDB_INSTANCE": [
+          "id",
+          "logicalRegionName",
+          "vdcName"
+        ]
+      },
+      "nullable_fields": {
+        "VM_NOVA": [
+          "vdcName"
+        ],
+        "VOLUME": [
+          "vdcName"
+        ],
+        "GAUSSDB_INSTANCE": [
+          "vdcName"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "operator": "equal",
+                  "value": "region-test"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "operator": "equal",
+                  "value": "region-test"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "operator": "equal",
+                  "value": "region-test"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        }
+      ],
+      "sql": "WITH a0 AS (SELECT vdcName d,COUNT(*) n FROM CLOUD_VM_NOVA WHERE logicalRegionName='region-test' GROUP BY vdcName),a1 AS (SELECT vdcName d,COUNT(*) n FROM CLOUD_VOLUME WHERE logicalRegionName='region-test' GROUP BY vdcName),a2 AS (SELECT vdcName d,COUNT(*) n FROM CLOUD_GAUSSDB_INSTANCE WHERE logicalRegionName='region-test' GROUP BY vdcName),d AS (SELECT d FROM a0 UNION SELECT d FROM a1 UNION SELECT d FROM a2) SELECT d.d AS vdc_name,COALESCE(a0.n,0) AS ecs_count,COALESCE(a1.n,0) AS volume_count,COALESCE(a2.n,0) AS gaussdb_instance_count FROM d LEFT JOIN a0 ON d.d IS a0.d LEFT JOIN a1 ON d.d IS a1.d LEFT JOIN a2 ON d.d IS a2.d ORDER BY d.d IS NOT NULL,d.d",
+      "output_columns": [
+        "vdc_name",
+        "ecs_count",
+        "volume_count",
+        "gaussdb_instance_count"
+      ],
+      "empty": "all three success-empty => zero rows; observed VDC domain union only",
+      "unknown": "schema-declared missing/blank vdcName => NULL name bucket, never actual VDC identity; independent three populations",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "tenant",
+      "ids": {
+        "id": "A_ISSUE3_RANKED_TENANT_DETAILS"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test",
+        "metric": "vm_count",
+        "tie_policy": "all_ties",
+        "unknown_tenant_policy": "exclude_with_diagnostic"
+      },
+      "parameter_validator": "core/tenant.py unchanged original closed validator",
+      "input_schema": {
+        "VM_NOVA": [
+          "id",
+          "tenantId",
+          "tenantName",
+          "logicalRegionName",
+          "name",
+          "ipAddress",
+          "privateIps",
+          "floatingIp"
+        ],
+        "VOLUME": [
+          "id",
+          "tenantId",
+          "tenantName",
+          "logicalRegionName",
+          "name",
+          "size",
+          "status"
+        ],
+        "R_VOLUME_MOUNTON_VM": [
+          "id",
+          "vmId",
+          "volumeId"
+        ]
+      },
+      "nullable_fields": {
+        "VM_NOVA": [
+          "floatingIp",
+          "ipAddress",
+          "name",
+          "privateIps",
+          "tenantId",
+          "tenantName"
+        ],
+        "VOLUME": [
+          "name",
+          "size",
+          "status",
+          "tenantId",
+          "tenantName"
+        ],
+        "R_VOLUME_MOUNTON_VM": []
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/relations/R_VOLUME_MOUNTON_VM?pageNo=1&pageSize=1000"
+        }
+      ],
+      "sql": "WITH scoped AS (\n SELECT * FROM CLOUD_VM_NOVA WHERE logicalRegionName='region-test'\n), tenant_counts AS (\n SELECT tenantId, COUNT(DISTINCT id) AS resource_count\n FROM scoped WHERE tenantId IS NOT NULL GROUP BY tenantId\n), winners AS (\n SELECT tenantId, resource_count FROM tenant_counts\n WHERE resource_count=(SELECT MAX(resource_count) FROM tenant_counts)\n), mounts AS (\n SELECT DISTINCT vmId, volumeId FROM R_VOLUME_MOUNTON_VM\n), scoped_volumes AS (\n SELECT * FROM CLOUD_VOLUME WHERE logicalRegionName='region-test'\n)\nSELECT w.tenantId AS tenant_id, d.tenantName AS tenant_name, w.resource_count,\n d.id AS vm_id,d.name AS vm_name,d.ipAddress AS ip_address,d.privateIps AS private_ips,d.floatingIp AS floating_ip,\n m.volumeId AS referenced_volume_id,v.id AS volume_id,v.name AS volume_name,\n v.size AS volume_size_raw,v.status AS volume_status,\n CASE WHEN m.vmId IS NULL THEN 'no_mount' WHEN v.id IS NULL THEN 'unresolved_volume' ELSE 'resolved' END AS mount_status\nFROM winners w JOIN scoped d ON d.tenantId=w.tenantId\nLEFT JOIN mounts m ON m.vmId=d.id\nLEFT JOIN scoped_volumes v ON v.id=m.volumeId\nORDER BY w.tenantId,d.id,m.volumeId",
+      "output_columns": [
+        "tenant_id",
+        "tenant_name",
+        "resource_count",
+        "vm_id",
+        "vm_name",
+        "ip_address",
+        "private_ips",
+        "floating_ip",
+        "referenced_volume_id",
+        "volume_id",
+        "volume_name",
+        "volume_size_raw",
+        "volume_status",
+        "mount_status"
+      ],
+      "empty": "no known ranked owner => no leader rows; unknown counts retained; zero resources is distinct from unknown identity",
+      "unknown": "missing tenantId => unresolved owner population; all known ties are lower-bound leaders; raw IP encodings retained; unknown/mount diagnostic",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "ranked_pool",
+      "ids": {
+        "id": "A_NEXT_VOLUME_CAPACITY_VDC_POOLS",
+        "profile": "volume_capacity_max_vdc_pools"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test",
+        "tie_policy": "all_ties",
+        "unknown_owner_policy": "known_only",
+        "unknown_size_policy": "known_only"
+      },
+      "parameter_validator": "core/ranked_pool.py unchanged original closed validator",
+      "input_schema": {
+        "VOLUME": [
+          "id",
+          "logicalRegionName",
+          "vdcId",
+          "vdcName",
+          "size",
+          "attachBackendId"
+        ],
+        "STORAGE_POOL": [
+          "id",
+          "logicalRegionName",
+          "poolName",
+          "totalCapacityGB",
+          "freeCapacityGB",
+          "allocatedCapacityGB",
+          "provisionedCapacityGB"
+        ]
+      },
+      "nullable_fields": {
+        "VOLUME": [
+          "attachBackendId",
+          "size",
+          "vdcId",
+          "vdcName"
+        ],
+        "STORAGE_POOL": [
+          "allocatedCapacityGB",
+          "freeCapacityGB",
+          "poolName",
+          "provisionedCapacityGB",
+          "totalCapacityGB"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "WITH v AS (SELECT * FROM CLOUD_VOLUME WHERE logicalRegionName='region-test'),\ng AS (SELECT logicalRegionName,vdcId,CASE WHEN COUNT(DISTINCT vdcName)=1 THEN MIN(vdcName) END dn,\n COUNT(*) n,SUM(COALESCE(size_scaled,0)) k,SUM(size_scaled IS NULL) u,SUM(attachBackendId IS NULL) b\n FROM v WHERE vdcId IS NOT NULL GROUP BY logicalRegionName,vdcId),\nw AS (SELECT * FROM g WHERE k=(SELECT MAX(k) FROM g)),\nrefs AS (SELECT DISTINCT logicalRegionName,vdcId,attachBackendId FROM v WHERE attachBackendId IS NOT NULL)\nSELECT w.logicalRegionName AS logical_region_name,w.vdcId AS vdc_id,w.dn AS vdc_name,w.n AS volume_count,\n CASE WHEN w.k%1000000=0 THEN CAST(w.k/1000000 AS TEXT) ELSE CAST(w.k/1000000 AS TEXT)||'.'||RTRIM(printf('%06d',w.k%1000000),'0') END AS known_volume_size_source_units,w.u AS unknown_size_volume_count,\n CASE WHEN w.u=0 AND NOT EXISTS(SELECT 1 FROM v WHERE vdcId IS NULL) THEN CASE WHEN w.k%1000000=0 THEN CAST(w.k/1000000 AS TEXT) ELSE CAST(w.k/1000000 AS TEXT)||'.'||RTRIM(printf('%06d',w.k%1000000),'0') END END AS total_volume_size_if_complete_source_units,\n w.b AS unknown_backend_volume_count,r.attachBackendId AS referenced_pool_id,p.id AS pool_id,p.poolName AS pool_name,\n CASE WHEN r.attachBackendId IS NULL THEN 'no_pool_reference' WHEN p.id IS NULL THEN 'unresolved_pool' ELSE 'resolved' END AS pool_state,\n p.totalCapacityGB AS pool_total_capacity_raw,p.freeCapacityGB AS pool_free_capacity_raw,\n p.allocatedCapacityGB AS pool_allocated_capacity_raw,p.provisionedCapacityGB AS pool_provisioned_capacity_raw\nFROM w LEFT JOIN refs r ON r.logicalRegionName=w.logicalRegionName AND r.vdcId=w.vdcId\nLEFT JOIN CLOUD_STORAGE_POOL p ON p.id=r.attachBackendId AND p.logicalRegionName=w.logicalRegionName\nORDER BY w.logicalRegionName,w.vdcId,r.attachBackendId",
+      "output_columns": [
+        "logical_region_name",
+        "vdc_id",
+        "vdc_name",
+        "volume_count",
+        "known_volume_size_source_units",
+        "unknown_size_volume_count",
+        "total_volume_size_if_complete_source_units",
+        "unknown_backend_volume_count",
+        "referenced_pool_id",
+        "pool_id",
+        "pool_name",
+        "pool_state",
+        "pool_total_capacity_raw",
+        "pool_free_capacity_raw",
+        "pool_allocated_capacity_raw",
+        "pool_provisioned_capacity_raw"
+      ],
+      "empty": "no known VDC volume population => no leader rows; unknown owner/size still diagnostic",
+      "unknown": "known_only retains unknown-owner/unknown-size volumes and source-unit lower bounds; unknown owner known-size sum separate; no global winner; pool links/attributes separate",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "cluster",
+      "ids": {
+        "id": "A_NEXT_CLUSTER_RANKED_HOSTS",
+        "profile": "cluster_max_vm_host_running_details"
+      },
+      "parameter_example_synthetic": {
+        "profile": "cluster_max_vm_host_running_details",
+        "filters": {
+          "azoneName": "zone-test"
+        },
+        "tie_policy": "all_ties",
+        "unknown_rank_policy": "known_only_with_diagnostic",
+        "details_population": "all_hosts_all_active_VMs"
+      },
+      "parameter_validator": "core/cluster.py unchanged original closed validator",
+      "input_schema": {
+        "VM_NOVA": [
+          "id",
+          "name",
+          "logicalRegionName",
+          "azoneName",
+          "clusterId",
+          "hostId",
+          "status"
+        ],
+        "CLUSTER": [
+          "id",
+          "name",
+          "logicalRegionName"
+        ],
+        "M_ClusterContainsPhyHost": [
+          "id",
+          "source_Instance_Id",
+          "target_Instance_Id"
+        ],
+        "HOST": [
+          "id",
+          "name",
+          "logicalRegionName",
+          "totalVcpuCores"
+        ]
+      },
+      "nullable_fields": {
+        "VM_NOVA": [
+          "azoneName",
+          "clusterId",
+          "hostId",
+          "status"
+        ],
+        "CLUSTER": [],
+        "M_ClusterContainsPhyHost": [
+          "source_Instance_Id",
+          "target_Instance_Id"
+        ],
+        "HOST": [
+          "totalVcpuCores"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/CLUSTER?pageNo=1&pageSize=1000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/relations/M_ClusterContainsPhyHost?pageNo=1&pageSize=1000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=1000"
+        }
+      ],
+      "sql": "WITH r AS(SELECT v.rank_cluster_id cid,COUNT(DISTINCT v.id) n FROM CLOUD_VM_NOVA v\n WHERE v.rank_eligible=1 AND v.rank_cluster_id IS NOT NULL AND v.azoneName='zone-test' GROUP BY v.rank_cluster_id),\nw AS(SELECT c.id cid,c.name cn,c.logicalRegionName rg,c.host_graph_complete gc,r.n FROM r JOIN CLOUD_CLUSTER c ON c.id=r.cid WHERE r.n=(SELECT MAX(n) FROM r)),\ne AS(SELECT DISTINCT x.source_Instance_Id cid,x.target_Instance_Id hid FROM M_ClusterContainsPhyHost x JOIN w ON w.cid=x.source_Instance_Id),\nh AS(SELECT e.cid,e.hid,h.id id,h.name hn,h.totalVcpuCores raw,h.vcpu_known cpu FROM e JOIN w ON w.cid=e.cid LEFT JOIN CLOUD_HOST h ON h.id=e.hid AND h.logicalRegionName=w.rg),\ns AS(SELECT cid,SUM(COALESCE(cpu,0)) k,SUM(cpu IS NULL) u FROM h GROUP BY cid)\nSELECT w.cid AS cluster_id,w.cn AS cluster_name,w.rg AS cluster_logical_region_name,w.n AS rank_vm_count,\nh.hid AS reference_host_id,h.id AS host_id,h.hn AS host_name,h.raw AS host_vcpu_raw,\nCOALESCE(s.k,0) AS known_cluster_host_vcpu,COALESCE(s.u,0) AS unknown_host_vcpu_count,\nCASE WHEN w.gc=1 AND COALESCE(s.u,0)=0 THEN COALESCE(s.k,0) END AS complete_cluster_host_vcpu,\nv.id AS running_vm_id,v.name AS running_vm_name,v.status AS running_vm_status,\nCASE WHEN h.cid IS NULL THEN 'no_host_reference' WHEN h.hid IS NULL THEN 'unknown_host_reference' WHEN h.id IS NULL THEN 'unresolved_host' ELSE 'resolved' END AS host_link_status\nFROM w LEFT JOIN h ON h.cid=w.cid LEFT JOIN s ON s.cid=w.cid\nLEFT JOIN CLOUD_VM_NOVA v ON v.hostId=h.hid AND v.logicalRegionName=w.rg AND v.is_running=1\nORDER BY w.rg,w.cid,h.hid,v.id",
+      "output_columns": [
+        "cluster_id",
+        "cluster_name",
+        "cluster_logical_region_name",
+        "rank_vm_count",
+        "reference_host_id",
+        "host_id",
+        "host_name",
+        "host_vcpu_raw",
+        "known_cluster_host_vcpu",
+        "unknown_host_vcpu_count",
+        "complete_cluster_host_vcpu",
+        "running_vm_id",
+        "running_vm_name",
+        "running_vm_status",
+        "host_link_status"
+      ],
+      "empty": "no known ranked cluster with scoped VM => no leader rows; no zero-VM catalog winner claim",
+      "unknown": "unknown rank scope/cluster => lower-bound leaders; rank filter does not shrink global host/VM detail context; native integer host CPU only",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "network",
+      "ids": {
+        "family_id": "vpc_child_counts"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test",
+        "vdcName": "vdc-test"
+      },
+      "parameter_validator": "core/network.py unchanged original closed validator",
+      "input_schema": {
+        "ROUTER": [
+          "id",
+          "name",
+          "nativeId",
+          "logicalRegionName",
+          "vdcName"
+        ],
+        "PORT": [
+          "id",
+          "devNativeId",
+          "logicalRegionName"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "id",
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [
+          "id",
+          "logicalRegionName"
+        ],
+        "FLOATING_IPS": [
+          "id",
+          "routerId",
+          "logicalRegionName"
+        ]
+      },
+      "nullable_fields": {
+        "ROUTER": [
+          "vdcName"
+        ],
+        "PORT": [
+          "devNativeId"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [],
+        "FLOATING_IPS": [
+          "routerId"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/relations/R_PORT_IN_SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "WITH parents AS (\n SELECT DISTINCT id, name, nativeId, logicalRegionName FROM CLOUD_ROUTER\n WHERE logicalRegionName='region-test' AND vdcName='vdc-test'\n), refs AS (\n SELECT DISTINCT p.id AS vpc_id, r.subnetId AS subnet_id\n FROM parents p JOIN CLOUD_PORT t\n ON t.devNativeId=p.nativeId AND t.logicalRegionName=p.logicalRegionName\n JOIN R_PORT_IN_SUBNET r ON r.portId=t.id\n WHERE r.subnetId IS NOT NULL AND r.subnetId<>''\n), subnet_counts AS (\n SELECT r.vpc_id, COUNT(*) AS referenced_subnet_count,\n SUM(CASE WHEN EXISTS (SELECT 1 FROM CLOUD_SUBNET s WHERE s.id=r.subnet_id AND s.logicalRegionName='region-test') THEN 1 ELSE 0 END) AS resolved_subnet_count\n FROM refs r GROUP BY r.vpc_id\n), eip_counts AS (\n SELECT e.routerId AS vpc_id, COUNT(DISTINCT e.id) AS known_eip_count\n FROM CLOUD_FLOATING_IPS e JOIN parents p ON p.id=e.routerId\n WHERE e.logicalRegionName='region-test' GROUP BY e.routerId\n)\nSELECT p.id AS vpc_id, p.name AS vpc_name,\n COALESCE(s.resolved_subnet_count,0) AS resolved_subnet_count,\n COALESCE(s.referenced_subnet_count,0) AS referenced_subnet_count,\n COALESCE(s.referenced_subnet_count,0)-COALESCE(s.resolved_subnet_count,0) AS unresolved_subnet_count,\n COALESCE(e.known_eip_count,0) AS known_eip_count\nFROM parents p LEFT JOIN subnet_counts s ON s.vpc_id=p.id\nLEFT JOIN eip_counts e ON e.vpc_id=p.id ORDER BY p.id",
+      "output_columns": [
+        "vpc_id",
+        "vpc_name",
+        "resolved_subnet_count",
+        "referenced_subnet_count",
+        "unresolved_subnet_count",
+        "known_eip_count"
+      ],
+      "empty": "no known matching VDC parent => zero parent rows plus unknown catalog diagnostic",
+      "unknown": "unknown VDC parents remain full catalog; known selected parents coexist with unknown scope count; no full scope certification",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "hierarchy",
+      "ids": {
+        "family_id": "vpc_hierarchy"
+      },
+      "parameter_example_synthetic": {
+        "view": "hierarchy_rows"
+      },
+      "parameter_validator": "core/hierarchy.py unchanged original closed validator",
+      "input_schema": {
+        "ROUTER": [
+          "id",
+          "name",
+          "nativeId",
+          "logicalRegionName"
+        ],
+        "PORT": [
+          "id",
+          "devNativeId",
+          "devId",
+          "logicalRegionName"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "id",
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [
+          "id",
+          "name",
+          "cidr",
+          "logicalRegionName"
+        ],
+        "VM_NOVA": [
+          "id",
+          "resId",
+          "name",
+          "logicalRegionName"
+        ]
+      },
+      "nullable_fields": {
+        "ROUTER": [
+          "name",
+          "nativeId"
+        ],
+        "PORT": [
+          "devId",
+          "devNativeId"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [
+          "cidr",
+          "name"
+        ],
+        "VM_NOVA": [
+          "name",
+          "resId"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/relations/R_PORT_IN_SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        }
+      ],
+      "sql": "WITH p AS (SELECT * FROM CLOUD_ROUTER WHERE 1=1),\n vr AS (SELECT DISTINCT p.id AS vpc_id,router_relation.subnetId AS subnet_ref FROM p\n JOIN CLOUD_PORT router_port ON router_port.devNativeId=p.nativeId AND router_port.logicalRegionName=p.logicalRegionName\n LEFT JOIN R_PORT_IN_SUBNET router_relation ON router_relation.portId=router_port.id),\n vl AS (SELECT DISTINCT vm_relation.subnetId AS subnet_ref,vm_relation.id AS link_id,vm_relation.portId AS port_ref,vm_port.id AS port_id,\n vm_port.devId AS vm_ref,vm_port.logicalRegionName AS region,v.id AS vm_id,v.name AS vm_name\n FROM R_PORT_IN_SUBNET vm_relation LEFT JOIN CLOUD_PORT vm_port ON vm_port.id=vm_relation.portId\n LEFT JOIN CLOUD_VM_NOVA v ON v.resId=vm_port.devId AND v.logicalRegionName=vm_port.logicalRegionName\n WHERE NOT EXISTS (SELECT 1 FROM CLOUD_ROUTER q WHERE q.nativeId=vm_port.devNativeId AND q.logicalRegionName=vm_port.logicalRegionName)),\n h AS (SELECT DISTINCT p.id AS vpc_id,p.name AS vpc_name,p.logicalRegionName AS region_name,\n vr.subnet_ref AS subnet_reference_id,s.id AS subnet_id,s.name AS subnet_name,s.cidr AS subnet_cidr,\n CASE WHEN p.nativeId IS NULL THEN 'unknown_vpc_native' WHEN vr.vpc_id IS NULL THEN 'no_known_subnet' WHEN vr.subnet_ref IS NULL THEN 'unknown_subnet_reference' WHEN s.id IS NULL THEN 'unresolved_subnet' ELSE 'resolved' END AS subnet_link_status,\n CASE WHEN vl.vm_id IS NULL THEN vl.port_ref ELSE NULL END AS vm_port_reference_id,\n vl.vm_ref AS vm_reference_res_id,vl.vm_id,vl.vm_name,\n CASE WHEN vr.subnet_ref IS NULL THEN 'not_evaluable' WHEN vl.link_id IS NULL THEN 'no_known_vm' WHEN vl.port_id IS NULL THEN 'unresolved_port' WHEN vl.vm_ref IS NULL THEN 'unknown_vm_reference' WHEN vl.vm_id IS NULL THEN 'unresolved_vm' ELSE 'resolved' END AS vm_link_status\n FROM p LEFT JOIN vr ON vr.vpc_id=p.id LEFT JOIN CLOUD_SUBNET s ON s.id=vr.subnet_ref AND s.logicalRegionName=p.logicalRegionName\n LEFT JOIN vl ON vl.subnet_ref=vr.subnet_ref AND (vl.region=p.logicalRegionName OR vl.region IS NULL)) SELECT (SELECT COUNT(*) FROM CLOUD_ROUTER) AS catalog_vpc_count,(SELECT COUNT(*) FROM p) AS selected_vpc_count,'hierarchy' AS row_kind,vpc_id,vpc_name,region_name,subnet_reference_id,subnet_id,subnet_name,subnet_cidr,subnet_link_status,vm_port_reference_id,vm_reference_res_id,vm_id,vm_name,vm_link_status FROM h UNION ALL SELECT (SELECT COUNT(*) FROM CLOUD_ROUTER),(SELECT COUNT(*) FROM p),'summary_only',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL WHERE NOT EXISTS (SELECT 1 FROM p)",
+      "output_columns": [
+        "catalog_vpc_count",
+        "selected_vpc_count",
+        "row_kind",
+        "vpc_id",
+        "vpc_name",
+        "region_name",
+        "subnet_reference_id",
+        "subnet_id",
+        "subnet_name",
+        "subnet_cidr",
+        "subnet_link_status",
+        "vm_port_reference_id",
+        "vm_reference_res_id",
+        "vm_id",
+        "vm_name",
+        "vm_link_status"
+      ],
+      "empty": "no selected parent => summary_only row, catalog/selected counts; no invented parent",
+      "unknown": "unknown/unresolved ports, subnet/VM endpoints, displays remain separate diagnostics; PORT projection-equivalent duplicates only",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "named_vpc",
+      "ids": {
+        "family_id": "named_vpc_subnet_eip_counts"
+      },
+      "parameter_example_synthetic": {
+        "profile": "named_vpc_subnet_eip_counts",
+        "filters": {
+          "name": "named-test",
+          "logicalRegionName": "region-test"
+        },
+        "required_filters": [
+          "name",
+          "logicalRegionName"
+        ],
+        "same_name_policy": "all_matching_parent_ids"
+      },
+      "parameter_validator": "core/named_vpc.py unchanged original closed validator",
+      "input_schema": {
+        "ROUTER": [
+          "id",
+          "name",
+          "nativeId",
+          "logicalRegionName"
+        ],
+        "PORT": [
+          "id",
+          "devNativeId",
+          "logicalRegionName"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "id",
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [
+          "id",
+          "logicalRegionName"
+        ],
+        "FLOATING_IPS": [
+          "id",
+          "routerId",
+          "logicalRegionName"
+        ]
+      },
+      "nullable_fields": {
+        "ROUTER": [
+          "nativeId"
+        ],
+        "PORT": [
+          "devNativeId"
+        ],
+        "R_PORT_IN_SUBNET": [
+          "portId",
+          "subnetId"
+        ],
+        "SUBNET": [],
+        "FLOATING_IPS": [
+          "routerId"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/PORT?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/relations/R_PORT_IN_SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "named-test",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "WITH p AS (SELECT * FROM CLOUD_ROUTER WHERE name='named-test' AND logicalRegionName='region-test'),\nrefs AS (SELECT DISTINCT p.id AS vpc_id,r.subnetId AS subnet_id\n FROM p JOIN CLOUD_PORT t ON t.devNativeId=p.nativeId AND t.logicalRegionName=p.logicalRegionName\n JOIN R_PORT_IN_SUBNET r ON r.portId=t.id WHERE r.subnetId IS NOT NULL),\nsc AS (SELECT r.vpc_id,COUNT(*) AS referenced,\n SUM(CASE WHEN s.id IS NOT NULL THEN 1 ELSE 0 END) AS resolved\n FROM refs r JOIN p ON p.id=r.vpc_id\n LEFT JOIN CLOUD_SUBNET s ON s.id=r.subnet_id AND s.logicalRegionName=p.logicalRegionName GROUP BY r.vpc_id),\nec AS (SELECT p.id AS vpc_id,COUNT(DISTINCT e.id) AS known_eip\n FROM p JOIN CLOUD_FLOATING_IPS e ON e.routerId=p.id AND e.logicalRegionName=p.logicalRegionName GROUP BY p.id)\nSELECT p.id AS vpc_id,p.name AS vpc_name,p.logicalRegionName AS logical_region_name,\n COALESCE(sc.resolved,0) AS resolved_subnet_count,COALESCE(sc.referenced,0) AS referenced_subnet_count,\n COALESCE(sc.referenced,0)-COALESCE(sc.resolved,0) AS unresolved_subnet_count,\n COALESCE(ec.known_eip,0) AS known_eip_count\nFROM p LEFT JOIN sc ON sc.vpc_id=p.id LEFT JOIN ec ON ec.vpc_id=p.id ORDER BY p.id",
+      "output_columns": [
+        "vpc_id",
+        "vpc_name",
+        "logical_region_name",
+        "resolved_subnet_count",
+        "referenced_subnet_count",
+        "unresolved_subnet_count",
+        "known_eip_count"
+      ],
+      "empty": "no actual exact-name matching identities => zero parent rows, successful selection receipt required",
+      "unknown": "full parent catalog plus actual name-selection response must agree; same-name explicit policy retained; unowned EIP/PORT diagnostics",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "capacity",
+      "ids": {
+        "id": "A_ISSUE3_VDC_CAPACITY"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test"
+      },
+      "parameter_validator": "core/capacity.py unchanged original closed validator",
+      "input_schema": {
+        "VM_NOVA": [
+          "id",
+          "logicalRegionName",
+          "vdcName",
+          "flavorId"
+        ],
+        "FLAVOR": [
+          "id",
+          "logicalRegionName",
+          "vcpuSize"
+        ],
+        "VOLUME": [
+          "id",
+          "logicalRegionName",
+          "vdcName",
+          "size"
+        ],
+        "GAUSSDB_NODE": [
+          "id",
+          "logicalRegionName",
+          "vdcName"
+        ]
+      },
+      "nullable_fields": {
+        "VM_NOVA": [
+          "flavorId",
+          "vdcName"
+        ],
+        "FLAVOR": [
+          "vcpuSize"
+        ],
+        "VOLUME": [
+          "size",
+          "vdcName"
+        ],
+        "GAUSSDB_NODE": [
+          "vdcName"
+        ]
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLAVOR?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_NODE?pageNo=1&pageSize=1000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          },
+          "autoPagination": true
+        }
+      ],
+      "sql": "WITH\nv AS (SELECT v.vdcName d,COUNT(*) n,\n SUM(CASE WHEN (TRIM(CAST(f.vcpuSize AS TEXT))<>'' AND TRIM(CAST(f.vcpuSize AS TEXT)) NOT GLOB '*[^0-9]*') THEN CAST(f.vcpuSize AS INTEGER) ELSE 0 END) k,\n SUM(CASE WHEN (TRIM(CAST(f.vcpuSize AS TEXT))<>'' AND TRIM(CAST(f.vcpuSize AS TEXT)) NOT GLOB '*[^0-9]*') THEN 0 ELSE 1 END) u\n FROM CLOUD_VM_NOVA v LEFT JOIN CLOUD_FLAVOR f\n ON v.flavorId=f.id AND v.logicalRegionName=f.logicalRegionName\n WHERE v.logicalRegionName='region-test' GROUP BY v.vdcName),\nw AS (SELECT vdcName d,COUNT(*) n,\n SUM(CASE WHEN (TRIM(CAST(size AS TEXT))<>'' AND TRIM(CAST(size AS TEXT)) NOT GLOB '*[^0-9.]*' AND LENGTH(TRIM(CAST(size AS TEXT)))-LENGTH(REPLACE(TRIM(CAST(size AS TEXT)),'.',''))<=1 AND TRIM(CAST(size AS TEXT))<>'.') THEN CAST(size AS REAL) ELSE 0 END) k,\n SUM(CASE WHEN (TRIM(CAST(size AS TEXT))<>'' AND TRIM(CAST(size AS TEXT)) NOT GLOB '*[^0-9.]*' AND LENGTH(TRIM(CAST(size AS TEXT)))-LENGTH(REPLACE(TRIM(CAST(size AS TEXT)),'.',''))<=1 AND TRIM(CAST(size AS TEXT))<>'.') THEN 0 ELSE 1 END) u\n FROM CLOUD_VOLUME WHERE logicalRegionName='region-test' GROUP BY vdcName),\ng AS (SELECT vdcName d,COUNT(*) n FROM CLOUD_GAUSSDB_NODE\n WHERE logicalRegionName='region-test' GROUP BY vdcName),\nd AS (SELECT d FROM v UNION SELECT d FROM w UNION SELECT d FROM g)\nSELECT d.d AS vdc_name,COALESCE(v.k,0) AS known_vcpu,\n COALESCE(v.u,0) AS unknown_cpu_vm_count,\n CASE WHEN COALESCE(v.u,0)=0 THEN COALESCE(v.k,0) END AS total_vcpu_if_complete,\n COALESCE(w.k,0) AS known_volume_size,COALESCE(w.u,0) AS unknown_volume_count,\n CASE WHEN COALESCE(w.u,0)=0 THEN COALESCE(w.k,0) END AS total_volume_size_if_complete,\n COALESCE(g.n,0) AS gaussdb_node_count\nFROM d LEFT JOIN v ON d.d IS v.d LEFT JOIN w ON d.d IS w.d\nLEFT JOIN g ON d.d IS g.d ORDER BY d.d IS NOT NULL,d.d",
+      "output_columns": [
+        "vdc_name",
+        "known_vcpu",
+        "unknown_cpu_vm_count",
+        "total_vcpu_if_complete",
+        "known_volume_size",
+        "unknown_volume_count",
+        "total_volume_size_if_complete",
+        "gaussdb_node_count"
+      ],
+      "empty": "all independent source populations empty => zero VDC rows; missing branch within observed group gives known zero",
+      "unknown": "missing flavor/CPU/size => unknown metric counts and NULL complete sum; NULL VDC preserved; nodes independent; units source unconverted",
+      "failure": "shared_policy.Unsupported or existing core blocked; never success zero/COUNT1; exact request/schema/full pages required",
+      "typed_preparation": "adapters.prepare_local; recheck_prepared recomputes from actual stored raw receipts",
+      "raw_and_canonical_receipts": true,
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "server_rows",
+      "ids": {
+        "id": "family_x86_server_role_rows"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test"
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "cpuArch",
+                  "value": "x86",
+                  "operator": "equal"
+                },
+                "logOp": "and"
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "SELECT id AS server_id,name AS server_name,cpuArch AS cpu_arch,ipAddress AS bmc_ip_address,hostName AS host_name,hostIpAddress AS host_ip_address,hostType AS host_type FROM SYS_X86Server WHERE logicalRegionName='region-test' AND cpuArch='x86' ORDER BY id",
+      "output_columns": [
+        "server_id",
+        "server_name",
+        "cpu_arch",
+        "bmc_ip_address",
+        "host_name",
+        "host_ip_address",
+        "host_type"
+      ],
+      "empty": "server_rows=[]; az_counts retains region AZ catalog zero buckets (or [] if no domain); volume_types gives total0+[] only under successful bound verified empty",
+      "unknown": "cpuArch x86 exact; name=resource display; ipAddress=BMC; separately raw host fields, missing declared optional ->NULL; generic IP display authority unresolved",
+      "failure": "Unsupported; no fallback answer; no default region, fabricated source columns/owners, or COUNT1",
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "az_counts",
+      "ids": {
+        "id": "family_az_resource_population_diagnostic"
+      },
+      "parameter_example_synthetic": {
+        "logicalRegionName": "region-test"
+      },
+      "api": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/AZONE?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region-test",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "sql": "WITH\nv AS (SELECT azoneName d,COUNT(*) n FROM CLOUD_VM_NOVA WHERE logicalRegionName='region-test' GROUP BY azoneName),\nw AS (SELECT azoneName d,COUNT(*) n FROM CLOUD_VOLUME WHERE logicalRegionName='region-test' GROUP BY azoneName),\nc AS (SELECT COUNT(*) n FROM CLOUD_ROUTER WHERE logicalRegionName='region-test'),\nd AS (SELECT name d FROM CLOUD_AZONE WHERE logicalRegionName='region-test' UNION SELECT d FROM v UNION SELECT d FROM w\n UNION SELECT NULL WHERE (SELECT n FROM c)>0),\nu AS (SELECT COALESCE((SELECT n FROM v WHERE d IS NULL),0) v,COALESCE((SELECT n FROM w WHERE d IS NULL),0) w)\nSELECT d.d AS azone_name,CASE WHEN d.d IS NULL THEN 'unknown_az' ELSE 'known_az_name' END AS row_kind,\n COALESCE(v.n,0) AS known_ecs_count,COALESCE(w.n,0) AS known_volume_count,\n CASE WHEN d.d IS NULL THEN c.n ELSE 0 END AS known_vpc_count,\n CASE WHEN d.d IS NOT NULL AND u.v=0 THEN COALESCE(v.n,0) END AS ecs_count_if_complete,\n CASE WHEN d.d IS NOT NULL AND u.w=0 THEN COALESCE(w.n,0) END AS volume_count_if_complete,\n CASE WHEN d.d IS NOT NULL AND c.n=0 THEN 0 END AS vpc_count_if_complete\nFROM d CROSS JOIN c CROSS JOIN u LEFT JOIN v ON v.d IS d.d LEFT JOIN w ON w.d IS d.d\nORDER BY d.d IS NOT NULL,d.d",
+      "output_columns": [
+        "azone_name",
+        "row_kind",
+        "known_ecs_count",
+        "known_volume_count",
+        "known_vpc_count",
+        "ecs_count_if_complete",
+        "volume_count_if_complete",
+        "vpc_count_if_complete"
+      ],
+      "empty": "server_rows=[]; az_counts retains region AZ catalog zero buckets (or [] if no domain); volume_types gives total0+[] only under successful bound verified empty",
+      "unknown": "ROUTER source has no AZ; each VPC enters explicit NULL assignment population once; known group count completeness NULL when relevant unknown population exists; partial diagnostic only",
+      "failure": "Unsupported; no fallback answer; no default region, fabricated source columns/owners, or COUNT1",
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    },
+    {
+      "family": "volume_types",
+      "ids": {
+        "id": "family_volume_status_type_counts"
+      },
+      "parameter_example_synthetic": {
+        "view": "human_type_names",
+        "filters": {
+          "status": "error"
+        }
+      },
+      "api": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+        "autoPagination": true,
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "status",
+                "value": "error",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql": "SELECT COUNT(*) AS total_count,CASE WHEN COUNT(*)=0 THEN '[]' END AS type_names_json,CASE WHEN COUNT(*)=0 THEN 1 ELSE 0 END AS type_names_complete FROM A_VOLUME_STATUS_TYPE_COUNTS WHERE status='error'",
+      "output_columns": [
+        "total_count",
+        "type_names_json",
+        "type_names_complete"
+      ],
+      "empty": "server_rows=[]; az_counts retains region AZ catalog zero buckets (or [] if no domain); volume_types gives total0+[] only under successful bound verified empty",
+      "unknown": "human names only proven empty; nonempty needs authoritative catalog; explicit native_type_references mode supports ID grouping with unknown reference bucket, never ID-as-name",
+      "failure": "Unsupported; no fallback answer; no default region, fabricated source columns/owners, or COUNT1",
+      "default_enabled": false,
+      "native_validation": "not performed",
+      "B_pairing": "pending"
+    }
+  ]
+}

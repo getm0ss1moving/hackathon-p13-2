@@ -1,0 +1,24 @@
+{
+  "family_management_vm_details": {
+    "item_id": "family_management_vm_details",
+    "family_id": "family_management_vm_details",
+    "module": "adapter.py",
+    "module_sha256": "76a86958e807040eeb9cfc3de46c8fac5054032dd17d560821d551a88eb7331f",
+    "factory": "bind(legacy_source_root, expected_binding_sha256, enable_experimental=False, prepared_pipeline=False)",
+    "entry": "BoundRouter.prepare_candidate(question,item,parsed,diagnostics=None)",
+    "view": "management_vm_service_flavor_volume_rows",
+    "core_module": "core/candidate.py",
+    "core_module_sha256": "581b3a2f532be36acfd4bc691560353fc67c9f67f76d451e413d34fc0363f8ad",
+    "selection_card": "SELECTION_CARD.json",
+    "selection_card_sha256": "e7b30d1293a61f4d1633fbc866c7d94f57a71a8356a56e4f278d35ed5a5bfeed",
+    "parameter_schema": "PARAMETER_SCHEMA.json",
+    "parameter_schema_sha256": "64ee8e43717e5b7838545f66e5ab44c0803e0600041fabd97fed182bb5bbaf74",
+    "binding": "BINDING.json",
+    "expected_binding_sha256": "external publisher/B pin required; never model supplied",
+    "requires_prepared_inputs": true,
+    "prepared_table": "A_MANAGEMENT_VM_DETAILS",
+    "default_enabled": false,
+    "modifies_old_registry": false,
+    "ordinary_name_added_by_adapter_only": true
+  }
+}

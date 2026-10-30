@@ -1,0 +1,20 @@
+--- candidate.v3.py
++++ candidate.py
+@@ -89,7 +89,7 @@
+       'blocked_reason':{'boundary':'expanded_api_call+sql','measured_bytes':n,'limit_bytes':4096,'reason':'utf8_json_budget_exceeded'} if n>4096 else None,
+       'params':dict(params),'parameter_schema':deepcopy(PARAMETER_SCHEMA),'output_columns':list(OUTPUT_COLUMNS),
+       'required_schema':deepcopy(SCHEMA),'prepared_schema':deepcopy(PREPARED),
+-      'requires_validated_projection':True,'projection_contract':'volume-capacity-vdc-pool-v3-source-rechecked',
++      'requires_validated_projection':True,'projection_contract':'volume-capacity-vdc-pool-v4-nullable-vdc-name',
+       'size_scale':SCALE,'size_unit':'source_raw_unconverted','byte_boundaries':{
+        'encoding':'UTF8 compact JSON ensure_ascii=False','static_api_sql_template_bytes':compact(_render(static)),
+        'expanded_wire_bytes':n,'expanded_wire_limit_bytes':4096,'full_plan_bytes':0,'full_plan_limit_bytes':None,
+@@ -134,6 +134,8 @@
+    batch=page.get('objList')
+    if not isinstance(batch,list) or len(batch)!=min(ps,max(0,total-(index-1)*ps)):return blocked('truncated_page',resource=ci)
+    for raw in batch:
++    if ci=='VOLUME' and isinstance(raw,dict) and 'vdcName' not in raw:
++     raw={**raw,'vdcName':None}
+     if not isinstance(raw,dict) or any(k not in raw for k in SCHEMA[ci]):return blocked('missing_row_schema',resource=ci)
+     if not isinstance(raw['id'],str) or blank(raw['id']):return blocked('missing_identity',resource=ci)
+     if raw['id'] in seen:return blocked('duplicate_identity',resource=ci)

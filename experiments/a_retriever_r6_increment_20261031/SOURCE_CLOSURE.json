@@ -1,0 +1,31 @@
+{
+  "source_delivery_manifest_sha256": "3eeec0368bdf1439b8518e11ff2c4ea44ad9f8a8773449e0126ab589fa078447",
+  "source_interface_sha256": "fa77fbd387c07a1291dfa673f870723c024ebb7dbbb1ffca393306674e9ecde1",
+  "selected_source_files": [
+    {
+      "source_artifact": "candidate/runbook_retriever.strict.py",
+      "path": "runbook_retriever.strict.py",
+      "sha256": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52"
+    },
+    {
+      "source_artifact": "candidate/revision.strict.patch",
+      "path": "patches/from-r5.strict.patch",
+      "sha256": "a8487a50852e511a0753983569225713030abf70ad80bc2ac68d2c8f4ac57303"
+    },
+    {
+      "source_artifact": "candidate/runbook_retriever.enhanced.py",
+      "path": "runbook_retriever.enhanced.py",
+      "sha256": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9"
+    },
+    {
+      "source_artifact": "candidate/revision.enhanced.patch",
+      "path": "patches/from-r5.enhanced.patch",
+      "sha256": "bbafd6f8c722a33b96922275c0ca9916dd94be4d8af53c5c36341282b36a1263"
+    }
+  ],
+  "original_delivery_entry_count": 28,
+  "original28_hash_check_scope": "Publisher read-only complete 28-entry byte verification passed; no cases or arrays interpreted",
+  "private_arrays_and_old_known_case_sets_excluded": true,
+  "cumulative_patch_excluded": "Use exact r5 incremental patch; do not apply an older-base cumulative patch to B",
+  "status": "DEFAULT_DISABLED_CANDIDATE_FOR_B_REVIEW"
+}

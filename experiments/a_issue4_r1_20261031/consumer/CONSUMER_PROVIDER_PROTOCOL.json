@@ -1,0 +1,31 @@
+{
+  "consumer_protocol": "tenant-vm-eip-host-consumer-r2",
+  "provider_protocol": "a-port-batches-v1",
+  "provider_calls": [
+    "collect_port_batches([{request,receipt},...])",
+    "recheck_port_batches(prepared)"
+  ],
+  "source_binding": "PROVIDER_LOCK.json fixed by consumer after provider freeze; module hash checked before import, protocol and output checked; no caller-supplied ready proof",
+  "PORT_input": "raw_receipts.PORT is one complete old-plan region/global raw context receipt, or list [context,...all generated scoped receipts]. Scoped devId in lists come only from validated selected VM resId, grouped by actual region; never rewritten equal or empty IN.",
+  "scope_rule": "context is mandatory for old view directory/orphan diagnostics. Omitted scoped receipts mean explicit context-only plan with port_scoped_batch_set_executed=false, never proof that scoped API ran. Partial scoped batch sets reject. Actual scoped population must equal same-capture complete-context projection.",
+  "provider_result_consumed": [
+    "typed_port_table",
+    "raw_receipts",
+    "canonical_receipts",
+    "canonical_receipt",
+    "input_evidence"
+  ],
+  "PORT_ownership": "All within/across-batch raw business equivalence and duplicate decisions remain provider-owned. Consumer never deduplicates PORT independently.",
+  "other_roles": "VM_NOVA/HOST/FLOATING_IPS independent strict schema/page/type/duplicate policies; EIP isInternal native bool accepted and mapped only to old true/false text, raw receipts unchanged.",
+  "raw_derived": "raw_http describes raw-source protocol, not native authenticity. capture.origin explicitly distinguishes synthetic and B_verified_native assertions. Derived validator inputs are always marked derived_validated_projection_not_HTTP and contain no http_status. They are never accepted as raw, including with forged200.",
+  "view_compatibility": "Old two view names, closed params, original API calls, SQL and output columns retained. Optional VM_NOVA_SELECTION actual request is published in plan.tenant_selection_request and checked against full cross-tenant VM context; missing selection keeps its API-proof flag false.",
+  "full_answer": false,
+  "B_loader_pairing": "pending",
+  "native_execution_certified": false,
+  "evidence_exact_keys": [
+    "capture",
+    "raw_receipts",
+    "question_text"
+  ],
+  "original_question": "required full original question_text retained byte-for-byte as a UTF-8 JSON string, including newlines; no reconstruction or truncation from params"
+}

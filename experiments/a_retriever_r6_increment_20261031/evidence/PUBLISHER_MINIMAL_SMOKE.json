@@ -1,0 +1,41 @@
+{
+  "scope": "exact patch replay, AST and six segmentation cases per variant",
+  "B_actual_runtime_or_model_execution": false,
+  "template_arrays_read": false,
+  "independent50_and12_not_rerun": true,
+  "root_runtime_changed": false,
+  "variants": {
+    "strict": {
+      "patch_sha256": "a8487a50852e511a0753983569225713030abf70ad80bc2ac68d2c8f4ac57303",
+      "r6_sha256": "a236235e98ebcceeb372577fe85fa3d3baa26d7a58edb0775c579d9e4fccca52",
+      "exact_replay": true,
+      "AST_only_span_boundary_delta": true,
+      "minimal_smoke_cases_passed": 6,
+      "case_names": [
+        "reported_AND",
+        "repeated_Unicode",
+        "one_aggregate",
+        "quoted_AND",
+        "only_whitespace",
+        "five_clauses"
+      ],
+      "isolated_B_helper_accepts_unchanged_exact_spans": true
+    },
+    "enhanced": {
+      "patch_sha256": "bbafd6f8c722a33b96922275c0ca9916dd94be4d8af53c5c36341282b36a1263",
+      "r6_sha256": "76bbcd817d2f3ff4b8748061a8134a33f5693bc5d04ee6519d385cac1b6ba8b9",
+      "exact_replay": true,
+      "AST_only_span_boundary_delta": true,
+      "minimal_smoke_cases_passed": 6,
+      "case_names": [
+        "reported_AND",
+        "repeated_Unicode",
+        "one_aggregate",
+        "quoted_AND",
+        "only_whitespace",
+        "five_clauses"
+      ],
+      "isolated_B_helper_accepts_unchanged_exact_spans": true
+    }
+  }
+}

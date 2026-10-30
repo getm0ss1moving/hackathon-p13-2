@@ -1,0 +1,171 @@
+{
+  "protocol": "tenant-vm-eip-host-consumer-r2",
+  "family_id": "tenant_vm_ip_eip_host",
+  "status": "OWNER_PROVIDER_R3_CONSUMER_OFFLINE_PAIRING_PASS_PENDING_UNIFIED_INDEPENDENT_REVIEW",
+  "parameters": {
+    "required": [
+      "view",
+      "tenantName"
+    ],
+    "optional": [
+      "logicalRegionName"
+    ],
+    "additionalProperties": false,
+    "view": [
+      "native_ip_host_rows",
+      "known_port_eip_host_rows"
+    ],
+    "opaque_values": "retain full original UTF-8 text; no defaults, truncation or normalization"
+  },
+  "evidence": {
+    "required": [
+      "capture",
+      "raw_receipts",
+      "question_text"
+    ],
+    "additionalProperties": false,
+    "question_text": "full nonblank original text, including newlines, retained exactly",
+    "capture_fields": [
+      "capture_id",
+      "source_ref",
+      "schema_ref",
+      "origin",
+      "isolation"
+    ],
+    "origin": [
+      "synthetic",
+      "B_verified_native"
+    ],
+    "isolation": [
+      "immutable_snapshot",
+      "best_effort_non_atomic"
+    ]
+  },
+  "APIs": {
+    "legacy": "Original resource requests retained in plan.api_call; native view tenant equal on VM; port view full cross-tenant VM/PORT/HOST/EIP contexts, plus optional real VM_NOVA_SELECTION request",
+    "PORT": "context alone, or context followed by every generated region equal + devId in batch; opaque native lists max100 keys and4096 UTF-8 bytes; no empty-IN/broad dependency fallback",
+    "selection_proof": "omitted optional actual tenant query => actual_tenant_selection_receipt_proven=false; not a native API pass"
+  },
+  "entrypoints": {
+    "build_tenant_view(params)": "compatible plan with explicit tenant_selection_request",
+    "plan_tenant_port_batches(params,vm_context)": "only validated VM context is trusted by prepare; public pure planner alone does not authenticate it",
+    "prepare_tenant_view(params,evidence,provider_root=None)": "returns retained raw/canonical evidence, provider result, typed tables, old SQL, unknown diagnostics",
+    "recheck_tenant_prepared(prepared)": "strict native JSON validation, then recompute actual provider and role projections, compare complete canonical JSON",
+    "execute_tenant_prepared(prepared)": "recheck then memory SQLite helper, old output columns",
+    "evaluate_tenant_view(params,evidence,provider_root=None)": "controlled failure facade ok=false,rows=null,error; never fake successful empty"
+  },
+  "output_keys": [
+    "plan",
+    "typed_tables",
+    "raw_receipts",
+    "canonical_receipts",
+    "input_evidence",
+    "diagnostics",
+    "provider_prepared",
+    "derived_validator_inputs"
+  ],
+  "provider": "actual external SHA and closure in PROVIDER_LOCK.json; only collect_port_batches/recheck_port_batches decide PORT equivalence; provider typed_port_table consumed",
+  "role_schemas": {
+    "VM_NOVA": [
+      "id",
+      "name",
+      "tenantName",
+      "logicalRegionName",
+      "privateIps",
+      "floatingIp",
+      "hostId"
+    ],
+    "VM_NOVA_port_extra": [
+      "resId"
+    ],
+    "HOST": [
+      "id",
+      "name",
+      "ipAddress",
+      "logicalRegionName"
+    ],
+    "PORT": [
+      "id",
+      "devId",
+      "logicalRegionName"
+    ],
+    "FLOATING_IPS": [
+      "id",
+      "portId",
+      "floatingIpAddress",
+      "isInternal",
+      "logicalRegionName"
+    ]
+  },
+  "nullable_only_with_actual_schema": {
+    "VM_NOVA": [
+      "name",
+      "tenantName",
+      "privateIps",
+      "floatingIp",
+      "hostId",
+      "resId"
+    ],
+    "HOST": [
+      "name",
+      "ipAddress"
+    ],
+    "FLOATING_IPS": [
+      "portId",
+      "floatingIpAddress",
+      "isInternal"
+    ],
+    "PORT": "provider schema policy for devId"
+  },
+  "required_even_sparse": "id/logicalRegionName/current exact request filter fields; native VM tenant field cannot be omitted",
+  "sparse": "raw keys and field_states preserve missing/null/empty/whitespace; privateIps raw unchanged, codec used for unknown diagnostics only; FK blanks normalizeNULL with diagnostics",
+  "EIP_roles": "native JSON bool independently maps to true/false text only in typed projection; raw bool and all known internal/external objects preserved; numeric/container roles reject",
+  "relations": "same-region VM.hostId=HOST.id; EIP.portId=PORT.id and PORT.devId=VM.resId; reject cross-tenant region/resId collisions in full VM context; no IP/name ownership guesses",
+  "unknown": "retain VM parent, sparse displays, unknown/dangling host, VM/PORT/EIP endpoint/orphan counts; never certify complete EIP objects",
+  "raw_derived": "all derived validator envelopes/pages marked derived_validated_projection_not_HTTP, no http_status; raw/canonical evidence kept separately; derived/source/canonical markers rejected as raw even with200",
+  "JSON_comparison": "only native string-key dict/list/finite scalars; reject tuple, non-string keys, cycles, NaN/Infinity and invalid UTF-8; bool/int/float distinct",
+  "typed": "CLOUD_* {columns,types(TEXT),collations(BINARY),rows}; actual zero rows, no _empty; PORT table from provider checked against legacy validation",
+  "empty": "successful complete empty raw populations with proven schema => zero output rows and declared output columns; failures not empty",
+  "full_eip_objects_binding_complete": false,
+  "business_complete": false,
+  "full_original_question_certified": false,
+  "B_loader_pairing": "pending",
+  "default_enabled": false,
+  "runtime_N_delta": 0,
+  "native_test_run": false,
+  "push": false,
+  "failure_codes": [
+    "invalid_json",
+    "identity_or_scope_failure",
+    "source_pin_failure",
+    "provider_pending",
+    "invalid_params",
+    "request_too_large",
+    "scope_failure",
+    "evidence_failure",
+    "capture_failure",
+    "receipt_failure",
+    "derived_as_raw",
+    "request_failure",
+    "pagination_failure",
+    "schema_failure",
+    "duplicate_identity",
+    "port_provider_failure",
+    "port_scope_recall_gap",
+    "port_scope_drift",
+    "selection_drift",
+    "relationship_failure",
+    "prepared_failure",
+    "output_failure"
+  ],
+  "inheritance": "exact frozen legacy VM module and address codec bytes; old31/47 independent facts reused separately, not added to consumer pairing coverage",
+  "final_checks": "Fixed provider-r3 and actual paired results recorded; unified independent and B native acceptance still pending",
+  "final_provider_ref": "PROVIDER_LOCK.json",
+  "owner_tests": {
+    "consumer_methods": 43,
+    "actual_paired_controls": 14,
+    "CLI_success_failure": 2,
+    "all_passed": true,
+    "evidence": "VALIDATION_R2.json"
+  }
+}
