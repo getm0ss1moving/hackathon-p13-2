@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "cases": 70,
+  "passed": 70,
+  "false_empty": 0,
+  "false_nonempty": 0,
+  "wrong_ordinary_contract": 0,
+  "pure_prepare_attempts": 937,
+  "by_kind": {
+    "entity_substitution_implicit": {
+      "total": 11,
+      "passed": 11
+    },
+    "explicit_projection": {
+      "total": 11,
+      "passed": 11
+    },
+    "implicit_paraphrase": {
+      "total": 11,
+      "passed": 11
+    },
+    "known_source_implicit": {
+      "total": 11,
+      "passed": 11
+    },
+    "negative_control": {
+      "total": 24,
+      "passed": 24
+    },
+    "opaque_entity": {
+      "total": 2,
+      "passed": 2
+    }
+  },
+  "frozen_input_fingerprints": {
+    "prototype_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+    "closed_helper_sha256": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+    "test_protocol_sha256": "3fb3b905a374c9a39d0d2f52874d434f6378cee946fb80d4cb13a1304837dfd5",
+    "cases_sha256": "48ad5322896ce4a4bf64cfbedb1f48df082ce71fe3e5a90ae996a78e47e8e33b",
+    "candidate_frozen_after_tests_before_running": true,
+    "B_production_modified": false
+  },
+  "runtime_template_sha256_unchanged": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+  "retrieval_evidence": "Prior2148 exact normalized comparisons remain applicable: no template or retriever code changed by this prototype test.",
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_production_modified": false,
+  "fixed_modules_modified": false,
+  "Git_publication": false,
+  "not_full_B_selector_family_fill_refine_or_composition": true,
+  "design_scope": "Post-development independent controls, not preregistration or true hidden blackbox."
+}

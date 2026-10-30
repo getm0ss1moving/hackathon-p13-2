@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "file": "family_matcher_additions.py",
+      "expected": "3c91b3d479d86116d6cf550eec8af243d296361831180f8b7c6cb144489efa5f",
+      "actual": "3c91b3d479d86116d6cf550eec8af243d296361831180f8b7c6cb144489efa5f",
+      "equal": true
+    },
+    {
+      "file": "patches/root_matcher.patch",
+      "expected": "2d84d724209806457b92b2ec96485d30e88b9ee20eb0a02ac998aca26257c397",
+      "actual": "2d84d724209806457b92b2ec96485d30e88b9ee20eb0a02ac998aca26257c397",
+      "equal": true
+    },
+    {
+      "file": "role_grounding_review.py",
+      "expected": "b699549995b5fe48f7ff8728929eaa138fb40d41c0bdffedf3b8a1e3f00017dd",
+      "actual": "b699549995b5fe48f7ff8728929eaa138fb40d41c0bdffedf3b8a1e3f00017dd",
+      "equal": true
+    },
+    {
+      "file": "candidate/implementation/runbook_matcher.py",
+      "expected": "3805fded118e06ede641d80032c0d8b4fea55cb77377598a78524d0e247dc8fc",
+      "actual": "3805fded118e06ede641d80032c0d8b4fea55cb77377598a78524d0e247dc8fc",
+      "equal": true
+    },
+    {
+      "file": "candidate/implementation/runbook_items.py",
+      "expected": "5847e2f4ccd8dc3bb583b4aba891e658ebe250383e78ff36f7ea5789cfb7b5ef",
+      "actual": "5847e2f4ccd8dc3bb583b4aba891e658ebe250383e78ff36f7ea5789cfb7b5ef",
+      "equal": true
+    },
+    {
+      "file": "candidate/implementation/runbook_retriever.py",
+      "expected": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "actual": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+      "equal": true
+    },
+    {
+      "file": "INTEGRATION_HANDOFF.json",
+      "expected": "c9a45e48c4a9ddddc9240baf0d3818e393ee93505f73db30da8717758211fcd1",
+      "actual": "c9a45e48c4a9ddddc9240baf0d3818e393ee93505f73db30da8717758211fcd1",
+      "equal": true
+    },
+    {
+      "file": "DELIVERY_MANIFEST.json",
+      "expected": "02f146fb9c37df3cb6bd2f29f86f4ecbac17f277b60b04b1c939aafe8b7ecfeb",
+      "actual": "02f146fb9c37df3cb6bd2f29f86f4ecbac17f277b60b04b1c939aafe8b7ecfeb",
+      "equal": true
+    }
+  ],
+  "provider_directory_modified": false
+}

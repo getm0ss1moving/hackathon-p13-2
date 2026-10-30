@@ -1,0 +1,150 @@
+{
+  "status": "free_contract_and_native_normal_checks_complete_empty_semantic_gate_blocked",
+  "A_ref": "6d3b47318ce767ef947c68019a2dce522de98c7a",
+  "B_ref": "fa9fe40cd12b6693598b9eefcb9d9e8803b05185",
+  "branch": "codex/a170-adapt",
+  "template_count": 170,
+  "active_families": [
+    "F01",
+    "F02",
+    "F08",
+    "F14",
+    "F18",
+    "F19",
+    "F20",
+    "F21",
+    "F27"
+  ],
+  "primary_documents": 400,
+  "attribute_documents": 11,
+  "template_JSON_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c",
+  "runtime_sha256": {
+    "runbook_matcher": "aa272bee2c483351701c6bc01ce575dec41993a30d81803f241edef6d1487c1f",
+    "runbook_items": "040040177f8db8bcfa62252567ffbc41199dd0ae8bfd8d2a34aa68364680b28c",
+    "runbook_retriever": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+    "runbook_family_views": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e",
+    "runbook_system": "7e27a8fc1f3a1d7216e556217b505cae7d93187f30336cbf193f16eda49b9aa0",
+    "runbook_executor": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "evaluator": "d2a93903f068d77d84470dcd1e3eef8671571136c1d7cfb7e4f9b3307d3516c1"
+  },
+  "actual_imports_verified_local": true,
+  "default_system_and_official_import_prefix_counts": 170,
+  "official_evaluator_executor_entrypoints_unchanged": true,
+  "original_readonly_bytes": 238,
+  "authorized_candidate_hash_replacements": [
+    "implementation/runbook_items.py",
+    "implementation/runbook_retriever.py"
+  ],
+  "source_files_verified": 93,
+  "B_original_functions_unchanged": 49,
+  "B_changed_functions": [
+    "_materialize_family",
+    "_match_family_candidate",
+    "match_runbook"
+  ],
+  "B_training_tests": 286,
+  "new_170_tests": 5,
+  "natural_view_positive_subcases": 9,
+  "controlled_pipeline_cases": 19,
+  "controlled_pipeline_model_quality_claimed": false,
+  "synthetic_negative_controls": 10,
+  "public_attribute_controls": 11,
+  "public_invalid_projection_controls": 33,
+  "primary_400_token_and_BM25_statistics_identical_to_180": true,
+  "native_normal_cases": 19,
+  "native_normal_source_and_output_all_nonempty": true,
+  "native_empty_input_cases": 19,
+  "native_empty_semantic_gate_passed": false,
+  "common_official_SDK_gaps": {
+    "same_API_and_SQL_180_170": true,
+    "same_executor_bytes": true,
+    "180_source_root": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-180-20261030",
+    "170_source_root": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-170-20261030",
+    "native_input_records_both": 0,
+    "API_condition": {
+      "constraint": [
+        {
+          "simple": {
+            "name": "logicalRegionName",
+            "value": "a170_missing_entity_control_20261030",
+            "operator": "equal"
+          }
+        },
+        {
+          "simple": {
+            "name": "shared",
+            "value": "false",
+            "operator": "equal"
+          }
+        }
+      ]
+    },
+    "expected_scalar_shape": "one row with total0",
+    "SDK_scalar_shape_both": {
+      "columns": [
+        "total"
+      ],
+      "rows": [
+        {
+          "total": 1
+        }
+      ],
+      "row_count": 1
+    },
+    "root_cause": "fixed official load_into_sqlite inserts one _empty row for [] and COUNT(*) counts it",
+    "common_180_170_gap": true,
+    "not_fixed": true,
+    "empty_semantic_gate_passed": false,
+    "170_regression_claimed": false,
+    "model_requests": 0,
+    "50_or_full200_loaded": false
+  },
+  "private70_or537_inputs_replayed": false,
+  "default_46_suite_reproduced": false,
+  "model_requests": 0,
+  "model_budget_created": false,
+  "170_credentials_file_present": false,
+  "model_window": "paused for independent 180 evaluation by user priority; this executor does not read its held-out feedback",
+  "new_200_or_sealed_feedback_read": false,
+  "planned_probe_membership": [
+    {
+      "case_id": "CMDB-019",
+      "family": "family_f02",
+      "default_rank": 1,
+      "default_candidates": 10,
+      "in_fixed_train150": true
+    },
+    {
+      "case_id": "CMDB-148",
+      "family": "family_f27",
+      "default_rank": 1,
+      "default_candidates": 11,
+      "in_fixed_train150": true
+    },
+    {
+      "case_id": "CMDB-217",
+      "family": "family_f19",
+      "default_rank": 1,
+      "default_candidates": 6,
+      "in_fixed_train150": true
+    },
+    {
+      "case_id": "CMDB-214",
+      "family": "family_f18",
+      "default_rank": 1,
+      "default_candidates": 11,
+      "in_fixed_train150": true
+    }
+  ],
+  "prior_attempts_preserved": [
+    "B_training_checks_first.log: 3 outdated180 CLI errors",
+    "check_a170_local_first_attempt.py: generic empty rows assertion failed",
+    "free_native_second.log: two schema samples lacked VDC; later native page supplied complete scope",
+    "FREE_NATIVE_v3.json: original passed-with-limits label superseded by current explicit blocked-empty-semantic status"
+  ],
+  "no_default_switch_or_source_push": true,
+  "maximum_compact_template_bytes": 3179,
+  "measured_container_depth": 7,
+  "measured_outer_array_depth": 8,
+  "official_depth_definition_resolved": false
+}

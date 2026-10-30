@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_live
 from runbook_items import RUNBOOK_ITEMS
 
-A180_FLAGS = ["--a180-candidate"] if any(item.get("family_id") for item in RUNBOOK_ITEMS) else []
+A180_FLAGS = (["--a170-candidate"] if len(RUNBOOK_ITEMS) == 170 else ["--a180-candidate"]) if any(item.get("family_id") for item in RUNBOOK_ITEMS) else []
 
 
 class TrainingLiveTests(unittest.TestCase):

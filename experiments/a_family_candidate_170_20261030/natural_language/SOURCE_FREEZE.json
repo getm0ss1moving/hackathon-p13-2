@@ -1,0 +1,12 @@
+{
+  "files": {
+    "scripts/natural_view_candidate.py": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+    "patches/latest_main_F02_F19_view_adaptation.patch": "e587d1b7fd9481ac5da39d07ef7a807211ba22381bbd49008c6377922e28969f",
+    "candidate_main/implementation/runbook_family_views.py": "55d732ab2f8abaca45b0513a9a5edf6007bd72e7afad43968890d28a36ed065e"
+  },
+  "copied_files_match": true,
+  "frozen_semantic_generation": "R4",
+  "publication_ready": false,
+  "blocking_gate": "REAL170_RETRIEVAL_38_OF46",
+  "existing_closed_batch3_helper_sha256": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7"
+}

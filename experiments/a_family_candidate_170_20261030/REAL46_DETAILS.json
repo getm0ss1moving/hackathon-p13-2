@@ -1,0 +1,922 @@
+[
+  {
+    "id": "source-implicit-0",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_006",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-0",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_006",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-0",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_006",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-1",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_009",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-1",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_009",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-1",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_009",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-2",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_029",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-2",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_029",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-2",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_029",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-3",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_037",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-3",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_037",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-3",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_037",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-4",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_038",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-4",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_038",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-4",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_038",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-5",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_039",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-5",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_039",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-5",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_039",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-6",
+    "kind": "known_source_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_042",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-6",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f02",
+    "old198_contract": "rb_042",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-6",
+    "kind": "explicit_projection",
+    "target": "family_f02",
+    "old198_contract": "rb_042",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-7",
+    "kind": "known_source_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_142",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-7",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_142",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-7",
+    "kind": "explicit_projection",
+    "target": "family_f19",
+    "old198_contract": "rb_142",
+    "before": {
+      "None": false,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": false
+  },
+  {
+    "id": "source-implicit-8",
+    "kind": "known_source_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_145",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-8",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_145",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-8",
+    "kind": "explicit_projection",
+    "target": "family_f19",
+    "old198_contract": "rb_145",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "source-implicit-9",
+    "kind": "known_source_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_146",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-9",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_146",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-9",
+    "kind": "explicit_projection",
+    "target": "family_f19",
+    "old198_contract": "rb_146",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "source-implicit-10",
+    "kind": "known_source_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_148",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "entity-implicit-10",
+    "kind": "entity_substitution_implicit",
+    "target": "family_f19",
+    "old198_contract": "rb_148",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "explicit-10",
+    "kind": "explicit_projection",
+    "target": "family_f19",
+    "old198_contract": "rb_148",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-0",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_006",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": false,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": false,
+      "10": true
+    },
+    "old198_contract_present": false,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-1",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_009",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-2",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_029",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": false,
+      "10": false
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-3",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_037",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-4",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_038",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-5",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_039",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-6",
+    "kind": "implicit_paraphrase",
+    "target": "family_f02",
+    "old198_contract": "rb_042",
+    "before": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": false,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-7",
+    "kind": "implicit_paraphrase",
+    "target": "family_f19",
+    "old198_contract": "rb_142",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-8",
+    "kind": "implicit_paraphrase",
+    "target": "family_f19",
+    "old198_contract": "rb_145",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-9",
+    "kind": "implicit_paraphrase",
+    "target": "family_f19",
+    "old198_contract": "rb_146",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "paraphrase-10",
+    "kind": "implicit_paraphrase",
+    "target": "family_f19",
+    "old198_contract": "rb_148",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "quoted-entity-ecs",
+    "kind": "opaque_entity",
+    "target": "family_f02",
+    "old198_contract": "rb_009",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  },
+  {
+    "id": "quoted-entity-db",
+    "kind": "opaque_entity",
+    "target": "family_f19",
+    "old198_contract": "rb_148",
+    "before": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "after": {
+      "None": true,
+      "1": true,
+      "5": true,
+      "10": true
+    },
+    "old198_contract_present": true,
+    "old198_family_present": true
+  }
+]

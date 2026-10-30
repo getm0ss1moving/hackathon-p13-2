@@ -1,0 +1,104 @@
+--- a/implementation/runbook_retriever.py
++++ b/implementation/runbook_retriever.py
+@@ -89,6 +89,39 @@
+             if ra != rb:
+                 parent[ra] = rb
+     return len({_find(parent, t) for t in group})
++
++
++"""Text-only explicit output-field views; no execution or semantic adapter calls."""
++def _attribute_literal_mask(text):
++    pairs={'"':'"',"'":"'",'“':'”','‘':'’'};chars=list(text);i=0
++    while i<len(text):
++        if text[i] not in pairs:i+=1;continue
++        quote=pairs[text[i]];j=i+1
++        while j<len(text):
++            if text[j]=='\\':j+=2;continue
++            if text[j]==quote:break
++            j+=1
++        if j==len(text):return None
++        chars[i:j+1]=' '*(j+1-i);i=j+1
++    return ''.join(chars)
++
++def _attribute_intent(query):
++    marker=re.search(r'(?:输出|返回(?:字段)?|展示字段|列出字段|保留字段|选择字段|SELECT)\s*[:：]?\s*(.+?)\s*[。.]?\s*$',query,re.I)
++    if not marker:return None
++    raw=marker.group(1).strip(' 。.')
++    if not re.fullmatch(r'''[A-Za-z0-9_\s、,，;；|\[\]`"']+''',raw):return None
++    projection=tuple(x.lower() for x in re.findall(r'[A-Za-z_][A-Za-z0-9_]*',raw))
++    if not projection or len(set(projection))!=len(projection):return None
++    prefix=_attribute_literal_mask(query[:marker.start()])
++    if prefix is None or re.search(r'或|不是|不等于|包含|开头|(?<![A-Za-z])(?:OR|NOT)(?![A-Za-z])',prefix,re.I):return None
++    filters={x.lower() for x in re.findall(r'(?<![A-Za-z0-9_.])([A-Za-z][A-Za-z0-9_]*)\s*=',prefix)}
++    for field,pattern in [('name',r'名称|名字|实例名'),('tenantName',r'租户(?:名称)?'),('logicalRegionName',r'逻辑区域|区域'),('azoneName',r'可用区'),('status',r'状态'),('vdcName',r'VDC(?:名称)?')]:
++        if re.search(r'(?:'+pattern+r')\s*(?:为|是|=)',prefix,re.I):filters.add(field.lower())
++    return dict(prefix=prefix,projection=projection,filters=frozenset(filters))
++
++def _attribute_resource_match(term,text):
++    if term.isascii():return bool(re.search(r'(?<![A-Za-z0-9_])'+re.escape(term)+r'(?![A-Za-z0-9_])',text,re.I))
++    return term in text
+ 
+ 
+ # ── 检索器 ────────────────────────────────────────────
+@@ -128,6 +161,7 @@
+         self._generic_df_limit = GENERIC_DF_RATIO * self._doc_count
+         # 文档在索引生命周期内不变，词频只构造一次，避免每次查询重复计数。
+         self._doc_tfs = [Counter(doc.tokens) for doc in self._docs]
++        self._build_attribute_index(items)
+ 
+     @staticmethod
+     def _build_docs(items: list) -> list:
+@@ -235,7 +269,52 @@
+             return min(self._idf[token], self._tau)
+         return self._unseen_weight
+ 
+-    def retrieve(self, query: str, top_k: int = None) -> List[Candidate]:
++    def _build_attribute_index(self,items):
++        records={};cards=[]
++        for item in items:
++            metadata=item.get('retrieval_attributes')
++            if metadata is None:continue
++            if set(metadata)!={'resource_terms','views'} or not isinstance(metadata['resource_terms'],str) or not isinstance(metadata['views'],list):raise ValueError('invalid retrieval_attributes')
++            terms=tuple(metadata['resource_terms'].split())
++            if not terms:raise ValueError('empty attribute resource terms')
++            for view in metadata['views']:
++                if set(view)!={'output','filters'} or not all(isinstance(view[k],str) for k in ['output','filters']):raise ValueError('invalid attribute view')
++                projection=tuple(view['output'].lower().split())
++                for filter_text in view['filters'].split('|'):
++                    filters=frozenset(filter_text.lower().split());key='attribute_text_'+str(len(cards))
++                    records[key]=dict(owner=item['id'],projection=projection,filters=filters,resource_terms=terms)
++                    cards.append(dict(id=key,description='查询 '+metadata['resource_terms']+' 筛选 '+filter_text+' 输出 '+view['output']))
++        self._attribute_records=records
++        self._attribute_index=RunbookRetriever(cards,self._coverage_strong,self._coverage_weak,self._unseen_ratio) if cards else None
++
++    def _attribute_candidates(self,query):
++        if self._attribute_index is None:return []
++        intent=_attribute_intent(query)
++        if intent is None:return []
++        matched={record['resource_terms'] for record in self._attribute_records.values() if any(_attribute_resource_match(term,intent['prefix']) for term in record['resource_terms'])}
++        if len(matched)!=1:return []
++        resource_terms=next(iter(matched));resource=next(term for term in resource_terms if _attribute_resource_match(term,intent['prefix']))
++        normalized='查询 '+resource+' 筛选 '+' '.join(sorted(intent['filters']))+' 输出 '+' '.join(intent['projection'])
++        candidates=self._attribute_index._retrieve_primary(normalized)
++        result=[];seen=set()
++        for candidate in candidates:
++            record=self._attribute_records[candidate.id]
++            if candidate.tier!='strong' or record['resource_terms']!=resource_terms or record['projection']!=intent['projection'] or record['filters']!=intent['filters']:continue
++            if record['owner'] not in seen:
++                result.append(Candidate(record['owner'],candidate.tier,candidate.score,candidate.coverage));seen.add(record['owner'])
++        return result
++
++    def retrieve(self,query: str,top_k: int=None)->List[Candidate]:
++        attributes=self._attribute_candidates(query)
++        if not attributes:return self._retrieve_primary(query,top_k)
++        primary=self._retrieve_primary(query)
++        original={candidate.id:candidate for candidate in primary};seen=set();merged=[]
++        for candidate in attributes+primary:
++            if candidate.id not in seen:
++                merged.append(original.get(candidate.id,candidate));seen.add(candidate.id)
++        return merged if top_k is None else merged[:top_k]
++
++    def _retrieve_primary(self, query: str, top_k: int = None) -> List[Candidate]:
+         query_tokens = set(tokenize(query))
+         content, denominator = self._coverage_base(query_tokens)
+         ranked = self._aggregate_items(query_tokens, content, denominator)

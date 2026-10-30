@@ -1,0 +1,164 @@
+{
+  "status": "FROZEN_READY_FOR_INDEPENDENT170_GATE_RECHECK_NOT_PRODUCTION",
+  "real_blockers": [],
+  "production_modified": false,
+  "pushed": false,
+  "stage2_enabled": false,
+  "optional_R4": "Saved and paused separately; not in this delivery.",
+  "baseline198": {
+    "positive_cases": 46,
+    "family_member_coverage": 38,
+    "exact_old_contract_ID_coverage": 38,
+    "same_eight_missing": true,
+    "new_merge_regressions": 0,
+    "classification": "All8 explicit field-query gaps inherited from original198."
+  },
+  "natural_adapter_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "natural_adapter_source_changed": false,
+  "semantic70": {
+    "passed": 70,
+    "false_empty": 0,
+    "false_nonempty": 0,
+    "wrong_contract": 0
+  },
+  "real170": {
+    "before": {
+      "None": 38,
+      "1": 29,
+      "5": 36,
+      "10": 37
+    },
+    "after": {
+      "None": 46,
+      "1": 40,
+      "5": 44,
+      "10": 45
+    }
+  },
+  "original2148": {
+    "paired_checks": 2148,
+    "original179_to170_normalized_all_exact": true,
+    "patched_full_field_differences": 8,
+    "nonactivated_exact_pairs": 2140,
+    "activated_queries": [
+      {
+        "id": "synthetic170-0",
+        "candidate_ids": [
+          "family_f02"
+        ]
+      },
+      {
+        "id": "synthetic170-1",
+        "candidate_ids": [
+          "family_f02"
+        ]
+      }
+    ],
+    "target_changes": []
+  },
+  "metadata": {
+    "path": "candidate/ATTRIBUTE_METADATA.json",
+    "owners": [
+      "family_f02",
+      "family_f19"
+    ],
+    "audited_views": 9,
+    "attribute_text_documents": 11,
+    "contains_no_entities_questions_answers_SQL_or_API": true,
+    "primary_documents": 400,
+    "primary_index_statistics_unchanged": true
+  },
+  "patch": {
+    "private_apply_check": true,
+    "applied_byte_equal": true,
+    "base_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+    "candidate_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+    "patch_sha256": "7d52e65f9ae4d4e115aea6b229c46a938246d9787afc711486e5e0621ffe9ecf",
+    "metadata_sha256": "ebcb5200636ae189455336199957a432ae6ffef39781b485ff17d3397be96ec5",
+    "templates170_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c"
+  },
+  "active_executable_templates": 170,
+  "new_executable_templates": 0,
+  "existing_API_SQL_fields_unchanged": true,
+  "negative_controls": {
+    "existing_semantic24_pass": true,
+    "existing_raw_nonempty_before": 23,
+    "existing_raw_nonempty_after": 23,
+    "new_raw_ID_exposure_cases": 0,
+    "new_supplement_negative_exposure": "0/33",
+    "note": "One existing conflicting-intent negative activates duplicate field candidate, unchanged semantic adapter still returns empty."
+  },
+  "synthetic": {
+    "positives": 66,
+    "positive_default_hit": 66,
+    "positive_supplement_hit": 66,
+    "negative_supplement_controls": 33,
+    "negative_supplement_exposure": 0,
+    "not_model_or_semantic_score": true
+  },
+  "serialization": {
+    "max_compact_item_bytes": 3179,
+    "max_item_depth": 7,
+    "outer_depth": 8
+  },
+  "budget": {
+    "query_ms": {
+      "baseline": {
+        "n": 435,
+        "p50": 0.6959579999996635,
+        "p95": 1.206375000000648,
+        "p99": 1.475499999999741,
+        "maximum": 2.422499999999772
+      },
+      "patched": {
+        "n": 435,
+        "p50": 0.7976660000004188,
+        "p95": 1.221042000000061,
+        "p99": 1.5045420000001641,
+        "maximum": 2.80062499999989
+      }
+    },
+    "index_build_ms_with_tracemalloc": 8.210749999999933,
+    "incremental_python_bytes": 1046463,
+    "peak_python_bytes": 1049293
+  },
+  "integration": {
+    "public_files": "release/",
+    "metadata_apply": "python3 apply_attribute_metadata.py --templates REVIEWED170_JSON --metadata ATTRIBUTE_METADATA.json --output FRESH_PRIVATE_JSON",
+    "baseline_template_sha256": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+    "baseline_retriever_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+    "do_not_overwrite_B_or_semantic_helper": true,
+    "rerun": [
+      "fixed70 pure semantics",
+      "real170 all46 positives default/topk",
+      "original2148 with intentional two-control changes explicit",
+      "current B integration/native path separately"
+    ]
+  },
+  "publication_gate": "Original coordinator PUBLICATION_GATE untouched; coordinator must independently rerun and authorize upload. Do not claim production or full model path passed.",
+  "private_artifacts_not_for_GitHub": [
+    "source/",
+    "candidate/templates170.json",
+    "reports/REAL170_DETAILS.json",
+    "reports/BASELINE198_VS170.json",
+    "reports/SEMANTIC_RESULTS70.json",
+    "SYNTHETIC_CASES.json"
+  ],
+  "public_artifacts": [
+    "ATTRIBUTE_METADATA.json",
+    "attribute_retriever.patch",
+    "runbook_retriever.py",
+    "apply_attribute_metadata.py",
+    "HANDOFF.md",
+    "VALIDATION_PUBLIC.json",
+    "INTEGRATION_HANDOFF.json"
+  ],
+  "not_run": [
+    "real model selection/filling/refinement",
+    "native SDK/API/service",
+    "official200",
+    "sealed50",
+    "official total score"
+  ],
+  "root": "170-retrieval-fix"
+}

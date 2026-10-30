@@ -1,0 +1,31 @@
+{
+  "status": "BUILT_PRIVATE170_ATTRIBUTE_CANDIDATE_NOT_PRODUCTION",
+  "active_templates": 170,
+  "source_templates_sha256": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+  "candidate_templates_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c",
+  "source_retriever_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+  "candidate_retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "attribute_metadata_sha256": "ebcb5200636ae189455336199957a432ae6ffef39781b485ff17d3397be96ec5",
+  "attribute_text_profiles": 11,
+  "existing_fields_API_SQL_unchanged": true,
+  "patch_replay": [
+    {
+      "operation": "check",
+      "exit_code": 0,
+      "error": ""
+    },
+    {
+      "operation": "apply",
+      "exit_code": 0,
+      "error": ""
+    }
+  ],
+  "max_compact_template_bytes": 3179,
+  "max_template_container_depth": 7,
+  "outer_container_depth": 8,
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_copied_or_patched": false,
+  "Git_index_or_commits_modified": false,
+  "private_expansion_warning": "Contains inherited source entities; publish source references and overlay only."
+}

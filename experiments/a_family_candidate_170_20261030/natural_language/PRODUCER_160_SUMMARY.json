@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "methods": 6,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "cases": 160,
+  "helper_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "frozen_batch3_helper_sha256": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+  "execution": "pure owned-span prototype + frozen prepare; no full matcher/model/retrieval",
+  "model_requests": 0,
+  "service_requests": 0,
+  "fee": 0,
+  "production_modified": false,
+  "current_runtime_reduction": 0,
+  "evidence_source": "VALIDATION.json",
+  "source_sha256": "1f8a89f8bec7c1cba380f79dae0a6ff47701ea80c3b5fc8148855e8d92e14845",
+  "independently_reexecuted_full_suite_by_packager": false
+}

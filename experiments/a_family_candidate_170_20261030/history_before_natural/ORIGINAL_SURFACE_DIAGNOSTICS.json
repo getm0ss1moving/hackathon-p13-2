@@ -1,0 +1,57 @@
+[
+  {
+    "old_id": "rb_006",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_009",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_029",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_037",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_038",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_039",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_042",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_order_evidence_mismatch"
+  },
+  {
+    "old_id": "rb_142",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_145",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_146",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  },
+  {
+    "old_id": "rb_148",
+    "ordinary_returned": false,
+    "diagnostic": "batch3_complete_explicit_projection_required"
+  }
+]

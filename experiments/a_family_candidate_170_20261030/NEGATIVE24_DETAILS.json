@@ -1,0 +1,172 @@
+[
+  {
+    "id": "negative-ecs_capacity",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-ecs_disks",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-db_pool",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-db_restart",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-all_ecs",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-missing_name",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-missing_region",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-name_contains",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-name_prefix",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-not_name",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-OR_names",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-conflicting_names",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-extra_status",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-extra_zone",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-cross_resource",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-partial_unsupported",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-explicit_one_column",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-explicit_reverse_order",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-explicit_extra_column",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-explicit_implicit_conflict",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": [
+      "family_f02"
+    ]
+  },
+  {
+    "id": "negative-OR_scope",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-negated_scope",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-group_count",
+    "before_nonempty": true,
+    "after_nonempty": true,
+    "new_IDs": [],
+    "attribute_owners": []
+  },
+  {
+    "id": "negative-empty_question",
+    "before_nonempty": false,
+    "after_nonempty": false,
+    "new_IDs": [],
+    "attribute_owners": []
+  }
+]

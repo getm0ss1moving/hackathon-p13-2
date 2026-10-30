@@ -1,0 +1,200 @@
+[
+  {
+    "id": "synthetic170-0",
+    "k": null,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011",
+      "rb_022"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011",
+      "rb_022"
+    ]
+  },
+  {
+    "id": "synthetic170-0",
+    "k": 1,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185"
+    ],
+    "after_ids": [
+      "family_f02"
+    ]
+  },
+  {
+    "id": "synthetic170-0",
+    "k": 5,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107"
+    ]
+  },
+  {
+    "id": "synthetic170-0",
+    "k": 10,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172"
+    ]
+  },
+  {
+    "id": "synthetic170-1",
+    "k": null,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011",
+      "rb_022"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011",
+      "rb_022"
+    ]
+  },
+  {
+    "id": "synthetic170-1",
+    "k": 1,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185"
+    ],
+    "after_ids": [
+      "family_f02"
+    ]
+  },
+  {
+    "id": "synthetic170-1",
+    "k": 5,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107"
+    ]
+  },
+  {
+    "id": "synthetic170-1",
+    "k": 10,
+    "attribute_owners": [
+      "family_f02"
+    ],
+    "before_ids": [
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172",
+      "rb_011"
+    ],
+    "after_ids": [
+      "family_f02",
+      "rb_185",
+      "rb_147",
+      "rb_093",
+      "rb_107",
+      "rb_165",
+      "rb_132",
+      "rb_182",
+      "rb_131",
+      "rb_172"
+    ]
+  }
+]

@@ -1,0 +1,559 @@
+{
+  "usage": "offline migration evidence only; not runtime routing",
+  "mappings": [
+    {
+      "old_id": "rb_006",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "privateIps",
+          "tenantName"
+        ],
+        "order": "none",
+        "filters": {
+          "azoneName": "{{azoneName}}",
+          "status": "{{status}}"
+        },
+        "required_filters": [
+          "azoneName",
+          "status"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "privateIps",
+        "tenantName"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "status",
+                "value": "{{status}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, privateIps, tenantName FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_009",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "createdAt"
+        ],
+        "order": "none",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "createdAt"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, createdAt FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_029",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "clusterName",
+          "azoneName"
+        ],
+        "order": "none",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "clusterName",
+        "azoneName"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, clusterName, azoneName FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_037",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "privateIps",
+          "status"
+        ],
+        "order": "none",
+        "filters": {
+          "tenantName": "{{tenantName}}",
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "tenantName",
+          "logicalRegionName"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "privateIps",
+        "status"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "{{tenantName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_038",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "privateIps",
+          "status"
+        ],
+        "order": "none",
+        "filters": {
+          "tenantName": "{{tenantName}}",
+          "logicalRegionName": "{{logicalRegionName}}",
+          "azoneName": "{{azoneName}}"
+        },
+        "required_filters": [
+          "tenantName",
+          "logicalRegionName",
+          "azoneName"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "privateIps",
+        "status"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "tenantName",
+                "value": "{{tenantName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_039",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "privateIps",
+          "tenantName"
+        ],
+        "order": "none",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}",
+          "azoneName": "{{azoneName}}"
+        },
+        "required_filters": [
+          "logicalRegionName",
+          "azoneName"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "privateIps",
+        "tenantName"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, privateIps, tenantName FROM CLOUD_VM_NOVA",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_042",
+      "family_id": "F02",
+      "candidate_id": "family_f02",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "tenantName",
+          "name",
+          "privateIps"
+        ],
+        "order": "tenantName",
+        "filters": {
+          "vdcName": "{{vdcName}}",
+          "logicalRegionName": "{{logicalRegionName}}",
+          "azoneName": "{{azoneName}}"
+        },
+        "required_filters": [
+          "vdcName",
+          "logicalRegionName",
+          "azoneName"
+        ]
+      },
+      "output_columns": [
+        "tenantName",
+        "name",
+        "privateIps"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "vdcName",
+                "value": "{{vdcName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            },
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT tenantName, name, privateIps FROM CLOUD_VM_NOVA ORDER BY tenantName",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；保留tenantName排序，不能改成分组。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_142",
+      "family_id": "F19",
+      "candidate_id": "family_f19",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "engineName",
+          "engineVersion",
+          "haMode",
+          "flavorCode"
+        ],
+        "order": "none",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "engineName",
+        "engineVersion",
+        "haMode",
+        "flavorCode"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, engineName, engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_145",
+      "family_id": "F19",
+      "candidate_id": "family_f19",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "engineVersion",
+          "haMode",
+          "flavorCode"
+        ],
+        "order": "none",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "output_columns": [
+        "engineVersion",
+        "haMode",
+        "flavorCode"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_146",
+      "family_id": "F19",
+      "candidate_id": "family_f19",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "name",
+          "engineVersion",
+          "dataVip"
+        ],
+        "order": "none",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "output_columns": [
+        "name",
+        "engineVersion",
+        "dataVip"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT name, engineVersion, dataVip FROM CLOUD_GAUSSDB_INSTANCE",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    },
+    {
+      "old_id": "rb_148",
+      "family_id": "F19",
+      "candidate_id": "family_f19",
+      "currently_active_original": true,
+      "parameters": {
+        "scope": "filtered",
+        "projection": [
+          "haMode",
+          "dataVip"
+        ],
+        "order": "none",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "output_columns": [
+        "haMode",
+        "dataVip"
+      ],
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "sql_contract": "SELECT haMode, dataVip FROM CLOUD_GAUSSDB_INSTANCE",
+      "merge_explanation": "保留每条记录粒度、原列顺序和等值条件；无排序、分组、去重或关联。",
+      "status": "OFFLINE_CONTRACT_AND_FINITE_SYNTAX_CANDIDATE_NOT_PRODUCTION"
+    }
+  ],
+  "active_old_contracts": 11,
+  "candidate_families": 2,
+  "independent_conditional_reduction": 9,
+  "current_runtime_reduction": 0,
+  "first_batch_intersection": [],
+  "batch2_intersection": [],
+  "strict_dedup_intersection": []
+}

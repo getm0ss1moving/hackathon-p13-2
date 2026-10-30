@@ -1189,6 +1189,8 @@ _FAMILY_SPECS = {
             "axes": {"view": ["rows", "count"], "count_alias": ["total", "count"]}},
     "F21": {"ci": "FLOATING_IPS", "table": "CLOUD_FLOATING_IPS",
             "filters": ["logicalRegionName"], "axes": {"group": ["vdcName", "tenantName_status"]}},
+    "F27": {"ci": "OBS_BUCKET", "table": "CLOUD_OBS_BUCKET",
+            "filters": ["logicalRegionName"], "axes": {"view": ["rows", "tenant_count"]}},
 }
 
 
@@ -1234,7 +1236,7 @@ def _materialize_family(item: dict, parameters: dict) -> dict:
         raise ValueError("scope_filter_mismatch")
     if family not in {"F01", "F08"} and scope != "filtered":
         raise ValueError("filtered_scope_required")
-    if family in {"F14", "F18", "F21"} or family == "F08" and scope == "filtered":
+    if family in {"F14", "F18", "F21", "F27"} or family == "F08" and scope == "filtered":
         if "logicalRegionName" not in filters:
             raise ValueError("region_required")
     if family == "F20" and "shared" not in filters:
@@ -1309,6 +1311,16 @@ def _materialize_family(item: dict, parameters: dict) -> dict:
             raise ValueError("group_required")
         group = "tenantName, status" if group == "tenantName_status" else group
         select = group + ", COUNT(*) AS count"
+    elif family == "F27":
+        view = parameters.get("view")
+        if view == "rows":
+            select = "name, bucketName, managedStatus"
+            group = "none"
+        elif view == "tenant_count":
+            select = "tenantName, COUNT(*) AS count"
+            group = "tenantName"
+        else:
+            raise ValueError("view_required")
 
     sql = "SELECT " + select + " FROM " + table
     if family != "F20" and group != "none":
@@ -1643,6 +1655,204 @@ def _ground_family_parameters(question: str, family: str, parameters: dict):
 
 
 
+# Build/review input, embedded into the existing matcher; no runtime module or DSL.
+def _ground_obs_parameters(question: str, parameters: dict) -> dict:
+    """Cover the whole finite request, with region entities treated as opaque.
+
+    A fixed tenant grouping is evidence owned by tenant_count, never a new filter
+    or a model-provided group field. Unknown residual text is unsupported.
+    """
+    if not isinstance(question, str) or not question.strip():
+        raise ValueError("obs_question_required")
+    region = parameters.get("filters", {}).get("logicalRegionName")
+    if not isinstance(region, str) or not region.strip():
+        raise ValueError("obs_region_required")
+    escaped = re.escape(region)
+    literals = [re.escape(a) + escaped + re.escape(b)
+                for a, b in [('"', '"'), ("'", "'"), ('“', '”'), ('「', '」')]]
+    if re.fullmatch(r"[A-Za-z0-9_@][A-Za-z0-9_@./:#%+\-]*", region):
+        literals.append(escaped + r"(?![A-Za-z0-9_@./:#%+\-])")
+    literal = "(?:" + "|".join(literals) + ")"
+    role = r"(?:logicalRegionName|区域|地区|地域|(?<![A-Za-z0-9_])region(?![A-Za-z0-9_]))"
+    equal = r"\s*(?:(?:名称|名字|名)\s*)?(?:(?:等于|为|是|=|:|：)\s*)?"
+    binding = (role + equal + literal + "|" + literal + r"\s*" + role)
+    regions = list(re.finditer(binding, question, re.I))
+    if len(regions) != 1:
+        raise ValueError("obs_exactly_one_region_binding_required")
+    owned = regions[0]
+    remaining = question[:owned.start()] + " " * (owned.end() - owned.start()) + question[owned.end():]
+
+    resource = (r"(?<![A-Za-z0-9_])(?:(?:CLOUD_OBS_BUCKET|OBS_BUCKET)(?![A-Za-z0-9_])|"
+                r"OBS\s*(?:存储桶|桶)|对象存储桶)")
+    resources = list(re.finditer(resource, remaining, re.I))
+    if len(resources) != 1:
+        raise ValueError("obs_explicit_single_resource_required")
+    remaining = re.sub(resource, " ", remaining, flags=re.I)
+    tenant = r"(?:租户名称|租户名|租户|(?<![A-Za-z0-9_])tenantName(?![A-Za-z0-9_]))"
+    group = (r"(?:(?:按照|按|以)\s*" + tenant
+             + r"(?:\s*(?:为)?(?:单位|维度|分组))?|(?:各个|每个|各|不同)\s*" + tenant
+             + r"|" + tenant + r"\s*(?:维度|分组))")
+    groups = list(re.finditer(group, remaining, re.I))
+    if len(groups) > 1:
+        raise ValueError("obs_ambiguous_group_request")
+    remaining = re.sub(group, " ", remaining, flags=re.I)
+
+    # Fields are projection evidence only inside one explicit complete output
+    # clause, never by collecting field words scattered through predicates.
+    # Longest labels own their span; 名称 inside 桶名称 is not a second field.
+    labels = {'managedStatus': 'managedStatus', '管理状态': 'managedStatus',
+              'bucketName': 'bucketName', '桶名称': 'bucketName', '桶名': 'bucketName',
+              'name': 'name', '名称': 'name'}
+    field_pattern = "|".join(
+        r"(?<![A-Za-z0-9_])" + re.escape(label) + r"(?![A-Za-z0-9_])"
+        if label.isascii() else re.escape(label)
+        for label in sorted(labels, key=len, reverse=True))
+    canonical = {k.casefold(): v for k, v in labels.items()}
+    column_intro = (r"(?:只需|仅|只)?\s*(?:(?:输出|返回|显示|展示)\s*(?:字段|列)?"
+                    r"|(?:字段|列)\s*(?:为|是|:|：|包括|包含))\s*(?:为|是|:|：)?\s*")
+    field = '(?:' + field_pattern + ')'
+    separator = r"\s*(?:、|,|，|和|与|及|/)\s*"
+    # The optional projection is a terminal clause. Operators/extra text after
+    # a last field cannot be erased as glue to widen a requested condition.
+    projection_pattern = (column_intro + field + '(?:' + separator + field + ')*'
+                          + r"\s*(?:这三列|三列)?(?=\s*[。;；!?！？]*\s*$)")
+    projections = list(re.finditer(projection_pattern, remaining, re.I))
+    if len(projections) > 1:
+        raise ValueError('obs_single_projection_clause_required')
+    columns = []
+    if projections:
+        projection = projections[0]
+        # Introducers contain no supported field label; every match is a field.
+        columns = [canonical[m.group().casefold()]
+                   for m in re.finditer(field_pattern, projection.group(), re.I)]
+        remaining = remaining[:projection.start()] + ' ' + remaining[projection.end():]
+    if columns and (len(columns) != 3 or set(columns) != {'name', 'bucketName', 'managedStatus'}):
+        raise ValueError("obs_full_three_column_contract_required")
+
+    # Own the action before the count noun: 统计 + 数量 must not be read as
+    # 统 + 计数 + 量 by a substring match for the alternative noun 计数.
+    remaining = re.sub(r"统计", " ", remaining)
+    rows = list(re.finditer(r"列表|清单|明细", remaining))
+    counts = list(re.finditer(r"数量|个数|计数|(?<![A-Za-z0-9_])COUNT\s*\(\s*\*\s*\)", remaining, re.I))
+    if groups and len(counts) == 1 and not rows and not columns:
+        requested_view = 'tenant_count'
+    elif not groups and not counts and (rows or columns):
+        requested_view = 'rows'
+    else:
+        raise ValueError("obs_explicit_unambiguous_view_required")
+    if parameters.get('view') != requested_view:
+        raise ValueError("obs_requested_view_mismatch")
+    remaining = re.sub(r"列表|清单|明细|数量|个数|计数|(?<![A-Za-z0-9_])COUNT\s*\(\s*\*\s*\)",
+                       " ", remaining, flags=re.I)
+    # These are grammatical glue only. Every field, entity, resource, grouping
+    # and view must already have been consumed by its owning clause above.
+    glue = r"请|帮我|一下|查询|查看|查找|列出|显示|展示|统计|只需|仅|只|当前|所有|全部|分别|的|下|中|内|和|与|及"
+    remaining = re.sub(glue, " ", remaining)
+    remaining = re.sub(r"[\s，,、。.:：;；!?！？()/]+", "", remaining)
+    if remaining:
+        raise ValueError("obs_unsupported_request_clause")
+
+    # Reuse the approved role/type/value proof on the owned region clause.
+    # Fixed grouping is checked above; it is not passed as a structural axis.
+    evidence_parameters = copy.deepcopy(parameters)
+    evidence_parameters['group'] = 'tenantName' if requested_view == 'tenant_count' else 'none'
+    _ground_family_parameters(owned.group(), 'F27', evidence_parameters)
+    return {'resource': 'OBS_BUCKET', 'view': requested_view,
+            'fixed_group': 'tenantName' if requested_view == 'tenant_count' else None,
+            'explicit_columns': columns}
+
+
+def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
+    """F27-only path; R5 functions, executor and official output stay unchanged."""
+    prompt = (
+        "从问题提取参数，仅输出JSON对象，不输出SQL、旧ID或默认实体。"
+        "只允许scope=filtered、view=rows或tenant_count、filters、required_filters。"
+        "filters仅允许logicalRegionName，必须保留原文区域值；缺失用null。"
+        "required_filters必须为[logicalRegionName]。"
+        "OBS桶列表/清单/明细是rows，固定name/bucketName/managedStatus三列；"
+        "明确按租户统计桶数量是tenant_count，固定tenantName分组COUNT(*)。"
+        "固定租户分组不是筛选，不输出group/metrics/列参数；不支持容量、唯一桶、其他筛选或输出列。"
+        "问题：" + question)
+    try:
+        answer = llm_ask(prompt, stage='family_fill')
+        if not isinstance(answer, str):
+            raise ValueError('invalid_family_response')
+        parameters = json.loads(answer)
+        selected = _materialize_family(item, parameters)
+        evidence = _ground_obs_parameters(question, parameters)
+    except (ValueError, TypeError) as exc:
+        if diagnostics is not None:
+            diagnostics['family_status'] = 'invalid_or_ungrounded_parameters'
+            diagnostics['family_error'] = str(exc)
+        return None
+    coverage = {'missing_from_sql': [], 'covered_by_lookup': [], 'unsupported': [], 'lookup': None}
+    if diagnostics is not None:
+        diagnostics.update(family_resource_coverage=coverage, resource_coverage=coverage,
+                           obs_contract_evidence=evidence, parameter_mode='family_llm')
+        diagnostics['parameters'] = {'placeholders': [], 'llm_extracted': copy.deepcopy(parameters),
+                                     'final': copy.deepcopy(parameters), 'sources': {'family': 'llm_grounded'},
+                                     'changes': [], 'unfilled': []}
+    original_sql = selected['sql']
+    schemas = _get_table_schemas(original_sql)
+    refined = (_refine_sql(question, original_sql, schemas) if diagnostics is None else
+               _refine_sql(question, original_sql, schemas, diagnostics=diagnostics))
+    if diagnostics is not None:
+        normalized = lambda sql: sql.strip().rstrip(';').strip() if isinstance(sql, str) else None
+        diagnostics.update(family_status='materialized', family_id='F27',
+                           family_refinement_kept=normalized(refined) == normalized(original_sql),
+                           sql_before_refine=original_sql, sql_after_refine=original_sql)
+        diagnostics.setdefault('sql', {}).update(before_refine=original_sql, after_refine=refined,
+                                                 final=original_sql, after_fill=original_sql)
+    selected['sql'] = original_sql
+    return selected
+
+
+
+def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dict):
+    import runbook_family_views as family_views
+    family = selected.get('family_id')
+    choices = []
+    for view, (owner, columns, order, _) in family_views.VIEWS.items():
+        if owner == family:
+            choices.append({'view': view, 'default_columns': columns, 'default_order': order,
+                            'legal_filter_sets': family_views._B3_SPECS[family]['shapes'][tuple(columns)][order]})
+    prompt = (
+        '为已选中的家族提取参数，只输出JSON对象或null。对象仅有view、filters、required_filters。'
+        '受控view及原合同默认输出为：' + json.dumps(choices, ensure_ascii=False) + '\n'
+        '用户无需逐列说默认输出。输出意图必须与view一致；明确额外/缺少列、别名或其他排序不能被默认列覆盖。'
+        'name/区域/租户/VDC/可用区必须有实际原文证据，不能交换角色、忽略条件、填旧默认实体或降成全局。'
+        'ECS或GaussDB紧邻实例名称可提取name；单一裸位置加状态谓词只在已审AZ/status合同中表示可用区。'
+        '明确区域不能转可用区。正在跑/运行中/正在运行可为active，已停止/停机可为stopped，必须有该谓词。'
+        '所有明确筛选都进入filters和required_filters，实体是原文字符串，缺失值保留null。'
+        '不支持名称包含/前缀、否定、OR、容量、计数、关系、多资源、额外列或含义不明的业务IP；不能删掉这些要求，返回null。'
+        '不输出SQL、题号、旧ID、projection或order。问题：' + question)
+    try:
+        answer = llm_ask(prompt, stage='family_fill')
+        if not isinstance(answer, str):
+            raise ValueError('invalid_view_response')
+        parsed = json.loads(answer)
+        ordinary = family_views.prepare_natural_candidate(
+            question, selected, parsed, family_views._prepare_batch3_candidate, diagnostics)
+    except (ValueError, TypeError) as exc:
+        diagnostics.update(family_status='invalid_or_ungrounded_parameters', family_error=str(exc))
+        return None
+    if ordinary is None:
+        return None
+    original_sql = ordinary['sql']
+    diagnostics.update(family_id=family, family_status='materialized', parameter_mode='family_view_llm',
+                       view_parameters=copy.deepcopy(parsed), sql_before_refine=original_sql)
+    schemas = _get_table_schemas(original_sql)
+    refined = _refine_sql(question, original_sql, schemas, diagnostics=diagnostics)
+    normalize = lambda sql: sql.strip().rstrip(';').strip() if isinstance(sql, str) else None
+    diagnostics.update(family_refinement_kept=normalize(refined) == normalize(original_sql),
+                       sql_after_refine=original_sql)
+    diagnostics.setdefault('sql', {}).update(before_refine=original_sql, after_refine=refined,
+                                            final=original_sql, after_fill=original_sql)
+    ordinary['sql'] = original_sql
+    return ordinary
+
+
+
 def _match_family_candidate(question: str, item: dict, diagnostics: dict = None):
     """Called inside the existing matcher after BM25/model selection.
 
@@ -1653,6 +1863,8 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
     spec = _FAMILY_SPECS.get(family)
     if not spec:
         return None
+    if family == "F27":
+        return _match_obs_candidate(question, item, diagnostics)
     if diagnostics is not None:
         diagnostics.update(family_id=family, family_status="extracting")
     properties = {name: {"type": "string", "enum": choices} for name, choices in spec["axes"].items()}
@@ -1877,6 +2089,16 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if selected.get("family_id") in {"F02", "F19"}:
+        phase = "parameters"
+        try:
+            ordinary = _match_closed_view_candidate(user_question, selected, diagnostics)
+        except ModelOutputError:
+            return reject("invalid_model_output_family_fill")
+        if ordinary is None:
+            return reject("unsupported_family_view_contract")
+        diagnostics["reason"] = "matched"
+        return ordinary
     if selected.get("family_id"):
         phase = "parameters"
         try:

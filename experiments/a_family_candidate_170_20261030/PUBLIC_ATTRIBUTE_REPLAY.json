@@ -1,0 +1,14 @@
+{
+  "status": "PASS_PUBLIC_ATTRIBUTE_INVARIANTS",
+  "active_templates": 170,
+  "primary_documents": 400,
+  "attribute_documents": 11,
+  "profile_controls": 11,
+  "invalid_projection_controls": 33,
+  "API_SQL_and_other_existing_fields_unchanged": true,
+  "primary_BM25_statistics_unchanged": true,
+  "private70_replayed_here": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "production_modified": false
+}

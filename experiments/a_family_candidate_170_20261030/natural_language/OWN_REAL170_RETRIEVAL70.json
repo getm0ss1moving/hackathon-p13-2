@@ -1,0 +1,1261 @@
+{
+  "status": "REAL170_FIXED_POSITIVE_RETRIEVAL_ONLY",
+  "cases": 46,
+  "case_hash": "48ad5322896ce4a4bf64cfbedb1f48df082ce71fe3e5a90ae996a78e47e8e33b",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "coverage_by_k": {
+    "None": 46,
+    "1": 40,
+    "5": 44,
+    "10": 45
+  },
+  "failures_default_none": [],
+  "details": [
+    {
+      "id": "source-implicit-0",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-0",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        }
+      }
+    },
+    {
+      "id": "explicit-0",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "source-implicit-1",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-1",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "explicit-1",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        }
+      }
+    },
+    {
+      "id": "source-implicit-2",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 11
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-2",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 7
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 7
+        }
+      }
+    },
+    {
+      "id": "explicit-2",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        }
+      }
+    },
+    {
+      "id": "source-implicit-3",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 12
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-3",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 13
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "explicit-3",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "source-implicit-4",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 11
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 7
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-4",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 12
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "explicit-4",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "source-implicit-5",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 12
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-5",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "explicit-5",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "source-implicit-6",
+      "kind": "known_source_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 11
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-6",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 12
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        }
+      }
+    },
+    {
+      "id": "explicit-6",
+      "kind": "explicit_projection",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        }
+      }
+    },
+    {
+      "id": "source-implicit-7",
+      "kind": "known_source_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-7",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        }
+      }
+    },
+    {
+      "id": "explicit-7",
+      "kind": "explicit_projection",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        }
+      }
+    },
+    {
+      "id": "source-implicit-8",
+      "kind": "known_source_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-8",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        }
+      }
+    },
+    {
+      "id": "explicit-8",
+      "kind": "explicit_projection",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    },
+    {
+      "id": "source-implicit-9",
+      "kind": "known_source_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 11
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-9",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 7
+        }
+      }
+    },
+    {
+      "id": "explicit-9",
+      "kind": "explicit_projection",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    },
+    {
+      "id": "source-implicit-10",
+      "kind": "known_source_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        }
+      }
+    },
+    {
+      "id": "entity-implicit-10",
+      "kind": "entity_substitution_implicit",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        }
+      }
+    },
+    {
+      "id": "explicit-10",
+      "kind": "explicit_projection",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    },
+    {
+      "id": "paraphrase-0",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 7,
+          "returned": 10
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": false,
+          "rank": null,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 7,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "paraphrase-1",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 3,
+          "returned": 3
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 3,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 3,
+          "returned": 3
+        }
+      }
+    },
+    {
+      "id": "paraphrase-2",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 13,
+          "returned": 14
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": false,
+          "rank": null,
+          "returned": 5
+        },
+        "10": {
+          "present": false,
+          "rank": null,
+          "returned": 10
+        }
+      }
+    },
+    {
+      "id": "paraphrase-3",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 3,
+          "returned": 9
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 3,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 3,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "paraphrase-4",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 2,
+          "returned": 11
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 2,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 2,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "paraphrase-5",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 9
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 4
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 8
+        }
+      }
+    },
+    {
+      "id": "paraphrase-6",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 2,
+          "returned": 12
+        },
+        "1": {
+          "present": false,
+          "rank": null,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 2,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 2,
+          "returned": 10
+        }
+      }
+    },
+    {
+      "id": "paraphrase-7",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        }
+      }
+    },
+    {
+      "id": "paraphrase-8",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    },
+    {
+      "id": "paraphrase-9",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 3
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        }
+      }
+    },
+    {
+      "id": "paraphrase-10",
+      "kind": "implicit_paraphrase",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        }
+      }
+    },
+    {
+      "id": "quoted-entity-ecs",
+      "kind": "opaque_entity",
+      "target_family": "family_f02",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 5
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 10
+        }
+      }
+    },
+    {
+      "id": "quoted-entity-db",
+      "kind": "opaque_entity",
+      "target_family": "family_f19",
+      "topk": {
+        "None": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        },
+        "1": {
+          "present": true,
+          "rank": 1,
+          "returned": 1
+        },
+        "5": {
+          "present": true,
+          "rank": 1,
+          "returned": 2
+        },
+        "10": {
+          "present": true,
+          "rank": 1,
+          "returned": 6
+        }
+      }
+    }
+  ],
+  "model_calls": 0,
+  "service_calls": 0,
+  "no_new_cases": true,
+  "production_modified": false
+}

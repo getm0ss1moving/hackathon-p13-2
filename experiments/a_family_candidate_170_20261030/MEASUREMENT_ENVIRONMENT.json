@@ -1,0 +1,10 @@
+{
+  "platform": "Darwin",
+  "machine": "arm64",
+  "python_version": "3.9.6",
+  "query_samples_each": 537,
+  "primary_index_documents": 400,
+  "attribute_index_documents": 11,
+  "latency_is_local_offline_only": true,
+  "memory_is_tracemalloc_Python_allocations_not_RSS": true
+}

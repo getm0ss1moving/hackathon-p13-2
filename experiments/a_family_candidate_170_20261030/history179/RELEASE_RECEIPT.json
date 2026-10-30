@@ -1,0 +1,20 @@
+{
+  "public_replay_command": "python3 verify_179_public.py --base180 <private180>/templates180.private.json --candidate179 <private179>/templates179.private.json --retriever <private179>/candidate179/implementation/runbook_retriever.py",
+  "public_replay_exit_code": 0,
+  "public_replay_result": {
+    "status": "PASS_PUBLIC_OFFLINE_CONTROLS",
+    "paired_retrieval_checks": 32,
+    "SQL_API_fixtures": 6,
+    "invalid_configs_rejected": 6
+  },
+  "release_sanitization_patterns_checked": [
+    "absolute user paths",
+    "known private region and tenant markers",
+    "credential literal patterns"
+  ],
+  "sanitization_pattern_findings": 0,
+  "raw_private_template_json_and_517_or_525_question_files_excluded": true,
+  "git_commit_or_push_by_this_task": false,
+  "tests_used_no_model_or_service": true,
+  "local_harness_note": "Initial contract check passed unresolved placeholders and correctly raised type/required-value errors. The local test fixture was grounded using synthetic text and booleans; no matcher/runtime behavior was changed. Final complete rerun passed."
+}

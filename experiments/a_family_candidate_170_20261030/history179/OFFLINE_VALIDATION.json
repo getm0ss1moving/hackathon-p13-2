@@ -1,0 +1,140 @@
+{
+  "status": "PASS_OFFLINE179_DATA_INDEX_AND_DECLARED_MATERIALIZATION_ONLY",
+  "baseline_N": 180,
+  "candidate_N": 179,
+  "production_N": 198,
+  "active_IDs_unique": true,
+  "profiles": 200,
+  "index_documents": 400,
+  "raw_document_order_tokens_DF_IDF_TF_tau_identical": true,
+  "frozen_existing_inputs": 517,
+  "additional_synthetic_inputs": 8,
+  "top_k_settings": [
+    null,
+    1,
+    5,
+    10
+  ],
+  "paired_field_comparisons": 2100,
+  "candidate_ID_order_tier_score_coverage_differences_after_family_mapping": 0,
+  "single_and_composite_retrieval_only": true,
+  "dual_view_OBS_composite": "Requires rows AND tenant_count as two obligations; one returnedfamily is not two executed answers. B composition not implemented here.",
+  "first_R5_materializations_equal": 25,
+  "F27_SQL_API_fixture_comparisons": 6,
+  "SQL_controls": [
+    {
+      "old_id": "rb_099",
+      "view": "rows",
+      "synthetic_dataset": 0,
+      "input_rows": 0,
+      "output_rows": 0,
+      "columns": [
+        "name",
+        "bucketName",
+        "managedStatus"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": false
+    },
+    {
+      "old_id": "rb_099",
+      "view": "rows",
+      "synthetic_dataset": 1,
+      "input_rows": 3,
+      "output_rows": 3,
+      "columns": [
+        "name",
+        "bucketName",
+        "managedStatus"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": false
+    },
+    {
+      "old_id": "rb_099",
+      "view": "rows",
+      "synthetic_dataset": 2,
+      "input_rows": 5,
+      "output_rows": 5,
+      "columns": [
+        "name",
+        "bucketName",
+        "managedStatus"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": false
+    },
+    {
+      "old_id": "rb_101",
+      "view": "tenant_count",
+      "synthetic_dataset": 0,
+      "input_rows": 0,
+      "output_rows": 0,
+      "columns": [
+        "tenantName",
+        "count"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": true
+    },
+    {
+      "old_id": "rb_101",
+      "view": "tenant_count",
+      "synthetic_dataset": 1,
+      "input_rows": 3,
+      "output_rows": 2,
+      "columns": [
+        "tenantName",
+        "count"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": true
+    },
+    {
+      "old_id": "rb_101",
+      "view": "tenant_count",
+      "synthetic_dataset": 2,
+      "input_rows": 5,
+      "output_rows": 3,
+      "columns": [
+        "tenantName",
+        "count"
+      ],
+      "COUNT_duplicates_NULL_and_empty_preserved": true
+    }
+  ],
+  "invalid_F27_configs_rejected": [
+    "capacity_view",
+    "SUM_metric",
+    "global_scope",
+    "tenant_filter",
+    "two_views_in_one_call",
+    "false_region"
+  ],
+  "old_R5_existing_functions_changed": [
+    "_materialize_family",
+    "_match_family_candidate"
+  ],
+  "measurements_ms": {
+    "180": {
+      "samples": 525,
+      "p95": 1.58929200000002,
+      "p99": 1.7763750000003853,
+      "max": 2.3360000000001158
+    },
+    "179": {
+      "samples": 525,
+      "p95": 1.5858749999999588,
+      "p99": 1.7364999999998076,
+      "max": 2.3925839999998644
+    }
+  },
+  "model_calls": 0,
+  "service_calls": 0,
+  "native_SDK_or_pagination_tested": false,
+  "bucket_uniqueness_proven": false,
+  "capacity_sum_supported": false,
+  "B_v18_179_end_to_end_adapter": "NOT_APPLIED_B_PORT_REQUIRED",
+  "limits": [
+    "Public surfaces and known/writer-generated controls are retrieval proxies, not business-answer or unseen-model scores.",
+    "COUNT is source record COUNT(*), not distinct bucket count; NULL and empty tenant buckets remain distinct.",
+    "Synthetic SQLite tables have predefined schema; this does not certify native empty-table or HTTP behavior.",
+    "Offline composition does not activate179 or prove current B v18 interfaces/semantics.",
+    "No shared service/model/200 or sealed input accessed."
+  ]
+}

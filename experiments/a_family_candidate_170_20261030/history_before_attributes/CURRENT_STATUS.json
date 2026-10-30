@@ -1,0 +1,22 @@
+{
+  "status": "HELD_SEMANTIC_R4_PASS_RETRIEVAL_FAIL",
+  "publication_ready": false,
+  "upload_allowed": false,
+  "production_N": 198,
+  "candidate_N": 170,
+  "semantic70_passed": 70,
+  "semantic70_total": 70,
+  "real170_default_retrieval_covered": 38,
+  "real170_positive_cases": 46,
+  "real170_top5_covered": 36,
+  "unresolved": "Eight explicit-field positive queries lack the needed family in real170 BM25",
+  "B_production_modified": false,
+  "runtime_170_sha256": "804a1626669ae24bab860b282e465113241dceee09d567f6d12866bb37a09de0",
+  "prototype_sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b",
+  "B_patch_sha256": "e587d1b7fd9481ac5da39d07ef7a807211ba22381bbd49008c6377922e28969f",
+  "real_models_tested": false,
+  "native_executor_tested": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "git_publication": false
+}

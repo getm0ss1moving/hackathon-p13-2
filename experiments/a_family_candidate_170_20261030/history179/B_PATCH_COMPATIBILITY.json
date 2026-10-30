@@ -1,0 +1,30 @@
+{
+  "status": "EXACT_REPLAY_ON_OLD_R5_B_V18_PORT_REQUIRED",
+  "reviewed_old_R5_matcher_sha256": "3805fded118e06ede641d80032c0d8b4fea55cb77377598a78524d0e247dc8fc",
+  "reviewed_F27_final_matcher_sha256": "c9f6af08f26aca002f8690fd032698d25db462c9821403f255adc94542d97f7b",
+  "generated_final_patch_sha256": "ce88bf13fedfb4090b5f2b5c3f86b1c0d7740b715040fc960a6a474b6187faba",
+  "old_R5_patch_check_and_apply": [
+    {
+      "action": [
+        "apply",
+        "--check"
+      ],
+      "exit_code": 0,
+      "error": ""
+    },
+    {
+      "action": [
+        "apply",
+        "F27_on_first_R5_final.patch"
+      ],
+      "exit_code": 0,
+      "error": ""
+    }
+  ],
+  "old_R5_output_byte_equal_to_reviewed_F27": true,
+  "published_B_v18_matcher_sha256": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e",
+  "B_v18_apply_check_exit": 1,
+  "B_v18_apply_check_error": "error: patch failed: implementation/runbook_matcher.py:1156\nerror: implementation/runbook_matcher.py: patch does not apply",
+  "B_v18_not_modified": true,
+  "production_not_modified": true
+}

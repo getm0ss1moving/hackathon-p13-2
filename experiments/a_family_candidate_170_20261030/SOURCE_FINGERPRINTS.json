@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "provider_files_hashed": 30,
+  "files": [
+    {
+      "file": "CANDIDATES.json",
+      "expected": "7ffe9e3c4f5880c96e1e2bcb9c4ef866fe16dfa7b39f5d89165be0da64f9c6e2",
+      "actual": "7ffe9e3c4f5880c96e1e2bcb9c4ef866fe16dfa7b39f5d89165be0da64f9c6e2",
+      "equal": true
+    },
+    {
+      "file": "INDEPENDENT_CASES.json",
+      "expected": "7e4e16c69a553667336e911d496aae18736bb15912adb66922c21d8a696b2ad1",
+      "actual": "7e4e16c69a553667336e911d496aae18736bb15912adb66922c21d8a696b2ad1",
+      "equal": true
+    },
+    {
+      "file": "INDEPENDENT_R3_RESULTS.json",
+      "expected": "570c72d46efe19de5ba62a4cf7f9f706359617c3a44d831a351035d85fb83466",
+      "actual": "570c72d46efe19de5ba62a4cf7f9f706359617c3a44d831a351035d85fb83466",
+      "equal": true
+    },
+    {
+      "file": "INTEGRATION_HANDOFF.json",
+      "expected": "4c2521244622ad2d0da64284ee834668658d95931f816ea1229fa7c82dc3c8a6",
+      "actual": "4c2521244622ad2d0da64284ee834668658d95931f816ea1229fa7c82dc3c8a6",
+      "equal": true
+    },
+    {
+      "file": "OLD_TO_NEW.json",
+      "expected": "c2ad5e51039bd90eb778ac74d804e5c3319fd4bfc287c8c9129daba405da2ee8",
+      "actual": "c2ad5e51039bd90eb778ac74d804e5c3319fd4bfc287c8c9129daba405da2ee8",
+      "equal": true
+    },
+    {
+      "file": "RETRIEVAL_HANDOFF.json",
+      "expected": "af4b2ecf9e2800641f49864d7aac9d5e168350af4e2f2611843fea3d72f33628",
+      "actual": "af4b2ecf9e2800641f49864d7aac9d5e168350af4e2f2611843fea3d72f33628",
+      "equal": true
+    },
+    {
+      "file": "SEMANTIC_REVIEW_R1.json",
+      "expected": "d067d6b8b629cb03ab8753db672e06906aa390736713767e6ab91c6235f07104",
+      "actual": "d067d6b8b629cb03ab8753db672e06906aa390736713767e6ab91c6235f07104",
+      "equal": true
+    },
+    {
+      "file": "SEMANTIC_REVIEW_R2.json",
+      "expected": "7ae664a5cec44034cf23efe05f66ee5dcb9de4428e1b3dcdab03b86fd916ba49",
+      "actual": "7ae664a5cec44034cf23efe05f66ee5dcb9de4428e1b3dcdab03b86fd916ba49",
+      "equal": true
+    },
+    {
+      "file": "SOURCE_MANIFEST.json",
+      "expected": "52f44efbd43da88168a4ec0bdb64cf1e6f0ef19f47a9029e907351d0237d8115",
+      "actual": "52f44efbd43da88168a4ec0bdb64cf1e6f0ef19f47a9029e907351d0237d8115",
+      "equal": true
+    },
+    {
+      "file": "VALIDATION.json",
+      "expected": "b61ecac155da9214d57212c10782f3c98b48e662a1548e7721e4ae189dbd70ed",
+      "actual": "b61ecac155da9214d57212c10782f3c98b48e662a1548e7721e4ae189dbd70ed",
+      "equal": true
+    },
+    {
+      "file": "archive_r1/family_batch3_additions.py",
+      "expected": "5e2a3bc9f7d5e7daaeec4456db7fc3d434b562b31c3ada7bebed591f8dbbce58",
+      "actual": "5e2a3bc9f7d5e7daaeec4456db7fc3d434b562b31c3ada7bebed591f8dbbce58",
+      "equal": true
+    },
+    {
+      "file": "candidate/family_batch3_additions.py",
+      "expected": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+      "actual": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+      "equal": true
+    },
+    {
+      "file": "docs/B_INTEGRATION_NOTES.md",
+      "expected": "f0691a0d8979f8a9c0194ad26d5c85ed48ebc952871476c049d073f6f916a142",
+      "actual": "f0691a0d8979f8a9c0194ad26d5c85ed48ebc952871476c049d073f6f916a142",
+      "equal": true
+    },
+    {
+      "file": "docs/HANDOFF.md",
+      "expected": "3b742f305df460ddc7a9ca4f0d723e1c9f51cd2c0a610a7220c6626ccc934dc6",
+      "actual": "3b742f305df460ddc7a9ca4f0d723e1c9f51cd2c0a610a7220c6626ccc934dc6",
+      "equal": true
+    },
+    {
+      "file": "docs/INDEPENDENT_CASES.md",
+      "expected": "1161bee6627d0b4fb08f85c6b1697bf7c251fd7115f8ba60c63d6d78efdb62db",
+      "actual": "1161bee6627d0b4fb08f85c6b1697bf7c251fd7115f8ba60c63d6d78efdb62db",
+      "equal": true
+    },
+    {
+      "file": "docs/INDEPENDENT_R3_REVIEW.md",
+      "expected": "203d7fea58793a189945423c188a875c398953b3748f1afed58f3efc4f5447eb",
+      "actual": "203d7fea58793a189945423c188a875c398953b3748f1afed58f3efc4f5447eb",
+      "equal": true
+    },
+    {
+      "file": "docs/MERGE_NOTES.md",
+      "expected": "f0cbb4f40c1a3719c3cef4644c81efa46995513419ddf4b43aa7f5343943f3bb",
+      "actual": "f0cbb4f40c1a3719c3cef4644c81efa46995513419ddf4b43aa7f5343943f3bb",
+      "equal": true
+    },
+    {
+      "file": "docs/SELECTION.md",
+      "expected": "b08589cfc2228eddbea4a7c63902c0a62b22284b3e579237f00318d1f9315d5b",
+      "actual": "b08589cfc2228eddbea4a7c63902c0a62b22284b3e579237f00318d1f9315d5b",
+      "equal": true
+    },
+    {
+      "file": "docs/SUPPORTED_SYNTAX.md",
+      "expected": "0298e1ce4940c511b9844340a5ab106d2c3da554a1a43e382a893ea657bf0ecf",
+      "actual": "0298e1ce4940c511b9844340a5ab106d2c3da554a1a43e382a893ea657bf0ecf",
+      "equal": true
+    },
+    {
+      "file": "scripts/build_batch3.py",
+      "expected": "80944ba93c385e87b9debf5ff69039d40da615c9c0d5be2025ed9bc85aab2f7e",
+      "actual": "80944ba93c385e87b9debf5ff69039d40da615c9c0d5be2025ed9bc85aab2f7e",
+      "equal": true
+    },
+    {
+      "file": "scripts/family_batch3_additions.py",
+      "expected": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+      "actual": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7",
+      "equal": true
+    },
+    {
+      "file": "scripts/finalize_delivery.py",
+      "expected": "0c08b56c9889bbe8306e6fb0690eca4960d26f6c0075d9d6b05c5cf88cb96bbb",
+      "actual": "0c08b56c9889bbe8306e6fb0690eca4960d26f6c0075d9d6b05c5cf88cb96bbb",
+      "equal": true
+    },
+    {
+      "file": "scripts/independent_r3_review.py",
+      "expected": "c961b8974d30ac2490a944ca177a9cde5948c706121ed7d6b69e38f8f95ad2a0",
+      "actual": "c961b8974d30ac2490a944ca177a9cde5948c706121ed7d6b69e38f8f95ad2a0",
+      "equal": true
+    },
+    {
+      "file": "selection_review.md",
+      "expected": "6d66486d8264409c9b07b0ec318c98846c78f53b7bfd6ffc46b6ad12eca2e8f9",
+      "actual": "6d66486d8264409c9b07b0ec318c98846c78f53b7bfd6ffc46b6ad12eca2e8f9",
+      "equal": true
+    },
+    {
+      "file": "source/AGENTS.md",
+      "expected": "a2b333fd3c52526fada60c359fd51ddb96e27ce5f8ea9de7a5c07b201dcf2ed1",
+      "actual": "a2b333fd3c52526fada60c359fd51ddb96e27ce5f8ea9de7a5c07b201dcf2ed1",
+      "equal": true
+    },
+    {
+      "file": "source/design_selected.json",
+      "expected": "79651a20b73c681544a56f99064ad6ca3c256b96b45ceafa456d021d7b61c0d7",
+      "actual": "79651a20b73c681544a56f99064ad6ca3c256b96b45ceafa456d021d7b61c0d7",
+      "equal": true
+    },
+    {
+      "file": "source/docs__TEAM.md",
+      "expected": "2538b242db096854ad30e14b5ec1b692467fb61d9b3ddd7d6f7a0cbb036060c4",
+      "actual": "2538b242db096854ad30e14b5ec1b692467fb61d9b3ddd7d6f7a0cbb036060c4",
+      "equal": true
+    },
+    {
+      "file": "source/original_contracts.json",
+      "expected": "cc5091690cae4b73e0e8c7f552d26d18bff671ff63e987dddeb8a04885e7eed7",
+      "actual": "cc5091690cae4b73e0e8c7f552d26d18bff671ff63e987dddeb8a04885e7eed7",
+      "equal": true
+    },
+    {
+      "file": "tests/review_semantics.py",
+      "expected": "c71fac9aa70bb569a18b8de3ab106d54d400c40b2507fd89202256f064be906a",
+      "actual": "c71fac9aa70bb569a18b8de3ab106d54d400c40b2507fd89202256f064be906a",
+      "equal": true
+    },
+    {
+      "file": "tests/validate_offline.py",
+      "expected": "f3d7c4ba6873cb12bb25787dfae9d1aee20f39f3e286dbef7a69c85155a10ed0",
+      "actual": "f3d7c4ba6873cb12bb25787dfae9d1aee20f39f3e286dbef7a69c85155a10ed0",
+      "equal": true
+    }
+  ],
+  "prior179_sha256": "1743b73df31b420a5d9f3a0f775d5c93e0277ce9c5e2d85585adef79b4f3d026",
+  "provider_directory_modified": false
+}

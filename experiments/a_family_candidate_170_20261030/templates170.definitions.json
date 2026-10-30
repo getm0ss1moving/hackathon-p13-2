@@ -1,0 +1,1892 @@
+{
+  "status": "UNIFIED170_SOURCE_REFERENCES_NOT_DIRECT_SDK_INPUT",
+  "published180_commit": "7b7271e3ab322914244f9047eb985174c2a92d9f",
+  "historical179_published_separately": false,
+  "base198_commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "active_template_count": 170,
+  "inherited_source_templates": 161,
+  "parameterized_families": 9,
+  "entries": [
+    {
+      "id": "family_f01",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f01",
+        "family_id": "F01",
+        "name": "ECS数量与分布",
+        "description": "ECS虚拟机计数，单维状态/可用区/管理标记/租户/VDC分组，VDC总数与active数，可用区内active/stopped/其他状态计数。保留数量别名、可选ECS标签、显式降序；区域/租户/VDC/可用区/状态/管理标记均为显式筛选。",
+        "resources": [
+          "VM_NOVA"
+        ],
+        "examples": [
+          "ECS虚拟机计数，单维状态/可用区/管理标记/租户/VDC分组，VDC总数与active数，可用区内active/stopped/其他状态计数。保留数量别名、可选ECS标签、显式降序；区域/租户/VDC/可用区/状态/管理标记均为显式筛选。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000"
+        },
+        "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY status"
+      }
+    },
+    {
+      "id": "family_f02",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f02",
+        "family_id": "F02",
+        "name": "ECS直接属性投影与等值筛选",
+        "description": "ECS直接属性投影与等值筛选；只接受已审投影/筛选/排序组合，名称不是包含条件，不支持额外列或关系。",
+        "resources": [
+          "VM_NOVA"
+        ],
+        "examples": [
+          "ECS实例按名称等值查询，输出name、createdAt"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "azoneName",
+                  "value": "{{azoneName}}",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "status",
+                  "value": "{{status}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, privateIps, tenantName FROM CLOUD_VM_NOVA",
+        "parameter_contract": {
+          "scope": [
+            "filtered"
+          ],
+          "profiles": [
+            {
+              "projection": [
+                "name",
+                "privateIps",
+                "tenantName"
+              ],
+              "order": "none",
+              "filters": [
+                "azoneName",
+                "status"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "createdAt"
+              ],
+              "order": "none",
+              "filters": [
+                "name"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "clusterName",
+                "azoneName"
+              ],
+              "order": "none",
+              "filters": [
+                "name"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "privateIps",
+                "status"
+              ],
+              "order": "none",
+              "filters": [
+                "tenantName",
+                "logicalRegionName"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "privateIps",
+                "status"
+              ],
+              "order": "none",
+              "filters": [
+                "tenantName",
+                "logicalRegionName",
+                "azoneName"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "privateIps",
+                "tenantName"
+              ],
+              "order": "none",
+              "filters": [
+                "logicalRegionName",
+                "azoneName"
+              ]
+            },
+            {
+              "projection": [
+                "tenantName",
+                "name",
+                "privateIps"
+              ],
+              "order": "tenantName",
+              "filters": [
+                "vdcName",
+                "logicalRegionName",
+                "azoneName"
+              ]
+            }
+          ],
+          "types": "all filters are nonempty original text; no defaults"
+        }
+      }
+    },
+    {
+      "id": "rb_008",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_008"
+      }
+    },
+    {
+      "id": "rb_010",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_010"
+      }
+    },
+    {
+      "id": "rb_011",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_011"
+      }
+    },
+    {
+      "id": "rb_012",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_012"
+      }
+    },
+    {
+      "id": "rb_013",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_013"
+      }
+    },
+    {
+      "id": "rb_014",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_014"
+      }
+    },
+    {
+      "id": "rb_015",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_015"
+      }
+    },
+    {
+      "id": "rb_016",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_016"
+      }
+    },
+    {
+      "id": "rb_018",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_018"
+      }
+    },
+    {
+      "id": "rb_019",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_019"
+      }
+    },
+    {
+      "id": "rb_020",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_020"
+      }
+    },
+    {
+      "id": "rb_021",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_021"
+      }
+    },
+    {
+      "id": "rb_022",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_022"
+      }
+    },
+    {
+      "id": "rb_023",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_023"
+      }
+    },
+    {
+      "id": "rb_024",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_024"
+      }
+    },
+    {
+      "id": "rb_025",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_025"
+      }
+    },
+    {
+      "id": "rb_026",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_026"
+      }
+    },
+    {
+      "id": "rb_027",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_027"
+      }
+    },
+    {
+      "id": "rb_028",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_028"
+      }
+    },
+    {
+      "id": "rb_030",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_030"
+      }
+    },
+    {
+      "id": "rb_031",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_031"
+      }
+    },
+    {
+      "id": "rb_032",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_032"
+      }
+    },
+    {
+      "id": "rb_033",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_033"
+      }
+    },
+    {
+      "id": "rb_034",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_034"
+      }
+    },
+    {
+      "id": "rb_035",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_035"
+      }
+    },
+    {
+      "id": "rb_036",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_036"
+      }
+    },
+    {
+      "id": "rb_040",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_040"
+      }
+    },
+    {
+      "id": "rb_041",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_041"
+      }
+    },
+    {
+      "id": "rb_043",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_043"
+      }
+    },
+    {
+      "id": "rb_045",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_045"
+      }
+    },
+    {
+      "id": "rb_046",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_046"
+      }
+    },
+    {
+      "id": "rb_047",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_047"
+      }
+    },
+    {
+      "id": "family_f08",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f08",
+        "family_id": "F08",
+        "name": "宿主机数量分布",
+        "description": "全局或指定区域的宿主机按虚拟化类型、可用区或状态单维计数。",
+        "resources": [
+          "HOST"
+        ],
+        "examples": [
+          "全局或指定区域的宿主机按虚拟化类型、可用区或状态单维计数。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000"
+        },
+        "sql": "SELECT hypervisorType, COUNT(*) AS count FROM CLOUD_HOST GROUP BY hypervisorType"
+      }
+    },
+    {
+      "id": "rb_050",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_050"
+      }
+    },
+    {
+      "id": "rb_051",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_051"
+      }
+    },
+    {
+      "id": "rb_052",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_052"
+      },
+      "legacy_aliases": [
+        {
+          "id": "rb_054",
+          "after_id": "rb_052",
+          "text_source_owner": "rb_052"
+        }
+      ]
+    },
+    {
+      "id": "rb_055",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_055"
+      }
+    },
+    {
+      "id": "rb_056",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_056"
+      }
+    },
+    {
+      "id": "rb_057",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_057"
+      }
+    },
+    {
+      "id": "rb_058",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_058"
+      }
+    },
+    {
+      "id": "rb_059",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_059"
+      }
+    },
+    {
+      "id": "rb_060",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_060"
+      }
+    },
+    {
+      "id": "rb_061",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_061"
+      }
+    },
+    {
+      "id": "rb_062",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_062"
+      }
+    },
+    {
+      "id": "rb_063",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_063"
+      }
+    },
+    {
+      "id": "rb_064",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_064"
+      }
+    },
+    {
+      "id": "rb_065",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_065"
+      }
+    },
+    {
+      "id": "rb_066",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_066"
+      }
+    },
+    {
+      "id": "rb_067",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_067"
+      }
+    },
+    {
+      "id": "rb_068",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_068"
+      }
+    },
+    {
+      "id": "rb_069",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_069"
+      }
+    },
+    {
+      "id": "rb_070",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_070"
+      }
+    },
+    {
+      "id": "rb_071",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_071"
+      }
+    },
+    {
+      "id": "rb_072",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_072"
+      }
+    },
+    {
+      "id": "rb_073",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_073"
+      }
+    },
+    {
+      "id": "rb_075",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_075"
+      }
+    },
+    {
+      "id": "rb_076",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_076"
+      }
+    },
+    {
+      "id": "rb_077",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_077"
+      }
+    },
+    {
+      "id": "rb_078",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_078"
+      }
+    },
+    {
+      "id": "rb_079",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_079"
+      }
+    },
+    {
+      "id": "rb_080",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_080"
+      }
+    },
+    {
+      "id": "rb_081",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_081"
+      }
+    },
+    {
+      "id": "rb_082",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_082"
+      }
+    },
+    {
+      "id": "rb_083",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_083"
+      }
+    },
+    {
+      "id": "rb_084",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_084"
+      }
+    },
+    {
+      "id": "rb_085",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_085"
+      }
+    },
+    {
+      "id": "family_f14",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f14",
+        "family_id": "F14",
+        "name": "云硬盘VDC容量统计",
+        "description": "指定区域各VDC的云硬盘数量及总容量，或平均及最大容量。",
+        "resources": [
+          "VOLUME"
+        ],
+        "examples": [
+          "指定区域各VDC的云硬盘数量及总容量，或平均及最大容量。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "{{logicalRegionName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName"
+      },
+      "legacy_aliases": [
+        {
+          "id": "rb_087",
+          "after_id": "family_f14",
+          "text_source_owner": "rb_086"
+        }
+      ]
+    },
+    {
+      "id": "rb_088",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_088"
+      }
+    },
+    {
+      "id": "rb_089",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_089"
+      }
+    },
+    {
+      "id": "rb_090",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_090"
+      }
+    },
+    {
+      "id": "rb_091",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_091"
+      }
+    },
+    {
+      "id": "rb_092",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_092"
+      }
+    },
+    {
+      "id": "rb_093",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_093"
+      }
+    },
+    {
+      "id": "rb_094",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_094"
+      }
+    },
+    {
+      "id": "rb_095",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_095"
+      }
+    },
+    {
+      "id": "rb_096",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_096"
+      }
+    },
+    {
+      "id": "rb_097",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_097"
+      }
+    },
+    {
+      "id": "rb_098",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_098"
+      }
+    },
+    {
+      "id": "family_f27",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f27",
+        "family_id": "F27",
+        "name": "OBS桶列表与租户计数",
+        "description": "指定区域OBS桶的固定三列列表，或按租户统计桶数量；不包含容量、名称筛选或任意投影。",
+        "resources": [
+          "OBS_BUCKET"
+        ],
+        "examples": [
+          "列出指定区域的OBS桶列表",
+          "按租户统计指定区域的OBS桶数量"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "{{logicalRegionName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, bucketName, managedStatus FROM CLOUD_OBS_BUCKET"
+      }
+    },
+    {
+      "id": "rb_100",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_100"
+      }
+    },
+    {
+      "id": "rb_103",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_103"
+      }
+    },
+    {
+      "id": "rb_104",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_104"
+      }
+    },
+    {
+      "id": "family_f18",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f18",
+        "family_id": "F18",
+        "name": "数据库数量与容量分布",
+        "description": "指定区域数据库按规格编码、引擎版本或高可用模式单维计数；按VDC分组固定统计实例数及存储总量。",
+        "resources": [
+          "GAUSSDB_INSTANCE"
+        ],
+        "examples": [
+          "指定区域数据库按规格编码、引擎版本或高可用模式单维计数；按VDC分组固定统计实例数及存储总量。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "{{logicalRegionName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT flavorCode, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY flavorCode"
+      }
+    },
+    {
+      "id": "rb_107",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_107"
+      }
+    },
+    {
+      "id": "rb_108",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_108"
+      }
+    },
+    {
+      "id": "rb_109",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_109"
+      }
+    },
+    {
+      "id": "family_f20",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f20",
+        "family_id": "F20",
+        "name": "共享网络列表与数量",
+        "description": "显式共享或非共享网络的列表或无分组计数，可按显式区域、网络类型筛选；列表固定名称/类型/分段ID三列。",
+        "resources": [
+          "NETWORK"
+        ],
+        "examples": [
+          "显式共享或非共享网络的列表或无分组计数，可按显式区域、网络类型筛选；列表固定名称/类型/分段ID三列。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "shared",
+                  "value": "{{shared}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, providerNetworkType, providerPhysicalNetworkSegId FROM CLOUD_NETWORK"
+      }
+    },
+    {
+      "id": "family_f21",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f21",
+        "family_id": "F21",
+        "name": "弹性IP数量分布",
+        "description": "指定区域弹性IP按VDC单维计数，或按租户与状态二维联合计数；两个粒度不能互相替代。",
+        "resources": [
+          "FLOATING_IPS"
+        ],
+        "examples": [
+          "指定区域弹性IP按VDC单维计数，或按租户与状态二维联合计数；两个粒度不能互相替代。"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "{{logicalRegionName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT vdcName, COUNT(*) AS count FROM CLOUD_FLOATING_IPS GROUP BY vdcName"
+      }
+    },
+    {
+      "id": "rb_114",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_114"
+      }
+    },
+    {
+      "id": "rb_115",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_115"
+      }
+    },
+    {
+      "id": "rb_116",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_116"
+      }
+    },
+    {
+      "id": "rb_117",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_117"
+      }
+    },
+    {
+      "id": "rb_118",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_118"
+      }
+    },
+    {
+      "id": "rb_119",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_119"
+      }
+    },
+    {
+      "id": "rb_120",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_120"
+      }
+    },
+    {
+      "id": "rb_121",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_121"
+      }
+    },
+    {
+      "id": "rb_122",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_122"
+      }
+    },
+    {
+      "id": "rb_123",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_123"
+      }
+    },
+    {
+      "id": "rb_124",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_124"
+      }
+    },
+    {
+      "id": "rb_125",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_125"
+      }
+    },
+    {
+      "id": "rb_126",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_126"
+      }
+    },
+    {
+      "id": "rb_127",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_127"
+      }
+    },
+    {
+      "id": "rb_128",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_128"
+      }
+    },
+    {
+      "id": "rb_129",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_129"
+      }
+    },
+    {
+      "id": "rb_130",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_130"
+      }
+    },
+    {
+      "id": "rb_131",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_131"
+      }
+    },
+    {
+      "id": "rb_132",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_132"
+      }
+    },
+    {
+      "id": "rb_134",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_134"
+      }
+    },
+    {
+      "id": "rb_135",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_135"
+      }
+    },
+    {
+      "id": "rb_136",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_136"
+      }
+    },
+    {
+      "id": "rb_137",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_137"
+      }
+    },
+    {
+      "id": "rb_138",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_138"
+      }
+    },
+    {
+      "id": "rb_139",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_139"
+      }
+    },
+    {
+      "id": "rb_140",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_140"
+      }
+    },
+    {
+      "id": "rb_141",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_141"
+      }
+    },
+    {
+      "id": "family_f19",
+      "kind": "new_parameterized_family",
+      "template": {
+        "id": "family_f19",
+        "family_id": "F19",
+        "name": "GaussDB直接属性投影与等值筛选",
+        "description": "GaussDB直接属性投影与等值筛选；只接受已审投影/筛选/排序组合，名称不是包含条件，不支持额外列或关系。",
+        "resources": [
+          "GAUSSDB_INSTANCE"
+        ],
+        "examples": [
+          "GaussDB实例按名称等值查询，输出haMode、dataVip"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "{{logicalRegionName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, engineName, engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+        "parameter_contract": {
+          "scope": [
+            "filtered"
+          ],
+          "profiles": [
+            {
+              "projection": [
+                "name",
+                "engineName",
+                "engineVersion",
+                "haMode",
+                "flavorCode"
+              ],
+              "order": "none",
+              "filters": [
+                "logicalRegionName"
+              ]
+            },
+            {
+              "projection": [
+                "engineVersion",
+                "haMode",
+                "flavorCode"
+              ],
+              "order": "none",
+              "filters": [
+                "name"
+              ]
+            },
+            {
+              "projection": [
+                "name",
+                "engineVersion",
+                "dataVip"
+              ],
+              "order": "none",
+              "filters": [
+                "logicalRegionName"
+              ]
+            },
+            {
+              "projection": [
+                "haMode",
+                "dataVip"
+              ],
+              "order": "none",
+              "filters": [
+                "name"
+              ]
+            }
+          ],
+          "types": "all filters are nonempty original text; no defaults"
+        }
+      }
+    },
+    {
+      "id": "rb_147",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_147"
+      }
+    },
+    {
+      "id": "rb_149",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_149"
+      }
+    },
+    {
+      "id": "rb_150",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_150"
+      }
+    },
+    {
+      "id": "rb_151",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_151"
+      }
+    },
+    {
+      "id": "rb_152",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_152"
+      }
+    },
+    {
+      "id": "rb_153",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_153"
+      }
+    },
+    {
+      "id": "rb_154",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_154"
+      }
+    },
+    {
+      "id": "rb_155",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_155"
+      }
+    },
+    {
+      "id": "rb_156",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_156"
+      }
+    },
+    {
+      "id": "rb_157",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_157"
+      }
+    },
+    {
+      "id": "rb_158",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_158"
+      }
+    },
+    {
+      "id": "rb_159",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_159"
+      }
+    },
+    {
+      "id": "rb_160",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_160"
+      }
+    },
+    {
+      "id": "rb_161",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_161"
+      }
+    },
+    {
+      "id": "rb_162",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_162"
+      }
+    },
+    {
+      "id": "rb_163",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_163"
+      }
+    },
+    {
+      "id": "rb_164",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_164"
+      }
+    },
+    {
+      "id": "rb_165",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_165"
+      }
+    },
+    {
+      "id": "rb_166",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_166"
+      }
+    },
+    {
+      "id": "rb_167",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_167"
+      }
+    },
+    {
+      "id": "rb_168",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_168"
+      }
+    },
+    {
+      "id": "rb_169",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_169"
+      }
+    },
+    {
+      "id": "rb_170",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_170"
+      }
+    },
+    {
+      "id": "rb_171",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_171"
+      }
+    },
+    {
+      "id": "rb_172",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_172"
+      }
+    },
+    {
+      "id": "rb_173",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_173"
+      }
+    },
+    {
+      "id": "rb_174",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_174"
+      }
+    },
+    {
+      "id": "rb_175",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_175"
+      }
+    },
+    {
+      "id": "rb_176",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_176"
+      }
+    },
+    {
+      "id": "rb_177",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_177"
+      }
+    },
+    {
+      "id": "rb_178",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_178"
+      }
+    },
+    {
+      "id": "rb_179",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_179"
+      }
+    },
+    {
+      "id": "rb_180",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_180"
+      }
+    },
+    {
+      "id": "rb_181",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_181"
+      }
+    },
+    {
+      "id": "rb_182",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_182"
+      }
+    },
+    {
+      "id": "rb_183",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_183"
+      }
+    },
+    {
+      "id": "rb_185",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_185"
+      }
+    },
+    {
+      "id": "rb_186",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_186"
+      }
+    },
+    {
+      "id": "rb_187",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_187"
+      }
+    },
+    {
+      "id": "rb_188",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_188"
+      }
+    },
+    {
+      "id": "rb_189",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_189"
+      }
+    },
+    {
+      "id": "rb_190",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_190"
+      }
+    },
+    {
+      "id": "rb_191",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_191"
+      }
+    },
+    {
+      "id": "rb_192",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_192"
+      }
+    },
+    {
+      "id": "rb_193",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_193"
+      }
+    },
+    {
+      "id": "rb_194",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_194"
+      }
+    },
+    {
+      "id": "rb_195",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_195"
+      }
+    },
+    {
+      "id": "rb_196",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_196"
+      }
+    },
+    {
+      "id": "rb_197",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_197"
+      }
+    },
+    {
+      "id": "rb_198",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_198"
+      }
+    },
+    {
+      "id": "rb_199",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_199"
+      }
+    },
+    {
+      "id": "rb_200",
+      "kind": "inherited_unchanged_template",
+      "source": {
+        "commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+        "path": "implementation/runbook_items.py",
+        "id": "rb_200"
+      }
+    }
+  ]
+}

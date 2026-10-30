@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "new_cases": 8,
+  "positives": 3,
+  "negatives": 5,
+  "passed": 8,
+  "false_accepts": 0,
+  "false_rejects": 0,
+  "inputs_stable": true,
+  "case_commitment_sha256": "1bf0e982cb46dae561883bf5db004b0e6311725215abd40cf3b361cf583a3518",
+  "private_70_or_existing_cases_read": false,
+  "execution": "prototype and frozen prepare; controlled parsed JSON only",
+  "model_requests": 0,
+  "service_requests": 0,
+  "fee": 0,
+  "production_modified": false,
+  "evidence_source": "INDEPENDENT_R4_SMALL.json",
+  "source_sha256": "8ec7d99cf53cf0e2bc41a095cdea1074333b1abe572d67d2f2459f3c5112812d",
+  "independently_reexecuted_full_suite_by_packager": false
+}

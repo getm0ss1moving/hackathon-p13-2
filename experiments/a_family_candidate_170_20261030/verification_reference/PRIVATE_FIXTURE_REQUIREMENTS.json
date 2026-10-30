@@ -1,0 +1,6 @@
+{
+  "private70_case_sha256": "48ad5322896ce4a4bf64cfbedb1f48df082ce71fe3e5a90ae996a78e47e8e33b",
+  "private537_case_sha256": "cbd41c6c19adee3ab5c0fe1822521b4338995c0cb93299ba6a8b8304d1da977f",
+  "private_cases_bundled": false,
+  "note": "Reference harnesses preserve the coordinator evidence layout. Full70/2148 replay requires locally retained private fixtures; use public builder/property verifier for a fixture-free replay. No claim of full cross-machine reproduction without private inputs."
+}

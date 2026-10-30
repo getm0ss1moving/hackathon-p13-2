@@ -1,0 +1,48 @@
+{
+  "family_f02": {
+    "resource_terms": "ECS VM_NOVA 虚拟机 云主机",
+    "views": [
+      {
+        "output": "name createdAt",
+        "filters": "name"
+      },
+      {
+        "output": "name clusterName azoneName",
+        "filters": "name"
+      },
+      {
+        "output": "name privateIps tenantName",
+        "filters": "azoneName status|logicalRegionName azoneName"
+      },
+      {
+        "output": "name privateIps status",
+        "filters": "tenantName logicalRegionName|tenantName logicalRegionName azoneName"
+      },
+      {
+        "output": "tenantName name privateIps",
+        "filters": "vdcName logicalRegionName azoneName"
+      }
+    ]
+  },
+  "family_f19": {
+    "resource_terms": "GaussDB GAUSSDB_INSTANCE RDS 数据库实例",
+    "views": [
+      {
+        "output": "name engineName engineVersion haMode flavorCode",
+        "filters": "logicalRegionName"
+      },
+      {
+        "output": "engineVersion haMode flavorCode",
+        "filters": "name"
+      },
+      {
+        "output": "name engineVersion dataVip",
+        "filters": "logicalRegionName"
+      },
+      {
+        "output": "haMode dataVip",
+        "filters": "name"
+      }
+    ]
+  }
+}

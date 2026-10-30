@@ -1,0 +1,215 @@
+[
+  {
+    "view": "ecs_creation_time",
+    "family_id": "F02",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "createdAt"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, createdAt FROM CLOUD_VM_NOVA",
+    "legal_filter_sets": [
+      [
+        "name"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_009"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "ecs_cluster_zone",
+    "family_id": "F02",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "clusterName",
+      "azoneName"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, clusterName, azoneName FROM CLOUD_VM_NOVA",
+    "legal_filter_sets": [
+      [
+        "name"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_029"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "ecs_ip_tenant",
+    "family_id": "F02",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "privateIps",
+      "tenantName"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, privateIps, tenantName FROM CLOUD_VM_NOVA",
+    "legal_filter_sets": [
+      [
+        "azoneName",
+        "status"
+      ],
+      [
+        "logicalRegionName",
+        "azoneName"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_006",
+      "rb_039"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "ecs_filtered_list",
+    "family_id": "F02",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "privateIps",
+      "status"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, privateIps, status FROM CLOUD_VM_NOVA",
+    "legal_filter_sets": [
+      [
+        "tenantName",
+        "logicalRegionName"
+      ],
+      [
+        "tenantName",
+        "logicalRegionName",
+        "azoneName"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_037",
+      "rb_038"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "ecs_tenant_ordered_ip",
+    "family_id": "F02",
+    "scope": "filtered",
+    "output_columns": [
+      "tenantName",
+      "name",
+      "privateIps"
+    ],
+    "default_order": "tenantName",
+    "sql_contract": "SELECT tenantName, name, privateIps FROM CLOUD_VM_NOVA ORDER BY tenantName",
+    "legal_filter_sets": [
+      [
+        "vdcName",
+        "logicalRegionName",
+        "azoneName"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_042"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "db_region_inventory",
+    "family_id": "F19",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "engineName",
+      "engineVersion",
+      "haMode",
+      "flavorCode"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, engineName, engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+    "legal_filter_sets": [
+      [
+        "logicalRegionName"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_142"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "db_named_config",
+    "family_id": "F19",
+    "scope": "filtered",
+    "output_columns": [
+      "engineVersion",
+      "haMode",
+      "flavorCode"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT engineVersion, haMode, flavorCode FROM CLOUD_GAUSSDB_INSTANCE",
+    "legal_filter_sets": [
+      [
+        "name"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_145"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "db_region_version_vip",
+    "family_id": "F19",
+    "scope": "filtered",
+    "output_columns": [
+      "name",
+      "engineVersion",
+      "dataVip"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT name, engineVersion, dataVip FROM CLOUD_GAUSSDB_INSTANCE",
+    "legal_filter_sets": [
+      [
+        "logicalRegionName"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_146"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  },
+  {
+    "view": "db_named_ha_vip",
+    "family_id": "F19",
+    "scope": "filtered",
+    "output_columns": [
+      "haMode",
+      "dataVip"
+    ],
+    "default_order": "none",
+    "sql_contract": "SELECT haMode, dataVip FROM CLOUD_GAUSSDB_INSTANCE",
+    "legal_filter_sets": [
+      [
+        "name"
+      ]
+    ],
+    "source_ids_offline_evidence_only": [
+      "rb_148"
+    ],
+    "defaults_entities": false,
+    "defaults_output_contract_only": true
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "status": "A179_DATA_INDEX_ONLY_NOT_PRODUCTION",
+  "source180_sha256": "5c987e77da5b52883a5a6047faf6c7710a9fa41621c4080a53231cc2916bd1e3",
+  "candidate179_sha256": "1743b73df31b420a5d9f3a0f775d5c93e0277ce9c5e2d85585adef79b4f3d026",
+  "source_N": 180,
+  "candidate_N": 179,
+  "retired_to_family": {
+    "rb_099": "family_f27",
+    "rb_101": "family_f27"
+  },
+  "retained_items_exactly_unchanged": 178,
+  "active_families": [
+    "F01",
+    "F08",
+    "F14",
+    "F18",
+    "F20",
+    "F21",
+    "F27"
+  ],
+  "index_documents": 400,
+  "text_profiles": 200,
+  "identical_raw_profile_order_tokens_and_BM25_statistics": true,
+  "max_compact_template_bytes": 2562,
+  "max_template_dict_list_depth": 7,
+  "outer_array_depth": 8,
+  "matcher_or_system_copied": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "native_pagination_or_bucket_uniqueness_proved": false,
+  "warning": "Private output inherits baseline entities; publish source references instead. B must port family semantics before query use."
+}
