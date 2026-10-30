@@ -25,7 +25,8 @@ def fixture():
     history = [{**case, "score_without_time_penalty": 0 if index % 2 == 0 else 5}
                for index, case in enumerate(cases)]
     manifest = {"split_id": "whitebox_150_50_v1", "train_sha256": "d" * 64,
-                "train_history_sha256": "d" * 64, "sealed_test_sha256": "d" * 64}
+                "train_history_sha256": "d" * 64, "sealed_test_sha256": "d" * 64,
+                "source_dataset_sha256": "d" * 64}
     return manifest, cases, history
 
 
@@ -221,6 +222,54 @@ class SubsetTests(unittest.TestCase):
         self.assertTrue(rows[-1]['holdout_evaluated'])
         self.assertEqual((rows[-1]['completed_cases'], rows[-1]['max_requests'], state.sdk_calls), (50, 150, 100))
         self.assertTrue(all(row['training_case_index'] is None for row in rows if row['type'] == 'case'))
+
+    def test_explicit_full200_keeps_original_scope_and_caps_calls_at450(self):
+        _, training, _ = fixture()
+        full = training + [{'case_id': f'VALID-{i}', 'question': f'合成验证问题{i}'} for i in range(50)]
+        with ExitStack() as stack:
+            stack.enter_context(patch('validation_data.load_explicit_whitebox200', return_value=full))
+            code, rows, state = self.run_fixture(stack, ['--whitebox200'])
+        self.assertEqual(code, 0)
+        self.assertEqual(rows[0]['type'], 'validation_plan')
+        self.assertEqual(rows[-1]['scope'], 'whitebox200_explicit')
+        self.assertEqual(rows[0]['case_order'], 'original whitebox file order')
+        self.assertTrue(rows[-1]['holdout_evaluated'])
+        self.assertEqual((rows[-1]['completed_cases'], rows[-1]['max_requests'], state.sdk_calls), (200, 450, 400))
+        self.assertEqual(sum(row['training_case_index'] is None for row in rows if row['type'] == 'case'), 50)
+
+    def test_validation_resume_runs_only_unrequested33_with99_budget(self):
+        validation = [{'case_id': f'VALID-{i}', 'question': f'合成验证问题{i}'} for i in range(50)]
+        evidence = {'completed_prefix': 17, 'files_sha256': {}, 'manual_retry': False}
+        args = ['--sealed-validation-freeze', str(train_live.HERE/'reports/synthetic_freeze.json'),
+                '--validation-resume', str(train_live.HERE/'reports/synthetic_parent')]
+        with ExitStack() as stack:
+            stack.enter_context(patch('validation_data.load_sealed_validation', return_value=validation))
+            stack.enter_context(patch('validation_resume.remaining_validation', return_value=(validation[17:], evidence)))
+            code, rows, state = self.run_fixture(stack, args)
+        cases = [row for row in rows if row['type'] == 'case']
+        self.assertEqual(code, 0)
+        self.assertEqual(rows[-1]['scope'], 'sealed50_resume')
+        self.assertEqual((rows[-1]['completed_cases'], rows[-1]['max_requests'], state.sdk_calls), (33, 99, 66))
+        self.assertEqual([r['case_id'] for r in cases], [r['case_id'] for r in validation[17:]])
+        self.assertTrue(all(r['training_case_index'] is None for r in cases))
+
+    def test_default_training_never_loads_full_whitebox(self):
+        with ExitStack() as stack:
+            self.fake_inputs(stack);self.fake_runtime(stack)
+            loader = stack.enter_context(patch('validation_data.load_explicit_whitebox200', side_effect=AssertionError('默认不可读全200')))
+            plan = self.preflight([])
+        loader.assert_not_called()
+        self.assertEqual(plan['scope'], 'train_only')
+        self.assertEqual(plan['case_count'], 150)
+
+    def test_full200_rejects_mixed_scopes_before_loading_questions(self):
+        for extra in [['--case-id', 'SYNTH-001', '--phase', 'failure_probe'],
+                      ['--sealed-validation-freeze', 'unused.json']]:
+            with self.subTest(extra=extra), ExitStack() as stack:
+                self.fake_inputs(stack);self.fake_runtime(stack)
+                loader = stack.enter_context(patch('validation_data.load_explicit_whitebox200'))
+                with self.assertRaises(SystemExit): self.preflight(['--whitebox200', *extra])
+                loader.assert_not_called()
 
     def test_recovery_candidates_default_off_and_explicit_flags_are_frozen(self):
         with ExitStack() as stack:

@@ -1,0 +1,31 @@
+{
+  "arguments": [
+    "--a132-candidate",
+    "--candidate-flags",
+    "--refine-contract-prompt",
+    "--independent-aggregates",
+    "--grouped-aggregates",
+    "--network-details",
+    "--identity-projection",
+    "--vpc-subnets",
+    "--tenant-resources",
+    "--vm-volume-details",
+    "--tenant-vdc-binding",
+    "--parallel-resource-lists",
+    "--detail-count",
+    "--ground-sql-measures",
+    "--partial-storage-pools",
+    "--sg-rule-semijoin",
+    "--verified-empty-root",
+    "--typed-empty-root",
+    "--thinking-mode",
+    "disabled",
+    "--request-limit",
+    "3",
+    "--phase",
+    "failure_probe",
+    "--case-id",
+    "CMDB-053"
+  ],
+  "output_dir": "reports/a132_runtime_port_20261030/view_recovery_053"
+}

@@ -1,0 +1,22 @@
+{
+  "source_base160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "aliases": {
+    "[\"rb_012\",\"api_call\",0,\"condition\"]": {
+      "path": [
+        "rb_019",
+        "api_call",
+        0,
+        "condition"
+      ],
+      "value_sha256": "278258b0158bbd12a95b4e6f087b8dedb300988d30f827d9c9bf43764d743693"
+    },
+    "[\"rb_012\",\"default_params\"]": {
+      "path": [
+        "rb_019",
+        "default_params"
+      ],
+      "value_sha256": "47aba344b4e72aa9a098e885ba80c02cbb6654c37f397c32d7b0f3b012527fab"
+    }
+  },
+  "scope": "offline reconstruction aliases only; no question routing"
+}

@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from validation_data import load_sealed_validation, verify_validation_freeze
+from validation_data import load_sealed_validation, load_validation_subset, verify_validation_freeze
 
 
 def digest(path):
@@ -65,6 +65,33 @@ class ValidationScopeTests(unittest.TestCase):
         for rows in [self.rows[:-1], [self.rows[0]] * 50, [dict(self.rows[0], case_id='TRAIN-0')] + self.rows[1:]]:
             self.rows = rows;self.write_fixture()
             with self.assertRaises(ValueError): load_sealed_validation(self.root, self.freeze, self.manifest, self.train)
+
+    def test_exposed_failure_subset_is_exact_frozen_and_cannot_expand_to_full50(self):
+        self.frozen.update(subset_authorization='user_B_only_and_delivered_contracts_20261031',
+                           subset_case_ids=['VALID-4','VALID-1'])
+        self.freeze.write_text(json.dumps(self.frozen))
+        rows=load_validation_subset(self.root,self.freeze,self.manifest,self.train,['VALID-1','VALID-4'])
+        self.assertEqual([r['case_id'] for r in rows],['VALID-1','VALID-4'])
+        with self.assertRaisesRegex(ValueError,'完整50'):
+            load_sealed_validation(self.root,self.freeze,self.manifest,self.train)
+        for bad in [['VALID-1'],['VALID-1','VALID-1'],['TRAIN-1','VALID-4']]:
+            with self.assertRaises(ValueError):
+                load_validation_subset(self.root,self.freeze,self.manifest,self.train,bad)
+
+    def test_old_full50_freeze_does_not_authorize_arbitrary_subset(self):
+        with self.assertRaises(ValueError):
+            load_validation_subset(self.root,self.freeze,self.manifest,self.train,['VALID-1'])
+
+    def test_user_reported_log_failure_subset_stays_exact_and_cannot_expand(self):
+        self.frozen.update(subset_authorization='user_exposed_log_failures_20261031',
+                           subset_case_ids=['VALID-2'])
+        self.freeze.write_text(json.dumps(self.frozen))
+        rows=load_validation_subset(self.root,self.freeze,self.manifest,self.train,['VALID-2'])
+        self.assertEqual([r['case_id'] for r in rows],['VALID-2'])
+        with self.assertRaises(ValueError):
+            load_validation_subset(self.root,self.freeze,self.manifest,self.train,['VALID-2','VALID-3'])
+        with self.assertRaisesRegex(ValueError,'完整50'):
+            load_sealed_validation(self.root,self.freeze,self.manifest,self.train)
 
 
 if __name__ == '__main__': unittest.main()

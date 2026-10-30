@@ -1,0 +1,2622 @@
+{
+  "purpose": "用户提供两次全200控制台日志对照，及本轮仅5题原生小集诊断；非新全量成绩",
+  "baseline_commit": "a8d4fe1",
+  "user_logs": [
+    {
+      "input_sha256": "8c12ad584b91230082f558946ac8f2783f725886bfa3998b687fd8fae39729fb",
+      "cases": 200,
+      "score": 766.4,
+      "source_commit_and_environment": "not recorded in user console log; cannot attribute to a frozen candidate",
+      "no_answer_means": "zero score, not necessarily model refusal",
+      "rows": {
+        "CMDB-001": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.0
+        },
+        "CMDB-004": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-005": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.1
+        },
+        "CMDB-010": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-011": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-012": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'azoneName', 'status'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.9
+        },
+        "CMDB-013": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-017": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-019": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-020": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-021": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-022": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-023": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-024": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.6
+        },
+        "CMDB-025": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-026": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-027": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-028": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.8
+        },
+        "CMDB-029": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-030": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'privateIps'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.1
+        },
+        "CMDB-033": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-034": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-036": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-039": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-040": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-041": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-042": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-043": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-044": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-045": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-046": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-047": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-048": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-049": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-050": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-051": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.6
+        },
+        "CMDB-052": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-053": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.0
+        },
+        "CMDB-055": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-056": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-057": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-060": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-061": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-066": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-067": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-068": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-069": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-071": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-073": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-074": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-075": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-077": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.6
+        },
+        "CMDB-078": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-080": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-081": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-084": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-085": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-086": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'azoneName', 'logicalRegionName'}但系统无API条件（疑似全量lo",
+          "elapsed": 1.3
+        },
+        "CMDB-087": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-088": {
+          "score": 4.8,
+          "reason": "部分正确(96%)",
+          "elapsed": 1.8
+        },
+        "CMDB-089": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-090": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-091": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-092": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.1
+        },
+        "CMDB-093": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-096": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-097": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-102": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.3
+        },
+        "CMDB-104": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-105": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 2.2
+        },
+        "CMDB-106": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.7
+        },
+        "CMDB-107": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-108": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-110": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-112": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.7
+        },
+        "CMDB-113": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-114": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-115": {
+          "score": 3.6,
+          "reason": "部分正确(71%)",
+          "elapsed": 1.4
+        },
+        "CMDB-116": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）; 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.7
+        },
+        "CMDB-118": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-121": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.2
+        },
+        "CMDB-122": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-123": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.8
+        },
+        "CMDB-127": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-128": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.4
+        },
+        "CMDB-130": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-132": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.5
+        },
+        "CMDB-133": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.4
+        },
+        "CMDB-134": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-135": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.0
+        },
+        "CMDB-136": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-137": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.1
+        },
+        "CMDB-139": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.4
+        },
+        "CMDB-140": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-141": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-143": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-144": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-147": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-148": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-149": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-150": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-151": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-152": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-153": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.0
+        },
+        "CMDB-154": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-156": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-158": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.5
+        },
+        "CMDB-161": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.9
+        },
+        "CMDB-163": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.7
+        },
+        "CMDB-165": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-166": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.0
+        },
+        "CMDB-167": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-169": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-170": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-173": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-174": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-175": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.1
+        },
+        "CMDB-176": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-179": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-180": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-181": {
+          "score": 4.0,
+          "reason": "答案正确 [超时>5s, -1]",
+          "elapsed": 4.6
+        },
+        "CMDB-182": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.2
+        },
+        "CMDB-183": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.1
+        },
+        "CMDB-184": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.4
+        },
+        "CMDB-185": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-187": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'direction', 'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.4
+        },
+        "CMDB-188": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-189": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-190": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-192": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-194": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.7
+        },
+        "CMDB-196": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-197": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-199": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-200": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-202": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.2
+        },
+        "CMDB-204": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-206": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-207": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-208": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-210": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-212": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-214": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-215": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-217": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-218": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-219": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-220": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-221": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-223": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-224": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.8
+        },
+        "CMDB-227": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-229": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-230": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-231": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-234": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-235": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-236": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-237": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-238": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-239": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-241": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-243": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-244": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-247": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-248": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-249": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-251": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.3
+        },
+        "CMDB-252": {
+          "score": 4.8,
+          "reason": "部分正确(96%)",
+          "elapsed": 2.2
+        },
+        "CMDB-253": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.7
+        },
+        "CMDB-255": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-256": {
+          "score": 4.7,
+          "reason": "部分正确(95%)",
+          "elapsed": 2.4
+        },
+        "CMDB-258": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-259": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.7
+        },
+        "CMDB-260": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.1
+        },
+        "CMDB-261": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.6
+        },
+        "CMDB-262": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）]",
+          "elapsed": 0.7
+        },
+        "CMDB-264": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'azoneName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.8
+        },
+        "CMDB-265": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-267": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-268": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-269": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-270": {
+          "score": 2.5,
+          "reason": "部分正确(50%)",
+          "elapsed": 1.3
+        },
+        "CMDB-271": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 1.3
+        },
+        "CMDB-274": {
+          "score": 4.0,
+          "reason": "部分正确(81%)",
+          "elapsed": 1.8
+        },
+        "CMDB-275": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.8
+        },
+        "CMDB-281": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-282": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-283": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-284": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-285": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-287": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.7
+        },
+        "CMDB-288": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 0.7
+        },
+        "CMDB-289": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.8
+        },
+        "CMDB-290": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-291": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.6
+        },
+        "CMDB-297": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.7
+        },
+        "CMDB-298": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.7
+        },
+        "CMDB-299": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.6
+        },
+        "CMDB-300": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.7
+        }
+      }
+    },
+    {
+      "input_sha256": "3fc534e7000d1ecfa71d521722eb6fe14d0231cb3904101f409bdc704f140325",
+      "cases": 200,
+      "score": 796.4,
+      "source_commit_and_environment": "not recorded in user console log; cannot attribute to a frozen candidate",
+      "no_answer_means": "zero score, not necessarily model refusal",
+      "rows": {
+        "CMDB-001": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-004": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-005": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-010": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-011": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-012": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-013": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-017": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-019": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-020": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-021": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-022": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-023": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-024": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.2
+        },
+        "CMDB-025": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-026": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-027": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-028": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.6
+        },
+        "CMDB-029": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-030": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-033": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-034": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.0
+        },
+        "CMDB-036": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-039": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-040": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-041": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-042": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-043": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-044": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-045": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-046": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-047": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-048": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-049": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-050": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-051": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.5
+        },
+        "CMDB-052": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-053": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.1
+        },
+        "CMDB-055": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.1
+        },
+        "CMDB-056": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-057": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-060": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-061": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-066": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-067": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-068": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-069": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.3
+        },
+        "CMDB-071": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-073": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-074": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-075": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-077": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.0
+        },
+        "CMDB-078": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-080": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-081": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-084": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-085": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-086": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-087": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-088": {
+          "score": 4.8,
+          "reason": "部分正确(96%)",
+          "elapsed": 1.4
+        },
+        "CMDB-089": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-090": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-091": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-092": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-093": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-096": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-097": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-102": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.4
+        },
+        "CMDB-104": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-105": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.8
+        },
+        "CMDB-106": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.7
+        },
+        "CMDB-107": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-108": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-110": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-112": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.7
+        },
+        "CMDB-113": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-114": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-115": {
+          "score": 3.6,
+          "reason": "部分正确(71%)",
+          "elapsed": 1.7
+        },
+        "CMDB-116": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）; 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.7
+        },
+        "CMDB-118": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-121": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-122": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-123": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.4
+        },
+        "CMDB-127": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-128": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.8
+        },
+        "CMDB-130": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-132": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-133": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.2
+        },
+        "CMDB-134": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-135": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-136": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-137": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.0
+        },
+        "CMDB-139": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.7
+        },
+        "CMDB-140": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-141": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-143": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-144": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-147": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-148": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-149": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-150": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-151": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-152": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-153": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-154": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-156": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-158": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-161": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.5
+        },
+        "CMDB-163": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-165": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-166": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.6
+        },
+        "CMDB-167": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-169": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-170": {
+          "score": 5.0,
+          "reason": "部分正确(100%)",
+          "elapsed": 1.6
+        },
+        "CMDB-173": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-174": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-175": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-176": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-179": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-180": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-181": {
+          "score": 4.0,
+          "reason": "答案正确 [超时>5s, -1]",
+          "elapsed": 5.3
+        },
+        "CMDB-182": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-183": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.0
+        },
+        "CMDB-184": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.4
+        },
+        "CMDB-185": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-187": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 3.9
+        },
+        "CMDB-188": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-189": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.9
+        },
+        "CMDB-190": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-192": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-194": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.8
+        },
+        "CMDB-196": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-197": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-199": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-200": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-202": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-204": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-206": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-207": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.2
+        },
+        "CMDB-208": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-210": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.3
+        },
+        "CMDB-212": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-214": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-215": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.2
+        },
+        "CMDB-217": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-218": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-219": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.0
+        },
+        "CMDB-220": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.6
+        },
+        "CMDB-221": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-223": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-224": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.6
+        },
+        "CMDB-227": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-229": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-230": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.0
+        },
+        "CMDB-231": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-234": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-235": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-236": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 1.6
+        },
+        "CMDB-237": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.4
+        },
+        "CMDB-238": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.1
+        },
+        "CMDB-239": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.9
+        },
+        "CMDB-241": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.7
+        },
+        "CMDB-243": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-244": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-247": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.3
+        },
+        "CMDB-248": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.4
+        },
+        "CMDB-249": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-251": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-252": {
+          "score": 4.8,
+          "reason": "部分正确(96%)",
+          "elapsed": 1.9
+        },
+        "CMDB-253": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.8
+        },
+        "CMDB-255": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-256": {
+          "score": 4.7,
+          "reason": "部分正确(95%)",
+          "elapsed": 2.0
+        },
+        "CMDB-258": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-259": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 1.9
+        },
+        "CMDB-260": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 2.3
+        },
+        "CMDB-261": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-262": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）]",
+          "elapsed": 0.6
+        },
+        "CMDB-264": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'azoneName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.8
+        },
+        "CMDB-265": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.6
+        },
+        "CMDB-267": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.1
+        },
+        "CMDB-268": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.8
+        },
+        "CMDB-269": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-270": {
+          "score": 2.5,
+          "reason": "部分正确(50%)",
+          "elapsed": 1.3
+        },
+        "CMDB-271": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 2.5
+        },
+        "CMDB-274": {
+          "score": 4.0,
+          "reason": "部分正确(81%)",
+          "elapsed": 2.3
+        },
+        "CMDB-275": {
+          "score": -1.0,
+          "reason": "答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]",
+          "elapsed": 0.6
+        },
+        "CMDB-281": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-282": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.8
+        },
+        "CMDB-283": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.7
+        },
+        "CMDB-284": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.3
+        },
+        "CMDB-285": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-287": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'vdcName', 'logicalRegionName'}但系统无API条件（疑似全量load",
+          "elapsed": 0.5
+        },
+        "CMDB-288": {
+          "score": -1.0,
+          "reason": "答案错误",
+          "elapsed": 0.5
+        },
+        "CMDB-289": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.6
+        },
+        "CMDB-290": {
+          "score": 5.0,
+          "reason": "答案正确",
+          "elapsed": 1.5
+        },
+        "CMDB-291": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-297": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        },
+        "CMDB-298": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.8
+        },
+        "CMDB-299": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.6
+        },
+        "CMDB-300": {
+          "score": 0.0,
+          "reason": "弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））",
+          "elapsed": 0.5
+        }
+      }
+    }
+  ],
+  "changes": [
+    {
+      "case_id": "CMDB-012",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-030",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-086",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-158",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-163",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-175",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-187",
+      "old_score": 0.0,
+      "new_score": 5.0
+    },
+    {
+      "case_id": "CMDB-210",
+      "old_score": 5.0,
+      "new_score": 0.0
+    },
+    {
+      "case_id": "CMDB-236",
+      "old_score": 5.0,
+      "new_score": 0.0
+    },
+    {
+      "case_id": "CMDB-271",
+      "old_score": 0.0,
+      "new_score": 5.0
+    }
+  ],
+  "latest_zero_cases": [
+    {
+      "case_id": "CMDB-077",
+      "category": "口径待核定",
+      "assessment": "原题只说整个Region，未明确区域实体；参考指定region_guian4，不从参考补默认区域。"
+    },
+    {
+      "case_id": "CMDB-105",
+      "category": "A字段/关系证据",
+      "assessment": "物理服务器CPU/内存资源统计所需证据仍待核验。"
+    },
+    {
+      "case_id": "CMDB-139",
+      "category": "A字段/关系证据",
+      "assessment": "数据库专用盘到存储池关系仍缺权威依据。"
+    },
+    {
+      "case_id": "CMDB-192",
+      "category": "A新合同待B接入",
+      "assessment": "远端a8d4fe1已交付具名VPC双计数，已快进合入但尚未接入/原生验收。"
+    },
+    {
+      "case_id": "CMDB-194",
+      "category": "当前小集5分",
+      "assessment": "本轮A vdc_network执行通过，区域/VDC API条件均有真实执行账本。"
+    },
+    {
+      "case_id": "CMDB-210",
+      "category": "当前小集5分；日志失败未复现",
+      "assessment": "本轮family_f26按区域统计通过；缺旧逐题JSONL，不能断言其先前失败根因。"
+    },
+    {
+      "case_id": "CMDB-224",
+      "category": "A字段/关系证据",
+      "assessment": "GaussDB可用区namespace与题文量词仍有证据缺口。"
+    },
+    {
+      "case_id": "CMDB-236",
+      "category": "当前小集5分；日志失败未复现",
+      "assessment": "本轮family_cce_children按具名集群查节点通过；缺旧逐题JSONL，不能断言先前失败根因。"
+    },
+    {
+      "case_id": "CMDB-251",
+      "category": "A模板/组合合同",
+      "assessment": "按AZ分别统计ECS/卷/VPC完整三分支尚未接入支持。"
+    },
+    {
+      "case_id": "CMDB-253",
+      "category": "A原生合同阻塞",
+      "assessment": "VOLUME行省略vdcName，被冻结preflight拒绝；已向A发原生证据。"
+    },
+    {
+      "case_id": "CMDB-261",
+      "category": "A原生合同阻塞",
+      "assessment": "VM租户/IP字段存在行级省略和未知人口，被冻结preflight拒绝；已向A发原生证据。"
+    },
+    {
+      "case_id": "CMDB-264",
+      "category": "A模板/组合合同",
+      "assessment": "按可用区的完整多资源查询尚需合同。"
+    },
+    {
+      "case_id": "CMDB-287",
+      "category": "A原生合同阻塞",
+      "assessment": "完整区域ROUTER目录存在未知VDC，冻结preflight拒绝；已向A发原生证据。"
+    },
+    {
+      "case_id": "CMDB-289",
+      "category": "当前小集5分",
+      "assessment": "本轮tenant_lists三资源清单保留完整输出通过。"
+    },
+    {
+      "case_id": "CMDB-291",
+      "category": "当前小集5分",
+      "assessment": "本轮真实native namespace证明、三COUNT执行通过。"
+    },
+    {
+      "case_id": "CMDB-297",
+      "category": "A字段/关系证据",
+      "assessment": "交换机/路由器/VFW统计的物理资源区域范围尚缺可信证明。"
+    },
+    {
+      "case_id": "CMDB-298",
+      "category": "A部分合同待核验",
+      "assessment": "A新vm_eip_host仅已知EIP关联子集，尚不保证原题要求的完整EIP列表。"
+    },
+    {
+      "case_id": "CMDB-299",
+      "category": "A模板/组合合同",
+      "assessment": "CCE集群清单与各集群节点/VM双计数完整义务尚未支持。"
+    },
+    {
+      "case_id": "CMDB-300",
+      "category": "范围/业务口径待核定",
+      "assessment": "现有能力能执行，但区域、分组域及未知vCPU与参考冲突；未默认启用capacity。"
+    }
+  ],
+  "bounded_real_runs": {
+    "train_probe2": {
+      "type": "summary",
+      "scope": "train_subset",
+      "phase": "failure_probe",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-236",
+        "CMDB-291"
+      ],
+      "status": "complete",
+      "completed_cases": 2,
+      "planned_cases": 2,
+      "max_score": 10,
+      "total_score": 10,
+      "untimed_score": 10,
+      "full_quality_answers": 2,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 5,
+      "failed_requests": 0,
+      "max_requests": 6,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": false,
+      "wall_seconds": 6.026,
+      "peak_evaluation_process_mib": 223.05,
+      "latency_p50": 2.82,
+      "latency_p95": 2.95
+    },
+    "validation_probe3": {
+      "type": "summary",
+      "scope": "validation_subset",
+      "phase": "user_authorized_validation_failure_subset",
+      "thinking_mode": "disabled",
+      "case_ids": [
+        "CMDB-194",
+        "CMDB-210",
+        "CMDB-289"
+      ],
+      "status": "complete",
+      "completed_cases": 3,
+      "planned_cases": 3,
+      "max_score": 15,
+      "total_score": 15,
+      "untimed_score": 15,
+      "full_quality_answers": 3,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 0,
+      "scorer_abstentions": 0,
+      "generation_requests": 7,
+      "failed_requests": 0,
+      "max_requests": 9,
+      "model_identity_mismatches": [],
+      "holdout_evaluated": true,
+      "wall_seconds": 7.223,
+      "peak_evaluation_process_mib": 224.14,
+      "latency_p50": 2.3,
+      "latency_p95": 2.46
+    }
+  },
+  "real_case_evidence": [
+    {
+      "case_id": "CMDB-236",
+      "question": "查询CCE集群service-cm-cluster-roma-guian-4下的容器节点列表及节点IP",
+      "score": 5,
+      "quality_score": 5,
+      "matched_runbook": "CCE集群子对象三种明细",
+      "selected_template": "family_cce_children",
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/CCE_CLUSTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "service-cm-cluster-roma-guian-4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "empty_answer_guess": false
+    },
+    {
+      "case_id": "CMDB-291",
+      "question": "查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量",
+      "score": 5,
+      "quality_score": 5,
+      "matched_runbook": "tpl_196_CMDB-291 / namespace_counts",
+      "selected_template": "rb_196",
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/AZONE?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/MIDDLEWARE?pageNo=1&pageSize=10000"
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/OBS_BUCKET?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/AZONE?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "empty_answer_guess": false
+    },
+    {
+      "case_id": "CMDB-194",
+      "question": "查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量",
+      "score": 5,
+      "quality_score": 5,
+      "matched_runbook": "tpl_131_CMDB-194 / vdc_network",
+      "selected_template": "rb_131",
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "vdcName",
+                  "value": "AdvanceService_Manage_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SUBNET?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "vdcName",
+                  "value": "AdvanceService_Manage_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "vdcName",
+                  "value": "AdvanceService_Manage_VDC",
+                  "operator": "equal"
+                }
+              },
+              {
+                "simple": {
+                  "name": "logicalRegionName",
+                  "value": "region_guian4",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "empty_answer_guess": false
+    },
+    {
+      "case_id": "CMDB-210",
+      "question": "查询区域region_guian4下各VDC的虚拟防火墙数量",
+      "score": 5,
+      "quality_score": 5,
+      "matched_runbook": "虚拟防火墙清单与单维计数",
+      "selected_template": "family_f26",
+      "api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VFW?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "region_guian4",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "empty_answer_guess": false
+    },
+    {
+      "case_id": "CMDB-289",
+      "question": "查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表",
+      "score": 5,
+      "quality_score": 5,
+      "matched_runbook": "tpl_194_CMDB-289 / tenant_lists",
+      "selected_template": "rb_194",
+      "api_call": [
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "AdvanceService_System_VDC",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/SECURITY_GROUP?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "AdvanceService_System_VDC",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=1000",
+          "autoPagination": true,
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "tenantName",
+                  "value": "AdvanceService_System_VDC",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "empty_answer_guess": false
+    }
+  ],
+  "generation_requests": 12,
+  "failed_requests": 0,
+  "full_dataset_run": false,
+  "holdout_status": "50题已曝光，为验证集",
+  "official_files_unchanged": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "pending_reference_or_native_cases_not_claimed_fixed": true,
+  "raw_local_run_artifacts": {
+    "train_probe2": {
+      "source.zip": "5c2d64428c9cbb4989e35b1830f7c901d2a7e5e574f8383a74d7265aef840a7d",
+      "plan.json": "14ee9cebd6dcfdc3016337c7d12f53a4fecb0392bbcc3d20e4c2188cfccc0d75",
+      "commands.json": "d2935254541716f63aec64bc3635e853ca7f296c934e9cbb478f297ecc3db772",
+      "case_results.json": "d3d7e26b0b39d2bde0ee14d8aeb8b2194fb31b8944e517a07aca6442f0045f85",
+      "budget.json": "8f418ea45d5ad0d13627b8b731221bdee14ebb2d9961db57bd2a86b13060b4c7"
+    },
+    "validation_probe3": {
+      "source.zip": "2faba974c74873a2cea0b3022415bba901fb5542e47282d553535b72ea44596f",
+      "plan.json": "6a61833a02631127bcc2b6d6d409a6bf6d347577a15db1ad349fefcdc4f5e7b9",
+      "commands.json": "dd45432bfc9b7671c66161b10a134542faffa79cd7edb6aaa28b5a491ba11a56",
+      "case_results.json": "9e7355c37703dd7d7c49b8387b249dbd4692dd6499346046b86712f4f41e3b7a",
+      "budget.json": "b91ffdde5eb8bae6e5f1e9d2989e5fb06e17de22f73315c90cede09e5baa95e2"
+    }
+  },
+  "runtime_source_sha256": {
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/runbook_parallel_resource_lists.py": "5580f9c23447692679ce4ae7808b57298ec64570516f61ba75c437a7dfe0181f",
+    "implementation/runbook_measurement_guard.py": "432382c4a00f44a8728901e89b8f0429bf39099d23efc0c8acdcf6443ae7e5f9",
+    "implementation/runbook_vm_volume_details.py": "4eac5dfad31ecb5ce4e19701f7dfcb339926c21802b459431ba7baf2a16021ca",
+    "implementation/runbook_empty_root.py": "c7044a4567f47c0534d50c8926711ee78f023ad409abb34136d8d87056374baf",
+    "implementation/runbook_storage_pool_partial.py": "5bc041ad97003a221ea05c6b4d4afc08a1653d0b9a0922593c0373fd3098848f",
+    "implementation/runbook_identity_guard.py": "94536a1427b983ac4691d735876d746efb1878464287f30b73ddc7178cbee39f",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+    "implementation/runbook_issue3.py": "ec911c27aa8cb9cf1e61f62a300d0f6a001c6cdc7b70ebe749bde9e4ac9efbc7",
+    "implementation/runbook_tenant_resources.py": "3b1e85d0b34affb569c3afd672fa442593cc880482814be72f63a1d0a89549c1",
+    "implementation/eval_report.py": "d7b44c0bad53b1b0c96b0369092f540b5efd6285fce7a8dc896967aebac26a07",
+    "implementation/runbook_retriever.py": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+    "implementation/runbook_aggregates.py": "6fcf02feb99dc7e1619d1aab80e126da8889b8d2f58f51ed3279732c0961ffdb",
+    "implementation/runbook_family_batch4.py": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781",
+    "implementation/runbook_system.py": "b29b036d7cc10bb46ca091570a784f7946ad992c781727cd2dc2c9d2deaaf1c2",
+    "implementation/runbook_projection_roles.py": "c547725575ba39233ec8f80be63a85631964db39c61a4fd66ee588a47bda5507",
+    "implementation/runbook_network_details.py": "116f3fccae6720b5f66702bb5fd2be3fc67fa1031a0c62c7b597e983167be2a0",
+    "implementation/runbook_detail_count.py": "d6b935260dc75fa97b5382b5ebb345c91f61e636b343cd07fa98b32afeda64d5",
+    "implementation/runbook_vpc_subnets.py": "83916953fc7579158f46a7d5e9fdb9eea1af452aff9c02b63eaae35097128a0c",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+    "implementation/runbook_scope_bindings.py": "b1d686d7db572c5f6fc89509659312f4da5e6b8faaba20c46eca5df498d612bd",
+    "implementation/runbook_sg_rule_semijoin.py": "f33fe356104d67d1e0bf8bf16c3eeaa4d822020f1441f82f4e771ed99732b952",
+    "implementation/runbook_family_count.py": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87",
+    "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7",
+    "implementation/runbook_family_single.py": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+    "implementation/runbook_matcher.py": "aa710e09bbdacd14aed4346bd789afe7e6f37cdecd5441bdb160d437adaf5104",
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+    "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c"
+  },
+  "publish_checks": {
+    "tests": 81,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--test-module",
+      "test_training_132_selector_compat",
+      "--test-module",
+      "test_training_a132_intake",
+      "--test-module",
+      "test_training_b16_repairs",
+      "--test-module",
+      "test_training_issue3",
+      "--test-module",
+      "test_training_subset",
+      "--test-module",
+      "test_training_validation_scope",
+      "--test-module",
+      "test_training_validation_resume",
+      "--test-module",
+      "test_training_whitebox_scope",
+      "--output-dir",
+      "reports/b_api_log_20261031/publish_checks"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "diagnostic_launcher_preflight": {
+    "passed": true,
+    "model_requests": 0,
+    "local_schema_GETs": 1,
+    "live_C_diagnostic_run": false
+  }
+}

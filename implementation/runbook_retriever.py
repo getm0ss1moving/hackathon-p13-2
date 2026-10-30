@@ -45,6 +45,8 @@ class Candidate:
     tier: str  # "strong" / "weak"
     score: float
     coverage: float
+    profile_ids: tuple = ()  # compound source views; empty on single requests
+    obligation_spans: tuple = ()  # (start, end, source-profile IDs) per obligation
 
 
 # ── 分词 ──────────────────────────────────────────────
@@ -91,6 +93,234 @@ def count_matched_concepts(matched: set) -> int:
     return len({_find(parent, t) for t in group})
 
 
+"""Text-only explicit output-field views; no execution or semantic adapter calls."""
+def _attribute_literal_mask(text):
+    pairs={'"':'"',"'":"'",'“':'”','‘':'’'};chars=list(text);i=0
+    while i<len(text):
+        if text[i] not in pairs:i+=1;continue
+        quote=pairs[text[i]];j=i+1
+        while j<len(text):
+            if text[j]=='\\':j+=2;continue
+            if text[j]==quote:break
+            j+=1
+        if j==len(text):return None
+        chars[i:j+1]=' '*(j+1-i);i=j+1
+    return ''.join(chars)
+
+def _attribute_intent(query):
+    marker=re.search(r'(?:输出|返回(?:字段)?|展示字段|列出字段|保留字段|选择字段|SELECT)\s*[:：]?\s*(.+?)\s*[。.]?\s*$',query,re.I)
+    if not marker:return None
+    raw=marker.group(1).strip(' 。.')
+    if not re.fullmatch(r'''[A-Za-z0-9_\s、,，;；|\[\]`"']+''',raw):return None
+    projection=tuple(x.lower() for x in re.findall(r'[A-Za-z_][A-Za-z0-9_]*',raw))
+    if not projection or len(set(projection))!=len(projection):return None
+    prefix=_attribute_literal_mask(query[:marker.start()])
+    if prefix is None or re.search(r'或|不是|不等于|包含|开头|(?<![A-Za-z])(?:OR|NOT)(?![A-Za-z])',prefix,re.I):return None
+    filters={x.lower() for x in re.findall(r'(?<![A-Za-z0-9_.])([A-Za-z][A-Za-z0-9_]*)\s*=',prefix)}
+    for field,pattern in [('name',r'名称|名字|实例名'),('tenantName',r'租户(?:名称)?'),('logicalRegionName',r'逻辑区域|区域'),('azoneName',r'可用区'),('status',r'状态'),('vdcName',r'VDC(?:名称)?')]:
+        if re.search(r'(?:'+pattern+r')\s*(?:为|是|=)',prefix,re.I):filters.add(field.lower())
+    return dict(prefix=prefix,projection=projection,filters=frozenset(filters))
+
+def _attribute_resource_match(term,text):
+    if term.isascii():return bool(re.search(r'(?<![A-Za-z0-9_])'+re.escape(term)+r'(?![A-Za-z0-9_])',text,re.I))
+    return term in text
+
+
+# Explicit independent requests only; quoted names/values never split or veto.
+MAX_COMPOUND_CLAUSES = 4
+MAX_OBLIGATION_PROFILES = MAX_STRONG_RESULTS
+MAX_COMPOUND_PROFILES = MAX_STRONG_RESULTS + MAX_WEAK_RESULTS
+_REQUEST_VERB = r"(?:请\s*|帮我\s*|麻烦\s*)?(?:查询|统计|列出|计算|输出|返回|删除|重建|更新|修改|预测|show\b|list\b|count\b)"
+_CLAUSE_BREAK = re.compile(
+    r"[；;。]\s*(?:同时|另外|并且|以及|再|还请)\s*[,，:：]?\s*"
+    r"|(?:[；;。]\s*|[,，]\s*(?:同时|另外|并且|还请)\s*[,，:：]?\s*"
+    r"|(?:同时|另外|并且|以及|并)\s*[,，:：]?\s*)(?=" + _REQUEST_VERB + r")", re.I)
+# These are semantic request categories, never entity IDs or question matches.
+# A term only vetoes when the template corpus has no corresponding capability.
+_CAPABILITY_OBJECTIVES = (
+    "预测", "预报", "概率", "评分", "温度", "功耗", "电压", "电流", "转速",
+    "forecast", "predict", "probability", "temperature", "wattage", "voltage")
+_WRITE_REQUEST = re.compile(
+    r"^(?:请|帮我|麻烦|立即|批量|全部|先|再|同时|另外|并且|\s)*"
+    r"(?:删除|重建|更新|修改|创建|新增|重启|启动|关闭|迁移|扩容|缩容|清空|"
+    r"delete\b|rebuild\b|update\b|create\b|restart\b)", re.I)
+
+
+def _compound_parts(query):
+    visible = _intent_literal_mask(query)
+    if visible is None:
+        return None
+    parts = []
+    start = 0
+    for marker in _CLAUSE_BREAK.finditer(visible):
+        if query[start:marker.start()].strip():
+            parts.append((start, marker.start(), query[start:marker.start()].strip()))
+        start = marker.end()
+    if query[start:].strip():
+        parts.append((start, len(query), query[start:].strip()))
+    return parts if 1 <= len(parts) <= MAX_COMPOUND_CLAUSES else None
+
+
+
+# Intents are bounded against actual native fields, never a resource blacklist.
+# Normal static properties (createdAt, protocol, engineVersion, size, usage_rate)
+# remain queryable. A category only abstains when its required schema is absent.
+_METRIC_BOUNDARIES = (
+    ('latency', r'耗时|时延|延迟|响应时间|用时|用多久|花多久|(?<![a-z0-9_.-])(?:latency|duration)(?![a-z0-9_.-])',
+     r'latency|duration|elapsed|responsetime|handshaketime'),
+    ('operation_rate', r'(?<![a-z0-9_.-])(?:iops|qps|tps)(?![a-z0-9_.-])|吞吐(?:量|率)?|每秒.{0,8}(?:读|写|请求)',
+     r'iops|qps|tps|throughput|operationspersecond|requestspersecond|readrate|writerate'),
+    ('financial', r'采购|折旧|成本|费用|价格|账单|支出|开销|资费|折价|账面|估值|价值|(?:花|付)(?:费)?(?:多少|几)?[钱元]|(?:多少|几)[钱元]|(?<![a-z0-9_.-])(?:cost|price|depreciation|billing)(?![a-z0-9_.-])',
+     r'cost|price|deprecia|purchase|billing|expense'),
+    ('quantile', r'分位(?:数|值)?|(?<![a-z0-9_.-])(?:p(?:[1-9][0-9]?|100)|percentile|quantile)(?![a-z0-9_.-])',
+     r'percentile|quantile|^p(?:[1-9][0-9]?|100)'),
+)
+_METRIC_BOUNDARIES += (
+    ('operation_measure',r'(?:(?:每次|单次)(?:读取?|写入?|请求|操作)|(?:读取?|写入?)请求).{0,16}(?:次数|数量|字节|大小|耗时|用时|延迟|时间)',
+     r'read_?count|write_?count|request_?count|operation_?count|read_?bytes|write_?bytes|bytesperrequest'),
+)
+_METRIC_BOUNDARIES = tuple((name,re.compile(intent,re.I),re.compile(field,re.I))
+                           for name,intent,field in _METRIC_BOUNDARIES)
+_MUTATION_TARGET = re.compile(
+    r'(?:把|将|给|为)[^；;。!?]*?(?:升级|降级|重启|扩容|缩容|删除|重建|更新|修改|关闭|迁移|清空)',re.I)
+_MUTATION_HEAD = re.compile(r'^(?:请|帮我|麻烦|立即|批量|全部|先|再|\s)*(?:升级|降级|upgrade\b|downgrade\b)',re.I)
+_READ_HEAD = re.compile(r'^(?:请|帮我|麻烦|\s)*(?:查询|统计|列出|计算|显示|展示|返回|输出)',re.I)
+_TIME_SERIES_SCOPE = re.compile(
+    r'(?:历史|过去|最近|近[一二三四五六七八九十0-9]+[天日周月年]).{0,36}(?:变化|趋势|曲线|采样|监测|序列|分位)'
+    r'|(?:未来|下一?个?)[一二三四五六七八九十0-9]*[天日周月年季度]'
+    r'|(?:按|逐|每)(?:分钟|小时|天|日|月|年)|趋势|曲线|(?:状态|配置|数量|容量)(?:的)?变化',re.I)
+_TIME_SERIES_FIELD = re.compile(r'observed|sampled|sampletime|timestamp|history|historical|metrictime|timeseries',re.I)
+
+
+def _native_schema(item):
+    fields=set();methods=set()
+    def visit(value,key=''):
+        if isinstance(value,dict):
+            for name,child in value.items():
+                if name=='method' and isinstance(child,str):methods.add(child.upper())
+                if name=='simple' and isinstance(child,dict) and isinstance(child.get('name'),str):fields.add(child['name'])
+                visit(child,name)
+        elif isinstance(value,list):
+            for child in value:visit(child,key)
+        elif isinstance(value,str) and key in {
+                'sql','sql_template','output','columns','ordered_columns','output_columns','output_fields'}:
+            fields.update(re.findall(r'[A-Za-z_][A-Za-z0-9_]*',value))
+    visit(item)
+    return frozenset(fields),frozenset(methods)
+
+
+
+# Grammar delimiters for entity roles, not a resource exclusion list. A resource
+# followed by an object name and an attribute request retains its resource/goal;
+# metric/action words inside the object value are never promoted to obligations.
+_RESOURCE_NOUN = r'(?:VM_NOVA|GAUSSDB_INSTANCE|ECS|GaussDB|ELB|VPC|RDS|虚拟机|云主机|宿主机|物理服务器|物理机|负载均衡|监听器|云硬盘|云盘|磁盘|存储池|数据库|集群|应用|子网|端口|安全组)'
+_ENTITY_ATTRIBUTE = re.compile(
+    r'(?<![A-Za-z0-9_])'+_RESOURCE_NOUN+r'\s*(?P<value>[^的，,；;。!?\n=]+?)的',re.I)
+_NAME_VALUE = re.compile(
+    r'(?:(?:\bname|名称|名字|实例名)\s*(?:=|为|是)|名为|叫做)\s*(?P<value>[^的，,；;。!?\n]+)',re.I)
+_STATIC_PROPERTY_HEAD = re.compile(
+    r'^\s*(?:创建时间|创建日期|状态|规格|名称|IP|网卡|镜像|操作系统|CPU型号|CPU架构|createdAt|status|flavorCode|privateIps|cpuModel|cpuArch)',re.I)
+_NOT_ENTITY_BODY = re.compile(r'^(?:实例)?(?:中|内|下|按|使用|每|所有|各)|按|统计|分布|使用最多|每秒|每次')
+_ENTITY_RELATION_SUFFIX = re.compile(r'(?:关联|使用|挂载|所属|属于|位于|所在|包含|对应|部署|运行|创建|绑定|实例中|实例下|上|下)$')
+_MUTATION_VERB = r'(?:删除|重建|更新|修改|创建|新增|重启|启动|关闭|迁移|扩容|缩容|清空|升级|降级|开机|关机|delete\b|rebuild\b|update\b|create\b|restart\b|upgrade\b|downgrade\b|shutdown\b)'
+_MUTATION_TARGET = re.compile(r'(?:把|将|给|为)[^；;。!?]*?'+_MUTATION_VERB,re.I)
+_COMMAND_BREAK = re.compile(
+    r'[,，;；。]\s*(?:(?:然后|随后|接着|再|并且|并|且|同时|另外|还要|以及|顺便)\s*)?'
+    r'|(?:然后|随后|接着)\s*'
+    r'|(?:并且|并|且|再|同时|另外|还要|以及|顺便)\s*(?=(?:把|将|给|为|'+_MUTATION_VERB+r'))',re.I)
+_COMMAND_PREFIX = re.compile(r'^(?:请|帮我|麻烦|立即|批量|全部|先|再|然后|随后|接着|并且|并|且|同时|另外|还要|以及|顺便|\s)*',re.I)
+# Sequenced read requests also retain independent source-profile obligations.
+_CLAUSE_BREAK = re.compile(_CLAUSE_BREAK.pattern +
+    r'|[,，;；。]\s*(?:然后|随后|接着|再)\s*[,，:：]?\s*'
+    r'|(?:然后|随后|接着)\s*',re.I)
+
+
+def _intent_literal_mask(query):
+    visible = _attribute_literal_mask(query)
+    if visible is None:
+        return None
+    chars = list(visible)
+    for pattern in (_NAME_VALUE,_ENTITY_ATTRIBUTE):
+        for match in pattern.finditer(visible):
+            start,end = match.span('value');value=visible[start:end]
+            if pattern is _ENTITY_ATTRIBUTE:
+                if (_NOT_ENTITY_BODY.search(value.strip())
+                        and not _STATIC_PROPERTY_HEAD.match(visible[match.end():])):
+                    continue
+                suffix = _ENTITY_RELATION_SUFFIX.search(value)
+                if suffix:end=start+suffix.start()
+            chars[start:end] = ' '*(end-start)
+    return ''.join(chars)
+
+
+
+# One grammar supplies BOTH command boundaries and leading normalization. These
+# are discourse/politeness roles, never query/entity matches. Entity values have
+# already been masked before any of these functions are called.
+_DISCOURSE_CLASSES = {
+    'contrast':r'但是|但|不过|然而|可是|只是',
+    'sequence':r'接下来|下一步|之后|然后|随后|接着|继而',
+    'addition':r'另外|此外|同时|并且|而且|还要|以及|顺便',
+}
+_DISCOURSE_MARKER = '(?:'+'|'.join(_DISCOURSE_CLASSES.values())+')'
+_POLITE_MARKER = r'(?:请问|烦请|劳烦|劳驾|麻烦(?:你|您)?(?:帮我)?|请(?:你|您)?(?:帮我)?|帮我|替我|能否|可否|是否可以|可以(?:请)?(?:你|您)?)'
+_COMMAND_ADVERB = r'(?:务必|直接|立刻|立即|现在|马上|先|再|批量|全部|尽快|顺手|仅仅|仅|只|不仅|不但|不光)'
+_COMMAND_LEADING = re.compile(
+    r'^\s*(?:(?:'+_DISCOURSE_MARKER+'|'+_POLITE_MARKER+'|'+_COMMAND_ADVERB+r')\s*[,，:：]?\s*)+',re.I)
+# Negation is local to one command, never a whole-query exemption. Contrast and
+# sequencing end that scope. Affirmative commands after them are still checked.
+_NEGATED_COMMAND = re.compile(r'^(?:绝不|切勿|不要|禁止|无需|无须|不必|不用|不许|不得|不能|别|勿|不(?!仅|但|止|光))',re.I)
+_COMMAND_BREAK = re.compile(_COMMAND_BREAK.pattern+'|'+_DISCOURSE_MARKER+r'\s*',re.I)
+
+
+def _normalise_command(command):
+    return _COMMAND_LEADING.sub('',command).strip()
+
+
+_NEGATION_IN_SCOPE = re.compile(_NEGATED_COMMAND.pattern.lstrip('^'),re.I)
+_AFFIRMATIVE_MODAL = re.compile(r'不妨|何不|不如|不得不|不能不|不是不|并非不')
+
+
+def _scope_negates(prefix):
+    # Proposal and double-negative operators are affirmative; a remaining
+    # explicit negation still applies only to this command's action prefix.
+    return bool(_NEGATION_IN_SCOPE.search(_AFFIRMATIVE_MODAL.sub('',prefix)))
+
+_READ_FRAME = re.compile(r'查询|统计|列出|计算|显示|展示|返回|输出|查看|查找|看看',re.I)
+_NATIVE_PREDICATE = re.compile(r'可启动')  # existing native bootable field, not a launch imperative
+
+
+def _command_requests_mutation(command):
+    command = _normalise_command(command)
+    if not command:
+        return False
+    # The object of 把/将/给/为 is inside the action scope. A negative word in
+    # that object must not negate the command; inspect only before the target.
+    for target in _MUTATION_TARGET.finditer(command):
+        verbs = list(re.finditer(_MUTATION_VERB,target.group(),re.I))
+        verb_start = target.start()+verbs[-1].start()
+        verb_end = target.start()+verbs[-1].end()
+        if (_STATIC_PROPERTY_HEAD.match(command[verb_start:])
+                or re.match(r'(?:时间|日期|状态|记录|历史|字段|次数)',command[verb_end:])):
+            continue
+        if not _scope_negates(command[:target.start()]):
+            return True
+    read_frame = _READ_FRAME.search(command)
+    # Recover free imperatives after non-enumerated polite/adverbial material.
+    # Native projection nouns remain nouns, even in an unheaded field fragment.
+    for verb in re.finditer(_MUTATION_VERB,command,re.I):
+        suffix = command[verb.start():]
+        after = command[verb.end():]
+        if ((read_frame is not None and read_frame.start()<verb.start())
+                or any(p.start()<=verb.start() and verb.end()<=p.end() for p in _NATIVE_PREDICATE.finditer(command))
+                or _STATIC_PROPERTY_HEAD.match(suffix)
+                or re.match(r'(?:时间|日期|状态|记录|历史|字段|次数)',after)):
+            continue
+        if not _scope_negates(command[:verb.start()]):
+            return True
+    return False
+
+
 # ── 检索器 ────────────────────────────────────────────
 
 @dataclass
@@ -128,6 +358,8 @@ class RunbookRetriever:
         self._generic_df_limit = GENERIC_DF_RATIO * self._doc_count
         # 文档在索引生命周期内不变，词频只构造一次，避免每次查询重复计数。
         self._doc_tfs = [Counter(doc.tokens) for doc in self._docs]
+        self._build_attribute_index(items)
+        self._build_intent_index(items)
 
     @staticmethod
     def _build_docs(items: list) -> list:
@@ -235,20 +467,193 @@ class RunbookRetriever:
             return min(self._idf[token], self._tau)
         return self._unseen_weight
 
-    def retrieve(self, query: str, top_k: int = None) -> List[Candidate]:
-        query_tokens = set(tokenize(query))
-        content, denominator = self._coverage_base(query_tokens)
-        ranked = self._aggregate_items(query_tokens, content, denominator)
-        results = self._assemble_results(ranked)
-        if top_k is not None:
-            results = results[:top_k]
+    def _build_attribute_index(self,items):
+        records={};cards=[]
+        for item in items:
+            metadata=item.get('retrieval_attributes')
+            if metadata is None:continue
+            if set(metadata)!={'resource_terms','views'} or not isinstance(metadata['resource_terms'],str) or not isinstance(metadata['views'],list):raise ValueError('invalid retrieval_attributes')
+            terms=tuple(metadata['resource_terms'].split())
+            if not terms:raise ValueError('empty attribute resource terms')
+            for view in metadata['views']:
+                if set(view)!={'output','filters'} or not all(isinstance(view[k],str) for k in ['output','filters']):raise ValueError('invalid attribute view')
+                projection=tuple(view['output'].lower().split())
+                for filter_text in view['filters'].split('|'):
+                    filters=frozenset(filter_text.lower().split());key='attribute_text_'+str(len(cards))
+                    records[key]=dict(owner=item['id'],projection=projection,filters=filters,resource_terms=terms)
+                    cards.append(dict(id=key,description='查询 '+metadata['resource_terms']+' 筛选 '+filter_text+' 输出 '+view['output']))
+        self._attribute_records=records
+        self._attribute_index=RunbookRetriever(cards,self._coverage_strong,self._coverage_weak,self._unseen_ratio) if cards else None
+
+    def _attribute_candidates(self,query):
+        if self._attribute_index is None:return []
+        intent=_attribute_intent(query)
+        if intent is None:return []
+        matched={record['resource_terms'] for record in self._attribute_records.values() if any(_attribute_resource_match(term,intent['prefix']) for term in record['resource_terms'])}
+        if len(matched)!=1:return []
+        resource_terms=next(iter(matched));resource=next(term for term in resource_terms if _attribute_resource_match(term,intent['prefix']))
+        normalized='查询 '+resource+' 筛选 '+' '.join(sorted(intent['filters']))+' 输出 '+' '.join(intent['projection'])
+        candidates=self._attribute_index._retrieve_primary(normalized)
+        result=[];seen=set()
+        for candidate in candidates:
+            record=self._attribute_records[candidate.id]
+            if candidate.tier!='strong' or record['resource_terms']!=resource_terms or record['projection']!=intent['projection'] or record['filters']!=intent['filters']:continue
+            if record['owner'] not in seen:
+                result.append(Candidate(record['owner'],candidate.tier,candidate.score,candidate.coverage));seen.add(record['owner'])
+        return result
+
+    def _build_intent_index(self, items):
+        self._native_fields = {}
+        methods = set()
+        for item in items:
+            fields, native_methods = _native_schema(item)
+            self._native_fields[item['id']] = fields
+            methods.update(native_methods)
+        self._read_only_catalog = not methods - {'GET','HEAD'}
+
+    def _intent_outside_contract(self, visible, parts):
+        if self._read_only_catalog:
+            for _,_,clause in parts:
+                visible_clause = _intent_literal_mask(clause) or ''
+                # Read syntax in one command never exempts subsequent commands.
+                # Quoted and unquoted object values are masked before splitting.
+                for command in _COMMAND_BREAK.split(visible_clause):
+                    if _command_requests_mutation(command):
+                        return True
+        requested = [(name,field) for name,intent,field in _METRIC_BOUNDARIES
+                     if intent.search(visible)]
+        temporal = bool(_TIME_SERIES_SCOPE.search(visible))
+        if not requested and not temporal:
+            return False
+        # Only fields declared by lexically relevant native templates count;
+        # incidental terms in examples or a different resource do not grant API.
+        owners = {self._canonical_ids.get(c.id,c.id)
+                  for c in self._single_profiles(visible)}
+        fields = {field for owner in owners for field in self._native_fields.get(owner,())}
+        if any(not any(pattern.search(field) for field in fields)
+               for _,pattern in requested):
+            return True
+        return temporal and not any(_TIME_SERIES_FIELD.search(field) for field in fields)
+
+    def _unsupported_request(self, query):
+        visible = _intent_literal_mask(query)
+        if visible is None:
+            return True
+        text = visible.lower()
+        if re.search(r"不要(?:查询|统计)|无需(?:查询|统计)", text):
+            return True
+        # The current contract is a read-only resource catalog. Questions about
+        # historical deleted resources do not start with an imperative write.
+        parts = _compound_parts(query)
+        if parts is None:
+            return True
+        if any(_WRITE_REQUEST.search(part[2]) for part in parts):
+            return True
+        if self._intent_outside_contract(text, parts):
+            return True
+        for term in _CAPABILITY_OBJECTIVES:
+            present = (bool(re.search(r"(?<![A-Za-z0-9_.-])" + re.escape(term) + r"(?![A-Za-z0-9_.-])", text))
+                       if term.isascii() else term in text)
+            if present and not set(tokenize(term)) <= self._df.keys():
+                return True
+        return False
+
+    def _single_profiles(self, query):
+        tokens = set(tokenize(query))
+        content, denominator = self._coverage_base(tokens)
+        return self._assemble_results(self._aggregate_items(tokens, content, denominator))
+
+    def retrieve_obligations(self, query):
+        """Bounded clause evidence; spans preserve same-view different entities.
+
+        This is retrieval evidence, not parameter extraction or execution proof.
+        No recognized/strong candidate for any clause means full abstention.
+        """
+        if self._unsupported_request(query):
+            return []
+        parts = _compound_parts(query)
+        if parts is None or len(parts) < 2:
+            return []
+        evidence = []
+        for start, end, text in parts:
+            # Quoted entity values do not describe requested capabilities and
+            # must not dilute a clause's coverage. Keep the original span/text.
+            lexical = _intent_literal_mask(text)
+            strong = [c for c in self._single_profiles(lexical) if c.tier == "strong"]
+            if not strong:
+                return []
+            evidence.append(dict(start=start, end=end, text=text,
+                                 candidates=strong[:MAX_OBLIGATION_PROFILES]))
+        required = {c.id for obligation in evidence for c in obligation['candidates']}
+        if len(required) > MAX_COMPOUND_PROFILES:
+            return []
+        return evidence
+
+    def _retrieve_profile_bundle(self, query, top_k=None):
+        """Expose original profiles before canonical family deduplication.
+
+        Single requests retain the exact original BM25 path. Compound requests
+        reserve each clause's existing strong profiles (at most five). Abstain
+        if their union exceeds 15; otherwise fill from whole-query candidates
+        within the existing 15-profile ceiling. No full-index union.
+        """
+        if self._unsupported_request(query):
+            return [], []
+        parts = _compound_parts(query)
+        if parts is None:
+            return [], []
+        original = self._single_profiles(query)
+        if len(parts) == 1:
+            return (original if top_k is None else original[:top_k]), []
+        obligations = self.retrieve_obligations(query)
+        if not obligations:
+            return [], []
+        original_by_id = {c.id: c for c in original}
+        merged, seen = [], set()
+        # Reserve clause evidence before optional whole-query fallback. Original
+        # scores remain original; a newly exposed view keeps its clause score.
+        for candidate in [c for o in obligations for c in o['candidates']] + original:
+            if candidate.id not in seen:
+                merged.append(original_by_id.get(candidate.id, candidate))
+                seen.add(candidate.id)
+        merged = merged[:MAX_COMPOUND_PROFILES]
+        return (merged if top_k is None else merged[:top_k]), obligations
+
+    def retrieve_profiles(self, query, top_k=None):
+        """Source-profile evidence before canonical owner deduplication."""
+        return self._retrieve_profile_bundle(query, top_k)[0]
+
+    def retrieve(self,query: str,top_k: int=None)->List[Candidate]:
+        if self._unsupported_request(query):return []
+        parts = _compound_parts(query)
+        if parts is not None and len(parts) > 1:return self._retrieve_primary(query,top_k)
+        attributes=self._attribute_candidates(query)
+        if not attributes:return self._retrieve_primary(query,top_k)
+        primary=self._retrieve_primary(query)
+        original={candidate.id:candidate for candidate in primary};seen=set();merged=[]
+        for candidate in attributes+primary:
+            if candidate.id not in seen:
+                merged.append(original.get(candidate.id,candidate));seen.add(candidate.id)
+        return merged if top_k is None else merged[:top_k]
+
+    def _retrieve_primary(self, query: str, top_k: int = None) -> List[Candidate]:
+        results, obligations = self._retrieve_profile_bundle(query, top_k)
         unique, seen = [], set()
         for candidate in results:
             item_id = self._canonical_ids.get(candidate.id, candidate.id)
             if item_id not in seen:
                 seen.add(item_id)
+                owned_results = [c for c in results
+                                 if self._canonical_ids.get(c.id,c.id)==item_id]
+                if obligations:
+                    candidate = max(owned_results,key=lambda c:(c.tier=='strong',c.score))
+                profiles = tuple(c.id for c in owned_results) if obligations else ()
+                spans = []
+                for obligation in obligations:
+                    owned = tuple(c.id for c in obligation['candidates'] if c.id in profiles)
+                    if owned:spans.append((obligation['start'],obligation['end'],owned))
                 unique.append(Candidate(item_id, candidate.tier, candidate.score,
-                                        candidate.coverage))
+                                        candidate.coverage, profiles, tuple(spans)))
         return unique
 
     def _is_content_token(self, token: str) -> bool:

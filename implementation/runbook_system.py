@@ -448,6 +448,13 @@ def _dependent_count_eligibility(item):
 
 class RunbookQuerySystem:
     def __init__(self):
+        if len(RUNBOOK_ITEMS) == 132:
+            matcher._verify_a132_sources()
+            os.environ.setdefault('RUNBOOK_A132_CANDIDATE', '1')
+            from runbook_issue3 import source_files,VERIFIED_PROFILES
+            source_files()
+            os.environ.setdefault('RUNBOOK_ISSUE3_CONTRACTS','1')
+            os.environ.setdefault('RUNBOOK_ISSUE3_PROFILES',json.dumps(list(VERIFIED_PROFILES)))
         get_llm()  # 仅检查客户端配置，不发送模型请求。
         self.items = RUNBOOK_ITEMS
         started = time.perf_counter()
@@ -462,7 +469,54 @@ class RunbookQuerySystem:
 
     def query(self, user_question: str, diagnostics: dict = None) -> dict:
         """正常执行优先；按用户策略，将最后的拒答/显式错误转为空答案猜测。"""
+        if os.environ.get('RUNBOOK_A132_CANDIDATE') == '1':
+            obligations = self.retriever.retrieve_obligations(user_question)
+            if len(obligations) > 1:
+                return _apply_empty_answer_fallback(self._query_obligations(user_question, obligations, diagnostics))
         return _apply_empty_answer_fallback(self._query(user_question, diagnostics))
+
+    def _query_obligations(self, question, obligations, diagnostics=None):
+        """只执行r4给出的完整独立原文子句；同族不同view/实体不去重。"""
+        diagnostics = diagnostics if diagnostics is not None else {}
+        diagnostics.clear()
+        first_event = len(get_llm_events())
+        diagnostics.update(reason='matching_obligations', obligations=[], llm_calls=[],
+                           api_execution_scope='independent_native_plans; top_level_api_is_execution_ledger')
+        results, calls, statements, names = [], [], [], []
+        previous_end = 0
+        for obligation in obligations:
+            start, end = obligation['start'], obligation['end']
+            if (type(start) is not int or type(end) is not int or not previous_end <= start < end <= len(question)
+                    or question[start:end] != obligation['text']):
+                diagnostics['rejection'] = {'stage': 'retrieval', 'reason': 'invalid_obligation_span'}
+                break
+            previous_end = end
+            part_diagnostics = {}
+            output = self._query(obligation['text'], part_diagnostics)
+            part_calls = output.get('api_call') or []
+            calls.extend(part_calls if isinstance(part_calls, list) else [part_calls])
+            if isinstance(output.get('sql'), str): statements.append(output['sql'])
+            diagnostics['obligations'].append({'start': start, 'end': end, 'text': obligation['text'],
+                'profile_ids': [c.id for c in obligation.get('candidates', [])],
+                'matched_runbook': output.get('matched_runbook'), 'diagnostics': part_diagnostics})
+            if output.get('matched_runbook') is None or output.get('error'):
+                diagnostics['rejection'] = {'stage': 'obligation', 'reason': 'incomplete_obligation',
+                                             'failed_index': len(diagnostics['obligations']) - 1}
+                break
+            names.append(output['matched_runbook'])
+            result = output['result']
+            results.extend(result if isinstance(result, list) else [result])
+        diagnostics['llm_calls'] = get_llm_events()[first_event:]
+        diagnostics['selected_templates'] = [p['diagnostics'].get('selected_template') for p in diagnostics['obligations']]
+        diagnostics['match_seconds'] = round(sum(p['diagnostics'].get('match_seconds', 0) for p in diagnostics['obligations']), 4)
+        diagnostics['execute_seconds'] = round(sum(p['diagnostics'].get('execute_seconds', 0) for p in diagnostics['obligations']), 4)
+        if len(names) != len(obligations):
+            diagnostics['reason'] = 'incomplete_obligation'
+            return {'question': question, 'matched_runbook': None, 'api_call': calls, 'sql': None,
+                    'result': None, 'error': None, 'diagnostics': diagnostics}
+        diagnostics['reason'] = 'matched_composite'
+        return {'question': question, 'matched_runbook': '+'.join(names), 'api_call': calls,
+                'sql': '; '.join(statements), 'result': results, 'error': None, 'diagnostics': diagnostics}
 
     def _query(self, user_question: str, diagnostics: dict = None) -> dict:
         """
@@ -508,6 +562,8 @@ class RunbookQuerySystem:
             }
 
         original_runbook_item = runbook_item
+        if runbook_item.get('_issue3'):
+            return self._query_issue3(user_question,runbook_item,diagnostics,matched_at)
         semijoin = False
         if os.environ.get("RUNBOOK_SG_RULE_SEMIJOIN") == "1":
             from runbook_sg_rule_semijoin import plan_security_group_rule_semijoin
@@ -537,6 +593,8 @@ class RunbookQuerySystem:
             sources = [lookup["lookup"]["source_table"]] if lookup.get("covered_by_lookup") else []
         elif independent_count:
             execution = diagnostics.setdefault("typed_independent_count", {})
+        elif runbook_item.get('_bounded_rule_details') is True:
+            execution = diagnostics.setdefault('bounded_rule_details',{})
         elif direct_empty and direct_empty["eligible"]:
             diagnostics["typed_empty_root_eligibility"] = direct_empty
             execution = diagnostics.setdefault("typed_empty_root", {})
@@ -556,6 +614,8 @@ class RunbookQuerySystem:
                 options = {"lookup_sources": sources}
                 if semijoin:
                     options["sg_rule_semijoin"] = True
+                elif runbook_item.get('_bounded_rule_details') is True:
+                    options.update(request_line_limit=4096,seconds_limit=60)
                 elif not bounded and not dependent_count and not independent_count:
                     options["empty_root_only"] = True
                 result = _execute_bounded_api(runbook_item, execution, **options)
@@ -614,6 +674,23 @@ class RunbookQuerySystem:
             "error": result["error"],
             "diagnostics": diagnostics,
         }
+
+    def _query_issue3(self,question,item,diagnostics,matched_at):
+        from runbook_issue3 import execute_plan
+        execution=diagnostics.setdefault('issue3_execution',{})
+        try:
+            result=execute_plan(item,self.items,execution)
+        except (ValueError,RuntimeError,OSError,sqlite3.Error,requests.RequestException) as exc:
+            execution.update(status='blocked',error_type=type(exc).__name__,reason=str(exc))
+            diagnostics.update(execute_seconds=round(time.perf_counter()-matched_at,4),reason='issue3_native_contract_blocked',
+                rejection={'stage':'execution','reason':'issue3_native_contract_blocked'})
+            return {'question':question,'matched_runbook':None,'api_call':None,
+                'sql':None,'result':None,'error':None,'diagnostics':diagnostics}
+        execution['status']='executed'
+        diagnostics.update(execute_seconds=round(time.perf_counter()-matched_at,4),
+            answer_completeness=execution['answer_completeness'],reason='matched_issue3_contract')
+        return {'question':question,'matched_runbook':item['name'],'api_call':execution['executed_api_calls'],
+                'sql':result['sql'],'result':result['result'],'error':result['error'],'diagnostics':diagnostics}
 
 
 if __name__ == "__main__":

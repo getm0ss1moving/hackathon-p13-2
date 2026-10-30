@@ -1,5 +1,12 @@
 # 分工与交接
 
+## B当前接入状态（2026-10-31）
+
+- 根运行库现为132 strict和A r4配对，已接入12变更族及原文多义务；下方旧“默认198/B未接入”描述保留历史阶段含义。
+- Issue3默认只开启已真实验收的namespace_counts、tenant_lists、vdc_network；194/289/291均有实际5分记录。253/261/287的原生稀疏行/未知归属preflight失败已[反馈A](https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6528797823)，116/270/300仍待参考/业务口径核定。
+- [当前API零分对照与入口说明](handoffs/B_API_CONDITION_LOG_REVIEW_20261031.md)；[16题原题与处理](handoffs/B_16问题处理结果与口径说明_20261031.txt)。本轮5题实际25/25、12请求、0失败，无新全150/50/200成绩。后50已曝光，只称验证集。
+- A的next和具名VPC提交已快进保留，尚未B原生验收或默认开放。官方四文件保持已核准字节，不改评分器提高得分。
+
 ## B阅读待办：132v2 compact＋r4联调候选（最新）
 
 - [ ] **B先读[132v2＋r4交接](handoffs/B_A132_V2_R4_HANDOFF.md)及[可复现候选主包](../experiments/a_family_candidate_132_v2_r4_20261030/README.md)**。r4独立离线1016支持/161复合/150负例已过；完成132新预检、两处metadata adapter、profile/义务、多view与原文prepare接入后再验收B全链。

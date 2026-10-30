@@ -34,13 +34,20 @@ def main():
         if process.returncode:
             return process.returncode
         plan = json.loads(process.stdout)
-        validation = plan['scope'] == 'sealed50_validation' and '--sealed-validation-freeze' in flags
-        if (plan["scope"] not in {"train_subset", "train_only", "sealed50_validation"}
+        full200 = plan['scope'] == 'whitebox200_explicit' and '--whitebox200' in flags
+        resume = plan['scope'] == 'sealed50_resume' and '--validation-resume' in flags
+        validation = full200 or plan['scope'] in {'sealed50_validation','sealed50_resume','validation_subset'} and '--sealed-validation-freeze' in flags
+        if (plan["scope"] not in {"train_subset", "train_only", "sealed50_validation", "sealed50_resume", "whitebox200_explicit", "validation_subset"}
                 or plan["model"] != "deepseek-flash" or plan["thinking"] != "disabled"
-                or not 1 <= plan["case_count"] <= 150 or not 1 <= plan["max_requests"] <= 450
+                or not 1 <= plan["case_count"] <= (200 if full200 else 150) or not 1 <= plan["max_requests"] <= 450
                 or (plan["holdout_evaluated"] is not validation)
-                or validation and (plan['case_count'] != 50 or plan['max_requests'] > 150)):
-            parser.error("仅允许Flash关闭思考的固定150训练集或其子集，每轮最多450请求")
+                or plan['scope'] == 'sealed50_validation' and (plan['case_count'] != 50 or plan['max_requests'] > 150)
+                or plan['scope'] == 'sealed50_resume' and (not resume or not 1 <= plan['case_count'] < 50
+                                                         or plan['max_requests'] > 3*plan['case_count'])
+                or plan['scope'] == 'validation_subset' and ('--validation-case-id' not in flags
+                        or not 1 <= plan['case_count'] < 50 or plan['max_requests'] > 3*plan['case_count'])
+                or full200 and plan['case_count'] != 200):
+            parser.error("仅允许Flash关闭思考的固定训练或显式50/200诊断，每轮最多450请求")
         (out / "plan.json").write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n")
         (out / "config.freeze.json").write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n")
         commands = {"preflight": base, "run": [*base, "--run", "--expected-plan", str(out / "plan.json"), "--output", str(out / "live.jsonl")]}

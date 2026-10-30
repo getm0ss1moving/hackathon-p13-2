@@ -1,0 +1,733 @@
+{
+  "type": "B_132_intake_and_targeted_iteration",
+  "git_base": "ec1e33868884d690ee6f61b76a6046d2f74b4d1e",
+  "branch": "main",
+  "B_changes_committed": false,
+  "B_changes_pushed": false,
+  "template_count": 132,
+  "families": 26,
+  "fixed_items": 106,
+  "current_matcher_sha256": "63aced8a38ea4535fe31bcf99f2d8c181a5ea59a117206f614c56c6983daa42b",
+  "complete_baseline_before_parameter_repairs": {
+    "overall": {
+      "cases": 200,
+      "timed_counts": {
+        "correct": 133,
+        "partial": 17,
+        "wrong": 17,
+        "zero": 33
+      },
+      "untimed_counts": {
+        "correct": 144,
+        "partial": 6,
+        "wrong": 17,
+        "zero": 33
+      },
+      "timed_score": 716.4,
+      "untimed_score": 727.4,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 38,
+      "guess_reasons": {
+        "invalid_a132_family_contract": 14,
+        "incomplete_obligation": 1,
+        "unverified_api_condition": 1,
+        "missing_api_filter": 4,
+        "resource_mismatch": 16,
+        "missing_parameters": 1,
+        "invalid_family_parameters": 1
+      },
+      "guess_untimed_counts": {
+        "correct": 0,
+        "partial": 0,
+        "wrong": 5,
+        "zero": 33
+      },
+      "api_gate_zero": 33
+    },
+    "first170": {
+      "cases": 170,
+      "timed_counts": {
+        "correct": 121,
+        "partial": 14,
+        "wrong": 12,
+        "zero": 23
+      },
+      "untimed_counts": {
+        "correct": 132,
+        "partial": 3,
+        "wrong": 12,
+        "zero": 23
+      },
+      "timed_score": 650.2,
+      "untimed_score": 661.2,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 25,
+      "guess_reasons": {
+        "invalid_a132_family_contract": 14,
+        "incomplete_obligation": 1,
+        "unverified_api_condition": 1,
+        "missing_api_filter": 2,
+        "resource_mismatch": 6,
+        "missing_parameters": 1
+      },
+      "guess_untimed_counts": {
+        "correct": 0,
+        "partial": 0,
+        "wrong": 2,
+        "zero": 23
+      },
+      "api_gate_zero": 23
+    },
+    "last30": {
+      "cases": 30,
+      "timed_counts": {
+        "correct": 12,
+        "partial": 3,
+        "wrong": 5,
+        "zero": 10
+      },
+      "untimed_counts": {
+        "correct": 12,
+        "partial": 3,
+        "wrong": 5,
+        "zero": 10
+      },
+      "timed_score": 66.2,
+      "untimed_score": 66.2,
+      "runtime_abstentions": 0,
+      "empty_answer_guesses": 13,
+      "guess_reasons": {
+        "resource_mismatch": 10,
+        "invalid_family_parameters": 1,
+        "missing_api_filter": 2
+      },
+      "guess_untimed_counts": {
+        "correct": 0,
+        "partial": 0,
+        "wrong": 3,
+        "zero": 10
+      },
+      "api_gate_zero": 10
+    },
+    "training150": {
+      "source": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/reports/a132_runtime_port_20261030/train150",
+      "scores": {
+        "cases": 150,
+        "timed_counts": {
+          "correct": 108,
+          "partial": 15,
+          "wrong": 9,
+          "zero": 18
+        },
+        "untimed_counts": {
+          "correct": 117,
+          "partial": 6,
+          "wrong": 9,
+          "zero": 18
+        },
+        "timed_score": 591.4,
+        "untimed_score": 600.4,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 20,
+        "guess_reasons": {
+          "invalid_a132_family_contract": 10,
+          "incomplete_obligation": 1,
+          "resource_mismatch": 6,
+          "missing_api_filter": 3
+        },
+        "guess_untimed_counts": {
+          "correct": 0,
+          "partial": 0,
+          "wrong": 2,
+          "zero": 18
+        },
+        "api_gate_zero": 18
+      },
+      "generation_requests": 358,
+      "failed_requests": 0,
+      "trace_sha256": "2939c08529d6bd3c51205a684b4bfb6078b9533c1c0bf31641b0606411c72358",
+      "source_zip_sha256": "4bdba519986fdcf2f8db6de5b3a28e3c13bc51600656ef6c9326df2c9884dd30",
+      "budget": {
+        "status": "closed",
+        "maximum": 450,
+        "used": 358,
+        "failed": 0,
+        "unused_closed": 92,
+        "SDK_retries": 0,
+        "plan_sha256": "f3dc4c29671569088f254fef5350db1bac9b6e409ab5a1861ac842818da2ba06",
+        "trace_sha256": "2939c08529d6bd3c51205a684b4bfb6078b9533c1c0bf31641b0606411c72358",
+        "child_exit_code": 0,
+        "prior_balance_reused": false
+      },
+      "completed_cases": 150,
+      "original_planned_cases": 150
+    },
+    "validation50": {
+      "source_segments": [
+        {
+          "source": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/reports/a132_runtime_port_20261030/validation50",
+          "scores": {
+            "cases": 17,
+            "timed_counts": {
+              "correct": 11,
+              "partial": 1,
+              "wrong": 1,
+              "zero": 4
+            },
+            "untimed_counts": {
+              "correct": 12,
+              "partial": 0,
+              "wrong": 1,
+              "zero": 4
+            },
+            "timed_score": 58,
+            "untimed_score": 59,
+            "runtime_abstentions": 0,
+            "empty_answer_guesses": 4,
+            "guess_reasons": {
+              "invalid_a132_family_contract": 3,
+              "unverified_api_condition": 1
+            },
+            "guess_untimed_counts": {
+              "correct": 0,
+              "partial": 0,
+              "wrong": 0,
+              "zero": 4
+            },
+            "api_gate_zero": 4
+          },
+          "generation_requests": 44,
+          "failed_requests": 0,
+          "trace_sha256": "46e510730914092702578973f67f635e50940d6d710e5ac2c3b5b8637f725fef",
+          "source_zip_sha256": "b98609e73e51da2d39d201202894f15e819d238f24635c9b25517849fbc39c4c",
+          "budget": {
+            "status": "closed",
+            "maximum": 150,
+            "used": 44,
+            "failed": 0,
+            "unused_closed": 106,
+            "SDK_retries": 0,
+            "plan_sha256": "b90c6d26cbda0b89ae3eb3cf211998026e19e447eb2581d7aa064055cc7573a4",
+            "trace_sha256": "46e510730914092702578973f67f635e50940d6d710e5ac2c3b5b8637f725fef",
+            "child_exit_code": 1,
+            "prior_balance_reused": false
+          },
+          "completed_cases": 17,
+          "original_planned_cases": 50
+        },
+        {
+          "source": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/reports/a132_runtime_port_20261030/validation50_resume33",
+          "scores": {
+            "cases": 33,
+            "timed_counts": {
+              "correct": 14,
+              "partial": 1,
+              "wrong": 7,
+              "zero": 11
+            },
+            "untimed_counts": {
+              "correct": 15,
+              "partial": 0,
+              "wrong": 7,
+              "zero": 11
+            },
+            "timed_score": 67,
+            "untimed_score": 68,
+            "runtime_abstentions": 0,
+            "empty_answer_guesses": 14,
+            "guess_reasons": {
+              "missing_api_filter": 1,
+              "resource_mismatch": 10,
+              "invalid_a132_family_contract": 1,
+              "missing_parameters": 1,
+              "invalid_family_parameters": 1
+            },
+            "guess_untimed_counts": {
+              "correct": 0,
+              "partial": 0,
+              "wrong": 3,
+              "zero": 11
+            },
+            "api_gate_zero": 11
+          },
+          "generation_requests": 63,
+          "failed_requests": 0,
+          "trace_sha256": "774dab7fb1610c7ed188fbafe116483d4613e5fb7623ed2efaa72e2896781ab7",
+          "source_zip_sha256": "aaa2cac0b6be0084de8558c1cf57a15c201af50bdb5072d63c5b1fb775ae64f0",
+          "budget": {
+            "status": "closed",
+            "maximum": 99,
+            "used": 63,
+            "failed": 0,
+            "unused_closed": 36,
+            "SDK_retries": 0,
+            "plan_sha256": "a87ee6fdb4d08af9020569a47a9a02d7a5e380fc28bf725069d46abd3f772611",
+            "trace_sha256": "774dab7fb1610c7ed188fbafe116483d4613e5fb7623ed2efaa72e2896781ab7",
+            "child_exit_code": 0,
+            "prior_balance_reused": false
+          },
+          "completed_cases": 33,
+          "original_planned_cases": 33
+        }
+      ],
+      "scores": {
+        "cases": 50,
+        "timed_counts": {
+          "correct": 25,
+          "partial": 2,
+          "wrong": 8,
+          "zero": 15
+        },
+        "untimed_counts": {
+          "correct": 27,
+          "partial": 0,
+          "wrong": 8,
+          "zero": 15
+        },
+        "timed_score": 125,
+        "untimed_score": 127,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 18,
+        "guess_reasons": {
+          "invalid_a132_family_contract": 4,
+          "unverified_api_condition": 1,
+          "missing_api_filter": 1,
+          "resource_mismatch": 10,
+          "missing_parameters": 1,
+          "invalid_family_parameters": 1
+        },
+        "guess_untimed_counts": {
+          "correct": 0,
+          "partial": 0,
+          "wrong": 3,
+          "zero": 15
+        },
+        "api_gate_zero": 15
+      },
+      "generation_requests": 107,
+      "failed_requests": 0,
+      "one_continuous_process": false
+    },
+    "one_continuous_process": false,
+    "validation_status": "previously_exposed; not untouched holdout"
+  },
+  "baseline_analysis_sha256": "53a636d8ef4d33e9ee3d7ce76002c6b619a52f6f0b97664f92da0727aa7d6a87",
+  "targeted_runs": [
+    {
+      "stage": "v1_partial6_of10",
+      "directory": "reports/a132_runtime_port_20261030/parameter_recovery_fail10",
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "failure_probe",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-019",
+          "CMDB-042",
+          "CMDB-043",
+          "CMDB-044",
+          "CMDB-053",
+          "CMDB-060",
+          "CMDB-061",
+          "CMDB-133",
+          "CMDB-174",
+          "CMDB-175"
+        ],
+        "status": "incomplete",
+        "completed_cases": 6,
+        "planned_cases": 10,
+        "max_score": 50,
+        "total_score": 24,
+        "untimed_score": 25,
+        "full_quality_answers": 5,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 1,
+        "scorer_abstentions": 1,
+        "generation_requests": 18,
+        "failed_requests": 1,
+        "max_requests": 30,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 33.014,
+        "peak_evaluation_process_mib": 238.11,
+        "latency_p50": 2.78,
+        "latency_p95": 4.04
+      },
+      "budget": {
+        "status": "closed",
+        "maximum": 30,
+        "used": 18,
+        "failed": 1,
+        "unused_closed": 12,
+        "SDK_retries": 0,
+        "plan_sha256": "5bae513e397b5c3028e3ead1dff4b5619afdbc5e67342441576c7c1a8fabfdd7",
+        "trace_sha256": "dac56240f448159aa8ff4baeb3b9849c1880c46e9b4ca68903a98fa6e14efb31",
+        "child_exit_code": 1,
+        "prior_balance_reused": false
+      },
+      "matcher_sha256": "f78cc032a6cb5b1d2c78632f7ae12dc3cf7cfe6036942feb7b56b8bb92059ed7",
+      "evidence_sha256": {
+        "plan.json": "5bae513e397b5c3028e3ead1dff4b5619afdbc5e67342441576c7c1a8fabfdd7",
+        "live.jsonl": "dac56240f448159aa8ff4baeb3b9849c1880c46e9b4ca68903a98fa6e14efb31",
+        "case_results.json": "8334b3e344ff0957b79cfd43095cf075d17ae26cb445c71badae3793ff327343",
+        "source.zip": "26852f4b9c7d9685db308243cbee389309d2a930a0c49afe195f2468e1a9cae0",
+        "commands.json": "24daa86f9c0b3d8d008a10a878c41ee8f1cbed554700ecf9e4f6ec0866db4fc6",
+        "budget.json": "627bd5ca8c0ded603cee23d22847fd25c8a486f0a4344607df0de0316289902b"
+      }
+    },
+    {
+      "stage": "v1_suffix4_with_one_manual_retry",
+      "directory": "reports/a132_runtime_port_20261030/parameter_recovery_tail4",
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "failure_probe",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-061",
+          "CMDB-133",
+          "CMDB-174",
+          "CMDB-175"
+        ],
+        "status": "complete",
+        "completed_cases": 4,
+        "planned_cases": 4,
+        "max_score": 20,
+        "total_score": 19,
+        "untimed_score": 20,
+        "full_quality_answers": 4,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 0,
+        "scorer_abstentions": 0,
+        "generation_requests": 12,
+        "failed_requests": 0,
+        "max_requests": 12,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 14.307,
+        "peak_evaluation_process_mib": 255.8,
+        "latency_p50": 3.07,
+        "latency_p95": 4.1
+      },
+      "budget": {
+        "status": "closed",
+        "maximum": 12,
+        "used": 12,
+        "failed": 0,
+        "unused_closed": 0,
+        "SDK_retries": 0,
+        "plan_sha256": "927563720066dea3136f62ebfb55a0c7d6d717d4ecdb9391ea89367bc791fd7b",
+        "trace_sha256": "819b6fe63026499d9ee98b694c75cf0e5bcacb88eea057f8ff4221d4b7be883d",
+        "child_exit_code": 0,
+        "prior_balance_reused": false
+      },
+      "matcher_sha256": "f78cc032a6cb5b1d2c78632f7ae12dc3cf7cfe6036942feb7b56b8bb92059ed7",
+      "evidence_sha256": {
+        "plan.json": "927563720066dea3136f62ebfb55a0c7d6d717d4ecdb9391ea89367bc791fd7b",
+        "live.jsonl": "819b6fe63026499d9ee98b694c75cf0e5bcacb88eea057f8ff4221d4b7be883d",
+        "case_results.json": "7cd15626f71fbb49c40bbee4e876a591dec4c3ae31fe25cf5ef9a0c20f03b434",
+        "source.zip": "10dfa503df34ae4584965dc8aa8b530bb3e9924f0ced43282ba83f1f084146dd",
+        "commands.json": "84527998810e62f7182a25c4e5c0fb389afeec4ecce468fa6d8c69b1297c5999",
+        "budget.json": "c788c07b0d77f13eddc2f40b10dcf8f431a8b29c4ecc09104ac6b4f1a4500716"
+      }
+    },
+    {
+      "stage": "v2_reference_conflict",
+      "directory": "reports/a132_runtime_port_20261030/view_recovery_053",
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "failure_probe",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-053"
+        ],
+        "status": "complete",
+        "completed_cases": 1,
+        "planned_cases": 1,
+        "max_score": 5,
+        "total_score": -1,
+        "untimed_score": -1,
+        "full_quality_answers": 0,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 0,
+        "scorer_abstentions": 0,
+        "generation_requests": 3,
+        "failed_requests": 0,
+        "max_requests": 3,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 3.614,
+        "peak_evaluation_process_mib": 215.88,
+        "latency_p50": 3.38,
+        "latency_p95": 3.38
+      },
+      "budget": {
+        "status": "closed",
+        "maximum": 3,
+        "used": 3,
+        "failed": 0,
+        "unused_closed": 0,
+        "SDK_retries": 0,
+        "plan_sha256": "dfbda6e787bb03dd20dd0b523c27cba63d2862b25b1625e93c0b590c6b83616a",
+        "trace_sha256": "325bc9d13b267b27ad1ea7bd03d8fa0f929a359a0f819ced974c1e28a10cd593",
+        "child_exit_code": 0,
+        "prior_balance_reused": false
+      },
+      "matcher_sha256": "f01105b0cddbcae502c8e75e21bf242e18666db6eee36859cc0276e40d41ec33",
+      "evidence_sha256": {
+        "plan.json": "dfbda6e787bb03dd20dd0b523c27cba63d2862b25b1625e93c0b590c6b83616a",
+        "live.jsonl": "325bc9d13b267b27ad1ea7bd03d8fa0f929a359a0f819ced974c1e28a10cd593",
+        "case_results.json": "c0a33e085e37ff58e55b0e0d63cd39f78121f62e366f38e9ff958f79c3fdfdb1",
+        "source.zip": "d55e0eec71a732db3f1ee9597a1d91ac083c92ad4c4ffdfbf360de44b071d3ba",
+        "commands.json": "2ab030ecbd7517160d3e401193d2b63cfecaa5a2bee516b9c7be46f2190117d3",
+        "budget.json": "2c474713d90cbcd35848ab2af73c88cac353c7d30fc398494927d4e5e56ff036"
+      }
+    },
+    {
+      "stage": "v2_regression3_pass_1_failure",
+      "directory": "reports/a132_runtime_port_20261030/passed_regression4",
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "passed_regression",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-017",
+          "CMDB-041",
+          "CMDB-052",
+          "CMDB-173"
+        ],
+        "status": "complete",
+        "completed_cases": 4,
+        "planned_cases": 4,
+        "max_score": 20,
+        "total_score": 15,
+        "untimed_score": 15,
+        "full_quality_answers": 3,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 1,
+        "scorer_abstentions": 1,
+        "generation_requests": 11,
+        "failed_requests": 0,
+        "max_requests": 12,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 12.669,
+        "peak_evaluation_process_mib": 261.25,
+        "latency_p50": 3.24,
+        "latency_p95": 3.53
+      },
+      "budget": {
+        "status": "closed",
+        "maximum": 12,
+        "used": 11,
+        "failed": 0,
+        "unused_closed": 1,
+        "SDK_retries": 0,
+        "plan_sha256": "0568a527a617f8fc72460097b5506661deecbd7c847e180f0b1c14819d44fbb6",
+        "trace_sha256": "ee5de5d3fd2e121bb92def82f628fd2cb67e8fbad20de68b612051a928d22b44",
+        "child_exit_code": 0,
+        "prior_balance_reused": false
+      },
+      "matcher_sha256": "f01105b0cddbcae502c8e75e21bf242e18666db6eee36859cc0276e40d41ec33",
+      "evidence_sha256": {
+        "plan.json": "0568a527a617f8fc72460097b5506661deecbd7c847e180f0b1c14819d44fbb6",
+        "live.jsonl": "ee5de5d3fd2e121bb92def82f628fd2cb67e8fbad20de68b612051a928d22b44",
+        "case_results.json": "f57ce1f3bc39db59c947754904163d46857e6a37651a8252b175803a1ed35ac8",
+        "source.zip": "9f7f530d78a94644b4e5c58ad1d678995d37aefb474d0e04ee22d0d0eaf26484",
+        "commands.json": "6f06fd531a134565559f4410116d8946b5a83c48969c8792958cdde04b70d211",
+        "budget.json": "75909827498f2d74bcf398507fcaa23ead85c6a71d6ec0650444d5ed60b33729"
+      }
+    },
+    {
+      "stage": "v3_fixed_regression_failure",
+      "directory": "reports/a132_runtime_port_20261030/format_recovery_052",
+      "summary": {
+        "type": "summary",
+        "scope": "train_subset",
+        "phase": "passed_regression",
+        "thinking_mode": "disabled",
+        "case_ids": [
+          "CMDB-052"
+        ],
+        "status": "complete",
+        "completed_cases": 1,
+        "planned_cases": 1,
+        "max_score": 5,
+        "total_score": 5,
+        "untimed_score": 5,
+        "full_quality_answers": 1,
+        "runtime_abstentions": 0,
+        "empty_answer_guesses": 0,
+        "scorer_abstentions": 0,
+        "generation_requests": 3,
+        "failed_requests": 0,
+        "max_requests": 3,
+        "model_identity_mismatches": [],
+        "holdout_evaluated": false,
+        "wall_seconds": 3.19,
+        "peak_evaluation_process_mib": 235.55,
+        "latency_p50": 2.95,
+        "latency_p95": 2.95
+      },
+      "budget": {
+        "status": "closed",
+        "maximum": 3,
+        "used": 3,
+        "failed": 0,
+        "unused_closed": 0,
+        "SDK_retries": 0,
+        "plan_sha256": "43157f21da3881a74fc4a7beeb2a0301e62e2bb16957b12c99c043cc9890786c",
+        "trace_sha256": "c77a80511076b396e11a0f8370944e00fc2a49d24b854e22562a020c9d3c2027",
+        "child_exit_code": 0,
+        "prior_balance_reused": false
+      },
+      "matcher_sha256": "63aced8a38ea4535fe31bcf99f2d8c181a5ea59a117206f614c56c6983daa42b",
+      "evidence_sha256": {
+        "plan.json": "43157f21da3881a74fc4a7beeb2a0301e62e2bb16957b12c99c043cc9890786c",
+        "live.jsonl": "c77a80511076b396e11a0f8370944e00fc2a49d24b854e22562a020c9d3c2027",
+        "case_results.json": "7fa8894edede9203bf0698c1dc304a0a1343e2c552551279f9e7ae445ce1d26a",
+        "source.zip": "4c3b85f28d9d0e2432565fbef14095ec6ba4616440b87335d72ec709aa376fa3",
+        "commands.json": "64865110cd7e9b8fa4e371b016355fdbaba6591a025b0f1b561338e80746f178",
+        "budget.json": "cb4767b0e97805450e3a45ff2d1b533d558db7492617bea2546e42f530e519ad"
+      }
+    }
+  ],
+  "verified_full_quality_recoveries_on_v1": [
+    "CMDB-019",
+    "CMDB-042",
+    "CMDB-043",
+    "CMDB-044",
+    "CMDB-060",
+    "CMDB-061",
+    "CMDB-133",
+    "CMDB-174",
+    "CMDB-175"
+  ],
+  "remaining_reference_conflict": {
+    "case_id": "CMDB-053",
+    "question_tenant": "CodeArtsDeploy",
+    "reference_tenant": "AdvanceService_System_VDC",
+    "actual_rows": 0,
+    "reference_rows": 316,
+    "scored": -1,
+    "empty_guess": false,
+    "production_does_not_override_question_entity": true
+  },
+  "current_candidate_full150_retested": false,
+  "current_candidate_full200_retested": false,
+  "current_candidate_full_training_score": null,
+  "latest_checks": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--test-module",
+      "test_training_a132_intake",
+      "--output-dir",
+      "reports/a132_runtime_port_20261030/format_recovery_checks"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "resume_checks": {
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--test-module",
+      "test_training_validation_resume",
+      "--test-module",
+      "test_training_subset",
+      "--output-dir",
+      "reports/a132_runtime_port_20261030/resume_checks"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "official_integrity": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "A_contract_replays": [
+    {
+      "scope": "Issue3_R2_public_synthetic",
+      "checks": 51,
+      "passed": 51,
+      "model_requests": 0,
+      "service_requests": 0,
+      "production_enabled": false,
+      "results_sha256": "f3621b5aa1c81719a0e303e58ad92416e6f913253b7aee912cb4027298c43d41"
+    },
+    {
+      "scope": "Issue3_P0_public_synthetic",
+      "checks": 19,
+      "passed": 19,
+      "model_requests": 0,
+      "service_requests": 0,
+      "production_enabled": false,
+      "results_sha256": "990ad193a649a69bb20802e1e8d28d9c2e5190493c66116b722c3179553cdfd6"
+    }
+  ],
+  "limits": [
+    "No scores combined across candidate versions",
+    "9 old failures passed on v1, not fully repeated on v3",
+    "v2 regression retained its one failure; v3 tests only repaired052",
+    "061 had one manual retry after APIConnectionError; SDK retries0 throughout",
+    "A contract synthetic pass is not native runtime acceptance",
+    "No post-repair full-training700 claim"
+  ]
+}

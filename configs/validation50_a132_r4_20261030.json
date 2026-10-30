@@ -1,0 +1,29 @@
+{
+  "arguments": [
+    "--a132-candidate",
+    "--candidate-flags",
+    "--refine-contract-prompt",
+    "--independent-aggregates",
+    "--grouped-aggregates",
+    "--network-details",
+    "--identity-projection",
+    "--vpc-subnets",
+    "--tenant-resources",
+    "--vm-volume-details",
+    "--tenant-vdc-binding",
+    "--parallel-resource-lists",
+    "--detail-count",
+    "--ground-sql-measures",
+    "--partial-storage-pools",
+    "--sg-rule-semijoin",
+    "--verified-empty-root",
+    "--typed-empty-root",
+    "--thinking-mode",
+    "disabled",
+    "--request-limit",
+    "150",
+    "--sealed-validation-freeze",
+    "reports/a132_runtime_port_20261030/candidate_freeze.json"
+  ],
+  "output_dir": "reports/a132_runtime_port_20261030/validation50"
+}

@@ -1,0 +1,855 @@
+132版本：全部错误、API不合规与A/B/C分工清单（2026-10-31）
+==================================================================
+一、统计口径与结论
+依据：132 strict（26族+106固定），源码包db5ccb9，本地主干同步ec1e338。
+本次只读已有日志/合同/题目，不调用模型或数据服务、不执行SQL、不重评分，不改运行时代码、评分器或测试数据。
+200题基线为150+17+33分段同查询源码覆盖；质量分727.4/1000，144满分、6部分、17错误、33零分。
+这是修复前的基线，不是最新版重新跑200的分数；50题已曝光，只称验证集。
+质量问题共56道：训练33道、验证23道。9道在后续小集取得满分，47道问题尚未关闭/未新验收；这不是最新版又实测47道错误。
+另附1道回归中新出现并修好的052，以及1道得5分但已知关联语义有误的057；两者不重复计入基线56道。基线仅时间扣分的11道另列。
+所有原题逐字来自原划分文件，仅用于归因与验收，禁止作为生产题号/整题/答案路由。
+
+需要A修改/补齐模板、view或物化合同：9道（CMDB-128, CMDB-161, CMDB-192, CMDB-251, CMDB-260, CMDB-262, CMDB-264, CMDB-298, CMDB-299）
+需要A补权威字段/关系/范围证据，单改模板不能保证解决：7道（CMDB-105, CMDB-106, CMDB-139, CMDB-224, CMDB-275, CMDB-288, CMDB-297）
+A合同已交付，主要由B接入，不向A重复索要模板：8道（CMDB-194, CMDB-253, CMDB-261, CMDB-270, CMDB-287, CMDB-289, CMDB-291, CMDB-300）
+B先修选择/参数/执行接入，不需新增模板能力：8道（CMDB-012, CMDB-036, CMDB-055, CMDB-056, CMDB-116, CMDB-183, CMDB-187, CMDB-271）
+B可修，已在小集实测恢复满分：9道（CMDB-019, CMDB-042, CMDB-043, CMDB-044, CMDB-060, CMDB-061, CMDB-133, CMDB-174, CMDB-175）
+参考答案/业务语义/输出口径待C或主办方裁定，不以改模板凑分：15道（CMDB-024, CMDB-028, CMDB-051, CMDB-053, CMDB-077, CMDB-088, CMDB-102, CMDB-112, CMDB-115, CMDB-123, CMDB-166, CMDB-252, CMDB-256, CMDB-259, CMDB-274）
+
+按固定划分分开（训练/验证）：
+需要A修改/补齐模板、view或物化合同：训练0 / 验证9
+需要A补权威字段/关系/范围证据，单改模板不能保证解决：训练5 / 验证2
+A合同已交付，主要由B接入，不向A重复索要模板：训练5 / 验证3
+B先修选择/参数/执行接入，不需新增模板能力：训练0 / 验证8
+B可修，已在小集实测恢复满分：训练9 / 验证0
+参考答案/业务语义/输出口径待C或主办方裁定，不以改模板凑分：训练14 / 验证1
+训练150尚未关闭24道＝5道已有合同待B接入＋5道待A补证据＋14道口径争议；不能把它们都当成新增模板需求。
+
+关键区别：
+- A_TEMPLATE的9道才是当前明确要求修改/扩展模板的清单；A_EVIDENCE的7道要先拿关系/schema/范围证据，不能承诺补字段即通过。
+- B_INTEGRATE的8道已有A合同，B接入且过原生门禁后才算支持；不是A没交付，也不是已经能得分。
+- C_REVIEW的15道不等于全部都是参考错误：包含范围/计数/类型/多资源输出争议及尚待验证的成因。
+- 128同时有AZ参考冲突；260同时有bool参考冲突；270同时有参考漏区域。按主要推进负责人归组，其他问题在逐题记录中保留。
+- 未全测新版；小集来自不同修订，不把逐题最新分加成新150/200成绩。
+
+二、API不合规总表（区分评分现象与真实根因）
+评分器明确报API条件不合规：33道；B内部missing_api_filter：4道；重叠224一题，去重共36道。
+33道评分API不合规均走过猜空，最终api_call为空；根因可能是填参、完整义务不足、schema或范围无法证明。不是33个模板都缺API条件。
+B内部四题：116缺region、224缺GaussDB AZ、275/288缺ELB AZ。116/275/288最终是-1，不是评分器API门槛0分，也必须跟进。
+其他语义问题（状态大小写、bool类型、错误租户/状态等）即使未触发门槛，也单列在对应原题，不当作API已语义正确。
+
+CMDB-012：评分API门槛0分；无后续真实复测记录
+CMDB-019：评分API门槛0分；最新记录5分，parameter_recovery_fail10
+CMDB-042：评分API门槛0分；最新记录5分，parameter_recovery_fail10
+CMDB-043：评分API门槛0分；最新记录5分，parameter_recovery_fail10
+CMDB-044：评分API门槛0分；最新记录5分，parameter_recovery_fail10
+CMDB-053：评分API门槛0分；最新记录-1分，view_recovery_053
+CMDB-055：评分API门槛0分；无后续真实复测记录
+CMDB-056：评分API门槛0分；无后续真实复测记录
+CMDB-060：评分API门槛0分；最新记录5分，parameter_recovery_fail10
+CMDB-061：评分API门槛0分；最新记录5分，parameter_recovery_tail4
+CMDB-077：评分API门槛0分；无后续真实复测记录
+CMDB-105：评分API门槛0分；无后续真实复测记录
+CMDB-116：B内部缺API筛选{"field":"logicalRegionName","value":"region_guian4"}；无后续真实复测记录
+CMDB-133：评分API门槛0分；最新记录5分，parameter_recovery_tail4
+CMDB-139：评分API门槛0分；无后续真实复测记录
+CMDB-174：评分API门槛0分；最新记录5分，parameter_recovery_tail4
+CMDB-175：评分API门槛0分；最新记录5分，parameter_recovery_tail4
+CMDB-183：评分API门槛0分；无后续真实复测记录
+CMDB-187：评分API门槛0分；无后续真实复测记录
+CMDB-192：评分API门槛0分；无后续真实复测记录
+CMDB-194：评分API门槛0分；无后续真实复测记录
+CMDB-224：评分API门槛0分；B内部缺API筛选{"field":"azoneName","value":"az_guian4"}；无后续真实复测记录
+CMDB-251：评分API门槛0分；无后续真实复测记录
+CMDB-253：评分API门槛0分；无后续真实复测记录
+CMDB-261：评分API门槛0分；无后续真实复测记录
+CMDB-264：评分API门槛0分；无后续真实复测记录
+CMDB-271：评分API门槛0分；无后续真实复测记录
+CMDB-275：B内部缺API筛选{"field":"azoneName","value":"az0.dc0"}；无后续真实复测记录
+CMDB-287：评分API门槛0分；无后续真实复测记录
+CMDB-288：B内部缺API筛选{"field":"azoneName","value":"az0.dc0"}；无后续真实复测记录
+CMDB-289：评分API门槛0分；无后续真实复测记录
+CMDB-291：评分API门槛0分；无后续真实复测记录
+CMDB-297：评分API门槛0分；无后续真实复测记录
+CMDB-298：评分API门槛0分；无后续真实复测记录
+CMDB-299：评分API门槛0分；无后续真实复测记录
+CMDB-300：评分API门槛0分；无后续真实复测记录
+
+==================================================================
+3、需要A修改/补齐模板、view或物化合同（9道）
+
+[CMDB-128 | 验证50（已曝光）]
+原题：查询区域region_guian4可用区az0.dc0中可启动云硬盘列表
+基线：-1分 / 错误；选中：family_volume_rows
+评分记录：答案错误
+根因判断：冻结family_volume_rows只允许bootable字符串True/False，而参考/数据示例为小写true；题目AZ=az0.dc0，参考AZ却为az_guian4。
+下一步/交付：A核定并修bootable原生类型/大小写合同与物化输出；C独立核定AZ差异。B不能绕过冻结合同直接篡改执行值。
+判断依据置信度：高
+A优先级：P0
+当前模板SQL：SELECT name, size, status, bootable FROM CLOUD_VOLUME
+实际最终API摘要：[{"CI":"VOLUME","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"},{"name":"bootable","value":"True","operator":"equal"}]}]
+参考API摘要：[{"CI":"VOLUME","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az_guian4","operator":"equal"},{"name":"bootable","value":"true","operator":"equal"}]}]
+参考/实际结果行数：1294 / 0
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-161 | 验证50（已曝光）]
+原题：一共有多少VPC，VPC下有哪些子网，子网下有哪些虚拟机
+基线：-1分 / 错误；选中：rb_108
+评分记录：答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]
+根因判断：rb_108只有VPC COUNT，资源和执行API没有完整SUBNET/VM路径；缺两层关系与明细输出。
+下一步/交付：A补VPC→端口/子网→VM的完整数量及明细合同，明确多值IP/关系键、重复和无子项，不仅增加resources声明。
+判断依据置信度：高
+A优先级：P1
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA","SUBNET"]
+当前模板SQL：SELECT COUNT(*) AS total FROM CLOUD_ROUTER
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-192 | 验证50（已曝光）]
+原题：VPCdbs_resource_vpc_c_type下有多少个子网和弹性IP
+基线：0分 / 0分；选中：rb_130
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_130 SQL只算subnet_count，未消费FLOATING_IPS；第三步还跨步引用step1，而固定执行器只传前一步。
+下一步/交付：A补具名VPC的子网/EIP双计数，完整端口关系与EIP父ID、零子项和独立聚合；B负责通用跨步依赖接入，不改官方executor。
+判断依据置信度：高
+A优先级：P1
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["FLOATING_IPS"]
+当前模板SQL：SELECT COUNT(*) AS subnet_count FROM CLOUD_ROUTER INNER JOIN CLOUD_PORT ON CLOUD_ROUTER.nativeId = CLOUD_PORT.devNativeId INNER JOIN R_PORT_IN_SUBNET ON CLOUD_PORT.id = R_PORT_IN_SUBNET.portId INNER JOIN CLOUD_SUBNET ON R_PORT_IN_SUBNET.subnetId = CLOUD_SUBNET.id
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-251 | 验证50（已曝光）]
+原题：查询区域region_guian4下各可用区的ECS数量、云硬盘数量和VPC数量，按可用区分别展示
+基线：0分 / 0分；选中：rb_168
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_168只按AZ统计ECS，缺VOLUME与VPC两分支且卷请求未绑定区域；现有B网络分组器不能覆盖这组三资源/AZ合同。
+下一步/交付：A补同region按AZ的VM/卷/VPC独立COUNT与完整分组域，明确哪些CI真有AZ、缺AZ/未知桶及真空政策；不能按实例表直接JOIN计数。
+判断依据置信度：高
+A优先级：P1
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VOLUME","ROUTER"]
+当前模板SQL：SELECT azoneName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY azoneName
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-260 | 验证50（已曝光）]
+原题：查询区域region_guian4下各VDC的管理虚拟机名称、IP、所属云服务、规格和挂载云硬盘容量
+基线：-1分 / 错误；选中：rb_175
+评分记录：答案错误
+根因判断：旧SQL只有VDC、VM名和卷容量，缺IP、所属云服务、规格；同时JSON bool true与参考字符串true产生233行对0行差异。
+下一步/交付：A补完整VM/IP/云服务/规格/挂载容量合同与有证关联键、独立容量聚合；C另裁定布尔类型和参考，不能改成查不到的字符串。
+判断依据置信度：高
+A优先级：P1
+当前模板SQL：SELECT CLOUD_VM_NOVA.vdcName, CLOUD_VM_NOVA.name AS vm_name, SUM(CLOUD_VOLUME.size) AS total_volume_size FROM CLOUD_VM_NOVA INNER JOIN R_VOLUME_MOUNTON_VM ON R_VOLUME_MOUNTON_VM.vmId = CLOUD_VM_NOVA.id INNER JOIN CLOUD_VOLUME ON CLOUD_VOLUME.id = R_VOLUME_MOUNTON_VM.volumeId GROUP BY CLOUD_VM_NOVA.vdcName, CLOUD_VM_NOVA.name
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"management","value":true,"operator":"equal"}]},{"CI":"FLAVOR","条件":[]},{"CI":"VOLUME","条件":[]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"management","value":"true","operator":"equal"}]},{"CI":"FLAVOR","条件":[]},{"CI":"VOLUME","条件":[]}]
+参考/实际结果行数：0 / 233
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-262 | 验证50（已曝光）]
+原题：查询区域region_guian4下云硬盘容量最大的VDC，列出该VDC的存储池详情
+基线：-1分 / 错误；选中：rb_177
+评分记录：答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）]
+根因判断：rb_177仅算最大容量VDC，没有存储池详情；已有capacity合同按VDC汇总，不含最大VDC后的池详情view。
+下一步/交付：A补容量排名→获胜VDC→存储池明细合同，证明VDC/池关系、单位、并列最大与缺关联政策；不能用名称相等猜身份。
+判断依据置信度：高
+A优先级：P2
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["STORAGE_POOL"]
+当前模板SQL：SELECT vdcName, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName ORDER BY total_size DESC LIMIT 1
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-264 | 验证50（已曝光）]
+原题：查询可用区az0.dc0下ECS数量最多的集群，列出该集群下所有宿主机的vCPU总量和运行中虚拟机
+基线：0分 / 0分；选中：rb_178
+评分记录：弃权（API条件不合规: 标准答案有条件{'azoneName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_178只有集群ECS计数，未完成最大集群选择、宿主vCPU及运行VM明细。
+下一步/交付：A补AZ内按clusterId排名、并列政策、cluster→host与host→active VM链，保证先排名再接明细且vCPU不因VM行扇出重复加总。
+判断依据置信度：高
+A优先级：P2
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["HOST"]
+当前模板SQL：SELECT clusterName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY clusterName
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-298 | 验证50（已曝光）]
+原题：查询租户AdvanceService_System_VDC的ECS私有IP列表、关联弹性IP列表和所属宿主机列表
+基线：0分 / 0分；选中：rb_198
+评分记录：弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_198只有EIP字段，缺ECS私网IP与HOST明细；声明了API并不等于证明了EIP/多值privateIps/宿主关系。
+下一步/交付：A给租户范围内VM→端口/地址→EIP及VM→HOST的完整合同，明确多值IP编码、去重、无EIP/缺宿主；不能仅按无边界字符串包含连接。
+判断依据置信度：高
+A优先级：P1
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA","HOST"]
+当前模板SQL：SELECT floatingIpAddress AS floating_ip, status FROM CLOUD_FLOATING_IPS
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-299 | 验证50（已曝光）]
+原题：查询区域region_guian4下CCE集群列表、各集群的节点数量和各集群关联的虚拟机数量
+基线：0分 / 0分；选中：rb_199
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_199只列CCE_CLUSTER，缺每集群节点数及关联VM数。已有CCE子资源family不等于完整双计数合同。
+下一步/交付：A补clusterId→CCE_NODE及节点→VM的有证关系、分别COUNT DISTINCT与零子项父集群，未知关联保留不完整诊断，不按名称猜VM。
+判断依据置信度：高
+A优先级：P1
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA"]
+当前模板SQL：SELECT name AS cluster_name, status, clusterType FROM CLOUD_CCE_CLUSTER
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+
+==================================================================
+4、需要A补权威字段/关系/范围证据，单改模板不能保证解决（7道）
+
+[CMDB-105 | 验证50（已曝光）]
+原题：查询区域region_guian4下交换机数量和路由器数量
+基线：0分 / 0分；选中：family_next_n28
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：NEXT_N28已物化两类物理CI独立COUNT；执行阶段unverified_api_condition拒绝，不能证明物理CI成功空时的region/schema来源。
+下一步/交付：A提供S_Switch/S_Router权威schema及区域作用依据，C确认COUNT空表口径；B接可信抓取和typed空。无需再造两类COUNT模板。
+判断依据置信度：高：现象；待证：原生schema
+流程证据：{"stage":"execution","reason":"unverified_api_condition"}
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-106 | 验证50（已曝光）]
+原题：查询区域region_guian4下X86服务器列表
+基线：-1分 / 错误；选中：rb_071
+评分记录：答案错误
+根因判断：rb_071为缺失hostName/hostIpAddress注入NULL并带region筛选，得到6行；参考全局S_X86Server为45行。字段角色与范围同时有争议。
+下一步/交付：A给S_X86Server字段/CI身份和区域绑定证据，再改有依据的投影；C核定参考是否忽略题目区域。不能以NULL占位当完成。
+判断依据置信度：高
+当前模板SQL：SELECT x.hostName AS name, x.hostIpAddress AS ip_address, x.hostType AS type FROM (SELECT *, NULL AS hostName, NULL AS hostIpAddress, NULL AS hostType, NULL AS _empty FROM SYS_X86Server) AS x WHERE x._empty IS NULL
+实际最终API摘要：[{"CI":"S_X86Server","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]}]
+参考API摘要：[{"CI":"S_X86Server","条件":[]}]
+参考/实际结果行数：45 / 6
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-139 | 训练150]
+原题：查询区域region_guian4下各VDC的GaussDB实例关联的后端存储池名称
+基线：0分 / 0分；选中：rb_093
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_093 SQL仅输出N/A池名，实例没有可用的storagePoolId依据；API声明不能补出数据库专用盘用途关系。
+下一步/交付：A给实例/节点→数据库专用卷→存储池的权威关系与用途，不用宿主挂载卷冒充；无证则继续标不支持。
+判断依据置信度：高
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["STORAGE_POOL"]
+当前模板SQL：SELECT CLOUD_GAUSSDB_INSTANCE.vdcName AS vdc_name, CLOUD_GAUSSDB_INSTANCE.name AS instance_name, 'N/A' AS pool_name FROM CLOUD_GAUSSDB_INSTANCE GROUP BY CLOUD_GAUSSDB_INSTANCE.vdcName
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-224 | 训练150]
+原题：查询VDCpaas-mas在区域region_guian4可用区az_guian4中的GaussDB实例列表
+基线：0分 / 0分；选中：rb_151
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：题文明示az_guian4，但GAUSSDB_INSTANCE没有直接azoneName；旧模板只按VDC+region。
+下一步/交付：A证明AZONE命名空间、NODE.azCode到实例的路径以及多AZ任一/全部/主节点量词；C核定业务口径。不凭空添加AZ字段。
+判断依据置信度：高
+流程证据：{"stage":"api_conditions","reason":"missing_api_filter"}
+缺失筛选证据：{"field":"azoneName","value":"az_guian4"}
+当前模板SQL：SELECT name, dataVip, engineVersion FROM CLOUD_GAUSSDB_INSTANCE
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-275 | 训练150]
+原题：查询可用区az0.dc0下ELB数量、监听器总数和后端服务器成员总数
+基线：-1分 / 错误；选中：rb_186
+评分记录：答案错误 [SQL结构提示: 缺少COUNT/聚合（标准答案需要）]
+根因判断：旧SQL只COUNT ELB；A已给ELB/监听器/成员聚合候选，但明确不支持AZ，而原题要求AZ。
+下一步/交付：A补权威ELB部署AZ归属；保留父ELB范围与独立子表聚合。后端VM的AZ不能代替ELB部署AZ；拿到证据后B接现有候选。
+判断依据置信度：高
+流程证据：{"stage":"api_conditions","reason":"missing_api_filter"}
+缺失筛选证据：{"field":"azoneName","value":"az0.dc0"}
+当前模板SQL：SELECT COUNT(*) AS elb_count FROM CLOUD_ELB
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-288 | 训练150]
+原题：查询可用区az0.dc0下ELB列表、各ELB的监听器数量和后端服务器组成员数量
+基线：-1分 / 错误；选中：rb_193
+评分记录：答案错误
+根因判断：旧SQL只列ELB；A已交付per_elb监听器/成员候选，但AZ关联仍未证明，当前被missing_api_filter拦下。
+下一步/交付：同275，A补部署AZ依据后B复用已有ELB候选；不能删除题文AZ，不需再写监听器/成员基础聚合。
+判断依据置信度：高
+流程证据：{"stage":"api_conditions","reason":"missing_api_filter"}
+缺失筛选证据：{"field":"azoneName","value":"az0.dc0"}
+当前模板SQL：SELECT name AS elb_name, ip AS elb_ip, status FROM CLOUD_ELB
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-297 | 训练150]
+原题：查询区域region_guian4下交换机数量、路由器数量和虚拟防火墙数量
+基线：0分 / 0分；选中：rb_197
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧SQL只COUNT交换机，B还把物理路由器词误认成云ROUTER；A三类physical候选已交付但因原生schema阻塞而默认关闭。
+下一步/交付：B先修物理/云路由器识别；A/C补S_Switch/S_Router权威schema、区域与成功空COUNT依据，随后复用已有physical候选，不重造三计数。
+判断依据置信度：高
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["ROUTER"]
+当前模板SQL：SELECT COUNT(*) AS switch_count FROM SYS_Switch
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+
+==================================================================
+5、A合同已交付，主要由B接入，不向A重复索要模板（8道）
+
+[CMDB-194 | 验证50（已曝光）]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量
+基线：0分 / 0分；选中：rb_131
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_131只列子网CIDR，未输出VPC/EIP；A的P0 vdc_network已交付此完整义务。
+下一步/交付：B接入modules/vdc_network，保留VDC与region、分支独立输出、未知CIDR和typed空；不要求A重写合同。
+判断依据置信度：高
+A已交付合同：experiments/issue3_p0_compositions_20261030/modules/vdc_network/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["ROUTER","FLOATING_IPS"]
+当前模板SQL：SELECT name AS subnet_name, cidr AS subnet_cidr FROM CLOUD_SUBNET
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-253 | 验证50（已曝光）]
+原题：查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量
+基线：0分 / 0分；选中：rb_170
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_170只统计卷；A的P0 vdc_counts已交付按VDC的VM/卷/GaussDB实例三计数。
+下一步/交付：B接入已有三独立聚合、VDC名称域UNION与typed空；保留实例而非节点语义。
+判断依据置信度：高
+A已交付合同：experiments/issue3_p0_compositions_20261030/modules/vdc_counts/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA","GAUSSDB"]
+当前模板SQL：SELECT vdcName, COUNT(*) AS volume_count FROM CLOUD_VOLUME GROUP BY vdcName
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-261 | 训练150]
+原题：查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘
+基线：0分 / 0分；选中：rb_176
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_176只有最多租户统计；A tenant R2已交付vm_count排名后的ECS/IP/挂载卷明细。
+下一步/交付：B接tenant_details的vm_count与preflight投影；C先确认tenantId、all_ties及unknown策略。不重复要求A写同一候选。
+判断依据置信度：高
+A已交付合同：experiments/issue3_contracts_20261030/modules/tenant/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VOLUME"]
+当前模板SQL：SELECT tenantName, COUNT(*) AS ecs_count FROM CLOUD_VM_NOVA GROUP BY tenantName ORDER BY ecs_count DESC LIMIT 1
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-270 | 训练150]
+原题：查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量
+基线：2.5分 / 部分正确；选中：rb_183
+评分记录：部分正确(50%)
+根因判断：旧rb_183是普通卷列表，没有最大租户筛选；A tenant R2已交付volume_count明细view。参考还缺题文region筛选。
+下一步/交付：B接现有volume_count合同，保留tenantId与all_ties/unknown门禁；C单独核定参考范围，不要求A重做同一排名view。
+判断依据置信度：高
+A已交付合同：experiments/issue3_contracts_20261030/modules/tenant/CONTRACT.json
+当前模板SQL：SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME
+实际最终API摘要：[{"CI":"VOLUME","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]}]
+参考API摘要：[{"CI":"VOLUME","条件":[]}]
+参考/实际结果行数：6190 / 3095
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-287 | 训练150]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量
+基线：0分 / 0分；选中：rb_192
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_192只列子网；A network R2已给逐VPC子网/EIP计数合同、关系与unknown政策。
+下一步/交付：B接network/candidate.py，按预检投影装表，保留同region全VPC目录、重复ID与不完整图门禁。
+判断依据置信度：高
+A已交付合同：experiments/issue3_contracts_20261030/modules/network/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["ROUTER","FLOATING_IPS"]
+当前模板SQL：SELECT name AS subnet_name FROM CLOUD_SUBNET
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-289 | 验证50（已曝光）]
+原题：查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表
+基线：0分 / 0分；选中：rb_194
+评分记录：弃权（API条件不合规: 标准答案有条件{'tenantName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_194只列卷；P0 tenant_lists已交付VM/安全组/卷三个身份及名称清单。
+下一步/交付：B接现有tenant_lists，保留未明示区域时不加区域、跨CI身份区分和unknown名称诊断。
+判断依据置信度：高
+A已交付合同：experiments/issue3_p0_compositions_20261030/modules/tenant_lists/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA","SECURITY_GROUP"]
+当前模板SQL：SELECT name AS volume_name, size AS volume_size, status AS volume_status FROM CLOUD_VOLUME
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-291 | 训练150]
+原题：查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量
+基线：0分 / 0分；选中：rb_196
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_196只COUNT GaussDB；A已发布291 R3三计数及可信区域捕获绑定接口。
+下一步/交付：B构造真实capture reader、验证执行namespace和区域ID空间，再接现有R3候选；不是让模型伪造receipt或再索要相同模板。
+判断依据置信度：高
+A已交付合同：experiments/issue3_contracts_20261030/modules/291_R3/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["OBS_BUCKET"]
+当前模板SQL：SELECT COUNT(*) AS gaussdb_count FROM CLOUD_GAUSSDB_INSTANCE
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-300 | 训练150]
+原题：查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数
+基线：0分 / 0分；选中：rb_200
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：旧rb_200只SUM卷；A capacity候选已交付VM+FLAVOR、卷、GaussDB节点独立聚合与完整VDC名称域。
+下一步/交付：B接已有capacity，保留未知规格VM、源单位/NULL、不完整总量和节点/实例区别；C核定单位，不需A再写同一候选。
+判断依据置信度：高
+A已交付合同：experiments/issue3_contracts_20261030/modules/capacity/CONTRACT.json
+流程证据：{"stage":"resource_coverage","reason":"resource_mismatch"}
+完整资源门禁缺项：["VM_NOVA","GAUSSDB"]
+当前模板SQL：SELECT vdcName, SUM(size) AS total_volume_size FROM CLOUD_VOLUME GROUP BY vdcName
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+
+==================================================================
+6、B先修选择/参数/执行接入，不需新增模板能力（8道）
+
+[CMDB-012 | 验证50（已曝光）]
+原题：az0.dc0里正在跑的ECS有哪些IP，分别属于哪个租户
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'azoneName', 'status'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：F02已有AZ+status的ecs_ip_tenant合同；本次模型返回null，随后猜空导致API门槛0分。
+下一步/交付：B用现有view及VM状态语义补抽参和完整原文校验；先定向复测，不新建模板。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：unknown_batch3_family_or_parameters
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-036 | 验证50（已曝光）]
+原题：宿主机kvm-10上目前有多少台处于ACTIVE状态的虚拟机
+基线：-1分 / 错误；选中：family_vm_host_path
+评分记录：答案错误
+根因判断：VM状态参数保留了自然问法ACTIVE大写，参考/API规范值为active；现有host_vm_total合同已允许大写问法绑定小写值。
+下一步/交付：B在原文与schema证据下规范VM状态大小写，再走同一prepare；不改实体/显式大小写敏感比较。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"HOST","条件":[{"name":"name","value":"kvm-10","operator":"equal"}]},{"CI":"VM_NOVA","条件":[{"name":"hostId","value":"{{id from step 1}}","operator":"equal"},{"name":"status","value":"ACTIVE","operator":"equal"}]}]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-055 | 验证50（已曝光）]
+原题：查询区域region_guian4可用区az0.dc0中所有ECS的IP列表和租户归属
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'azoneName', 'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：ecs_ip_tenant支持region+AZ，模型却把filters输出为字段名数组，而不是键值对象。
+下一步/交付：B约束JSON格式、从原文补明确值并完整prepare；无须新增view。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-056 | 验证50（已曝光）]
+原题：查询区域region_guian4下各租户在各个可用区中的ECS实例名和IP
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：132新增ecs_tenant_zone_ip_alias明确支持此类region下各租户/各AZ明细；本轮模型返回null。
+下一步/交付：B修提示及有限view恢复并复测；A已交付能力，不重复造模板。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：unknown_batch3_family_or_parameters
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-116 | 验证50（已曝光）]
+原题：查询区域region_guian4下部署节点按hostClass(VM/PM)分布
+基线：-1分 / 错误；选中：rb_079
+评分记录：答案错误 [SQL结构提示: 缺少GROUP BY（标准答案需要）; 缺少COUNT/聚合（标准答案需要）]
+根因判断：部署节点API没有logicalRegionName筛选，B门禁拒绝；已有部署节点区域ID绑定候选，基线开关为0。
+下一步/交付：B复核已有--bind-deploy-node-region候选及S_DeployNode的真实logicalRegionId来源，再定向验收；不得给不存在字段硬塞条件。
+判断依据置信度：中：已有候选，实际绑定仍需验收
+流程证据：{"stage":"api_conditions","reason":"missing_api_filter"}
+缺失筛选证据：{"field":"logicalRegionName","value":"region_guian4"}
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-183 | 验证50（已曝光）]
+原题：查询ECS rds-a357-1的网卡列表
+基线：0分 / 0分；选中：family_vm_port_path
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：模型为仅网卡列表选了vm_port_subnets，可能引入额外子网义务；原family已含端口列表view。
+下一步/交付：B核对完整原文失败原因，选择正确端口view或做唯一同义view恢复，先不改模板。
+判断依据置信度：中：根因须复测确认
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-187 | 验证50（已曝光）]
+原题：安全组default中哪些规则允许了外部访问，关联了多少个端口
+基线：0分 / 0分；选中：rb_126
+评分记录：弃权（API条件不合规: 标准答案有条件{'direction', 'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：rb_126缺direction；name=default已正确，但外部访问的方向语义未转为已证API值。
+下一步/交付：B按安全组规则合同确定外部访问是否为ingress，补语义抽参与现有规则半连接/分批；含义不足时保留拒绝，不塞默认方向。
+判断依据置信度：中
+流程证据：{"stage":"parameters","reason":"missing_parameters"}
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-271 | 验证50（已曝光）]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各可用区的ECS运行中数量、停止数量和异常数量
+基线：0分 / 0分；选中：family_f01
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：F01已有status_distribution、vdcName和azoneName受控合同；自然表达三状态被requested_metric_expression_required拦下。
+下一步/交付：B先复核已有解析/参数结构和三状态表达，保持VDC+region和按AZ分布；若确定源合同不支持所需二维再提供反例交A，目前不判模板缺失。
+判断依据置信度：中
+流程证据：{"stage":"parameters","reason":"invalid_family_parameters"}
+参数证据：requested_metric_expression_required
+实际最终API摘要：[]
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+
+==================================================================
+7、B可修，已在小集实测恢复满分（9道）
+
+[CMDB-019 | 训练150]
+原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1的创建时间
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：ECS角色前缀误并入name，现有F02创建时间view并不缺失。
+下一步/交付：B提示与原文参数恢复已实测5分；保留引号名称和非空冲突反例。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：batch3_complete_role_value_evidence_required
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_fail10 → 5分，猜空=False
+
+[CMDB-042 | 训练150]
+原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1的完整归属链（VM→宿主机→物理机）
+基线：0分 / 0分；选中：family_vm_host_path
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：VM→宿主机→物理机view已存在；ECS角色前缀误并入实体导致prepare拒绝。
+下一步/交付：B修参数后真实复测5分，不需要A增加归属链模板。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_fail10 → 5分，猜空=False
+
+[CMDB-043 | 训练150]
+原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1跑在哪台宿主机上
+基线：0分 / 0分；选中：family_vm_host_path
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：vm_host已存在，误把ECS角色标签当作名称一部分。
+下一步/交付：B修参数后真实复测5分。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_fail10 → 5分，猜空=False
+
+[CMDB-044 | 训练150]
+原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1属于哪个集群、哪个可用区
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：已有ecs_cluster_zone；模型改写了名称拼写并误加前缀。
+下一步/交付：B恢复原文拼写及角色说明后真实复测5分；禁止模糊替换未知实体。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：batch3_complete_role_value_evidence_required
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_fail10 → 5分，猜空=False
+
+[CMDB-060 | 训练150]
+原题：查询VDCpaas-aom在区域region_guian4可用区az0.dc0中各租户的ECS实例名和IP
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'azoneName', 'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：ecs_tenant_ordered_ip已支持VDC+region+AZ，模型null而不是模板缺失。
+下一步/交付：B唯一完整原文计划恢复后真实复测5分。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：unknown_batch3_family_or_parameters
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_fail10 → 5分，猜空=False
+
+[CMDB-061 | 训练150]
+原题：查询区域region_guian4下运行中的ECS实例名、IP和所属规格
+基线：0分 / 0分；选中：family_f03_spec
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'status'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：scoped_vm_ip_flavor已存在；status被填成中文运行中而不是API枚举active。
+下一步/交付：B状态语义和提示修复后真实复测5分；一次APIConnectionError单独记录，人工重试一次。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：unsupported_or_unbound_entity_literal
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_tail4 → 5分，猜空=False
+
+[CMDB-133 | 训练150]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中的云硬盘列表及容量
+基线：0分 / 0分；选中：family_volume_rows
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName', 'vdcName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：已有vdc_scoped_rows，模型把VDC角色前缀并入vdcName。
+下一步/交付：B完整原文规则恢复后真实复测5分；不需新增VDC卷列表模板。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：missing_or_wrong_filter_role_value
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_tail4 → 5分，猜空=False
+
+[CMDB-174 | 训练150]
+原题：查询ELBcloudpipeline_backend_elb的监听器列表
+基线：0分 / 0分；选中：family_f22_listener
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：监听器view已存在，模型把运算符contain当成name值。
+下一步/交付：B明确实体与字段说明后真实复测5分；非空冲突实体不被规则静默改写。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_tail4 → 5分，猜空=False
+
+[CMDB-175 | 训练150]
+原题：查询ELBcloudpipeline_backend_elb的监听器列表和监听端口
+基线：0分 / 0分；选中：family_f22_listener
+评分记录：弃权（API条件不合规: 标准答案有条件{'name'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：named_listener_ports已存在，模型把contain当作ELB名称。
+下一步/交付：B修提示后真实复测5分，无须新增监听端口模板。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+实际最终API摘要：[]
+后续真实记录：parameter_recovery_tail4 → 5分，猜空=False
+
+
+==================================================================
+8、参考答案/业务语义/输出口径待C或主办方裁定，不以改模板凑分（15道）
+
+[CMDB-024 | 训练150]
+原题：规格为ManageOne-AutoOps的ECS实例目前有多少台
+基线：-1分 / 错误；选中：rb_014
+评分记录：答案错误
+根因判断：实际与参考API/SQL一致；成功空输入的COUNT(*)返回一行0，参考却为无列无行。
+下一步/交付：C核定COUNT成功空的输出约定；B不得为匹配空参考把真实COUNT0改为无行。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"FLAVOR","条件":[{"name":"name","value":"ManageOne-AutoOps","operator":"equal"}]},{"CI":"VM_NOVA","条件":[{"name":"flavorId","value":"{{id from step 1}}","operator":"equal"}]}]
+参考API摘要：[{"CI":"FLAVOR","条件":[{"name":"name","value":"ManageOne-AutoOps","operator":"equal"}]},{"CI":"VM_NOVA","条件":[{"name":"flavorId","value":"{{id from step 1}}","operator":"equal"}]}]
+参考/实际结果行数：0 / 1
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-028 | 训练150]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户和宿主机名
+基线：-1分 / 错误；选中：rb_018
+评分记录：答案错误
+根因判断：题文写异常状态；B按语义筛status=error，参考API却筛stopped。SQL一致。
+下一步/交付：C确认异常的状态定义或修正参考；保留两个筛选值差异，不改通用错误状态映射迎合此题。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"status","value":"error","operator":"equal"}]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"status","value":"stopped","operator":"equal"}]}]
+参考/实际结果行数：58 / 0
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-051 | 训练150]
+原题：查询区域region_guian4下KVM虚拟化类型的集群有多少个，包含多少台宿主机
+基线：-1分 / 错误；选中：rb_036
+评分记录：答案错误
+根因判断：B用已证HOST.hypervisorType规范值kvm返回5集群/34宿主；参考用大写KVM且答案为空。
+下一步/交付：C核定枚举大小写和参考快照；不把规范值退回查不到数据的错误大小写。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"HOST","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"hypervisorType","value":"kvm","operator":"equal"}]}]
+参考API摘要：[{"CI":"HOST","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"hypervisorType","value":"KVM","operator":"equal"}]}]
+参考/实际结果行数：0 / 1
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-053 | 训练150]
+原题：查询租户CodeArtsDeploy在区域region_guian4可用区az0.dc0中的ECS IP列表
+基线：0分 / 0分；选中：family_f02
+评分记录：弃权（API条件不合规: 标准答案有条件{'azoneName', 'logicalRegionName', 'tenantName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：填参/view误拒已修；按题目租户CodeArtsDeploy执行0行，参考API却用AdvanceService_System_VDC并给316行，最新实测-1。
+下一步/交付：C核定题目与参考租户冲突；不能要求A或B把题目租户替换成参考租户。
+判断依据置信度：高
+流程证据：{"stage":"parameters","reason":"invalid_a132_family_contract"}
+参数证据：unknown_batch3_family_or_parameters
+实际最终API摘要：[]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"},{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"}]}]
+参考/实际结果行数：316 / 0
+后续真实记录：parameter_recovery_fail10 → 0分，猜空=True
+后续真实记录：view_recovery_053 → -1分，猜空=False
+
+[CMDB-077 | 训练150]
+原题：查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量
+基线：0分 / 0分；选中：无完整选中（见义务诊断）
+评分记录：弃权（API条件不合规: 标准答案有条件{'logicalRegionName'}但系统无API条件（疑似全量load+SQL处理））
+根因判断：原题只说整个Region，没有给区域名，参考却固定region_guian4；R4还把类型与统计拆成两个义务。
+下一步/交付：C先明确区域范围；B/A核对拆分是否保留同一聚合义务，已有rb_052能力不需新造。不能补默认区域。
+判断依据置信度：高：缺区域；中：拆分影响
+流程证据：{"stage":"obligation","reason":"incomplete_obligation","failed_index":0}
+实际最终API摘要：[]
+参考API摘要：[{"CI":"S_X86Server","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]}]
+参考/实际结果行数：2 / 0
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-088 | 训练150]
+原题：查询区域region_guian4可用区az0.dc0中所有宿主机的主机名、IP、vCPU总量、已分配vCPU、CPU架构和运行中虚拟机列表
+基线：4.8分 / 部分正确；选中：rb_060
+评分记录：部分正确(96%)
+根因判断：B按题文筛运行中VM得到1287行；参考只在HOST筛normal，包含48个stopped VM，共1335行。
+下一步/交付：C裁定运行中是VM还是HOST语义；已有原生归因，不删除VM active筛选追求分数。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"HOST","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"}]},{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"},{"name":"status","value":"active","operator":"equal"}]}]
+参考API摘要：[{"CI":"HOST","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"}]},{"CI":"HOST","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"azoneName","value":"az0.dc0","operator":"equal"},{"name":"status","value":"normal","operator":"equal"}]}]
+参考/实际结果行数：1335 / 1287
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-102 | 训练150]
+原题：资产状态为报废的设备有多少台，分别属于哪些类别
+基线：-1分 / 错误；选中：rb_068
+评分记录：答案错误
+根因判断：题文写报废，B筛assetStatus=scrapped；参考API却筛running，返回45台。
+下一步/交付：C核对报废的枚举和参考条件，不把报废通用映射改成运行中。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"S_Device","条件":[{"name":"assetStatus","value":"scrapped","operator":"equal"}]}]
+参考API摘要：[{"CI":"S_Device","条件":[{"name":"assetStatus","value":"running","operator":"equal"}]}]
+参考/实际结果行数：1 / 0
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-112 | 训练150]
+原题：查询租户AdvanceService_System_VDC的ECS虚拟机列表
+基线：-1分 / 错误；选中：rb_075
+评分记录：答案错误
+根因判断：题目是租户，B按tenantName及已证VDC集合取得385行；参考把相同字面量直接当vdcName，答案为空。
+下一步/交付：C裁定tenant与VDC角色；保留B现有绑定证据，不为匹配空答案交换字段角色。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"vdcName","value":["AdvanceService_Manage_VDC","AdvanceService_Manage_VDC_vr"],"operator":"in"},{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"vdcName","value":"AdvanceService_System_VDC","operator":"equal"}]}]
+参考/实际结果行数：0 / 385
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-115 | 训练150]
+原题：查询区域region_guian4下各云服务的微服务实例数量
+基线：3.6分 / 部分正确；选中：rb_078
+评分记录：部分正确(71%)
+根因判断：B已通过AZONE把显式region绑定到logicalRegionId，返回106组；参考未按region过滤，107组。SQL相同。
+下一步/交付：C核定区域范围和参考；B保留未知/多解区域拒绝，不要求A再加同一绑定模板。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"S_CloudService","条件":[{"name":"logicalRegionId","value":"9E2E3F0CCB4A3831A59B64A616AF10B9","operator":"equal"}]}]
+参考API摘要：[{"CI":"S_CloudService","条件":[]}]
+参考/实际结果行数：107 / 106
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-123 | 验证50（已曝光）]
+原题：当前处于异常状态的云硬盘有多少块，分别是什么类型
+基线：-1分 / 错误；选中：rb_083
+评分记录：答案错误
+根因判断：API和COUNT SQL均与参考一致；真实typed空COUNT为0，参考给1，符合旧_empty占位行被计数的风险。原题还要求类型，参考也未输出类型。
+下一步/交付：C复核COUNT1来源及类型输出义务；不能把占位行1作为正确业务数。若确认需按类型分组，再由A补受控view。
+判断依据置信度：高：差异；待核：参考1成因
+实际最终API摘要：[{"CI":"VOLUME","条件":[{"name":"status","value":"error","operator":"equal"}]}]
+参考API摘要：[{"CI":"VOLUME","条件":[{"name":"status","value":"error","operator":"equal"}]}]
+参考/实际结果行数：1 / 1
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-166 | 训练150]
+原题：共享网络中providerNetworkType为vlan的有多少个
+基线：-1分 / 错误；选中：family_f20
+评分记录：答案错误
+根因判断：API条件与参考一致，SQL均COUNT NETWORK；实际为0，参考为1，存在成功空的占位计数风险。
+下一步/交付：C复核参考1是否来自_empty；B保留真实成功空COUNT0与失败的区分，不以改COUNT模板凑1。
+判断依据置信度：高：差异；待核：参考1成因
+实际最终API摘要：[{"CI":"NETWORK","条件":[{"name":"shared","value":"true","operator":"equal"},{"name":"providerNetworkType","value":"vlan","operator":"equal"}]}]
+参考API摘要：[{"CI":"NETWORK","条件":[{"name":"shared","value":"true","operator":"equal"},{"name":"providerNetworkType","value":"vlan","operator":"equal"}]}]
+参考/实际结果行数：1 / 1
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-252 | 训练150]
+原题：查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例及规格、云硬盘列表及容量
+基线：4.8分 / 部分正确；选中：rb_169
+评分记录：部分正确(96%)
+根因判断：B已完整补VM/规格及卷，893行；参考只保留858行卷，额外VM明细被行数规则扣分。不是再次缺模板。
+下一步/交付：C核定多输出义务与行数口径；B可评估不删义务的结果封装兼容，但不直接裁掉无卷VM追分。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"},{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"FLAVOR","条件":[{"name":"id","value":"{{flavorId from step 1}}","operator":"equal"}]},{"CI":"VOLUME","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"},{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"R_VOLUME_MOUNTON_VM","条件":[]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"},{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"FLAVOR","条件":[{"name":"id","value":"{{flavorId from step 1}}","operator":"equal"}]},{"CI":"VOLUME","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"},{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]}]
+参考/实际结果行数：858 / 893
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-256 | 训练150]
+原题：查询区域region_guian4下各租户的ECS实例数量、云硬盘数量、云硬盘总容量和ECS规格分布
+基线：4.7分 / 部分正确；选中：rb_172
+评分记录：部分正确(95%)
+根因判断：B已补卷数量/容量和规格分布，按VM与卷租户域并集得到119组；参考仅VM计数113组，缺另外三项义务。
+下一步/交付：C核定分组域、未知租户与额外资源行；B检查合法NULL/未知传播，不删卷独有租户或额外指标来凑参考。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"VOLUME","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"FLAVOR","条件":[]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"}]},{"CI":"VOLUME","条件":[]},{"CI":"FLAVOR","条件":[]}]
+参考/实际结果行数：113 / 119
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-259 | 训练150]
+原题：查询区域region_guian4下各可用区中异常状态ECS的实例名、IP、所属租户、所属集群和宿主机名，按可用区分组展示
+基线：-1分 / 错误；选中：rb_174
+评分记录：答案错误
+根因判断：与028同类：题文异常，实际status=error，参考status=stopped；左连接与输出字段已具备。
+下一步/交付：C裁定状态语义；B保留按AZ展示，不能把error通用改成stopped。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"status","value":"error","operator":"equal"}]},{"CI":"HOST","条件":[]},{"CI":"CLUSTER","条件":[]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"logicalRegionName","value":"region_guian4","operator":"equal"},{"name":"status","value":"stopped","operator":"equal"}]},{"CI":"HOST","条件":[]},{"CI":"CLUSTER","条件":[]}]
+参考/实际结果行数：58 / 0
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+[CMDB-274 | 训练150]
+原题：查询租户AdvanceService_System_VDC的ECS实例名和IP、云硬盘名称和容量、VPC名称列表
+基线：4.0分 / 部分正确；选中：rb_185
+评分记录：部分正确(81%)
+根因判断：B已补ECS/IP、卷及VPC独立清单，2129行；参考仅1716行卷。额外列可容忍，但额外行仍扣分。
+下一步/交付：C核定多清单输出格式/行数；B评估保留全部义务的兼容封装，不能只删掉ECS/VPC来追分。
+判断依据置信度：高
+实际最终API摘要：[{"CI":"VM_NOVA","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]},{"CI":"VOLUME","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]},{"CI":"ROUTER","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]}]
+参考API摘要：[{"CI":"VM_NOVA","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]},{"CI":"VOLUME","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]},{"CI":"ROUTER","条件":[{"name":"tenantName","value":"AdvanceService_System_VDC","operator":"equal"}]}]
+参考/实际结果行数：1716 / 2129
+后续状态：尚无新版真实复测，不能当作已修复或仍稳定复现。
+
+九、补充记录：回归误拒与得分通过但语义有误（不重复计入基线56道）
+[CMDB-052：回归误拒已修]
+原题：查询租户AdvanceService_System_VDC在区域region_guian4中的ECS实例列表
+基线5分；v2回归显式投影格式被自然问法prepare拒绝，0分；v3仅复测052恢复5分。
+B负责相同API+SQL的受控格式转换；不是模板缺失。未用修复后052覆盖旧回归失败日志。
+
+[CMDB-057：得分通过，语义问题仍未关闭]
+原题：查询区域region_guian4下关联了弹性IP的ECS实例名和固定IP
+基线质量分：5；当前已记录SQL：SELECT CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS private_ips, CLOUD_FLOATING_IPS.floatingIpAddress AS floating_ip FROM CLOUD_FLOATING_IPS INNER JOIN CLOUD_VM_NOVA ON CLOUD_FLOATING_IPS.fixedIpAddress = CLOUD_VM_NOVA.privateIps
+根因：基线5分但仍以FLOATING_IPS.fixedIpAddress=VM_NOVA.privateIps直接等号连接，结果为空；已有同学归因与B源码核对确认privateIps为多值编码，依赖展开还可能丢contain语义。
+分工：A与298共用修正地址成员关系合同，明确编码边界/转义和正确关联键；B负责保留依赖运算符、跨步及有界分批，C核定旧空参考。不能把5分空结果当作语义已正确。
+证据：docs/handoffs/B_REVIEW_PEER_EMPTY14_20261030.md
+置信度：高：SQL与源码问题；原生关系数量本轮未重测
+
+十、仅时间扣分（不列为A模板正确性需求）
+CMDB-005 | 质量5 / 计时4 | 原题：查询区域region_guian4下各可用区的ECS数量
+CMDB-011 | 质量5 / 计时4 | 原题：区域region_guian4下管理虚拟机和租户虚拟机分别有多少
+CMDB-017 | 质量5 / 计时4 | 原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1的状态和规格
+CMDB-021 | 质量5 / 计时4 | 原题：查询ECS实例中使用最多的前10种规格
+CMDB-027 | 质量5 / 计时4 | 原题：查询区域region_guian4下各VDC的ECS数量和运行中ECS数量
+CMDB-034 | 质量5 / 计时4 | 原题：查询部署节点IPbba98a99对应的部署节点名称和所属云服务
+CMDB-181 | 质量5 / 计时4 | 原题：帮我查询ECS实例cse-engine-cluster-roma-guian-4-3-master-1的网卡端口及关联的子网信息
+CMDB-184 | 质量5 / 计时4 | 原题：查询ECScse-engine-cluster-roma-guian-4-3-master-1的网卡关联的安全组
+CMDB-199 | 质量5 / 计时4 | 原题：查询VPCdbs_resource_vpc_c_type下的子网列表及每个子网的IP使用率
+CMDB-218 | 质量5 / 计时4 | 原题：查询区域region_guian4中GaussDB实例的引擎版本和数据VIP
+CMDB-221 | 质量5 / 计时4 | 原题：查询业务地址为690b8fb9的GaussDB实例名、主机名和所属租户
+
+十一、独立请求失败与统计限制
+parameter_recovery_fail10在061的select发生1次APIConnectionError，SDK重试0；停止时只完成6题。
+061另获1次人工重试，与133/174/175作为tail4完成；费用日志中的失败请求保留，不当作模型拒答或模板不支持。
+验证50旧17题因本地目录迁移FileNotFoundError停止，剩33题是未请求后缀续跑，无重复题；三进程覆盖不称连续200。
+本次没有新增模型/服务请求，没有修改官方评分器/执行器，没有提交或推送运行时代码。
+
+十二、给A的交付约定与验收要求
+请优先处理A_TEMPLATE：128布尔类型合同；161/192完整网络关系；251按AZ三计数；260管理VM完整字段；298租户VM/EIP/HOST；299 CCE双计数。262/264随后处理。
+A_EVIDENCE先给权威字段、身份空间、关系与量词；缺依据继续标不支持。physical保持关闭，不给空CI伪造schema。
+每项给：现有族/新增view及参数schema、完整原文prepare、API+SQL、范围传播、ID/关联键、粒度、NULL/真空/失败/分页/未知/并列政策、合成正反例、固定路径/提交/哈希和模板数变化。
+仅在A职责文件提供隔离候选；保留B的query→_query猜空包装和原失败诊断，不覆盖matcher/system；官方四文件和原数据不改。
+若已有支持路径，给出族名/view/结构参数/完整物化输出及证据即可，不为每个题各建一个模板，不按原题/实体/题号硬编码。
+8道已交付合同主要交B，不需要重复交付；合同离线通过不等于原生接入或真实得分。
+A不负责替换争议参考答案；不要求A为15道C_REVIEW伪造错条件/错数。
+
+十三、来源
+基线记录：reports/a132_runtime_port_20261030/{train150,validation50,validation50_resume33,combined200}
+小集记录：reports/a132_runtime_port_20261030/{parameter_recovery_fail10,parameter_recovery_tail4,view_recovery_053,passed_regression4,format_recovery_052}
+分类依据：experiments/a132_error_triage_20261031/CLASSIFICATION.json
+生成器：scripts/build_a132_issue_handoff.py
+冻结证据指纹及A消息正文：reports/a132_issue_triage_final_20261031
+A协作入口：https://github.com/getm0ss1moving/hackathon-p13-2/issues/3

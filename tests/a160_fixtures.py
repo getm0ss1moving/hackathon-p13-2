@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def family_item(family):
     active = next((item for item in RUNBOOK_ITEMS if item.get("family_id") == family), None)
-    if active is not None:
+    if active is not None and len(RUNBOOK_ITEMS) != 132:
         return copy.deepcopy(active)
     if family in {"F02", "F19"}:
         items = json.loads((ROOT / "experiments/a_family_candidate_170_20261030/CANDIDATES.json").read_text())

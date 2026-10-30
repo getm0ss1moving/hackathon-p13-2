@@ -1,0 +1,23 @@
+{
+  "A_ref": "db5ccb99f1b5f3d100d2244c54f5aa0287aacfe5",
+  "package": "experiments/a_family_candidate_132_v2_r4_20261030",
+  "package_manifest_sha256": "e2d1be89c94a4b6643cf7f4164568316603411b6e00492045ba07b5bb93d1ff1",
+  "template_count": 132,
+  "family_count": 26,
+  "variants": {
+    "strict": {
+      "array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+      "runtime_hashes": {
+        "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+        "implementation/runbook_retriever.py": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802"
+      }
+    },
+    "enhanced": {
+      "array_sha256": "897798c3ee26bfc6fba2b625b6e7e820146ac49db7d2fb299b68a5d15701466b",
+      "runtime_hashes": {
+        "implementation/runbook_items.py": "36727dbac16f151c567fa3f0a23175afd813479e163d3dbb042a70405877f4df",
+        "implementation/runbook_retriever.py": "dbaf4381493907a8f3b19d14344700884f8b9c1d9703f573c4385b216d4fcedc"
+      }
+    }
+  }
+}

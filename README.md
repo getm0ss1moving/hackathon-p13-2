@@ -1,5 +1,19 @@
 # CMDB 智能查询系统 — Hackathon
 
+**当前B发布（2026-10-31）：根运行库已切换为132 strict（26族＋106固定项），配套A的r4检索器。** [API条件零分与最新运行说明](docs/handoffs/B_API_CONDITION_LOG_REVIEW_20261031.md) · [16题逐题处理结果](docs/handoffs/B_16问题处理结果与口径说明_20261031.txt) · [实际5题诊断摘要](experiments/b_api_log_review_20261031/VALIDATION_SUMMARY.json)。已合入A的 `a8d4fe1`，其新增next/具名VPC能力仍未启用；Issue3只默认启用已验收的namespace_counts、tenant_lists、vdc_network。
+
+最新用户提供全200日志为796.4/1000、19个零分，没有绑定源码及完整环境。本轮只复测相关5题，25/25、12次Flash请求、0猜空，不宣称取得新版完整200成绩。此前16题中10道在分段小集取得质量满分，另外3道原生合同阻塞、3道口径冲突。官方四文件未改；evaluator保持三处已授权修订。
+
+```bash
+git pull --ff-only origin main
+.venv/bin/python -B scripts/check_official_integrity.py
+.venv/bin/python -B scripts/run_a132_eval.py --diagnostics --check
+```
+
+上述检查不调用模型。B启动器显式配置Flash、关闭思考及本轮特性；可选`--diagnostics`复用C现有诊断入口保存逐题JSONL，未修改官方测试脚本。日常继续只测失败子集；不要执行下面历史160安装命令覆盖当前132。密钥、环境、封存数据和本地原始日志不上传。
+
+以下保留2026-10-30及更早阶段记录；其中“默认198”“160待启用”和旧成绩只按当时版本理解。
+
 **B最新发布（2026-10-30）：** [A/C拉取与复现说明](docs/handoffs/B_LATEST_FOR_AC_20261030.md) · [拒答猜空策略](docs/training/EMPTY_ANSWER_FALLBACK_20261030.md) · [150/50未答明细](docs/training/ABSTENTION_SPLIT_REVIEW_20261030.md) · [最后30题归因](docs/training/B160_TAIL30_DIAGNOSIS_20261030.md)。查询入口默认把拒答/显式错误转为空答案猜测，正常结果优先；诊断保留失败原因与guess标记，API条件门槛和官方评分不变。C的no_answer按0分统计，不能等同于模型拒答或真实空集。
 
 猜空之前的冻结记录：训练150为636.4/750、12未答；后50验证为157/250、15未答，两轮matcher不同，不合成新200成绩。最新猜空出口已有33项离线语义检查，本次发布入口相关31项通过，无新增模型成绩。后50已依用户要求评估并曝光，后续称验证集。默认库仍198，160以本地候选显式启用；展开库不上传，stage2不启。

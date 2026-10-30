@@ -11,6 +11,8 @@ LLM 选择 + 参数填充 + SQL精调 — 选手可修改此文件来优化匹�
 """
 
 import copy
+import importlib.util
+import hashlib
 import json
 import logging
 import math
@@ -19,7 +21,9 @@ import re
 import ssl
 import sqlite3
 import time
+import sys
 from contextlib import closing
+from pathlib import Path
 from typing import List, Optional
 
 import httpx
@@ -368,21 +372,267 @@ REFINE_SQL_CONTRACT_PROMPT = """你是SQL精调助手。根据用户问题调整
 
 # ── 选择 + 填充 ────────────────────────────────────────
 
+_A132_PACKAGE = Path(__file__).resolve().parents[1] / 'experiments/a_family_candidate_132_v2_r4_20261030'
+
+
+def _verify_a132_sources(root=None):
+    """独立132来源门禁，不放宽旧160/170/180保护清单。"""
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    manifest_path = root/'experiments/a132_runtime_port_20261030/SOURCE_MANIFEST.json'
+    source = json.loads(manifest_path.read_text())
+    package = root/source['package']
+    digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest(package/'MANIFEST.json') != source['package_manifest_sha256']:
+        raise ValueError('a132_package_manifest_drift')
+    manifest = json.loads((package/'MANIFEST.json').read_text())
+    files = {str(manifest_path.relative_to(root)): digest(manifest_path),
+             str((package/'MANIFEST.json').relative_to(root)): source['package_manifest_sha256'],
+             manifest['builder']: manifest['builder_sha256']}
+    files.update({str((package/name).relative_to(root)): value for name, value in manifest['files'].items()})
+    if any(not (root/name).resolve().is_relative_to(root.resolve()) or digest(root/name) != value
+           for name, value in files.items()):
+        raise ValueError('a132_source_closure_drift')
+    runtime = {name: digest(root/name) for name in ['implementation/runbook_items.py', 'implementation/runbook_retriever.py']}
+    matches = [variant for variant, hashes in source['variants'].items() if runtime == hashes['runtime_hashes']]
+    if len(matches) != 1:
+        raise ValueError('a132_array_engine_binding_mismatch')
+    return source, files, matches[0]
+
+
+def _a132_module(name):
+    """只加载固定A包的两处纯函数入口；普通API/SQL执行仍沿B原链路。"""
+    if name not in {'unified_prepare', 'prompt_metadata'}:
+        raise ValueError('unknown_a132_support_module')
+    key = '_b_a132_' + name
+    if key not in sys.modules:
+        spec = importlib.util.spec_from_file_location(key, _A132_PACKAGE / (name + '.py'))
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[key] = module
+        try:
+            spec.loader.exec_module(module)
+        except Exception:
+            sys.modules.pop(key, None)
+            raise
+    return sys.modules[key]
+
+
+def _a132_prepare_question(question, item, parsed):
+    """仅去除句边礼貌包装；F03顺序投影仅在列序已与源合同一致时同义化。"""
+    text = re.sub(r'^\s*麻烦帮我\s*', '', question)
+    text = re.sub(r'[,，]\s*谢谢[。.!！?？]*\s*$', '', text)
+    if item.get('id') == 'family_f03_spec' and isinstance(parsed, dict):
+        spec = item.get('parameter_contract', {}).get('views', {}).get(parsed.get('view'), {})
+        match = re.search(r'仅依次输出\s*([A-Za-z_]\w*(?:\s*[,，]\s*[A-Za-z_]\w*)*)\s*[。;；]*$', text)
+        quotes = [q.span() for q in re.finditer(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', text)]
+        if (match and not any(a <= match.start() < b for a, b in quotes)
+                and re.split(r'\s*[,，]\s*', match[1]) == spec.get('columns')):
+            text = text[:match.start()] + text[match.start():].replace('仅依次输出', '仅输出', 1)
+    return text
+
+
+def _recover_a132_parameters(question, item, parsed, entry):
+    """只修原文可证缺值/角色词/枚举；完整prepare唯一通过才返回，不增加模型请求。"""
+    contract = item.get('parameter_contract', {})
+    trials = []
+    expected_signature = None
+    if (item.get('family_id') == 'F02' and isinstance(parsed, dict)
+            and set(parsed) == {'scope', 'projection', 'order', 'filters', 'required_filters'}
+            and parsed.get('scope') == 'filtered' and isinstance(parsed['filters'], dict)
+            and isinstance(parsed['required_filters'], list)
+            and all(isinstance(k, str) for k in parsed['required_filters'])
+            and len(set(parsed['required_filters'])) == len(parsed['required_filters'])
+            and set(parsed['required_filters']) == set(parsed['filters'])):
+        record = entry._REGISTRY[item['id']]
+        module = entry._MODULES[record['module_sha256']]
+        explicit = module.materialize_candidate(item, parsed)
+        if explicit is not None:
+            expected_signature = json.dumps({'api_call': explicit['api_call'], 'sql': explicit['sql']},
+                                            ensure_ascii=False, sort_keys=True)
+            trials.extend({'view': view, 'filters': copy.deepcopy(parsed['filters']),
+                           'required_filters': parsed['required_filters'].copy()}
+                          for view in contract['natural_views'])
+    elif item.get('family_id') == 'F02' and (parsed is None or (
+            isinstance(parsed, dict) and set(parsed) == {'view','filters','required_filters'}
+            and parsed.get('view') in contract['natural_views']
+            and isinstance(parsed['filters'], list) and isinstance(parsed['required_filters'], list)
+            and all(isinstance(k, str) for k in parsed['filters']+parsed['required_filters'])
+            and len(set(parsed['filters'])) == len(parsed['filters'])
+            and len(set(parsed['required_filters'])) == len(parsed['required_filters'])
+            and set(parsed['filters']) == set(parsed['required_filters']))):
+        # F02有限合同已声明全部合法过滤组合；枚举view仍须完整原文证明。
+        for keys in dict.fromkeys(tuple(p['filters']) for p in contract['profiles']):
+            if parsed is not None and set(keys) != set(parsed['required_filters']):
+                continue
+            owner = {'api_call': {'method': 'GET', 'url': '/rest/hackthon/db/instances/VM_NOVA',
+                'condition': {'constraint': [{'simple': {'name': key, 'value': '{{'+key+'}}'}} for key in keys]}}}
+            rules = {}
+            _auto_fill_params(question, rules, list(keys), owner)
+            rules = _ground_params(question, rules, owner)
+            if set(rules) == set(keys):
+                trials.extend({'view': view, 'filters': rules.copy(), 'required_filters': list(keys)}
+                              for view in contract['natural_views'])
+    elif (isinstance(parsed, dict) and set(parsed) == {'view', 'filters', 'required_filters'}
+          and isinstance(parsed['view'], str) and isinstance(parsed['filters'], dict)
+          and isinstance(parsed['required_filters'], list)
+          and all(isinstance(k, str) for k in parsed['required_filters'])
+          and len(set(parsed['required_filters'])) == len(parsed['required_filters'])
+          and set(parsed['required_filters']) == set(parsed['filters'])):
+        views = contract.get('natural_views') if item.get('family_id') == 'F02' else contract.get('views', {})
+        if views and parsed['view'] in views:
+            # 模型错配view时只改结构枚举，原筛选与值逐字不动；完整原文仍须唯一证明。
+            trials.extend(dict(parsed, view=view) for view in views if view != parsed['view'])
+        # prepare已装载指纹绑定模块。物化仅用于确定每个参数属于哪个真实CI。
+        record = entry._REGISTRY[item['id']]
+        module = entry._MODULES[record['module_sha256']]
+        owner = module.materialize_candidate(item, parsed)
+        if owner is not None:
+            owner = copy.deepcopy(owner)
+            calls = owner['api_call'] if isinstance(owner['api_call'], list) else [owner['api_call']]
+            for call in calls:
+                for constraint in call.get('condition', {}).get('constraint', []):
+                    simple = constraint.get('simple', {})
+                    if simple.get('name') in parsed['filters']:
+                        simple['value'] = '{{'+simple['name']+'}}'
+            rules = {key: value for key, value in parsed['filters'].items()
+                     if isinstance(value, str) and value and value in question}
+            _auto_fill_params(question, rules, list(parsed['filters']), owner)
+            rules = _ground_params(question, rules, owner)
+            conflict = set(rules) != set(parsed['filters'])
+            for key, old in parsed['filters'].items():
+                new = rules.get(key)
+                if _missing_parameter(old) or old == new:
+                    continue
+                enum_alias = key in _ENUM_FIELDS and new in _semantic_values(str(old), owner, key)
+                enum_case = (key in _ENUM_FIELDS and isinstance(old, str) and isinstance(new, str)
+                             and old.casefold() == new.casefold() and _canonical_enum(owner, key, old) == new)
+                labels = (_NAME_LABELS.get(_param_resource(owner, key), []) if key == 'name'
+                          else _FIELD_LABELS.get(key, []))
+                role_prefix = (isinstance(old, str) and isinstance(new, str) and old in question
+                               and any(re.fullmatch(label+r'\s*'+re.escape(new), old, re.I) for label in labels))
+                if not (enum_alias or enum_case or role_prefix):
+                    conflict = True
+            if not conflict:
+                trials.append(dict(parsed, filters=rules, required_filters=list(parsed['filters'])))
+    accepted = {}
+    if (item.get('family_id') == 'F02' and isinstance(parsed, dict)
+            and set(parsed) == {'view','filters','required_filters'}
+            and parsed.get('view') in contract['natural_views'] and isinstance(parsed['filters'], dict)
+            and isinstance(parsed['required_filters'], list)
+            and all(isinstance(k,str) for k in parsed['required_filters'])
+            and len(set(parsed['required_filters'])) == len(parsed['required_filters'])
+            and set(parsed['required_filters']) == set(parsed['filters'])):
+        # AZ被误放region等角色错配：原文prepare可纠正键，但非空实体值一个也不能丢或替换。
+        previous_values = {json.dumps(v,sort_keys=True,ensure_ascii=False) for v in parsed['filters'].values()
+                           if not _missing_parameter(v)}
+        for ordinary, trial, evidence in _recover_a132_parameters(question,item,None,entry):
+            values = {json.dumps(v,sort_keys=True,ensure_ascii=False) for v in trial['filters'].values()}
+            if previous_values <= values:
+                signature=json.dumps({'api_call':ordinary['api_call'],'sql':ordinary['sql']},ensure_ascii=False,sort_keys=True)
+                accepted[signature]=(ordinary,trial,evidence)
+    for trial in trials:
+        evidence = {}
+        ordinary = entry.prepare_candidate(_a132_prepare_question(question, item, trial), item, trial, evidence)
+        if ordinary is not None:
+            signature = json.dumps({'api_call': ordinary['api_call'], 'sql': ordinary['sql']},
+                                   ensure_ascii=False, sort_keys=True)
+            if expected_signature is None or signature == expected_signature:
+                accepted[signature] = (ordinary, trial, evidence)
+    return list(accepted.values())
+
+
+def _match_a132_changed(question, item, diagnostics):
+    """12变更族：提示元数据恢复→闭合抽参→完整原文prepare→原精调。"""
+    entry = _a132_module('unified_prepare')
+    if not entry.handles_item(item):
+        raise LookupError('unchanged_B_route_required')
+    shown = _a132_module('prompt_metadata').prompt_item(item)
+    contract = shown.get('parameter_contract', {})
+    prompt = (
+        '为已选闭合查询族提取参数，仅输出JSON对象或null，不输出SQL。\n'
+        '结构view必须是合同内单个字符串，filters只含原文条件，required_filters是全部filter键的唯一数组。'
+        '一般仅输出view/filters/required_filters；逐view keys或exact_keys优先；'
+        'F03 flavor_topk另须整数top_k=10。F02自然view同样用三键；'
+        'F02显式投影才用scope/projection/order/filters/required_filters，不混用view。'
+        '用户无需逐列复述view的默认输出；全部显式条件必须进入filters和required_filters。'
+        '实体内部标点/下划线按原文保留，不改拼写。ECS、VDC、租户等前置角色标签不属于标签后的实体值；'
+        '例如ECSDemo_name的name为Demo_name；明确名称为ECSDemo_name或引号内名称则完整保留。'
+        '区域、可用区、VDC和租户不得互换；VM运行中/正在跑对应active，已停止/停机对应stopped。'
+        '禁止删掉否定、OR、范围或额外输出要求来套view。'
+        '字段及实体角色按合同保留，不使用旧示例实体或默认值；不能表达全部要求时返回null。\n'
+        '参数合同：' + json.dumps(contract, ensure_ascii=False, separators=(',', ':')) + '\n'
+        '已声明问法：' + json.dumps(shown.get('examples', []), ensure_ascii=False) + '\n'
+        '用户问题：' + question)
+    answer = llm_ask(prompt, stage='family_fill')
+    try:
+        parsed = _parse_family_response(answer)
+    except (ValueError, TypeError) as exc:
+        diagnostics.update(family_error=str(exc), family_status='invalid_model_parameters')
+        return None
+    diagnostics.update(family_id=item.get('family_id'), parameter_mode='a132_family_llm',
+                       parameters={'llm_extracted': copy.deepcopy(parsed), 'unfilled': []})
+    prepare_question = _a132_prepare_question(question, shown, parsed)
+    if prepare_question != question:
+        diagnostics['prepare_question_normalization'] = {'original': question, 'prepared': prepare_question,
+            'scope': 'edge_politeness_and_contract_equal_ordered_projection; retrieval spans stay original'}
+    prepared = entry.prepare_candidate(prepare_question, item, parsed, diagnostics)
+    alternatives = _recover_a132_parameters(question, item, parsed, entry)
+    if len(alternatives) == 1:
+        if prepared is None or alternatives[0][1] != parsed:
+            original_error = diagnostics.get('family_error')
+            prepared, parsed, evidence = alternatives[0]
+            diagnostics.update(evidence)
+            diagnostics.pop('family_error', None)
+            diagnostics['parameters']['effective'] = copy.deepcopy(parsed)
+            diagnostics['parameter_recovery'] = {
+                'reason': 'unique_complete_question_prepare_after_explicit_parameter_rules',
+                'original_family_error': original_error, 'additional_model_requests': 0}
+    if prepared is None:
+        return None
+    coverage = _resource_coverage(question, prepared)
+    diagnostics['resource_coverage'] = coverage
+    if coverage['unsupported']:
+        diagnostics.update(family_status='resource_mismatch', family_error='resource_mismatch')
+        return None
+    view = (parsed or {}).get('view') if isinstance(parsed, dict) else None
+    view_contract = contract.get('views', {}).get(view, {})
+    columns = view_contract.get('columns') or view_contract.get('ordered_columns')
+    if isinstance(columns, list) and columns and all(isinstance(c, str) for c in columns):
+        prepared.setdefault('_expected_result_columns', columns.copy())
+    sql = prepared['sql']
+    proposal = _refine_sql(question, sql, _get_table_schemas(sql), diagnostics=diagnostics)
+    # 完整原文prepare已给闭合SQL。保留精调阶段及证据，执行仍用源合同SQL。
+    diagnostics.update(family_status='materialized', sql_before_refine=sql, sql_after_refine=sql,
+                       family_refinement_kept=isinstance(proposal, str) and proposal.strip().rstrip(';') == sql.strip().rstrip(';'))
+    diagnostics.setdefault('sql', {}).update(before_refine=sql, after_refine=proposal, final=sql)
+    prepared['sql'] = sql
+    return prepared
+
+
 def _format_runbook_list(items: list) -> str:
     """保留原候选卡；仅向选择阶段展示已声明、闭集核验的属性view配对。"""
     lines = []
     for i, item in enumerate(items):
+        a132 = os.environ.get('RUNBOOK_A132_CANDIDATE') == '1'
+        if a132:
+            item = _a132_module('prompt_metadata').prompt_item(item)
         examples_str = "; ".join(item.get("examples", []))
         resources_str = "/".join(item.get("resources", []))
         line = (f"{i + 1}. {item['name']} - {item.get('description', '')} "
                 f"[资源类型：{resources_str}] (示例：{examples_str})")
         family = item.get("family_id")
-        if isinstance(family, str) and family in {"F02", "F19"}:
+        if a132 and _a132_module('unified_prepare').handles_item(item):
+            line += ' [完整view/参数合同：' + json.dumps(item.get('parameter_contract', {}), ensure_ascii=False, separators=(',', ':')) + ']'
+        elif isinstance(family, str) and family in {"F02", "F19"}:
             from runbook_family_views import _B3_SPECS
             spec = _B3_SPECS.get(family, {})
             contract = item.get("parameter_contract")
             profiles = contract.get("profiles") if isinstance(contract, dict) else None
-            if (isinstance(contract, dict) and not set(contract) - {"scope", "profiles", "types"}
+            allowed_contract_keys = {"scope", "profiles", "types"}
+            if family == "F02":
+                # A交接声明新包增加natural_views；仅容忍该描述字段，不据此
+                # 注册新view。旧profiles仍逐项核验，保留其已审选择提示。
+                allowed_contract_keys.add("natural_views")
+            if (isinstance(contract, dict) and not set(contract) - allowed_contract_keys
                     and contract.get("scope") == ["filtered"]
                     and isinstance(profiles, list) and profiles
                     and item.get("resources") == [spec.get("ci")]):
@@ -564,6 +814,11 @@ def _semantic_values(question: str, item: dict, parameter: str) -> list:
         aliases = {"报废": "scrapped", "在网": "running", "闲置": "idle"}
     elif parameter == "direction":
         aliases = {"入站": "ingress", "出站": "egress"}
+        visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', ' ', question)
+        if (_param_resource(item, parameter) == 'SECURITY_GROUP_RULE'
+                and re.search(r'规则允许(?:了)?外部访问', visible)
+                and not re.search(r'拒绝|禁止|不允许|不是|排除|或|出站', visible)):
+            aliases['外部访问'] = 'ingress'
     else:
         return []
     occupied = set()
@@ -1514,7 +1769,7 @@ def _materialize_family(item: dict, parameters: dict) -> dict:
 _FAMILY_ROLE_LABELS = {
     "logicalRegionName": r"logicalRegionName|区域|地区|地域|(?<![A-Za-z0-9_])region(?![A-Za-z0-9_])",
     "tenantName": r"tenantName|租户名称|租户名|租户|(?<![A-Za-z0-9_])tenant(?![A-Za-z0-9_])",
-    "vdcName": r"vdcName|VDC名称|VDC名|(?<![A-Za-z0-9_])VDC(?![A-Za-z0-9_])",
+    "vdcName": r"vdcName|VDC名称|VDC名|(?<![A-Za-z0-9_])VDC",
     "azoneName": r"azoneName|可用区|(?<![A-Za-z0-9_])AZ(?![A-Za-z0-9_])",
     "status": r"(?<![A-Za-z0-9_])status(?![A-Za-z0-9_])|状态",
     "management": r"management|管理标记|管理类型",
@@ -1775,6 +2030,16 @@ def _family_question_evidence(question: str, family: str, parameters: dict) -> d
     count_tail = r"\s*(?:的)?\s*(?:ECS实例|ECS|虚拟机|实例)?\s*(?:的)?\s*(?:数量|数目|计数)"
     metric_spans = []
     if parameters.get("metrics") == "status_counts":
+        # 复用现有三桶SQL：active、stopped、以及非active/stopped/building。
+        # 逐桶重复“数量”的自然问法不能被误当成status筛选。
+        bucket = r'(?:运行中|active|已停止|停止|stopped|异常)(?:状态)?\s*(?:数量|数目|计数)'
+        for match in re.finditer(bucket+r'(?:'+joiner+bucket+r'){2}', question, re.I):
+            if inside(match.span(), [*quoted, *entity_spans]):
+                continue
+            names = re.findall(r'运行中|active|已停止|停止|stopped|异常', match.group(), re.I)
+            meanings = [{'运行中':'active','已停止':'stopped','停止':'stopped','异常':'other'}.get(n.casefold(), n.casefold()) for n in names]
+            if len(meanings) == 3 and set(meanings) == {'active','stopped','other'}:
+                metric_spans.append(match.span())
         for match in re.finditer(r"(?P<requested>" + item + r"(?:" + joiner + item + r")+)" + count_tail, question, re.I):
             if inside(match.span(), [*quoted, *entity_spans]):
                 continue
@@ -1814,7 +2079,7 @@ def _family_question_evidence(question: str, family: str, parameters: dict) -> d
         if not inside(connective.span(), [*quoted, *entity_spans]):
             raise ValueError("unsupported_disjunction")
     for match in re.finditer(r"异常|故障", question):
-        if not inside(match.span(), [*quoted, *entity_spans]):
+        if not inside(match.span(), [*quoted, *entity_spans, *metric_spans]):
             raise ValueError("unresolved_status_semantics")
     # 同资源的额外子问也不能被计数模板吞掉。只检查原文的非实体部分，
     # 不把名称中的CPU/比例等字样解释为新请求。
@@ -2470,6 +2735,19 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
         parameters = _parse_family_response(answer)
         if not isinstance(parameters, dict):
             raise ValueError("invalid_family_response")
+        if (isinstance(parameters.get('filters'),dict) and isinstance(parameters.get('required_filters'),list)
+                and all(isinstance(k,str) for k in parameters['required_filters'])
+                and len(set(parameters['required_filters'])) == len(parameters['required_filters'])
+                and set(parameters['required_filters']) == set(parameters['filters'])):
+            evidence = _family_question_evidence(question,family,parameters)
+            added=[]
+            for field in evidence['required_filters']:
+                values=evidence['values'].get(field,[])
+                if field in spec['filters'] and field not in parameters['filters'] and len(set(values)) == 1:
+                    parameters['filters'][field]=values[0];added.append(field)
+            parameters['required_filters']=list(parameters['filters'])
+            if added and diagnostics is not None:
+                diagnostics['family_missing_filter_recovery']={'fields':sorted(added),'source':'complete_question_role_evidence'}
         _ground_family_parameters(question, family, parameters)
         selected = _materialize_family(item, parameters)
     except (ValueError, TypeError) as exc:
@@ -2708,13 +2986,18 @@ def match_runbook(user_question: str, runbook_items: list,
 
     retrieved_at = time.perf_counter()
     # 1. BM25 检索
-    candidates = retriever.retrieve(user_question)
+    a132 = os.environ.get('RUNBOOK_A132_CANDIDATE') == '1'
+    candidates = retriever.retrieve(user_question, top_k=None) if a132 else retriever.retrieve(user_question)
     diagnostics["retrieval_seconds"] = round(time.perf_counter() - retrieved_at, 6)
     diagnostics["candidate_ids"] = [c.id for c in candidates]
     diagnostics["candidates"] = [
         {"rank": rank, "id": c.id, "tier": getattr(c, "tier", None),
          "score": getattr(c, "score", None), "coverage": getattr(c, "coverage", None)}
         for rank, c in enumerate(candidates, 1)]
+    if a132:
+        for row, candidate in zip(diagnostics['candidates'], candidates):
+            row.update(profile_ids=list(getattr(candidate, 'profile_ids', ())),
+                       obligation_spans=list(getattr(candidate, 'obligation_spans', ())))
     diagnostics["retrieval"] = {"candidates": diagnostics["candidates"]}
     if not candidates:
         logger.info("BM25 无候选，跳过 runbook")
@@ -2769,6 +3052,31 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if os.environ.get('RUNBOOK_ISSUE3_CONTRACTS') == '1':
+        from runbook_issue3 import prepare_selected,Unsupported
+        phase='A_contract_preparation'
+        try:
+            enabled=json.loads(os.environ.get('RUNBOOK_ISSUE3_PROFILES','null'))
+            ordinary=prepare_selected(user_question,selected,runbook_items,diagnostics,enabled_profiles=enabled)
+        except (Unsupported,ValueError,KeyError) as exc:
+            diagnostics['issue3_preparation_error']={'type':type(exc).__name__,'reason':str(exc)}
+            return reject('issue3_contract_materialization_blocked')
+        if ordinary is not None:
+            sql=ordinary['sql']
+            proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if a132 and _a132_module('unified_prepare').handles_item(selected):
+        phase = 'parameters'
+        try:
+            ordinary = _match_a132_changed(user_question, selected, diagnostics)
+        except ModelOutputError:
+            return reject('invalid_model_output_family_fill')
+        if ordinary is None:
+            return reject('invalid_a132_family_contract')
+        diagnostics['reason'] = 'matched'
+        return ordinary
     if selected.get("family_id") in _A160_EXTRA_FAMILIES:
         phase = "parameters"
         try:
@@ -3179,9 +3487,43 @@ def match_runbook(user_question: str, runbook_items: list,
         diagnostics["sql_before_refine"] = original_sql
         diagnostics["sql_after_refine"] = selected["sql"]
 
+    completed_rules = _complete_ingress_rule_details(user_question,selected)
+    if completed_rules is not None:
+        selected=completed_rules
+        diagnostics['rule_details_completion']={'count_sql_preserved':True,'rules_scope':'selected SG IDs AND ingress',
+            'result_layout':'one original port_count row plus JSON rule details','execution':'bounded4096'}
     diagnostics["sql"]["final"] = selected.get("sql")
     diagnostics["reason"] = "matched"
     return selected
+
+
+def _complete_ingress_rule_details(question,item):
+    """保留原端口COUNT，另以独立JSON聚合输出已读取的入站规则，避免规则×端口扇出。"""
+    calls=item.get('api_call');sql=item.get('sql','')
+    if not isinstance(calls,list) or len(calls)!=3 or calls[0]!=calls[2]:return None
+    cis=[c.get('url','').split('?')[0].rsplit('/',1)[-1] for c in calls]
+    if cis!=['SECURITY_GROUP','SECURITY_GROUP_RULE','SECURITY_GROUP']:return None
+    root=calls[0].get('condition',{}).get('constraint',[])
+    if len(root)!=1 or root[0].get('simple',{}).get('name')!='name':return None
+    name=root[0]['simple'].get('value')
+    if not isinstance(name,str) or not name:return None
+    literal='(?:'+re.escape(name)+'|'+re.escape('“'+name+'”')+'|'+re.escape('"'+name+'"')+')'
+    if not re.fullmatch(r'\s*(?:(?:查询|查看)\s*)?安全组\s*'+literal+
+        r'\s*中哪些规则允许(?:了)?外部访问\s*[,，、]?\s*关联(?:了)?多少(?:个)?端口\s*[。?？]?\s*',question):return None
+    child=calls[1].get('condition',{}).get('constraint',[])
+    pairs={(e.get('simple',{}).get('name'),str(e.get('simple',{}).get('value')),
+            e.get('simple',{}).get('operator','equal')) for e in child if e.get('logOp','and')=='and'}
+    if pairs!={('securityGroupId','{{id from step 1}}','equal'),('direction','ingress','equal')} or len(child)!=2:return None
+    shape=re.fullmatch(r'SELECT\s+COUNT\(\*\)\s+AS\s+(\w+)\s+(FROM\s+CLOUD_SECURITY_GROUP\s+INNER\s+JOIN\s+R_PORT_USE_SECURITY_GROUP\s+ON\s+CLOUD_SECURITY_GROUP\.id\s*=\s*R_PORT_USE_SECURITY_GROUP\.sgId\s+INNER\s+JOIN\s+CLOUD_PORT\s+ON\s+R_PORT_USE_SECURITY_GROUP\.portId\s*=\s*CLOUD_PORT\.id)\s*;?',sql,re.I)
+    columns=_schema_columns.get('SECURITY_GROUP_RULE',[])
+    if not shape or not {'id','securityGroupId','direction'} <= set(columns):return None
+    keys=[k for k in ['id','securityGroupId','direction','ethertype','protocol','portRangeMin','portRangeMax','remoteIpPrefix','remoteGroupId'] if k in columns]
+    expr=','.join("'"+k+"',"+k for k in keys)
+    result=copy.deepcopy(item)
+    result['sql']=f"SELECT COUNT(*) AS {shape[1]}, (SELECT json_group_array(json_object({expr})) FROM CLOUD_SECURITY_GROUP_RULE) AS ingress_rules {shape[2]}"
+    result['_bounded_rule_details']=True
+    result['_expected_result_columns']=[shape[1],'ingress_rules']
+    return result
 
 
 def _sql_structure(sql: str) -> str:

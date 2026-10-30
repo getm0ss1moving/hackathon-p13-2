@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import traceback
 
 from training_data import load_training, sha, SPLIT
 from run_whitebox import now, result_preview, peak_memory_mib, percentile
@@ -132,6 +133,7 @@ def main(argv=None):
     parser.add_argument("--a180-candidate", action="store_true", help="显式采用已审查A180构建指纹；不改变原198基线清单")
     parser.add_argument("--a170-candidate", action="store_true", help="采用已审查A170完整来源清单；仅隔离候选")
     parser.add_argument("--a160-candidate", action="store_true", help="采用固定A160完整来源与R2解析；仅训练候选")
+    parser.add_argument("--a132-candidate", action="store_true", help="显式采用固定A132v2/r4数组引擎配对及12变更族入口")
     parser.add_argument("--candidate-flags", action="store_true", help="启用已通过训练回放的本轮通用保护")
     parser.add_argument("--refine-contract-prompt", action="store_true", help="独立SQL输出合同提示词候选，默认关闭")
     parser.add_argument("--independent-aggregates", action="store_true", help="独立资源完整聚合候选，默认关闭")
@@ -152,32 +154,62 @@ def main(argv=None):
     parser.add_argument("--partial-storage-pools", action="store_true", help="存储池明细/容量与明确磁盘类型缺项，默认关闭")
     parser.add_argument("--preserve-sparse-nulls", action="store_true", help="保留已审稀疏NULL投影候选；参考范围冲突未解决，默认关闭")
     parser.add_argument("--bind-deploy-node-region", action="store_true", help="部署节点规范区域ID绑定候选；默认关闭")
+    parser.add_argument("--issue3-contracts", action="store_true", help="接入A已交付组合合同；完整原文与原生preflight门禁，默认关闭")
+    parser.add_argument('--issue3-profile',action='append',choices=('namespace_counts','tenant_lists','vdc_network',
+        'vdc_counts','network','capacity','tenant_vm_rank','tenant_volume_rank'),help='只开启指定A合同，可重复；须同时指定--issue3-contracts')
     parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="disabled",
                         help="固定思考模式；默认disabled显式关闭thinking，provider_default不传额外参数")
     parser.add_argument("--case-id", action="append", help="可重复指定固定训练成员；最终按原train顺序运行")
     parser.add_argument("--phase", choices=("failure_probe", "passed_regression"), help="子集实验阶段，必须显式指定")
     parser.add_argument("--sealed-validation-freeze", type=Path, help="用户本轮明确解封的固定50验证；必须先冻结运行时")
+    parser.add_argument("--validation-resume", type=Path, help="只补固定50因本地文件中断、且尚无模型流量的后缀")
+    parser.add_argument("--validation-case-id", action="append", help="已曝光验证题失败子集；必须有绑定相同成员的新冻结")
+    parser.add_argument("--whitebox200", action="store_true", help="用户明确要求后显式全200诊断；默认入口仍只训练150，请求上限450")
     args = parser.parse_args(argv)
     from check_official_integrity import require_official_files
     try:
+        if args.issue3_profile and (not args.issue3_contracts or len(set(args.issue3_profile))!=len(args.issue3_profile)):
+            raise ValueError('A合同profile要求显式启用且不能重复')
         official_integrity = require_official_files(HERE)
     except ValueError as exc:
         parser.error(str(exc))
     manifest, all_cases, _ = load_training()  # 失败即停；不打开原200题或封存文件。
-    validation = args.sealed_validation_freeze is not None
+    sealed_validation = args.sealed_validation_freeze is not None
+    validation = sealed_validation or args.whitebox200
+    resume_evidence = None
     try:
-        if validation:
+        if args.validation_case_id is not None and (not sealed_validation or args.validation_resume is not None
+                or args.whitebox200 or args.case_id is not None or args.phase is not None):
+            raise ValueError('验证失败子集不能混用训练/全量/续跑范围')
+        if args.validation_resume is not None and (not sealed_validation or args.whitebox200):
+            raise ValueError('验证续跑必须使用新的50验证冻结，不能混用其他范围')
+        if args.whitebox200:
+            if sealed_validation or args.case_id is not None or args.phase is not None:
+                raise ValueError('全200不允许混用50冻结或训练子集参数')
+            from validation_data import load_explicit_whitebox200
+            cases = load_explicit_whitebox200(HERE, manifest, all_cases)
+            scope, phase = 'whitebox200_explicit', 'user_authorized_full_whitebox_once'
+        elif sealed_validation:
             if args.case_id is not None or args.phase is not None:
                 raise ValueError('50验证不允许子集、挑题或重抽')
-            from validation_data import load_sealed_validation
-            cases = load_sealed_validation(HERE, args.sealed_validation_freeze, manifest, all_cases)
-            scope, phase = 'sealed50_validation', 'user_authorized_validation_once'
+            if args.validation_case_id is not None:
+                from validation_data import load_validation_subset
+                cases = load_validation_subset(HERE, args.sealed_validation_freeze, manifest, all_cases, args.validation_case_id)
+                scope, phase = 'validation_subset', 'user_authorized_validation_failure_subset'
+            else:
+                from validation_data import load_sealed_validation
+                cases = load_sealed_validation(HERE, args.sealed_validation_freeze, manifest, all_cases)
+                scope, phase = 'sealed50_validation', 'user_authorized_validation_once'
+            if args.validation_resume is not None:
+                from validation_resume import remaining_validation
+                cases, resume_evidence = remaining_validation(HERE, args.validation_resume, cases)
+                scope, phase = 'sealed50_resume', 'unrun_validation_suffix_after_local_file_interruption'
         else:
             cases, scope, phase = select_cases(all_cases, args.case_id, args.phase)
         phase_reference = subset_history(manifest, all_cases, cases, phase) if scope == "train_subset" else None
     except (ValueError, KeyError, OSError) as exc:
         parser.error(str(exc))
-    case_count, max_requests = len(cases), 3 * len(cases)
+    case_count, max_requests = len(cases), min(3 * len(cases), 450)
     if args.request_limit is not None:
         if not 1 <= args.request_limit <= min(max_requests, 450):
             parser.error("--request-limit只能在1与默认预算之间收紧")
@@ -214,6 +246,8 @@ def main(argv=None):
     flags["RUNBOOK_PARTIAL_STORAGE_POOLS"] = "1" if args.partial_storage_pools else "0"
     flags["RUNBOOK_PRESERVE_SPARSE_NULLS"] = '1' if args.preserve_sparse_nulls else '0'
     flags["RUNBOOK_BIND_DEPLOY_NODE_REGION"] = '1' if args.bind_deploy_node_region else '0'
+    flags['RUNBOOK_ISSUE3_CONTRACTS']='1' if args.issue3_contracts else '0'
+    flags['RUNBOOK_ISSUE3_PROFILES']=json.dumps(sorted(args.issue3_profile) if args.issue3_profile else None,separators=(',',':'))
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
     os.environ.update(flags)
@@ -226,13 +260,16 @@ def main(argv=None):
     from evaluator import evaluate_case
     is170 = args.a170_candidate or len(runbook_items.RUNBOOK_ITEMS) == 170
     is160 = args.a160_candidate or len(runbook_items.RUNBOOK_ITEMS) == 160
-    if sum([bool(args.a180_candidate), bool(is170), bool(is160)]) > 1:
+    is132 = args.a132_candidate or len(runbook_items.RUNBOOK_ITEMS) == 132
+    flags['RUNBOOK_A132_CANDIDATE'] = '1' if is132 else '0'
+    os.environ['RUNBOOK_A132_CANDIDATE'] = flags['RUNBOOK_A132_CANDIDATE']
+    if sum([bool(args.a180_candidate), bool(is170), bool(is160), bool(is132)]) > 1:
         parser.error("不能同时选择不同条数的候选")
     module_names = ["runbook_matcher", "runbook_system", "runbook_items", "runbook_retriever", "runbook_executor", "evaluator"]
-    if is170 or is160:
+    if is170 or is160 or is132:
         import runbook_family_views
         module_names.append("runbook_family_views")
-    if is160:
+    if is160 or is132:
         import runbook_family_batch4, runbook_family_single, runbook_family_count
         module_names += ["runbook_family_batch4", "runbook_family_single", "runbook_family_count"]
     try:
@@ -243,7 +280,21 @@ def main(argv=None):
     readonly = dict(runtime_manifest["readonly_files"])
     template_revision = {"mode": "baseline", "expected_items_sha256": readonly["implementation/runbook_items.py"]}
     candidate_sources = []
-    if is160:
+    if is132:
+        try:
+            candidate, source_files, variant = matcher._verify_a132_sources(HERE)
+        except (ValueError, KeyError, OSError) as exc:
+            parser.error(str(exc))
+        if (len(runbook_items.RUNBOOK_ITEMS) != 132
+                or len({item['id'] for item in runbook_items.RUNBOOK_ITEMS}) != 132
+                or sum(bool(item.get('family_id')) for item in runbook_items.RUNBOOK_ITEMS) != 26):
+            parser.error('A132模板及family结构不符')
+        candidate_sources = list(source_files)
+        readonly.update(candidate['variants'][variant]['runtime_hashes'])
+        template_revision = {'mode': 'a132_reviewed_private_build', 'A_ref': candidate['A_ref'],
+                             'variant': variant, 'package_manifest_sha256': candidate['package_manifest_sha256'],
+                             'runtime_hashes': candidate['variants'][variant]['runtime_hashes']}
+    elif is160:
         try:
             candidate, candidate_sources = a160_source_contract(HERE)
         except (ValueError, KeyError, OSError) as exc:
@@ -306,6 +357,9 @@ def main(argv=None):
     sources.append("implementation/runbook_storage_pool_partial.py")
     sources += ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]
     sources += candidate_sources
+    if args.issue3_contracts:
+        import runbook_issue3
+        sources += ['implementation/runbook_issue3.py',*runbook_issue3.source_files()]
     handoff_evidence = {}
     for record in runtime_manifest.get("integration", {}).get("reconciled_files", {}).values():
         path, expected = record.get("handoff_evidence"), record.get("handoff_evidence_sha256")
@@ -316,13 +370,18 @@ def main(argv=None):
     sources += sorted(handoff_evidence)
     if scope == "train_subset":
         sources.append("scripts/train_prompt_probe.py")
-    if validation:
+    if sealed_validation:
         sources += ['scripts/validation_data.py', str(args.sealed_validation_freeze.resolve().relative_to(HERE))]
+        if resume_evidence:
+            sources += ['scripts/validation_resume.py', *resume_evidence['files_sha256']]
+    elif args.whitebox200:
+        sources += ['scripts/validation_data.py', 'CMDB用例集-白盒200.json']
     plan = {"type": "validation_plan" if validation else "training_plan", "created_at": now(), "split_id": manifest["split_id"],
             "record_format": 2,
             "case_count": case_count, "case_ids": [case["case_id"] for case in cases], "phase": phase,
             "phase_reference": phase_reference,
-            "repeats": 1, "case_order": "fixed sealed file order" if validation else "fixed train file order", "scope": scope,
+            "repeats": 1, "case_order": ("original whitebox file order" if args.whitebox200 else
+                                         "fixed sealed file order" if sealed_validation else "fixed train file order"), "scope": scope,
             "training_sha256": manifest["train_sha256"], "split_manifest_sha256": sha(SPLIT/"manifest.json"),
             "training_history_sha256": manifest["train_history_sha256"],
             "source_sha256": {name: sha(HERE/name) for name in sources},
@@ -341,10 +400,18 @@ def main(argv=None):
             "score_policy": "original query and evaluate_case; no weighting or template-count score",
             "cache_policy": "fresh process; schema warmup excluded; executor cache shared across training cases",
             "authorization": "preflight only; bounded training runs may be decided under the user's standing autonomy authorization; freeze and record each actual scope before --run"}
-    if validation:
+    if sealed_validation:
         plan.update(evaluation_sha256=manifest['sealed_test_sha256'],
                     partition_status='validation_after_explicit_user_exposure',
                     authorization='user explicitly requested testing the remaining fixed50 on 2026-10-30; one bounded pass')
+        if scope == 'validation_subset':
+            plan['authorization'] = 'user explicitly requested fixing B_ONLY and B_INTEGRATE on 2026-10-31; bounded exposed validation failure subset'
+    elif args.whitebox200:
+        plan.update(evaluation_sha256=manifest['source_dataset_sha256'],
+                    partition_status='development_whitebox_after_holdout_exposure',
+                    authorization='user explicitly requested a complete run on 2026-10-30; original200 once, up to450 calls')
+    if resume_evidence:
+        plan['resume_parent'] = resume_evidence
     if args.expected_plan:
         expected = json.loads(args.expected_plan.read_text())
         if any(expected.get(key) != value for key, value in plan.items() if key not in {"created_at", "authorization"}):
@@ -371,7 +438,7 @@ def main(argv=None):
                 or sha(SPLIT/"train.json") != plan["training_sha256"]
                 or sha(SPLIT/"train_history.jsonl") != plan["training_history_sha256"]
                 or sha(SPLIT/"manifest.json") != plan["split_manifest_sha256"]
-                or validation and sha(SPLIT/'sealed_test.json') != plan['evaluation_sha256']
+                or sealed_validation and sha(SPLIT/'sealed_test.json') != plan['evaluation_sha256']
                 or phase_reference is not None and any(sha(HERE/"experiments"/name) != digest
                                                        for name, digest in phase_reference["file_sha256"].items())
                 or any(os.environ.get(key) != value for key, value in flags.items())
@@ -447,7 +514,10 @@ def main(argv=None):
                 print(json.dumps({"completed": len(records), "of": case_count, "score": scored["score"]}), flush=True)
             exit_code = 0
         except Exception as exc:
-            write({"type": "run_error", "error_type": type(exc).__name__})
+            write({"type": "run_error", "error_type": type(exc).__name__,
+                   "missing_file": str(exc.filename) if isinstance(exc, FileNotFoundError) else None,
+                   "frames": [{"file": frame.filename, "line": frame.lineno, "function": frame.name}
+                              for frame in traceback.extract_tb(exc.__traceback__)]})
         finally:
             events = matcher.get_llm_events()
             summary = {"type": "summary", "scope": scope, "phase": phase,

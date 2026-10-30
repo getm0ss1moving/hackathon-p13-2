@@ -1,0 +1,12 @@
+{
+  "packages": {
+    "experiments/issue3_contracts_20261030": "dce23315d7248e2a5dd80a70b18a42ae8a090976958a9cd46b93cb8b52fbff21",
+    "experiments/issue3_p0_compositions_20261030": "9a4fa1255d89f32705e8c287522c564ec43dd723f9a24461330191f5972b5706"
+  },
+  "user_authorization": "2026-10-31 complete B_ONLY8 and existing A-contract8",
+  "official_components_unchanged": true,
+  "support_files": {
+    "experiments/b_issue3_runtime_20261031/NAMESPACE_REFERENCE_ALIASES.json": "21dddcdb815a1684e3e975579209b33a7f120af563d38348b42884ed7f5fe73e"
+  },
+  "readonly_data_server_sha256": "8cdb84922267446e7632d763e236eca9120fd5f1d84fd255b0d5ec590b002fa7"
+}

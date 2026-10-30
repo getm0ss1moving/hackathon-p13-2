@@ -1,0 +1,151 @@
+B：16道问题处理结果与口径说明（2026-10-31）
+====================================================================
+一、本轮实际完成情况
+目标：上轮B_ONLY 8道 + A合同已交付待B接入8道；总计16道。
+B_ONLY：7道已在真实小集取得质量5分，116的区域执行已修好但参考范围冲突尚未关闭。
+A合同接入：194、289、291已真实小集5分；253、261、287被A原生preflight拒绝；270、300能执行但参考/题意及完整性政策仍冲突。
+合计10道观察到质量满分、3道原生合同阻塞、3道参考/口径待核定。不能声称16道全通过。
+本轮共62次Flash生成请求，0请求失败；各轮有独立冻结源码、配置、预算和账本。未运行全150、全50或全200。
+这些满分来自不同小集/修订；未把逐题最新分拼成新版150或200总分。183记录质量5分，含时延为4分。
+最终5题回归017/041/052/173/291为25/25，14次请求，0猜空。最终免费检查68项全部通过、无网络/模型调用。
+官方evaluator（已授权三处修订版）/executor/quick_eval/blackbox_eval四文件哈希全部保持不变。
+当前main，本轮代码仅本地修改，未暂存、提交或推送。A Issue反馈已发出，不代表代码已上传。
+
+二、“参考答案或业务口径待核定”到底是什么意思
+这是有具体证据的未解决分歧，不是确认所有参考答案都错误，也不是B已经通过验收。
+1. 范围/实体冲突：如116题文要求region_guian4，参考API却未加区域条件；此前053题文是CodeArtsDeploy，参考却筛另一个租户。需C独立核验原题、API、原生数据及SQL，必要时向主办方确认。
+2. 业务定义未定：例如NULL/空字符串是否同一VDC桶，未知租户能否参与“最多”比较，缺规格的ECS总vCPU应标未知还是省略，重复名称按ID还是按名称计数。这些影响真实答案，不能靠猜测补0。
+3. 输出形状不兼容：多资源清单与参考只投影一种资源。先检查能否保留全部义务同时调整真实SQL布局；本轮194/289已这样修好，所以不再把它们留作口径争议。
+本轮116/270/300仍需核定；旧报告另有15道C_REVIEW，它们没有在本轮被批量宣布解决。
+结论待核定时仍保留实际结果、范围条件和失败记录，不修改评分器、不换错实体、不把未知数据制造成0。
+
+三、实现和启用范围
+- runbook_matcher.py：原有132参数恢复、角色/枚举语义、重复状态聚合表达、完整安全规则输出；仍走BM25、模型选择及原有SQL精调链路。
+- runbook_issue3.py（新增B有限接入模块）：核验A包哈希、读取真实HTTP分页/筛选、A原生preflight、验证投影后执行typed SQL；291使用可证的本机namespace，不伪造snapshot。
+- runbook_system.py：有限合同执行与真实API账本；失败仍走既有猜空策略，原始失败保留，不把HTTP访问等同成功答案。
+- train_live.py / run_saved_training.py / validation_data.py：显式冻结有界验证子集、开关/候选清单和完整源码依赖；默认仍是训练集。后50已曝光，绝不称未见留出集。
+- run_a132_eval.py和whitebox200_a132.env为B自有入口/配置，已显式启用3个验收合同与部署节点区域绑定；官方入口本身未改。该入口本轮仅--check，未全200运行。
+默认启用A合同：namespace_counts、tenant_lists、vdc_network。其他5条只留隔离实验入口，未默认开放。
+本地291 provider依赖lsof/ps及真实原生服务的进程/源码/文件快照可证；其他机器未满足时会明确拒绝，尚未证明跨机器通用。
+A冻结源码、官方执行器/评分器、数据服务与原始数据未修改；没有新增题号/完整题目/测试实体/答案路由。
+
+四、逐题结果（原题逐字保留，仅用于诊断，不用于生产路由）
+
+[CMDB-012 | B_ONLY | verified_full]
+原题：az0.dc0里正在跑的ECS有哪些IP，分别属于哪个租户
+最新观察：质量5分；含时延5分；记录 b_only_remaining3
+处理/阻塞：恢复AZ字段角色及自然语言active状态；候选保留原文非空实体，完整prepare唯一通过才采用。
+证据：reports/b16_work_20261031/b_only_remaining3/case_results.json
+
+[CMDB-036 | B_ONLY | verified_full]
+原题：宿主机kvm-10上目前有多少台处于ACTIVE状态的虚拟机
+最新观察：质量5分；含时延5分；记录 b_only8
+处理/阻塞：根据真实schema将ACTIVE规范为active，保留宿主机条件；引号中的显式字面值不改。
+证据：reports/b16_work_20261031/b_only8/case_results.json
+
+[CMDB-055 | B_ONLY | verified_full]
+原题：查询区域region_guian4可用区az0.dc0中所有ECS的IP列表和租户归属
+最新观察：质量5分；含时延5分；记录 b_only8
+处理/阻塞：恢复IP/租户已有view的完整原题抽参，保留region和AZ条件。
+证据：reports/b16_work_20261031/b_only8/case_results.json
+
+[CMDB-056 | B_ONLY | verified_full]
+原题：查询区域region_guian4下各租户在各个可用区中的ECS实例名和IP
+最新观察：质量5分；含时延5分；记录 b_only8
+处理/阻塞：按已有view补齐租户、AZ、实例名及IP投影。
+证据：reports/b16_work_20261031/b_only8/case_results.json
+
+[CMDB-116 | B_ONLY | reference_scope_review]
+原题：查询区域region_guian4下部署节点按hostClass(VM/PM)分布
+最新观察：质量-1分；含时延-1分；记录 b_only8
+处理/阻塞：部署节点的区域映射与API条件已修；实际按AZONE解析出的logicalRegionId筛选。参考API未筛区域，正确执行仍-1；不可删题目区域条件凑分。
+证据：reports/b16_work_20261031/b_only8/case_results.json
+
+[CMDB-183 | B_ONLY | verified_full]
+原题：查询ECS rds-a357-1的网卡列表
+最新观察：质量5分；含时延4分；记录 b_only8
+处理/阻塞：恢复网卡清单的既有模板参数与依赖执行；质量5分，首次记录因耗时得4分，本轮不为时延继续重测。
+证据：reports/b16_work_20261031/b_only8/case_results.json
+
+[CMDB-187 | B_ONLY | verified_full]
+原题：安全组default中哪些规则允许了外部访问，关联了多少个端口
+最新观察：质量5分；含时延5分；记录 b_only_remaining3
+处理/阻塞：把明确外部访问表达映射ingress；保留端口计数，并独立聚合规则明细，避免规则×端口造成计数膨胀。
+证据：reports/b16_work_20261031/b_only_remaining3/case_results.json
+
+[CMDB-271 | B_ONLY | verified_full]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各可用区的ECS运行中数量、停止数量和异常数量
+最新观察：质量5分；含时延5分；记录 b_only_remaining3
+处理/阻塞：修VDC紧邻实体抽取与重复的状态数量表达；沿用已证active/stopped/其他既有桶合同。
+证据：reports/b16_work_20261031/b_only_remaining3/case_results.json
+
+[CMDB-194 | B_INTEGRATE | verified_full]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中的VPC名称、子网CIDR和弹性IP数量
+最新观察：质量5分；含时延5分；记录 A_layout2
+处理/阻塞：接入A vdc_network；保留VPC名称/子网CIDR/EIP计数与额外完整清单，以子网明细行输出；无子项但有父资源时有明确汇总载体。
+证据：reports/b16_work_20261031/A_layout2/case_results.json
+
+[CMDB-253 | B_INTEGRATE | native_contract_blocked]
+原题：查询区域region_guian4下各VDC的ECS数量、云硬盘数量和GaussDB实例数量
+最新观察：质量-1分；含时延-1分；记录 A_validation3
+处理/阻塞：A vdc_counts原生preflight拒绝：VOLUME 1825行省略vdcName；CI schema有该列。需A交付稀疏行/未知VDC政策，B未填假值。
+证据：reports/b16_work_20261031/A_validation3/case_results.json
+
+[CMDB-261 | B_INTEGRATE | native_contract_blocked]
+原题：查询区域region_guian4下ECS数量最多的租户，列出该租户下所有ECS的IP和挂载云硬盘
+最新观察：质量-1分；含时延-1分；记录 A_train5
+处理/阻塞：A tenant_vm_rank原生preflight拒绝：VM tenantId/tenantName各862行省略键，部分IP字段也省略；最大租户涉及未知人口，不能静默丢弃后宣称全局正确。
+证据：reports/b16_work_20261031/A_train5/case_results.json
+
+[CMDB-270 | B_INTEGRATE | reference_scope_review]
+原题：查询区域region_guian4下云硬盘数量最多的租户，列出该租户的云硬盘名称和容量
+最新观察：质量-1分；含时延-1分；记录 A_train5
+处理/阻塞：已原生执行region内已知ID租户并列最大策略，返回赢家858卷行，未知人口显式partial；参考为未筛region/最大租户的6190卷行，需独立核定，当前-1。
+证据：reports/b16_work_20261031/A_train5/case_results.json
+
+[CMDB-287 | B_INTEGRATE | native_contract_blocked]
+原题：查询VDCAdvanceService_Manage_VDC在区域region_guian4中各VPC的子网数量和弹性IP数量
+最新观察：质量-1分；含时延-2分；记录 A_train5
+处理/阻塞：A network原生preflight拒绝：同区域完整ROUTER目录580行vdcName为空。须明确未知VDC父资源政策，不能截掉目录绕过碰撞校验。
+证据：reports/b16_work_20261031/A_train5/case_results.json
+
+[CMDB-289 | B_INTEGRATE | verified_full]
+原题：查询租户AdvanceService_System_VDC的ECS实例列表、安全组列表和云硬盘列表
+最新观察：质量5分；含时延5分；记录 A_layout2
+处理/阻塞：接入A tenant_lists；卷明细保留name/size/status，额外ECS与安全组完整ID/名称列表保留在JSON列，无删除原题输出义务。
+证据：reports/b16_work_20261031/A_layout2/case_results.json
+
+[CMDB-291 | B_INTEGRATE | verified_full]
+原题：查询区域region_guian4下GaussDB实例数量、中间件实例数量和OBS桶数量
+最新观察：质量5分；含时延5分；记录 verified_regression5
+处理/阻塞：完成真实只读数据服务进程/源码/原生数据快照的命名空间绑定，A binder及投影核验通过；typed SQL三计数真执行，回归再得5分。
+证据：reports/b16_work_20261031/verified_regression5/case_results.json
+
+[CMDB-300 | B_INTEGRATE | reference_scope_review]
+原题：查询区域region_guian4下各VDC的ECS总vCPU核数、云硬盘总容量和GaussDB节点总数
+最新观察：质量-1分；含时延-1分；记录 A_train5
+处理/阻塞：已执行区域内VM/FLAVOR/卷/GaussDB节点独立聚合，未知CPU不补0；输出完整分组域与partial标记。参考漏区域且只以卷为分组域，需核定容量/分组/未知值口径，当前-1。
+证据：reports/b16_work_20261031/A_train5/case_results.json
+
+五、已发A的要求与证据
+https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6528797823
+新交付内容：稀疏字段与NULL/空串、未知VDC父目录、未知租户人口的明确合同政策，单独的新候选版本与正反控制。不要覆盖冻结包，也不需A改B matcher/system或官方文件。
+253：11次实际GET，VOLUME.vdcName省略1825；VM.vdcName空2262。
+261：15次实际GET，VM tenantId/tenantName各省略862；privateIps省略1、floatingIp省略6；详细空/缺值统计见原始case_results。
+287：79次实际GET，ROUTER.vdcName空580；PORT.devNativeId空5545；EIP.routerId省略/空120。
+上述省略键是空/缺值统计的子集，不能重复相加。A的纯合成验证通过，不代表原生数据preflight已过。
+完整发送正文及HTTP201回执：reports/b16_work_20261031/A_native_feedback{,_sent}.json
+
+六、所有测试及其边界
+b_only8：8题，质量19/40，含时延18；请求20/24，失败0，猜空3。
+b_only_remaining3：3题，质量15/15，含时延15；请求8/9，失败0，猜空0。
+A_train5：5题，质量1/25，含时延0；请求10/15，失败0，猜空2。
+A_validation3：3题，质量-3/15，含时延-3；请求6/9，失败0，猜空1。
+A_layout2：2题，质量10/10，含时延10；请求4/6，失败0，猜空0。
+verified_regression5：5题，质量25/25，含时延25；请求14/15，失败0，猜空0。
+早期A_train5/A_validation3的-1与失败账本原样保留；后来194/289的成功不会回写旧记录。
+本轮最后修复：preflight失败时实际GET留在diagnostics，不再把失败访问当成成功api_call；此改动经免费负例检查，但未再付费重测3个原生阻塞题，不宣称它们得分已恢复。
+完整运行工件：reports/b16_work_20261031/<轮次>/{config.freeze.json,plan.json,source.zip,commands.json,stdout.log,live.jsonl,case_results.json,summary.json,budget.json}。
+机器汇总：experiments/b_issue3_runtime_20261031/VALIDATION_SUMMARY.json。
+免费核验：reports/b16_work_20261031/final_checks/summary.json；官方哈希：reports/b16_work_20261031/official_integrity.json。
+下一步先等待A这3条新政策/原生候选，并由C复核116/270/300的范围与参考。收到后只测对应失败题及相关控制，再考虑完整回归。

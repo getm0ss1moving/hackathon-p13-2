@@ -1,0 +1,43 @@
+{
+  "arguments": [
+    "--a132-candidate",
+    "--candidate-flags",
+    "--refine-contract-prompt",
+    "--independent-aggregates",
+    "--grouped-aggregates",
+    "--network-details",
+    "--identity-projection",
+    "--vpc-subnets",
+    "--tenant-resources",
+    "--vm-volume-details",
+    "--tenant-vdc-binding",
+    "--parallel-resource-lists",
+    "--detail-count",
+    "--ground-sql-measures",
+    "--partial-storage-pools",
+    "--sg-rule-semijoin",
+    "--verified-empty-root",
+    "--typed-empty-root",
+    "--thinking-mode",
+    "disabled",
+    "--request-limit",
+    "12",
+    "--phase",
+    "failure_probe",
+    "--case-id",
+    "CMDB-061",
+    "--case-id",
+    "CMDB-133",
+    "--case-id",
+    "CMDB-174",
+    "--case-id",
+    "CMDB-175"
+  ],
+  "output_dir": "reports/a132_runtime_port_20261030/parameter_recovery_tail4",
+  "manual_retry_context": {
+    "case_id": "CMDB-061",
+    "reason": "one failed select APIConnectionError, no completed answer in prior segment",
+    "maximum_manual_retries": 1,
+    "prior_run": "reports/a132_runtime_port_20261030/parameter_recovery_fail10"
+  }
+}

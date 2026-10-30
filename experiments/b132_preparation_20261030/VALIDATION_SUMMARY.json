@@ -1,0 +1,43 @@
+{
+  "state": "SOURCE_PACKAGE_NOT_PUBLISHED",
+  "repo": "getm0ss1moving/hackathon-p13-2",
+  "requested_templates": 132,
+  "actual_active_templates": 160,
+  "actual132_downloaded": false,
+  "actual132_integrated": false,
+  "checked_remote_branches": {
+    "main": "fea24c5aed33a3e857651bf3260d3ec3e5c18b73",
+    "simple/official-starter": "02fec79f221480a731dd50be52c05666b4fa657b",
+    "codex/a180-train150": "10f2f7096cac9a224250b16d7b89d7dd9d9f6acb"
+  },
+  "github_releases": 0,
+  "github_pull_requests_checked": 2,
+  "A_source_request": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/3#issuecomment-6526859006",
+  "independent_fix": "preserve validated F02 selector profiles despite additional natural_views metadata; no new view registration",
+  "synthetic_reproduction": {
+    "tests": 1,
+    "failures": 3,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": false
+  },
+  "fixed_related_checks": {
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true
+  },
+  "model_requests": 0,
+  "business_service_requests": 0,
+  "new_model_score": null,
+  "source_sha256": {
+    "implementation/runbook_matcher.py": "e8a8a958d8b7cb7216fe582cf40f125f99e5ce0714c85d646cabcb657e10d44f",
+    "tests/test_training_132_selector_compat.py": "682bbcb52cfbe9f820a23e74aaf04fc14e78e225beeb3243659071d0cdda9907"
+  },
+  "git_commit_or_push": false
+}
