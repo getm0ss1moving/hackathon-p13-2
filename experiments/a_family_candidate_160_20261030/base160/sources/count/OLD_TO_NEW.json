@@ -1,0 +1,258 @@
+[
+  {
+    "old_id_offline_only": "rb_046",
+    "family_id": "family_next_n28",
+    "parameters_offline_only": {
+      "resource_set": [
+        "VM_NOVA",
+        "VOLUME",
+        "ROUTER"
+      ],
+      "group": "none",
+      "layout": "labeled_rows",
+      "metric": "count_rows",
+      "filters": {
+        "logicalRegionName": "{{current_question_region}}"
+      },
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "source_sql": "SELECT 'ECS' AS type, COUNT(*) AS count FROM CLOUD_VM_NOVA UNION ALL SELECT 'Volume' AS type, COUNT(*) AS count FROM CLOUD_VOLUME UNION ALL SELECT 'VPC' AS type, COUNT(*) AS count FROM CLOUD_ROUTER",
+    "source_api_call": [
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "old_id_offline_only": "rb_047",
+    "family_id": "family_next_n28",
+    "parameters_offline_only": {
+      "resource_set": [
+        "VM_NOVA",
+        "VOLUME",
+        "ROUTER"
+      ],
+      "group": "vdcName",
+      "layout": "labeled_rows",
+      "metric": "count_rows",
+      "filters": {
+        "logicalRegionName": "{{current_question_region}}"
+      },
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "source_sql": "SELECT 'ECS' AS type, vdcName, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY vdcName UNION ALL SELECT 'Volume' AS type, vdcName, COUNT(*) AS count FROM CLOUD_VOLUME GROUP BY vdcName UNION ALL SELECT 'VPC' AS type, vdcName, COUNT(*) AS count FROM CLOUD_ROUTER GROUP BY vdcName",
+    "source_api_call": [
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "old_id_offline_only": "rb_070",
+    "family_id": "family_next_n28",
+    "parameters_offline_only": {
+      "resource_set": [
+        "S_Switch",
+        "S_Router"
+      ],
+      "group": "none",
+      "layout": "labeled_rows",
+      "metric": "count_rows",
+      "filters": {
+        "logicalRegionName": "{{current_question_region}}"
+      },
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "source_sql": "SELECT 'switch' AS device_type, COUNT(*) AS total FROM SYS_Switch UNION ALL SELECT 'router' AS device_type, COUNT(*) AS total FROM SYS_Router",
+    "source_api_call": [
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Switch?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_Router?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "old_id_offline_only": "rb_109",
+    "family_id": "family_next_n28",
+    "parameters_offline_only": {
+      "resource_set": [
+        "ROUTER"
+      ],
+      "group": "vdcName",
+      "layout": "single_grouped",
+      "metric": "count_rows",
+      "filters": {
+        "logicalRegionName": "{{current_question_region}}"
+      },
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "source_sql": "SELECT vdcName, COUNT(*) AS count FROM CLOUD_ROUTER GROUP BY vdcName",
+    "source_api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/ROUTER?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "old_id_offline_only": "rb_120",
+    "family_id": "family_next_n28",
+    "parameters_offline_only": {
+      "resource_set": [
+        "ELB"
+      ],
+      "group": "none",
+      "layout": "single_scalar",
+      "metric": "count_rows",
+      "filters": {
+        "logicalRegionName": "{{current_question_region}}"
+      },
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "source_sql": "SELECT COUNT(*) AS count FROM CLOUD_ELB",
+    "source_api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/ELB?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    }
+  }
+]

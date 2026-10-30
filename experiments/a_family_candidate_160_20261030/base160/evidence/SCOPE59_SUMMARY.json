@@ -1,0 +1,22 @@
+{
+  "status": "PASS_DECLARED_SCOPE_NOT_UNIVERSAL_LANGUAGE",
+  "cases": 59,
+  "passed": 59,
+  "source_scope_document_sha256": "ccc92a671b8a734eccfaa45827cc0d33a0bdaa4cb334c976dde192a6d44ee183",
+  "old51_preserved": true,
+  "old51_observed_passed": 47,
+  "invalid_positive_labels_reviewed": [
+    "single-entity-0",
+    "single-entity-1",
+    "single-entity-2",
+    "single-entity-3"
+  ],
+  "label_review_reason": "Frozen original and R2 supported syntax explicitly require quotes for entities containing role/metric words; coordinator previously assumed arbitrary bare substitutions were supported. No source change occurred.",
+  "added_controls": "4 ordinary bare substitutions and4 corresponding quoted complex substitutions",
+  "complex_bare_names_supported": false,
+  "candidate_source_changed": false,
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "model_calls": 0,
+  "service_calls": 0,
+  "business_gate": "STILL_BLOCKED"
+}

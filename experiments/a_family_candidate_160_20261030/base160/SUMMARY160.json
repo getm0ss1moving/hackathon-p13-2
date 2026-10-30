@@ -1,0 +1,65 @@
+{
+  "status": "STRUCTURAL160_EQUIVALENCE_PASS_LANGUAGE_RETENTION_OPEN_BUSINESS_BLOCKED",
+  "actual_templates": 160,
+  "unique_IDs": 160,
+  "template164_sha256": "d87bea245903470b606e5bf947090b48ec7a5a626b7eca4341e1cf8397c9fdcb",
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "stages166_164_160_generated": true,
+  "static_API_SQL_contracts_equal": 9,
+  "SQL_fixture_comparisons": 27,
+  "expected_SQL_errors_preserved_not_success": 2,
+  "each_stage_original537_four_k_exact": 2148,
+  "each_stage_additional51_four_k_exact": 204,
+  "normalized_retrieval_differences": 0,
+  "new_supported_target_family_retrieval": {
+    "total": 31,
+    "baseline_hits": 31,
+    "candidate_hits": 31
+  },
+  "prior_semantics": {
+    "original70": 70,
+    "batch4_41": 41
+  },
+  "original_new51": {
+    "passed": 47,
+    "failed_positive_labels": 4,
+    "result_preserved": true
+  },
+  "scope_review59": {
+    "passed": 59,
+    "only_demonstrates_declared_finite_grammar": true,
+    "does_not_resolve_original_B_baseline_for4_bare_complex_names": true
+  },
+  "open_language_cases": "PARSER_OPEN4.json",
+  "language_retention_gate": "OPEN_NOT_FULL_PASS",
+  "business_correctness_gate": "BLOCKED",
+  "business_blockers": [
+    "emptyCOUNT may be1 under fixed SDK placeholder table",
+    "missing-column UNION may be cleared",
+    "success-empty vs error/missing objList ambiguous",
+    "physical CIs lack nonempty native evidence"
+  ],
+  "B_needed": [
+    "generic bare-token/role boundary review with independent controls, or genuine original-B baseline evidence; not a four-value whitelist",
+    "mandatory prepare, expected-column and complete obligation checks",
+    "API success/complete pagination/provenance contract to distinguish real empty from failures; no fixed SDK mutation"
+  ],
+  "A_completed": [
+    "170->166->164->160 actual arrays and old-ID family mappings",
+    "unchanged existing fields for nonmembers and both BM25 indices",
+    "fixed-contract SQL/API and declared-scope control replay"
+  ],
+  "not_run": [
+    "real models",
+    "native SDK or HTTP service",
+    "user200 or sealed tests",
+    "production switch",
+    "Git commit/push"
+  ],
+  "candidate_publication_ready": false,
+  "production_ready": false,
+  "scope_additional8_per_stage_four_k_exact": 32,
+  "prior46_real_default_retrieval_hits_in160": 46,
+  "no_new_cases_beyond_scope_review8": true
+}

@@ -1,0 +1,122 @@
+{
+  "status": "STRUCTURAL_EQUIVALENCE_PASS_SEMANTIC_GAPS_BUSINESS_BLOCKED",
+  "active_templates": 160,
+  "candidate164_sha256": "d87bea245903470b606e5bf947090b48ec7a5a626b7eca4341e1cf8397c9fdcb",
+  "candidate160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "single_module_sha256": "fc71c51f346c3ebf0b09911bc030bb40c1ba0547f25cdf6bf8d75b3b8a6bb506",
+  "count_module_sha256": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87",
+  "static_original_contracts": 9,
+  "SQL_fixture_comparisons": 27,
+  "SQL_comparisons_include_equivalent_errors_not_business_success": true,
+  "new_semantic_cases": 51,
+  "new_semantic_passed": 47,
+  "new_semantic_failures": [
+    {
+      "id": "single-entity-0",
+      "passed": false,
+      "expected": true,
+      "actual_ordinary": false,
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "missing_filter_value"
+          }
+        ]
+      }
+    },
+    {
+      "id": "single-entity-1",
+      "passed": false,
+      "expected": true,
+      "actual_ordinary": false,
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "missing_filter_value"
+          }
+        ]
+      }
+    },
+    {
+      "id": "single-entity-2",
+      "passed": false,
+      "expected": true,
+      "actual_ordinary": false,
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "repeated_filter_role"
+          }
+        ]
+      }
+    },
+    {
+      "id": "single-entity-3",
+      "passed": false,
+      "expected": true,
+      "actual_ordinary": false,
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "repeated_filter_role"
+          }
+        ]
+      }
+    }
+  ],
+  "semantic_gate_passed": false,
+  "prior_batch4_semantic_passed": 41,
+  "prior_semantic70_passed": 70,
+  "stages166_to164_and164_to160_original537_checks_each": 2148,
+  "additional51_checks_each": 204,
+  "normalized_differences": 0,
+  "new_positive_retrieval": {
+    "total": 31,
+    "baseline_hits": 31,
+    "candidate_hits": 31
+  },
+  "primary_documents": 400,
+  "attribute_documents": 11,
+  "business_correctness": {
+    "status": "BLOCKED_NOT_PASSED",
+    "empty_SQL_table_count": 0,
+    "one_NULL_placeholder_row_count": 1,
+    "SQL_counterexample_is_not_a_native_SDK_execution": true,
+    "upstream_fixed_SDK_observations": [
+      "emptyCOUNT1",
+      "missing-column UNION cleared",
+      "failure/empty/missing objList ambiguity"
+    ],
+    "no_SQL_changed_to_constant_zero": true,
+    "two_physical_CIs_have_no_nonempty_native_evidence": true
+  },
+  "latency_ms": {
+    "164": {
+      "samples": 588,
+      "p95": 1.530999999999949,
+      "p99": 1.6574169999996613,
+      "max": 1.9106659999998943
+    },
+    "160": {
+      "samples": 588,
+      "p95": 1.538208000000374,
+      "p99": 1.6736249999999009,
+      "max": 1.904165999999874
+    }
+  },
+  "B_adapter_installed": false,
+  "production_activation_ready": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "Git_publication": false,
+  "limits": [
+    "Only original-contract equivalence is passed;160 is not overall business-correct or a production release.",
+    "SDK missing/empty output columns, TopK tie identity/order, malformed capacity coercion and pagination remain unresolved.",
+    "True model selection/filling/refinement and native SDK/API were not run; no official score."
+  ]
+}

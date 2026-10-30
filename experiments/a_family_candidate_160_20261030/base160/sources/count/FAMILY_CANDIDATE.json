@@ -1,0 +1,37 @@
+{
+  "id": "family_next_n28",
+  "family_id": "NEXT_N28",
+  "name": "独立资源记录计数",
+  "description": "同一区域中分别统计资源记录数；支持云ECS/云硬盘/VPC总数或按VDC分布、物理交换机/路由器总数、单VPC按VDC分布、单ELB总数。独立COUNT(*)，不关联。",
+  "resources": [
+    "VM_NOVA",
+    "VOLUME",
+    "ROUTER",
+    "S_Switch",
+    "S_Router",
+    "ELB"
+  ],
+  "parameter_contract": {
+    "resource_set": "有序数组；仅VM_NOVA,VOLUME,ROUTER或S_Switch,S_Router或ROUTER或ELB",
+    "group": [
+      "none",
+      "vdcName"
+    ],
+    "layout": [
+      "labeled_rows",
+      "single_grouped",
+      "single_scalar"
+    ],
+    "metric": [
+      "count_rows"
+    ],
+    "filters": "仅logicalRegionName等值；字符串必须来自当前请求，不能为空",
+    "required_filters": [
+      "logicalRegionName"
+    ],
+    "combinations": "云三资源:none/vdcName+labeled_rows；物理两资源:none+labeled_rows；ROUTER:vdcName+single_grouped；ELB:none+single_scalar",
+    "output": "云type[,vdcName],count；物理device_type,total；单VPC vdcName,count；单ELB count；列序和标签不可改"
+  },
+  "api_call": [],
+  "sql": ""
+}

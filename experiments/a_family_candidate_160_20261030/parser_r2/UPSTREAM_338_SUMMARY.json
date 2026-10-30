@@ -1,0 +1,21 @@
+{
+  "source_sha256": "0e430af1f7d6859edc02ea36d5ca87b091ab363643454885e8c13c58ce218a8a",
+  "scalar_report": {
+    "status": "PASS",
+    "candidate_sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+    "original_module_sha256": "fc71c51f346c3ebf0b09911bc030bb40c1ba0547f25cdf6bf8d75b3b8a6bb506",
+    "constants_API_SQL_metadata_unchanged": true,
+    "original70_prepare_attempts": 937,
+    "historical47_of51_retained": true,
+    "scope59_not_relabelled_or_used_as_fix_evidence": true,
+    "model_calls": 0,
+    "service_calls": 0,
+    "native_SDK_calls": 0,
+    "production_modified": false,
+    "B_selector_or_model_filling_verified": false,
+    "business_COUNT_gate": "SEPARATE_STILL_BLOCKED"
+  },
+  "not_all338_reexecuted_by_integrator": true,
+  "own_replay_is51_plus70_plus41": true,
+  "not_model_or_native_score": true
+}

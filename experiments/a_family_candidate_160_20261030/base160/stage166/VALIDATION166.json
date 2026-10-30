@@ -1,0 +1,75 @@
+{
+  "status": "PASS_INTERMEDIATE166_STRUCTURAL_CONTRACT_AND_REGRESSION_NOT_FINAL160",
+  "active_templates": 166,
+  "nonmembers_unchanged": 163,
+  "candidate166_sha256": "8c89e4fe8b8ed7ffecd8292120f7fdc46ea24e74a5efea43cdf729ada4f936f7",
+  "base170_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c",
+  "helper_sha256": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "old_contracts": 7,
+  "synthetic_SQL_API_comparisons": 28,
+  "new_batch4_semantic_cases": 41,
+  "new_batch4_semantic_passed": 41,
+  "source_implicit": 7,
+  "entity_implicit": 7,
+  "explicit": 7,
+  "boundary_supported": 7,
+  "boundary_unsupported": 13,
+  "prior70_semantics_passed": 70,
+  "original537_four_k_exact": 2148,
+  "extra41_four_k_exact": 164,
+  "normalized_differences": 0,
+  "new_positive_family_retrieval": {
+    "total": 28,
+    "baseline_hits": 28,
+    "candidate_hits": 28
+  },
+  "positive_retrieval_by_kind": {
+    "source_implicit": {
+      "total": 7,
+      "hits": 7
+    },
+    "entity_implicit": {
+      "total": 7,
+      "hits": 7
+    },
+    "explicit": {
+      "total": 7,
+      "hits": 7
+    },
+    "boundary": {
+      "total": 7,
+      "hits": 7
+    }
+  },
+  "primary_documents": 400,
+  "attribute_documents": 11,
+  "all200_text_IDs_and_aliases_preserved": true,
+  "latency_ms": {
+    "170": {
+      "samples": 578,
+      "p95": 1.5338329999998734,
+      "p99": 1.7134589999998617,
+      "max": 3.0495419999999607
+    },
+    "166": {
+      "samples": 578,
+      "p95": 1.5343329999999988,
+      "p99": 1.6720409999999575,
+      "max": 3.0039580000000288
+    }
+  },
+  "B_interface": "prepare_batch4(question,item,parsed,diagnostics=None): ordinary API/SQL or None; parsed=view/filters/required_filters",
+  "B_adapter_installed": false,
+  "publication_ready": false,
+  "final160_complete": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "Git_publication": false,
+  "limits": [
+    "New-family explicit native-field retrieval may retain original170 weaknesses; see detailed coverage before extending attribute metadata.",
+    "Only groupedCOUNT SQL in this batch; unresolved scalar emptyCOUNT family is not included or silently changed.",
+    "SQLite has predefined columns and does not certify native empty-table behavior, pagination, dirty-type handling or API execution.",
+    "Other two single-table families and count route await separate reviewed integration;166 is not final160."
+  ]
+}

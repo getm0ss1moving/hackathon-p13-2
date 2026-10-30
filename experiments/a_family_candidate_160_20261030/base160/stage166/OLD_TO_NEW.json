@@ -1,0 +1,271 @@
+{
+  "mappings": [
+    {
+      "old_id": "rb_140",
+      "family_id": "F26",
+      "candidate_id": "family_f26",
+      "parameters": {
+        "view": "rows",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "sql_contract": "SELECT name, status FROM CLOUD_VFW",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VFW?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "name",
+        "status"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_141",
+      "family_id": "F26",
+      "candidate_id": "family_f26",
+      "parameters": {
+        "view": "count",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "sql_contract": "SELECT vdcName, COUNT(*) AS count FROM CLOUD_VFW GROUP BY vdcName",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/VFW?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "vdcName",
+        "count"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_095",
+      "family_id": "F16",
+      "candidate_id": "family_f16",
+      "parameters": {
+        "view": "capacity_detail",
+        "filters": {
+          "name": "{{name}}"
+        },
+        "required_filters": [
+          "name"
+        ]
+      },
+      "sql_contract": "SELECT name, totalCapacityGB, freeCapacityGB, provisionedCapacityGB, (totalCapacityGB - freeCapacityGB) AS used_capacity, ROUND((totalCapacityGB - freeCapacityGB) * 100.0 / totalCapacityGB, 2) AS usage_rate, ROUND(provisionedCapacityGB * 100.0 / totalCapacityGB, 2) AS over_subscription_ratio FROM CLOUD_STORAGE_POOL",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "name",
+                "value": "{{name}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "name",
+        "totalCapacityGB",
+        "freeCapacityGB",
+        "provisionedCapacityGB",
+        "used_capacity",
+        "usage_rate",
+        "over_subscription_ratio"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_097",
+      "family_id": "F16",
+      "candidate_id": "family_f16",
+      "parameters": {
+        "view": "usage_list",
+        "filters": {
+          "azoneName": "{{azoneName}}"
+        },
+        "required_filters": [
+          "azoneName"
+        ]
+      },
+      "sql_contract": "SELECT name, totalCapacityGB, freeCapacityGB, (totalCapacityGB - freeCapacityGB) AS used_capacity, ROUND((totalCapacityGB - freeCapacityGB) * 100.0 / totalCapacityGB, 2) AS usage_rate FROM CLOUD_STORAGE_POOL ORDER BY usage_rate DESC",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "name",
+        "totalCapacityGB",
+        "freeCapacityGB",
+        "used_capacity",
+        "usage_rate"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_063",
+      "family_id": "F11_CORE",
+      "candidate_id": "family_f11_core",
+      "parameters": {
+        "view": "region_count",
+        "filters": {
+          "productName": "{{productName}}"
+        },
+        "required_filters": [
+          "productName"
+        ]
+      },
+      "sql_contract": "SELECT logicalRegionName, COUNT(*) AS count FROM SYS_X86Server GROUP BY logicalRegionName",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "productName",
+                "value": "{{productName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "logicalRegionName",
+        "count"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_065",
+      "family_id": "F11_CORE",
+      "candidate_id": "family_f11_core",
+      "parameters": {
+        "view": "manufacturer_count",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "sql_contract": "SELECT manufacturer, COUNT(*) AS count FROM SYS_X86Server GROUP BY manufacturer",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "manufacturer",
+        "count"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    },
+    {
+      "old_id": "rb_072",
+      "family_id": "F11_CORE",
+      "candidate_id": "family_f11_core",
+      "parameters": {
+        "view": "region_count",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "sql_contract": "SELECT logicalRegionName, COUNT(*) AS count FROM SYS_X86Server GROUP BY logicalRegionName",
+      "api_contract": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "output_columns": [
+        "logicalRegionName",
+        "count"
+      ],
+      "currently_active_in170": true,
+      "note": "离线来源映射；运行时不读取旧ID，未接入170。"
+    }
+  ],
+  "base_count": 170,
+  "removed_if_adopted": 7,
+  "families_if_adopted": 3,
+  "independent_conditional_reduction": 4,
+  "conditional_count": 166,
+  "actual_runtime_reduction": 0,
+  "old_ids_runtime_routing": false
+}

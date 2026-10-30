@@ -1,0 +1,10 @@
+{
+  "status": "PARSER_AND_EQUIVALENT160_GATE_PASS_COUNT_BUSINESS_GATE_BLOCKED",
+  "parser_gate": "PASS",
+  "compression_equivalence_gate": "PASS",
+  "business_COUNT_gate": "BLOCKED",
+  "overall160_business_ready": false,
+  "isolated_increment_materials_ready": true,
+  "production_activation_allowed": false,
+  "Git_publication": false
+}

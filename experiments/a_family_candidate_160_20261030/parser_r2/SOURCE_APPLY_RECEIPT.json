@@ -1,0 +1,245 @@
+{
+  "status": "FROZEN_AND_APPLIED_PRIVATE_ONLY",
+  "upstream_files_checked": 42,
+  "source_hashes": [
+    {
+      "file": "INDEPENDENT_PARSER_REVIEW.json",
+      "equal": true,
+      "sha256": "6d2197be939a86220d61e69cf2435aa57f1a52bbe12503ba4ad93254d54c36ed"
+    },
+    {
+      "file": "INTEGRATION_HANDOFF.json",
+      "equal": true,
+      "sha256": "5ce4654079b2ebc766677c4091ece10720187ff8f15e31f51c4e3d6749db4b16"
+    },
+    {
+      "file": "SOURCE_MANIFEST.json",
+      "equal": true,
+      "sha256": "e22101ee9a2a7bdf643efb00181e2960e85827de6cf32495f5596358c96a1a2c"
+    },
+    {
+      "file": "VALIDATION_SUMMARY.json",
+      "equal": true,
+      "sha256": "0e430af1f7d6859edc02ea36d5ca87b091ab363643454885e8c13c58ce218a8a"
+    },
+    {
+      "file": "archive_43921/single_table_families.py",
+      "equal": true,
+      "sha256": "43921c34132f92833b016651fde9777d3ff45f8a26caa1e6d87909b891f4729b"
+    },
+    {
+      "file": "candidate/single_table_families.py",
+      "equal": true,
+      "sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576"
+    },
+    {
+      "file": "docs/HANDOFF.md",
+      "equal": true,
+      "sha256": "73c0db06cc8a2c07541b995de39602339f5d52f343cec29a15865a63b34eec94"
+    },
+    {
+      "file": "docs/INDEPENDENT_ATOM_CASES.md",
+      "equal": true,
+      "sha256": "d87483fc936d5307dc72d19e1b2e53e425e504215610c208018635ec5b26e6e3"
+    },
+    {
+      "file": "docs/INDEPENDENT_PARSER_REVIEW.md",
+      "equal": true,
+      "sha256": "bbd3b74d97e143a69030289c2852f784e0ef652ace3d1ea0fffa2000e7f32291"
+    },
+    {
+      "file": "docs/PARSER_DESIGN.md",
+      "equal": true,
+      "sha256": "c8b05a5a29b7680f4007c7f137d13bd6b62a515359b103c68d945c0379cec37e"
+    },
+    {
+      "file": "evidence/INDEPENDENT24_SCOPE_MARKER_PROBES.private.json",
+      "equal": true,
+      "sha256": "0dbb418fd48e9c63977f5efd003ffc9b7f5bb49c86a81f7711fc7dcecd6220af"
+    },
+    {
+      "file": "evidence/ORIGINAL4_TRANSITIONS.private.json",
+      "equal": true,
+      "sha256": "f00a66e530102b3bae6dc169df64b6f41b621d393bc6be47499fd19c94de697d"
+    },
+    {
+      "file": "evidence/PATCH_CHECK.json",
+      "equal": true,
+      "sha256": "c82fd55ead4b8afb048bffb2d5ffc8455df8116d9233bf5726e75e6606f4ae29"
+    },
+    {
+      "file": "evidence/r1/HARNESS_ERROR.json",
+      "equal": true,
+      "sha256": "e119310aa0909bda8f8f9fd54e6f573ffa56144e76e8fcad9f39eca1a8af8f56"
+    },
+    {
+      "file": "evidence/r2/RESULTS.private.json",
+      "equal": true,
+      "sha256": "4aaa2a33b53f09df20908d671387773b1b6880ffc74ea80fe716e140a4d8a5a9"
+    },
+    {
+      "file": "evidence/r2/SUMMARY.json",
+      "equal": true,
+      "sha256": "0cf8d735bd32d16547c688ef3671596d28cda301940b8e79115c2660db8d8630"
+    },
+    {
+      "file": "evidence/r3/RESULTS.private.json",
+      "equal": true,
+      "sha256": "cf2cb1a7ff182f5ab513d800efa02dd32d2e6d724b7b1f9110bd3045262a1b98"
+    },
+    {
+      "file": "evidence/r3/SUMMARY.json",
+      "equal": true,
+      "sha256": "cc47484cc452971f7c1fc260df578ecb5607eb93bb867a0cfe8033fdfca1e748"
+    },
+    {
+      "file": "evidence/r4/RESULTS.private.json",
+      "equal": true,
+      "sha256": "cf2cb1a7ff182f5ab513d800efa02dd32d2e6d724b7b1f9110bd3045262a1b98"
+    },
+    {
+      "file": "evidence/r4/SUMMARY.json",
+      "equal": true,
+      "sha256": "0e430af1f7d6859edc02ea36d5ca87b091ab363643454885e8c13c58ce218a8a"
+    },
+    {
+      "file": "patches/ascii_atom_only.patch",
+      "equal": true,
+      "sha256": "dfe2b34bd2b2ce365f1ccdedfe8b88ab3a4264914cb0424bc2dcd2a36885d87a"
+    },
+    {
+      "file": "private/CASES41.private.json",
+      "equal": true,
+      "sha256": "69b01e0433cefb0bb64e29324bcf6351ed13adf808017edffbd3cfab6ae1a582"
+    },
+    {
+      "file": "private/CASES51.private.json",
+      "equal": true,
+      "sha256": "a8c682c418abbcdc4ce7e13dcd7e8b149c930dcfd33a9d63b86a6be93c9bd22d"
+    },
+    {
+      "file": "private/CASES70.private.json",
+      "equal": true,
+      "sha256": "48ad5322896ce4a4bf64cfbedb1f48df082ce71fe3e5a90ae996a78e47e8e33b"
+    },
+    {
+      "file": "private/LEGACY_SEMANTIC82.json",
+      "equal": true,
+      "sha256": "3a3bac691948ac417a1a82150a2b8e05a1a1ef9ffa0858701d5da513d16a2aca"
+    },
+    {
+      "file": "private/PARENT24.json",
+      "equal": true,
+      "sha256": "31c8def4b2d7bd3c368b3943c1ee2e5465d8fef7f3ebdaa9499bf964a4356804"
+    },
+    {
+      "file": "private/PARSER_OPEN4.json",
+      "equal": true,
+      "sha256": "e3926b082e23897c4dcec27239494d33a53b469ceb73261afcb7c64a3b302346"
+    },
+    {
+      "file": "private/PROTOCOL70.json",
+      "equal": true,
+      "sha256": "3fb3b905a374c9a39d0d2f52874d434f6378cee946fb80d4cb13a1304837dfd5"
+    },
+    {
+      "file": "private/QUOTE46.json",
+      "equal": true,
+      "sha256": "c3d8251a2f29baeda5f444e3606571a038b3cc27c49e1c8f712471cbe9968f17"
+    },
+    {
+      "file": "private/templates160.private.json",
+      "equal": true,
+      "sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182"
+    },
+    {
+      "file": "scripts/independent_parser_review.py",
+      "equal": true,
+      "sha256": "529cb0cef530a1d248c2e5078aa75bcb63260c6c7bd6b1c6f5a69b72a7c50f93"
+    },
+    {
+      "file": "scripts/validate_parser_r2.py",
+      "equal": true,
+      "sha256": "6ddb306a5839d02e0cf70a51f202658a364892b56370c4205e2f51aa80971d6e"
+    },
+    {
+      "file": "source/CANDIDATES.json",
+      "equal": true,
+      "sha256": "af55eb71053b1d4498bea4d727a2457a8d47a6a96cb7ad62b582e23ed12ff3a0"
+    },
+    {
+      "file": "source/OLD_SUPPORTED_SYNTAX.md",
+      "equal": true,
+      "sha256": "ccc92a671b8a734eccfaa45827cc0d33a0bdaa4cb334c976dde192a6d44ee183"
+    },
+    {
+      "file": "source/count_family_additions.py",
+      "equal": true,
+      "sha256": "ebd8200c53d358a98ef2e8720cff87393300bb89e036d31d590dfb4c56120c87"
+    },
+    {
+      "file": "source/family_batch3_additions.py",
+      "equal": true,
+      "sha256": "79815020db5c0f82ff3e5f0fb20c5b6f5d0ed69d43a363a6fe67b17228372ba7"
+    },
+    {
+      "file": "source/family_batch4.py",
+      "equal": true,
+      "sha256": "cbbf06aed3a921ccf1940c23568666f14b7838b945c46439682f15b985e3d781"
+    },
+    {
+      "file": "source/legacy_semantics.py",
+      "equal": true,
+      "sha256": "6599fcc03490da8138c720eec3df10857c99db942c3f9da048b516b2a907b89f"
+    },
+    {
+      "file": "source/natural_view_candidate.py",
+      "equal": true,
+      "sha256": "1f4bcb58757207122d6a607b401674a8ed480ff8acf2a0b12a5cf2b180bb9c8b"
+    },
+    {
+      "file": "source/single_table_families.py",
+      "equal": true,
+      "sha256": "fc71c51f346c3ebf0b09911bc030bb40c1ba0547f25cdf6bf8d75b3b8a6bb506"
+    },
+    {
+      "file": "tests/INDEPENDENT_ATOM_CASES.json",
+      "equal": true,
+      "sha256": "9ec6ee1e6ec5fdabf6806660c5462a5e06a6db260933df395d8bc68517da84f7"
+    },
+    {
+      "file": "tests/OLD_ATOM_CASES.json",
+      "equal": true,
+      "sha256": "70cd2d45474611449184a813aa1906cf2c2b1c5fd7dedd7064a589e3aba5501e"
+    }
+  ],
+  "patch_operations": [
+    {
+      "operation": "check",
+      "exit_code": 0,
+      "error": ""
+    },
+    {
+      "operation": "apply",
+      "exit_code": 0,
+      "error": ""
+    }
+  ],
+  "base_module_sha256": "fc71c51f346c3ebf0b09911bc030bb40c1ba0547f25cdf6bf8d75b3b8a6bb506",
+  "candidate_module_sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+  "AST_changed": [
+    "_filters"
+  ],
+  "AST_added": [
+    "_inside_ascii_atom"
+  ],
+  "API_SQL_schema_projection_materialization_definitions_unchanged": true,
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "original51_case_sha256": "a8c682c418abbcdc4ce7e13dcd7e8b149c930dcfd33a9d63b86a6be93c9bd22d",
+  "original70_case_sha256": "48ad5322896ce4a4bf64cfbedb1f48df082ce71fe3e5a90ae996a78e47e8e33b",
+  "source_owner_and_B_production_modified": false,
+  "Git_index_or_commits_written": false,
+  "private160_adapter_relative_path": "private_stages/candidate160/implementation/single_table_families.py",
+  "private160_adapter_sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576"
+}

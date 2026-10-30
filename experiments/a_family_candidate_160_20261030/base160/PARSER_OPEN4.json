@@ -1,0 +1,123 @@
+{
+  "source_module_sha256": "fc71c51f346c3ebf0b09911bc030bb40c1ba0547f25cdf6bf8d75b3b8a6bb506",
+  "cases": [
+    {
+      "id": "single-entity-0",
+      "question": "查询区域Entity-160-logicalRegionName下vCPU分配率最高的前5台宿主机",
+      "parsed": {
+        "metric": "vcpu_allocation_rate",
+        "direction": "desc",
+        "top_k": 5,
+        "filters": {
+          "logicalRegionName": "Entity-160-logicalRegionName"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "expected_original_positive": true,
+      "actual": "None",
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "missing_filter_value"
+          }
+        ]
+      },
+      "mechanism": "_filters finds role substrings inside an unquoted bare value, truncates it, then reports missing value or repeated role",
+      "preexisting_R2_contract": "Requires quotes for values containing role/metric tokens",
+      "original_template_API_interface": "Plain string placeholder has no quote requirement",
+      "historical_B_actual_behavior": "NOT_RUN; cannot rule out a capability regression",
+      "status": "OPEN_FOR_GENERIC_PARSER_IMPROVEMENT_OR_BASELINE_VALIDATION"
+    },
+    {
+      "id": "single-entity-1",
+      "question": "查询可用区Entity-160-azoneName下内存剩余量最大的前3台宿主机",
+      "parsed": {
+        "metric": "remaining_memory_mb",
+        "direction": "desc",
+        "top_k": 3,
+        "filters": {
+          "azoneName": "Entity-160-azoneName"
+        },
+        "required_filters": [
+          "azoneName"
+        ]
+      },
+      "expected_original_positive": true,
+      "actual": "None",
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "missing_filter_value"
+          }
+        ]
+      },
+      "mechanism": "_filters finds role substrings inside an unquoted bare value, truncates it, then reports missing value or repeated role",
+      "preexisting_R2_contract": "Requires quotes for values containing role/metric tokens",
+      "original_template_API_interface": "Plain string placeholder has no quote requirement",
+      "historical_B_actual_behavior": "NOT_RUN; cannot rule out a capability regression",
+      "status": "OPEN_FOR_GENERIC_PARSER_IMPROVEMENT_OR_BASELINE_VALIDATION"
+    },
+    {
+      "id": "single-entity-2",
+      "question": "查询区域Entity-160-logicalRegionName下各可用区的存储池容量使用情况",
+      "parsed": {
+        "view": "az_usage",
+        "filters": {
+          "logicalRegionName": "Entity-160-logicalRegionName"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "expected_original_positive": true,
+      "actual": "None",
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "repeated_filter_role"
+          }
+        ]
+      },
+      "mechanism": "_filters finds role substrings inside an unquoted bare value, truncates it, then reports missing value or repeated role",
+      "preexisting_R2_contract": "Requires quotes for values containing role/metric tokens",
+      "original_template_API_interface": "Plain string placeholder has no quote requirement",
+      "historical_B_actual_behavior": "NOT_RUN; cannot rule out a capability regression",
+      "status": "OPEN_FOR_GENERIC_PARSER_IMPROVEMENT_OR_BASELINE_VALIDATION"
+    },
+    {
+      "id": "single-entity-3",
+      "question": "查询区域Entity-160-logicalRegionName下各厂商存储池的总容量和可用容量",
+      "parsed": {
+        "view": "vendor_capacity",
+        "filters": {
+          "logicalRegionName": "Entity-160-logicalRegionName"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "expected_original_positive": true,
+      "actual": "None",
+      "diagnostic": {
+        "single_table_candidate": [
+          {
+            "status": "unsupported",
+            "reason": "repeated_filter_role"
+          }
+        ]
+      },
+      "mechanism": "_filters finds role substrings inside an unquoted bare value, truncates it, then reports missing value or repeated role",
+      "preexisting_R2_contract": "Requires quotes for values containing role/metric tokens",
+      "original_template_API_interface": "Plain string placeholder has no quote requirement",
+      "historical_B_actual_behavior": "NOT_RUN; cannot rule out a capability regression",
+      "status": "OPEN_FOR_GENERIC_PARSER_IMPROVEMENT_OR_BASELINE_VALIDATION"
+    }
+  ],
+  "old51_and_47_pass_result_retained": true,
+  "new59_is_scope_conformance_not_a_fix_for_bare_names": true
+}

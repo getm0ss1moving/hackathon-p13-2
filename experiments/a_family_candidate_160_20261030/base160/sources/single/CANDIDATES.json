@@ -1,0 +1,60 @@
+[
+  {
+    "id": "family_f10",
+    "family_id": "F10",
+    "name": "宿主机vCPU分配率与剩余内存排名",
+    "description": "HOST单表排名：vCPU分配率比值或剩余内存MB；两种受控指标降序与正整数TopK，明确区域/可用区AND条件，保留原五列、NULL和记录粒度。须由prepare物化。",
+    "resources": [
+      "HOST"
+    ],
+    "examples": [
+      "查询区域内vCPU分配率最高的前若干台宿主机",
+      "查询可用区内内存剩余量最大的前若干台宿主机"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT name, ipAddress, allocatedVcpuCores, totalVcpuCores, CAST(allocatedVcpuCores AS FLOAT) / totalVcpuCores AS allocation_rate FROM CLOUD_HOST ORDER BY allocation_rate DESC LIMIT 5"
+  },
+  {
+    "id": "family_f17_safe",
+    "family_id": "F17_SAFE",
+    "name": "存储池按可用区使用情况或厂商容量汇总",
+    "description": "STORAGE_POOL单表：各AZ总/空闲/已用/加权使用率，或各厂商总/可用容量。明确region及可选AZ/厂商AND；SUM后计算比例，不用allocated、不把协议当类型。须由prepare物化。",
+    "resources": [
+      "STORAGE_POOL"
+    ],
+    "examples": [
+      "查询区域内各可用区的存储池容量使用情况",
+      "查询区域内各厂商存储池总容量和可用容量"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT azoneName, SUM(totalCapacityGB) AS total_capacity, SUM(freeCapacityGB) AS free_capacity, (SUM(totalCapacityGB) - SUM(freeCapacityGB)) AS used_capacity, ROUND((SUM(totalCapacityGB) - SUM(freeCapacityGB)) * 100.0 / SUM(totalCapacityGB), 2) AS usage_rate FROM CLOUD_STORAGE_POOL GROUP BY azoneName"
+  }
+]

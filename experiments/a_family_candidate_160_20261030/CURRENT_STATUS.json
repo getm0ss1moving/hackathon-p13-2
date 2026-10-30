@@ -1,0 +1,18 @@
+{
+  "status": "PARSER_AND_EQUIVALENT160_GATE_PASS_COUNT_BUSINESS_GATE_BLOCKED",
+  "parser_gate": "PASS",
+  "compression_equivalence_gate": "PASS",
+  "business_COUNT_gate": "BLOCKED",
+  "overall160_business_ready": false,
+  "isolated_increment_materials_ready": true,
+  "production_activation_allowed": false,
+  "Git_publication": false,
+  "active_templates": 160,
+  "production_templates_unchanged": 198,
+  "stage2_enabled": false,
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "latest_B_source_checked": "3057d64b47d4926d463eedfe0dfc3e683251e576",
+  "latest_B_full160_integration_tested": false,
+  "real_model_or_native_SDK_tested": false,
+  "source_base_hold_status_is_historical": true
+}

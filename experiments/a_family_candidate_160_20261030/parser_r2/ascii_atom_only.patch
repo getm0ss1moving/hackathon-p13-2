@@ -1,0 +1,46 @@
+--- a/single_table_families.py
++++ b/single_table_families.py
+@@ -122,6 +122,14 @@
+     if end < 0:
+         raise ContractError('unclosed_entity_quote')
+     return text[start + 1:end], end + 1
++
++
++def _inside_ascii_atom(span, atoms):
++    # A role/keyword starting inside a continuous identifier is entity text.
++    # A role at the next atom's start can still introduce a real condition;
++    # a prefix at the value's own start is already kept by _filters.
++    return any(a < span[0] and span[1] <= b
++               for a, b in atoms)
+ 
+ 
+ def _filters(text):
+@@ -145,9 +153,10 @@
+             if not token:
+                 raise ContractError('missing_filter_value')
+             value = token.group()
++            atoms = [m.span() for m in re.finditer(r'[A-Za-z0-9_.@#:/+\-]+', value)]
+             cuts = []
+             for next_role in _ROLE.finditer(value):
+-                if next_role.start() > 0:
++                if next_role.start() > 0 and not _inside_ascii_atom(next_role.span(), atoms):
+                     end_of_value = next_role.start()
+                     connector = re.search(r'(?:以及|并且|或者|和|且|或|\bAND\b|\bOR\b)\s*$', value[:end_of_value], re.I)
+                     cuts.append(connector.start() if connector else end_of_value)
+@@ -155,10 +164,12 @@
+             boundary = next((p for p in re.finditer(r'下|中|内|的', value) if p.start() > 0), None)
+             if boundary:
+                 cuts.append(boundary.start())
+-            # Unquoted values end at an adjacent business phrase. Complex names
+-            # containing role/metric words must be quoted to remain opaque.
+-            content = re.search(r'内存|剩余内存|可用内存|宿主机|存储池|状态|租户|标签|阈值|(?<![A-Za-z0-9_])(?:vCPU|CLOUD_HOST|HOST|STORAGE_POOL|tenantName|status|vdcName|VDC)(?![A-Za-z0-9_])', value, re.I)
+-            if content and content.start() > 0:
++            # Keep ASCII identifiers intact before interpreting adjacent roles
++            # or business words. Chinese adjacency keeps its existing grammar.
++            contents = re.finditer(r'内存|剩余内存|可用内存|宿主机|存储池|状态|租户|标签|阈值|(?<![A-Za-z0-9_])(?:vCPU|CLOUD_HOST|HOST|STORAGE_POOL|tenantName|status|vdcName|VDC)(?![A-Za-z0-9_])', value, re.I)
++            content = next((m for m in contents if m.start() > 0
++                            and not _inside_ascii_atom(m.span(), atoms)), None)
++            if content:
+                 cuts.append(content.start())
+             if cuts:
+                 value = value[:min(cuts)]

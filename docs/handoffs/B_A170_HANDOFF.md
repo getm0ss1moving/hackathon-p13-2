@@ -7,3 +7,8 @@
 B需按精确基底增量接入9族普通API/SQL物化，保留当前helper、默认候选列表语义及同族多view义务；旧补丁不能直接覆盖最新B。请核对模板f77c7542…c9c664c与检索器befff58a…ef4f24，先做198回退、原生正常/空/缺字段/组合验证，再按现有模型、B/C配置与训练150/封存50边界重测。费用授权不因文档发布扩展。
 
 原始源清单保留历史held字段，最新状态以主包README、CURRENT_STATUS、COMBINED_VALIDATION和PUBLISHER_VALIDATION为准。3179B、深7/数组8及SDK空表/分页/唯一资源等限制见完整交接；179仅为构建历史，已发布180继续保留。
+
+
+## 后续160隔离增量（2026-10-30）
+
+[B请阅读160候选与R2解析交接](B_A160_HANDOFF.md) · [160构建/验证/变更主包](../../experiments/a_family_candidate_160_20261030/README.md)。原51/70/batch4 41解析控制及压缩等价通过，COUNT业务仍BLOCKED，最新B完整160兼容未测。生产仍198；本170材料及其历史结论保留，不用旧matcher覆盖B新修复。

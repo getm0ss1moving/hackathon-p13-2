@@ -1,0 +1,322 @@
+[
+  {
+    "kind": "single",
+    "old_id": "rb_056",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "allocatedVcpuCores",
+      "totalVcpuCores",
+      "allocation_rate"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_056",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "allocatedVcpuCores",
+      "totalVcpuCores",
+      "allocation_rate"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_056",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "allocatedVcpuCores",
+      "totalVcpuCores",
+      "allocation_rate"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_057",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "totalVmemoryMB",
+      "allocatedVmemoryMB",
+      "remaining_memory"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_057",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "totalVmemoryMB",
+      "allocatedVmemoryMB",
+      "remaining_memory"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_057",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "name",
+      "ipAddress",
+      "totalVmemoryMB",
+      "allocatedVmemoryMB",
+      "remaining_memory"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_096",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "azoneName",
+      "total_capacity",
+      "free_capacity",
+      "used_capacity",
+      "usage_rate"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_096",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "azoneName",
+      "total_capacity",
+      "free_capacity",
+      "used_capacity",
+      "usage_rate"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_096",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "azoneName",
+      "total_capacity",
+      "free_capacity",
+      "used_capacity",
+      "usage_rate"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_104",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "vendorName",
+      "total_capacity",
+      "free_capacity"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_104",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "vendorName",
+      "total_capacity",
+      "free_capacity"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "single",
+    "old_id": "rb_104",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "vendorName",
+      "total_capacity",
+      "free_capacity"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_046",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "type",
+      "count"
+    ],
+    "row_count": 3
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_046",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "type",
+      "count"
+    ],
+    "row_count": 3
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_046",
+    "mode": "missing_table",
+    "error": "OperationalError",
+    "columns": null,
+    "row_count": null
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_047",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "type",
+      "vdcName",
+      "count"
+    ],
+    "row_count": 6
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_047",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "type",
+      "vdcName",
+      "count"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_047",
+    "mode": "missing_table",
+    "error": "OperationalError",
+    "columns": null,
+    "row_count": null
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_070",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "device_type",
+      "total"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_070",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "device_type",
+      "total"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_070",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "device_type",
+      "total"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_109",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "vdcName",
+      "count"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_109",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "vdcName",
+      "count"
+    ],
+    "row_count": 0
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_109",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "vdcName",
+      "count"
+    ],
+    "row_count": 2
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_120",
+    "mode": "normal",
+    "error": null,
+    "columns": [
+      "count"
+    ],
+    "row_count": 1
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_120",
+    "mode": "empty",
+    "error": null,
+    "columns": [
+      "count"
+    ],
+    "row_count": 1
+  },
+  {
+    "kind": "count",
+    "old_id": "rb_120",
+    "mode": "missing_table",
+    "error": null,
+    "columns": [
+      "count"
+    ],
+    "row_count": 1
+  }
+]

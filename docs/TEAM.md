@@ -1,5 +1,12 @@
 # 分工与交接
 
+## B阅读待办：160隔离候选与R2解析增量（2026-10-30）
+
+- [ ] **B先读[160交接](handoffs/B_A160_HANDOFF.md)和[最新源码兼容说明](../experiments/a_family_candidate_160_20261030/parser_r2/LATEST_B_SOURCE_COMPATIBILITY.md)**，保留main3057d64及后续修复，增量适配各族与R2独立helper，不能旧matcher整包覆盖。
+- [ ] B/官方协调COUNT成功/真空/失败/missing objList/分页完整性合同，验证空占位1与缺列吞错问题；在业务门禁解除前不宣称160整体正确或生产就绪。
+
+本批原51/70/batch4 41及压缩等价PASS，27 SQL夹具中的2项历史错误仍是失败。默认198、stage2关闭；新B完整160兼容、模型/原生执行待测，无160新成绩。本入口提醒阅读和分工，不扩展费用授权。
+
 ## B阅读待办：统一170隔离候选（2026-10-30）
 
 - [ ] **B：接入前先阅读[170完整统一交接](handoffs/B_A170_HANDOFF.md)与[候选变更/构建/验证主包](../experiments/a_family_candidate_170_20261030/README.md)**，核对冻结hash、9族物化、默认候选顺序及同族多view执行义务。

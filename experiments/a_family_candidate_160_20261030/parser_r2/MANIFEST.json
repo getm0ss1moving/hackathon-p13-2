@@ -1,0 +1,31 @@
+{
+  "status": "PARSER_AND_EQUIVALENT160_GATE_PASS_COUNT_BUSINESS_GATE_BLOCKED",
+  "parser_gate": "PASS",
+  "compression_equivalence_gate": "PASS",
+  "business_COUNT_gate": "BLOCKED",
+  "overall160_business_ready": false,
+  "isolated_increment_materials_ready": true,
+  "production_activation_allowed": false,
+  "Git_publication": false,
+  "candidate_parser_sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+  "patch_sha256": "dfe2b34bd2b2ce365f1ccdedfe8b88ab3a4264914cb0424bc2dcd2a36885d87a",
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "files": {
+    "BUSINESS_GATE.json": "4f7b7426e33a51cd3eea359f653a35efed63549dfa25a2ab4274c6e5e5132374",
+    "CURRENT_STATUS.json": "9123d6f0c07b9b7c82669e624c46a3feaf34eefd1e5a9e5ae125721dd730828a",
+    "HANDOFF.md": "b8b5ddd8ef2f16ed34e596db2255714cc98812b5a91a76ffd47c24f0e87c2a14",
+    "LATEST_B_SOURCE_COMPATIBILITY.md": "625130358755e3647aa6200a31810ad6dec87acc744e99f621f76869ea777d2a",
+    "ORIGINAL4_TRANSITIONS.json": "36281142f7b5d1d763256d0748ad4d07fc7bee3b2bf655d4f025ad336a48cc0e",
+    "OWN_ORIGINAL51_MATRIX_SUMMARY.json": "83e36bef03f415839b13ec3292627cfc66bb123c7040fbba9a0de01ae95fff68",
+    "OWN_ORIGINAL70_SUMMARY.json": "ee4c458659f9f229b10eb946398b01d846c89efbe28893cbfef0d72db0328489",
+    "SOURCE_APPLY_RECEIPT.json": "b4b887d67c589fdf8c9a59e66597bf8deeaf09d520667b71960c0d6b7696c96c",
+    "SUMMARY160_PARSER_R2.json": "0fdd78367bcdcbe8947427456910e860cd83008bd13d2ed5afbb92c9ea488ee7",
+    "UPSTREAM_338_SUMMARY.json": "b3297cf0878f9194826b58208214b61c75c275f955791ffb047de5ae50e627a5",
+    "UPSTREAM_INDEPENDENT16.md": "bbd3b74d97e143a69030289c2852f784e0ef652ace3d1ea0fffa2000e7f32291",
+    "ascii_atom_only.patch": "dfe2b34bd2b2ce365f1ccdedfe8b88ab3a4264914cb0424bc2dcd2a36885d87a",
+    "single_table_families.py": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576"
+  },
+  "latest_B_source_commit": "3057d64b47d4926d463eedfe0dfc3e683251e576",
+  "latest_B_source_check": "DOCUMENT_AND_SOURCE_BLOB_VERIFIED_INTEGRATION_NOT_RUN"
+}

@@ -1,0 +1,134 @@
+{
+  "status": "OFFLINE_MIGRATION_ONLY_NOT_RUNTIME_ROUTING",
+  "profiles": [
+    {
+      "old_id_offline_only": "rb_056",
+      "new_id": "family_f10",
+      "parameters_without_entity_values": {
+        "metric": "vcpu_allocation_rate",
+        "direction": "desc",
+        "top_k": 5
+      },
+      "filter_fields": [
+        "logicalRegionName"
+      ],
+      "original_api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "original_sql": "SELECT name, ipAddress, allocatedVcpuCores, totalVcpuCores, CAST(allocatedVcpuCores AS FLOAT) / totalVcpuCores AS allocation_rate FROM CLOUD_HOST ORDER BY allocation_rate DESC LIMIT 5",
+      "resources": [
+        "HOST"
+      ],
+      "filter_value_source": "当前问题明确角色和值；不得使用原default_params或旧ID回填"
+    },
+    {
+      "old_id_offline_only": "rb_057",
+      "new_id": "family_f10",
+      "parameters_without_entity_values": {
+        "metric": "remaining_memory_mb",
+        "direction": "desc",
+        "top_k": 3
+      },
+      "filter_fields": [
+        "azoneName"
+      ],
+      "original_api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "azoneName",
+                "value": "{{azoneName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "original_sql": "SELECT name, ipAddress, totalVmemoryMB, allocatedVmemoryMB, totalVmemoryMB - allocatedVmemoryMB AS remaining_memory FROM CLOUD_HOST ORDER BY remaining_memory DESC LIMIT 3",
+      "resources": [
+        "HOST"
+      ],
+      "filter_value_source": "当前问题明确角色和值；不得使用原default_params或旧ID回填"
+    },
+    {
+      "old_id_offline_only": "rb_096",
+      "new_id": "family_f17_safe",
+      "parameters_without_entity_values": {
+        "view": "az_usage"
+      },
+      "filter_fields": [
+        "logicalRegionName"
+      ],
+      "original_api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "original_sql": "SELECT azoneName, SUM(totalCapacityGB) AS total_capacity, SUM(freeCapacityGB) AS free_capacity, (SUM(totalCapacityGB) - SUM(freeCapacityGB)) AS used_capacity, ROUND((SUM(totalCapacityGB) - SUM(freeCapacityGB)) * 100.0 / SUM(totalCapacityGB), 2) AS usage_rate FROM CLOUD_STORAGE_POOL GROUP BY azoneName",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "filter_value_source": "当前问题明确角色和值；不得使用原default_params或旧ID回填"
+    },
+    {
+      "old_id_offline_only": "rb_104",
+      "new_id": "family_f17_safe",
+      "parameters_without_entity_values": {
+        "view": "vendor_capacity"
+      },
+      "filter_fields": [
+        "logicalRegionName"
+      ],
+      "original_api_call": {
+        "method": "GET",
+        "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+        "condition": {
+          "constraint": [
+            {
+              "simple": {
+                "name": "logicalRegionName",
+                "value": "{{logicalRegionName}}",
+                "operator": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "original_sql": "SELECT vendorName, SUM(totalCapacityGB) AS total_capacity, SUM(freeCapacityGB) AS free_capacity FROM CLOUD_STORAGE_POOL GROUP BY vendorName",
+      "resources": [
+        "STORAGE_POOL"
+      ],
+      "filter_value_source": "当前问题明确角色和值；不得使用原default_params或旧ID回填"
+    }
+  ],
+  "source_N": 4,
+  "candidate_N": 2,
+  "conditional_reduction": 2,
+  "actual_runtime_reduction": 0,
+  "no_intersection_with_existing9_or_batch4_members": true
+}

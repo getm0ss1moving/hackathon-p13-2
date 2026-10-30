@@ -1,0 +1,208 @@
+{
+  "source_candidates_sha256": "c3044d34ca585caf4e7cdfe1c00a8bf084da7ad03938cc863944dfd0e6a21196",
+  "source170_sha256": "f77c75422faca71d32fcd8b9de357080a610fe1f0c5a9c4f3c6a1efd3c9c664c",
+  "families": [
+    {
+      "id": "family_f26",
+      "template_fields_without_examples": {
+        "id": "family_f26",
+        "family_id": "F26",
+        "name": "虚拟防火墙清单与单维计数",
+        "description": "虚拟防火墙清单与单维计数；保留原列/记录或分组粒度，全部明确等值筛选，不支持额外关系、字段或TopK。",
+        "resources": [
+          "VFW"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/VFW?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "{{name}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, status FROM CLOUD_VFW",
+        "parameter_contract": {
+          "views": {
+            "rows": [
+              "name",
+              "status"
+            ],
+            "count": [
+              "vdcName",
+              "count"
+            ]
+          },
+          "filters": [
+            "name",
+            "logicalRegionName",
+            "vdcName",
+            "status"
+          ],
+          "scope": "nonempty filtered only",
+          "operators": [
+            "equal"
+          ]
+        }
+      },
+      "examples_from_source_ids": [
+        "rb_140",
+        "rb_141"
+      ],
+      "template_key_order": [
+        "id",
+        "family_id",
+        "name",
+        "description",
+        "resources",
+        "examples",
+        "api_call",
+        "sql",
+        "parameter_contract"
+      ]
+    },
+    {
+      "id": "family_f16",
+      "template_fields_without_examples": {
+        "id": "family_f16",
+        "family_id": "F16",
+        "name": "存储池逐记录容量与比例",
+        "description": "存储池逐记录容量与比例；保留原列/记录或分组粒度，全部明确等值筛选，不支持额外关系、字段或TopK。",
+        "resources": [
+          "STORAGE_POOL"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/STORAGE_POOL?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "name",
+                  "value": "{{name}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT name, totalCapacityGB, freeCapacityGB, provisionedCapacityGB, (totalCapacityGB - freeCapacityGB) AS used_capacity, ROUND((totalCapacityGB - freeCapacityGB) * 100.0 / totalCapacityGB, 2) AS usage_rate, ROUND(provisionedCapacityGB * 100.0 / totalCapacityGB, 2) AS over_subscription_ratio FROM CLOUD_STORAGE_POOL",
+        "parameter_contract": {
+          "views": {
+            "capacity_detail": [
+              "name",
+              "totalCapacityGB",
+              "freeCapacityGB",
+              "provisionedCapacityGB",
+              "used_capacity",
+              "usage_rate",
+              "over_subscription_ratio"
+            ],
+            "usage_list": [
+              "name",
+              "totalCapacityGB",
+              "freeCapacityGB",
+              "used_capacity",
+              "usage_rate"
+            ]
+          },
+          "filters": [
+            "name",
+            "azoneName",
+            "logicalRegionName"
+          ],
+          "scope": "nonempty filtered only",
+          "operators": [
+            "equal"
+          ]
+        }
+      },
+      "examples_from_source_ids": [
+        "rb_095",
+        "rb_097"
+      ],
+      "template_key_order": [
+        "id",
+        "family_id",
+        "name",
+        "description",
+        "resources",
+        "examples",
+        "api_call",
+        "sql",
+        "parameter_contract"
+      ]
+    },
+    {
+      "id": "family_f11_core",
+      "template_fields_without_examples": {
+        "id": "family_f11_core",
+        "family_id": "F11_CORE",
+        "name": "物理服务器按区域或厂商计数",
+        "description": "物理服务器按区域或厂商计数；保留原列/记录或分组粒度，全部明确等值筛选，不支持额外关系、字段或TopK。",
+        "resources": [
+          "S_X86Server"
+        ],
+        "api_call": {
+          "method": "GET",
+          "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
+          "condition": {
+            "constraint": [
+              {
+                "simple": {
+                  "name": "productName",
+                  "value": "{{productName}}",
+                  "operator": "equal"
+                }
+              }
+            ]
+          }
+        },
+        "sql": "SELECT logicalRegionName, COUNT(*) AS count FROM SYS_X86Server GROUP BY logicalRegionName",
+        "parameter_contract": {
+          "views": {
+            "region_count": [
+              "logicalRegionName",
+              "count"
+            ],
+            "manufacturer_count": [
+              "manufacturer",
+              "count"
+            ]
+          },
+          "filters": [
+            "logicalRegionName",
+            "productName",
+            "manufacturer"
+          ],
+          "scope": "nonempty filtered only",
+          "operators": [
+            "equal"
+          ]
+        }
+      },
+      "examples_from_source_ids": [
+        "rb_063",
+        "rb_065",
+        "rb_072"
+      ],
+      "template_key_order": [
+        "id",
+        "family_id",
+        "name",
+        "description",
+        "resources",
+        "examples",
+        "api_call",
+        "sql",
+        "parameter_contract"
+      ]
+    }
+  ]
+}

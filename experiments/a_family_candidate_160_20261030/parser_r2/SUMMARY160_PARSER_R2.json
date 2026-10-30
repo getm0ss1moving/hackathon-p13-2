@@ -1,0 +1,39 @@
+{
+  "status": "PARSER_AND160_EQUIVALENCE_PASS_BUSINESS_COUNT_STILL_BLOCKED",
+  "active_templates": 160,
+  "unique_IDs": 160,
+  "template160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "single_parser_sha256": "04098b713541a87681e0e916f84ccb4d82644ee218a68e424587c1cd3ced6576",
+  "patch_sha256": "dfe2b34bd2b2ce365f1ccdedfe8b88ab3a4264914cb0424bc2dcd2a36885d87a",
+  "original51_case_sha256_unchanged": "a8c682c418abbcdc4ce7e13dcd7e8b149c930dcfd33a9d63b86a6be93c9bd22d",
+  "original51_passed": 51,
+  "prior70_passed": 70,
+  "batch4_41_passed": 41,
+  "new_problem_controls_passed": 162,
+  "original4_bare_names": {
+    "before": "4/4 None",
+    "after": "4/4 ordinary and inferred parameters exact",
+    "original_labels_unchanged": true
+  },
+  "each_stage_original537_four_k_exact": 2148,
+  "each_stage_additional51_four_k_exact": 204,
+  "normalized_retrieval_differences": 0,
+  "supported_family_retrieval": {
+    "total": 31,
+    "baseline_hits": 31,
+    "candidate_hits": 31
+  },
+  "static_API_SQL_contracts": 9,
+  "SQL_fixture_comparisons": 27,
+  "SQL_error_cases_preserved_not_success": 2,
+  "parser_gate": "PASS",
+  "compression_equivalence_gate": "PASS",
+  "business_COUNT_gate": "BLOCKED_NOT_PASSED",
+  "overall160_business_ready": false,
+  "B_full_model_or_native_path_tested": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "Git_publication": false,
+  "history47_and_scope59_retained": true
+}
