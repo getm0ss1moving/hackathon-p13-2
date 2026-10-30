@@ -1,0 +1,590 @@
+{
+  "status": "OFFLINE_MIGRATION_AUDIT_ONLY_NOT_RUNTIME_LOOKUP",
+  "mappings": [
+    {
+      "current_id": "rb_001",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "status",
+        "metrics": "count",
+        "scope": "global",
+        "filters": {},
+        "required_filters": []
+      },
+      "parameter_types": {},
+      "output_columns": [
+        "status",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_002",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "status",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "status",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_003",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "azoneName",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "azoneName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_004",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "none",
+        "metrics": "count",
+        "count_alias": "total",
+        "scope": "filtered",
+        "filters": {
+          "tenantName": "{{tenantName}}",
+          "logicalRegionName": "{{logicalRegionName}}",
+          "azoneName": "{{azoneName}}"
+        },
+        "required_filters": [
+          "tenantName",
+          "logicalRegionName",
+          "azoneName"
+        ]
+      },
+      "parameter_types": {
+        "tenantName": "string",
+        "logicalRegionName": "string",
+        "azoneName": "string"
+      },
+      "output_columns": [
+        "total"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_005",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "management",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "management",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_007",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "tenantName",
+        "metrics": "count",
+        "order": "count_desc",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "tenantName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_017",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "vdcName",
+        "metrics": "total_active",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "vdcName",
+        "total",
+        "active_count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_044",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "vdcName",
+        "metrics": "count",
+        "label": "ECS",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "type",
+        "vdcName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_048",
+      "family_id": "F08",
+      "candidate_id": "family_f08",
+      "parameters": {
+        "group": "hypervisorType",
+        "scope": "global",
+        "filters": {},
+        "required_filters": []
+      },
+      "parameter_types": {},
+      "output_columns": [
+        "hypervisorType",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_049",
+      "family_id": "F08",
+      "candidate_id": "family_f08",
+      "parameters": {
+        "group": "azoneName",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "azoneName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_053",
+      "family_id": "F08",
+      "candidate_id": "family_f08",
+      "parameters": {
+        "group": "status",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "status",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_074",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "tenantName",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "tenantName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_086",
+      "family_id": "F14",
+      "candidate_id": "family_f14",
+      "parameters": {
+        "metrics": "count_sum",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "vdcName",
+        "count",
+        "total_size"
+      ],
+      "legacy_aliases": [
+        "rb_087"
+      ]
+    },
+    {
+      "current_id": "rb_102",
+      "family_id": "F14",
+      "candidate_id": "family_f14",
+      "parameters": {
+        "metrics": "avg_max",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "vdcName",
+        "avg_size",
+        "max_size"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_105",
+      "family_id": "F18",
+      "candidate_id": "family_f18",
+      "parameters": {
+        "group": "flavorCode",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "flavorCode",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_106",
+      "family_id": "F18",
+      "candidate_id": "family_f18",
+      "parameters": {
+        "group": "vdcName",
+        "metrics": "count_storage",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "vdcName",
+        "instance_count",
+        "total_storage"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_110",
+      "family_id": "F20",
+      "candidate_id": "family_f20",
+      "parameters": {
+        "view": "rows",
+        "scope": "filtered",
+        "filters": {
+          "shared": "{{shared}}"
+        },
+        "required_filters": [
+          "shared"
+        ]
+      },
+      "parameter_types": {
+        "shared": "boolean"
+      },
+      "output_columns": [
+        "name",
+        "providerNetworkType",
+        "providerPhysicalNetworkSegId"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_111",
+      "family_id": "F20",
+      "candidate_id": "family_f20",
+      "parameters": {
+        "view": "count",
+        "count_alias": "total",
+        "scope": "filtered",
+        "filters": {
+          "shared": "{{shared}}",
+          "providerNetworkType": "{{providerNetworkType}}"
+        },
+        "required_filters": [
+          "shared",
+          "providerNetworkType"
+        ]
+      },
+      "parameter_types": {
+        "shared": "boolean",
+        "providerNetworkType": "string"
+      },
+      "output_columns": [
+        "total"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_112",
+      "family_id": "F20",
+      "candidate_id": "family_f20",
+      "parameters": {
+        "view": "count",
+        "count_alias": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}",
+          "shared": "{{shared}}"
+        },
+        "required_filters": [
+          "logicalRegionName",
+          "shared"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string",
+        "shared": "boolean"
+      },
+      "output_columns": [
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_113",
+      "family_id": "F21",
+      "candidate_id": "family_f21",
+      "parameters": {
+        "group": "vdcName",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "vdcName",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_133",
+      "family_id": "F21",
+      "candidate_id": "family_f21",
+      "parameters": {
+        "group": "tenantName_status",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "tenantName",
+        "status",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_143",
+      "family_id": "F18",
+      "candidate_id": "family_f18",
+      "parameters": {
+        "group": "engineVersion",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "engineVersion",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_144",
+      "family_id": "F18",
+      "candidate_id": "family_f18",
+      "parameters": {
+        "group": "haMode",
+        "metrics": "count",
+        "scope": "filtered",
+        "filters": {
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "haMode",
+        "count"
+      ],
+      "legacy_aliases": []
+    },
+    {
+      "current_id": "rb_184",
+      "family_id": "F01",
+      "candidate_id": "family_f01",
+      "parameters": {
+        "group": "azoneName",
+        "metrics": "status_counts",
+        "scope": "filtered",
+        "filters": {
+          "vdcName": "{{vdcName}}",
+          "logicalRegionName": "{{logicalRegionName}}"
+        },
+        "required_filters": [
+          "vdcName",
+          "logicalRegionName"
+        ]
+      },
+      "parameter_types": {
+        "vdcName": "string",
+        "logicalRegionName": "string"
+      },
+      "output_columns": [
+        "azoneName",
+        "running_count",
+        "stopped_count",
+        "error_count"
+      ],
+      "legacy_aliases": []
+    }
+  ],
+  "original_contracts": 25,
+  "current_active_templates": 24,
+  "candidate_families": 6
+}

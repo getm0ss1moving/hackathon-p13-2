@@ -1,0 +1,160 @@
+{
+  "status": "OFFLINE_TEXT_ONLY_INDEX_REFERENCE_METADATA",
+  "base_commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "active_overlays": 7,
+  "source_profiles": 200,
+  "index_documents": 400,
+  "no_API_SQL_defaults_or_answers": true,
+  "profile_text_source": "Expand pinned198 baseline and its two original retrieval aliases; preserve text order and multiplicity.",
+  "by_active_id": {
+    "family_f01": [
+      {
+        "source_text_profile_id": "rb_001",
+        "after_id": null,
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_002",
+        "after_id": "rb_001",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_003",
+        "after_id": "rb_002",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_004",
+        "after_id": "rb_003",
+        "description_repeat": 1
+      },
+      {
+        "source_text_profile_id": "rb_005",
+        "after_id": "rb_004",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_007",
+        "after_id": "rb_006",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_017",
+        "after_id": "rb_016",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_044",
+        "after_id": "rb_043",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_074",
+        "after_id": "rb_073",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_184",
+        "after_id": "rb_183",
+        "description_repeat": 1
+      }
+    ],
+    "family_f08": [
+      {
+        "source_text_profile_id": "rb_048",
+        "after_id": "rb_047",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_049",
+        "after_id": "rb_048",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_053",
+        "after_id": "rb_052",
+        "description_repeat": 2
+      }
+    ],
+    "rb_052": [
+      {
+        "source_text_profile_id": "rb_052",
+        "after_id": "rb_051",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_054",
+        "after_id": "rb_053",
+        "description_repeat": 2
+      }
+    ],
+    "family_f14": [
+      {
+        "source_text_profile_id": "rb_086",
+        "after_id": "rb_085",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_087",
+        "after_id": "rb_086",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_102",
+        "after_id": "rb_101",
+        "description_repeat": 2
+      }
+    ],
+    "family_f18": [
+      {
+        "source_text_profile_id": "rb_105",
+        "after_id": "rb_104",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_106",
+        "after_id": "rb_105",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_143",
+        "after_id": "rb_142",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_144",
+        "after_id": "rb_143",
+        "description_repeat": 2
+      }
+    ],
+    "family_f20": [
+      {
+        "source_text_profile_id": "rb_110",
+        "after_id": "rb_109",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_111",
+        "after_id": "rb_110",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_112",
+        "after_id": "rb_111",
+        "description_repeat": 2
+      }
+    ],
+    "family_f21": [
+      {
+        "source_text_profile_id": "rb_113",
+        "after_id": "rb_112",
+        "description_repeat": 2
+      },
+      {
+        "source_text_profile_id": "rb_133",
+        "after_id": "rb_132",
+        "description_repeat": 2
+      }
+    ]
+  }
+}

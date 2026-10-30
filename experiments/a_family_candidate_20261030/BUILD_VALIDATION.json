@@ -1,0 +1,51 @@
+{
+  "status": "A180_DATA_INDEX_READY_B_V18_PORT_REQUIRED",
+  "base_commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "production_N": 198,
+  "candidate_N": 180,
+  "replaced_active_templates": 24,
+  "new_families": 6,
+  "text_profiles": 200,
+  "index_documents": 400,
+  "source_text_proxy_inputs": 400,
+  "paired_topk_checks": 1600,
+  "family_normalized_differences": 0,
+  "alias_changes": [
+    {
+      "alias_id": "rb_054",
+      "old_owner": "rb_052",
+      "new_owner": "rb_052",
+      "old_anchor": "rb_053",
+      "new_anchor": "rb_052",
+      "method": "nearest preceding surviving original entry",
+      "payload_preserved_except_after_id": true
+    },
+    {
+      "alias_id": "rb_087",
+      "old_owner": "rb_086",
+      "new_owner": "family_f14",
+      "old_anchor": "rb_086",
+      "new_anchor": "family_f14",
+      "method": "same-owner replacement at the canonical family position",
+      "payload_preserved_except_after_id": true
+    }
+  ],
+  "max_compact_template_bytes": 2562,
+  "max_template_dict_list_depth": 7,
+  "B_matcher_system_copied_or_patched": false,
+  "R5_semantics_applied_to_v18": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "training_or_sealed_inputs_read": false,
+  "output_files": {
+    "candidate180/implementation/runbook_items.py": "2e9662b6b9863be8ff0eef732c04c245c0bc4ee11837dcd0b40281dd3c21cc18",
+    "candidate180/implementation/runbook_retriever.py": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+    "templates180.private.json": "5c987e77da5b52883a5a6047faf6c7710a9fa41621c4080a53231cc2916bd1e3"
+  },
+  "limits": [
+    "Data/index only; do not call an unadapted B query with these families.",
+    "No real model score or native SDK/service validation of B v18 integration.",
+    "Generated text inherits baseline entities: private local output, not an upload payload.",
+    "Official depth algorithm unresolved; dictionary/list depth is only a risk measurement."
+  ]
+}

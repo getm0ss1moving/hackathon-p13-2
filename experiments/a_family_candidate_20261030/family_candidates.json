@@ -1,0 +1,148 @@
+[
+  {
+    "id": "family_f01",
+    "family_id": "F01",
+    "name": "ECS数量与分布",
+    "description": "ECS虚拟机计数，单维状态/可用区/管理标记/租户/VDC分组，VDC总数与active数，可用区内active/stopped/其他状态计数。保留数量别名、可选ECS标签、显式降序；区域/租户/VDC/可用区/状态/管理标记均为显式筛选。",
+    "resources": [
+      "VM_NOVA"
+    ],
+    "examples": [
+      "ECS虚拟机计数，单维状态/可用区/管理标记/租户/VDC分组，VDC总数与active数，可用区内active/stopped/其他状态计数。保留数量别名、可选ECS标签、显式降序；区域/租户/VDC/可用区/状态/管理标记均为显式筛选。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000"
+    },
+    "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_VM_NOVA GROUP BY status"
+  },
+  {
+    "id": "family_f08",
+    "family_id": "F08",
+    "name": "宿主机数量分布",
+    "description": "全局或指定区域的宿主机按虚拟化类型、可用区或状态单维计数。",
+    "resources": [
+      "HOST"
+    ],
+    "examples": [
+      "全局或指定区域的宿主机按虚拟化类型、可用区或状态单维计数。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/HOST?pageNo=1&pageSize=10000"
+    },
+    "sql": "SELECT hypervisorType, COUNT(*) AS count FROM CLOUD_HOST GROUP BY hypervisorType"
+  },
+  {
+    "id": "family_f14",
+    "family_id": "F14",
+    "name": "云硬盘VDC容量统计",
+    "description": "指定区域各VDC的云硬盘数量及总容量，或平均及最大容量。",
+    "resources": [
+      "VOLUME"
+    ],
+    "examples": [
+      "指定区域各VDC的云硬盘数量及总容量，或平均及最大容量。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName"
+  },
+  {
+    "id": "family_f18",
+    "family_id": "F18",
+    "name": "数据库数量与容量分布",
+    "description": "指定区域数据库按规格编码、引擎版本或高可用模式单维计数；按VDC分组固定统计实例数及存储总量。",
+    "resources": [
+      "GAUSSDB_INSTANCE"
+    ],
+    "examples": [
+      "指定区域数据库按规格编码、引擎版本或高可用模式单维计数；按VDC分组固定统计实例数及存储总量。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/GAUSSDB_INSTANCE?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT flavorCode, COUNT(*) AS count FROM CLOUD_GAUSSDB_INSTANCE GROUP BY flavorCode"
+  },
+  {
+    "id": "family_f20",
+    "family_id": "F20",
+    "name": "共享网络列表与数量",
+    "description": "显式共享或非共享网络的列表或无分组计数，可按显式区域、网络类型筛选；列表固定名称/类型/分段ID三列。",
+    "resources": [
+      "NETWORK"
+    ],
+    "examples": [
+      "显式共享或非共享网络的列表或无分组计数，可按显式区域、网络类型筛选；列表固定名称/类型/分段ID三列。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/NETWORK?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "shared",
+              "value": "{{shared}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT name, providerNetworkType, providerPhysicalNetworkSegId FROM CLOUD_NETWORK"
+  },
+  {
+    "id": "family_f21",
+    "family_id": "F21",
+    "name": "弹性IP数量分布",
+    "description": "指定区域弹性IP按VDC单维计数，或按租户与状态二维联合计数；两个粒度不能互相替代。",
+    "resources": [
+      "FLOATING_IPS"
+    ],
+    "examples": [
+      "指定区域弹性IP按VDC单维计数，或按租户与状态二维联合计数；两个粒度不能互相替代。"
+    ],
+    "api_call": {
+      "method": "GET",
+      "url": "/rest/hackthon/db/instances/FLOATING_IPS?pageNo=1&pageSize=10000",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "{{logicalRegionName}}",
+              "operator": "equal"
+            }
+          }
+        ]
+      }
+    },
+    "sql": "SELECT vdcName, COUNT(*) AS count FROM CLOUD_FLOATING_IPS GROUP BY vdcName"
+  }
+]

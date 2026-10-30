@@ -1,0 +1,33 @@
+{
+  "status": "ISOLATED_CANDIDATE_ONLY_PRODUCTION198",
+  "base_ref": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "baseline_items_sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+  "baseline_matcher_sha256": "1e7cc2ffa968e04e7cb4da8116b5da14bcd39d7b7d583b6b87fa5ed0f902b63e",
+  "retriever_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+  "source_semantic_additions_sha256": "3c91b3d479d86116d6cf550eec8af243d296361831180f8b7c6cb144489efa5f",
+  "production_N": 198,
+  "candidate_N": 180,
+  "replaced_active_templates": 24,
+  "new_families": 6,
+  "raw_index_metadata_generated_locally_not_published": true,
+  "no_model_or_sealed_test_authorization_implied": true,
+  "files": {
+    "r5_family_additions.py": "3c91b3d479d86116d6cf550eec8af243d296361831180f8b7c6cb144489efa5f",
+    "alias_migration.py": "e2bf50d2a54f48b684d68b82eed0b9ac90ba48ca2a53b6c93f9cc0c467e60e35",
+    "BUILD_VALIDATION.json": "c81b12bef885c140abab93ea9062b74b9d4be6576e2f38fedcbabc70d02241fc",
+    "README.md": "83a55a35a4721e14a77fbdfd5eadc35c11b5920d6f18fc12477fde3a79d182b3",
+    "r5_matcher.patch": "2d84d724209806457b92b2ec96485d30e88b9ee20eb0a02ac998aca26257c397",
+    "templates180.definitions.json": "db0f8bb4e8711eee7d24f5f9aadb6b7303c952cdb2611793fa453e01292aeb96",
+    "family_candidates.json": "b204237ec7b069428aa0be8b76d701eda1b7248c2c0c7558b74c90dbc242a320",
+    "parameter_mapping.json": "27381828ba6a45900ca87437f8b768f85988254f33fb107b71d0c67b6cb0a813",
+    "index_metadata.references.json": "586d0b4cae084b6ac33ba1f4a1d07af6ea7f2aaa9a16453cf1c806e77ffc5f57",
+    "canonical_to_family.json": "fe8e42183178444b13d0c59b84568d74c59951deee9d0420fea5feee6abcf18f"
+  },
+  "reviewed_R5_original_base": "dfa61b5aa8ca919aa929a6715c340462f7b93953",
+  "R5_v18_adapter_status": "B_PORT_REQUIRED_OLD_PATCH_DOES_NOT_APPLY",
+  "old_patch_base_matcher_sha256": "0e6f3e6fb5ded9ccd5a34af223b4c0a3f53b8c9d2a9b3a043701a25259bb6955",
+  "R5_original_patch_base": "2707ff9f4a9ce6bf09163f24a621c6aa793f8769",
+  "materialized_candidate_JSON_sha256": "5c987e77da5b52883a5a6047faf6c7710a9fa41621c4080a53231cc2916bd1e3",
+  "materialized_candidate_Python_sha256": "2e9662b6b9863be8ff0eef732c04c245c0bc4ee11837dcd0b40281dd3c21cc18",
+  "source_reference_definitions": 180
+}
