@@ -282,9 +282,12 @@ def main(argv=None):
         parser.error("不覆盖已有训练记录")
     original_ask, original_create = matcher.llm_ask, None
     records, identities, mismatch = [], {}, []
+    fatal_request_errors = []
     started, exit_code = time.perf_counter(), 1
 
     def frozen():
+        if fatal_request_errors:
+            raise RuntimeError("本轮已有模型请求或来源异常，禁止发起后续请求")
         if (runtime_source_paths({name: sys.modules[name] for name in runtime_paths}) != runtime_paths
                 or any(sha(HERE/name) != digest for name, digest in plan["source_sha256"].items())
                 or sha(SPLIT/"train.json") != plan["training_sha256"]
@@ -340,6 +343,7 @@ def main(argv=None):
                     return value
                 except Exception as exc:
                     error = {"error_type": type(exc).__name__, "http_status": getattr(exc, "status_code", None)}
+                    fatal_request_errors.append(error)
                     raise
                 finally:
                     for index, event in enumerate(matcher.get_llm_events()[before:], before):
