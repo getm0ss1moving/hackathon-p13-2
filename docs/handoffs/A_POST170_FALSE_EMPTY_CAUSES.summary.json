@@ -1,0 +1,138 @@
+{
+  "status": "BLOCKED_FALSE_EMPTY_LANGUAGE_AND_OBLIGATION_GATES",
+  "survey_scope": "CAUSES_ONLY_READ_ONLY_NONRETRIEVAL_HANDOFF_TO_B_NO_RUNTIME_FIXES",
+  "B_checkpoint": "0c82f0de2dacf8adf8be2664cbaf726baa62b1b5",
+  "actual_model_false_empty_rate": "UNQUANTIFIABLE_NO_MATCHED_170_160_153_141_132_AGGREGATE",
+  "proxy_warning": "Purposive synthetic language extensions; not random samples, not real model refusal rate, not business execution.",
+  "versions": [
+    170,
+    160,
+    153,
+    141,
+    132
+  ],
+  "all_primary_corpora_exact_equal": true,
+  "all_idf_exact_equal": true,
+  "per_version_retrieval": {
+    "170": {
+      "rows": 364,
+      "empty": 0,
+      "missing_owner": 1,
+      "missing_obligation_profile": 1
+    },
+    "160": {
+      "rows": 364,
+      "empty": 0,
+      "missing_owner": 1,
+      "missing_obligation_profile": 1
+    },
+    "153": {
+      "rows": 364,
+      "empty": 0,
+      "missing_owner": 0,
+      "missing_obligation_profile": 1
+    },
+    "141": {
+      "rows": 364,
+      "empty": 0,
+      "missing_owner": 0,
+      "missing_obligation_profile": 1
+    },
+    "132": {
+      "rows": 364,
+      "empty": 0,
+      "missing_owner": 0,
+      "missing_obligation_profile": 1
+    }
+  },
+  "version_retrieval_rows_total": 1820,
+  "changed_family_view_profiles": 49,
+  "changed_families": 12,
+  "prepare_rows": 245,
+  "by_kind": {
+    "frozen_supported": {
+      "rows": 49,
+      "accepted": 49,
+      "passed": 49
+    },
+    "polite_prefix": {
+      "rows": 49,
+      "accepted": 0,
+      "passed": 0
+    },
+    "polite_suffix": {
+      "rows": 49,
+      "accepted": 0,
+      "passed": 0
+    },
+    "extra_unsupported_output": {
+      "rows": 49,
+      "accepted": 0,
+      "passed": 49
+    },
+    "extra_parameter_key": {
+      "rows": 49,
+      "accepted": 0,
+      "passed": 49
+    }
+  },
+  "balanced_gate_pass": 0,
+  "known_F03_projection_failures_unique": 3,
+  "model_calls": 0,
+  "service_calls": 0,
+  "sealed50_read": false,
+  "full200_feedback_read": false,
+  "candidate_or_B_or_executor_scorer_modified": false,
+  "original_source_hashes_stable": true,
+  "publisher_reexecuted_synthetic_checks": false,
+  "remaining_blockers": [
+    "Actual matched-condition model refusal-rate comparison unavailable",
+    "B candidate dispatch, F02 selector/view schema compatibility remains unintegrated at pinned checkpoint",
+    "Prepare language-positive gates and F03 output-grammar extension still fail",
+    "Existing retrieval compound owner and F03 projection owner remain responsible; no duplicate fixes",
+    "Known F03 size and COUNT/business gates unchanged"
+  ],
+  "F03_source_compact_UTF8_bytes": [
+    4452,
+    4889
+  ],
+  "capacity_limit_bytes": 4096,
+  "COUNT_business_gate": "UNRESOLVED",
+  "candidate132_formally_delivered": false,
+  "candidate132_templates_or_patches_published": false,
+  "source_artifact_sha256": {
+    "GITHUB_HANDOFF.md": "6d3b75c4eb28c6958e5af5a5a6d67a8b0f5274079fa5d8889c7b4e7930a6a581",
+    "SUMMARY.json": "adc7316c93b401ac78cd608ac4cce71fe274fdeded19d184e0f825f94865cfa7",
+    "VIEW_COVERAGE.csv": "95078a862efd674ad92f0be6359334690a662ab0ce16c31329bf05263332dae5"
+  },
+  "private_source_manifest_sha256": "9c19cecc6c55168f64013144a4d766b534fca1164e062f764c6fb90f5d1e7b6d",
+  "additional_source_hash_manifest_sha256": "8ecf914241e23980218b398190047c783f19d4fe7a6e7c3dd589b7a5489369f2",
+  "additional_source_code_identifiers_and_sha256": {
+    "candidate132_v1/FAMILY_ROUTE_REGISTRY.json": "52ce7f14b4f3c5a51cfaf406079ddda716d6528edd59e1d24e349267f90d7f32",
+    "candidate132_v1/unified_prepare.py": "55168cc75f94a2398d8a2b08e09d93eaa852318226cea275ebc7c98d3fb54a05",
+    "candidate132_v1/CAPACITY_DIAGNOSTIC.json": "ba0204a0528a084e47bc991ae97ddd008830726217e531cef288369dd12bc6d2",
+    "candidate132_v1/families/family_application_lists/candidate.py": "bed3c94c9a7fba0de63ff4cfb845daf7c65a2b2f7475a9d226dcc5f1cbe57fc2",
+    "candidate132_v1/families/family_cce_children/candidate.py": "ac28bfa5c80586fff7a33a9a0023cec9ef5f61e110948d79f902d6e71a30b8a8",
+    "candidate132_v1/families/family_deployment_graph/candidate.py": "bc6b22b4f142e6fc71d1adb3cbcaca76f104d3ce4f5cd22554c209f964e6113b",
+    "candidate132_v1/families/family_f02/candidate.py": "6123687bb6d1c2da0d9a033f785359f726c9565642803d3c946ccf1fa63085d0",
+    "candidate132_v1/families/family_f03_spec/candidate.py": "3a3d12fcf7910af549aafe3b9691abe025ea5d3d87fd4a62a25cf08560f6e566",
+    "candidate132_v1/families/family_f22_listener/candidate.py": "b32842251051405fa50cabfd427830f4eced2396e4305d9e010bbbae3a325fc8",
+    "candidate132_v1/families/family_gauss_compute_path/candidate.py": "7355fa1829d86714d7ea029abaa210caf3510921be4116ee36915659fd96bc16",
+    "candidate132_v1/families/family_host_hardware/candidate.py": "519fd0301e2f2190217195b058da1bf254e46230b89f0d0701639b987a382719",
+    "candidate132_v1/families/family_vm_host_path/candidate.py": "dc0d1c5f0094500765227ba7607d77093650f9f36f36e6ff0cdcc1454f90e936",
+    "candidate132_v1/families/family_vm_port_path/candidate.py": "e056a22b47e69a8ce2d4fc0f79a6e4ead4fcb9fbcd2dc392523980ce26a824bb",
+    "candidate132_v1/families/family_vm_volume/candidate.py": "d731befbbebb455cc8bff7dfd1b102caaddc0ba41ebda12467786bd340351760",
+    "candidate132_v1/families/family_volume_rows/candidate.py": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138"
+  },
+  "B_source_sha256": {
+    "implementation/runbook_matcher.py": "9182e863dc5b57a0cd5250bf9e68c1a58aefd4fe9768ccf22186de71fe74a4a4",
+    "implementation/runbook_family_views.py": "7915b297783e71fc6ac405c5d0f01184ae49299e6775b7446b7a62131c7dbba7"
+  },
+  "retriever_sha256": "befff58a0899be573ed1d0700f1ed14544c8a55a255bc0f438fe26f4d0ef4f24",
+  "private_entities_or_absolute_paths_or_business_records_published": false,
+  "raw_runtime_logs_or_private_fixtures_published": false,
+  "publication_transform": "Instance literal replaced with a non-executable placeholder; CSV line endings normalized to LF with all capability/source IDs and synthetic status rows unchanged.",
+  "published_view_coverage_sha256": "cbc93db8ae7deefc7190d163136e6bce706f453542794abc15da3fb872da5aa1",
+  "published_CSV_rows_unchanged_from_source": true,
+  "published_CSV_line_endings": "LF; source artifact hash retains original CRLF identity"
+}
