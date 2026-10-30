@@ -98,3 +98,13 @@ v11一个训练问题已选对原EIP→ECS模板，但“关联了弹性IP”未
 收到监督方关于下一付费小集和文档发布被自动审批拒绝的通知后，未新增付费调用或远端写入；此前两组独立启动的实验均已正常完成。之后仅做本地免费检查和可审查方案，当前没有新的完整150成绩，最新仍是v11的639.1。
 
 F18退化也完成免费核查：现有提示文字已有分组/指标联动规则，但提示中的JSON Schema仍是独立枚举，允许8组合，运行时仅支持4。已仅在本地为F18提示Schema添加oneOf分支，保持物化及语义拒绝不变；相对37f7407，仅_match_family_candidate的Schema构造改变，EIP逻辑没有同时改动。4个正例、7个负例与8组合穷举记录见[F18_SCHEMA_REVIEW.json](F18_SCHEMA_REVIEW.json)，最小建议见[复核说明](../../docs/training/F18_SCHEMA_COMBINATIONS_20261030.md)。候选281项免费检查通过，实际Schema等于审查提案，见[F18_SCHEMA_CANDIDATE.json](F18_SCHEMA_CANDIDATE.json)。父账本在重新办理通知前已关闭，包括9次未分配额度；没有重开或调用模型验证该候选。未安装依赖、未运行完整Schema验证器、未把离线响应重放称作新模型成绩。
+
+## v14 / 新独立round9：F18最小真实闭环
+
+收到新独立12请求窗口后，先核对没有健康模型进程或同类计划、旧账本全部closed。当前180候选、flags、原生服务和源码冻结于HEAD `c384576`、matcher `dced03e08a68670a7c4899060b6c2ac1fee57c680bf91de53322928f7a7b96d9`，新计划及源码ZIP在首个请求前保存。没有复用round8或v11关闭余量；原DeepSeek Flash、thinking disabled、输出1024、SDK retry0不变，运行中源码未改。
+
+先前F18按规格分布失败单例恢复5/5，用3请求；随后3道v11已满质量且满足原v2回归门禁的题得15/15，用9请求。四次family_fill均合法，分别为flavorCode/count、vdcName/count_storage、engineVersion/count、haMode/count，覆盖全部4种审定组合。总12/12、请求失败0、未用0，账本closed；prompt/completion token为11612/280。成员顺序、实际模型身份、usage、请求和源码逐项闭合，监督器未中断。证据见[F18_LIVE_VALIDATION.json](F18_LIVE_VALIDATION.json)。
+
+这是一次最小同例和相关回归通过；Schema仍为普通提示文本，不是提供方强制结构化输出，4/4不能证明未来合法率或修补因果收益。没有新完整150，不能将小集分数加到639.1。冻结快照含尚未闭环的EIP候选，但本轮未修改或测试EIP，不据F18结果宣布其稳定。50与全200未读，170未安装或调用模型。
+
+A的170入口及完整交接已通过固定Git对象`6d3b47318ce767ef947c68019a2dce522de98c7a`只读了解：9族、170唯一ID、400+11索引文档，70/70语义和默认46/46均为离线结果，top5仅44/46，真实模型和原生尚未测，生产仍198；旧B补丁不能覆盖当前helper。没有读取其逐题测试明细、执行构建、安装、切模板/检索器或合main。本地仍为180/6族，A170仅用于后续对接信息。

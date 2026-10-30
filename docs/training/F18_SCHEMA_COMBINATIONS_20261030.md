@@ -37,3 +37,9 @@ if family == "F18":
 同期EIP小集的一个F01回归也因独立枚举联动失败而拒答：`total_active`配`count_alias=total`不在现有合同内。该事实独立保留，本建议仅覆盖F18，不顺带改动F01或扩大输出合同。下一次真实验证需另行协调，不把离线回放作为新模型成绩。
 
 本地候选已按上述最小差异实现：相对37f7407，仅_match_family_candidate函数改变；EIP、接地、物化及语义检查函数AST均未变化。281项免费检查通过，实际生成Schema等于本次审查提案。候选记录见`experiments/a180_runtime_port_20261030/F18_SCHEMA_CANDIDATE.json`。当前父账本在重新办理通知前已closed（包括9次未分配额度），没有重开额度或启动真实API验证；本地候选尚无新真实模型成绩。
+
+## 后续新独立round9的真实结果
+
+上述“尚无真实成绩”是免费阶段状态。随后获得新独立12请求窗口，冻结同一matcher `dced03e0…b96d9`、HEAD `c384576`和完整计划/源码ZIP：先前按规格分布单例5/5，三个相关已通过题15/15。12次请求全部成功，四次family_fill分别覆盖flavorCode/count、engineVersion/count、haMode/count和vdcName/count_storage，合法4/4；prompt/completion token为11612/280，预算12/12关闭。没有重用旧余额、重试、切API、看50或刷全150。
+
+原物化和语义守卫保留，oneOf仍只是提示文本；一次小集不能证明因果收益或稳定合法率。冻结快照包含未闭环EIP候选，本轮没有修改或测试它。真实聚合证据见`experiments/a180_runtime_port_20261030/F18_LIVE_VALIDATION.json`，原始响应和私有展开库不上传。
