@@ -1,0 +1,237 @@
+{
+  "family_id": "named_vpc_subnet_eip_counts",
+  "state": "isolated_owner_synthetic_pass_pending_independent_and_B_acceptance",
+  "scope": "exact named VPC, optional explicit region; all matching IDs or reject multiple by mandatory parameter",
+  "source_strategy": {
+    "reuse": [
+      "R2 network independent subnet/EIP aggregations",
+      "next hierarchy global/name-only catalog selection"
+    ],
+    "changes": "closed named profile and current source-rechecked receipt protocol; no existing freeze edits"
+  },
+  "N": {
+    "new_groups": 1,
+    "new_views": 1,
+    "actual_runtime_delta": 0,
+    "standalone_integration_delta": 1,
+    "possible_existing_network_profile_expansion_delta": 0,
+    "expansion_requires_unified_family_review": true,
+    "published132_changed": false
+  },
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "profile",
+      "filters",
+      "required_filters",
+      "same_name_policy"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "profile": {
+        "const": "named_vpc_subnet_eip_counts"
+      },
+      "filters": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "semantic": "nonblank exact UTF-8 text without ASCII controls; no implicit trimming or default"
+          },
+          "logicalRegionName": {
+            "type": "string",
+            "minLength": 1,
+            "semantic": "nonblank exact UTF-8 text without ASCII controls; no implicit trimming or default"
+          }
+        }
+      },
+      "required_filters": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "name",
+            "logicalRegionName"
+          ]
+        },
+        "uniqueItems": true,
+        "semantic": "exactly all supplied filters"
+      },
+      "same_name_policy": {
+        "enum": [
+          "all_matching_parent_ids",
+          "reject_multiple_parent_ids"
+        ]
+      }
+    }
+  },
+  "outputs": [
+    {
+      "name": "vpc_id",
+      "type": "string",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "vpc_name",
+      "type": "string",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "logical_region_name",
+      "type": "string",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "resolved_subnet_count",
+      "type": "integer",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "referenced_subnet_count",
+      "type": "integer",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "unresolved_subnet_count",
+      "type": "integer",
+      "grain": "one selected ROUTER.id"
+    },
+    {
+      "name": "known_eip_count",
+      "type": "integer",
+      "grain": "one selected ROUTER.id"
+    }
+  ],
+  "scope_propagation": {
+    "name": "SQL only; complete parent directory retained for collision checks",
+    "region": "absent = no region on API/SQL; supplied = four region-bearing APIs and parent SQL; relation API global",
+    "extra_obligation": "reject extra scope/view/column promises, never silently drop",
+    "same_name": "all IDs including cross-region or explicit multiple-ID rejection; no arbitrary first"
+  },
+  "input_schema": {
+    "ROUTER": [
+      "id",
+      "name",
+      "nativeId",
+      "logicalRegionName"
+    ],
+    "PORT": [
+      "id",
+      "devNativeId",
+      "logicalRegionName"
+    ],
+    "R_PORT_IN_SUBNET": [
+      "id",
+      "portId",
+      "subnetId"
+    ],
+    "SUBNET": [
+      "id",
+      "logicalRegionName"
+    ],
+    "FLOATING_IPS": [
+      "id",
+      "routerId",
+      "logicalRegionName"
+    ]
+  },
+  "relations": [
+    {
+      "chain": "ROUTER.nativeId=PORT.devNativeId",
+      "scope": "same logicalRegionName",
+      "cardinality": "region/nativeId identifies at most one ROUTER.id; parent may own many ports"
+    },
+    {
+      "chain": "PORT.id=R_PORT_IN_SUBNET.portId; R.subnetId=SUBNET.id",
+      "scope": "resolved SUBNET has same parent/port region",
+      "cardinality": "many edges; DISTINCT (parent ID,nonempty subnet reference) before counts"
+    },
+    {
+      "chain": "FLOATING_IPS.routerId=ROUTER.id",
+      "scope": "same logicalRegionName",
+      "cardinality": "many EIP IDs per parent, separate aggregation"
+    }
+  ],
+  "output_count_meanings": {
+    "resolved_subnet_count": "distinct referenced IDs resolved in same region",
+    "referenced_subnet_count": "nonempty opaque subnet references, not only resolved objects",
+    "unresolved_subnet_count": "referenced minus resolved",
+    "known_eip_count": "distinct EIP IDs with proven same-region parent, unknown owners separate"
+  },
+  "receipt": {
+    "envelope": {
+      "ok": true,
+      "request": "exact corresponding build.api_call, autoPagination strictly True",
+      "schema": "verified declared columns including successful empties",
+      "schema_verified": true,
+      "pages": "nonempty list of complete sequential successful page receipts"
+    },
+    "page_fields": [
+      "ok",
+      "pageNo",
+      "pageSize",
+      "totalNum",
+      "totalPageNo",
+      "objList"
+    ],
+    "state": "ok and declared success strictly True; error only None,False,empty text; every declared http_status/httpStatus/status_code strictly integer nonbool 2xx",
+    "pagination": "1-based pages; stable total/pageSize; exact per-page length; totalPageNo ceil or 0/1 for zero; exact overall row/page count",
+    "identity": "strict unique nonblank string ID within each CI across all pages; repeated object IDs reject even projection-identical",
+    "schema": "all column keys required; optional missing per-row EIP.routerId becomes unknown NULL under verified column schema",
+    "trust": "B current request/schema/full-page assertions, not server authentication, atomic snapshot or business certification"
+  },
+  "unknown_and_failure": {
+    "normalization": "only empty/blank/NULL foreign keys to NULL; opaque nonblank text preserved",
+    "typed_empty": "successful zero-total typed table; no placeholder row",
+    "empty_selection": "zero result rows and selected_parent_count=0",
+    "no_children": "parent retained with known zero counts",
+    "failure": "missing or invalid receipts, failed HTTP, type/schema drift, duplicates, incomplete pages, wrong-region response, parent collision, resolved cross-region edges reject",
+    "partial_graph": "known counts retained but known_local_graph_complete=false for any unknown parent name/native, port owner, orphan relation port, selected unknown/unresolved subnet, unknown/unresolved EIP parent",
+    "conservative_global_unknowns": "cannot certify they are outside selected scope; known graph completeness remains false",
+    "local_complete_is_not": "official original business acceptance, B runtime adoption or source authenticity"
+  },
+  "prepared_protocol": {
+    "version": "named-vpc-counts-v1-source-rechecked",
+    "input_evidence": "deep-copied actual current params and five receipts with digest; no historical content whitelist",
+    "execution_check": "re-run current _prepare, compare canonical projection/diagnostics; version marker/digest alone cannot override failed receipts",
+    "transmission": "evidence is local validation metadata, excluded from static API+SQL; if B transmits it, measure full real payload"
+  },
+  "entrypoints": {
+    "build": "pure api_call+sql and size diagnostics",
+    "prepare": "bound current receipt validation and projected typed tables",
+    "execute_prepared": "recheck actual evidence then synthetic SQLite",
+    "execute_local": "prepare then synthetic SQLite, no IO"
+  },
+  "transport": {
+    "provisional_core_limit_bytes": 4096,
+    "boundary": "compact sorted ensure_ascii=False UTF-8 JSON of api_call+sql",
+    "oversize": "blocked_core_length; no truncation, no declaration that long legal entity is business-invalid",
+    "final_B_envelope": "unmeasured, separately required",
+    "depth": "LENGTH_BOUNDARIES.json specifies separate dictionary-only and all-container algorithms; official algorithm unconfirmed"
+  },
+  "integration_gates": [
+    "independent review pending",
+    "B trustworthy current capture/request/namespace and snapshot consistency",
+    "B verified typed-empty loader and validated projection binding",
+    "B preserve all partial/unknown/empty/failure classifications",
+    "final full envelope byte/depth gate and official business semantics",
+    "native PORT duplicate IDs still reject; no canonicalization/data edits",
+    "no business API/model/native SQL/evaluation executed"
+  ],
+  "not_supported": [
+    "VPC deployment AZ",
+    "tenant/VDC scope on this profile",
+    "VM hierarchy or full EIP-to-VM ownership",
+    "057 multi-IP filtering",
+    "cross-step official executor substitution",
+    "name substring or arbitrary first same-name identity"
+  ],
+  "cross_step_contract": "complete five-resource catalog plan requires no dynamic dependency placeholder; B may optimize only after separately proving equivalent uniqueness, coverage, unknown exclusion and trustworthy current execution binding",
+  "pushed": false,
+  "default_enabled": false,
+  "B_or_official_modified": false
+}

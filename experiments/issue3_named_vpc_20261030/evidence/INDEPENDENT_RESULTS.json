@@ -1,0 +1,112 @@
+{
+  "status": "INDEPENDENT_NAMED_VPC_R3_MINIMAL_REVIEW_COMPLETE",
+  "checks": 15,
+  "passed": 15,
+  "failed": 0,
+  "matrix_subcases_not_added": 26,
+  "checks_detail": [
+    {
+      "id": "N01_subnets_and_EIPs_independent_no_fanout",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "N02_name_only_no_region_all_identities",
+      "status": "PASS",
+      "detail": "cross-region same nativeId allowed, all exact-name identities retained, no region default"
+    },
+    {
+      "id": "N03_reject_multiple_and_explicit_region",
+      "status": "PASS",
+      "detail": "region disambiguates parent; unrelated unresolved global relation evidence remains conservative partial"
+    },
+    {
+      "id": "N04_zero_children_zero_match_and_true_empty_separate",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "N05_missing_EIP_FK_and_unknown_subnet_never_complete",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "N06_EIP_routerId_not_nativeId_role",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "N07_known_cross_region_edges_rejected",
+      "status": "PASS",
+      "detail": "cross-region port/subnet edge"
+    },
+    {
+      "id": "N08_wrong_region_response_and_parent_native_ambiguity",
+      "status": "PASS",
+      "detail": "region/nativeId does not uniquely identify a VPC"
+    },
+    {
+      "id": "N09_duplicate_PORT_even_identical_not_folded",
+      "status": "PASS",
+      "detail": "nonblank string object IDs must be unique across all CI pages"
+    },
+    {
+      "id": "N10_HTTP_contradictions_schema_and_pages_fail_closed",
+      "status": "PASS",
+      "detail": {
+        "matrix_subcases_not_added": 26
+      }
+    },
+    {
+      "id": "N11_full_catalog_binding_no_implicit_cross_step_substitution",
+      "status": "PASS",
+      "detail": "receipt is not bound to the exact complete catalog request"
+    },
+    {
+      "id": "N12_prepared_marker_projection_or_failed_evidence_no_bypass",
+      "status": "PASS",
+      "detail": "declared HTTP state must be integer 2xx"
+    },
+    {
+      "id": "N13_new_quoted_entities_no_old_data_whitelist",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "N14_missing_required_filter_or_extra_obligation_rejected",
+      "status": "PASS",
+      "detail": "closed profile, filters, required_filters and same_name_policy required"
+    },
+    {
+      "id": "N15_long_legal_name_reports_bound_no_truncation",
+      "status": "PASS",
+      "detail": {
+        "boundary": "compact sorted ensure_ascii=False UTF-8 api_call+sql",
+        "measured_bytes": 7692,
+        "candidate_limit_bytes": 4096,
+        "status": "blocked_core_length",
+        "final_B_envelope_validated": false,
+        "handling": "Never truncate identifiers, scope or SQL. B must validate a supported encoding and its final transport envelope."
+      }
+    }
+  ],
+  "owner27_not_counted": true,
+  "manifest_sha256": "a42bb095e260ca0039e089a93587472c33cac762c371c81b3d04a38c576a77ba",
+  "source_sha256": "d4da70e90bd09a6e87b4e9fc1ebc390982cb81abc5d9352f2e06be351fa55343",
+  "contract_sha256": "797d77e94f00aea2bb90bec0b994b8934573cbe0e8bda669ae54f2df59631568",
+  "archive_sha256": "fe5fa16a54e8405d61892afff7089ab139f66d17763302acdca3d34179c4c065",
+  "manifest_file_entries_verified": 11,
+  "sources_archive_checkpoint_unchanged": true,
+  "no_native_data_read": true,
+  "actual_runtime_N_delta": 0,
+  "not_run": [
+    "owner27 suite",
+    "model",
+    "service",
+    "B",
+    "official components",
+    "native SQL",
+    "sealed50 answers/reference/scoring",
+    "full200 or feedback"
+  ]
+}

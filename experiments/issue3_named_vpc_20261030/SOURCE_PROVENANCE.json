@@ -1,0 +1,15 @@
+{
+  "publication_zip_sha256": "7d8e8b55454d8fb98069fee4aa00cb623ede4ba70541774a33b51e0ea7a48022",
+  "publication_receipt_sha256": "389564a7564a42d93981ae2a15753ee85bb6379901f5a336c0559b07e4e103d4",
+  "independent_review_sha256": "255a2f950de3f0a24f328e65288f8d5b546f9b26f782ddf23da604eb07443889",
+  "independent_results_sha256": "3e86629eaaf2ac89513267e5526a9756496c9d3b9323398951eebd09d4894600",
+  "independent_harness_sha256": "0d2a0b59622fa8f2623c6a78fc1a3145e170d1a6686d6466a24468eef8088164",
+  "owner_archive_sha256": "fe5fa16a54e8405d61892afff7089ab139f66d17763302acdca3d34179c4c065",
+  "owner_checkpoint_sha256": "d1d9e4640fd0de099fa3d79e48467f817456fecc2912f98459d363bd042a1d5d",
+  "owner_manifest_sha256": "a42bb095e260ca0039e089a93587472c33cac762c371c81b3d04a38c576a77ba",
+  "owner_manifest_entries_verified_not_published": 11,
+  "archive_live_file_pairs_hash_checked": 12,
+  "source_runtime_bytes_unchanged": true,
+  "source_contract_bytes_unchanged": true,
+  "no_native_records_or_questions_or_answers_copied": true
+}

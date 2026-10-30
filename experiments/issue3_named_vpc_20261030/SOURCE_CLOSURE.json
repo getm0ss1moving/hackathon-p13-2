@@ -1,0 +1,25 @@
+{
+  "status": "DEFAULT_DISABLED_NAMED_VPC_SOURCE_CONTRACT_HANDOFF",
+  "source_publication_zip_sha256": "7d8e8b55454d8fb98069fee4aa00cb623ede4ba70541774a33b51e0ea7a48022",
+  "source_contract_file_count": 2,
+  "files": [
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r3/named-vpc/candidate.py",
+      "path": "candidate.py",
+      "sha256": "d4da70e90bd09a6e87b4e9fc1ebc390982cb81abc5d9352f2e06be351fa55343",
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r3/named-vpc/CONTRACT.json",
+      "path": "CONTRACT.json",
+      "sha256": "797d77e94f00aea2bb90bec0b994b8934573cbe0e8bda669ae54f2df59631568",
+      "runtime_enablement_approved": false
+    }
+  ],
+  "per_template_doc": "docs/handoffs/B_A_ISSUE3_NAMED_VPC.md",
+  "source_doc_sha256": "519d6c953fe11540504e23b3d876d49d3da6fa6962b019aa8da0612ef392b0d9",
+  "published_doc_sha256": "7f669598e86a5da62a9f3d906efa751bc4f611186eac6856df2f9176d41842a3",
+  "production_enabled": false,
+  "actual_runtime_N_delta": 0,
+  "prior_next_and132_unchanged": true
+}

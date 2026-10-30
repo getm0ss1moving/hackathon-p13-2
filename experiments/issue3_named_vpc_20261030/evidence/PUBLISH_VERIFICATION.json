@@ -1,0 +1,24 @@
+{
+  "scope": "public15-case synthetic replay; published closure audit, no full owner/native acceptance",
+  "checks": 15,
+  "passed": 15,
+  "failed": 0,
+  "matrix_subcases_not_added": 26,
+  "source_contract_files_verified": 2,
+  "source_files_unchanged": true,
+  "owner27_suite_run": false,
+  "actual_runtime_N_delta": 0,
+  "production_enabled": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_runtime_calls": 0,
+  "official_executor_or_scorer_calls": 0,
+  "057_or_other_capabilities_included": false,
+  "remaining": [
+    "native duplicate PORT canonical path absent",
+    "unknown relationships/conservative global diagnostics",
+    "B trusted real request/schema/pages and typed-empty projection",
+    "full obligations/business authority",
+    "actual final envelope/official depth"
+  ]
+}

@@ -28,6 +28,13 @@
 
 132/默认198/B/官方均未改，实际N变化0、不注册、不关闭issue。192双count和057增量未合入，未验named-VPC/bootable未混入；局部合同通过不称现场或完整业务通过。
 
+## B阅读待办：具名VPC双计数R3（独立默认关闭包）
+
+- [ ] **B先读[具名VPC双计数逐模板交接](handoffs/B_A_ISSUE3_NAMED_VPC.md)与[源码/合同及15项复放](../experiments/issue3_named_vpc_20261030/README.md)**。精确名称、可选显式区域、all/reject同名策略，子网与EIP独立聚合，无默认region，不含VM层级。
+- [ ] 独立15/15、公开复放15/15，26子项不另加；真实PORT重复仍拒绝、canonical路径未实现，未知关联/全局关系保守partial、可信请求/schema/分页、typed-empty及最终正式封装仍须B验证。五路完整目录若改分步缩小请求，需另验覆盖/消歧/当前输入绑定。
+
+本增量交付前一next尚未包含的192 A侧合同，旧next冻结文件不改写，057仍未纳入。实际N变化0，132/默认198/B/官方不变、不注册、不关闭issue，不能称B完整业务已过。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

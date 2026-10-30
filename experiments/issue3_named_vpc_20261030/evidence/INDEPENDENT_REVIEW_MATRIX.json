@@ -1,0 +1,34 @@
+{
+  "status": "MINIMAL_INDEPENDENT_PASS_DEFAULT_DISABLED_HANDOFF_ALLOWED",
+  "checks": 15,
+  "passed": 15,
+  "failed": 0,
+  "matrix_subcases_not_added": 26,
+  "owner27_not_counted": true,
+  "profile": "named_vpc_subnet_eip_counts",
+  "accepted": [
+    "exact name, optional explicit region with all required filter keys",
+    "all matching IDs or explicit reject-multiple policy",
+    "independent subnet/EIP aggregates and zero-parent child preservation",
+    "same-region composite relation roles; no nativeId as EIP routerId",
+    "unknown/unresolved/failed/schema/paging states not complete zero",
+    "source-rechecked prepared protocol; no tag-only bypass",
+    "new legal entities; long encoded name kept intact and blocked transport flag"
+  ],
+  "cross_step_contract": "No dependency placeholders: five full catalogs. Any B dynamic narrowing/cross-step plan needs separate coverage/uniqueness/current execution proof.",
+  "remaining": [
+    "native duplicate PORT IDs still reject; canonical input path not implemented",
+    "unknown EIP/port/subnet parentage, conservative global relation diagnostics",
+    "trusted real request/schema/complete page capture and typed-empty validated projection loading",
+    "full original question obligations and business relationship authority",
+    "actual final envelope/depth acceptance"
+  ],
+  "does_not_support": [
+    "057 multi-IP token filtering",
+    "full EIP-to-VM ownership",
+    "VPC deployment AZ",
+    "VM hierarchy on this profile"
+  ],
+  "actual_N_delta": 0,
+  "conditional_N": "standalone+1 or existing-network profile expansion+0 only after unified review"
+}
