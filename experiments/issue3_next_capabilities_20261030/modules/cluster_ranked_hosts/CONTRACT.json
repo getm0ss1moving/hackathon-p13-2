@@ -1,0 +1,161 @@
+{
+  "profile": "cluster_max_vm_host_running_details",
+  "status": "frozen_local_candidate_runtime_adoption_blocked",
+  "owner": "tenant child; only cluster_ranked_hosts/**",
+  "actual_runtime_N_change": 0,
+  "params": {
+    "profile": "cluster_max_vm_host_running_details",
+    "filters": "required object: {}=explicit global, azoneName-only, logicalRegionName-only, or both; exact equal, no default",
+    "tie_policy": "all_ties",
+    "unknown_rank_policy": "reject | known_only_with_diagnostic",
+    "details_population": "all_hosts_all_active_VMs | winner-cluster-only_active_VMs"
+  },
+  "native_running_literal": "active (fixed from primary VM.status documentation; ACTIVE/unknown/NULL are not inferred nonrunning)",
+  "resources": [
+    "VM_NOVA",
+    "CLUSTER",
+    "M_ClusterContainsPhyHost",
+    "HOST"
+  ],
+  "schema": {
+    "VM_NOVA": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "azoneName",
+      "clusterId",
+      "hostId",
+      "status"
+    ],
+    "CLUSTER": [
+      "id",
+      "name",
+      "logicalRegionName"
+    ],
+    "M_ClusterContainsPhyHost": [
+      "id",
+      "source_Instance_Id",
+      "target_Instance_Id"
+    ],
+    "HOST": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "totalVcpuCores"
+    ]
+  },
+  "nullable_business_fields": "Per-row absent HOST.totalVcpuCores and VM azoneName/clusterId/hostId/status become projected NULL and explicit diagnostics only under a trusted declared schema; missing mandatory identity/context/output keys or absent schema blocks.",
+  "receipt": "snapshots[CI]={ok:true,schema_source:nonblank,columns:SCHEMA[CI],pages:[{ok:true,currentPage,pageSize,totalNum,totalPageNo,request:request(CI,page,page_size),objList:[...]}]}; every request is global context, GET correct endpoint and page only; no rank AZ/region on context fetch. Complete stable ordered pages, unique IDs, true empty0/1, no failure or _empty placeholder.",
+  "scope_roles": "One global VM snapshot supports rank subset and broad host details. filters apply only to rank VM SQL/projection. All CLUSTER/HOST/relation directories global; host association is keyed by id with winner logical-region context, conflicts remain unresolved. Ranking AZ is never inherited by host/active-VM detail scope.",
+  "ranking": "COUNT DISTINCT rank VM.id by resolved VM.clusterId=CLUSTER.id and logical-region context before detail joins; all equal maxima. Unknown scope/cluster identity can change winner, so reject or known-only partial. No nativeId fallback.",
+  "details": "CLUSTER.id=relation.source_Instance_Id; target_Instance_Id retained as reference_host_id even when HOST.id missing. Deduplicate host references before independent SUM exact native integer totalVcpuCores. LEFT active VM rows by referenced host ID and context, optionally winner cluster only. Preserve host without active VM and winner without resolved host. Unresolved host references may still have known VM references, which must not be dropped.",
+  "outputs": [
+    "cluster_id",
+    "cluster_name",
+    "rank_vm_count",
+    "reference_host_id",
+    "host_id",
+    "host_name",
+    "host_vcpu_raw",
+    "known_cluster_host_vcpu",
+    "unknown_host_vcpu_count",
+    "complete_cluster_host_vcpu",
+    "running_vm_id",
+    "running_vm_name",
+    "running_vm_status",
+    "host_link_status"
+  ],
+  "native_gates": "2039 VM cluster IDs matched and870 unknown; only36/70 host endpoints resolved,34 unresolved; native totalVcpuCores36 integer/32missing. Unknown CPU is not fabricated. Native context may remain partial and cannot certify complete original request.",
+  "entrypoints": [
+    "build(params)",
+    "preflight/prepare(params,snapshots)",
+    "execute_local(params,snapshots)",
+    "execute_prepared(params,prepared)",
+    "request(CI,page,page_size)"
+  ],
+  "transport": "Static placeholder core, expanded API+SQL, full local plan and actual final B envelope measured separately. Core>4096B explicitly blocked; full metadata is not assumed official wire. Final boundary/depth4 gate pending.",
+  "remaining_gates": [
+    "B truthful global context retrieval + schema/complete pagination/unique IDs",
+    "B actually loads validated projection and typed zero-row tables",
+    "propagate scope_max/CPU/status/unplaced VM/partial diagnostics",
+    "C accepts ranking population, all_ties, unknown and chosen detail population",
+    "native unresolved endpoint/CPU completeness",
+    "actual final transport boundary and depth4 acceptance",
+    "authorized runtime/end-to-end evaluation later"
+  ],
+  "output_columns": [
+    "cluster_id",
+    "cluster_name",
+    "cluster_logical_region_name",
+    "rank_vm_count",
+    "reference_host_id",
+    "host_id",
+    "host_name",
+    "host_vcpu_raw",
+    "known_cluster_host_vcpu",
+    "unknown_host_vcpu_count",
+    "complete_cluster_host_vcpu",
+    "running_vm_id",
+    "running_vm_name",
+    "running_vm_status",
+    "host_link_status"
+  ],
+  "prepared_schema": {
+    "VM_NOVA": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "azoneName",
+      "clusterId",
+      "hostId",
+      "status",
+      "rank_eligible",
+      "rank_cluster_id",
+      "is_running",
+      "status_known"
+    ],
+    "CLUSTER": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "host_graph_complete"
+    ],
+    "M_ClusterContainsPhyHost": [
+      "id",
+      "source_Instance_Id",
+      "target_Instance_Id"
+    ],
+    "HOST": [
+      "id",
+      "name",
+      "logicalRegionName",
+      "totalVcpuCores",
+      "vcpu_known"
+    ]
+  },
+  "potential_N": "one new bounded family/profile; two explicit detail-population renderings and four filter shapes are not8 new templates. No132/160/198 count claim.",
+  "unknown_rank_policy": "reject stops if scoped rank VM has unknown/mismatched cluster identity or unknown AZ placement could change scope; known_only_with_diagnostic gives known-cluster leaders, unknown counts and scope_max_certified=false. No zero-VM-cluster catalog maximum is claimed.",
+  "status_policy": "Fixed lower-case active only; documented other/unknown/NULL/unrecognized/ACTIVE remain uncertain and invalidate complete running list. Known documented nonactive rows retain the host with NULL active VM columns. VM.status is not rewritten.",
+  "CPU_policy": "Only exact nonnegative native integer totalVcpuCores contributes; strings/floats/missing values stay unknown, no guessed CPU fields. Individual integer overflow or distinct-host sum overflow blocks explicitly. Known SUM and complete SUM differ: complete isNULL with any unknown referenced CPU or incomplete host inventory.",
+  "graph_diagnostics": "Per winning cluster: unknown relation source, blank/unresolved host references, known cluster VM absent from host refs, unknown status/cluster on referenced hosts, and potentially-active unplaced context VMs. Main rows preserve no-active/no-host/unresolved-host cases. Supplemental unplaced_known_active_vm_rows retain known active VM objects when host membership cannot be placed; not substituted by counts.",
+  "cross_region": "Global context naturally contains multiple regions; API narrowing to rank region/AZ is rejected as request drift. VM->cluster and cluster->host/detail VM joins require winner logical-region context. Conflicting edges remain unresolved/unknown with diagnostics, not silently matched or called zero.",
+  "projection": "Load only fresh validated schema projection. execute_prepared verifies parameter/table digests and schema, then recomputes graph-derived CPU/rank/status/complete-list flags and rejects derived-column drift; supplied diagnostics flags cannot certify a result. Digest is drift detection, not malicious-forgery authentication.",
+  "input_guards": "UTF8-encodable params/schema-source/columns/business text; isolated surrogates rejected. Envelope/page ok must beTrue; declared success must beTrue; declared HTTP-status aliases must be integer2xx; contradictory success/HTTP receipt blocks. Required id/name/region keys missing block; explicit nullable business fields missing becomeNULL under trusted declared schema.",
+  "test_evidence": "VALIDATION.json:17 local synthetic methods including fixed status role, shared host/VM fanout, two detail populations, rank AZ vs broad detail scope, unresolved host with active VM refs, missing CPU/native types, unknown rank/placement/status, trueempty0/1 vs failure, page overlaps/binding, projection drift, ranges/UTF8/HTTP and actual byte limits.",
+  "native_business_gate": "Native870 unknown cluster refs,34 unresolved host endpoints and32 missing totalVcpuCores remain unresolved for complete answer. Current strict rejection/partial results are honest gates, not proof of native complete support.",
+  "not_run": [
+    "nativeSQL",
+    "API/business service",
+    "model",
+    "official executor/evaluator",
+    "B runtime",
+    "sealed answers/references/scoring",
+    "full200"
+  ],
+  "tool_state": {
+    "denied": [],
+    "pending": [],
+    "uncertain": []
+  },
+  "source": "SOURCE_EVIDENCE.json"
+}

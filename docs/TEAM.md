@@ -21,6 +21,13 @@
 
 本包不替换132/198、不改B、不注册、不启新模型测试、不关闭issue，实际N变化0；6文件闭包不冒称原16文件owner归档。
 
+## B阅读待办：Issue3 next四组能力（独立默认关闭包）
+
+- [ ] **B先读[next逐模板中文交接](handoffs/B_A_ISSUE3_NEXT_CAPABILITIES.md)与[八文件闭包/合成复放](../experiments/issue3_next_capabilities_20261030/README.md)**：VPC层级/父计数、容量最大VDC池明细HTTP-R2、cluster排名宿主vCPU/active VM、VM原生地址/已知EIP关联子集。
+- [ ] 独立19/19，公开适配复放19/19，HTTP矩阵38子项不另加；network旧18/18仅引用。完整EIP权威绑定仍不支持；PORT canonical来源、3650未知卷owner、可信请求/schema/pages、typed-empty/数字投影、C人口/单位和实际最终封装仍门禁。
+
+132/默认198/B/官方均未改，实际N变化0、不注册、不关闭issue。192双count和057增量未合入，未验named-VPC/bootable未混入；局部合同通过不称现场或完整业务通过。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

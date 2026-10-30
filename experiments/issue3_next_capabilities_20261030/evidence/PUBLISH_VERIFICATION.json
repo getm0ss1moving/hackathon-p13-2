@@ -1,0 +1,26 @@
+{
+  "scope": "public adapted19-case synthetic replay; no full owner/archive/native acceptance",
+  "checks": 19,
+  "passed": 19,
+  "failed": 0,
+  "HTTP_matrix_subcases_not_added": 38,
+  "eight_source_contract_hashes_verified": true,
+  "source_files_unchanged": true,
+  "network_prior18_not_retested_or_added": true,
+  "actual_runtime_N_delta": 0,
+  "runtime_enablement_approved": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "B_runtime_calls": 0,
+  "official_executor_or_scorer_calls": 0,
+  "not_merged": [
+    "192 dual-count increment",
+    "057 increment"
+  ],
+  "remaining": [
+    "trusted real source/request/schema/pages",
+    "typed-empty and numeric projected loading",
+    "all original obligations/unknown propagation",
+    "B/C policy and actual final envelope/official depth"
+  ]
+}

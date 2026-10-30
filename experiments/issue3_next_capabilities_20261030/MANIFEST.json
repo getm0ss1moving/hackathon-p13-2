@@ -1,0 +1,36 @@
+{
+  "status": "DEFAULT_DISABLED_NEXT_A_BOUNDARY_PASS_B_NATIVE_OFFICIAL_PENDING",
+  "source_publication_zip_sha256": "e4a13abb472217fd1bd4a41c72a62d990e909fbb34302ed936ab9b1c07f5e232",
+  "source_contract_files": 8,
+  "actual_runtime_N_delta": 0,
+  "production_enabled": false,
+  "candidate132_unchanged": true,
+  "default198_unchanged": true,
+  "not_merged": [
+    "192 dual-count increment",
+    "057 increment"
+  ],
+  "tools": {
+    "scripts/verify_a_issue3_next_synthetic.py": "28e2a7d719dc904a432479b207fbd14b6c49622ace01a5e78fef1071478b7948"
+  },
+  "external_files": {
+    "docs/handoffs/B_A_ISSUE3_NEXT_CAPABILITIES.md": "8e89ad4767eff5321809745f85f6bc7745e683b6e6ddf28b0f60dd91e1a5544c"
+  },
+  "files": {
+    "README.md": "b62b273086bec04201755ccf1899546e2ebe7b673fec10bb4cac21a83fb065d5",
+    "SOURCE_CLOSURE.json": "9101c1782f3fdcd410f19ac1dc50d44f17c5220c177b57e63db7c60952788e69",
+    "SOURCE_PROVENANCE.json": "8e263f0721c7dec3b37f698458eda9298365b851563ce65a602df75199560c65",
+    "evidence/INDEPENDENT_CLOSURE.json": "eb1c71f425dfce9c5dde81d288bda76bf473c304b241e6ee5d016a4656234669",
+    "evidence/INDEPENDENT_RESULTS.json": "fc05edd215d31ae1c2492255f9e5b4bc4c544844da1e7db591fa4ef79c1a4712",
+    "evidence/INDEPENDENT_REVIEW_MATRIX.json": "4a1c374083bcb24dd288c959cb7776e799ecd181d8ef14ec93f1392ec2a534a6",
+    "evidence/PUBLISH_VERIFICATION.json": "5e63582887a81fa1be1bf667e5c7643edd68d5a2ee4d5d31cb769f3417099d21",
+    "modules/cluster_ranked_hosts/CONTRACT.json": "2a66e2fa4aa2cc302632eaaef150ae47bcfe78296544021a58cebab9093f621f",
+    "modules/cluster_ranked_hosts/candidate.py": "67af606d9cb272236245d76a1ca72e500a0bef38e843c49b96d8dd12efaf3433",
+    "modules/network_hierarchy/CONTRACT.json": "b6691014ede0304a6e7de05f7a639d010d85b96b37eb629e677dd87fedbec19c",
+    "modules/network_hierarchy/candidate.py": "9a8a967094181e384ba82d2ae4efaab33b6040426aeab21b19a3711f57db9f0a",
+    "modules/ranked_vdc_pool_http_r2/CONTRACT.json": "b8e154a30ad077e6ad5bb8ccd6208cc3f9a2a111c3c388d7c2b05bb4fdac15f8",
+    "modules/ranked_vdc_pool_http_r2/candidate.py": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+    "modules/vm_eip_host/CONTRACT.json": "adf365af483e4431e62ad804f96f5cd4ad4cc4a2c84279c9da236bd0ed2f90ff",
+    "modules/vm_eip_host/candidate.py": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4"
+  }
+}

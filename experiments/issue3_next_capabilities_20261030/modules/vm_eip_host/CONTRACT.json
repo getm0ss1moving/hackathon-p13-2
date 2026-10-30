@@ -1,0 +1,161 @@
+{
+  "family_id": "tenant_vm_ip_eip_host",
+  "state": "FROZEN_SYNTHETIC_SEMANTICS_PASS_RUNTIME_ADOPTION_AND_FULL_BINDING_BLOCKED",
+  "primary_limits": {
+    "native_ip_host_rows": "VM+HOST only; no PORT duplicate-ID gate. Exact native floatingIp attribute and host link with explicit NULL/unresolved statuses; not complete EIP objects.",
+    "known_port_eip_host_rows": "Known links only. Native PORT snapshot has two reviewed duplicate id keys and may be rejected by strict preflight. Full EIP authority/coverage remains unsupported."
+  },
+  "parameters": {
+    "required": [
+      "view",
+      "tenantName"
+    ],
+    "additionalProperties": false,
+    "view": [
+      "native_ip_host_rows",
+      "known_port_eip_host_rows"
+    ],
+    "optional": [
+      "logicalRegionName"
+    ],
+    "scope": "tenant exact on VM parents only; no default region, no child-tenant filtering"
+  },
+  "entrypoints": {
+    "build(params)": "pure API+SQL+schema+core byte status",
+    "prepare(params,receipts) / preflight": "strict projected tables and diagnostics",
+    "execute_local(params,receipts)": "stdlib typed-empty SQLite verifier only"
+  },
+  "resource_schemas": {
+    "native_ip_host_rows": {
+      "VM_NOVA": [
+        "id",
+        "name",
+        "tenantName",
+        "logicalRegionName",
+        "privateIps",
+        "floatingIp",
+        "hostId"
+      ],
+      "HOST": [
+        "id",
+        "name",
+        "ipAddress",
+        "logicalRegionName"
+      ]
+    },
+    "known_port_eip_host_rows": {
+      "VM_NOVA": [
+        "id",
+        "name",
+        "tenantName",
+        "logicalRegionName",
+        "privateIps",
+        "floatingIp",
+        "hostId",
+        "resId"
+      ],
+      "HOST": [
+        "id",
+        "name",
+        "ipAddress",
+        "logicalRegionName"
+      ],
+      "PORT": [
+        "id",
+        "devId",
+        "logicalRegionName"
+      ],
+      "FLOATING_IPS": [
+        "id",
+        "portId",
+        "floatingIpAddress",
+        "isInternal",
+        "logicalRegionName"
+      ]
+    }
+  },
+  "receipt": {
+    "per_CI": {
+      "ok": true,
+      "request": "corresponding build.api_call exact dict, including method/resource/scope/autoPagination",
+      "schema": "verified required field list",
+      "schema_verified": true,
+      "pages": [
+        {
+          "ok": true,
+          "pageNo": "sequential int",
+          "pageSize": "positive stable int",
+          "totalNum": "nonnegative stable int",
+          "totalPageNo": "ceil(total/pageSize), or0/1 iftotal0",
+          "objList": "exact page row list"
+        }
+      ]
+    },
+    "trust_limit": "B trusted normalized assertions, not proof of server authenticity or atomic snapshot",
+    "failure_status": "Both resource envelope and each page require ok=True; optional success must beTrue, nonempty error rejected, declared HTTP status must be int2xx; bool pagination is invalid.",
+    "projection": "All required row keys are present, unique UTF-8 nonblank id per CI; nullable hostId/resId/devId/portId blanks->NULL. Extra undeclared metadata including child tenant ignored. B loads only returned projections using declared typed zero-row schemas."
+  },
+  "outputs": {
+    "native_ip_host_rows": [
+      "vm_id",
+      "vm_name",
+      "logical_region_name",
+      "private_ips_raw",
+      "native_floating_ip_raw",
+      "host_reference_id",
+      "host_id",
+      "host_name",
+      "host_ip",
+      "host_link_status",
+      "native_ip_status"
+    ],
+    "known_port_eip_host_rows": [
+      "vm_id",
+      "vm_name",
+      "logical_region_name",
+      "private_ips_raw",
+      "native_floating_ip_raw",
+      "host_reference_id",
+      "host_id",
+      "host_name",
+      "host_ip",
+      "host_link_status",
+      "native_ip_status",
+      "vm_reference_res_id",
+      "binding_port_id",
+      "eip_id",
+      "eip_address",
+      "eip_internal_role_raw",
+      "eip_link_status"
+    ]
+  },
+  "parent_preservation": "All scoped VM.id retained through LEFT joins, same names distinct IDs; port view fanout one VM×known EIP.id. No private-IP text JOIN.",
+  "host_link": "VM.hostId=HOST.id, same region guard; missing/dangling host retains VM with status.",
+  "port_link": "EIP.portId=PORT.id; PORT.devId=VM.resId with same region. VM full directory fetch on port-view checks cross-tenant region/resId uniqueness before parent SQL selection.",
+  "roles": "No isInternal filter; bool roles canonical text true/false, native text unchanged; both known internal/external roles retained.",
+  "full_eip_binding_status": "unsupported_authority_and_coverage",
+  "native_raw_attribute_limit": "floatingIp raw attribute neither expands EIP objects nor supplies missing bindings",
+  "failure_policy": "Reject duplicate IDs (same/cross pages), missing schema/key, contradictory failure statuses, HTTP errors, partial/unstable pages, wrong explicit scope, malformed/nested/UTF8 fields or identity ambiguity. No empty-placeholder COUNT1.",
+  "empty_unknown_policy": "True typed zero-row schemas; nullable foreign-key blanks->NULL; display raw NULL/empty preserved and unknown counts separate. B must load prepare projections.",
+  "actual_runtime_N_delta": 0,
+  "frozen_132_changed": false,
+  "potential_family_count": "one new closed family/two views if standalone; not a recalculated132",
+  "display_values": "Name/IP/native property fields text orNULL; nested/nontext/surrogate rejected. Raw NULL/empty display preserved; requested_display_unknown_counts separately counts distinct displayed identities. isInternal additionally accepts bool->canonical true/false text; native strings preserved. No role filter.",
+  "diagnostics": "Selected-parent host counts are computed before EIP fanout. Parent population, requested display values and declared known-view completeness are separate. Unresolved EIP/PORT/VM endpoints and unknown tenant/resId are conservative diagnostics. business_complete/full_eip_objects_binding_complete remainFalse for the original complete-binding obligation, even when declared native or known-link values complete.",
+  "empty": "Successful zero-VM lists produce true zero rows and selected_vm_count0; totalPageNo0 or1 accepted. Failure or missingschema never means empty. Zero known-EIP still preserves parent with no_known_binding, not a certified no-EIP claim.",
+  "scope_guard": "Explicit region checked on all declared resource rows and all join edges. Native fetch filters VM tenant directly; port view fetches full region/global VM catalog to detect region/resId collisions across tenants, then SQL applies parent tenant. HOST/EIP owner tenant not constrained.",
+  "complete_limit": "Native view may be adopted independently for declared VM raw-property+host scope after B checks; it does not depend on PORT. Port object view remains known-links-only and global native receipt may be blocked by reviewed duplicate PORT IDs. Key compatibility/nonempty SQL is not full binding business authority.",
+  "transport": "build reports actual expanded api_call+sql compact UTF-8 bytes; core>4096 => blocked_core_length with boundary/measured bytes/handling. Static placeholder, expanded core, full local metadata and unknown final B envelope measured separately; no truncation or generic rejection of long legal identifiers.",
+  "runtime_gates": [
+    "B trusted request/schema/page receipt verification and actual prepared-projection loading",
+    "typed truly empty tables instead of official _empty sentinel",
+    "authoritative handling of duplicate PORT source IDs (do not fold)",
+    "EIP endpoint namespace/role/coverage and full object-binding policy still unsupported",
+    "final B envelope/official length/depth and actual runtime adaptation unverified"
+  ],
+  "quota": {
+    "initial_remaining_percent": 22,
+    "last_visible_remaining_percent": 21,
+    "stop_at_or_below_percent": 15
+  }
+}

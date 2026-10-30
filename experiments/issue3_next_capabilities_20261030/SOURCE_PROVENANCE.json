@@ -1,0 +1,30 @@
+{
+  "source_publication_receipt_sha256": "2e82d0a257e31247b1d8b5f8a880dcdc7b82f6563a063b6afa750778c3102be6",
+  "source_publication_zip_sha256": "e4a13abb472217fd1bd4a41c72a62d990e909fbb34302ed936ab9b1c07f5e232",
+  "source_review_sha256": "7f5de10ff74f38e5a76f70d9546a6f50ff3d3dd47569539c07d94b53e5aaab67",
+  "source_results_sha256": "fc05edd215d31ae1c2492255f9e5b4bc4c544844da1e7db591fa4ef79c1a4712",
+  "source_harness_sha256": "610a5e69d08f972fc6fc5aee30400302e246d33fadf24cac2ef25da0119dde24",
+  "source_zip_minimal_manifest_sha256": "d4735cbbf66fbfb872006db0384014ba4a077753a1fa641eae33347bf2ffd063",
+  "source_doc_sha256": "d8ebb2f42968f84cc5955f41b50a090909f64f5bc1ee50642f140a8f1a7d1a3c",
+  "source_archive_digests": [
+    {
+      "name": "issue3-next-http-r2-checkpoint.zip",
+      "sha256": "95b188a7c77e4a3bc7ea0595837bb0d656840194e3ddd6618f5a2677ebd490ba"
+    },
+    {
+      "name": "issue3-next-capabilities-r2.zip",
+      "sha256": "22005043434ac578b655ebd579cc17a4b215a440413e451b54a5bb43a33f6637"
+    },
+    {
+      "name": "issue3-B-source-handoff.zip",
+      "sha256": "f38247f34289f469d8caa87afd67ea82625aba6c6d089f45102cb30df3b8ef2a"
+    }
+  ],
+  "source_HTTP_leaf_manifest_sha256": "24be51bbf6092d5b86d46c6439f55c5f6a4e32df636f0a880da7e94f4a3adbbb",
+  "source_capabilities_manifest_sha256": "5ac96b799a16aef382b1d11d02178b0d2bc9eec10715416c45b0ad5ef7f48f66",
+  "native_records_or_private_questions_copied": false,
+  "not_merged": [
+    "192 dual-count increment",
+    "057 increment"
+  ]
+}

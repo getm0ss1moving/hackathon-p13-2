@@ -1,0 +1,12 @@
+{
+  "HTTP_envelope": {
+    "status": "blocked",
+    "reason": "request_outcome_unconfirmed",
+    "resource": "VOLUME"
+  },
+  "HTTP_page": {
+    "status": "blocked",
+    "reason": "page_request_failed_or_unconfirmed",
+    "resource": "VOLUME"
+  }
+}

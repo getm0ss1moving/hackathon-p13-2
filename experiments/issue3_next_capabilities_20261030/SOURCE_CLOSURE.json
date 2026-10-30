@@ -1,0 +1,97 @@
+{
+  "status": "DEFAULT_DISABLED_EIGHT_SOURCE_CONTRACT_FILES_FOR_B_REVIEW",
+  "source_zip_sha256": "e4a13abb472217fd1bd4a41c72a62d990e909fbb34302ed936ab9b1c07f5e232",
+  "source_zip_files": 10,
+  "source_contract_files": 8,
+  "source_per_template_doc_sha256": "d8ebb2f42968f84cc5955f41b50a090909f64f5bc1ee50642f140a8f1a7d1a3c",
+  "public_per_template_doc": "docs/handoffs/B_A_ISSUE3_NEXT_CAPABILITIES.md",
+  "files": [
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities/network_hierarchy/candidate.py",
+      "path": "modules/network_hierarchy/candidate.py",
+      "group": "network_hierarchy",
+      "source_sha256": "9a8a967094181e384ba82d2ae4efaab33b6040426aeab21b19a3711f57db9f0a",
+      "published_sha256": "9a8a967094181e384ba82d2ae4efaab33b6040426aeab21b19a3711f57db9f0a",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities/network_hierarchy/CONTRACT.json",
+      "path": "modules/network_hierarchy/CONTRACT.json",
+      "group": "network_hierarchy",
+      "source_sha256": "b6691014ede0304a6e7de05f7a639d010d85b96b37eb629e677dd87fedbec19c",
+      "published_sha256": "b6691014ede0304a6e7de05f7a639d010d85b96b37eb629e677dd87fedbec19c",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities/revisions/r2/ranked_vdc_pool/candidate.py",
+      "path": "modules/ranked_vdc_pool_http_r2/candidate.py",
+      "group": "ranked_vdc_pool_http_r2",
+      "source_sha256": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+      "published_sha256": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities/revisions/r2/ranked_vdc_pool/CONTRACT.json",
+      "path": "modules/ranked_vdc_pool_http_r2/CONTRACT.json",
+      "group": "ranked_vdc_pool_http_r2",
+      "source_sha256": "bd3457c4b9fc76ec6fe566f99c425bebada0d735abb21c8fa6177f8cd377c952",
+      "published_sha256": "b8e154a30ad077e6ad5bb8ccd6208cc3f9a2a111c3c388d7c2b05bb4fdac15f8",
+      "metadata_sanitization": [
+        {
+          "field": "exclusive_root",
+          "scope": "source-location metadata only; local absolute path replaced with public package-relative path"
+        }
+      ],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r2/cluster_ranked_hosts/candidate.py",
+      "path": "modules/cluster_ranked_hosts/candidate.py",
+      "group": "cluster_ranked_hosts",
+      "source_sha256": "67af606d9cb272236245d76a1ca72e500a0bef38e843c49b96d8dd12efaf3433",
+      "published_sha256": "67af606d9cb272236245d76a1ca72e500a0bef38e843c49b96d8dd12efaf3433",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r2/cluster_ranked_hosts/CONTRACT.json",
+      "path": "modules/cluster_ranked_hosts/CONTRACT.json",
+      "group": "cluster_ranked_hosts",
+      "source_sha256": "2a66e2fa4aa2cc302632eaaef150ae47bcfe78296544021a58cebab9093f621f",
+      "published_sha256": "2a66e2fa4aa2cc302632eaaef150ae47bcfe78296544021a58cebab9093f621f",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r2/vm_eip_host/candidate.py",
+      "path": "modules/vm_eip_host/candidate.py",
+      "group": "vm_eip_host",
+      "source_sha256": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4",
+      "published_sha256": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    },
+    {
+      "source_zip_member": "a-issue3-repair/next-capabilities-r2/vm_eip_host/CONTRACT.json",
+      "path": "modules/vm_eip_host/CONTRACT.json",
+      "group": "vm_eip_host",
+      "source_sha256": "adf365af483e4431e62ad804f96f5cd4ad4cc4a2c84279c9da236bd0ed2f90ff",
+      "published_sha256": "adf365af483e4431e62ad804f96f5cd4ad4cc4a2c84279c9da236bd0ed2f90ff",
+      "metadata_sanitization": [],
+      "runtime_enablement_approved": false
+    }
+  ],
+  "production_enabled": false,
+  "actual_N_delta": 0,
+  "default198_unchanged": true,
+  "candidate132_unchanged": true,
+  "not_merged": [
+    "192 dual-count increment",
+    "057 increment"
+  ],
+  "scope": "Explicit minimum subset; not an owner full archive. One contract source-location string sanitized, executable source bytes unchanged.",
+  "public_per_template_doc_sha256": "8e89ad4767eff5321809745f85f6bc7745e683b6e6ddf28b0f60dd91e1a5544c"
+}

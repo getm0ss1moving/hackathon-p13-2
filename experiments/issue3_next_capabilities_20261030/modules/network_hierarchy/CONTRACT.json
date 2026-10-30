@@ -1,0 +1,172 @@
+{
+  "family_id": "vpc_hierarchy",
+  "state": "isolated_synthetic_semantics_implemented_runtime_and_native_snapshot_not_accepted",
+  "primary_gate": "Reviewed native full PORT snapshot has duplicate id evidence (2 keys). A global receipt retaining it is rejected, so synthetic pass is not field-ready completeness or a model score.",
+  "counts": {
+    "actual_runtime_N_delta": 0,
+    "candidate_views": 2,
+    "potential_new_family_if_integrated_standalone": 1,
+    "potential_existing_network_family_profile_expansion": "requires unified materializer/retriever review; no claimed N",
+    "frozen_132_changed": false
+  },
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "view"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "view": {
+        "enum": [
+          "hierarchy_rows",
+          "parent_counts"
+        ]
+      },
+      "vpcName": {
+        "type": "string",
+        "optional": true,
+        "match": "exact",
+        "default": null
+      },
+      "logicalRegionName": {
+        "type": "string",
+        "optional": true,
+        "match": "exact",
+        "default": null
+      }
+    }
+  },
+  "scope_profiles": [
+    "global (neither scope key present)",
+    "name-only (vpcName only, all matching identities/regions)",
+    "explicit-region (optional exact vpcName)"
+  ],
+  "api_scope": "Absent region means no region predicate on any API or SQL. If supplied, exact region goes to ROUTER/PORT/SUBNET/VM and parent SQL. Full directory retained across names for nativeId uniqueness; name filter is SQL-only. Global relation API has no region ownership predicate; undeclared metadata projected away.",
+  "resource_schema": {
+    "ROUTER": [
+      "id",
+      "name",
+      "nativeId",
+      "logicalRegionName"
+    ],
+    "PORT": [
+      "id",
+      "devNativeId",
+      "devId",
+      "logicalRegionName"
+    ],
+    "R_PORT_IN_SUBNET": [
+      "id",
+      "portId",
+      "subnetId"
+    ],
+    "SUBNET": [
+      "id",
+      "name",
+      "cidr",
+      "logicalRegionName"
+    ],
+    "VM_NOVA": [
+      "id",
+      "resId",
+      "name",
+      "logicalRegionName"
+    ]
+  },
+  "entrypoints": {
+    "build(params)": "pure fixed API+SQL materialization",
+    "prepare(params,receipts)": "strict request-bound normalized receipt assertions -> typed projected tables + conservative diagnostics",
+    "execute_local(params,receipts)": "stdlib in-memory SQLite verifier only; does not call official executor or services"
+  },
+  "receipt": {
+    "per_resource": {
+      "ok": true,
+      "request": "exact matching build.api_call resource dict, including method/endpoint/scope/autoPagination",
+      "schema": "verified columns including every declared field",
+      "schema_verified": true,
+      "pages": [
+        {
+          "ok": true,
+          "pageNo": "sequential int from1",
+          "pageSize": "positive int stable",
+          "totalNum": "nonnegative int stable",
+          "totalPageNo": "ceil(total/size), or0/1 for zero total",
+          "objList": "exact expected row count"
+        }
+      ]
+    },
+    "trust_boundary": "schema_verified and request are assertions from B trusted fetch layer, not authentication, a server proof, or atomic-snapshot proof. Runtime binding still requires independent B verification.",
+    "failure": "ok must be true; success if present must be true; nonempty error or declared HTTP non2xx rejects at envelope or page. Missing/failed/partial input never becomes empty.",
+    "uniqueness": "nonblank string id unique across each CI snapshot; identical/conflicting duplicates within/across pages reject. Distinct relation IDs can share a business link.",
+    "schema": "all declared row keys required; successful empty results still need verified schema; true zero-row typed tables required, never _empty placeholder",
+    "unicode_and_types": "UTF-8 encodable strings only; display name/cidr text or NULL; nullable FK blank-only normalized toNULL; opaque nonblank IDs preserved, not trimmed"
+  },
+  "relations": [
+    "ROUTER.nativeId=router_port.devNativeId AND equal logicalRegionName",
+    "router_relation.portId=router_port.id; router_relation.subnetId=SUBNET.id with parent region guard",
+    "vm_relation.subnetId shares referenced subnet key; vm_relation.portId=vm_port.id",
+    "VM_NOVA.resId=vm_port.devId AND equal logicalRegionName"
+  ],
+  "identity_guards": "one ROUTER per(region,nativeId), one VM per(region,resId); repeated cross-region native/resId allowed, never bare global join. PORT matching proven router+VM roles simultaneously rejects. Known cross-region port/subnet edges and ambiguous cross-region references reject.",
+  "VM_port_role": "known router ports are excluded from VM-side candidates. Other subnet-attached endpoints are either proven VM references or explicit unresolved/unknown endpoints; they are not silently certified as non-VM.",
+  "views": {
+    "hierarchy_rows": {
+      "columns": [
+        "catalog_vpc_count",
+        "selected_vpc_count",
+        "row_kind",
+        "vpc_id",
+        "vpc_name",
+        "region_name",
+        "subnet_reference_id",
+        "subnet_id",
+        "subnet_name",
+        "subnet_cidr",
+        "subnet_link_status",
+        "vm_port_reference_id",
+        "vm_reference_res_id",
+        "vm_id",
+        "vm_name",
+        "vm_link_status"
+      ],
+      "grain": "distinct VPC identity × referenced subnet identity × proven VM identity or unknown endpoint group. Known VM repeated through multiple ports within subnet collapses; same VM in different subnets remains listed in each subnet.",
+      "zero_policy": "zero-child parent retained; subnet with no known VM retained; missing/NULL associations retained as status/reference fields"
+    },
+    "parent_counts": {
+      "columns": [
+        "catalog_vpc_count",
+        "selected_vpc_count",
+        "row_kind",
+        "vpc_id",
+        "vpc_name",
+        "region_name",
+        "referenced_subnet_count",
+        "resolved_subnet_count",
+        "unresolved_subnet_count",
+        "has_unknown_subnet_link",
+        "known_vm_count",
+        "unknown_vm_endpoint_count"
+      ],
+      "grain": "one row per selected ROUTER.id",
+      "known_vm_count": "COUNT DISTINCT VM.id across all subnets of parent; never sum per-subnet VM counts",
+      "has_unknown_subnet_link": "0/1 presence flag, not number of missing subnets",
+      "unknown_vm_endpoint_count": "number of distinct displayed unknown endpoint groups in hierarchy, not certified number of absent VM objects"
+    }
+  },
+  "total_contract": "catalog_vpc_count independently counts fetched full region/global ROUTER directory before joins; selected_vpc_count counts exact name/region selection before joins. When selected parent set empty, ordinary api_call+sql emits one row_kind=summary_only row with totals (global true-empty yields0,0); remaining identity/detail/count fields NULL. Nonempty rows repeat totals.",
+  "null_unknown_and_completeness": "Missing nativeId parent retained as unknown. Nonempty unresolved subnet/VM/PORT refs remain explicit. prepare also diagnoses VM missing resId and unattached/unattributed PORT/relation keys that never reach hierarchy; inability to prove them outside selected parents conservatively blocks completeness. Nullable keys project toNULL before SQL; B must load projected tables.",
+  "display_contract": "NULL/empty/blank-only requested name/CIDR values preserved, counted by distinct displayed resource identity in requested_display_unknown_counts, and requested_display_values_complete=false. known_relationship_graph_complete is separate; business_complete requires both and never certifies live/server/official completeness.",
+  "complete_scope": "known_relationship_graph_complete/business_complete apply only to prepared local receipt assertions and known relationships/requested values. No live atomic snapshot, B receipt trust/execution, formal business acceptance, model score or native field readiness claimed.",
+  "pagination_long_requests": "strict success/pages/total/size/unique identities; boolean metadata rejected. No arbitrary truncation. build.transport_diagnostic measures expanded api_call+sql compact UTF-8 JSON: core>4096 is blocked_core_length, with boundary/bytes/handling; full metadata size does not determine this flag. Static placeholder/core/full measured separately. Final B envelope/official4096B/depth boundary remains unverified; B must enforce accepted final boundary or adopt a verified compact/bound-parameter representation. Long semantic entities are not declared illegal.",
+  "runtime_gates": [
+    "native PORT duplicate source must receive authoritative handling; never fold to fake completeness",
+    "B must actually execute prepare projected rows and true typed-empty schema",
+    "trusted fetch/request/schema/page receipts and live consistency require B verification",
+    "final transmitted JSON boundary/depth and official business/relationship acceptance remain unverified"
+  ],
+  "deferred": [
+    "named VPC subnet/EIP view (not added this round)",
+    "P0 VDC network inventory (other owner)",
+    "B matcher/system, model or service tests, native SQL, official evaluator, sealed feedback, production/frozen132 changes"
+  ]
+}

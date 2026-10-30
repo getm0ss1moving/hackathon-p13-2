@@ -1,0 +1,153 @@
+{
+  "status": "INDEPENDENT_MINIMAL_CHECKPOINT_REVIEW_COMPLETE",
+  "checks": 19,
+  "passed": 19,
+  "failed": 0,
+  "checks_detail": [
+    {
+      "id": "HTTP_old_HTTP_envelope_closed",
+      "status": "PASS",
+      "detail": {
+        "status": "blocked",
+        "reason": "request_outcome_unconfirmed",
+        "resource": "VOLUME"
+      }
+    },
+    {
+      "id": "HTTP_old_HTTP_page_closed",
+      "status": "PASS",
+      "detail": {
+        "status": "blocked",
+        "reason": "page_request_failed_or_unconfirmed",
+        "resource": "VOLUME"
+      }
+    },
+    {
+      "id": "HTTP_exact_state_matrix",
+      "status": "PASS",
+      "detail": {
+        "matrix_subcases_not_added": 38
+      }
+    },
+    {
+      "id": "HTTP_valid_positive_not_all_reject",
+      "status": "PASS",
+      "detail": {
+        "rows": 3,
+        "full_answer_certified": false
+      }
+    },
+    {
+      "id": "HTTP_old_prepared_tag_alone_not_accepted",
+      "status": "PASS",
+      "detail": {
+        "status": "blocked",
+        "reason": "input_receipts_required"
+      }
+    },
+    {
+      "id": "HTTP_relabel_plus_failed_source_evidence_rejected",
+      "status": "PASS",
+      "detail": {
+        "status": "blocked",
+        "reason": "source_receipts_rejected",
+        "source_reason": "request_outcome_unconfirmed",
+        "resource": "VOLUME"
+      }
+    },
+    {
+      "id": "HTTP_pool_link_and_NULL_attribute_flags_split",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "CLUSTER_rank_population_and_all_ties",
+      "status": "PASS",
+      "detail": "ranking before details; all tied identities retained"
+    },
+    {
+      "id": "CLUSTER_host_CPU_independent_and_active_list",
+      "status": "PASS",
+      "detail": "duplicate business edge and active VM fanout do not multiply4+8; idle host retained"
+    },
+    {
+      "id": "CLUSTER_explicit_detail_population_AZ_boundary",
+      "status": "PASS",
+      "detail": "rankAZ does not filter host detail population or inherit region"
+    },
+    {
+      "id": "CLUSTER_unknown_rank_changes_certification",
+      "status": "PASS",
+      "detail": "known_cluster_leaders_only"
+    },
+    {
+      "id": "CLUSTER_missing_CPU_host_not_dropped_or_complete",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "CLUSTER_unproven_running_token_not_known_nonactive",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "VM_multiIP_raw_and_multiEIP_identity_boundary",
+      "status": "PASS",
+      "detail": "multi-valued raw strings preserved, shared IP text does not join vm2 to vm1 EIPs"
+    },
+    {
+      "id": "VM_unknown_host_parent_and_EIP_authority_retained",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "VM_native_view_no_PORT_or_region_default",
+      "status": "PASS",
+      "detail": "native attribute/host view needs no PORT and no implicit region"
+    },
+    {
+      "id": "VM_unresolved_EIP_not_no_EIP_complete",
+      "status": "PASS",
+      "detail": false
+    },
+    {
+      "id": "VM_crossregion_duplicate_PORT_ambiguous_resId_rejected",
+      "status": "PASS",
+      "detail": "rejected"
+    },
+    {
+      "id": "NEW_groups_failed_or_schema_unknown_not_empty",
+      "status": "PASS",
+      "detail": "new groups HTTP failure and missing schema rejected"
+    }
+  ],
+  "owner_suites_not_run": true,
+  "verified_manifests": {
+    "HTTP_leaf_files": 12,
+    "capabilities_root_files": 38,
+    "cluster_leaf_files": 11,
+    "VM_leaf_files": 8
+  },
+  "HTTP_leaf_sha256": "24be51bbf6092d5b86d46c6439f55c5f6a4e32df636f0a880da7e94f4a3adbbb",
+  "sources_and_extracted_files_unchanged": true,
+  "source_closure_files_verified": 8,
+  "doc_sha256": "eab8030ecc1e2b46ca6940b3623142f118a56b38fa735310d031f2909977b197",
+  "actual_runtime_N_delta": 0,
+  "not_merged_or_implemented_here": [
+    "192 dual-count increment",
+    "057 increment"
+  ],
+  "runtime_enablement_approved": false,
+  "not_run": [
+    "owner suites",
+    "old unrelated suites",
+    "model",
+    "service",
+    "B",
+    "official components",
+    "sealed50 answers/reference/scoring",
+    "full200 or feedback"
+  ],
+  "pending_approvals": [],
+  "uncertain_outcomes": []
+}

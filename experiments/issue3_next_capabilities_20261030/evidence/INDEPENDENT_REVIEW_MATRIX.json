@@ -1,0 +1,42 @@
+{
+  "status": "MINIMAL_INDEPENDENT_PASS_DEFAULT_DISABLED_SOURCE_PUBLICATION_ALLOWED",
+  "checks": 19,
+  "passed": 19,
+  "failed": 0,
+  "matrix_subcases_not_added": 38,
+  "owner_results_not_counted": true,
+  "modules": [
+    {
+      "module": "network_hierarchy",
+      "decision": "CAN_PUBLISH_DEFAULT_DISABLED_PRIOR18_REFERENCE",
+      "tested_here": "hash only; no unrelated rerun",
+      "remaining": "PORT canonical source not implemented; B request/schema/pages/typed-empty/final envelope"
+    },
+    {
+      "module": "ranked_vdc_pool_HTTP_R2",
+      "decision": "CAN_PUBLISH_DEFAULT_DISABLED_HTTP_AND_PREPARED_FIX_CLOSED",
+      "independent_cases_here": 7,
+      "remaining": "missing VDC owners; trusted actual evidence; unit/identity/policy; typed numeric loading/final envelope"
+    },
+    {
+      "module": "cluster_ranked_hosts",
+      "decision": "CAN_PUBLISH_DEFAULT_DISABLED_REPRESENTATIVE_CONTRACT_PASS",
+      "independent_cases_here": 6,
+      "shared_health_schema_case": true,
+      "remaining": "unknown cluster/host/CPU/status; real global context and derived projection; C population/ties and final envelope"
+    },
+    {
+      "module": "vm_eip_host",
+      "decision": "CAN_PUBLISH_DEFAULT_DISABLED_NATIVE_AND_KNOWN_LINK_SUBSETS",
+      "independent_cases_here": 5,
+      "shared_health_schema_case": true,
+      "remaining": "full EIP object binding authority/coverage unsupported; PORT duplicates; unknown hosts/addresses; B capture/loader/final envelope"
+    }
+  ],
+  "actual_N_delta": 0,
+  "not_merged": [
+    "192 dual-count increment",
+    "057 increment"
+  ],
+  "runtime_activation_approved": false
+}
