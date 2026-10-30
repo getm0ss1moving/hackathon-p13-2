@@ -65,5 +65,18 @@
   "new_full150_score": null,
   "holdout_evaluated": false,
   "automatic_retry_or_resume": false,
-  "raw_trace_uploaded": false
+  "raw_trace_uploaded": false,
+  "completed_case_classification": {
+    "full_quality": 0,
+    "partial_quality": 0,
+    "wrong_quality": 0,
+    "scorer_abstentions": 0
+  },
+  "uncompleted_cases": 150,
+  "timed_score": null,
+  "untimed_score": null,
+  "latency_p50": null,
+  "latency_p95": null,
+  "runner_wall_seconds": 3.325,
+  "peak_evaluation_process_mib": 197.31
 }
