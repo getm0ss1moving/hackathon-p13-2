@@ -68,3 +68,11 @@ v6完整验收比首轮计时提高83.3、质量提高82.3；与历史198 v18的
 该保护不认证旧模板业务正确性：同一训练范围、同一HOST域的3个集群分组中，原JOIN行求和403872、SUM(DISTINCT数值)768、按HOST身份各算一次6072；三个分组的HOST数量相同。JOIN倍增及参考计量口径需独立业务核查，不能把原评分5当成总vCPU计算已正确。
 
 最终免费273项通过，默认180/6族/400索引及240保护路径再次核验；原matcher44个函数中40个AST不变，4项有意改动为日志、family分支主流程和新增聚合合同保护。两个小修复轮分别21/30与20/30请求，9/10余量关闭不复用；没有新全150或50评测。完整尝试、源码指纹、失败和预算聚合见[ROLE_AGGREGATE_VALIDATION.json](ROLE_AGGREGATE_VALIDATION.json)，原始行/响应仅在本地。
+
+## v10完整回归尝试：服务503，未形成成绩
+
+按监督方要求冻结HEAD `6dbd772`与上述v9源码，确认没有其他训练进程、旧账本全closed、默认180/6族/400索引和240路径校验通过；训练150成员/顺序、业务flags与v6一致。新独立上限450请求，Flash、thinking disabled、输出1024、SDK retry0，未复用旧余额。原业务/训练/评分源码本轮未修改，启动器只读原JSONL，在首个已记录请求异常时中断原训练器，不注入响应或回放。
+
+首题select成功，family_fill返回HTTP503（InternalServerError）。共2请求、1失败、0/150完成；训练器记录run_error和incomplete summary，监督器终止后无后续模型请求。450预算实用2，448余量关闭；失败请求usage未提供，不能宣称其费用为零。本机CMDB schema后验HTTP200，源码/配置和源码ZIP逐项无漂移。没有自动重开、跳题、恢复或拼接；该次没有有效的新150总分，最新完整成绩仍633.3/750。
+
+计划SHA=`f52de072306ae1f576c1addf42a334f902afbde5d618f66da90abaa2eddd44c9`，源码ZIP SHA=`d2a961b2d0a3f9dc0ca9f82608b7855f4b8199d4e83f52d503cca8672ca1cb63`；聚合记录见[FULL_V10_ATTEMPT.json](FULL_V10_ATTEMPT.json)。50及全200对应反馈仍隔离，未以HTTP503推断任何新的算法故障或全局服务状态。
