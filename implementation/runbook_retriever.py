@@ -107,6 +107,9 @@ class RunbookRetriever:
         self._coverage_strong = coverage_strong
         self._coverage_weak = coverage_weak
         self._unseen_ratio = unseen_weight_ratio
+        # 去重别名只保留旧检索文档；执行候选始终使用仍在模板库中的编号。
+        self._canonical_ids = {alias['id']: item['id'] for item in items
+                               for alias in item.get('retrieval_aliases', [])}
         self._docs = self._build_docs(items)
         self._doc_count = len(self._docs)
         self._df = self._build_df()
@@ -122,8 +125,15 @@ class RunbookRetriever:
 
     @staticmethod
     def _build_docs(items: list) -> list:
-        docs = []
+        entries = list(items)
         for item in items:
+            for alias in item.get('retrieval_aliases', []):
+                # 保持原文档顺序、重复次数和 IDF，避免去重同时改变 BM25 权重。
+                pos = next(i for i, entry in enumerate(entries)
+                           if entry['id'] == alias['after_id']) + 1
+                entries.insert(pos, alias)
+        docs = []
+        for item in entries:
             for example in item.get("examples", []):
                 docs.append(_Doc(item["id"], tokenize(example)))
             if item.get("description"):
@@ -150,7 +160,16 @@ class RunbookRetriever:
         content, denominator = self._coverage_base(query_tokens)
         ranked = self._aggregate_items(query_tokens, content, denominator)
         results = self._assemble_results(ranked)
-        return results[:top_k] if top_k is not None else results
+        if top_k is not None:
+            results = results[:top_k]
+        unique, seen = [], set()
+        for candidate in results:
+            item_id = self._canonical_ids.get(candidate.id, candidate.id)
+            if item_id not in seen:
+                seen.add(item_id)
+                unique.append(Candidate(item_id, candidate.tier, candidate.score,
+                                        candidate.coverage))
+        return unique
 
     def _is_content_token(self, token: str) -> bool:
         return (self._df.get(token, 0) <= self._generic_df_limit

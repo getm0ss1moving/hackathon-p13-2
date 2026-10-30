@@ -1,0 +1,150 @@
+{
+  "status": "PASS",
+  "base_commit": "5f04481cb5daf7e969be76ac9735d279cd9c249f",
+  "source_sha256_before": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+  "source_sha256_after": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+  "N_before": 200,
+  "N_after": 198,
+  "retired_to_retained": {
+    "rb_054": "rb_052",
+    "rb_087": "rb_086"
+  },
+  "strict_duplicate_groups_exhaustively_scanned": 2,
+  "retained_original_execution_payloads_unchanged": 198,
+  "retrieval_inputs": 1604,
+  "top_k_settings": [
+    null,
+    1,
+    5,
+    10
+  ],
+  "paired_retrieval_comparisons": 6416,
+  "candidate_equivalence_failures": 0,
+  "original_corpus_order_tokens_DF_IDF_avg_length_preserved": true,
+  "index_document_count": 400,
+  "pure_selector_contracts": [
+    {
+      "module": "implementation/runbook_matcher.py",
+      "inputs": 400,
+      "status": "PASS_PURE_INTERFACE_ONLY"
+    }
+  ],
+  "protected_files_unchanged": 238,
+  "native_checks": [
+    {
+      "removed": "rb_054",
+      "retained": "rb_052",
+      "scope": "default",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 2,
+      "columns": [
+        "cpuArch",
+        "count"
+      ],
+      "nonempty_schema_verified": true
+    },
+    {
+      "removed": "rb_054",
+      "retained": "rb_052",
+      "scope": "alternate_nonempty",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 2,
+      "columns": [
+        "cpuArch",
+        "count"
+      ],
+      "nonempty_schema_verified": true
+    },
+    {
+      "removed": "rb_054",
+      "retained": "rb_052",
+      "scope": "no_match",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 0,
+      "columns": [],
+      "nonempty_schema_verified": false
+    },
+    {
+      "removed": "rb_087",
+      "retained": "rb_086",
+      "scope": "default",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 47,
+      "columns": [
+        "vdcName",
+        "count",
+        "total_size"
+      ],
+      "nonempty_schema_verified": true
+    },
+    {
+      "removed": "rb_087",
+      "retained": "rb_086",
+      "scope": "alternate_nonempty",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 47,
+      "columns": [
+        "vdcName",
+        "count",
+        "total_size"
+      ],
+      "nonempty_schema_verified": true
+    },
+    {
+      "removed": "rb_087",
+      "retained": "rb_086",
+      "scope": "no_match",
+      "status": "PASS_EXACT_NATIVE_OUTPUT_EQUALITY",
+      "row_count": 0,
+      "columns": [],
+      "nonempty_schema_verified": false
+    }
+  ],
+  "native_fresh_executor_processes": 18,
+  "max_compact_item_bytes": 1604,
+  "elapsed_seconds": 16.292680708982516,
+  "model_calls": 0,
+  "limits": [
+    "检索变换只验证新旧一致性，不证明否定或未知输入已被正确理解。",
+    "未运行真实模型选择、填参或端到端评分，不把历史成绩归于198模板。",
+    "B已统一根目录，本次不修改其matcher/system/训练脚本或封存集。",
+    "原执行器对空数据缺列的吞错行为不属于本次修复。",
+    "4KB使用紧凑UTF-8 JSON检查；官方深度算法仍待明确。"
+  ],
+  "native_HTTP_requests": 18,
+  "native_HTTP_status_counts": {
+    "200": 18
+  },
+  "self_started_loopback_service_stopped": true,
+  "reading_report_200_snapshot_modified": false,
+  "B_pipeline_already_unified_at_base": true,
+  "B_matcher_system_aggregates_and_training_modified": false,
+  "fixed_module_sha256": {
+    "evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+    "runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92"
+  },
+  "prior_attempts": [
+    {
+      "status": "FAILED_ENVIRONMENT",
+      "exit_code": 1,
+      "reason": "Sandbox blocked loopback access; no valid native result. Retried with explicit sandbox escalation, no security configuration changes."
+    },
+    {
+      "status": "PASS_SHARED_PROCESS_DIAGNOSTIC_ONLY",
+      "reason": "Superseded by final18 fresh executor processes; no cache clearing/injection."
+    },
+    {
+      "status": "CHECKER_PATH_SCOPE_CORRECTED",
+      "reason": "Use NUL-delimited Git paths for Unicode paths. Final unified baseline check covers238 files."
+    },
+    {
+      "status": "PASS_ON_EARLIER_BASE",
+      "reason": "Earlier18-process check used c1f7bff. Repeated on5f04481 after B root unification; older evidence retained locally."
+    }
+  ],
+  "new_source_files": {
+    "implementation/runbook_items.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+    "implementation/runbook_retriever.py": "affd82bde40d7e138ee1e0202beb826ff3b247c83c6f9ec1a951b26772d5df17",
+    "experiments/a_strict_dedup_20261030/verify.py": "8a9bf0c397130b32a5e4597ed7e43a976a2532534a4eedb9d3dcc47194bf7102"
+  }
+}

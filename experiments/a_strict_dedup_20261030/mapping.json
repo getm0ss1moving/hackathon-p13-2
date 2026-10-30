@@ -1,0 +1,14 @@
+{
+  "source_commit": "5f04481cb5daf7e969be76ac9735d279cd9c249f",
+  "old_N": 200,
+  "new_N": 198,
+  "retired_to_retained": {
+    "rb_054": "rb_052",
+    "rb_087": "rb_086"
+  },
+  "execution_contracts_unchanged": true,
+  "retired_entries_are_nonexecuting_retrieval_text_only": true,
+  "unified_runtime_location": "implementation/",
+  "unified_runtime_N": 198,
+  "B_matcher_system_modified": false
+}

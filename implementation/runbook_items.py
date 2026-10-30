@@ -2000,6 +2000,7 @@ RUNBOOK_ITEMS = [
     }
   },
   {
+    "retrieval_aliases": [{"id": "rb_054","after_id": "rb_053","examples": ["查询区域region_guian4下物理服务器CPU架构类型统计"],"description": "查询区域region_guian4下物理服务器CPU架构类型统计"}],
     "id": "rb_052",
     "name": "tpl_052_CMDB-077",
     "description": "查询整个Region内部所有的物理服务器CPU架构类型并统计各类数量",
@@ -2055,36 +2056,6 @@ RUNBOOK_ITEMS = [
       }
     },
     "sql": "SELECT status, COUNT(*) AS count FROM CLOUD_HOST GROUP BY status",
-    "default_params": {
-      "logicalRegionName": "region_guian4"
-    }
-  },
-  {
-    "id": "rb_054",
-    "name": "tpl_054_CMDB-080",
-    "description": "查询区域region_guian4下物理服务器CPU架构类型统计",
-    "resources": [
-      "S_X86Server"
-    ],
-    "examples": [
-      "查询区域region_guian4下物理服务器CPU架构类型统计"
-    ],
-    "api_call": {
-      "method": "GET",
-      "url": "/rest/hackthon/db/instances/S_X86Server?pageNo=1&pageSize=10000",
-      "condition": {
-        "constraint": [
-          {
-            "simple": {
-              "name": "logicalRegionName",
-              "value": "{{logicalRegionName}}",
-              "operator": "equal"
-            }
-          }
-        ]
-      }
-    },
-    "sql": "SELECT cpuArch, COUNT(*) AS count FROM SYS_X86Server GROUP BY cpuArch",
     "default_params": {
       "logicalRegionName": "region_guian4"
     }
@@ -3075,38 +3046,9 @@ RUNBOOK_ITEMS = [
     }
   },
   {
+    "retrieval_aliases": [{"id": "rb_087","after_id": "rb_086","examples": ["查询区域region_guian4下各VDC的云硬盘数量和总容量"],"description": "查询区域region_guian4下各VDC的云硬盘数量和总容量"}],
     "id": "rb_086",
     "name": "tpl_086_CMDB-130",
-    "description": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
-    "resources": [
-      "VOLUME"
-    ],
-    "examples": [
-      "查询区域region_guian4下各VDC的云硬盘数量和总容量"
-    ],
-    "api_call": {
-      "method": "GET",
-      "url": "/rest/hackthon/db/instances/VOLUME?pageNo=1&pageSize=10000",
-      "condition": {
-        "constraint": [
-          {
-            "simple": {
-              "name": "logicalRegionName",
-              "value": "{{logicalRegionName}}",
-              "operator": "equal"
-            }
-          }
-        ]
-      }
-    },
-    "sql": "SELECT vdcName, COUNT(*) AS count, SUM(size) AS total_size FROM CLOUD_VOLUME GROUP BY vdcName",
-    "default_params": {
-      "logicalRegionName": "region_guian4"
-    }
-  },
-  {
-    "id": "rb_087",
-    "name": "tpl_087_CMDB-132",
     "description": "查询区域region_guian4下各VDC的云硬盘数量和总容量",
     "resources": [
       "VOLUME"

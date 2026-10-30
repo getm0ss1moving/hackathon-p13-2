@@ -1,5 +1,7 @@
 # CMDB 智能查询系统 — Hackathon
 
+2026-10-30 严格等价去重：根 `implementation/` 现为 **198条**（054→052、087→086），保留原检索文本权重与旧编号映射；[变更说明与免费回归](experiments/a_strict_dedup_20261030/README.md)。B已统一根目录，与A/C共用这198条模板；下文既有200条记录与中文阅读表均保留原版本含义。没有新模型评分。
+
 2026-10-30 模板阅读资料：新增独立的 [200条中文阅读表](reports/template_classification_20261030/模板分类阅读版.md)、[可筛选 Excel](reports/template_classification_20261030/模板分类阅读版.xlsx) 和 [CSV](reports/template_classification_20261030/模板分类阅读版.csv)。该表冻结在 `ad45ecc1` 的200条模板，区分查询用途、实际实现和未验证的合并候选；原 JSON、技术证据和业务代码保持原样。
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
@@ -10,7 +12,7 @@
 
 | 位置 | 当前用途 |
 |---|---|
-| `implementation/runbook_items.py`、`runbook_retriever.py` | A的当前200模板、BM25检索 |
+| `implementation/runbook_items.py`、`runbook_retriever.py` | A的当前198模板、BM25检索（严格去重映射见上方） |
 | `implementation/runbook_matcher.py`、`runbook_system.py`、`runbook_aggregates.py` | B的最新选择、填参、SQL精调及默认关闭的聚合候选 |
 | `implementation/quick_eval.py`、`blackbox_eval.py`、`eval_report.py` | C的原评分入口与可选诊断；调用同一套B流程 |
 | `output-server/` | 唯一的原数据服务和230个数据JSON |
