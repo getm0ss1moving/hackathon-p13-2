@@ -97,4 +97,4 @@ v11一个训练问题已选对原EIP→ECS模板，但“关联了弹性IP”未
 
 收到监督方关于下一付费小集和文档发布被自动审批拒绝的通知后，未新增付费调用或远端写入；此前两组独立启动的实验均已正常完成。之后仅做本地免费检查和可审查方案，当前没有新的完整150成绩，最新仍是v11的639.1。
 
-F18退化也完成免费核查：现有提示文字已有分组/指标联动规则，但提示中的JSON Schema仍是独立枚举，允许8组合，运行时仅支持4。建议仅为F18添加oneOf分支，保持物化及语义拒绝不变；当前尚未应用运行时。4个正例、7个负例与8组合穷举记录见[F18_SCHEMA_REVIEW.json](F18_SCHEMA_REVIEW.json)，最小建议见[复核说明](../../docs/training/F18_SCHEMA_COMBINATIONS_20261030.md)。未安装依赖、未运行完整Schema验证器、未把离线响应重放称作新模型成绩。
+F18退化也完成免费核查：现有提示文字已有分组/指标联动规则，但提示中的JSON Schema仍是独立枚举，允许8组合，运行时仅支持4。已仅在本地为F18提示Schema添加oneOf分支，保持物化及语义拒绝不变；相对37f7407，仅_match_family_candidate的Schema构造改变，EIP逻辑没有同时改动。4个正例、7个负例与8组合穷举记录见[F18_SCHEMA_REVIEW.json](F18_SCHEMA_REVIEW.json)，最小建议见[复核说明](../../docs/training/F18_SCHEMA_COMBINATIONS_20261030.md)。候选281项免费检查通过，实际Schema等于审查提案，见[F18_SCHEMA_CANDIDATE.json](F18_SCHEMA_CANDIDATE.json)。父账本在重新办理通知前已关闭，包括9次未分配额度；没有重开或调用模型验证该候选。未安装依赖、未运行完整Schema验证器、未把离线响应重放称作新模型成绩。

@@ -1,0 +1,106 @@
+{
+  "status": "local_schema_candidate_free_checks_passed",
+  "base_commit": "37f74071b1e95cb8f57cd9e553dd4227ac635763",
+  "matcher_sha256": "dced03e08a68670a7c4899060b6c2ac1fee57c680bf91de53322928f7a7b96d9",
+  "changed_functions": [
+    "_match_family_candidate"
+  ],
+  "change": "F18 prompt JSON Schema oneOf; no runtime guard relaxation",
+  "actual_schema_matches_reviewed_proposal": true,
+  "actual_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "group": {
+        "type": "string",
+        "enum": [
+          "flavorCode",
+          "vdcName",
+          "engineVersion",
+          "haMode"
+        ]
+      },
+      "metrics": {
+        "type": "string",
+        "enum": [
+          "count",
+          "count_storage"
+        ]
+      },
+      "scope": {
+        "type": "string",
+        "enum": [
+          "global",
+          "filtered"
+        ]
+      },
+      "filters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "logicalRegionName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "required_filters": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "logicalRegionName"
+          ]
+        }
+      }
+    },
+    "required": [
+      "scope",
+      "filters",
+      "required_filters",
+      "group",
+      "metrics"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "group": {
+            "enum": [
+              "flavorCode",
+              "engineVersion",
+              "haMode"
+            ]
+          },
+          "metrics": {
+            "const": "count"
+          }
+        }
+      },
+      {
+        "properties": {
+          "group": {
+            "const": "vdcName"
+          },
+          "metrics": {
+            "const": "count_storage"
+          }
+        }
+      }
+    ]
+  },
+  "prior_review_sha256": "6b41026934869a3f773afb417e2374204c39ced67cfe8e3adbb69b6baf58ca61",
+  "prior_matrix_cases": 8,
+  "prior_positive_controls": 4,
+  "prior_negative_controls": 7,
+  "grounding_materialization_and_EIP_AST_unchanged": true,
+  "free_training_checks": 281,
+  "new_model_requests": 0,
+  "real_api_validation": "NOT RUN: round8 already closed including 9 unallocated requests before renewed coordination; no reallocation",
+  "old_full150_score_not_reassigned": true,
+  "holdout_evaluated": false,
+  "full200_loaded": false,
+  "complete_JSON_schema_validator_tested": false
+}

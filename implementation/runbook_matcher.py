@@ -1666,6 +1666,17 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
                      "F18": ["group", "metrics"], "F20": ["view"], "F21": ["group"]}[family]
     schema = {"type": "object", "additionalProperties": False, "properties": properties,
               "required": ["scope", "filters", "required_filters", *required_axes]}
+    if family == "F18":
+        schema["oneOf"] = [
+            {"properties": {
+                "group": {"enum": ["flavorCode", "engineVersion", "haMode"]},
+                "metrics": {"const": "count"},
+            }},
+            {"properties": {
+                "group": {"const": "vdcName"},
+                "metrics": {"const": "count_storage"},
+            }},
+        ]
     notes = {
         "F01": "group由明确的各/每/按维度决定；具名租户、区域、可用区属于filters，不能凭其出现增加分组。"
                "没有分组要求则group=none，metrics=count，count_alias=total；分组count的别名是count。"
