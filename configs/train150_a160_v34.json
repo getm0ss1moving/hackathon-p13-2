@@ -1,0 +1,27 @@
+{
+  "arguments": [
+    "--a160-candidate",
+    "--candidate-flags",
+    "--refine-contract-prompt",
+    "--independent-aggregates",
+    "--grouped-aggregates",
+    "--network-details",
+    "--identity-projection",
+    "--vpc-subnets",
+    "--tenant-resources",
+    "--vm-volume-details",
+    "--tenant-vdc-binding",
+    "--parallel-resource-lists",
+    "--detail-count",
+    "--ground-sql-measures",
+    "--partial-storage-pools",
+    "--sg-rule-semijoin",
+    "--verified-empty-root",
+    "--typed-empty-root",
+    "--thinking-mode",
+    "disabled",
+    "--request-limit",
+    "450"
+  ],
+  "output_dir": "reports/train150_a160_v34_new"
+}

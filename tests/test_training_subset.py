@@ -25,7 +25,7 @@ def fixture():
     history = [{**case, "score_without_time_penalty": 0 if index % 2 == 0 else 5}
                for index, case in enumerate(cases)]
     manifest = {"split_id": "whitebox_150_50_v1", "train_sha256": "d" * 64,
-                "train_history_sha256": "d" * 64}
+                "train_history_sha256": "d" * 64, "sealed_test_sha256": "d" * 64}
     return manifest, cases, history
 
 
@@ -127,6 +127,8 @@ class SubsetTests(unittest.TestCase):
         stack.enter_context(patch.dict(sys.modules, {
             "runbook_matcher": matcher, "runbook_system": SimpleNamespace(RunbookQuerySystem=System,
                 __file__=str(train_live.HERE / "implementation/runbook_system.py")),
+            "runbook_retriever": SimpleNamespace(__file__=str(train_live.HERE / "implementation/runbook_retriever.py")),
+            "runbook_executor": SimpleNamespace(__file__=str(train_live.HERE / "implementation/runbook_executor.py")),
             "runbook_items": SimpleNamespace(RUNBOOK_ITEMS=[{}] * 200,
                 __file__=str(train_live.HERE / "implementation/runbook_items.py")),
             "evaluator": SimpleNamespace(evaluate_case=score,
@@ -206,6 +208,28 @@ class SubsetTests(unittest.TestCase):
         with redirect_stdout(stdout), redirect_stderr(io.StringIO()):
             code = train_live.main(args + ["--run", "--expected-plan", str(expected), "--output", str(output)])
         return code, [json.loads(line) for line in output.read_text().splitlines()], state
+
+    def test_explicit_fifty_validation_is_separate_and_bounded(self):
+        validation = [{'case_id': f'VALID-{i}', 'question': f'合成验证问题{i}'} for i in range(50)]
+        args = ['--sealed-validation-freeze', str(train_live.HERE/'reports/synthetic_validation_freeze.json')]
+        with ExitStack() as stack:
+            stack.enter_context(patch('validation_data.load_sealed_validation', return_value=validation))
+            code, rows, state = self.run_fixture(stack, args)
+        self.assertEqual(code, 0)
+        self.assertEqual(rows[0]['type'], 'validation_plan')
+        self.assertEqual(rows[-1]['scope'], 'sealed50_validation')
+        self.assertTrue(rows[-1]['holdout_evaluated'])
+        self.assertEqual((rows[-1]['completed_cases'], rows[-1]['max_requests'], state.sdk_calls), (50, 150, 100))
+        self.assertTrue(all(row['training_case_index'] is None for row in rows if row['type'] == 'case'))
+
+    def test_recovery_candidates_default_off_and_explicit_flags_are_frozen(self):
+        with ExitStack() as stack:
+            self.fake_inputs(stack);self.fake_runtime(stack)
+            default = self.preflight([])
+            enabled = self.preflight(['--preserve-sparse-nulls', '--bind-deploy-node-region'])
+        for name in ['RUNBOOK_PRESERVE_SPARSE_NULLS', 'RUNBOOK_BIND_DEPLOY_NODE_REGION']:
+            self.assertEqual(default['feature_flags'][name], '0')
+            self.assertEqual(enabled['feature_flags'][name], '1')
 
     def test_subset_run_summary_request_members_and_original_indices(self):
         args = ["--case-id", "SYNTH-003", "--case-id", "SYNTH-001", "--phase", "passed_regression"]

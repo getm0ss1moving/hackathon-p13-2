@@ -40,7 +40,7 @@ class EmptyRootQueryTests(unittest.TestCase):
         original=system._execute_bounded_api
         def probe(value,diagnostics,**kwargs):return original(value,diagnostics,session=session,**kwargs)
         before=copy.deepcopy(item);cache=copy.deepcopy(executor._cache)
-        with patch.dict(os.environ,{'RUNBOOK_BOUNDED_API':'0','RUNBOOK_VERIFIED_EMPTY_ROOT':'1' if enabled else '0'}), \
+        with patch.dict(os.environ,{'RUNBOOK_BOUNDED_API':'0','RUNBOOK_VERIFIED_EMPTY_ROOT':'1' if enabled else '0', 'RUNBOOK_EMPTY_ANSWER_FALLBACK':'0'}), \
                 patch.object(matcher,'_schema_columns',SCHEMA),patch.object(system,'get_llm_events',return_value=[]), \
                 patch.object(system,'match_runbook',return_value=item), \
                 patch.object(system,'_execute_bounded_api',side_effect=probe) as bounded, \

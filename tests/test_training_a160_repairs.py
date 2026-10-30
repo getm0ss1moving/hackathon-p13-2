@@ -87,7 +87,7 @@ class TypedResultRecoveryTests(unittest.TestCase):
 
     def run_query(self, recovered):
         empty = {"sql": self.item["sql"], "result": {"columns": [], "rows": [], "row_count": 0}, "error": None}
-        flags = {"RUNBOOK_TYPED_EMPTY_ROOT": "1", "RUNBOOK_BOUNDED_API": "0", "RUNBOOK_SG_RULE_SEMIJOIN": "0", "RUNBOOK_VERIFIED_EMPTY_ROOT": "0"}
+        flags = {"RUNBOOK_TYPED_EMPTY_ROOT": "1", "RUNBOOK_BOUNDED_API": "0", "RUNBOOK_SG_RULE_SEMIJOIN": "0", "RUNBOOK_VERIFIED_EMPTY_ROOT": "0", "RUNBOOK_EMPTY_ANSWER_FALLBACK": "0"}
         def repeat(item, evidence, **options):
             self.assertEqual(item, self.item)
             if isinstance(recovered, Exception):

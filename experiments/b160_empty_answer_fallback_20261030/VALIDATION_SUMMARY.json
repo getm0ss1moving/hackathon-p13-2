@@ -1,0 +1,63 @@
+{
+  "policy": "empty_on_abstention_or_error",
+  "default_enabled": true,
+  "feature_flag": "RUNBOOK_EMPTY_ANSWER_FALLBACK",
+  "unit_checks": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--output-dir",
+      "reports/b160_empty_answer_fallback_20261030/checks_01",
+      "--test-module",
+      "test_training_empty_answer_fallback",
+      "--test-module",
+      "test_training_blank_contract",
+      "--test-module",
+      "test_training_execution_result_schema",
+      "--test-module",
+      "test_training_a160_repairs.TypedResultRecoveryTests",
+      "--test-module",
+      "test_training_empty_root_query"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-160-20261030"
+  },
+  "preflight": {
+    "scope": "train_subset",
+    "case_ids": [
+      "CMDB-077"
+    ],
+    "template_count": 160,
+    "feature_flag": "1",
+    "future_maximum_requests": 3,
+    "actual_model_requests": 0,
+    "run_started": false,
+    "plan_sha256": "3f8774830a148b9cb73e7b5b47dad47a51cbf70056ed6e142d8fcf59344819ec"
+  },
+  "actual_model_requests": 0,
+  "new_model_score": null,
+  "official_hashes": {
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c"
+  },
+  "official_files_unchanged": true,
+  "checked_source_sha256": {
+    "implementation/runbook_system.py": "a7e483a942b0534dd47ea11da785bed3e95a83b022c201b06ec1aa6ce117351e",
+    "scripts/train_live.py": "13706010b70ddb134a35917b4f137bc877cf1fc8922a3fd8fe3ef0fe11db39b5",
+    "tests/test_training_empty_answer_fallback.py": "c4a7f0fdad9ec7d08ef692f828bca0143ce832313b2a051920483e983e2a6853",
+    "tests/test_training_execution_result_schema.py": "0ba3fa6237f469bf7e2e2f2b2edc4872d8a3fbf56ff4965d4509e0be9a8a84b9",
+    "tests/test_training_empty_root_query.py": "94c4e8957d328a020bf1a79a214b5cbe2d3fb078c257059bae670c2b8c0bc9a4",
+    "tests/test_training_a160_repairs.py": "285230b73d5da42b9120151afec597856c5beb7bb09cb9f326840d24d67ab768"
+  },
+  "source_capture": "post_checks_no_further_runtime_changes",
+  "git_commit_or_push": false,
+  "limitation": "猜空不等于已证真空；API条件门槛仍生效；本轮无新模型成绩。"
+}

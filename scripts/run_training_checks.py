@@ -3,6 +3,7 @@ import argparse
 import contextlib
 import json
 import logging
+import re
 from pathlib import Path
 import socket
 import sys
@@ -16,11 +17,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--bounded", action="store_true", help="额外运行原分批执行器16项合成检查")
+    parser.add_argument("--test-module", action="append", help="只跑指定training测试模块/类/方法，可重复；省略时保持原免费全套")
     args = parser.parse_args()
+    if args.test_module and any(not re.fullmatch(r'test_training_[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+){0,2}', name) for name in args.test_module):
+        parser.error('仅允许指定已有test_training_模块、类或方法')
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=False)
     sys.path[:0] = [str(ROOT / "tests"), str(ROOT / "implementation"), str(ROOT / "scripts")]
-    suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"), pattern="test_training_*.py")
+    suite = (unittest.defaultTestLoader.loadTestsFromNames(args.test_module) if args.test_module else
+             unittest.defaultTestLoader.discover(str(ROOT / "tests"), pattern="test_training_*.py"))
     if args.bounded:
         suite.addTests(unittest.defaultTestLoader.loadTestsFromName("test_bounded_api"))
     attempts = []

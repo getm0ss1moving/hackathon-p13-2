@@ -34,7 +34,7 @@ class ResultSchemaTests(unittest.TestCase):
         item={'name':'合成例','api_call':{'method':'GET','url':'/unused'},'sql':'SELECT name FROM CLOUD_HOST'}
         execution={'sql':item['sql'],'result':copy.deepcopy(result),'error':error}
         original=copy.deepcopy(execution)
-        with patch.dict(os.environ,{'RUNBOOK_BOUNDED_API':'1' if bounded else '0'}), \
+        with patch.dict(os.environ,{'RUNBOOK_BOUNDED_API':'1' if bounded else '0', 'RUNBOOK_EMPTY_ANSWER_FALLBACK':'0'}), \
                 patch.object(fixed,'match_runbook',return_value=item), \
                 patch.object(fixed,'get_llm_events',return_value=[]), \
                 patch.object(fixed,'execute',return_value=execution) as native, \

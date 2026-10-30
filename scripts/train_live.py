@@ -1,4 +1,4 @@
-"""固定150训练题或其显式子集真实诊断，默认只预检；无留出集合入口。"""
+"""固定训练诊断；仅显式解封冻结参数允许单次50题验证，默认只预检。"""
 
 import argparse
 import json
@@ -146,13 +146,17 @@ def main(argv=None):
     parser.add_argument("--sg-rule-semijoin", action="store_true", help="规则按真实安全组父ID分批读取，默认关闭")
     parser.add_argument("--verified-empty-root", action="store_true", help="已证空根保留SQL列并停止后续依赖，默认关闭")
     parser.add_argument("--typed-empty-root", action="store_true", help="单CI真实空集按正确空表执行，COUNT为0，默认关闭")
+    parser.add_argument("--no-empty-answer-fallback", action="store_true", help="关闭用户默认启用的拒答/错误猜空策略，用于原行为对照")
     parser.add_argument("--detail-count", action="store_true", help="同范围原明细与对象总数完整输出，默认关闭")
     parser.add_argument("--ground-sql-measures", action="store_true", help="拒绝SQL时钟/随机伪造业务测量，默认关闭")
     parser.add_argument("--partial-storage-pools", action="store_true", help="存储池明细/容量与明确磁盘类型缺项，默认关闭")
+    parser.add_argument("--preserve-sparse-nulls", action="store_true", help="保留已审稀疏NULL投影候选；参考范围冲突未解决，默认关闭")
+    parser.add_argument("--bind-deploy-node-region", action="store_true", help="部署节点规范区域ID绑定候选；默认关闭")
     parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="disabled",
                         help="固定思考模式；默认disabled显式关闭thinking，provider_default不传额外参数")
     parser.add_argument("--case-id", action="append", help="可重复指定固定训练成员；最终按原train顺序运行")
     parser.add_argument("--phase", choices=("failure_probe", "passed_regression"), help="子集实验阶段，必须显式指定")
+    parser.add_argument("--sealed-validation-freeze", type=Path, help="用户本轮明确解封的固定50验证；必须先冻结运行时")
     args = parser.parse_args(argv)
     from check_official_integrity import require_official_files
     try:
@@ -160,8 +164,16 @@ def main(argv=None):
     except ValueError as exc:
         parser.error(str(exc))
     manifest, all_cases, _ = load_training()  # 失败即停；不打开原200题或封存文件。
+    validation = args.sealed_validation_freeze is not None
     try:
-        cases, scope, phase = select_cases(all_cases, args.case_id, args.phase)
+        if validation:
+            if args.case_id is not None or args.phase is not None:
+                raise ValueError('50验证不允许子集、挑题或重抽')
+            from validation_data import load_sealed_validation
+            cases = load_sealed_validation(HERE, args.sealed_validation_freeze, manifest, all_cases)
+            scope, phase = 'sealed50_validation', 'user_authorized_validation_once'
+        else:
+            cases, scope, phase = select_cases(all_cases, args.case_id, args.phase)
         phase_reference = subset_history(manifest, all_cases, cases, phase) if scope == "train_subset" else None
     except (ValueError, KeyError, OSError) as exc:
         parser.error(str(exc))
@@ -196,9 +208,12 @@ def main(argv=None):
     flags["RUNBOOK_SG_RULE_SEMIJOIN"] = "1" if args.sg_rule_semijoin else "0"
     flags["RUNBOOK_VERIFIED_EMPTY_ROOT"] = "1" if args.verified_empty_root else "0"
     flags["RUNBOOK_TYPED_EMPTY_ROOT"] = "1" if args.typed_empty_root else "0"
+    flags["RUNBOOK_EMPTY_ANSWER_FALLBACK"] = "0" if args.no_empty_answer_fallback else "1"
     flags["RUNBOOK_COMPLETE_DETAIL_COUNT"] = "1" if args.detail_count else "0"
     flags["RUNBOOK_GROUND_SQL_MEASURES"] = "1" if args.ground_sql_measures else "0"
     flags["RUNBOOK_PARTIAL_STORAGE_POOLS"] = "1" if args.partial_storage_pools else "0"
+    flags["RUNBOOK_PRESERVE_SPARSE_NULLS"] = '1' if args.preserve_sparse_nulls else '0'
+    flags["RUNBOOK_BIND_DEPLOY_NODE_REGION"] = '1' if args.bind_deploy_node_region else '0'
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
     os.environ.update(flags)
@@ -301,11 +316,13 @@ def main(argv=None):
     sources += sorted(handoff_evidence)
     if scope == "train_subset":
         sources.append("scripts/train_prompt_probe.py")
-    plan = {"type": "training_plan", "created_at": now(), "split_id": manifest["split_id"],
+    if validation:
+        sources += ['scripts/validation_data.py', str(args.sealed_validation_freeze.resolve().relative_to(HERE))]
+    plan = {"type": "validation_plan" if validation else "training_plan", "created_at": now(), "split_id": manifest["split_id"],
             "record_format": 2,
             "case_count": case_count, "case_ids": [case["case_id"] for case in cases], "phase": phase,
             "phase_reference": phase_reference,
-            "repeats": 1, "case_order": "fixed train file order", "scope": scope,
+            "repeats": 1, "case_order": "fixed sealed file order" if validation else "fixed train file order", "scope": scope,
             "training_sha256": manifest["train_sha256"], "split_manifest_sha256": sha(SPLIT/"manifest.json"),
             "training_history_sha256": manifest["train_history_sha256"],
             "source_sha256": {name: sha(HERE/name) for name in sources},
@@ -320,10 +337,14 @@ def main(argv=None):
             "thinking": "provider default" if args.thinking_mode == "provider_default" else "disabled",
             "thinking_mode": args.thinking_mode, "thinking_extra_body": thinking_extra_body,
             "temperature": "provider default", "feature_flags": flags,
-            "template_count": len(runbook_items.RUNBOOK_ITEMS), "holdout_evaluated": False,
+            "template_count": len(runbook_items.RUNBOOK_ITEMS), "holdout_evaluated": validation,
             "score_policy": "original query and evaluate_case; no weighting or template-count score",
             "cache_policy": "fresh process; schema warmup excluded; executor cache shared across training cases",
             "authorization": "preflight only; bounded training runs may be decided under the user's standing autonomy authorization; freeze and record each actual scope before --run"}
+    if validation:
+        plan.update(evaluation_sha256=manifest['sealed_test_sha256'],
+                    partition_status='validation_after_explicit_user_exposure',
+                    authorization='user explicitly requested testing the remaining fixed50 on 2026-10-30; one bounded pass')
     if args.expected_plan:
         expected = json.loads(args.expected_plan.read_text())
         if any(expected.get(key) != value for key, value in plan.items() if key not in {"created_at", "authorization"}):
@@ -350,6 +371,7 @@ def main(argv=None):
                 or sha(SPLIT/"train.json") != plan["training_sha256"]
                 or sha(SPLIT/"train_history.jsonl") != plan["training_history_sha256"]
                 or sha(SPLIT/"manifest.json") != plan["split_manifest_sha256"]
+                or validation and sha(SPLIT/'sealed_test.json') != plan['evaluation_sha256']
                 or phase_reference is not None and any(sha(HERE/"experiments"/name) != digest
                                                        for name, digest in phase_reference["file_sha256"].items())
                 or any(os.environ.get(key) != value for key, value in flags.items())
@@ -416,7 +438,7 @@ def main(argv=None):
                 frozen()
                 scored, untimed = evaluate_case(case, output, elapsed), evaluate_case(case, output, 0)
                 row = {"type": "case", "case_index": index+1, **scored, "question": case["question"],
-                       "training_case_index": training_indices[case["case_id"]],
+                       "training_case_index": training_indices.get(case["case_id"]),
                        "score_without_time_penalty": untimed["score"], "matched_runbook": output.get("matched_runbook"),
                        "api_call": output.get("api_call"), "sql": output.get("sql"), "result": result_preview(output.get("result")),
                        "diagnostics": output.get("diagnostics")}
@@ -436,10 +458,11 @@ def main(argv=None):
                        "untimed_score": round(sum(row["score_without_time_penalty"] for row in records), 1),
                        "full_quality_answers": sum(row["score_without_time_penalty"] == 5 for row in records),
                        "runtime_abstentions": sum(row["matched_runbook"] is None for row in records),
+                       "empty_answer_guesses": sum(bool((row.get("diagnostics") or {}).get("empty_answer_fallback")) for row in records),
                        "scorer_abstentions": sum(row["score_without_time_penalty"] == 0 for row in records),
                        "generation_requests": len(events), "failed_requests": sum(row["status"] != "ok" for row in events),
                        "max_requests": max_requests,
-                       "model_identity_mismatches": mismatch, "holdout_evaluated": False,
+                       "model_identity_mismatches": mismatch, "holdout_evaluated": validation,
                        "wall_seconds": round(time.perf_counter()-started, 3), "peak_evaluation_process_mib": peak_memory_mib(),
                        "latency_p50": percentile([row["elapsed"] for row in records], .5),
                        "latency_p95": percentile([row["elapsed"] for row in records], .95)}

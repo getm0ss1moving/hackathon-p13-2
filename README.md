@@ -1,14 +1,17 @@
 # CMDB 智能查询系统 — Hackathon
 
-**B160接入与简单修复已整合：** [接入/验证摘要](experiments/a160_runtime_port_20261030/README.md) · [训练结果](docs/training/A160_V33.md) · [A/C交接](docs/handoffs/B_A160_V33_STATUS.md) · [最新评分器合并修订](docs/training/EVALUATOR_COMBINED_REVISION_20261030.md)。旧ratio1版连续150题为626.8→632.8/750；旧别名版三题15/15。当前评分器已同时保留别名/额外列修改及ratio1数值修复，尚无当前版本完整150成绩。默认库仍198，160以本地候选显式启用；整体业务限制保留，stage2不启。
+**B最新发布（2026-10-30）：** [A/C拉取与复现说明](docs/handoffs/B_LATEST_FOR_AC_20261030.md) · [拒答猜空策略](docs/training/EMPTY_ANSWER_FALLBACK_20261030.md) · [150/50未答明细](docs/training/ABSTENTION_SPLIT_REVIEW_20261030.md) · [最后30题归因](docs/training/B160_TAIL30_DIAGNOSIS_20261030.md)。查询入口默认把拒答/显式错误转为空答案猜测，正常结果优先；诊断保留失败原因与guess标记，API条件门槛和官方评分不变。C的no_answer按0分统计，不能等同于模型拒答或真实空集。
+
+猜空之前的冻结记录：训练150为636.4/750、12未答；后50验证为157/250、15未答，两轮matcher不同，不合成新200成绩。最新猜空出口已有33项离线语义检查，本次发布入口相关31项通过，无新增模型成绩。后50已依用户要求评估并曝光，后续称验证集。默认库仍198，160以本地候选显式启用；展开库不上传，stage2不启。
 
 拉取后在仓库根用一条命令复建并启用同一份160（全程离线，不调用模型；输出目录须为新的仓库外路径）：
 
 ```bash
 .venv/bin/python -B scripts/prepare_a160_candidate.py --output ../a160-private-new --activate
-.venv/bin/python -B scripts/run_training_checks.py --output-dir reports/a160-check-new --bounded
-# 免费生成当前源码/模型/评分版本的150题计划；真实运行需再显式加--run
-.venv/bin/python -B scripts/run_saved_training.py --config configs/train150_a160_v33.json
+# 免费：检查猜空出口和训练启动器，不调用模型或数据服务
+.venv/bin/python -B scripts/run_training_checks.py --output-dir reports/b-entry-check-new --test-module test_training_empty_answer_fallback --test-module test_training_subset
+# 免费生成当前源码/模型/评分版本的150题计划；本命令不会执行题目
+.venv/bin/python -B scripts/run_saved_training.py --config configs/train150_a160_v34.json
 ```
 
 展开库、密钥和原始测试日志不上传。默认198源码与160候选均提供免费回归；完整复建需普通git clone的固定Git历史与已有Python环境，不能只下载单个源码文件。模型配置沿用本机忽略的.env.local，开发验收需deepseek-flash并关闭thinking。
@@ -23,7 +26,7 @@ B→A阶段反馈：[180本地接入、首轮训练与单例修复](docs/handoff
 
 **180条隔离候选已交接，生产仍198：** [给B的适配与重测说明](docs/handoffs/B_A180_HANDOFF.md) · [候选定义/代码/构建包](experiments/a_family_candidate_20261030/README.md)。B v18需移植R5，旧补丁不可直贴；候选发布不表示上线或已有真实模型得分。
 
-用户查询的未支持输出已统一：[空输出合同](docs/handoffs/EMPTY_OUTPUT_CONTRACT.md)。SDK结果为null、CLI不打印解释；成功零行保留原结果对象，内部诊断和原评分语义保留。
+历史未支持输出合同见[空输出合同](docs/handoffs/EMPTY_OUTPUT_CONTRACT.md)。用户后续明确改为默认[拒答猜空](docs/training/EMPTY_ANSWER_FALLBACK_20261030.md)，不再按旧null/CLI静默策略处理正常拒答返回值；可用RUNBOOK_EMPTY_ANSWER_FALLBACK=0恢复旧行为对照。成功零行仍保留原结果对象。
 
 检索第一阶段已发布：[可选文本视图支持与独立验证](docs/handoffs/RETRIEVAL_STAGE1.md)。生产仍198条，180组合候选未启用；检索覆盖恢复不代表参数语义或模型得分通过。
 

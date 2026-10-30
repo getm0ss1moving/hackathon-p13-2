@@ -403,6 +403,36 @@ def _execution_has_result_columns(result):
     return (isinstance(columns, list) and bool(columns)
             and all(isinstance(name, str) and bool(name.strip()) for name in columns))
 
+
+def _apply_empty_answer_fallback(output):
+    """用户选择的计分策略：无法作答时猜空，保留失败证据，不声称已证真空。"""
+    if os.environ.get("RUNBOOK_EMPTY_ANSWER_FALLBACK", "1") != "1":
+        return output
+    if output.get("matched_runbook") is not None and not output.get("error"):
+        return output
+    diagnostics = output.setdefault("diagnostics", {})
+    diagnostics["empty_answer_fallback"] = {
+        "policy": "empty_on_abstention_or_error",
+        "answer_is_guess": True,
+        "source_result_verified": False,
+        "original_matched_runbook": output.get("matched_runbook"),
+        "original_error": output.get("error"),
+        "original_sql": output.get("sql"),
+        "original_result": output.get("result"),
+        "additional_model_requests": 0,
+        "additional_http_requests": 0,
+    }
+    # 固定空SELECT仅用于提交猜测；不查询或推断任何业务资源。
+    sql = "SELECT NULL AS value WHERE 0"
+    with closing(sqlite3.connect(":memory:")) as connection:
+        cursor = connection.execute(sql)
+        result = {"columns": [column[0] for column in cursor.description],
+                  "rows": cursor.fetchall(), "row_count": 0}
+    return {**output, "matched_runbook": "empty_answer_fallback",
+            "api_call": output.get("api_call"), "sql": sql,
+            "result": result, "error": None, "diagnostics": diagnostics}
+
+
 def _dependent_count_eligibility(item):
     """仅把已有相邻依赖COUNT计划交给有界执行器，保留其API和SQL。"""
     calls = item.get("api_call") or []
@@ -431,6 +461,10 @@ class RunbookQuerySystem:
         }
 
     def query(self, user_question: str, diagnostics: dict = None) -> dict:
+        """正常执行优先；按用户策略，将最后的拒答/显式错误转为空答案猜测。"""
+        return _apply_empty_answer_fallback(self._query(user_question, diagnostics))
+
+    def _query(self, user_question: str, diagnostics: dict = None) -> dict:
         """
         查询入口：用户问题 → 结果。
 
@@ -527,8 +561,11 @@ class RunbookQuerySystem:
                 result = _execute_bounded_api(runbook_item, execution, **options)
             except _APIPlanRefusal as error:
                 execution["refusal_reason"] = error.reason
+                diagnostics["rejection"] = {"stage": "execution", "reason": error.reason}
                 diagnostics["execute_seconds"] = round(time.perf_counter() - matched_at, 4)
-                return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
+                return {"question": user_question, "matched_runbook": None,
+                        "api_call": None,  # 部分执行的完整计划不能冒充全部已执行API。
+                        "sql": None, "result": None,
                         "error": None, "diagnostics": diagnostics}
             if result is None:
                 # 当前受限优化没有完成证明时，使用原始未改计划；探测数据不写原缓存。
@@ -554,7 +591,7 @@ class RunbookQuerySystem:
             diagnostics["execution"].update(status="rejected", reason="unverified_result_schema")
             diagnostics["rejection"] = {"stage": "execution", "reason": "unverified_result_schema"}
             return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
-                    "error": None, "diagnostics": diagnostics}
+                    "api_call": runbook_item.get("api_call"), "error": None, "diagnostics": diagnostics}
 
         expected_columns = runbook_item.get("_expected_result_columns")
         if (result["error"] is None and expected_columns is not None
@@ -564,7 +601,7 @@ class RunbookQuerySystem:
                                            expected_columns=expected_columns)
             diagnostics["rejection"] = {"stage": "execution", "reason": "closed_family_result_schema_mismatch"}
             return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
-                    "error": None, "diagnostics": diagnostics}
+                    "api_call": runbook_item.get("api_call"), "error": None, "diagnostics": diagnostics}
 
         response_api_call = (execution["bound_api_calls"] if semijoin
                              else runbook_item.get("api_call"))

@@ -460,7 +460,7 @@ _STATUS_LABELS = {
                "异常": "error", "错误": "error", "故障": "error"},
     "GAUSSDB_INSTANCE": {"正常": "normal", "异常": "abnormal", "创建中": "creating", "停止": "shutdown"},
 }
-_ENUM_FIELDS = {"status", "bootable", "management", "shared", "assetStatus", "direction"}
+_ENUM_FIELDS = {"status", "bootable", "management", "shared", "assetStatus", "direction", "hypervisorType"}
 
 
 def _param_resource(item: dict, parameter: str) -> str:
@@ -480,6 +480,12 @@ def _canonical_enum(item: dict, parameter: str, value):
     matching = [v for v in samples if str(v).casefold() == str(value).casefold()]
     if matching:
         return matching[0]
+    # 随包背景知识HOST.hypervisorType明确给出这些枚举码；两条schema样例
+    # 可能都为unknown，不能据样例缺少kvm而漏掉已知大小写规范。
+    if (parameter == 'hypervisorType' and _param_resource(item, parameter) == 'HOST'
+            and isinstance(value, str) and value.casefold() in {
+                'kvm', 'vrm', 'vmware', 'non-virtualized', 'unknown', 'xen', 'powervm', 'hybrid', 'docker'}):
+        return value.casefold()
     if isinstance(value, bool):
         for sample in samples:
             if isinstance(sample, str) and sample.casefold() in {"true", "false"}:
@@ -574,6 +580,48 @@ def _semantic_values(question: str, item: dict, parameter: str) -> list:
     return found
 
 
+def _explicit_ip_literal(question, parameter):
+    """脱敏IP仍是原文值；只接受明确IP标签/指示词，不按短串外形猜实体。"""
+    # 这些计划只支持单一IP等值/包含条件，不能从否定或多个候选里挑一个。
+    unquoted = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', ' ', question)
+    if re.search(r"不是|不为|不等于|!=|<>|或者|或|(?<![A-Za-z0-9_])OR(?![A-Za-z0-9_])", unquoted, re.I):
+        return None
+    literal = r'''(?:"[^"\n]+"|'[^'\n]+'|“[^”\n]+”|「[^」\n]+」|''' + _ASCII_ENTITY + ')'
+    role = r"(?<![A-Za-z0-9_])IP(?:地址)?(?![A-Za-z0-9_])"
+    patterns = [role + r"(?:\s*(?:为|是|=|:|：)\s*|\s+)(?P<value>" + literal + ')',
+                r"(?<![A-Za-z0-9_@./:#%+\-])(?P<value>" + literal + r")\s*(?:这个|该|此|这一)\s*" + role]
+    quotes = [match.span() for match in re.finditer(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', question)]
+    found = []
+    for index, pattern in enumerate(patterns):
+        for match in re.finditer(pattern, question, re.I):
+            if any(start <= match.start() and match.end() <= end for start, end in quotes):
+                continue
+            if index == 0 and parameter == 'fixedIpAddress' and re.search(r"浮动|弹性", question[max(0, match.start()-2):match.start()]):
+                continue
+            value = match['value']
+            if value[:1] in {'"', "'", '“', '「'}:
+                value = value[1:-1]
+            if value.strip():
+                found.append(value)
+    return _one(found)
+
+
+def _preposed_cluster_name(question):
+    """name在集群角色词前；只接受一个明确名字，不解释否定或OR。"""
+    quoted = list(re.finditer(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', question))
+    visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', ' ', question)
+    if re.search(r'不是|不为|不等于|排除|除了|!=|<>|或者|或|\bOR\b', visible, re.I):
+        return None
+    literal = r'''(?:"[^"\n]+"|'[^'\n]+'|“[^”\n]+”|「[^」\n]+」|''' + _ASCII_ENTITY + ')'
+    values = []
+    for match in re.finditer(r'(?<![A-Za-z0-9_@./:#%+\-])(' + literal + r')\s*集群', question):
+        if any(q.start() <= match.start() and match.end() <= q.end() for q in quoted):
+            continue
+        value = match[1]
+        values.append(value[1:-1] if value[:1] in {'"', "'", '“', '「'} else value)
+    return _one(values)
+
+
 def _auto_fill_params(user_question: str, values: dict, placeholders: list, item: dict = None):
     """只从问题中的显式实体或字段语义补参，不使用示例中的实体默认值。"""
     item = item or {}
@@ -584,18 +632,56 @@ def _auto_fill_params(user_question: str, values: dict, placeholders: list, item
         elif parameter == "azoneName":
             value = _one(re.findall(r"(?<![A-Za-z0-9_])az(?:\d+\.dc\d+|_[A-Za-z0-9_.\-]+)", user_question))
         elif parameter == "name":
-            labels = _NAME_LABELS.get(_param_resource(item, parameter), [])
+            resource = _param_resource(item, parameter)
+            labels = _NAME_LABELS.get(resource, [])
             value = _labeled_entity(user_question, labels + [r"名称为", r"名为"])
+            if value is None and resource == 'CLUSTER':
+                value = _preposed_cluster_name(user_question)
+        elif parameter == "hypervisorType":
+            value = _labeled_entity(user_question, _FIELD_LABELS[parameter])
+            if value is None:
+                quotes = [match.span() for match in re.finditer(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', user_question)]
+                matches = re.finditer(r"(?<![A-Za-z0-9_@./:#%+\-])(" + _ASCII_ENTITY + r")\s*(?:虚拟化类型|hypervisorType)(?![A-Za-z0-9_])", user_question, re.I)
+                value = _one([match[1] for match in matches
+                              if not any(start <= match.start() and match.end() <= end for start, end in quotes)])
         elif parameter in _FIELD_LABELS:
             value = _labeled_entity(user_question, _FIELD_LABELS[parameter], allow_spaces=parameter == "productName")
         elif parameter in {"privateIps", "fixedIpAddress"}:
-            value = _one(re.findall(r"@[\da-fA-F]+@(?:[\da-fA-F]+@)?|(?:\d{1,3}\.){3}\d{1,3}", user_question))
+            value = _explicit_ip_literal(user_question, parameter)
+            if value is None and not re.search(r"(?<![A-Za-z0-9_])IP(?:地址)?(?![A-Za-z0-9_])", user_question, re.I):
+                value = _one(re.findall(r"@[\da-fA-F]+@(?:[\da-fA-F]+@)?|(?:\d{1,3}\.){3}\d{1,3}", user_question))
         if value is None and parameter in _ENUM_FIELDS:
             candidates = _semantic_values(user_question, item, parameter)
             unique = {str(v): v for v in candidates}
             value = next(iter(unique.values())) if len(unique) == 1 else None
         if value is not None:
             values[parameter] = value
+
+
+def _parse_family_response(answer):
+    """只接受一个JSON对象或null；代码块仅是格式，不改变家族合同。"""
+    if not isinstance(answer, str):
+        raise ValueError('invalid_family_response')
+    text = answer.strip()
+    fenced = re.fullmatch(r'```(?:json)?[ \t]*\r?\n(.*?)\r?\n```', text, re.I | re.S)
+    if fenced:
+        text = fenced[1]
+
+    def unique_fields(pairs):
+        parsed = {}
+        for name, value in pairs:
+            if name in parsed:
+                raise ValueError('duplicate_family_field')
+            parsed[name] = value
+        return parsed
+
+    def invalid_constant(value):
+        raise ValueError('nonfinite_family_value')
+
+    parsed = json.loads(text, object_pairs_hook=unique_fields, parse_constant=invalid_constant)
+    if parsed is not None and not isinstance(parsed, dict):
+        raise ValueError('family_object_or_null_required')
+    return parsed
 
 
 def _parse_params_response(answer: str, placeholders: list) -> Optional[dict]:
@@ -1897,7 +1983,7 @@ def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
         answer = llm_ask(prompt, stage='family_fill')
         if not isinstance(answer, str):
             raise ValueError('invalid_family_response')
-        parameters = json.loads(answer)
+        parameters = _parse_family_response(answer)
         selected = _materialize_family(item, parameters)
         evidence = _ground_obs_parameters(question, parameters)
     except (ValueError, TypeError) as exc:
@@ -1987,6 +2073,53 @@ def _a160_parameter_contract(item):
     return schema, detail
 
 
+def _batch4_explicit_filter_values(question, family, helper):
+    """只提出有原文标签的候选值；完整资源/输出/谓词仍由A逐字合同校验。"""
+    values = {}
+    for field in helper.SPECS[family]['filters']:
+        labels = helper.ROLES.get(field, [field])
+        value = _labeled_entity(question, labels, allow_spaces=field == 'productName')
+        if value is None and field == 'name':
+            value = _labeled_entity(question, [helper.RESOURCE[family]])
+        if value is not None:
+            values[field] = value
+    return values
+
+
+def _candidate_attribute_conflict(question, item):
+    """已声明输出不含显式架构字段的F11不能承接架构统计；实体内容先遮蔽。"""
+    if item.get('family_id') != 'F11_CORE':
+        return None
+    import runbook_family_batch4 as helper
+    columns = {column for view in helper.SPECS['F11_CORE']['views'].values() for column in view}
+    if 'cpuArch' in columns:
+        return None
+    visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', ' ', question)
+    for value in _batch4_explicit_filter_values(question, 'F11_CORE', helper).values():
+        visible = visible.replace(value, ' ')
+    if re.search(r'CPU\s*架构|(?<![A-Za-z0-9_])cpuArch(?![A-Za-z0-9_])', visible, re.I):
+        return {'field': 'cpuArch', 'reason': 'requested_attribute_absent_from_declared_family_views'}
+    return None
+
+
+def _candidate_unavailable_resource(question, item):
+    """单资源问题不能交给只读另一种资源的单表单API模板；多步补全不在此过滤。"""
+    wanted = {ci for words, ci in _RESOURCE_CHECKS
+              if any(_mentions_resource(question.lower(), word) for word in words)}
+    if len(wanted) != 1 or len(_extract_sql_tables(item.get('sql', ''))) != 1:
+        return None
+    calls = item.get('api_call') or []
+    calls = calls if isinstance(calls, list) else [calls]
+    if len(calls) != 1 or not isinstance(calls[0], dict):
+        return None
+    endpoint = re.fullmatch(r'/rest/hackthon/db/(?:instances|relations)/([^/?]+)(?:\?[^#]*)?', calls[0].get('url', ''))
+    resource = next(iter(wanted))
+    coverage = _resource_coverage(question, item)
+    if endpoint and resource in coverage['unsupported'] and resource.upper() not in endpoint[1].upper():
+        return {'resource': resource, 'reason': 'single_table_and_API_cannot_provide_requested_resource'}
+    return None
+
+
 def _match_a160_candidate(question, selected, diagnostics):
     family = selected["family_id"]
     schema, detail = _a160_parameter_contract(selected)
@@ -2010,11 +2143,25 @@ def _match_a160_candidate(question, selected, diagnostics):
         answer = llm_ask(prompt, stage="family_fill")
         if not isinstance(answer, str):
             raise ValueError("invalid_a160_response")
-        parsed = json.loads(answer)
+        parsed = _parse_family_response(answer)
         helper_diagnostics = {}
         if family in {"F11_CORE", "F16", "F26"}:
             import runbook_family_batch4 as helper
             ordinary = helper.prepare_batch4(question, selected, parsed, helper_diagnostics)
+            if parsed is None:
+                filters = _batch4_explicit_filter_values(question, family, helper)
+                alternatives = []
+                for view in helper.SPECS[family]['views']:
+                    trial = {'view': view, 'filters': dict(filters), 'required_filters': list(filters)}
+                    evidence = {}
+                    prepared = helper.prepare_batch4(question, selected, trial, evidence)
+                    if prepared is not None:
+                        alternatives.append((prepared, trial, evidence))
+                if len(alternatives) == 1:
+                    ordinary, parsed, helper_diagnostics = alternatives[0]
+                    diagnostics['family_null_recovery'] = {'reason': 'unique_full_question_contract',
+                                                          'parameter_source': 'explicit_question_labels',
+                                                          'validated_by': 'unchanged_A_prepare_batch4'}
             if (ordinary is None and helper_diagnostics.get("reason") == "view_intent_required"
                     and isinstance(parsed, dict) and set(parsed) == {"view", "filters", "required_filters"}
                     and parsed.get("view") in helper.SPECS[family]["views"]):
@@ -2071,6 +2218,54 @@ def _match_a160_candidate(question, selected, diagnostics):
     return ordinary
 
 
+def _recover_closed_view_parameters(question, selected, parsed, choices, helper):
+    """补回明确缺值/角色前缀；非空冲突实体、未知参数和额外义务仍拒绝。"""
+    if parsed is not None and (not isinstance(parsed, dict)
+            or set(parsed) - {'view', 'filters', 'required_filters'}
+            or parsed.get('view') not in {choice['view'] for choice in choices}
+            or not isinstance(parsed.get('filters'), dict)
+            or not isinstance(parsed.get('required_filters'), list)
+            or not all(isinstance(key, str) for key in parsed['required_filters'])):
+        return []
+    previous = parsed.get('filters', {}) if parsed else {}
+    required = parsed.get('required_filters', []) if parsed else []
+    possibilities = []
+    ci = helper._B3_SPECS[selected['family_id']]['ci']
+    for choice in choices:
+        for keys in choice['legal_filter_sets']:
+            if set(previous) - set(keys) or set(required) - set(keys):
+                continue
+            owner = {'api_call': {'method': 'GET', 'url': '/rest/hackthon/db/instances/' + ci,
+                                 'condition': {'constraint': [{'simple': {'name': key, 'value': '{{' + key + '}}'}} for key in keys]}}}
+            rules = {key: value for key, value in previous.items()
+                     if isinstance(value, str) and value and value in question}
+            _auto_fill_params(question, rules, list(keys), owner)
+            rules = _ground_params(question, rules, owner)
+            if set(rules) != set(keys):
+                continue
+            prefix_changed = False
+            conflict = False
+            for key, value in previous.items():
+                if _missing_parameter(value) or value == rules[key]:
+                    continue
+                if (key == 'name' and selected['family_id'] == 'F02'
+                        and isinstance(value, str) and value == 'ECS' + rules[key]):
+                    prefix_changed = True
+                else:
+                    conflict = True
+            if conflict:
+                continue
+            trial = {'view': choice['view'], 'filters': rules, 'required_filters': list(keys)}
+            evidence = {}
+            ordinary = helper.prepare_natural_candidate(question, selected, trial, helper._prepare_batch3_candidate, evidence)
+            if ordinary is None:
+                continue
+            if prefix_changed and not any(change.get('kind') == 'resource_instance_name' for change in evidence.get('owned_changes', [])):
+                continue
+            possibilities.append((ordinary, trial, evidence))
+    return possibilities
+
+
 def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dict):
     import runbook_family_views as family_views
     family = selected.get('family_id')
@@ -2117,7 +2312,7 @@ def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dic
         answer = llm_ask(prompt, stage='family_fill')
         if not isinstance(answer, str):
             raise ValueError('invalid_view_response')
-        parsed = json.loads(answer)
+        parsed = _parse_family_response(answer)
         ordinary = family_views.prepare_natural_candidate(
             question, selected, parsed, family_views._prepare_batch3_candidate, diagnostics)
         # 模型仍决定family与实体参数；仅在错误view的筛选配对不合法时，
@@ -2143,6 +2338,14 @@ def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dic
                 diagnostics['view_repair'] = {'from': old_view, 'to': parsed['view'],
                                               'reason': 'unique_legal_view_grounded_in_full_question',
                                               'filters_unchanged': True}
+        if ordinary is None:
+            alternatives = _recover_closed_view_parameters(question, selected, parsed, choices, family_views)
+            if len(alternatives) == 1:
+                ordinary, parsed, evidence = alternatives[0]
+                diagnostics.update(evidence)
+                diagnostics.pop('family_error', None)
+                diagnostics['parameter_recovery'] = {'reason': 'unique_full_question_contract_from_explicit_rules',
+                                                     'nonempty_conflicting_entities_preserved_as_rejections': True}
     except (ValueError, TypeError) as exc:
         diagnostics.update(family_status='invalid_or_ungrounded_parameters', family_error=str(exc))
         return None
@@ -2264,7 +2467,7 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
         answer = llm_ask(prompt, stage="family_fill")
         if not isinstance(answer, str):
             raise ValueError("invalid_family_response")
-        parameters = json.loads(answer)
+        parameters = _parse_family_response(answer)
         if not isinstance(parameters, dict):
             raise ValueError("invalid_family_response")
         _ground_family_parameters(question, family, parameters)
@@ -2399,6 +2602,93 @@ def _complete_single_ci_scope(item, requested):
     return [constraint["simple"]["name"] for constraint in additions]
 
 
+def _resolve_logical_region_scope(item, requested):
+    """A已核验的区域目录→云服务/部署节点ID；未知/多解/失败不放宽范围。"""
+    region = requested.get('logicalRegionName')
+    calls = item.get('api_call')
+    calls = calls if isinstance(calls, list) else [calls]
+    if not isinstance(region, str) or not region.strip() or len(calls) != 1:
+        return None
+    call = calls[0]
+    endpoint = (re.fullmatch(r'/rest/hackthon/db/instances/(S_CloudService|S_DeployNode)(?:\?[^#]*)?', call.get('url', ''))
+                if isinstance(call, dict) else None)
+    ci = endpoint[1] if endpoint else None
+    if ci == 'S_DeployNode' and os.environ.get('RUNBOOK_BIND_DEPLOY_NODE_REGION') != '1':
+        return None  # 候选已能执行，但参考仍为全区域，暂不默认开启。
+    table = {'S_CloudService': 'SYS_CLOUDSERVICE', 'S_DeployNode': 'SYS_DEPLOYNODE'}.get(ci)
+    if (not isinstance(call, dict) or call.get('method', 'GET') != 'GET'
+            or endpoint is None
+            or table not in {name.upper() for name in _extract_sql_tables(item.get('sql', ''))}
+            or 'logicalRegionName' in _schema_columns.get(ci, [])):
+        return None
+    evidence = {'valid': False, 'status': 'incomplete', 'source_field': 'AZONE.logicalRegionName',
+                'resolved_field': 'AZONE.logicalRegionId', 'target_field': ci + '.logicalRegionId',
+                'question_scope': {'logicalRegionName': region}, 'target_query_permitted': False}
+    from urllib.parse import parse_qsl, urlsplit
+    try:
+        query_pairs = parse_qsl(urlsplit(call['url']).query, strict_parsing=True)
+        query = dict(query_pairs)
+        if (len(query_pairs) != len(query) or set(query) - {'pageNo', 'pageSize'}
+                or int(query.get('pageNo', '1')) != 1 or not 1 <= int(query.get('pageSize', '10000')) <= 10000):
+            raise ValueError('unsupported_target_query')
+        condition = call.get('condition', {})
+        constraints = condition.get('constraint', []) if isinstance(condition, dict) else None
+        if (not isinstance(condition, dict) or set(condition) - {'constraint'}
+                or not isinstance(constraints, list) or any(not isinstance(entry, dict)
+                    or entry.get('logOp', 'and') != 'and' or not isinstance(entry.get('simple'), dict)
+                    for entry in constraints)):
+            raise ValueError('unsupported_target_condition')
+    except ValueError:
+        evidence['reason'] = 'unverified_target_query_or_boolean_scope'
+        return evidence
+    if ('logicalRegionId' not in _schema_columns.get(ci, [])
+            or not {'logicalRegionName', 'logicalRegionId'} <= set(_schema_columns.get('AZONE', []))):
+        evidence['reason'] = 'unproven_region_schema'
+        return evidence
+    lookup = {'api_call': {'method': 'GET', 'url': '/rest/hackthon/db/instances/AZONE?pageNo=1&pageSize=1000',
+                          'condition': {'constraint': [{'simple': {'name': 'logicalRegionName', 'value': region,
+                                                                  'operator': 'equal'}}]}},
+              'sql': 'SELECT DISTINCT logicalRegionId FROM CLOUD_AZONE'}
+    execution = {}
+    try:
+        from runbook_system import _execute_bounded_api
+        answer = _execute_bounded_api(lookup, execution, page_size=1000, max_records=1000,
+                                      max_http_requests=4, seconds_limit=5)
+        result = answer.get('result') if isinstance(answer, dict) else None
+        if (not isinstance(result, dict) or answer.get('error') is not None
+                or result.get('columns') != ['logicalRegionId'] or not isinstance(result.get('rows'), list)
+                or type(result.get('row_count')) is not int or result['row_count'] != len(result['rows'])):
+            raise ValueError('invalid_region_catalog_result')
+        rows = result['rows']
+        if not rows:
+            evidence.update(status='unknown', reason='region_catalog_empty')
+        elif any(not isinstance(row, dict) or not isinstance(row.get('logicalRegionId'), str)
+                 or not row['logicalRegionId'].strip() for row in rows):
+            evidence.update(status='incomplete', reason='missing_canonical_region_id')
+        elif len({row['logicalRegionId'] for row in rows}) != 1:
+            evidence.update(status='ambiguous', reason='multiple_canonical_region_ids')
+        else:
+            region_id = rows[0]['logicalRegionId']
+            constraints = call.get('condition', {}).get('constraint', [])
+            existing = [entry for entry in constraints if entry.get('simple', {}).get('name') == 'logicalRegionId']
+            if existing and any(entry.get('logOp', 'and') != 'and'
+                                or entry['simple'].get('operator', 'equal') != 'equal'
+                                or entry['simple'].get('value') != region_id for entry in existing):
+                evidence.update(status='ambiguous', reason='conflicting_existing_region_filter')
+            else:
+                if not existing:
+                    entry = {'simple': {'name': 'logicalRegionId', 'value': region_id, 'operator': 'equal'}}
+                    if constraints:
+                        entry['logOp'] = 'and'
+                    call.setdefault('condition', {}).setdefault('constraint', []).append(entry)
+                evidence.update(valid=True, status='resolved', reason='unique_observed_canonical_region_id',
+                                canonical_id=region_id, target_query_permitted=True)
+    except (RuntimeError, ValueError, TypeError, requests.RequestException) as exc:
+        evidence.update(status='error', reason='region_catalog_request_or_result_failed', error_type=type(exc).__name__)
+    evidence['lookup_execution'] = execution
+    return evidence
+
+
 def match_runbook(user_question: str, runbook_items: list,
                   retriever: RunbookRetriever, diagnostics: dict = None,
                   defer_api_validation: bool = False) -> Optional[dict]:
@@ -2441,6 +2731,17 @@ def match_runbook(user_question: str, runbook_items: list,
     if not candidate_items:
         return reject("unknown_candidate_ids")
     phase = "selection"
+    admissible = []
+    for candidate in candidate_items:
+        conflict = (_candidate_attribute_conflict(user_question, candidate)
+                    or _candidate_unavailable_resource(user_question, candidate))
+        if conflict:
+            diagnostics.setdefault('candidate_contract_exclusions', []).append({'id': candidate['id'], **conflict})
+        else:
+            admissible.append(candidate)
+    candidate_items = admissible
+    if not candidate_items:
+        return reject('no_candidate_covers_requested_attribute')
     diagnostics["selection"] = {"offered_ids": [item["id"] for item in candidate_items]}
 
     # 2. LLM 选择
@@ -2696,6 +2997,12 @@ def match_runbook(user_question: str, runbook_items: list,
     if added_scope:
         diagnostics["single_ci_scope_completion"] = {"fields": added_scope, "source": "question_rules_and_native_schema"}
         parameter_details["effective_api"] = copy.deepcopy(selected.get("api_call"))
+    region_binding = _resolve_logical_region_scope(selected, requested)
+    if region_binding is not None:
+        diagnostics['logical_region_binding'] = region_binding
+        if not region_binding['valid']:
+            return reject('unresolved_logical_region_scope')
+        parameter_details['effective_api'] = copy.deepcopy(selected.get('api_call'))
     calls = selected.get("api_call", [])
     calls = calls if isinstance(calls, list) else [calls]
     actual = {}
@@ -2704,6 +3011,8 @@ def match_runbook(user_question: str, runbook_items: list,
             simple = constraint.get("simple", {})
             actual.setdefault(simple.get("name"), []).append(simple.get("value"))
     for name, value in requested.items():
+        if region_binding and name == 'logicalRegionName' and region_binding['question_scope'][name] == value:
+            continue  # 仅名称已解析且目标ID条件已写入时，才认可同一逻辑区域范围。
         if not any(value == v or isinstance(v, list) and value in v for v in actual.get(name, [])):
             diagnostics["missing_api_filter"] = {"field": name, "value": value}
             return reject("missing_api_filter")
@@ -3154,6 +3463,17 @@ def _literal_label_contract(original, refined, question):
 
 
 def _validated_refinement(candidate: str, original: str, question: str, diagnostics: dict = None) -> str:
+    # A已证稀疏投影的NULL字段同时负责缺列结构和真空占位过滤，不能被精调删掉。
+    original_structure = _sql_structure(original)
+    null_fields = re.findall(r'\bNULL\s+AS\s+([A-Za-z_]\w*)', original_structure, re.I)
+    sparse = ('_empty' in {field.casefold() for field in null_fields}
+              and re.search(r'\(\s*SELECT\s*\*\s*,\s*NULL\s+AS\b', original_structure, re.I)
+              and re.search(r'\bWHERE\s+[A-Za-z_]\w*\._empty\s+IS\s+NULL\b', original_structure, re.I))
+    if sparse and os.environ.get('RUNBOOK_PRESERVE_SPARSE_NULLS') == '1':
+        if diagnostics is not None:
+            diagnostics['sparse_projection_contract'] = {'preserved': True,
+                'reason': 'retain_reviewed_missing_field_and_empty_row_handling', 'null_fallback_fields': null_fields}
+        return original
     structure = _sql_structure(candidate).strip()
     body = structure[:-1].rstrip() if structure.endswith(";") else structure
     if not re.match(r"^SELECT\b", body, re.I) or ";" in body:

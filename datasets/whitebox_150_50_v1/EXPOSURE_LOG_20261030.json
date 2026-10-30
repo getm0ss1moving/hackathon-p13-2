@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-30",
+  "user_explicitly_requested_remaining50": true,
+  "fixed_split": "whitebox_150_50_v1",
+  "sealed_sha256": "76ff436cb0c56a7a074e84c86801770a7bec2dda88e63675bd46bd2858745ce8",
+  "first_frozen_validation_completed": true,
+  "matcher_sha256_before_exposure": "f7b23f360b7ccbb2fd219c2540b530de157da62c6cba811a28ce1458de2c4587",
+  "new_status": "validation; per-case feedback now exposed; no future untouched-holdout claim",
+  "original_manifest_and_data_unchanged": true,
+  "evidence_run": "reports/b160_validation50_20261030/run50"
+}
