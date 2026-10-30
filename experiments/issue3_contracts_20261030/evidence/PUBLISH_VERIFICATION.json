@@ -1,0 +1,36 @@
+{
+  "status": "PUBLISHER_EXACT_CLOSURE_AND_PUBLIC_SYNTHETIC_REPLAY_PASS_NOT_B_ACCEPTANCE",
+  "exact_closure_reconstruction": {
+    "exact_source_contract_files_verified": 12,
+    "exact_private_template_reconstructed": true,
+    "logical_closure_files_verified": 13,
+    "rb196_sha256": "f2c25f8f5b7902b47eeedde370cfdd8ee91c059bd471f7d13f4dd0fe953e48b7",
+    "production_enabled": false,
+    "runtime_N_delta": 0,
+    "model_or_service_calls": 0
+  },
+  "R2_public_synthetic": {
+    "scope": "51 public synthetic cases derived from original55; four historical private fixtures excluded",
+    "checks": 51,
+    "passed": 51,
+    "failed": 0,
+    "nested_whitespace_subcases_not_added": 64,
+    "excluded_historical_fixture_checks": 4,
+    "model_calls": 0,
+    "service_calls": 0,
+    "B_runtime_calls": 0,
+    "production_enabled": false
+  },
+  "R3_public_synthetic": {
+    "module_sha256": "70f255816ba7e83678002cba06e0761612bcf3dbf03508d4209209c9d2ffcae7",
+    "passed": 53,
+    "failed": 0,
+    "valid_new_inputs_accepted": 6,
+    "sources_unchanged": true
+  },
+  "public_replay_not_added_to_original_independent_counts": true,
+  "R3_source_integrity_scope": "Only the delivered materializer/contract and privately reconstructed exact template; owner HANDOFF/manifest/patch outside the minimum closure are not audited by the public replay.",
+  "production_enabled": false,
+  "B_runtime_calls": 0,
+  "new_model_or_native_scores": false
+}

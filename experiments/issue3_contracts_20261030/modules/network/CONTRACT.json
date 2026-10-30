@@ -1,0 +1,192 @@
+{
+  "family_id": "vpc_child_counts",
+  "replacement_source_ids": [
+    "rb_192"
+  ],
+  "state": "isolated_R2_materializer_F01_F03_fixed_runtime_not_enabled",
+  "current_source": {
+    "commit": "c78dd293",
+    "runbook_sha256": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+    "rb192_same_as_local_starter": true
+  },
+  "count_changes": {
+    "new_closed_family": 1,
+    "replacement_old_sources": 1,
+    "delta_if_rb192_replaced_in_198": 0,
+    "actual_default_count_change": 0,
+    "frozen_132_changed": false
+  },
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "logicalRegionName",
+      "vdcName"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "no ASCII control characters"
+      },
+      "vdcName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "no ASCII control characters"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "name": "vpc_id",
+      "type": "string",
+      "grain": "one row per scoped ROUTER.id"
+    },
+    {
+      "name": "vpc_name",
+      "type": "string",
+      "grain": "one row per scoped ROUTER.id"
+    },
+    {
+      "name": "resolved_subnet_count",
+      "type": "integer",
+      "grain": "one row per scoped ROUTER.id"
+    },
+    {
+      "name": "referenced_subnet_count",
+      "type": "integer",
+      "grain": "one row per scoped ROUTER.id"
+    },
+    {
+      "name": "unresolved_subnet_count",
+      "type": "integer",
+      "grain": "one row per scoped ROUTER.id"
+    },
+    {
+      "name": "known_eip_count",
+      "type": "integer",
+      "grain": "one row per scoped ROUTER.id"
+    }
+  ],
+  "scope": {
+    "parent": "logicalRegionName AND vdcName equal in SQL; logicalRegionName equal in ROUTER API",
+    "why_router_region_fetch": "full region parent catalog is required to reject nativeId collisions in other VDCs",
+    "children": "PORT, SUBNET and FLOATING_IPS APIs carry exact region; SQL repeats region; relation has no region field, scoped via validated port IDs",
+    "no_az": "additional scopes and obligations are rejected rather than dropped",
+    "response_validation": "The four CIs declaring logicalRegionName require that field and exact requested-region equality; wrong-region receipt rows reject before SQL. R_PORT_IN_SUBNET is a global relationship request with no declared region column: extra metadata is projected away, and relationship keys join the scoped PORT path. Full same-region ROUTER catalog across VDCs remains required."
+  },
+  "relations": [
+    "ROUTER.nativeId=PORT.devNativeId AND equal logicalRegionName; region/nativeId must uniquely identify ROUTER.id",
+    "PORT.id=R_PORT_IN_SUBNET.portId",
+    "R_PORT_IN_SUBNET.subnetId=SUBNET.id with same logicalRegionName",
+    "FLOATING_IPS.routerId=ROUTER.id; nativeId is the wrong role"
+  ],
+  "multiplicity": "DISTINCT (vpc_id,subnetId) before aggregation; EIP COUNT DISTINCT id independently; LEFT aggregates onto parents; never join subnet rows directly to EIP rows",
+  "null_and_missing": {
+    "missing_required_columns": "unsupported",
+    "missing_or_empty_identity": "missing/NULL/empty/blank-only object id rejects in collect_pages; non-string identity rejects",
+    "unknown_region_or_parent_vdc": "unsupported",
+    "scoped_parent_missing_native_id": "unsupported",
+    "missing_eip_routerId": "normalized NULL, counted in unknown_eip_parent_rows; not assigned to a VPC",
+    "null_relation_subnetId": "unknown_subnet_reference_rows; omitted from known reference count",
+    "unresolved_nonempty_subnetId": "included referenced, excluded resolved, included unresolved",
+    "duplicate_identity": "Any repeated id within one CI snapshot rejects, identical or conflicting, within or across pages. Distinct relation IDs may still share a business subnet key.",
+    "unassigned_or_orphan_links": "diagnostics retain unknown; business_complete is false",
+    "blank_definition": "Python str.strip() is used only to recognize blank-only strings. Nonblank opaque identities are never trimmed, merged or rewritten.",
+    "nullable_foreign_keys": "blank-only/empty/NULL nullable foreign keys project to NULL before SQL, with unknown relationship diagnostics; nonblank keys are preserved exactly"
+  },
+  "count_meanings": {
+    "resolved_subnet_count": "distinct referenced subnet identities that resolve in the requested region",
+    "referenced_subnet_count": "distinct nonempty subnet references through the scoped VPC port path",
+    "unresolved_subnet_count": "referenced minus resolved; not silently removed",
+    "known_eip_count": "distinct EIP.id with a proven scoped parent link; not claimed to be a full total where any ownership/relationship is unknown"
+  },
+  "truth_and_failure": {
+    "success_empty": "zero-total successful page required; explicit empty schemas give no fake row; no-child parents get zero",
+    "failure_or_unknown": "request failure, absent receipt, missing fields, changing totals, truncation/order/repeated-page errors reject; never convert to empty/zero",
+    "partial_graph": "execute_local returns diagnostic business_complete=false; B must not use partial known counts as a complete answer to the original question",
+    "input_projection": "B must execute only tables returned by preflight, including its NULL normalization and declared schemas; raw receipts are not interchangeable",
+    "completeness_scope": "business_complete is only a known-local-graph flag after strict receipt preflight; partial graph means false. It never certifies a live atomic snapshot, B request binding, final runtime adoption or official business acceptance.",
+    "wrong_scope_or_duplicate": "unsupported before SQL; cannot turn a rejected/incomplete input into a zero or complete result"
+  },
+  "pagination": {
+    "request": "autoPagination true, pageSize1000; R_PORT_IN_SUBNET uses /relations/",
+    "normalized_receipt_fields": [
+      "ok",
+      "pageNo",
+      "pageSize",
+      "totalNum",
+      "objList"
+    ],
+    "checks": "success, sequential complete declared pages, stable total/size, exact expected batch sizes, and unique nonblank object id within every CI; repeated identical or conflicting IDs reject; no object folding",
+    "limit": "stable totals cannot prove a live atomic snapshot; official/live pagination still requires B/C acceptance"
+  },
+  "length_gate": {
+    "status": "provisional candidate encoding policy retained, official boundary unconfirmed",
+    "limit_bytes": 4096,
+    "candidate_guard_boundary": "whole build() return serialized as compact ensure_ascii=False UTF-8 JSON",
+    "static_boundary": "a placeholder API+SQL skeleton is measured separately; it is not the final B request nor the original static rb_192",
+    "expanded_execution_boundary": "only api_call+sql after literal binding, measured separately",
+    "final_B_envelope_boundary": "not available or measured; B must validate the official final boundary",
+    "error": "LengthBlocked.details records measured full bytes, execution bytes, limit, boundary and no-truncation handling; oversized encoding does not declare the semantic entity invalid",
+    "parameter_capacity": "existing 1024-Unicode-character support cap retained; longer legal identifiers need another verified encoding, not truncation",
+    "b_handling": "B may separately validate a supported parameter binding/compact execution representation and final envelope; no new B path implemented here"
+  },
+  "entrypoints": {
+    "build(params)": "closed API+SQL candidate; pure; no IO",
+    "collect_pages(pages)": "strict normalized page receipt validation; pure",
+    "preflight(params,receipts)": "validated projected rows plus unknown ownership diagnostics; pure",
+    "execute_local(params,receipts)": "synthetic/offline SQLite verifier with declared schema; not a new official executor"
+  },
+  "synthetic_positive_examples": [
+    {
+      "params": {
+        "logicalRegionName": "north",
+        "vdcName": "team"
+      },
+      "purpose": "multiple same-name VPC IDs, zero-child parent, repeated subnet via two ports, 2 EIPs, unresolved subnet"
+    },
+    {
+      "params": {
+        "logicalRegionName": "region_'quoted",
+        "vdcName": "new_'vdc"
+      },
+      "purpose": "entity replacement and SQL-safe literals"
+    }
+  ],
+  "synthetic_negative_examples": [
+    "tenantName or AZ added as an extra obligation",
+    "nativeId used as EIP routerId",
+    "region/nativeId duplicated across VDCs",
+    "missing field/failed fetch/placeholder row",
+    "unknown parent/reference/region",
+    "repeated or partial page",
+    "actual output beyond4096 bytes"
+  ],
+  "integration_gates": [
+    "B must invoke receipt preflight and preserve diagnostics before executing SQL",
+    "B must provide declared schemas for success-empty inputs; official empty placeholder loader alone is insufficient",
+    "B must reject incomplete business graphs when complete totals are requested",
+    "live pagination/snapshot, official business/reference meaning and runtime gate remain unvalidated",
+    "no model, API service, official evaluator, sealed50 or completed200 per-question feedback used",
+    "R2 fixes F01/F03 only; R1 freeze/ZIP untouched",
+    "Use strictly validated projected input tables, not raw receipt tables",
+    "business_complete only describes the known local graph; external gates remain blocked"
+  ],
+  "revision": "R2",
+  "r1_root_untouched": true,
+  "behavior_changes": [
+    {
+      "case": "F01",
+      "r1": "same-ID rows could collapse and hide omitted identities",
+      "r2": "any repeated same-CI id rejects"
+    },
+    {
+      "case": "F03 / prior foreign-subnet zero probe",
+      "r1": "wrong-region rows could be ignored or resolve diagnostic catalog entries",
+      "r2": "wrong-region responses from the four region-bearing CIs reject; previous mixed-region inputs retained and their stricter assertion documented. Extra undeclared global relation metadata is ignored by projection."
+    }
+  ]
+}

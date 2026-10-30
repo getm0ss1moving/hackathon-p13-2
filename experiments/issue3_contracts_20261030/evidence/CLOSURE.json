@@ -1,0 +1,32 @@
+{
+  "F01": {
+    "rejected_as": "Unsupported",
+    "reason": "duplicate object id in one CI snapshot; overlap can conceal a missing object"
+  },
+  "F03": {
+    "rejected_as": "Unsupported",
+    "reason": "ROUTER receipt contains a missing, unknown, or wrong logical region"
+  },
+  "F02_vm_count": {
+    "winner_ids": [
+      "A"
+    ],
+    "unknown_resource_count": 2,
+    "projected_unknowns": [
+      null,
+      null
+    ],
+    "raw_input_unchanged": true
+  },
+  "F02_volume_count": {
+    "winner_ids": [
+      "A"
+    ],
+    "unknown_resource_count": 2,
+    "projected_unknowns": [
+      null,
+      null
+    ],
+    "raw_input_unchanged": true
+  }
+}

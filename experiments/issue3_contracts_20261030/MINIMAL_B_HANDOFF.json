@@ -1,0 +1,143 @@
+{
+  "definition": "13-file logical source/contract/exact-template closure; 12 verbatim files + one private local reconstruction. No default wiring, no132 array changes, no full owner archive claim.",
+  "upstream_minimum_receipt_sha256": "ba0c6f8293541d475237b0ee596161009fbe58a3f3b31a675db1cbd4ac5ffd47",
+  "file_count": 13,
+  "files": [
+    {
+      "module": "network",
+      "sha256": "e9a1cc61c8dc0c2e96c78352dc405f33dd14b16c182c9561474737d144f3b86d",
+      "role": "pure_source",
+      "handoff_state": "CONDITIONAL_ISOLATED_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/network/candidate.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "network",
+      "sha256": "de172d50327b527abc66b088137cf6e0f74278110fafcc692b7cb9813caa4bdd",
+      "role": "contract",
+      "handoff_state": "CONDITIONAL_ISOLATED_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/network/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "tenant",
+      "sha256": "2a13de8f32a55ecc9f62904248f65afe2c6c8fc0ea3fc5d59c8665346663a21f",
+      "role": "pure_source",
+      "handoff_state": "VALIDATED_PROJECTION_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/tenant/tenant_details.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "tenant",
+      "sha256": "a36cbd608afd95fe9913af78474c95c4224b2826be88d42757880a5d776fbaf2",
+      "role": "contract",
+      "handoff_state": "VALIDATED_PROJECTION_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/tenant/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "capacity",
+      "sha256": "d6fc84192eaf51c977e4671fff4776323981bcc41110199598cbfb8b3798deed",
+      "role": "pure_source",
+      "handoff_state": "CONDITIONAL_ISOLATED_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/capacity/candidate.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "capacity",
+      "sha256": "2134aa414ec88f35fc57fed44fde62c5a74c52061040b3fbfafea638151aa5cc",
+      "role": "contract",
+      "handoff_state": "CONDITIONAL_ISOLATED_HANDOFF",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/capacity/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "elb",
+      "sha256": "7b77848361319f702e0e8ccc81d6602c6dbb2eebc7496867a7ebbf8dafb07884",
+      "role": "pure_source",
+      "handoff_state": "NON_AZ_GENERIC_ONLY",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/elb/candidate.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "elb",
+      "sha256": "1448858577794af21f350c51a351f08b288c82863a40c04af3ed854590dd068e",
+      "role": "contract",
+      "handoff_state": "NON_AZ_GENERIC_ONLY",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/elb/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "physical",
+      "sha256": "22be097e58c0a72a24305bd032564ddc475b3d43c682220eb05c6d7ae5263408",
+      "role": "pure_source",
+      "handoff_state": "BLOCKED_NATIVE_SCHEMA_SOURCE_CONTRACT_ONLY",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/physical/candidate.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "physical",
+      "sha256": "cd7725a1f2375ae1d19f1e4aaa594801aeaf1080b23cbad27a8de5fc8eea8b15",
+      "role": "contract",
+      "handoff_state": "BLOCKED_NATIVE_SCHEMA_SOURCE_CONTRACT_ONLY",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/physical/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "291_R3",
+      "sha256": "70f255816ba7e83678002cba06e0761612bcf3dbf03508d4209209c9d2ffcae7",
+      "role": "pure_binder_source",
+      "handoff_state": "A_BOUNDARY_PASS_B_CAPTURE_TYPED_COUNT_PENDING",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/291_R3/materialize.py",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "291_R3",
+      "sha256": "ca69589774f86480e3e5a422e308a181107865f49ee4af8c31e9b346ca9bb81b",
+      "role": "contract",
+      "handoff_state": "A_BOUNDARY_PASS_B_CAPTURE_TYPED_COUNT_PENDING",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "modules/291_R3/CONTRACT.json",
+      "delivery": "exact_source_bytes"
+    },
+    {
+      "module": "291_R3",
+      "sha256": "f2c25f8f5b7902b47eeedde370cfdd8ee91c059bd471f7d13f4dd0fe953e48b7",
+      "role": "exact_single_template_input",
+      "handoff_state": "A_BOUNDARY_PASS_B_CAPTURE_TYPED_COUNT_PENDING",
+      "may_commit_default_disabled": true,
+      "may_enable_by_this_receipt": false,
+      "path": "generated_private/rb_196.after.json",
+      "delivery": "rebuild_from_exact_base160"
+    }
+  ],
+  "production_enabled": false,
+  "default198_changed": false,
+  "runtime_N_delta": 0,
+  "B_integration_complete": false,
+  "physical_contract_only_do_not_enable": true,
+  "new_P0_contracts_included": false
+}

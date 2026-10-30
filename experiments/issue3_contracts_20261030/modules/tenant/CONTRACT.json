@@ -1,0 +1,156 @@
+{
+  "family_id": "A_ISSUE3_RANKED_TENANT_DETAILS",
+  "source_ids": [
+    "rb_176",
+    "rb_183"
+  ],
+  "family_count": 1,
+  "materialized_view_count": 2,
+  "N_change": "Source two incomplete entries may be replaced by one family only after integration acceptance. No production/default198/160/132 cardinality changed.",
+  "status": "implemented_F02_fixed_isolated_policy_conditional",
+  "parameter_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "logicalRegionName",
+      "metric",
+      "tie_policy",
+      "unknown_tenant_policy"
+    ],
+    "properties": {
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1
+      },
+      "metric": {
+        "enum": [
+          "vm_count",
+          "volume_count"
+        ]
+      },
+      "tie_policy": {
+        "enum": [
+          "all_ties"
+        ]
+      },
+      "unknown_tenant_policy": {
+        "enum": [
+          "reject",
+          "exclude_with_diagnostic"
+        ]
+      }
+    }
+  },
+  "outputs": {
+    "vm_count": {
+      "columns": [
+        "tenant_id",
+        "tenant_name",
+        "resource_count",
+        "vm_id",
+        "vm_name",
+        "ip_address",
+        "private_ips",
+        "floating_ip",
+        "referenced_volume_id",
+        "volume_id",
+        "volume_name",
+        "volume_size_raw",
+        "volume_status",
+        "mount_status"
+      ],
+      "grain": "one row per winning tenant id x vm id x distinct referenced volume id; no-mount VM retains one null-volume row"
+    },
+    "volume_count": {
+      "columns": [
+        "tenant_id",
+        "tenant_name",
+        "resource_count",
+        "volume_id",
+        "volume_name",
+        "volume_size_raw",
+        "volume_status"
+      ],
+      "grain": "one row per volume id belonging to each maximal known tenant identity"
+    }
+  },
+  "scope": {
+    "logicalRegionName": "required exact-equality logical-region string applied to every instance API and SQL; no mapping from physical region/tenant/VDC/AZ",
+    "relations": "global relation fetch; join both endpoint IDs only to already region-scoped VM and VOLUME; unresolved selected VM mount retained and marked"
+  },
+  "identity": {
+    "tenant": "logicalRegionName + exact nonblank tenantId. Nonblank identity bytes are preserved, including leading/trailing whitespace; IDs are never stripped or merged.",
+    "resources": "id is required and unique per CI; missing schema/duplicate IDs/cross-region rows still block before SQL.",
+    "unknown": "NULL, empty string, or a string composed entirely of the explicit versioned whitespace codepoint set is unknown. The preflight makes independent schema-projected row copies and canonicalizes only such tenantId values to NULL. The raw pages/rows remain unchanged.",
+    "whitespace_codepoints": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      28,
+      29,
+      30,
+      31,
+      32,
+      133,
+      160,
+      5760,
+      8192,
+      8193,
+      8194,
+      8195,
+      8196,
+      8197,
+      8198,
+      8199,
+      8200,
+      8201,
+      8202,
+      8232,
+      8233,
+      8239,
+      8287,
+      12288
+    ],
+    "not_whitespace": "U+200B zero-width space is deliberately not in this fixed set; a nonblank identity containing it is preserved.",
+    "policy": "reject blocks if the ranked resource population contains unknown identity. exclude_with_diagnostic excludes exactly the NULL identities present in the validated projection and labels known_tenant_ids_only."
+  },
+  "ranking": "COUNT(DISTINCT resource id) before detail joins; all equal maxima via MAX comparison, deterministic tenantId/resourceId ordering; no LIMIT1",
+  "joins": "VM.id=R_VOLUME_MOUNTON_VM.vmId AND relation.volumeId=VOLUME.id. DISTINCT endpoint pair avoids duplicate relation row fanout; mounted volume need not share VM tenant because attachment and ownership are different roles.",
+  "NULL_and_empty": "No SQL TRIM is used. Every unknown tenantId in the validated projection is NULL; SQL has tenantId IS NOT NULL as its sole tenant exclusion rule. unknown_resource_count is computed from that same projected ranked table. Child mount NULL/no_mount/unresolved_volume semantics are unchanged; no capacity CAST, inferred zero or identity/name substitution.",
+  "truthful_empty": "Only complete verified totalNum=0 payloads are true empty. Results are zero detail rows under typed schemas. _empty placeholder is blocked, never COUNT1. Missing/error/truncated pages and unknown identities under reject are blocked, not zero.",
+  "request_success_receipt": "Every page requires ok is True from a trustworthy B fetch-layer receipt, plus no error or success=False. Native raw pages lack status and cannot alone establish request success; do not fabricate receipts.",
+  "paging": "First call pageNo=1,pageSize=1000. B must request ALL pages under unchanged exact conditions. preflight requires contiguous ordered complete pages, stable totalNum/pageSize/totalPageNo, expected row count, schema, unique IDs; retries/new snapshots must restart full fetch rather than splice mismatched pages.",
+  "long_request": "The local gate measures expanded compact UTF8 api_call+sql only: <=4096 bytes may materialize, >4096 returns blocked_transport_budget with measured bytes, boundary, limit and reason; preflight/execute refuse it. No entity truncation or raw question-length rule exists. Static placeholder api_call+sql template bytes and full build-plan metadata bytes are measured separately. Full plan is local metadata with no invented official cap; if B sends it or any outer wrapper, B must measure that exact actual envelope with check_envelope_budget and apply the official boundary. Depth4 remains unresolved and is not inferred from these byte measurements.",
+  "preflight_interface": "preflight(params,pages) returns ready_for_typed_sql, independent validated schema-only tables, projection_contract=tenant-identity-projection-v2, parameter/projection SHA256 and diagnostics. It never mutates original input. Blocked status is not executable.",
+  "B_integration_gates": [
+    "B MUST load validated projected tables (or use execute entrypoint); raw original-row loading is rejected/unsupported. No B or official implementation was changed here.",
+    "Preserve ready/blocked state, unknown_resource_count, ranking_population and complete_mount_details; do not claim complete original answer under unknown exclusion or unresolved mounts.",
+    "Typed empty tables and truthful successful complete page receipts remain mandatory; _empty placeholder rows are unsupported.",
+    "Final actual B envelope byte/depth gates remain pending; local api_call+sql measurement is not official boundary approval.",
+    "C must accept tenant ID namespace, tied-maxima policy and unknown population policy before original questions are considered complete.",
+    "Runtime adoption/evaluation remains unauthorized and unrun."
+  ],
+  "unsupported_obligations": [
+    "AZ/VDC/tenantName-filtered ranking",
+    "strictly-one winner or tie-breaking unspecified",
+    "topK other than maximum",
+    "CPU or summed numeric-capacity ranking",
+    "unknown tenant grouped by name",
+    "claiming complete mount details when unresolved_mount_count>0"
+  ],
+  "test_evidence": "VALIDATION.json: 35 local methods (16 preserved R1 tests +19 R2 regressions), with separately counted whitespace/identity/budget subcases. Original independent F02 VM and VOLUME examples are preserved verbatim as JSON objects in source/COUNTEREXAMPLES_F02.json, with R1 failure retained there and corrected R2 output in COUNTEREXAMPLE_RESULTS.json.",
+  "revision": "R2",
+  "repair_finding": "F02 preflight Python strip and SQL TRIM whitespace disagreement, both views",
+  "SQL_assumption": "The returned SQL MUST load preflight tables, not original raw API rows. Raw-row execution is unsupported. execute(params,pages) enforces this locally; execute_prepared(params,prepared) rejects missing receipt, parameter or projection hash drift, noncanonical whitespace identities and diagnostic count mismatch. These receipts/digests detect loading drift, not malicious forgery and do not prove actual API completeness beyond verified envelopes.",
+  "execution_entrypoints": [
+    "build(params)",
+    "preflight(params,pages)",
+    "execute(params,pages)",
+    "execute_prepared(params,prepared)",
+    "check_envelope_budget(actual_payload,boundary=...,byte_limit=4096)"
+  ],
+  "source_lock": "R1 source references stay fixed. c78dd293 runbook SHA256 9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465. source/R1_REVIEW_LOCK.json verifies R1 module/test/contract/manifest and independent review inputs remain unchanged.",
+  "no_production_change": true
+}

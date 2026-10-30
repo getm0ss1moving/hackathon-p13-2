@@ -1,0 +1,105 @@
+{
+  "base160_sha256": "477741d28773cff55d69c9542eb26c60c5bbf47fdadfc5e12069c0f73499d182",
+  "expected_source_JSON_sha256": "f2c25f8f5b7902b47eeedde370cfdd8ee91c059bd471f7d13f4dd0fe953e48b7",
+  "recipe": {
+    "id": {
+      "$base160": [
+        "rb_196",
+        "id"
+      ]
+    },
+    "name": {
+      "$base160": [
+        "rb_196",
+        "name"
+      ]
+    },
+    "description": {
+      "$base160": [
+        "rb_196",
+        "description"
+      ]
+    },
+    "resources": [
+      {
+        "$base160": [
+          "rb_093",
+          "resources",
+          0
+        ]
+      },
+      {
+        "$base160": [
+          "rb_154",
+          "resources",
+          0
+        ]
+      },
+      {
+        "$base160": [
+          "family_f27",
+          "resources",
+          0
+        ]
+      },
+      "AZONE"
+    ],
+    "examples": {
+      "$base160": [
+        "rb_196",
+        "examples"
+      ]
+    },
+    "api_call": [
+      {
+        "$base160": [
+          "rb_093",
+          "api_call",
+          0
+        ]
+      },
+      {
+        "$base160": [
+          "rb_154",
+          "api_call"
+        ]
+      },
+      {
+        "$base160": [
+          "family_f27",
+          "api_call"
+        ]
+      },
+      {
+        "method": {
+          "$base160": [
+            "family_f01",
+            "api_call",
+            "method"
+          ]
+        },
+        "url": "/rest/hackthon/db/instances/AZONE?pageNo=1&pageSize=10000",
+        "condition": {
+          "$base160": [
+            "rb_012",
+            "api_call",
+            0,
+            "condition"
+          ]
+        }
+      }
+    ],
+    "sql": "SELECT\n    (SELECT COUNT(*) FROM CLOUD_GAUSSDB_INSTANCE) AS gaussdb_count,\n    CASE\n        WHEN (\n            SELECT COUNT(DISTINCT logicalRegionId) FROM CLOUD_AZONE\n            WHERE NULLIF(TRIM(logicalRegionId), '') IS NOT NULL\n        ) = 1\n        AND NOT EXISTS (\n            SELECT 1 FROM CLOUD_AZONE\n            WHERE NULLIF(TRIM(logicalRegionId), '') IS NULL\n        )\n        AND NOT EXISTS (\n            SELECT 1 FROM CLOUD_MIDDLEWARE\n            WHERE NULLIF(TRIM(logicalRegionId), '') IS NULL\n        )\n        THEN (\n            SELECT COUNT(*) FROM CLOUD_MIDDLEWARE AS middleware\n            WHERE EXISTS (\n                SELECT 1 FROM CLOUD_AZONE AS azone\n                WHERE NULLIF(TRIM(azone.logicalRegionId), '') IS NOT NULL\n                  AND azone.logicalRegionId = middleware.logicalRegionId\n            )\n        )\n        ELSE NULL\n    END AS middleware_count,\n    (SELECT COUNT(*) FROM CLOUD_OBS_BUCKET) AS obs_bucket_count",
+    "default_params": {
+      "$base160": [
+        "rb_012",
+        "default_params"
+      ]
+    }
+  },
+  "format": {
+    "indent": 2,
+    "compact": false,
+    "newline": true
+  }
+}

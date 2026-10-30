@@ -1,0 +1,129 @@
+{
+  "status": "ISOLATED_CANDIDATE_HANDOFF_CONDITIONAL_NO_RUNTIME_RELEASE",
+  "independent_checks": 55,
+  "passed": 55,
+  "failed": 0,
+  "whitespace_table_subcases_not_added": 64,
+  "old_findings": {
+    "F01": "CLOSED_PRE_SQL_DUPLICATE_ID_REJECTION",
+    "F02_vm_count": "CLOSED_CANONICAL_VALIDATED_PROJECTION",
+    "F02_volume_count": "CLOSED_CANONICAL_VALIDATED_PROJECTION",
+    "F03": "CLOSED_PRE_SQL_REGION_REJECTION"
+  },
+  "owner_51_35_14_not_counted": true,
+  "modules": [
+    {
+      "module": "network",
+      "revision": "R2",
+      "code_sha256": "e9a1cc61c8dc0c2e96c78352dc405f33dd14b16c182c9561474737d144f3b86d",
+      "verdict": "CAN_HAND_TO_B_ISOLATED_WITH_GATES",
+      "closed_findings": [
+        "F01",
+        "F03"
+      ],
+      "must_preserve": [
+        "strict duplicate ID and four-CI exact region receipt validation",
+        "complete same-region parent catalog across VDCs",
+        "validated projected tables and typed empty schemas",
+        "partial graph diagnostics and bounded local completeness meaning"
+      ],
+      "still_not_proven": [
+        "actual B request binding and final envelope",
+        "live atomic/pagination snapshot beyond declared receipts",
+        "official business acceptance"
+      ],
+      "may_commit_default_disabled_source_contract": true,
+      "may_enable_by_this_receipt": false
+    },
+    {
+      "module": "tenant",
+      "revision": "R2",
+      "code_sha256": "2a13de8f32a55ecc9f62904248f65afe2c6c8fc0ea3fc5d59c8665346663a21f",
+      "verdict": "CAN_HAND_TO_B_BOTH_VIEWS_ONLY_WITH_VALIDATED_PROJECTION",
+      "closed_findings": [
+        "F02_vm_count",
+        "F02_volume_count"
+      ],
+      "must_preserve": [
+        "versioned whitespace-only normalization to NULL on copied tables",
+        "exact nonblank tenant IDs including surrounding whitespace",
+        "explicit all_ties and unknown policy",
+        "prepared tables/params digest drift checks or equivalent verified loader",
+        "unknown population and incomplete mount diagnostics"
+      ],
+      "still_not_proven": [
+        "actual B loader adoption",
+        "C namespace, unknown population and all-ties policy",
+        "final actual envelope and depth policy"
+      ],
+      "may_commit_default_disabled_source_contract": true,
+      "may_enable_by_this_receipt": false
+    },
+    {
+      "module": "capacity",
+      "revision": "R1 unchanged",
+      "verdict": "PREVIOUS_CONDITIONAL_HANDOFF_UNCHANGED",
+      "review_scope_here": "hash/normal byte-depth comparison only; previous aggregation checks not recounted",
+      "still_not_proven": [
+        "typed empty + complete successful pages",
+        "final-envelope budget enforcement; oversized build still returned",
+        "C units and columns",
+        "vdcName buckets are not authoritative VDC identity"
+      ],
+      "may_commit_default_disabled_source_contract": true,
+      "may_enable_by_this_receipt": false
+    },
+    {
+      "module": "elb",
+      "revision": "R1 unchanged",
+      "verdict": "PREVIOUS_NON_AZ_GENERIC_HANDOFF_UNCHANGED",
+      "review_scope_here": "hash/normal byte-depth comparison only",
+      "supported_scope": "explicit region/tenant/VDC for per-ELB and totals",
+      "still_not_proven": [
+        "ELB deployment AZ for original questions remains unsupported",
+        "B typed empty/paging and actual final envelope"
+      ],
+      "may_commit_default_disabled_source_contract": true,
+      "may_enable_by_this_receipt": false
+    },
+    {
+      "module": "physical",
+      "revision": "R1 unchanged",
+      "verdict": "CONTRACT_ONLY_NATIVE_SCHEMA_BLOCKED_DO_NOT_ENABLE",
+      "review_scope_here": "hash/normal byte-depth comparison only",
+      "still_not_proven": [
+        "authoritative S_Switch/S_Router nonempty business schema",
+        "typed real-zero loading and C count policy",
+        "whole materialization can exceed4096 despite individual APIs below limit"
+      ],
+      "may_commit_default_disabled_source_contract": true,
+      "may_enable_by_this_receipt": false
+    }
+  ],
+  "publication_state": {
+    "runtime_N_delta": 0,
+    "default_library_changed": false,
+    "B_changed": false,
+    "official_components_changed": false,
+    "push_or_issue_actions": false,
+    "formal_byte_or_depth_acceptance": false,
+    "default_disabled_source_contract_commit_to_main_allowed": true,
+    "production_enablement_or_enabled_competition_adoption_allowed": false,
+    "this_agent_committed_or_pushed": false,
+    "wording_clarification": "NO_RUNTIME_RELEASE means no production/default/competition activation, not a ban on authorized isolated source/contract main commits."
+  },
+  "external291": {
+    "status": "REFERENCED_R3_A_BOUNDARY_PASS_B_CAPTURE_TYPED_COUNT_PENDING",
+    "receipt": "REFERENCED_R3_RECEIPT.json",
+    "external_passed": 53,
+    "external_failed": 0,
+    "rerun_here": false,
+    "added_to_local_55": false
+  },
+  "other_evidence_blocks": [
+    "139 dedicated database disk-purpose relation",
+    "224 instance AZ namespace/quantifier",
+    "C/organizer policy disputes unchanged"
+  ],
+  "minimal_B_source_contract_closure": "MINIMAL_B_HANDOFF.json"
+}

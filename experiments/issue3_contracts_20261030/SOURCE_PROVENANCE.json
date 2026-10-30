@@ -1,0 +1,19 @@
+{
+  "source_minimal_receipt_sha256": "ba0c6f8293541d475237b0ee596161009fbe58a3f3b31a675db1cbd4ac5ffd47",
+  "R2_source_review_sha256": "c027e31a760f8a6eb7baa9682e782d8c711936aa67254bffce8164dada1cfff0",
+  "R2_source_results_sha256": "0b8f937316d09b626889d7f61fb6f5d13e0a6e973dc4969c5bf409c013a16100",
+  "R2_source_harness_sha256": "471eaa771435ea8c47e71710d8223fee6a37fd3cd9f33a20a2139ab1a3ebb03f",
+  "R3_source_harness_sha256": "18b12d54d5adce50900c582bd4425adb99177b9fe8631857cd15209cc1e8c1e1",
+  "source_51_35_14_58_owner_tests_not_recounted": true,
+  "source_R2_independent": {
+    "passed": 55,
+    "failed": 0,
+    "whitespace_subcases_not_added": 64
+  },
+  "source_291_R3_independent": {
+    "passed": 53,
+    "failed": 0,
+    "added_to_R2_55": false
+  },
+  "sanitization": "Only12 exact source/contract files, build references and synthetic aggregate evidence; no native rows, source absolute paths or expanded template uploaded. Source hash maps retain reviewed implementation identity, not old data allowlists."
+}

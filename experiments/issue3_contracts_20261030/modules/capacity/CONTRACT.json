@@ -1,0 +1,115 @@
+{
+  "capability": "A_ISSUE3_VDC_CAPACITY",
+  "source_ids": [
+    "rb_200"
+  ],
+  "status": "ISOLATED_PURE_FUNCTION_CANDIDATE_WITH_EXTERNAL_GATES",
+  "count_change": {
+    "new_generic_families": 1,
+    "replaceable_source_ids": [
+      "rb_200"
+    ],
+    "net_templates_if_replacing_source": 0,
+    "production_templates_changed": 0,
+    "frozen132_changed": false
+  },
+  "parameter_schema": {
+    "type": "object",
+    "required": [
+      "logicalRegionName"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1,
+        "source": "explicit resolved query parameter, no default entity"
+      }
+    }
+  },
+  "resources": [
+    "VM_NOVA",
+    "FLAVOR",
+    "VOLUME",
+    "GAUSSDB_NODE"
+  ],
+  "required_schema": {
+    "VM_NOVA": [
+      "id",
+      "logicalRegionName",
+      "vdcName",
+      "flavorId"
+    ],
+    "FLAVOR": [
+      "id",
+      "logicalRegionName",
+      "vcpuSize"
+    ],
+    "VOLUME": [
+      "id",
+      "logicalRegionName",
+      "vdcName",
+      "size"
+    ],
+    "GAUSSDB_NODE": [
+      "id",
+      "logicalRegionName",
+      "vdcName"
+    ]
+  },
+  "output_columns": [
+    "vdc_name",
+    "known_vcpu",
+    "unknown_cpu_vm_count",
+    "total_vcpu_if_complete",
+    "known_volume_size",
+    "unknown_volume_count",
+    "total_volume_size_if_complete",
+    "gaussdb_node_count"
+  ],
+  "output_grain": "one vdcName value bucket in UNION of scoped VM_NOVA/VOLUME/GAUSSDB_NODE; NULL and empty string are distinct buckets; name buckets do not assert distinct VDC owner identities",
+  "scope_propagation": "explicit equal logicalRegionName on all four APIs, repeated in each of three SQL resource scans; VM.flavorId=FLAVOR.id AND same logicalRegionName",
+  "relation_keys": [
+    "VM_NOVA.flavorId=FLAVOR.id with same logicalRegionName"
+  ],
+  "one_to_many": "FLAVOR unique id required, VM LEFT JOIN FLAVOR preserves unknown; VM CPU, volume capacity, and node counts aggregate independently before NULL-safe joins; no SUM(DISTINCT value)",
+  "cpu_policy": {
+    "accepted_value": "trimmed ASCII nonnegative integer text, bounded aggregate <=1e15",
+    "known_vcpu": "sum known core values; 0 for no VM",
+    "unknown_cpu_vm_count": "VM count with no matched flavor or NULL/empty/dirty vcpuSize",
+    "total_vcpu_if_complete": "known_vcpu only when unknown_cpu_vm_count=0, otherwise NULL; missing FLAVOR rows do not remove VMs"
+  },
+  "capacity_policy": {
+    "unit": "unconverted source VOLUME.size units; source documentation says only capacity",
+    "accepted_value": "trimmed ASCII nonnegative decimal text with at most one dot, at least one digit; no comma/exponent/sign/unit suffix; bounded aggregate <=1e15; SQLite REAL precision",
+    "known_volume_size": "sum only validated numeric sizes",
+    "unknown_volume_count": "count NULL/empty/dirty/unavailable size values",
+    "total_volume_size_if_complete": "known sum only when unknown count is zero, otherwise NULL",
+    "C_decision": "GB/GiB/unit equivalence and official grading expected columns remain unresolved; do not label this source-unit sum GB"
+  },
+  "null_empty_missing": {
+    "vdcName": "NULL and missing per-row value enter NULL bucket if table schema exists; empty string separate; no synthetic tenant or VDC identity",
+    "optional_value_missing": "unknown when table column schema exists; missing required column across payload fails preflight",
+    "identity_region": "missing identity, wrong/missing region, or duplicate identity fails entire snapshot"
+  },
+  "true_empty_vs_failure": {
+    "successful_schema_proven_empty": "empty union emits zero rows; a VDC with no resource of one type gets known 0 for that type",
+    "failed_unknown": "reject entire operation, never COALESCE failure to zero",
+    "official_loader": "_empty placeholder is insufficient schema; official executor not modified; B must prepare schema-preserving tables under allowed runtime boundary or refuse empty snapshots"
+  },
+  "pagination": "requires stable integer totalNum/pageSize/totalPageNo, consecutive currentPage, all pages with exact row lengths, unique IDs; empty response accepts totalPageNo 0 or 1; truncation/unstable counts/duplicates/missing objList reject; snapshot-consistent content changes without total change cannot be proven locally",
+  "long_request": "no parameter or SQL truncation; exact serialized_plan_bytes returned; B must apply formal <=4KB/depth4 request policy before execution; excessive plans remain blocked, not silently reduced",
+  "unsupported_obligations": [
+    "AZ filtering",
+    "tenant filtering",
+    "VDC identity joins",
+    "database instances rather than nodes",
+    "CPU utilization",
+    "database dedicated storage pools",
+    "GB/GiB conversion without decision",
+    "additional outputs or scope not in schema"
+  ],
+  "integration": "B alone wires matcher/system. Call build, validate complete schema-backed pages before running SQL. This local validation helper is a contract and not official executor replacement. No question text or test identifiers accepted.",
+  "tests": "python3 a-issue3-repair/capacity/test_candidate.py",
+  "production_or_real_service_run": false
+}

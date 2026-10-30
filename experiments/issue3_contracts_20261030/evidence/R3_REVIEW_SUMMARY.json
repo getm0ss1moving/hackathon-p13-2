@@ -1,0 +1,231 @@
+{
+  "status": "INDEPENDENT_R3_A_BOUNDARY_PASS_B_TRUSTED_CAPTURE_AND_TYPED_COUNT_PENDING",
+  "passed": 53,
+  "failed": 0,
+  "valid_new_inputs_accepted": 6,
+  "source_receipt_sha256": "1f626f207cdf7f89f837eb1465fb48fc295b7e39c3415ebb62625095bfcd701c",
+  "source_results_sha256": "0c629cab698ea717bb7639072a574cfd6a8db28c786249a16a05cef3f633a061",
+  "module_sha256": "70f255816ba7e83678002cba06e0761612bcf3dbf03508d4209209c9d2ffcae7",
+  "independent_case_verdicts": [
+    {
+      "name": "new_complete_consistent_namespace",
+      "passed": true
+    },
+    {
+      "name": "new_complete_consistent_namespace_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "new_complete_consistent_namespace_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "new_middleware_entity_in_existing_logical_region",
+      "passed": true
+    },
+    {
+      "name": "new_middleware_entity_in_existing_logical_region_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "new_middleware_entity_in_existing_logical_region_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "new_AZ_entity_same_valid_mapping",
+      "passed": true
+    },
+    {
+      "name": "new_AZ_entity_same_valid_mapping_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "new_AZ_entity_same_valid_mapping_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "new_legal_region_with_matching_entity",
+      "passed": true
+    },
+    {
+      "name": "new_legal_region_with_matching_entity_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "new_legal_region_with_matching_entity_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "complete_true_empty_middleware_known_directory",
+      "passed": true
+    },
+    {
+      "name": "complete_true_empty_middleware_known_directory_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "complete_true_empty_middleware_known_directory_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "consistent_logical_ID_entity_replacement",
+      "passed": true
+    },
+    {
+      "name": "consistent_logical_ID_entity_replacement_all_three_API_scope_values",
+      "passed": true
+    },
+    {
+      "name": "consistent_logical_ID_entity_replacement_no_automatic_COUNT_marker",
+      "passed": true
+    },
+    {
+      "name": "fresh_accepted_inputs_produce_different_dynamic_digests",
+      "passed": true
+    },
+    {
+      "name": "exact_source_template_positive",
+      "passed": true
+    },
+    {
+      "name": "POST_drift_0_rejected",
+      "passed": true
+    },
+    {
+      "name": "POST_drift_1_rejected",
+      "passed": true
+    },
+    {
+      "name": "POST_drift_2_rejected",
+      "passed": true
+    },
+    {
+      "name": "POST_drift_3_rejected",
+      "passed": true
+    },
+    {
+      "name": "SQL_drift_rejected",
+      "passed": true
+    },
+    {
+      "name": "same_ID_two_names",
+      "passed": true
+    },
+    {
+      "name": "same_name_two_IDs",
+      "passed": true
+    },
+    {
+      "name": "orphan_MW",
+      "passed": true
+    },
+    {
+      "name": "unknown_requested_region_rejected",
+      "passed": true
+    },
+    {
+      "name": "noncallable_source_rejected_29",
+      "passed": true
+    },
+    {
+      "name": "noncallable_source_rejected_30",
+      "passed": true
+    },
+    {
+      "name": "noncallable_source_rejected_31",
+      "passed": true
+    },
+    {
+      "name": "noncallable_source_rejected_32",
+      "passed": true
+    },
+    {
+      "name": "bare_flags_not_a_capture_33",
+      "passed": true
+    },
+    {
+      "name": "bare_flags_not_a_capture_34",
+      "passed": true
+    },
+    {
+      "name": "bare_flags_not_a_capture_35",
+      "passed": true
+    },
+    {
+      "name": "trusted_reader_failure_is_unavailable",
+      "passed": true
+    },
+    {
+      "name": "partial_MW_last_page",
+      "passed": true
+    },
+    {
+      "name": "missing_objList",
+      "passed": true
+    },
+    {
+      "name": "HTTP_failure",
+      "passed": true
+    },
+    {
+      "name": "filtered_global_directory",
+      "passed": true
+    },
+    {
+      "name": "schema_missing_region",
+      "passed": true
+    },
+    {
+      "name": "source_snapshot_drift",
+      "passed": true
+    },
+    {
+      "name": "source_version_absent",
+      "passed": true
+    },
+    {
+      "name": "request_scope_drift",
+      "passed": true
+    },
+    {
+      "name": "page_number_replay",
+      "passed": true
+    },
+    {
+      "name": "total_drift",
+      "passed": true
+    },
+    {
+      "name": "execution_binding_wrong_execution",
+      "passed": true
+    },
+    {
+      "name": "execution_binding_wrong_source_revision",
+      "passed": true
+    },
+    {
+      "name": "execution_binding_MW_input_added",
+      "passed": true
+    },
+    {
+      "name": "execution_binding_AZ_input_other_scope",
+      "passed": true
+    },
+    {
+      "name": "no_fixed_namespace_hash_or_R2_pin_dependency",
+      "passed": true
+    },
+    {
+      "name": "candidate_sources_unchanged",
+      "passed": true
+    }
+  ],
+  "trust_boundary": "Only B trusted host configures capture reader from controlled actual requests/pages/source isolation; callable/JSON/snapshot label alone cannot authenticate provenance.",
+  "remaining": [
+    "B actual trusted capture and source isolation provider absent",
+    "B must call current execution input check before typed SQL",
+    "GaussDB/OBS actual data and typed COUNT empty/failure gates remain unvalidated",
+    "139 dedicated-volume evidence remains missing"
+  ],
+  "scope": "Original independent review; publisher synthetic replay is separately recorded, not added to this count."
+}

@@ -1,0 +1,182 @@
+{
+  "family_id": "family_elb_child_counts_candidate",
+  "integration_target_family": "family_f22_listener",
+  "status": "MATERIALIZED_SYNTHETIC_VALIDATED_CONDITIONAL_CANDIDATE_ONLY",
+  "source_ids_for_audit_only": [
+    "rb_186",
+    "rb_193"
+  ],
+  "original_AZ_questions": "UNSUPPORTED_ELB_DEPLOYMENT_AZ_UNPROVED",
+  "source_locators": {
+    "rb_186": "CMDB-275",
+    "rb_193": "CMDB-288"
+  },
+  "current_sources_equal_local_starter": {
+    "rb_186": true,
+    "rb_193": true
+  },
+  "existing_family": {
+    "id": "family_f22_listener",
+    "ordered_columns_by_view": {
+      "listener_protocol_distribution": [
+        "protocol",
+        "count"
+      ],
+      "region_listener_rows": [
+        "elb_name",
+        "elb_id",
+        "listener_name",
+        "listener_protocol",
+        "listener_port"
+      ],
+      "named_listener_rows": [
+        "elb_name",
+        "listener_name",
+        "protocol",
+        "port"
+      ],
+      "named_listener_ports": [
+        "listener_name",
+        "protocol",
+        "port"
+      ]
+    },
+    "has_complete_member_count_view": false,
+    "evidence": "existing materializer SQL never consumes ELB_POOL_MEMBERS; source hashed"
+  },
+  "library_count": {
+    "production_changes": 0,
+    "proposed_f22_new_views": 2,
+    "extension_library_N_delta": 0,
+    "source_removals": 0,
+    "note": "retain rb_186/rb_193 unsupported AZ sources; no 132 target claim"
+  },
+  "parameters": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "view",
+      "filters",
+      "required_filters",
+      "count_policy"
+    ],
+    "properties": {
+      "view": {
+        "enum": [
+          "per_elb",
+          "totals"
+        ]
+      },
+      "filters": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "properties": {
+          "logicalRegionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tenantName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "vdcName": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required_filters": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "logicalRegionName",
+            "tenantName",
+            "vdcName"
+          ]
+        },
+        "rule": "exactly supplied filter keys"
+      },
+      "count_policy": {
+        "const": "identity_complete_zero"
+      }
+    }
+  },
+  "ordered_columns": {
+    "per_elb": [
+      "elb_id",
+      "elb_name",
+      "elb_ip",
+      "status",
+      "listener_count",
+      "member_count"
+    ],
+    "totals": [
+      "elb_count",
+      "listener_count",
+      "member_count"
+    ]
+  },
+  "grain": {
+    "per_elb": "one row per ELB.id; identical names remain distinct; sorted ELB.id",
+    "totals": "one row containing all three independent counts, including one 0/0/0 row for confirmed true empty parent scope"
+  },
+  "scope": "Every explicit region/tenant/VDC AND/equal on parent ELB API and SQL. No default region, tenant or VDC. No unsupported AZ dropped. Children fetched completely and scoped by parent IDs.",
+  "relations": [
+    "ELB.id=LISTENER.elbId",
+    "ELB.id=ELB_POOL.elbId",
+    "ELB_POOL.id=ELB_POOL_MEMBERS.poolId"
+  ],
+  "one_to_many": "Listeners and members independently aggregated by elbId before LEFT joins. Pool.listenerId not required; pools without listeners contribute members. Distinct child identity counts, no child cross-product.",
+  "NULL_and_missing": "Display name/ip/status may be NULL and are retained. Missing schema/id/reference raises ContractError. Missing aggregate becomes 0 only after complete validated child snapshots. Missing deployment AZ remains unsupported.",
+  "empty_vs_failure": "Typed schema plus successful stable-total complete pagination proves empty; failed/missing/truncated pages and official _empty placeholder are errors. No COUNT1 placeholder success.",
+  "pagination": "Every resource must supply successful consecutive pages 1..ceil(total/page_size), stable integer total/page_size, exact page row counts and globally unique IDs. Duplicate IDs, drift, missing rows and unknown totals fail closed. No retries or services in this module.",
+  "request_limits": {
+    "max_api_sql_utf8_bytes": 4096,
+    "over_limit": "raise, never trim filters or SQL",
+    "formal_depth4_gate": "unresolved; standard legacy API shape itself deeper than 4 containers, params depth 2; B must apply official definition before release",
+    "examples": {
+      "per_elb": {
+        "api_sql_utf8_bytes": 1218,
+        "full_plan_utf8_bytes": 1827,
+        "params_container_depth": 2,
+        "wire_container_depth": 7,
+        "note": "4KB only api_call+sql checked; formal depth4/combined runtime payload gate NOT cleared"
+      },
+      "totals": {
+        "api_sql_utf8_bytes": 1181,
+        "full_plan_utf8_bytes": 1763,
+        "params_container_depth": 2,
+        "wire_container_depth": 7,
+        "note": "4KB only api_call+sql checked; formal depth4/combined runtime payload gate NOT cleared"
+      }
+    }
+  },
+  "schema_loader_gate": "validate_snapshots yields typed empty schemas; unchanged official executor creates _empty for empty tables. B must supply compatible typed load/preflight without modifying official entrypoint before native adoption.",
+  "preflight_interface": "validate_snapshots(build(params), {CI:[{ok,page_no,page_size,total,rows,schema}]}) -> tables/schemas/row_counts; all four resources mandatory",
+  "runtime_gates": [
+    "C confirms count-zero/output identity policy and formal column integration",
+    "authoritative ELB deployment AZ relation for original source questions",
+    "B matcher structured binding, guarded load and depth/length validation",
+    "native/schema/pagination and business validation; no model/API budget added"
+  ],
+  "source_sha256": {
+    "a-issue3-repair/source/runbook_items_c78dd293.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
+    "a-issue3-repair/source/AGENTS_c78dd293.md": "0f1d690d21465e8bffe213b58af70640ec4ea6f77d021b43070e9bb40b3f8b1d",
+    "implementation/runbook_items.py": "cbd114635009d7a621b997810d12b874bcc1a672409908c497086b833a8e499b",
+    "a-next-classification/target129/b-contract-addendum/A_TO_B_CONTRACT_ADDENDUM.md": "1556c3b6a25b777bc41d56afc5864a4bd07bfafbd91167ca6b9bd461f907b029",
+    "a-next-classification/target129/b-contract-addendum/ELB_MICROSERVICE_SCOPE_AND_OUTPUTS.json": "9fd4244642c017a104ff70eba61f3712345a34c114d766e66abbca7b7daba4bd",
+    "a-next-classification/target129/b-contract-addendum/NATIVE_EVIDENCE.json": "24e38025bdac380b5202774696bb6f5478a964acb99dcc6bb1c98e406f1a82c6",
+    "a-parallel-merge/to132/spec-listener/elb_listener/candidate.py": "b32842251051405fa50cabfd427830f4eced2396e4305d9e010bbbae3a325fc8"
+  },
+  "source_native_counts": {
+    "ELB": 728,
+    "LISTENER": 2604,
+    "ELB_POOL": 1264,
+    "ELB_POOL_MEMBERS": 586,
+    "member_parent_ELBs": 90,
+    "pools_missing_listenerId": 4
+  },
+  "tests": "scripts/validate.py: 58 passing synthetic SQLite checks; no native SQL, models, services or official evaluators"
+}

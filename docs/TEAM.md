@@ -7,6 +7,13 @@
 
 这是默认关闭的132联调候选，未混Issue3、未取得新模型成绩。下方旧原因调查的“132未交付/F03超4KB”描述属于历史阶段；最新compact与交付状态以本入口为准。
 
+## B阅读待办：Issue3独立合同包（默认关闭）
+
+- [ ] **B阅读[Issue3合同交接](handoffs/B_A_ISSUE3_CONTRACTS.md)与[13文件闭包/合成复现](../experiments/issue3_contracts_20261030/README.md)**。原独立R2为55/55、291 R3为53/53；本次公开复放分别51/51及53/53，不拼作模型成绩。
+- [ ] 接入network严格投影/重复ID/跨区域拒绝与tenant显式unknown/all_ties政策；ELB不支持部署AZ，physical保持阻塞存档。291还需B可信capture、实际输入绑定和typed COUNT，139/224证据缺口仍在。
+
+本包与132独立，不注册、不改变默认198/B实现、不关闭issue，新增P0三合同未纳入。请保留猜空与真实空/失败的区别，B/官方门禁未因A合同通过解除。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

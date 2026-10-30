@@ -1,0 +1,49 @@
+{
+  "revision": "r3-current-snapshot-contract",
+  "status": "R3_DYNAMIC_INPUT_CONTRACT_PASS_B_TRUSTED_SOURCE_AND_TYPED_COUNT_BLOCKED",
+  "supersedes": "R2 runtime historical-data allowlist; R1/R2 remain immutable historical artifacts",
+  "source_contract": {
+    "template_canonical_JSON_SHA256": "e604b32516b5807a283d245fd8cc69b33d6cbb73a53c0b71e210c2f73e1b8c0b",
+    "SQL_UTF8_SHA256": "878d97545d32894c8db5ebde9a3a4d651ed54961b96f3d50076d0eda36e32440",
+    "API_roles": ["GAUSSDB_INSTANCE GET scoped", "MIDDLEWARE GET global", "OBS_BUCKET GET scoped", "AZONE GET scoped"],
+    "runtime_historical_resource_hash_gate": false,
+    "historical_namespace_pins": "R2/NAMESPACE_PIN.json is offline provenance only; R3 neither reads it nor imports historical namespace constants"
+  },
+  "configuration_trust_boundary": {
+    "entry": "make_region_count_binder(trusted_capture_reader) -> bind(template, params, execution_id, diagnostics=None)",
+    "who_configures_reader": "trusted B host implementation, never model/question JSON or a caller-provided verified/complete flag",
+    "reader_input": "current trusted execution_id",
+    "reader_output": "captured actual complete global AZONE/MIDDLEWARE requests, schemas and all response pages from one verified source snapshot/read-isolation generation",
+    "no_default_provider": true,
+    "no_authentication_claim": "The module cannot authenticate an arbitrary Python callback. Its configured callback is trusted host code; plain flags or dictionaries cannot configure it. B must not wrap untrusted caller JSON in a trusted callback.",
+    "source_consistency": "snapshot_id is B capture metadata grounded in an actual source version/read lock or equivalent proven isolation; it is not a new CI/API field and must not be an invented UUID passed off as consistency proof",
+    "unavailable_proof_policy": "without such trusted B source/completeness/consistency state, integration remains blocked; no fallback to old record equality"
+  },
+  "current_capture_validation": {
+    "request": "exact GET instances CI AZONE and MIDDLEWARE, global constraints=[]; each page request keeps the same CI/method/scope and correct pageNo/pageSize",
+    "schema": {"AZONE": ["id", "logicalRegionId", "logicalRegionName"], "MIDDLEWARE": ["id", "logicalRegionId"]},
+    "response": "HTTP200, success not false, no error, objList list, valid integer page metadata, contiguous requested/returned pages, stable totals/page size, exact page lengths, all pages/records present, stable verified source snapshot",
+    "true_empty": "totalNum=0, empty objList, known schema and a successful first-page receipt; totalPageNo may be 0 or 1",
+    "global_relation": "on this complete current global directory: each name -> one logical ID; each logical ID -> one name; all middleware logical IDs resolve; required region fields nonempty",
+    "requested_region": "one explicit supported name in this current directory; new valid names/IDs/AZs/middleware and consistent ID replacements are allowed",
+    "new_data_eligibility": "same general schema/completeness/relation rules, never equality to historical resource contents"
+  },
+  "binding": {
+    "params": "only logicalRegionName, explicit nonempty string without outer whitespace; no defaults or extra scopes",
+    "output_columns": ["gaussdb_count", "middleware_count", "obs_bucket_count"],
+    "new_digest_usage": "dynamic current global namespace and selected-AZ projection digests commit only to this execution_id/source snapshot",
+    "execution_check": "check_execution_namespace(bound_item, execution_id, snapshot_id, actual_namespace_tables): B supplies actual SQL-input AZONE selected rows and global MIDDLEWARE rows; same current tokens and matching dynamic projections required",
+    "not_certified_by_namespace_check": ["GaussDB/OBS response validity", "typed empty count semantics", "all result data valid", "SQL refinement obligations"],
+    "closed_independent_count_marker": "not emitted",
+    "execution_ready": false
+  },
+  "B_remaining": [
+    "provide real trusted captured-input reader and actual source-consistency evidence; synthetic fixture provider is test-only",
+    "retain full original question obligations and exact three-resource/region capability before binding",
+    "bind actual execution namespace input lists to the current commitment; reject stale execution/source generation or input drift",
+    "route through typed independent-count/bounded validation; verify all four responses, scopes, required fields and pagination",
+    "true empty -> 0; request/schema/pagination failure -> unavailable; middleware NULL -> unknown/refusal, not complete success",
+    "do not treat three output columns as data/completeness proof; do not alter official components or incomplete references"
+  ],
+  "139": "unchanged; database-specific volume purpose -> pool relation still missing"
+}

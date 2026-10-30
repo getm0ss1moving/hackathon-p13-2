@@ -1,0 +1,32 @@
+{
+  "all_four_owner_preserved_fixtures_equal_original_independent_objects": true,
+  "R1_fixture_files_not_rewritten": true,
+  "input_file_hashes": {
+    "r2_manifest": "94f04c5c31e9009d5294bdc824968a74e0e9e25a44a2194060c3f120773bcabc",
+    "r2_length_boundaries": "2d7aeaf81d796a82b9608470f48dae1ad2e14f097f87d424a8d78b909b433338",
+    "old_counterexamples": "fcf50233bb7b1c0bafe15ed772c1bf18c25693b11302f07eb03881f083f162c6",
+    "old_scope_counterexample": "a7010dba90462d005df0ab82e2435afe380200fa2a69e77ecec254f20bd54d10"
+  },
+  "freeze": {
+    "r2_root_files": 38,
+    "r1_root_files": 60,
+    "r2_root_manifest_sha256": "94f04c5c31e9009d5294bdc824968a74e0e9e25a44a2194060c3f120773bcabc",
+    "r2_group_files": 25,
+    "r1_review_inputs_unchanged": true,
+    "protected_sources_verified": 10,
+    "unchanged_modules_verified": 3,
+    "r2_code": {
+      "network": "e9a1cc61c8dc0c2e96c78352dc405f33dd14b16c182c9561474737d144f3b86d",
+      "tenant": "2a13de8f32a55ecc9f62904248f65afe2c6c8fc0ea3fc5d59c8665346663a21f"
+    },
+    "seven_view_byte_depth_records_match": true,
+    "runtime_does_not_load_old_snapshot_files": true,
+    "reviewed_sources_unchanged": true
+  },
+  "review_source_code_not_runtime_data_lock": "Source hashes freeze the reviewed implementation only. Runtime synthetic datasets and prepared projection hashes vary and are accepted; no old entity or data snapshot file is loaded by either materializer.",
+  "tool_state": {
+    "denied_actions": [],
+    "pending_approvals": [],
+    "uncertain_outcomes": []
+  }
+}

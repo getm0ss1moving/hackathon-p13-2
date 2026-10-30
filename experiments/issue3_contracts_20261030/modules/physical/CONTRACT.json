@@ -1,0 +1,111 @@
+{
+  "family_id": "NEXT_N28",
+  "profile_id": "physical_network_and_virtual_firewall_counts",
+  "source_ids_offline_only": [
+    "rb_197"
+  ],
+  "status": "blocked_native_schema",
+  "implementation_status": "pure_local_materializer_and_strict_preflight_implemented",
+  "parameter_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "resource_set",
+      "group",
+      "layout",
+      "metric",
+      "filters",
+      "required_filters"
+    ],
+    "const_dimensions": {
+      "resource_set": [
+        "S_Switch",
+        "S_Router",
+        "VFW"
+      ],
+      "group": "none",
+      "layout": "labeled_rows",
+      "metric": "count_rows",
+      "required_filters": [
+        "logicalRegionName"
+      ]
+    },
+    "filters": {
+      "type": "object",
+      "required": [
+        "logicalRegionName"
+      ],
+      "additionalProperties": false,
+      "logicalRegionName": {
+        "type": "string",
+        "minLength": 1,
+        "literal_only": true,
+        "operator": "equal",
+        "source": "explicit request role"
+      }
+    }
+  },
+  "output": {
+    "columns": [
+      {
+        "name": "device_type",
+        "type": "TEXT"
+      },
+      {
+        "name": "total",
+        "type": "INTEGER"
+      }
+    ],
+    "grain": "one independently counted CI per row",
+    "row_order": [
+      "switch",
+      "router",
+      "vfw"
+    ],
+    "empty_success": "one row with 0 per verified successful empty resource",
+    "missing_or_failed": "reject; never converted to zero"
+  },
+  "scope_propagation": "same mandatory logicalRegionName equal on each of all three API calls and verified on each fetched record",
+  "relationship_keys": "none; independent resources; no JOIN",
+  "null_missing_duplicate_policy": "required id and logicalRegionName; nonempty unique id per CI, exact region; reject absent/NULL identity or scope; id may be same across different CI identity domains",
+  "pagination": "pageSize=10000; complete ordered pages matching stable totals and exact page lengths; multipage snapshot required; duplicates/missing/excess rows rejected",
+  "request_limit": {
+    "per_call_compact_utf8_max_bytes": 4096,
+    "oversize": "reject",
+    "formal_4KB_and_depth4_gate": "retained; no official acceptance claimed"
+  },
+  "materialized_sizes_synthetic_region_A": {
+    "full_plan_compact_json_bytes": 1752,
+    "api_calls_compact_json_bytes": [
+      202,
+      202,
+      197
+    ],
+    "sdk_core_compact_json_bytes": 986,
+    "sql_utf8_bytes": 213,
+    "sql_subquery_nesting_depth": 0
+  },
+  "release_blockers": [
+    "S_Switch_nonempty_native_id_and_logicalRegionName_schema_unverified",
+    "S_Router_nonempty_native_id_and_logicalRegionName_schema_unverified",
+    "B_must_supply_validated_complete_pages_and_real_zero_row_preparation",
+    "official_executor_empty_placeholder_count_is_not_a_valid_zero",
+    "C_business_count_and_pagination_gates_remain"
+  ],
+  "counts": {
+    "new_profiles": 1,
+    "new_families": 0,
+    "actual_library_count_changed": false,
+    "possible_reduction_after_approved_rb197_absorption": 1,
+    "not_counted_toward_132": true
+  },
+  "b_integration": [
+    "route by complete resource/metric/scope/output obligations, never source IDs",
+    "keep original NEXT_N28 five tuple materializer unchanged",
+    "use new build for exactly the reviewed triple",
+    "collect typed complete successful receipts; preflight before any SQL",
+    "prepare verified empty CI as genuine zero-row typed table; never COUNT official _empty placeholder",
+    "do not enable while native physical schema or B/C gates unresolved"
+  ],
+  "native_model_official_evaluation": "not_run"
+}
