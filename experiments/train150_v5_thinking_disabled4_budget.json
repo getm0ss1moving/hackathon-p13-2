@@ -1,0 +1,11 @@
+{
+  "status": "closed",
+  "used": 9,
+  "maximum": 12,
+  "unused_closed": 3,
+  "reused": false,
+  "trace_sha256": "63c0c176302be25666c4a661b6ca2ef4aab55c3de73d056f889cab4caaeb2d83",
+  "completion_tokens": 501,
+  "reasoning_tokens_visible": 0,
+  "reasoning_tokens_missing_events": 9
+}

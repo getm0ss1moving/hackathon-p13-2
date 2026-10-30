@@ -1,0 +1,21 @@
+{
+  "authority": "用户持续自主授权；只改变官方thinking参数的同源同题4+4训练对照，agent决定",
+  "max_requests_per_mode": 12,
+  "maximum_combined": 24,
+  "sdk_retries": 0,
+  "max_output_tokens": 1024,
+  "previous_unused_budgets_reused": false,
+  "model": "deepseek-flash",
+  "case_ids": [
+    "CMDB-040",
+    "CMDB-255",
+    "CMDB-282",
+    "CMDB-285"
+  ],
+  "plan_sha256": {
+    "default": "5638b2c8fc59d9ab357fc85c17a8b20bbf7340b6fad2d727be9d9a2aaae2c2fc",
+    "disabled": "4e898718a999ff693acdf25ef994bb53b052f40da59d3b72105992573c60a1bc"
+  },
+  "official_documentation": "https://api-docs.deepseek.com/guides/thinking_mode/",
+  "holdout_accessed": false
+}

@@ -1,0 +1,18 @@
+{
+  "type": "agent_decided_bounded_experiment",
+  "authority": "用户持续自主授权，并明确要求未通过题少次复测后回归原通过题；本轮由agent决定，不伪称逐轮人工批准",
+  "scope": "train_subset",
+  "phase": "failure_probe",
+  "case_ids": [
+    "CMDB-255",
+    "CMDB-285"
+  ],
+  "model": "deepseek-flash",
+  "max_requests": 6,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "b654d5178179ab9aa77ebc065b774e3fcd4c2a79d44c694d8152b1ad23b2bb40",
+  "previous_budgets_reused": false,
+  "holdout_accessed": false,
+  "commit_or_push": false
+}

@@ -1,0 +1,20 @@
+{
+  "authority": "持续自主授权；失败2题质量5后固定原已过8题回归，agent决定的新独立预算",
+  "case_ids": [
+    "CMDB-005",
+    "CMDB-029",
+    "CMDB-040",
+    "CMDB-068",
+    "CMDB-121",
+    "CMDB-152",
+    "CMDB-221",
+    "CMDB-282"
+  ],
+  "phase": "passed_regression",
+  "max_requests": 24,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "1e084753839d27cef2119d9401ad530156ffb675cf0b9b8c22725242ac5b5f92",
+  "previous_unused_budget_reused": false,
+  "holdout_accessed": false
+}

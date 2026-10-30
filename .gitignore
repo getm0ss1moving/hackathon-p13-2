@@ -1,8 +1,13 @@
 # 本机环境与认证配置
 .venv/
+.venv
 .env
 .env.*
 !.env.example
 __pycache__/
 *.py[cod]
 .DS_Store
+reports/*
+!reports/.gitkeep
+datasets/whitebox_150_50_v1/sealed_test.json
+implementation/evaluation_result.json

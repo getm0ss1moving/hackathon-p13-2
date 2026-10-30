@@ -1,0 +1,8 @@
+{
+  "status": "closed",
+  "used": 245,
+  "maximum": 351,
+  "unused_closed": 106,
+  "previous_budget_reused": false,
+  "trace_sha256": "eefc520c3502f3283573fe1769c7a7a39f4a09958727b8ab17bb13de0d12e51d"
+}

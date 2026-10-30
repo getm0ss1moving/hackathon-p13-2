@@ -1,0 +1,122 @@
+{
+  "base_commit": "ad45ecc1cf1c54f445ada616e4ba7d0c84576e54",
+  "changes": "B runtime and development tools consolidated into repository root; C diagnostics retained",
+  "tests": {
+    "training": 114,
+    "synthetic_semantics_and_client": 75,
+    "c_diagnostics_and_reports": 9,
+    "total": 198,
+    "all_passed": true
+  },
+  "original_protected_files": 236,
+  "original_protected_changed": [],
+  "current_readonly_snapshot_files": 240,
+  "historical_and_training_files_moved_without_byte_changes": 78,
+  "training_replay": {
+    "scope": "train150_only",
+    "baseline": {
+      "untimed_score": 585.0,
+      "max_score": 750,
+      "full_quality_answers": 117,
+      "partial": 2,
+      "wrong": 5,
+      "refused": 26
+    },
+    "integrated": {
+      "untimed_score": 585.0,
+      "max_score": 750,
+      "full_quality_answers": 117,
+      "partial": 2,
+      "wrong": 5,
+      "refused": 26
+    },
+    "improved": 0,
+    "regressed": 0,
+    "real_model_requests": 0,
+    "holdout_accessed": false,
+    "library_reconciliation": {
+      "implementation/runbook_items.py": {
+        "B_sha256": "8f795734400eac0217ccde86c9bcd9bb38d9682b22fe833739d9695a54c32cd1",
+        "integrated_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35"
+      }
+    }
+  },
+  "handoff_zip": {
+    "files": 80,
+    "credential_file_included": false,
+    "sealed_dataset_file_included": false
+  },
+  "source_sha256": {
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/blackbox_eval.py": "bff923a0572a88bc13b2258fbbd2a04cd5a1fa5d28c32348a0c23c59a195ec04",
+    "implementation/eval_report.py": "d7b44c0bad53b1b0c96b0369092f540b5efd6285fce7a8dc896967aebac26a07",
+    "implementation/runbook_retriever.py": "1f00b14b1c7c24104a2695f1f33e94d223f59d0cd0277b766c2bb6d8a3135705",
+    "implementation/runbook_aggregates.py": "6fcf02feb99dc7e1619d1aab80e126da8889b8d2f58f51ed3279732c0961ffdb",
+    "implementation/runbook_system.py": "5bca4985696b141a323097bc08bb99f3b2d6bfc9585a764936e55ec0cad070d8",
+    "implementation/quick_eval.py": "211ea890b74b2586e77402c37402f316a5c4b44e292ad4977f1b04321615071b",
+    "implementation/runbook_matcher.py": "0e6f3e6fb5ded9ccd5a34af223b4c0a3f53b8c9d2a9b3a043701a25259bb6955",
+    "implementation/evaluator.py": "c7bc000d71a766f5dec3c2747fc84224fb85f30d513d7b89ade8ea881aa61f22",
+    "implementation/runbook_items.py": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+    "replay_sql.py": "3a558d35ed7e5b3b32374054a36c077d15ffc51f2018a3d1026e0361d0192093",
+    "audit_training_failures.py": "df107ecae45974fe5993173d7ab23da51df7c9fca882f94d1ef73c3eef7b7f81",
+    "run_whitebox.py": "2d62314348cb1e9421facb70f9263502875255c057b46ebd4eed4f64e9a67816",
+    "training_data.py": "566bd21ed0c2beb887399c6b80d5a3312eb766b9c1859fc59e4cf1bac3450139",
+    "prepare_data.py": "673fc25a50512de652a1f5da37a22f817ba51ba8284994a2a86ef6ae4b6b044a",
+    "resume_training_v2.py": "a075756d7dc7a73ebcd62e92501d15678b35ee45f45e139402860ea391c86b3d",
+    "build_team_handoff.py": "2d9a05f2ce0b8b3f5f398e691bf8ed078ec9a69204aa7ff33cb88b24cec53d02",
+    "analyze_training_v2_coverage.py": "297a67bf5bfccc9f7d0aa6a009a1500a5c515cd9ea68fbfd961bfeb1841a9848",
+    "analyze_training.py": "adbd18c4775664518a818d9083cc80c422642489d3c8c29e534e5b70541444a8",
+    "probe_training_field_contracts.py": "1bf899bd09b99984e8961a42affb6e92f2f718f3bcf5d4a972d562774ce5e2f3",
+    "train_live.py": "2b13a6436235da53f7910a8fb572b010f72f4f4d98ccbbd3663768ff667ebf9b",
+    "analyze_whitebox.py": "3fc0a1ec3614b7fce4de3da48e893836be11b1d0dc68d03fdaa53bcc97262697",
+    "make_training_split.py": "e1af4b0e586043d8a75fe12399f935c069ab689d3f96f9f6385b8c70f0f05f4f",
+    "train_prompt_probe.py": "399ae8613f226d047eb3c39a7569f45dbac2751d074e9d90bf6fbb68a6fc3c61",
+    "analyze_prompt_probe.py": "9fac64f0455235fd6055a02ff36ec16fdd21a856c6b32522e107a4e9e898ecca",
+    "check_env.py": "50af30810aa60fe0f3d2d44ac20e6ada272b9e674e9a3fd6261a26445c1f178c",
+    "train_replay.py": "02d2f671a3b4856ad43636767ac06fc27cadc05ed1f2bf0f6127c0f4820d3d60",
+    "tests/test_training_resume.py": "90ea30dfa61fa6cbf4f838dbc9a88159fac0ccad9fa6d0f5bfe4c26f471f6a4e",
+    "tests/test_training_model_names.py": "62ad0cb72fcba922d1885f63ef5eefcdbf05c73445d0207f9a6e3fcd7a47287f",
+    "tests/test_training_literals.py": "012a4a1bfc57d8729107242ac1d13690286615617794c12047079d33fa8795a4",
+    "tests/test_sql_replay.py": "a757bf3d78a84a0f39e407a27ea34d66f5bfe903817c56374ac81918b3f00502",
+    "tests/test_projection_contract.py": "1fe7f63a577fad09d0faa281e591b870a3b7e9f6d546166d7a97030f227d28e4",
+    "tests/test_matching_sql.py": "1d7832a2b7bb3526379966b7ca82ae4ee6a6d32984530a5bfb62fa7e6e643f2a",
+    "tests/test_training_live.py": "388bf0b54df847e3855394bf98673eb29dcf83c25530de028e4cc5319e1ce5da",
+    "tests/test_training_scalars.py": "b085114504a13b8be493345b73b35c11dc8ebdce692e937cd78c9aae00d896b9",
+    "tests/test_full_runner.py": "097a8fed9dbf76e933db3cef4542ce985dd9fa910208dc17aff27b8a38fd9580",
+    "tests/test_training_groups.py": "fa13eee5be2453e1f24c41341d22835c51fa1746d52c51e4142da68ccb8c31c6",
+    "tests/test_training_prune.py": "0dc24c48894e0c69f387617f235ed32668f4b9d76152c6e2dea112e3a8f9eb50",
+    "tests/test_training_split.py": "b45093514771ec1ac2d5c7a1d4a4bec78d913c3ee5f1b34c779fbb42f8017400",
+    "tests/test_training_enum_labels.py": "6e1dd5f1d175caa4854f4a0c1764a7b3f255b39ccc1c81fda1745faf3dd6912a",
+    "tests/test_rule_fill.py": "fc65308a4e72ee7fa96835fbfa636edd59dc72799f58a66191d9bf4ae0d68d61",
+    "tests/test_resource_attributes.py": "749ac23a8196ab444c2c733f99101a374a8910bcd6bc8db77a822269b1790899",
+    "tests/test_training_grain.py": "a84b70505e38ad89f5c0bca6ba501e9af3c35bc2681b528db23fb27518dee401",
+    "tests/test_api_dependencies.py": "8f84b851450038678cc00c2e364d7450521e784a49d0b5c15f8f3a489683ceea",
+    "tests/test_resource_runner.py": "55da12789b34159d6494afbe55ce115a531bfe9784ace2d309b0c7a51cf467c6",
+    "tests/test_params.py": "5ad81deaa1fb1aaeb5b94d961eed2c20b348b6add140c14431924df10f1f1cdb",
+    "tests/test_llm_runtime.py": "29995e39503868f7602ae5870196eb1c992d1233291cfcbb05ef88ce2e5394ed",
+    "tests/test_bounded_api.py": "30ed8383f6117fab85a5da6d8db838a3eae341929c2f6d111ee42ce054969dd2",
+    "tests/test_training_subset.py": "9a2e2df34c6e72a4fc85827a818e34c74738ceb6e87f183178f77a22dfa15e70",
+    "tests/test_resource_lookup.py": "77d6b6a068ed50b8daf32d16a07c4995ff21bc10a4e7f89486703e67cfac4cb4",
+    "tests/test_row_semantics.py": "5d1c096ae4c9eebbd31f046a099c3c1af145784d01acf8c1da4f6c7569fff76e",
+    "tests/test_training_prompt_probe.py": "de9b68e8d5a982fcfc99d5ebddeeb73adee88080b48d5976e8b3aa0cdcf4a053",
+    "tests/test_training_prompt.py": "273b9f779830b4da986059270cd01acdd327b326ef3cf1e48c0bb9e80ebb214b",
+    "tests/test_pipeline_local.py": "af77e7ee600f9c0d8d4a781a1c71be7e09083d7ffd5576ce5bd90009db282943",
+    "tests/test_training_thinking.py": "ddcc5c64bb9146e65c5968bd73293315317ba8f8f63c0681139a4b93dc38ce69",
+    "C/tests/test_diagnostics.py": "6e6f47a46ebee57067f3d7672621adca66c80a39aab72ac0c2bd6f132d78a5d8",
+    "C/tests/test_reporting.py": "0913192f60d1e5173a5a828c5e330af0eb487357b99e9865678b32ec45437202",
+    "baseline_manifest.json": "4ab4b56c68dc40074ab655734b2a138c58a5b1a57f6a7d54e0a4737abdb262f5"
+  },
+  "not_run": [
+    "fresh paid model evaluation",
+    "blackbox",
+    "final holdout evaluation",
+    "formal score aggregation"
+  ],
+  "clean_staged_export": {
+    "tests_passed": 198,
+    "B_source_directory_present": false,
+    "local_configuration_present": false,
+    "git_metadata": "temporary empty commit for git identity queries; no project files altered",
+    "runtime_fix": "resume preflight permits absent .env.local and keeps source/model/plan guards"
+  }
+}

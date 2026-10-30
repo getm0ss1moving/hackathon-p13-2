@@ -1,5 +1,8 @@
 # C 的职责和使用方法
 
+2026-10-30统一完成：根`implementation/`已接入B最新流程，支持`query(question, diagnostics=...)`。A/B/C使用同一套代码，无需再合并独立B目录。固定训练150题开发优先使用根`train_live.py`/`train_replay.py`，完整白盒仅用于明确授权后的评估；训练工具、测试与历史材料路径见[根README](../README.md)。
+
+
 C 负责把根目录集成后的系统跑完原评测，保存执行证据，统计得分与耗时，整理失分题，并在 A/B 修复后比较前后结果。
 
 实际代码是根目录 `implementation/quick_eval.py`、`blackbox_eval.py`、共用的 `eval_report.py`，以及 `C/analyze_results.py`。查询系统仍使用根目录 A/B 的实现，评分仍调用原 `evaluator.evaluate_case()`。无需把 C 的文件合并进查询模块，也无需另建 C 查询系统。A/B 的候选版本应先交接到根目录，再评测该集成版本。
@@ -90,7 +93,7 @@ python3 -B C/analyze_results.py C/reports/新一轮.jsonl --baseline C/reports/�
 
 诊断提供实际发生的步骤和排查方向：例如有候选但被门禁拒绝，可以定位拒答位置；精调前后SQL不同，仍需对照执行结果才能认定是否退化。旧日志没有诊断时保留为空，不反推当时的中间状态。当前不采集 token、模型请求数、CPU/内存，不冒充已测；这些不是启动本轮答题回归的前置条件。
 
-为采集这些字段，根目录 `runbook_matcher.py` 和 `runbook_system.py` 只增加了可选 `diagnostics` 参数与记录点，原单参数 `query(question)` 和默认返回结构保留。B 后续集成版本时应保留这些记录点；检索、选择、填参、SQL精调和拒答策略仍由 A/B 负责，本轮没有调整策略，也未改动独立的 `B/` 目录。
+为采集这些字段，根目录 `runbook_matcher.py` 和 `runbook_system.py` 只增加了可选 `diagnostics` 参数与记录点，原单参数 `query(question)` 和默认返回结构保留。B 后续集成版本时应保留这些记录点；检索、选择、填参、SQL精调和拒答策略仍由 A/B 负责，本轮没有调整策略，B流程现已集成到根目录，独立源码副本已移除。
 
 ## 当前完成范围
 

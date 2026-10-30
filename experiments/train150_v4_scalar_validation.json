@@ -1,0 +1,23 @@
+{
+  "specialized_tests": 95,
+  "failure_cases": 2,
+  "failure_full_quality": 2,
+  "failure_timed_score": 4,
+  "failure_untimed_score": 10,
+  "passed_regression_cases": 8,
+  "passed_full_quality": 8,
+  "passed_timed_score": 33,
+  "passed_untimed_score": 40,
+  "source_archive_matches_frozen_plan": true,
+  "full150_fixed_response_replay": {
+    "baseline_full": 117,
+    "candidate_full": 119,
+    "baseline_untimed": 585,
+    "candidate_untimed": 595,
+    "improved": 2,
+    "regressed": 0
+  },
+  "new_full150_real_query_run": false,
+  "holdout_accessed": false,
+  "no_commit_or_push": true
+}

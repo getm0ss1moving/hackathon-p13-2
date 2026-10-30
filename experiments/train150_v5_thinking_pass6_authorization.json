@@ -1,0 +1,17 @@
+{
+  "authority": "持续自主授权；4题关闭思考均5分后，回归未在本对照重复测试的6道原满质量题，agent决定的新预算",
+  "case_ids": [
+    "CMDB-005",
+    "CMDB-029",
+    "CMDB-068",
+    "CMDB-121",
+    "CMDB-152",
+    "CMDB-221"
+  ],
+  "max_requests": 18,
+  "max_output_tokens": 1024,
+  "sdk_max_retries": 0,
+  "plan_sha256": "ff82c5130cf9a7cbd61ff162616a04ac96d02addae9c3d779c9a82a9006f0b44",
+  "previous_unused_budgets_reused": false,
+  "holdout_accessed": false
+}

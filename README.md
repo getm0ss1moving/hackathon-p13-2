@@ -4,6 +4,51 @@
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
+## 当前统一工作入口（2026-10-30）
+
+按用户要求，B独立项目已与根目录合并。A/B/C共同使用根目录的同一套模板、检索、匹配、执行与评测，不再进入B开发，也不再复制implementation或数据服务。
+
+| 位置 | 当前用途 |
+|---|---|
+| `implementation/runbook_items.py`、`runbook_retriever.py` | A的当前200模板、BM25检索 |
+| `implementation/runbook_matcher.py`、`runbook_system.py`、`runbook_aggregates.py` | B的最新选择、填参、SQL精调及默认关闭的聚合候选 |
+| `implementation/quick_eval.py`、`blackbox_eval.py`、`eval_report.py` | C的原评分入口与可选诊断；调用同一套B流程 |
+| `output-server/` | 唯一的原数据服务和230个数据JSON |
+| `train_live.py`、`train_replay.py`、`train_prompt_probe.py` | 固定150训练题的预检、真实诊断、免费回放和提示词探针 |
+| `datasets/whitebox_150_50_v1/` | 原字节迁入的划分清单、150训练题与历史；不上传封存50题 |
+| `tests/`、`C/tests/` | B的训练/语义测试与C的诊断/报告集成测试 |
+| `experiments/`、`docs/training/` | 原实验来源和训练交接文档；历史哈希和旧目录含义保留 |
+| `B/` | 仅迁移说明；本机忽略的旧环境、封存文件和历史报告不作为代码来源 |
+
+从仓库根目录准备环境（新机器安装依赖时使用）：
+
+```bash
+./setup.sh
+.venv/bin/python check_env.py
+.venv/bin/python output-server/data_server.py --host 127.0.0.1 --port 8080
+```
+
+另一个终端从同一根目录执行：
+
+```bash
+# 免费：只用合成用例/固定训练范围，不调用模型
+.venv/bin/python -B -W error::ResourceWarning -m unittest discover -s tests -p 'test_training_*.py' -v
+.venv/bin/python -B -W error::ResourceWarning -m unittest discover -s C/tests -v
+.venv/bin/python train_live.py --candidate-flags
+.venv/bin/python train_replay.py --history-v2 --candidate-flags --output reports/train-replay-new.json
+```
+
+`train_live.py`默认只预检，读取本机`.env.local`中列出的模型配置；真实运行需显式`--run`、匹配的新冻结计划与新结果路径。原`quick_eval.py`/`blackbox_eval.py`读取进程环境变量，仍支持`--report`；配置密钥后会实际调用模型。模型、特性开关、数据范围和调用预算必须在运行前确定。
+
+开发继续遵守固定150/50隔离：只使用训练集，完整白盒和旧全200测试仅留作历史/明确授权后的最终评估入口，不能用其反馈指导当前调参。全200题和模板示例在划分前已公开，50题不是完全未见的泛化集。黑盒JSON仍缺失。
+
+合并保留根A的稀疏服务器字段修复和C的报告接口；B新增诊断同时可经`query(question, diagnostics=...)`收集，并保留结果中的阶段诊断。旧实验计划不会因搬目录而改写，源哈希漂移时须重新预检，不能把旧成绩当成统一版本成绩。当前合并验证见[交付记录](experiments/unified_20261030/README.md)。训练详细协议与待办见[训练说明](docs/training/TRAINING.md)、[问题清单](docs/training/TRAINING_ISSUES.md)。
+
+## 以下为既有交接和历史环境记录
+
+下文包含当时的B独立目录、旧分支和旧测试结果；当前工作路径以上方统一入口为准。
+
+
 当前协作分支为 `main`：按用户于 2026-10-30 的要求，已有协作分支的已提交历史统一合并，之后直接沿 `main` 工作，不为每次提交新建分支。本地B未提交成果继续等待用户明确提交指令；历史记录中的分支名称保留其原时间含义。
 
 > 接手核验（2026-10-29）：本包缺少 `output-server/README.md` 和黑盒 JSON，实际有 200 条模板。原包评分说明存在差异，见文末“最小分支接手记录”。第二轮已构建本地环境，补 TLS 校验和评估入口检查；当前启动方法见“本地环境与第二轮开工”。
