@@ -110,6 +110,12 @@ class RunbookRetriever:
         # 去重别名只保留旧检索文档；执行候选始终使用仍在模板库中的编号。
         self._canonical_ids = {alias['id']: item['id'] for item in items
                                for alias in item.get('retrieval_aliases', [])}
+        for item in items:
+            for view in item.get('retrieval_views', []):
+                prior = self._canonical_ids.get(view['id'])
+                if prior is not None and prior != item['id']:
+                    raise ValueError('retrieval view and alias owner conflict')
+                self._canonical_ids[view['id']] = item['id']
         self._docs = self._build_docs(items)
         self._doc_count = len(self._docs)
         self._df = self._build_df()
@@ -125,6 +131,80 @@ class RunbookRetriever:
 
     @staticmethod
     def _build_docs(items: list) -> list:
+        if any('retrieval_views' in item for item in items):
+            # Views contain retrieval text only. Display/API/SQL remain on active items.
+            # Preserve separate profile scores/coverage until the existing final ID map.
+            entries, pending = [], []
+            explicit_views = {view['id']: (item['id'], view)
+                              for item in items for view in item.get('retrieval_views', [])}
+            allowed = {'id', 'after_id', 'description', 'examples', 'description_repeat'}
+            for item in items:
+                views = item.get('retrieval_views')
+                if views is not None:
+                    if not isinstance(views, list) or not views:
+                        raise ValueError('retrieval_views must be a nonempty text list')
+                    for view in views:
+                        if (not isinstance(view, dict) or set(view) - allowed
+                                or not isinstance(view.get('id'), str)
+                                or not view['id']
+                                or not isinstance(view.get('description', ''), str)
+                                or not isinstance(view.get('examples', []), list)
+                                or any(not isinstance(x, str) for x in view.get('examples', []))
+                                or view.get('after_id') is not None and not isinstance(view['after_id'], str)
+                                or not isinstance(view.get('description_repeat', 1), int)
+                                or isinstance(view.get('description_repeat', 1), bool)
+                                or not 1 <= view.get('description_repeat', 1) <= 4):
+                            raise ValueError('invalid retrieval text view')
+                    entries.append(views[0])
+                    pending.extend(views[1:])
+                else:
+                    entries.append(item)
+                for alias in item.get('retrieval_aliases', []):
+                    explicit = explicit_views.get(alias['id'])
+                    if explicit is None:
+                        pending.append(alias)
+                        continue
+                    owner, view = explicit
+                    alias_texts = alias.get('examples', []) + ([alias['description']] if alias.get('description') else [])
+                    view_texts = view.get('examples', []) + ([view['description']] * view.get('description_repeat', 1) if view.get('description') else [])
+                    if (owner != item['id'] or alias_texts != view_texts
+                            or set(alias) - {'id', 'after_id', 'description', 'examples'}):
+                        raise ValueError('legacy alias and explicit view text conflict')
+                    # Keep the migrated alias metadata, but index its exact text only
+                    # through the explicit profile. Never count the same text twice.
+            all_ids = [entry['id'] for entry in entries + pending]
+            if len(all_ids) != len(set(all_ids)):
+                raise ValueError('duplicate retrieval text view ID')
+            # Resolve anchors globally; a legacy alias may depend on another family's
+            # pending view (054 after053). Missing/cyclic anchors fail explicitly.
+            while pending:
+                remaining = []
+                for view in pending:
+                    position = next((i for i, entry in enumerate(entries)
+                                     if entry['id'] == view.get('after_id')), None)
+                    if position is None:
+                        remaining.append(view)
+                    else:
+                        entries.insert(position + 1, view)
+                if len(remaining) == len(pending):
+                    raise ValueError('missing or cyclic retrieval view anchor')
+                pending = remaining
+            # Bootstrap views keep active-item positions; validate their declared
+            # anchors too, instead of silently ignoring missing/backward cycles.
+            positions = {entry['id']: i for i, entry in enumerate(entries)}
+            for entry in entries:
+                anchor = entry.get('after_id')
+                if anchor is not None and (anchor not in positions
+                        or positions[anchor] >= positions[entry['id']]):
+                    raise ValueError('invalid initial retrieval view anchor')
+            docs = []
+            for entry in entries:
+                for example in entry.get('examples', []):
+                    docs.append(_Doc(entry['id'], tokenize(example)))
+                if entry.get('description'):
+                    for _ in range(entry.get('description_repeat', 1)):
+                        docs.append(_Doc(entry['id'], tokenize(entry['description'])))
+            return docs
         entries = list(items)
         for item in items:
             for alias in item.get('retrieval_aliases', []):

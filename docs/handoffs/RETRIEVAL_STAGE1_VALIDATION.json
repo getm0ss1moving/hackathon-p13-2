@@ -1,0 +1,111 @@
+{
+  "status": "PASS_CONSERVATIVE_RETRIEVAL_COMPATIBILITY_WITH_VALIDATION_HARDENING",
+  "source_patch_sha256": "284f1ff1bf08ba632e79cb73c6da6b9d61bae9c618ccf76606a985ba09b4b50d",
+  "validated_engine_sha256": "8fd12b7556bdcf89a10f9d408d9c8473e04a48bcd4bd3bd89bc06c8aaec856cc",
+  "integration_guard_addition": "Validate bootstrap-view anchors against final positions; source patch silently accepted missing/self anchors. Text/rank/BM25 algorithm unchanged.",
+  "initial_source_guard_findings": [
+    {
+      "case": "initial_missing_anchor",
+      "result": "ACCEPTED_WITHOUT_VALIDATING_INITIAL_ANCHOR"
+    },
+    {
+      "case": "initial_self_cycle",
+      "result": "ACCEPTED_WITHOUT_VALIDATING_INITIAL_ANCHOR"
+    }
+  ],
+  "198_fallback_all_field_comparisons": 2068,
+  "180_family_normalized_all_field_comparisons": 2068,
+  "query_count": 517,
+  "profiles": 200,
+  "documents": [
+    400,
+    400,
+    400
+  ],
+  "corpus_order_tokens_DF_IDF_TF_tau_unchanged": true,
+  "coverage_counts_total_before_after": {
+    "merged": [
+      50,
+      50,
+      50
+    ],
+    "unaffected": [
+      350,
+      350,
+      350
+    ],
+    "known_positive": [
+      25,
+      25,
+      25
+    ]
+  },
+  "selector_prompt_checks": 517,
+  "invalid_metadata_rejected": [
+    "hidden_sql",
+    "hidden_api_call",
+    "hidden_default_params",
+    "hidden_params",
+    "hidden_answer",
+    "repeat_0",
+    "repeat_5",
+    "repeat_True",
+    "duplicate_profile",
+    "bad_description",
+    "bad_example",
+    "pending_missing_anchor",
+    "pending_cycle",
+    "empty_profiles",
+    "legacy_text_conflict",
+    "legacy_hidden_API",
+    "initial_missing_anchor",
+    "initial_self_cycle"
+  ],
+  "largest_compact_item_bytes": 2450,
+  "full_library_max_dict_list_depth": 7,
+  "measurements": {
+    "old198": {
+      "build_ms_with_tracemalloc": 11.701040959451348,
+      "index_incremental_traced_live_bytes": 802322,
+      "index_incremental_traced_peak_bytes": 802642,
+      "retrieval_samples": 1551,
+      "p95_ms": 1.101750007364899,
+      "p99_ms": 1.2574999709613621,
+      "max_ms": 1.4609999489039183
+    },
+    "new198": {
+      "build_ms_with_tracemalloc": 14.845666999462992,
+      "index_incremental_traced_live_bytes": 802194,
+      "index_incremental_traced_peak_bytes": 802514,
+      "retrieval_samples": 1551,
+      "p95_ms": 1.089832978323102,
+      "p99_ms": 1.2093750410713255,
+      "max_ms": 1.3604160048998892
+    },
+    "candidate180": {
+      "build_ms_with_tracemalloc": 15.153540996834636,
+      "index_incremental_traced_live_bytes": 807842,
+      "index_incremental_traced_peak_bytes": 807842,
+      "retrieval_samples": 1551,
+      "p95_ms": 1.0929580312222242,
+      "p99_ms": 1.230417052283883,
+      "max_ms": 1.5968750230967999
+    }
+  },
+  "production_N": 198,
+  "production_changed": false,
+  "semantic_patch_applied": false,
+  "model_calls": 0,
+  "service_calls": 0,
+  "limits": [
+    "Source templates/known and writer-generated controls are not unseen business-answer validation.",
+    "Only conservative400-document metadata tested; six concept cards and phase2 intent/diversity algorithms not included.",
+    "Input-library memory and full process RSS excluded from traced index allocations; local timing not formal resource certification.",
+    "180 remains blocked on independent parameter-semantic review and complete execution gates.",
+    "Official depth algorithm unresolved; no full submission-compliance claim."
+  ],
+  "main_publication_base": "d912b48c3119469dbdbae325581696a61dc117fa",
+  "protected_tracked_files_unchanged": 237,
+  "production_templates_matcher_system_aggregates_unchanged": true,
+  "portable_synthetic_tests_passed": 6
+}
