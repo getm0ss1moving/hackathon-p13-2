@@ -1816,12 +1816,36 @@ def _match_closed_view_candidate(question: str, selected: dict, diagnostics: dic
         if owner == family:
             choices.append({'view': view, 'default_columns': columns, 'default_order': order,
                             'legal_filter_sets': family_views._B3_SPECS[family]['shapes'][tuple(columns)][order]})
+    fields = sorted({field for choice in choices for keys in choice['legal_filter_sets'] for field in keys})
+    schema = {
+        'type': 'object', 'additionalProperties': False,
+        'required': ['view', 'filters', 'required_filters'],
+        'properties': {
+            'view': {'type': 'string', 'enum': [choice['view'] for choice in choices]},
+            'filters': {'type': 'object', 'additionalProperties': False,
+                        'properties': {field: {'type': ['string', 'null']} for field in fields}},
+            'required_filters': {'type': 'array', 'uniqueItems': True,
+                                 'items': {'type': 'string', 'enum': fields}},
+        },
+        'oneOf': [
+            {'properties': {
+                'view': {'const': choice['view']},
+                'filters': {'required': list(keys), 'minProperties': len(keys), 'maxProperties': len(keys)},
+                'required_filters': {'items': {'enum': list(keys)}, 'minItems': len(keys), 'maxItems': len(keys)},
+            }} for choice in choices for keys in choice['legal_filter_sets']
+        ],
+    }
     prompt = (
         '为已选中的家族提取参数，只输出JSON对象或null。对象仅有view、filters、required_filters。'
+        'required_filters必须是字段名字符串数组，例如["name"]，不能是对象、字段值映射或字符串。'
+        'filters才是字段到原文值的对象；view是单个枚举字符串。\n'
+        'JSON Schema：' + json.dumps(schema, ensure_ascii=False) + '\n'
         '受控view及原合同默认输出为：' + json.dumps(choices, ensure_ascii=False) + '\n'
         '用户无需逐列说默认输出。输出意图必须与view一致；明确额外/缺少列、别名或其他排序不能被默认列覆盖。'
         'name/区域/租户/VDC/可用区必须有实际原文证据，不能交换角色、忽略条件、填旧默认实体或降成全局。'
         'ECS或GaussDB紧邻实例名称可提取name；单一裸位置加状态谓词只在已审AZ/status合同中表示可用区。'
+        '资源词是角色标签，不属于标签后面的name值：例如ECSDemo_name提取Demo_name；'
+        '显式名称或引号内的ECSDemo_name则须完整保留，不能按实体内容猜删前缀。'
         '明确区域不能转可用区。正在跑/运行中/正在运行可为active，已停止/停机可为stopped，必须有该谓词。'
         '所有明确筛选都进入filters和required_filters，实体是原文字符串，缺失值保留null。'
         '不支持名称包含/前缀、否定、OR、容量、计数、关系、多资源、额外列或含义不明的业务IP；不能删掉这些要求，返回null。'

@@ -21,6 +21,56 @@ def parsed(view, **filters):
 
 
 class A170Tests(unittest.TestCase):
+    def test_view_prompt_schema_closes_array_type_and_all_legal_filter_profiles(self):
+        for family, count in [("F02", 7), ("F19", 4)]:
+            captured = []
+            def ask(prompt, stage):
+                captured.append(prompt)
+                raise ValueError("offline prompt capture")
+            with patch.object(m, "llm_ask", side_effect=ask):
+                self.assertIsNone(m._match_closed_view_candidate("合成结构检查", FAMILIES[family], {}))
+            line = next(line for line in captured[0].splitlines() if line.startswith("JSON Schema："))
+            schema = json.loads(line.removeprefix("JSON Schema："))
+            self.assertEqual(schema["properties"]["required_filters"]["type"], "array")
+            self.assertFalse(schema["additionalProperties"])
+            self.assertEqual(len(schema["oneOf"]), count)
+            actual = {(branch["properties"]["view"]["const"], frozenset(branch["properties"]["filters"]["required"])) for branch in schema["oneOf"]}
+            expected = {(view, frozenset(keys)) for view, (owner, columns, order, _) in v.VIEWS.items() if owner == family
+                        for keys in v._B3_SPECS[family]["shapes"][tuple(columns)][order]}
+            self.assertEqual(actual, expected)
+
+    def test_malformed_model_filter_list_is_rejected_without_repair(self):
+        question = "查询ECS实例Demo_name的创建时间"
+        retriever = RunbookRetriever(RUNBOOK_ITEMS)
+        offered = [candidate.id for candidate in retriever.retrieve(question)]
+        response = {"view": "ecs_creation_time", "filters": {"name": "ECSDemo_name"},
+                    "required_filters": {"name": "ECSDemo_name"}}
+        diagnostic = {}
+        with patch.object(m, "llm_ask", side_effect=[str(offered.index(FAMILIES["F02"]["id"]) + 1), json.dumps(response)]), \
+                patch.object(m, "_refine_sql") as refine:
+            result = m.match_runbook(question, RUNBOOK_ITEMS, retriever, diagnostic)
+        self.assertIsNone(result)
+        self.assertEqual(diagnostic["family_error"], "explicit_complete_filter_contract_required")
+        refine.assert_not_called()
+
+    def test_resource_attachment_and_quoted_real_prefix_have_different_roles(self):
+        positives = [
+            ("查询ECSDemo_name的创建时间", "Demo_name"),
+            ("查询ECSECSDemo_name的创建时间", "ECSDemo_name"),
+            ("查询ECS名称为“ECSDemo_name”的创建时间", "ECSDemo_name"),
+            ("查询ECS实例“ECSDemo_name”的创建时间", "ECSDemo_name"),
+            ("查询ECS名称为“ECS_OR_创建时间”的创建时间", "ECS_OR_创建时间"),
+        ]
+        for question, name in positives:
+            with self.subTest(question=question):
+                diagnostic = {}
+                ordinary = v.prepare_natural_candidate(question, FAMILIES["F02"], parsed("ecs_creation_time", name=name), v._prepare_batch3_candidate, diagnostic)
+                self.assertIsNotNone(ordinary, diagnostic)
+                self.assertEqual(ordinary["api_call"]["condition"]["constraint"][0]["simple"]["value"], name)
+        for question, name in [("查询ECSDemo_name的创建时间", "ECSDemo_name"),
+                               ("查询ECS名称为“ECSDemo_name”的创建时间", "Demo_name")]:
+            self.assertIsNone(v.prepare_natural_candidate(question, FAMILIES["F02"], parsed("ecs_creation_time", name=name), v._prepare_batch3_candidate))
+
     def test_nine_natural_views_keep_their_complete_outputs(self):
         cases = [
             ("F02", "查询ECS实例Demo_name的创建时间", parsed("ecs_creation_time", name="Demo_name")),
