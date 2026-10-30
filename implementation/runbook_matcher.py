@@ -1712,6 +1712,60 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
     return selected
 
 
+def _correct_host_vm_status_role(question: str, item: dict):
+    """纠正重复HOST调用中误绑定的VM状态；HOST范围和既有JOIN保持原样。"""
+    visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', " ", question)
+    running_vm = r"(?:运行中|正在运行|正在跑|在运行)(?:的)?\s*(?:虚拟机|ECS(?:实例)?)(?:的)?\s*(?:列表|清单|名称|实例名|名字)"
+    if (not re.search(running_vm, visible, re.I)
+            or re.search(r"非|不|排除|除了|或|正常|故障|离线|重启中|大于|小于|超过|至少|至多|包含|匹配|前缀|后缀|内存|利用率|操作系统|网卡|MAC|[<>]|\bOR\b", visible, re.I)):
+        return None
+    calls = item.get("api_call")
+    if (not isinstance(calls, list) or len(calls) != 2
+            or any(not isinstance(c, dict) or c.get("method", "GET") != "GET" for c in calls)
+            or calls[0].get("url") != calls[1].get("url")
+            or not re.fullmatch(r"/rest/hackthon/db/instances/HOST(?:\?pageNo=1&pageSize=10000)?", calls[0].get("url", ""))
+            or not isinstance(item.get("sql"), str)
+            or any(not isinstance(c.get("condition"), dict) for c in calls)):
+        return None
+    structure = _sql_structure(item.get("sql", ""))
+    flat = re.sub(r"\s+", "", structure).casefold()
+    edge = ("cloud_host.id=cloud_vm_nova.hostid", "cloud_vm_nova.hostid=cloud_host.id")
+    if (len(re.findall(r"\bSELECT\b", structure, re.I)) != 1
+            or re.search(r"\b(?:UNION|EXCEPT|INTERSECT|OR|WHERE|GROUP\s+BY|HAVING)\b", structure, re.I)
+            or not any(e in flat for e in edge)
+            or not {"id", "status"} <= set(_schema_columns.get("HOST", []))
+            or not {"hostId", "status", "name"} <= set(_schema_columns.get("VM_NOVA", []))):
+        return None
+    entries = [c.get("condition", {}).get("constraint", []) for c in calls]
+    if any(not isinstance(es, list) or any(not isinstance(e, dict) or e.get("logOp", "and") != "and"
+            or not isinstance(e.get("simple"), dict) or not isinstance(e["simple"].get("name"), str)
+            or e["simple"].get("operator", "equal") != "equal"
+            for e in es) for es in entries):
+        return None
+    first, second = entries
+    root_fields = [e["simple"].get("name") for e in first]
+    statuses = [e for e in second if e["simple"].get("name") == "status"]
+    scopes = [e for e in second if e["simple"].get("name") != "status"]
+    if (not first or len(set(root_fields)) != len(root_fields)
+            or not set(root_fields) <= {"logicalRegionName", "azoneName"}
+            or not set(root_fields) <= set(_schema_columns.get("HOST", []))
+            or not set(root_fields) <= set(_schema_columns.get("VM_NOVA", []))
+            or any(e["simple"].get("value") != "{{" + e["simple"]["name"] + "}}" for e in first)
+            or len(statuses) != 1 or statuses[0]["simple"].get("value") != "{{status}}"
+            or scopes != first):
+        return None
+    # 具名资源须已有对应条件；不能因纠正status而丢掉新的实体限制。
+    host = _labeled_entity(question, _NAME_LABELS["HOST"])
+    vm = _labeled_entity(question, _NAME_LABELS["VM_NOVA"])
+    if host is not None or vm is not None:
+        return None
+    result = copy.deepcopy(item)
+    result["api_call"][1]["url"] = calls[1]["url"].replace("/HOST", "/VM_NOVA", 1)
+    # 原有region/AZ条件也完整保留在第二步；不假定跨资源字段会自动继承范围。
+    result["resources"] = list(dict.fromkeys([*result.get("resources", []), "VM_NOVA"]))
+    return result
+
+
 def match_runbook(user_question: str, runbook_items: list,
                   retriever: RunbookRetriever, diagnostics: dict = None,
                   defer_api_validation: bool = False) -> Optional[dict]:
@@ -1791,6 +1845,13 @@ def match_runbook(user_question: str, runbook_items: list,
             return reject("invalid_family_parameters")
         diagnostics["reason"] = "matched"
         return family_result
+
+    corrected = _correct_host_vm_status_role(user_question, selected)
+    if corrected is not None:
+        selected = corrected
+        diagnostics["api_role_correction"] = {"field": "status", "from_ci": "HOST", "to_ci": "VM_NOVA",
+            "root_scope": "HOST", "scope_preserved_on": ["HOST", "VM_NOVA"],
+            "join": "CLOUD_HOST.id=CLOUD_VM_NOVA.hostId"}
 
     if os.environ.get("RUNBOOK_COMPLETE_IDENTITY_PROJECTION") == "1":
         from runbook_projection_roles import complete_identity_projection
@@ -2273,6 +2334,29 @@ def _row_semantics_contract(original, refined, question):
         changed_count = next(iter(old_counts.values())) != next(iter(new_counts.values()))
     if not explicit_unique and not explicit_duplicates and changed_count:
         return {"reject": True, "reason": "changed_count_distinct_contract"}
+    if os.environ.get("RUNBOOK_PRESERVE_AGGREGATE_GRAIN") == "1":
+        def value_contracts(text):
+            select = re.match(r"\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", text, re.I | re.S)
+            if not select or len(re.findall(r"\bSELECT\b", text, re.I)) != 1:
+                return {}
+            result = {}
+            for index, expression in enumerate(_split_sql_expressions(select[1])):
+                modes = tuple((match[1].upper(), bool(match[2])) for match in re.finditer(
+                    r"\b(SUM|AVG)\s*\(\s*(DISTINCT\b)?", expression, re.I))
+                if modes:
+                    alias = re.search(r"\s+AS\s+(\w+)\s*$", expression, re.I)
+                    result[alias[1].casefold() if alias else "@" + str(index)] = modes
+            return result
+        def changed_values(old, new):
+            return (tuple(f for f, _ in old) == tuple(f for f, _ in new)
+                    and tuple(d for _, d in old) != tuple(d for _, d in new))
+        old_values, new_values = value_contracts(before), value_contracts(after)
+        shared = old_values.keys() & new_values.keys()
+        changed_value = any(changed_values(old_values[k], new_values[k]) for k in shared)
+        if not shared and len(old_values) == len(new_values) == 1:
+            changed_value = changed_values(next(iter(old_values.values())), next(iter(new_values.values())))
+        if changed_value:
+            return {"reject": True, "reason": "changed_value_aggregate_distinct_contract"}
     old_group, new_group = _flat_grouping(original), _flat_grouping(refined)
     if old_group is None or new_group is None:
         return {"reject": False, "reason": "complex_grouping_not_inferred"}

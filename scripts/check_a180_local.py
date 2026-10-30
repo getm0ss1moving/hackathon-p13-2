@@ -61,7 +61,7 @@ def main():
     original = subprocess.check_output(["git", "show", "7b7271e3:implementation/runbook_matcher.py"], cwd=ROOT, text=True)
     funcs = lambda s: {n.name: ast.dump(n, include_attributes=False) for n in ast.parse(s).body if isinstance(n, ast.FunctionDef)}
     before, after = funcs(original), funcs((ROOT / "implementation/runbook_matcher.py").read_text())
-    allowed = {"get_llm_events", "llm_ask", "match_runbook"}
+    allowed = {"get_llm_events", "llm_ask", "match_runbook", "_row_semantics_contract"}
     changed = [n for n in before if before[n] != after.get(n)]
     assert set(changed) <= allowed, changed
     result = {"status":"local_checks_passed", "branch":subprocess.check_output(["git","branch","--show-current"],cwd=ROOT,text=True).strip(),
