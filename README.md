@@ -1,5 +1,7 @@
 # CMDB 智能查询系统 — Hackathon
 
+模板参数化候选设计已单独归档：[27族逐族说明及200条映射](docs/template_family_design_20261030/README.md)。当前生产仍为198条；129/181/180均为待验证条件估计，首批实现等待对齐与独立审查，未应用候选补丁。
+
 2026-10-30 严格等价去重：根 `implementation/` 现为 **198条**（054→052、087→086），保留原检索文本权重与旧编号映射；[变更说明与免费回归](experiments/a_strict_dedup_20261030/README.md)。B已统一根目录，与A/C共用这198条模板；下文既有200条记录与中文阅读表均保留原版本含义。没有新模型评分。
 
 2026-10-30 模板阅读资料：新增独立的 [200条中文阅读表](reports/template_classification_20261030/模板分类阅读版.md)、[可筛选 Excel](reports/template_classification_20261030/模板分类阅读版.xlsx) 和 [CSV](reports/template_classification_20261030/模板分类阅读版.csv)。该表冻结在 `ad45ecc1` 的200条模板，区分查询用途、实际实现和未验证的合并候选；原 JSON、技术证据和业务代码保持原样。

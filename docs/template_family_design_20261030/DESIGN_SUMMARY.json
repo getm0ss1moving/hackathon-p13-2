@@ -1,0 +1,65 @@
+{
+  "status": "DESIGN_DOCUMENTS_ONLY_NOT_PRODUCTION_APPROVAL",
+  "source_commit": "51f0aaddbd143f69a8823a915c1862d41f034868",
+  "source_template_sha256": "34ac7400c905c9da3657038f9f7bc40a80f07e6ba43ef70eca6e4ca3197d1a35",
+  "source_N": 200,
+  "current_production_commit": "2707ff9f4a9ce6bf09163f24a621c6aa793f8769",
+  "current_production_N": 198,
+  "families": 27,
+  "merged_members": 98,
+  "retained_singletons": 102,
+  "conditional_N_if_all_pass": 129,
+  "first_batch_originals": 25,
+  "first_batch_families": 6,
+  "first_batch_conditional_N_from_200": 181,
+  "strict_dedup_plus_remaining_first_batch_conditional_N": 180,
+  "design_positive_contracts": 25,
+  "design_rejected_invalid": 35,
+  "design_semantic_controls": 10,
+  "remaining_73_materializations_not_proved": true,
+  "source_validation_status": "PASS_DESIGN_MATERIALIZATION_ONLY",
+  "source_review_status": "PASS_STATIC_DESIGN_AUDIT",
+  "original_entity_literals_replaced_count": 136,
+  "published_original_count": 200,
+  "runtime_changes": false,
+  "new_model_calls": 0,
+  "native_design_tests_run": false,
+  "limits": [
+    "129/181/180均为条件算术，不是生产结果或得分。",
+    "首批25条静态物化不证明模型选择、真实服务或训练150得分。",
+    "物化后深度可达6，官方深度计数未知，未宣称正式合规。",
+    "F18首批只含105/106/143/144；不含150及租户/VDC/engineName扩展。",
+    "完整无损机器接口和验证输入保留在本地，本发布展示副本含占位化，不能当作可执行接口导入。"
+  ],
+  "source_file_hashes": {
+    "FULL_DESIGN.md": {
+      "source_sha256": "5e8072d2832ded5e4a3031425fa13bf582d1f84f97d81c6d3df5ec1854fd684b",
+      "published_sha256": "bb7847b80bcf3fcb2771f8965872af25fb50f3e91c292492412c0480e3975161",
+      "source_modified": false
+    },
+    "FIRST_BATCH.md": {
+      "source_sha256": "367755139cad206726136c2dabc1cabd57c4bf82e36bd8b193c550b4b8d0d729",
+      "published_sha256": "5801d2f691aafd0269fa5ee8445ddd8f2a5957119f425c826260aa72af029a20",
+      "source_modified": false
+    },
+    "B_INTERFACE.md": {
+      "source_sha256": "d3c1edebdacdc393298fe38cd6e2555fe5874119c6a7c27aa5d7ed87a4a33b04",
+      "published_sha256": "e19441409843eab26b2bd7b82192d0d328fc7586d6245713c5684f85d41ec5cc",
+      "source_modified": false
+    },
+    "INTERFACE_CHANGELOG.md": {
+      "source_sha256": "33fde53a95541226fd12c03aee1ceee3686e3edb767e543bbf9bcef5fd1390a6",
+      "published_sha256": "3a0935ee5c7084e36cfeac89d9074d1b6f52adb4d6205e5457e3a22095938a79",
+      "source_modified": false
+    }
+  },
+  "publication_checks": {
+    "200_unique_mapping_rows": true,
+    "27_unique_family_sections": true,
+    "all_relative_links_resolve": true,
+    "source_documents_byte_unchanged": true,
+    "no_runtime_patch_applied": true,
+    "only_docs_and_root_README_changed": true,
+    "publication_copy_parameterized_and_nonexecutable": true
+  }
+}
