@@ -1,5 +1,7 @@
 # CMDB 智能查询系统 — Hackathon
 
+用户查询的未支持输出已统一：[空输出合同](docs/handoffs/EMPTY_OUTPUT_CONTRACT.md)。SDK结果为null、CLI不打印解释；成功零行保留原结果对象，内部诊断和原评分语义保留。
+
 检索第一阶段已发布：[可选文本视图支持与独立验证](docs/handoffs/RETRIEVAL_STAGE1.md)。生产仍198条，180组合候选未启用；检索覆盖恢复不代表参数语义或模型得分通过。
 
 模板参数化候选设计已单独归档：[27族逐族说明及200条映射](docs/template_family_design_20261030/README.md)。当前生产仍为198条；129/181/180均为待验证条件估计，首批实现等待对齐与独立审查，未应用候选补丁。

@@ -350,7 +350,7 @@ class RunbookQuerySystem:
                 "matched_runbook": None,
                 "sql": None,
                 "result": None,
-                "error": "未命中任何查询手册",
+                "error": None,
                 "diagnostics": diagnostics,
             }
 
@@ -368,7 +368,7 @@ class RunbookQuerySystem:
                 execution["refusal_reason"] = error.reason
                 diagnostics["execute_seconds"] = round(time.perf_counter() - matched_at, 4)
                 return {"question": user_question, "matched_runbook": None, "sql": None, "result": None,
-                        "error": "数据依赖或输出合同未满足：" + error.reason, "diagnostics": diagnostics}
+                        "error": None, "diagnostics": diagnostics}
         else:
             result = execute(runbook_item)
         diagnostics["execute_seconds"] = round(time.perf_counter() - matched_at, 4)
@@ -387,12 +387,13 @@ class RunbookQuerySystem:
 
 if __name__ == "__main__":
     system = RunbookQuerySystem()
-    print(f"已加载 {len(system.items)} 个 runbook items")
-
     if len(sys.argv) > 1:
         question = " ".join(sys.argv[1:])
-        print(f"\n问题: {question}")
         result = system.query(question)
+        if result["matched_runbook"] is None:
+            sys.exit(0)
+        print(f"已加载 {len(system.items)} 个 runbook items")
+        print(f"\n问题: {question}")
         print(f"命中: {result['matched_runbook']}")
         print("诊断: " + json.dumps(result["diagnostics"], ensure_ascii=False))
         if result["error"]:
@@ -410,6 +411,7 @@ if __name__ == "__main__":
                     print(f"步骤{i+1}: {sub.get('row_count', 0)} 行")
     else:
         # 交互模式
+        print(f"已加载 {len(system.items)} 个 runbook items")
         while True:
             try:
                 question = input("\n请输入查询问题（q退出）: ").strip()
@@ -418,6 +420,8 @@ if __name__ == "__main__":
                 if not question:
                     continue
                 result = system.query(question)
+                if result["matched_runbook"] is None:
+                    continue
                 print(f"命中: {result['matched_runbook']}")
                 if result["error"]:
                     print(f"错误: {result['error']}")

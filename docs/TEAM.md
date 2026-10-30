@@ -251,3 +251,7 @@
 ## 检索第一阶段集成交付（2026-10-30）
 
 集成负责人认领根runbook_retriever.py、tests/test_retrieval_views.py及本轮说明/摘要。只发布可选文本视图解析，当前198库无此字段，原路径逐字段不变；不应用六族或语义补丁，不改B聚合与固定模块。独立发现的首视图锚点校验已补入，后续并行检索任务需对齐新哈希。详见docs/handoffs/RETRIEVAL_STAGE1.md。
+
+## 空输出合同交付（2026-10-30）
+
+按用户新指令，集成负责人认领我方runbook_system的最终输出与CLI分支、合成合同测试和说明。仅将两条未支持路径的error置None并让CLI不打印该次回答；result/matched/sql仍None，内部diagnostics及C报告兼容。matcher语义由R5任务维护，不在此覆盖。成功零行、非空与执行异常保持原逻辑；执行器和评分器未改。
