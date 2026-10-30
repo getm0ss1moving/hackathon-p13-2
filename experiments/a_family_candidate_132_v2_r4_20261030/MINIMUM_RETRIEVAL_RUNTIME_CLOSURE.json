@@ -1,0 +1,57 @@
+{
+  "status": "COMPACT_BINDING_STATE_EQUIVALENT_TO_ACCEPTED_R4_FROZEN_RETRIEVAL",
+  "default_variant": "strict",
+  "optional_variant": "enhanced",
+  "variants": {
+    "strict": {
+      "module": "runbook_retriever.strict.py",
+      "array": "templates132.strict.private.json",
+      "module_sha256": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802",
+      "array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+      "binding_sha256": "28604e6006ef495f52e85736259fd8ca7937cff18d884e5d389561ed03ccc0da",
+      "binding_hash_algorithm": "sha256(canonical JSON of module_sha256 and array_sha256)",
+      "reviewed_original_array_sha256": "4d790887d487f3f371d8597b517a7e2b2bda1898c591b0e8123b11b79637aac5",
+      "compact_state_equivalence": "review_receipt.compact_readonly_comparison.variants.strict",
+      "retrieval_required_files": 2,
+      "stdlib_only_imports": [
+        "math",
+        "re",
+        "collections",
+        "dataclasses",
+        "typing"
+      ]
+    },
+    "enhanced": {
+      "module": "runbook_retriever.enhanced.py",
+      "array": "templates132.enhanced.private.json",
+      "module_sha256": "dbaf4381493907a8f3b19d14344700884f8b9c1d9703f573c4385b216d4fcedc",
+      "array_sha256": "897798c3ee26bfc6fba2b625b6e7e820146ac49db7d2fb299b68a5d15701466b",
+      "binding_sha256": "610284af7647f58b08cf363053c863e196d80f5bbef5ebafa9227929a54641c9",
+      "binding_hash_algorithm": "sha256(canonical JSON of module_sha256 and array_sha256)",
+      "reviewed_original_array_sha256": "3806aaa7248861c826263d2779dde3f4209e2238e3c7e33227b3e13bca468f9e",
+      "compact_state_equivalence": "review_receipt.compact_readonly_comparison.variants.enhanced",
+      "retrieval_required_files": 2,
+      "stdlib_only_imports": [
+        "math",
+        "re",
+        "collections",
+        "dataclasses",
+        "typing"
+      ]
+    }
+  },
+  "reviewed_minimal_closure_sha256": "42c9d80123f3be00d715534093335f98a651d91803de80c778cd3a79f7a71752",
+  "not_retrieval_runtime_dependencies": [
+    "patches",
+    "tests",
+    "old ID audit mapping",
+    "reports",
+    "B formatter"
+  ],
+  "full_B_candidate_additional_dependencies": [
+    "prompt_metadata.py at both prompt boundaries",
+    "changed-family prepare closure",
+    "B new registration/preflight/native execution"
+  ],
+  "new_runtime_tests_executed_during_packaging": false
+}

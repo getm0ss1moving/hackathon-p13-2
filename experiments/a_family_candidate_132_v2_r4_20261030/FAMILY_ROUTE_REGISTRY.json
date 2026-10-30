@@ -1,0 +1,86 @@
+{
+  "family_f03_spec": {
+    "item_id": "family_f03_spec",
+    "family_id": "family_f03_spec",
+    "module": "families/family_f03_spec/candidate.py",
+    "module_sha256": "3a3d12fcf7910af549aafe3b9691abe025ea5d3d87fd4a62a25cf08560f6e566",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_f22_listener": {
+    "item_id": "family_f22_listener",
+    "family_id": "family_f22_listener",
+    "module": "families/family_f22_listener/candidate.py",
+    "module_sha256": "b32842251051405fa50cabfd427830f4eced2396e4305d9e010bbbae3a325fc8",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_cce_children": {
+    "item_id": "family_cce_children",
+    "family_id": "family_cce_children",
+    "module": "families/family_cce_children/candidate.py",
+    "module_sha256": "ac28bfa5c80586fff7a33a9a0023cec9ef5f61e110948d79f902d6e71a30b8a8",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_vm_volume": {
+    "item_id": "family_vm_volume",
+    "family_id": "family_vm_volume",
+    "module": "families/family_vm_volume/candidate.py",
+    "module_sha256": "d731befbbebb455cc8bff7dfd1b102caaddc0ba41ebda12467786bd340351760",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_volume_rows": {
+    "item_id": "family_volume_rows",
+    "family_id": "family_volume_rows",
+    "module": "families/family_volume_rows/candidate.py",
+    "module_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_gauss_compute_path": {
+    "item_id": "family_gauss_compute_path",
+    "family_id": "family_gauss_compute_path",
+    "module": "families/family_gauss_compute_path/candidate.py",
+    "module_sha256": "7355fa1829d86714d7ea029abaa210caf3510921be4116ee36915659fd96bc16",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_vm_host_path": {
+    "item_id": "family_vm_host_path",
+    "family_id": "family_vm_host_path",
+    "module": "families/family_vm_host_path/candidate.py",
+    "module_sha256": "dc0d1c5f0094500765227ba7607d77093650f9f36f36e6ff0cdcc1454f90e936",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_host_hardware": {
+    "item_id": "family_host_hardware",
+    "family_id": "family_host_hardware",
+    "module": "families/family_host_hardware/candidate.py",
+    "module_sha256": "519fd0301e2f2190217195b058da1bf254e46230b89f0d0701639b987a382719",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_deployment_graph": {
+    "item_id": "family_deployment_graph",
+    "family_id": "family_deployment_graph",
+    "module": "families/family_deployment_graph/candidate.py",
+    "module_sha256": "bc6b22b4f142e6fc71d1adb3cbcaca76f104d3ce4f5cd22554c209f964e6113b",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_vm_port_path": {
+    "item_id": "family_vm_port_path",
+    "family_id": "family_vm_port_path",
+    "module": "families/family_vm_port_path/candidate.py",
+    "module_sha256": "e056a22b47e69a8ce2d4fc0f79a6e4ead4fcb9fbcd2dc392523980ce26a824bb",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_application_lists": {
+    "item_id": "family_application_lists",
+    "family_id": "family_application_lists",
+    "module": "families/family_application_lists/candidate.py",
+    "module_sha256": "bed3c94c9a7fba0de63ff4cfb845daf7c65a2b2f7475a9d226dcc5f1cbe57fc2",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  },
+  "family_f02": {
+    "item_id": "family_f02",
+    "family_id": "F02",
+    "module": "families/family_f02/candidate.py",
+    "module_sha256": "6123687bb6d1c2da0d9a033f785359f726c9565642803d3c946ccf1fa63085d0",
+    "entry": "prepare_candidate(question,item,parsed,diagnostics=None)"
+  }
+}

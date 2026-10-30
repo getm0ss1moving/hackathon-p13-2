@@ -1,0 +1,13 @@
+{
+  "source132v1_interface_sha256": "c37235c6cfda20b054e9622b16192dbe6ad6c4a0a086fad0d39261b6ca8d7768",
+  "source132v2_interface_sha256": "1b55b53333f9cc486a80857b0ce0c04213502809cb6bdad389ef7aad97a9e37b",
+  "source132v2_manifest_sha256": "d948a5862978c49f87461ecb9067c79bac80346e83e263c3e340badad3a5d327",
+  "F03_compact_adapter_sha256": "e34af2173d0061c3995ed1d8e1d4df5cd3f33ef0a637715d6c6fa279a549dcd8",
+  "only_template_object_changed": "family_f03_spec",
+  "other_nonretrieval_optional_patches_adopted": false,
+  "raw_model_API_traces_or_private_controls_copied": false,
+  "parent_compact_overlay_manifest_sha256": "777cd8a2b2cbfe5bd335ad03ac867e430b4b566fe048aaaefb80c1506d6791e0",
+  "r4_review_receipt_sha256": "ebdd09390b1ff3eeb1e5c832c12d112e7d6eb7aee50161c3055dbd01e9e6b203",
+  "r4_minimum_runtime_closure_sha256": "42c9d80123f3be00d715534093335f98a651d91803de80c778cd3a79f7a71752",
+  "array_prepare_metadata_adapter_unchanged_from_compact_overlay": true
+}

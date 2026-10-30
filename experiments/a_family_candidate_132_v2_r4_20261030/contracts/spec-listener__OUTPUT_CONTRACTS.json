@@ -1,0 +1,180 @@
+{
+  "family_f03_spec": {
+    "vm_status_size": {
+      "filters": [
+        "name"
+      ],
+      "columns": [
+        "vm_name",
+        "status",
+        "vcpuSize",
+        "ramSize",
+        "diskSize"
+      ],
+      "order": "none",
+      "join": "INNER"
+    },
+    "tenant_specs": {
+      "filters": [
+        "tenantName",
+        "logicalRegionName"
+      ],
+      "columns": [
+        "vm_name",
+        "status",
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize"
+      ],
+      "order": "none",
+      "join": "INNER"
+    },
+    "tenant_specs_by_az": {
+      "filters": [
+        "tenantName",
+        "logicalRegionName"
+      ],
+      "columns": [
+        "azoneName",
+        "vm_name",
+        "flavor_name",
+        "status"
+      ],
+      "order": "azoneName",
+      "join": "INNER"
+    },
+    "scoped_vm_ip_flavor": {
+      "filters": [
+        "logicalRegionName",
+        "status"
+      ],
+      "columns": [
+        "vm_name",
+        "private_ips",
+        "flavor_name"
+      ],
+      "order": "none",
+      "join": "LEFT"
+    },
+    "flavor_topk": {
+      "filters": [],
+      "columns": [
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ],
+      "order": "count DESC",
+      "join": "INNER",
+      "filter_sets": [
+        [],
+        [
+          "logicalRegionName"
+        ]
+      ],
+      "grain": "same tuple count, regional scope",
+      "group_keys": "CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize, CLOUD_FLAVOR.diskSize",
+      "metrics": [
+        "COUNT"
+      ],
+      "distinct_on_selected_tuple": false,
+      "source_limit": 10,
+      "source_resources": [
+        "VM_NOVA",
+        "FLAVOR"
+      ],
+      "COUNT_business_gate": "BLOCKED_UNCHANGED"
+    },
+    "tenant_flavor_distribution": {
+      "filters": [
+        "logicalRegionName"
+      ],
+      "columns": [
+        "tenantName",
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "count"
+      ],
+      "order": "none",
+      "join": "INNER",
+      "grain": "tenant×flavor_name×vcpu×ram tuple count",
+      "group_keys": "tenantName, CLOUD_FLAVOR.name, CLOUD_FLAVOR.vcpuSize, CLOUD_FLAVOR.ramSize",
+      "metrics": [
+        "COUNT"
+      ],
+      "distinct_on_selected_tuple": false,
+      "source_limit": null,
+      "source_resources": [
+        "VM_NOVA",
+        "FLAVOR"
+      ],
+      "COUNT_business_gate": "BLOCKED_UNCHANGED"
+    }
+  },
+  "family_f22_listener": {
+    "listener_protocol_distribution": {
+      "columns": [
+        "protocol",
+        "count"
+      ],
+      "base_filter": "logicalRegionName",
+      "allowed_filters": [
+        "logicalRegionName"
+      ],
+      "grain": "COUNT(*) over listener join records grouped by protocol",
+      "group_keys": "CLOUD_LISTENER.protocol",
+      "metrics": [
+        "COUNT"
+      ],
+      "distinct_on_selected_tuple": false,
+      "order": "none",
+      "source_limit": null,
+      "source_resources": [
+        "ELB"
+      ],
+      "COUNT_business_gate": "BLOCKED_UNCHANGED"
+    },
+    "region_listener_rows": {
+      "columns": [
+        "elb_name",
+        "elb_id",
+        "listener_name",
+        "listener_protocol",
+        "listener_port"
+      ],
+      "base_filter": "logicalRegionName",
+      "allowed_filters": [
+        "logicalRegionName",
+        "name"
+      ]
+    },
+    "named_listener_rows": {
+      "columns": [
+        "elb_name",
+        "listener_name",
+        "protocol",
+        "port"
+      ],
+      "base_filter": "name",
+      "allowed_filters": [
+        "logicalRegionName",
+        "name"
+      ]
+    },
+    "named_listener_ports": {
+      "columns": [
+        "listener_name",
+        "protocol",
+        "port"
+      ],
+      "base_filter": "name",
+      "allowed_filters": [
+        "logicalRegionName",
+        "name"
+      ]
+    }
+  }
+}

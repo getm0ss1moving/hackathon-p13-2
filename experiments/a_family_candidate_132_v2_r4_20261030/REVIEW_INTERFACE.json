@@ -1,0 +1,62 @@
+{
+  "status": "READY_FOR_B_INTEGRATION_OFFLINE_RETRIEVAL_ACCEPTED_COMPACT_F03_NOT_PRODUCTION",
+  "N": 132,
+  "unique_IDs": 132,
+  "family_count": 26,
+  "fixed_count": 106,
+  "variants": {
+    "strict": {
+      "array": "templates132.strict.private.json",
+      "array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+      "items_file": "runbook_items.strict.py",
+      "items_sha256": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+      "engine": "runbook_retriever.strict.py",
+      "engine_sha256": "99d15b6995aa8a731354b02811c3613fc4c92c4a9c1d3a900f8ae393d7814802"
+    },
+    "enhanced": {
+      "array": "templates132.enhanced.private.json",
+      "array_sha256": "897798c3ee26bfc6fba2b625b6e7e820146ac49db7d2fb299b68a5d15701466b",
+      "items_file": "runbook_items.enhanced.py",
+      "items_sha256": "36727dbac16f151c567fa3f0a23175afd813479e163d3dbb042a70405877f4df",
+      "engine": "runbook_retriever.enhanced.py",
+      "engine_sha256": "dbaf4381493907a8f3b19d14344700884f8b9c1d9703f573c4385b216d4fcedc"
+    }
+  },
+  "unified_entry": "unified_prepare.py",
+  "unified_entry_sha256": "55168cc75f94a2398d8a2b08e09d93eaa852318226cea275ebc7c98d3fb54a05",
+  "unified_entry_scope": "12 changed/new families. Call handles_item first; remaining14 inherited families and106 fixed items stay on unchanged B routes. No replacement B matcher.",
+  "required_metadata_adapter": {
+    "path": "prompt_metadata.py",
+    "sha256": "e34af2173d0061c3995ed1d8e1d4df5cd3f33ef0a637715d6c6fa279a549dcd8",
+    "entry": "prompt_item(item)",
+    "must_use_before": [
+      "selection metadata",
+      "fill schema/examples metadata"
+    ],
+    "installed_in_B": false
+  },
+  "changed_family_source": "contracts/CHANGED_FAMILY_SCHEMAS.json",
+  "mapping": "OLD_TO_CANONICAL_VIEW_MAP.json",
+  "engines_default_enabled": false,
+  "failed_or_pending_retriever_fixes_included": false,
+  "official_submission_ready": false,
+  "COUNT_business_gate": "BLOCKED_UNCHANGED",
+  "default198_unchanged": true,
+  "package_variant": "132v2_compact_plus_r4",
+  "default_retrieval_variant": "strict",
+  "optional_retrieval_variant": "enhanced",
+  "root_default198_unchanged": true,
+  "default_policy": "strict_r4 when this isolated candidate is explicitly loaded; no auto-enable or root-default change",
+  "retrieval_API": {
+    "canonical": "retrieve(query,top_k=None)",
+    "source_profiles": "retrieve_profiles(query,top_k=None)",
+    "obligations": "retrieve_obligations(query)",
+    "Candidate_extra_fields": [
+      "profile_ids",
+      "obligation_spans"
+    ],
+    "span_offsets": "Python Unicode-character offsets in original query",
+    "full_obligation_certification_requires_top_k_None": true
+  },
+  "independent_retrieval_scope": "1166 frozen offline controls on original132v1 + exact compact retriever-state equivalence; not a new B/model run"
+}

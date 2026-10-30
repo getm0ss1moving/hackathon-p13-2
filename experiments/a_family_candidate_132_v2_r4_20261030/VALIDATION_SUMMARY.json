@@ -1,0 +1,61 @@
+{
+  "status": "OFFLINE_R4_RETRIEVAL_PASS_AND_F03_COMPACTION_PASS_B_JOINT_INTEGRATION_NOT_RUN",
+  "F03_sizes_UTF8_compact": {
+    "strict": 3549,
+    "enhanced": 3986
+  },
+  "all132_max_UTF8_compact": {
+    "strict": 3751,
+    "enhanced": 3986
+  },
+  "other131_objects_unchanged": true,
+  "metadata_restore_complete": true,
+  "independent_prepare_differentials": 468,
+  "independent_retrieval_pairs": 608,
+  "new_differences": 0,
+  "tests_reexecuted_for_this_publication_overlay": false,
+  "B_prompt_adapter_required": true,
+  "B_native_model_execution": "NOT_RUN",
+  "official_depth4": "UNRESOLVED_LOCAL7_OUTER8",
+  "serialization_scope": "json.dumps(ensure_ascii=False,separators=(comma,colon)).encode(UTF8) only; other encodings can exceed4096",
+  "original3_projection_phrase_gaps": "RETAINED_PENDING_B",
+  "courtesy/schema/view/dispatch_gaps": "RETAINED_PENDING_B",
+  "COUNT_business_gate": "BLOCKED_UNCHANGED",
+  "production_enabled": false,
+  "r4_independent_total1166": {
+    "supported": 1016,
+    "recalled": 1016,
+    "false_empty": 0,
+    "compound_complete": 161,
+    "compound_total": 161,
+    "unsupported": 150,
+    "all_three_empty": 150,
+    "failures": 0
+  },
+  "ordinary603_times4_public_and_profile_exact": 2412,
+  "historical200_direct_comparison": {
+    "new_run_this_revision": false,
+    "exact": 2368,
+    "total": 2412,
+    "differences": 44,
+    "difference_scope": "11 attribute-channel questions x4; not full equality, not200-question end-to-end scoring"
+  },
+  "compact_combination_basis": "accepted original132 retrieval controls plus complete compact retriever-state equivalence; no new full-model test",
+  "local_retrieval_time_only": {
+    "strict": {
+      "n": 1786,
+      "mean": 1.363203741881299,
+      "p95": 3.6395,
+      "p99": 4.186917,
+      "max": 4.598709
+    },
+    "enhanced": {
+      "n": 1786,
+      "mean": 1.3791391774916013,
+      "p95": 3.729375,
+      "p99": 4.248,
+      "max": 4.656625
+    }
+  },
+  "new_tests_during_packaging": false
+}

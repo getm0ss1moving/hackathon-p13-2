@@ -1,0 +1,99 @@
+{
+  "status": "LOCAL_CANDIDATE_PENDING_UNIFIED_REVIEW",
+  "family_id": "F02",
+  "item_id": "family_f02",
+  "new_view": "ecs_tenant_zone_ip_alias",
+  "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+  "structure_only_entry": "materialize_candidate(item,parsed)",
+  "natural_exact_keys": [
+    "view",
+    "filters",
+    "required_filters"
+  ],
+  "explicit_exact_keys": [
+    "scope",
+    "projection",
+    "order",
+    "filters",
+    "required_filters"
+  ],
+  "new_explicit_projection": [
+    "tenant_name",
+    "azone_name",
+    "vm_name",
+    "private_ips"
+  ],
+  "new_exact_filters": [
+    "logicalRegionName"
+  ],
+  "required_filters": [
+    "logicalRegionName"
+  ],
+  "output_columns": [
+    "tenant_name",
+    "azone_name",
+    "vm_name",
+    "private_ips"
+  ],
+  "sql": "SELECT CLOUD_VM_NOVA.tenantName AS tenant_name, CLOUD_VM_NOVA.azoneName AS azone_name, CLOUD_VM_NOVA.name AS vm_name, CLOUD_VM_NOVA.privateIps AS private_ips FROM CLOUD_VM_NOVA",
+  "api_call": {
+    "method": "GET",
+    "url": "/rest/hackthon/db/instances/VM_NOVA?pageNo=1&pageSize=10000",
+    "condition": {
+      "constraint": [
+        {
+          "simple": {
+            "name": "logicalRegionName",
+            "value": "{{logicalRegionName}}",
+            "operator": "equal"
+          }
+        },
+        {
+          "simple": {
+            "name": "logicalRegionName",
+            "value": "{{logicalRegionName}}",
+            "operator": "equal"
+          }
+        },
+        {
+          "simple": {
+            "name": "logicalRegionName",
+            "value": "{{logicalRegionName}}",
+            "operator": "equal"
+          }
+        }
+      ]
+    }
+  },
+  "repeated_predicate_count": 3,
+  "dependency": "none; one VM_NOVA GET, no additional request",
+  "grain": "VM records, no GROUP BY, DISTINCT, COUNT, LIMIT or ORDER BY",
+  "source_contract_sha256": "f7341070d9a4d1306124f5aee24625c417062d6784b039720dd19121e5886aa2",
+  "inherited_natural_views": [
+    "ecs_creation_time",
+    "ecs_cluster_zone",
+    "ecs_ip_tenant",
+    "ecs_filtered_list",
+    "ecs_tenant_ordered_ip"
+  ],
+  "inherited_explicit_profiles_count": 7,
+  "B_integration_required": [
+    "register family_f02 candidate entry while retaining family_id F02",
+    "add new natural view/schema and explicit alias projection",
+    "expected ordered columns per view, preserve SQL refinement protection",
+    "retain retrieval_views and retrieval_attributes of CANDIDATE.json",
+    "do not treat structure materialization alone as original-question authorization"
+  ],
+  "new_COUNT_view": false,
+  "COUNT_business_gate": "BLOCKED_UNCHANGED_GLOBAL_SDK_ISSUE",
+  "business_policy": "No new policy; original per-record output and duplicate predicates preserved.",
+  "unresolved": [
+    "shared SDK true-empty vs failed/partial/missing-column result remains unresolved",
+    "official pagination/depth4/4KB behavior unverified",
+    "full-library BM25 competition and real model/native evaluation deferred to unified owner"
+  ],
+  "model_calls": 0,
+  "business_service_calls": 0,
+  "full200_or_sealed_feedback_read": false,
+  "published": false
+}

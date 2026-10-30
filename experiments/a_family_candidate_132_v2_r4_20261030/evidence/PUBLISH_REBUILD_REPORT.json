@@ -1,0 +1,33 @@
+{
+  "scope": "exact reconstruction and local index/metadata smoke only",
+  "model_calls": 0,
+  "service_calls": 0,
+  "production_enabled": false,
+  "full_private_1166_suite_rerun": false,
+  "variants": {
+    "strict": {
+      "unique_ids": 132,
+      "array_sha256": "a3f6a0d3ea12be6555025e37e4a0189f259a2da6766124160f90b94fcce88ef3",
+      "items_sha256": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+      "binding_sha256": "28604e6006ef495f52e85736259fd8ca7937cff18d884e5d389561ed03ccc0da",
+      "primary_documents": 400,
+      "attribute_cards": 11,
+      "F03_compact_UTF8_bytes": 3549,
+      "F03_examples_restored": 7,
+      "F03_view_key_contracts_restored": 6
+    },
+    "enhanced": {
+      "unique_ids": 132,
+      "array_sha256": "897798c3ee26bfc6fba2b625b6e7e820146ac49db7d2fb299b68a5d15701466b",
+      "items_sha256": "36727dbac16f151c567fa3f0a23175afd813479e163d3dbb042a70405877f4df",
+      "binding_sha256": "610284af7647f58b08cf363053c863e196d80f5bbef5ebafa9227929a54641c9",
+      "primary_documents": 400,
+      "attribute_cards": 22,
+      "F03_compact_UTF8_bytes": 3986,
+      "F03_examples_restored": 7,
+      "F03_view_key_contracts_restored": 6
+    }
+  },
+  "source_files_verified": 57,
+  "changed_family_modules_verified": 12
+}

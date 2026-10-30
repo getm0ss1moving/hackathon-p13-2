@@ -1,0 +1,64 @@
+{
+  "families": [
+    {
+      "family_id": "family_vm_host_path",
+      "expected_columns_by_view": {
+        "private_ip_host": [
+          "vm_name",
+          "privateIps",
+          "host_name",
+          "host_ip"
+        ],
+        "vm_host": [
+          "vm_name",
+          "host_name",
+          "host_ip"
+        ],
+        "vm_host_server": [
+          "vm_name",
+          "host_name",
+          "host_ip",
+          "server_name",
+          "server_id"
+        ],
+        "host_vm_total": [
+          "total"
+        ],
+        "host_vm_status_distribution": [
+          "status",
+          "count"
+        ]
+      },
+      "source_ids": [
+        "rb_023",
+        "rb_026"
+      ]
+    },
+    {
+      "family_id": "family_host_hardware",
+      "expected_columns_by_view": {
+        "host_hardware": [
+          "host_name",
+          "cpuModel",
+          "manufacturer",
+          "cpuArch"
+        ],
+        "host_resources_arch": [
+          "host_name",
+          "ip_address",
+          "total_vcpu",
+          "allocated_vcpu",
+          "cpu_arch"
+        ],
+        "architecture_distribution": [
+          "cpu_arch",
+          "count"
+        ]
+      },
+      "source_ids": [
+        "rb_050",
+        "rb_051"
+      ]
+    }
+  ]
+}

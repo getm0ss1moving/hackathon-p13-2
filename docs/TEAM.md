@@ -1,5 +1,12 @@
 # 分工与交接
 
+## B阅读待办：132v2 compact＋r4联调候选（最新）
+
+- [ ] **B先读[132v2＋r4交接](handoffs/B_A132_V2_R4_HANDOFF.md)及[可复现候选主包](../experiments/a_family_candidate_132_v2_r4_20261030/README.md)**。r4独立离线1016支持/161复合/150负例已过；完成132新预检、两处metadata adapter、profile/义务、多view与原文prepare接入后再验收B全链。
+- [ ] 保留最新B的query→_query猜空包装；检查guess标记和原始失败原因，不把error=None或empty_answer_fallback当真实空/COUNT成功。默认198与B实现未改；COUNT、原生执行和官方深度/序列化口径仍待解决。
+
+这是默认关闭的132联调候选，未混Issue3、未取得新模型成绩。下方旧原因调查的“132未交付/F03超4KB”描述属于历史阶段；最新compact与交付状态以本入口为准。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

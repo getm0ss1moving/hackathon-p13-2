@@ -1,0 +1,2139 @@
+{
+  "status": "OFFLINE_AUDIT_ONLY_NOT_RUNTIME_ROUTING",
+  "old160_count": 160,
+  "changed_fixed_sources": 39,
+  "activity": [
+    {
+      "old_active160_id": "family_f01",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f02",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_008",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "vm_status_size"
+    },
+    {
+      "old_active160_id": "rb_010",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "tenant_specs"
+    },
+    {
+      "old_active160_id": "rb_011",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "flavor_topk",
+      "required_filter_keys": [],
+      "ordered_columns": [
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_012",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "flavor_topk",
+      "required_filter_keys": [
+        "logicalRegionName"
+      ],
+      "ordered_columns": [
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "diskSize",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_013",
+      "canonical_id": "rb_013",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_014",
+      "canonical_id": "rb_014",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_015",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "tenant_flavor_distribution",
+      "required_filter_keys": [
+        "logicalRegionName"
+      ],
+      "ordered_columns": [
+        "tenantName",
+        "flavor_name",
+        "vcpuSize",
+        "ramSize",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_016",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "tenant_specs_by_az"
+    },
+    {
+      "old_active160_id": "rb_018",
+      "canonical_id": "rb_018",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_019",
+      "canonical_id": "rb_019",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_020",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "view": "private_ip_host"
+    },
+    {
+      "old_active160_id": "rb_021",
+      "canonical_id": "rb_021",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_022",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "view": "node_cloud_services"
+    },
+    {
+      "old_active160_id": "rb_023",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "view": "host_vm_total",
+      "required_filter_keys": [
+        "name",
+        "status"
+      ],
+      "ordered_columns": [
+        "total"
+      ]
+    },
+    {
+      "old_active160_id": "rb_024",
+      "canonical_id": "rb_024",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_025",
+      "canonical_id": "rb_025",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_026",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "view": "host_vm_status_distribution",
+      "required_filter_keys": [
+        "name"
+      ],
+      "ordered_columns": [
+        "status",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_027",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "view": "vm_host_server"
+    },
+    {
+      "old_active160_id": "rb_028",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "view": "vm_host"
+    },
+    {
+      "old_active160_id": "rb_030",
+      "canonical_id": "rb_030",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_031",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "view": "host_hardware"
+    },
+    {
+      "old_active160_id": "rb_032",
+      "canonical_id": "rb_032",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_033",
+      "canonical_id": "rb_033",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_034",
+      "canonical_id": "rb_034",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_035",
+      "canonical_id": "rb_035",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_036",
+      "canonical_id": "rb_036",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_040",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "view": "ecs_tenant_zone_ip_alias",
+      "required_filter_keys": [
+        "logicalRegionName"
+      ],
+      "ordered_columns": [
+        "tenant_name",
+        "azone_name",
+        "vm_name",
+        "private_ips"
+      ]
+    },
+    {
+      "old_active160_id": "rb_041",
+      "canonical_id": "rb_041",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_043",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "view": "scoped_vm_ip_flavor"
+    },
+    {
+      "old_active160_id": "rb_045",
+      "canonical_id": "rb_045",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_next_n28",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f08",
+      "canonical_id": "family_f08",
+      "family_id": "F08",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_050",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "view": "architecture_distribution",
+      "required_filter_keys": [
+        "azoneName"
+      ],
+      "ordered_columns": [
+        "cpu_arch",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_051",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "view": "architecture_distribution",
+      "required_filter_keys": [
+        "logicalRegionName",
+        "azoneName"
+      ],
+      "ordered_columns": [
+        "cpu_arch",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_052",
+      "canonical_id": "rb_052",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_055",
+      "canonical_id": "rb_055",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f10",
+      "canonical_id": "family_f10",
+      "family_id": "F10",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_058",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "view": "host_resources_arch"
+    },
+    {
+      "old_active160_id": "rb_059",
+      "canonical_id": "rb_059",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_060",
+      "canonical_id": "rb_060",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_061",
+      "canonical_id": "rb_061",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_062",
+      "canonical_id": "rb_062",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f11_core",
+      "canonical_id": "family_f11_core",
+      "family_id": "F11_CORE",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_064",
+      "canonical_id": "rb_064",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_066",
+      "canonical_id": "rb_066",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_067",
+      "canonical_id": "rb_067",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_068",
+      "canonical_id": "rb_068",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_069",
+      "canonical_id": "rb_069",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_071",
+      "canonical_id": "rb_071",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_073",
+      "canonical_id": "rb_073",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_075",
+      "canonical_id": "rb_075",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_076",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "view": "service_node_details"
+    },
+    {
+      "old_active160_id": "rb_077",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "view": "service_node_kind"
+    },
+    {
+      "old_active160_id": "rb_078",
+      "canonical_id": "rb_078",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_079",
+      "canonical_id": "rb_079",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_080",
+      "canonical_id": "rb_080",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_081",
+      "canonical_id": "rb_081",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_082",
+      "canonical_id": "rb_082",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_083",
+      "canonical_id": "rb_083",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_084",
+      "canonical_id": "rb_084",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_085",
+      "canonical_id": "family_volume_rows",
+      "family_id": "family_volume_rows",
+      "view": "bootable_scoped_rows"
+    },
+    {
+      "old_active160_id": "family_f14",
+      "canonical_id": "family_f14",
+      "family_id": "F14",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_088",
+      "canonical_id": "family_volume_rows",
+      "family_id": "family_volume_rows",
+      "view": "vdc_scoped_rows"
+    },
+    {
+      "old_active160_id": "rb_089",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "view": "vm_volumes"
+    },
+    {
+      "old_active160_id": "rb_090",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "view": "vm_bootable_volumes"
+    },
+    {
+      "old_active160_id": "rb_091",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "view": "volume_vms"
+    },
+    {
+      "old_active160_id": "rb_092",
+      "canonical_id": "rb_092",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_093",
+      "canonical_id": "rb_093",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_094",
+      "canonical_id": "rb_094",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f16",
+      "canonical_id": "family_f16",
+      "family_id": "F16",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f17_safe",
+      "canonical_id": "family_f17_safe",
+      "family_id": "F17_SAFE",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_098",
+      "canonical_id": "rb_098",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f27",
+      "canonical_id": "family_f27",
+      "family_id": "F27",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_100",
+      "canonical_id": "rb_100",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_103",
+      "canonical_id": "rb_103",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f18",
+      "canonical_id": "family_f18",
+      "family_id": "F18",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_107",
+      "canonical_id": "family_gauss_compute_path",
+      "family_id": "family_gauss_compute_path",
+      "view": "named_instance_vms"
+    },
+    {
+      "old_active160_id": "rb_108",
+      "canonical_id": "rb_108",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f20",
+      "canonical_id": "family_f20",
+      "family_id": "F20",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f21",
+      "canonical_id": "family_f21",
+      "family_id": "F21",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_114",
+      "canonical_id": "rb_114",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_115",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "view": "region_listener_rows"
+    },
+    {
+      "old_active160_id": "rb_116",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "view": "named_listener_rows"
+    },
+    {
+      "old_active160_id": "rb_117",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "view": "named_listener_ports"
+    },
+    {
+      "old_active160_id": "rb_118",
+      "canonical_id": "rb_118",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_119",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "view": "listener_protocol_distribution",
+      "required_filter_keys": [
+        "logicalRegionName"
+      ],
+      "ordered_columns": [
+        "protocol",
+        "count"
+      ]
+    },
+    {
+      "old_active160_id": "rb_121",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "view": "vm_port_subnets"
+    },
+    {
+      "old_active160_id": "rb_122",
+      "canonical_id": "rb_122",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_123",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "view": "vm_port_status"
+    },
+    {
+      "old_active160_id": "rb_124",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "view": "vm_port_security_groups"
+    },
+    {
+      "old_active160_id": "rb_125",
+      "canonical_id": "rb_125",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_126",
+      "canonical_id": "rb_126",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_127",
+      "canonical_id": "rb_127",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_128",
+      "canonical_id": "rb_128",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_129",
+      "canonical_id": "rb_129",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_130",
+      "canonical_id": "rb_130",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_131",
+      "canonical_id": "rb_131",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_132",
+      "canonical_id": "rb_132",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_134",
+      "canonical_id": "rb_134",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_135",
+      "canonical_id": "rb_135",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_136",
+      "canonical_id": "rb_136",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_137",
+      "canonical_id": "rb_137",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_138",
+      "canonical_id": "rb_138",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_139",
+      "canonical_id": "rb_139",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f26",
+      "canonical_id": "family_f26",
+      "family_id": "F26",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "family_f19",
+      "canonical_id": "family_f19",
+      "family_id": "F19",
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_147",
+      "canonical_id": "rb_147",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_149",
+      "canonical_id": "family_gauss_compute_path",
+      "family_id": "family_gauss_compute_path",
+      "view": "vip_instance_hosts"
+    },
+    {
+      "old_active160_id": "rb_150",
+      "canonical_id": "rb_150",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_151",
+      "canonical_id": "rb_151",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_152",
+      "canonical_id": "rb_152",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_153",
+      "canonical_id": "rb_153",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_154",
+      "canonical_id": "rb_154",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_155",
+      "canonical_id": "rb_155",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_156",
+      "canonical_id": "rb_156",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_157",
+      "canonical_id": "rb_157",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_158",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "view": "node_address_status"
+    },
+    {
+      "old_active160_id": "rb_159",
+      "canonical_id": "rb_159",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_160",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "view": "pod_managed_status"
+    },
+    {
+      "old_active160_id": "rb_161",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "view": "node_managed_cpu"
+    },
+    {
+      "old_active160_id": "rb_162",
+      "canonical_id": "rb_162",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_163",
+      "canonical_id": "rb_163",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_164",
+      "canonical_id": "rb_164",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_165",
+      "canonical_id": "family_application_lists",
+      "family_id": "family_application_lists",
+      "view": "application_modules"
+    },
+    {
+      "old_active160_id": "rb_166",
+      "canonical_id": "family_application_lists",
+      "family_id": "family_application_lists",
+      "view": "application_instances_with_module"
+    },
+    {
+      "old_active160_id": "rb_167",
+      "canonical_id": "rb_167",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_168",
+      "canonical_id": "rb_168",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_169",
+      "canonical_id": "rb_169",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_170",
+      "canonical_id": "rb_170",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_171",
+      "canonical_id": "rb_171",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_172",
+      "canonical_id": "rb_172",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_173",
+      "canonical_id": "rb_173",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_174",
+      "canonical_id": "rb_174",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_175",
+      "canonical_id": "rb_175",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_176",
+      "canonical_id": "rb_176",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_177",
+      "canonical_id": "rb_177",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_178",
+      "canonical_id": "rb_178",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_179",
+      "canonical_id": "rb_179",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_180",
+      "canonical_id": "rb_180",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_181",
+      "canonical_id": "rb_181",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_182",
+      "canonical_id": "rb_182",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_183",
+      "canonical_id": "rb_183",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_185",
+      "canonical_id": "rb_185",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_186",
+      "canonical_id": "rb_186",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_187",
+      "canonical_id": "rb_187",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_188",
+      "canonical_id": "rb_188",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_189",
+      "canonical_id": "rb_189",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_190",
+      "canonical_id": "rb_190",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_191",
+      "canonical_id": "rb_191",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_192",
+      "canonical_id": "rb_192",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_193",
+      "canonical_id": "rb_193",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_194",
+      "canonical_id": "rb_194",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_195",
+      "canonical_id": "rb_195",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_196",
+      "canonical_id": "rb_196",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_197",
+      "canonical_id": "rb_197",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_198",
+      "canonical_id": "rb_198",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_199",
+      "canonical_id": "rb_199",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    },
+    {
+      "old_active160_id": "rb_200",
+      "canonical_id": "rb_200",
+      "family_id": null,
+      "view": "unchanged existing contract"
+    }
+  ],
+  "raw_text_profiles": [
+    {
+      "source_text_profile_id": "rb_001",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": null
+    },
+    {
+      "source_text_profile_id": "rb_002",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_001"
+    },
+    {
+      "source_text_profile_id": "rb_003",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_002"
+    },
+    {
+      "source_text_profile_id": "rb_004",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_003"
+    },
+    {
+      "source_text_profile_id": "rb_005",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_004"
+    },
+    {
+      "source_text_profile_id": "rb_007",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_006"
+    },
+    {
+      "source_text_profile_id": "rb_017",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_016"
+    },
+    {
+      "source_text_profile_id": "rb_044",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_043"
+    },
+    {
+      "source_text_profile_id": "rb_074",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_073"
+    },
+    {
+      "source_text_profile_id": "rb_184",
+      "canonical_id": "family_f01",
+      "family_id": "F01",
+      "after_id": "rb_183"
+    },
+    {
+      "source_text_profile_id": "rb_006",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_005"
+    },
+    {
+      "source_text_profile_id": "rb_009",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_008"
+    },
+    {
+      "source_text_profile_id": "rb_029",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_028"
+    },
+    {
+      "source_text_profile_id": "rb_037",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_036"
+    },
+    {
+      "source_text_profile_id": "rb_038",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_037"
+    },
+    {
+      "source_text_profile_id": "rb_039",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_038"
+    },
+    {
+      "source_text_profile_id": "rb_040",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_039"
+    },
+    {
+      "source_text_profile_id": "rb_042",
+      "canonical_id": "family_f02",
+      "family_id": "F02",
+      "after_id": "rb_041"
+    },
+    {
+      "source_text_profile_id": "rb_008",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_007"
+    },
+    {
+      "source_text_profile_id": "rb_010",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_009"
+    },
+    {
+      "source_text_profile_id": "rb_011",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_010"
+    },
+    {
+      "source_text_profile_id": "rb_012",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_011"
+    },
+    {
+      "source_text_profile_id": "rb_015",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_014"
+    },
+    {
+      "source_text_profile_id": "rb_016",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_015"
+    },
+    {
+      "source_text_profile_id": "rb_043",
+      "canonical_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "after_id": "rb_042"
+    },
+    {
+      "source_text_profile_id": "rb_013",
+      "canonical_id": "rb_013",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_014",
+      "canonical_id": "rb_014",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_018",
+      "canonical_id": "rb_018",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_019",
+      "canonical_id": "rb_019",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_020",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "after_id": "rb_019"
+    },
+    {
+      "source_text_profile_id": "rb_023",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "after_id": "rb_022"
+    },
+    {
+      "source_text_profile_id": "rb_026",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "after_id": "rb_025"
+    },
+    {
+      "source_text_profile_id": "rb_027",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "after_id": "rb_026"
+    },
+    {
+      "source_text_profile_id": "rb_028",
+      "canonical_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "after_id": "rb_027"
+    },
+    {
+      "source_text_profile_id": "rb_021",
+      "canonical_id": "rb_021",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_022",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "after_id": "rb_021"
+    },
+    {
+      "source_text_profile_id": "rb_076",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "after_id": "rb_075"
+    },
+    {
+      "source_text_profile_id": "rb_077",
+      "canonical_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "after_id": "rb_076"
+    },
+    {
+      "source_text_profile_id": "rb_024",
+      "canonical_id": "rb_024",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_025",
+      "canonical_id": "rb_025",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_030",
+      "canonical_id": "rb_030",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_031",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "after_id": "rb_030"
+    },
+    {
+      "source_text_profile_id": "rb_050",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "after_id": "rb_049"
+    },
+    {
+      "source_text_profile_id": "rb_051",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "after_id": "rb_050"
+    },
+    {
+      "source_text_profile_id": "rb_058",
+      "canonical_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "after_id": "rb_057"
+    },
+    {
+      "source_text_profile_id": "rb_032",
+      "canonical_id": "rb_032",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_033",
+      "canonical_id": "rb_033",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_034",
+      "canonical_id": "rb_034",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_035",
+      "canonical_id": "rb_035",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_036",
+      "canonical_id": "rb_036",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_041",
+      "canonical_id": "rb_041",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_045",
+      "canonical_id": "rb_045",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_046",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "after_id": "rb_045"
+    },
+    {
+      "source_text_profile_id": "rb_047",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "after_id": "rb_046"
+    },
+    {
+      "source_text_profile_id": "rb_070",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "after_id": "rb_069"
+    },
+    {
+      "source_text_profile_id": "rb_109",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "after_id": "rb_108"
+    },
+    {
+      "source_text_profile_id": "rb_120",
+      "canonical_id": "family_next_n28",
+      "family_id": "NEXT_N28",
+      "after_id": "rb_119"
+    },
+    {
+      "source_text_profile_id": "rb_048",
+      "canonical_id": "family_f08",
+      "family_id": "F08",
+      "after_id": "rb_047"
+    },
+    {
+      "source_text_profile_id": "rb_049",
+      "canonical_id": "family_f08",
+      "family_id": "F08",
+      "after_id": "rb_048"
+    },
+    {
+      "source_text_profile_id": "rb_053",
+      "canonical_id": "family_f08",
+      "family_id": "F08",
+      "after_id": "rb_052"
+    },
+    {
+      "source_text_profile_id": "rb_052",
+      "canonical_id": "rb_052",
+      "family_id": null,
+      "after_id": "rb_051"
+    },
+    {
+      "source_text_profile_id": "rb_054",
+      "canonical_id": "rb_052",
+      "family_id": null,
+      "after_id": "rb_052"
+    },
+    {
+      "source_text_profile_id": "rb_055",
+      "canonical_id": "rb_055",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_056",
+      "canonical_id": "family_f10",
+      "family_id": "F10",
+      "after_id": "rb_055"
+    },
+    {
+      "source_text_profile_id": "rb_057",
+      "canonical_id": "family_f10",
+      "family_id": "F10",
+      "after_id": "rb_056"
+    },
+    {
+      "source_text_profile_id": "rb_059",
+      "canonical_id": "rb_059",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_060",
+      "canonical_id": "rb_060",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_061",
+      "canonical_id": "rb_061",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_062",
+      "canonical_id": "rb_062",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_063",
+      "canonical_id": "family_f11_core",
+      "family_id": "F11_CORE",
+      "after_id": "rb_062"
+    },
+    {
+      "source_text_profile_id": "rb_065",
+      "canonical_id": "family_f11_core",
+      "family_id": "F11_CORE",
+      "after_id": "rb_064"
+    },
+    {
+      "source_text_profile_id": "rb_072",
+      "canonical_id": "family_f11_core",
+      "family_id": "F11_CORE",
+      "after_id": "rb_071"
+    },
+    {
+      "source_text_profile_id": "rb_064",
+      "canonical_id": "rb_064",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_066",
+      "canonical_id": "rb_066",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_067",
+      "canonical_id": "rb_067",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_068",
+      "canonical_id": "rb_068",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_069",
+      "canonical_id": "rb_069",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_071",
+      "canonical_id": "rb_071",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_073",
+      "canonical_id": "rb_073",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_075",
+      "canonical_id": "rb_075",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_078",
+      "canonical_id": "rb_078",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_079",
+      "canonical_id": "rb_079",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_080",
+      "canonical_id": "rb_080",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_081",
+      "canonical_id": "rb_081",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_082",
+      "canonical_id": "rb_082",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_083",
+      "canonical_id": "rb_083",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_084",
+      "canonical_id": "rb_084",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_085",
+      "canonical_id": "family_volume_rows",
+      "family_id": "family_volume_rows",
+      "after_id": "rb_084"
+    },
+    {
+      "source_text_profile_id": "rb_088",
+      "canonical_id": "family_volume_rows",
+      "family_id": "family_volume_rows",
+      "after_id": "rb_087"
+    },
+    {
+      "source_text_profile_id": "rb_086",
+      "canonical_id": "family_f14",
+      "family_id": "F14",
+      "after_id": "rb_085"
+    },
+    {
+      "source_text_profile_id": "rb_087",
+      "canonical_id": "family_f14",
+      "family_id": "F14",
+      "after_id": "family_f14"
+    },
+    {
+      "source_text_profile_id": "rb_102",
+      "canonical_id": "family_f14",
+      "family_id": "F14",
+      "after_id": "rb_101"
+    },
+    {
+      "source_text_profile_id": "rb_089",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "after_id": "rb_088"
+    },
+    {
+      "source_text_profile_id": "rb_090",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "after_id": "rb_089"
+    },
+    {
+      "source_text_profile_id": "rb_091",
+      "canonical_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "after_id": "rb_090"
+    },
+    {
+      "source_text_profile_id": "rb_092",
+      "canonical_id": "rb_092",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_093",
+      "canonical_id": "rb_093",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_094",
+      "canonical_id": "rb_094",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_095",
+      "canonical_id": "family_f16",
+      "family_id": "F16",
+      "after_id": "rb_094"
+    },
+    {
+      "source_text_profile_id": "rb_097",
+      "canonical_id": "family_f16",
+      "family_id": "F16",
+      "after_id": "rb_096"
+    },
+    {
+      "source_text_profile_id": "rb_096",
+      "canonical_id": "family_f17_safe",
+      "family_id": "F17_SAFE",
+      "after_id": "rb_095"
+    },
+    {
+      "source_text_profile_id": "rb_104",
+      "canonical_id": "family_f17_safe",
+      "family_id": "F17_SAFE",
+      "after_id": "rb_103"
+    },
+    {
+      "source_text_profile_id": "rb_098",
+      "canonical_id": "rb_098",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_099",
+      "canonical_id": "family_f27",
+      "family_id": "F27",
+      "after_id": "rb_098"
+    },
+    {
+      "source_text_profile_id": "rb_101",
+      "canonical_id": "family_f27",
+      "family_id": "F27",
+      "after_id": "rb_100"
+    },
+    {
+      "source_text_profile_id": "rb_100",
+      "canonical_id": "rb_100",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_103",
+      "canonical_id": "rb_103",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_105",
+      "canonical_id": "family_f18",
+      "family_id": "F18",
+      "after_id": "rb_104"
+    },
+    {
+      "source_text_profile_id": "rb_106",
+      "canonical_id": "family_f18",
+      "family_id": "F18",
+      "after_id": "rb_105"
+    },
+    {
+      "source_text_profile_id": "rb_143",
+      "canonical_id": "family_f18",
+      "family_id": "F18",
+      "after_id": "rb_142"
+    },
+    {
+      "source_text_profile_id": "rb_144",
+      "canonical_id": "family_f18",
+      "family_id": "F18",
+      "after_id": "rb_143"
+    },
+    {
+      "source_text_profile_id": "rb_107",
+      "canonical_id": "family_gauss_compute_path",
+      "family_id": "family_gauss_compute_path",
+      "after_id": "rb_106"
+    },
+    {
+      "source_text_profile_id": "rb_149",
+      "canonical_id": "family_gauss_compute_path",
+      "family_id": "family_gauss_compute_path",
+      "after_id": "rb_148"
+    },
+    {
+      "source_text_profile_id": "rb_108",
+      "canonical_id": "rb_108",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_110",
+      "canonical_id": "family_f20",
+      "family_id": "F20",
+      "after_id": "rb_109"
+    },
+    {
+      "source_text_profile_id": "rb_111",
+      "canonical_id": "family_f20",
+      "family_id": "F20",
+      "after_id": "rb_110"
+    },
+    {
+      "source_text_profile_id": "rb_112",
+      "canonical_id": "family_f20",
+      "family_id": "F20",
+      "after_id": "rb_111"
+    },
+    {
+      "source_text_profile_id": "rb_113",
+      "canonical_id": "family_f21",
+      "family_id": "F21",
+      "after_id": "rb_112"
+    },
+    {
+      "source_text_profile_id": "rb_133",
+      "canonical_id": "family_f21",
+      "family_id": "F21",
+      "after_id": "rb_132"
+    },
+    {
+      "source_text_profile_id": "rb_114",
+      "canonical_id": "rb_114",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_115",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "after_id": "rb_114"
+    },
+    {
+      "source_text_profile_id": "rb_116",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "after_id": "rb_115"
+    },
+    {
+      "source_text_profile_id": "rb_117",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "after_id": "rb_116"
+    },
+    {
+      "source_text_profile_id": "rb_119",
+      "canonical_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "after_id": "rb_118"
+    },
+    {
+      "source_text_profile_id": "rb_118",
+      "canonical_id": "rb_118",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_121",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "after_id": "rb_120"
+    },
+    {
+      "source_text_profile_id": "rb_123",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "after_id": "rb_122"
+    },
+    {
+      "source_text_profile_id": "rb_124",
+      "canonical_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "after_id": "rb_123"
+    },
+    {
+      "source_text_profile_id": "rb_122",
+      "canonical_id": "rb_122",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_125",
+      "canonical_id": "rb_125",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_126",
+      "canonical_id": "rb_126",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_127",
+      "canonical_id": "rb_127",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_128",
+      "canonical_id": "rb_128",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_129",
+      "canonical_id": "rb_129",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_130",
+      "canonical_id": "rb_130",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_131",
+      "canonical_id": "rb_131",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_132",
+      "canonical_id": "rb_132",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_134",
+      "canonical_id": "rb_134",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_135",
+      "canonical_id": "rb_135",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_136",
+      "canonical_id": "rb_136",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_137",
+      "canonical_id": "rb_137",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_138",
+      "canonical_id": "rb_138",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_139",
+      "canonical_id": "rb_139",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_140",
+      "canonical_id": "family_f26",
+      "family_id": "F26",
+      "after_id": "rb_139"
+    },
+    {
+      "source_text_profile_id": "rb_141",
+      "canonical_id": "family_f26",
+      "family_id": "F26",
+      "after_id": "rb_140"
+    },
+    {
+      "source_text_profile_id": "rb_142",
+      "canonical_id": "family_f19",
+      "family_id": "F19",
+      "after_id": "rb_141"
+    },
+    {
+      "source_text_profile_id": "rb_145",
+      "canonical_id": "family_f19",
+      "family_id": "F19",
+      "after_id": "rb_144"
+    },
+    {
+      "source_text_profile_id": "rb_146",
+      "canonical_id": "family_f19",
+      "family_id": "F19",
+      "after_id": "rb_145"
+    },
+    {
+      "source_text_profile_id": "rb_148",
+      "canonical_id": "family_f19",
+      "family_id": "F19",
+      "after_id": "rb_147"
+    },
+    {
+      "source_text_profile_id": "rb_147",
+      "canonical_id": "rb_147",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_150",
+      "canonical_id": "rb_150",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_151",
+      "canonical_id": "rb_151",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_152",
+      "canonical_id": "rb_152",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_153",
+      "canonical_id": "rb_153",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_154",
+      "canonical_id": "rb_154",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_155",
+      "canonical_id": "rb_155",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_156",
+      "canonical_id": "rb_156",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_157",
+      "canonical_id": "rb_157",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_158",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "after_id": "rb_157"
+    },
+    {
+      "source_text_profile_id": "rb_160",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "after_id": "rb_159"
+    },
+    {
+      "source_text_profile_id": "rb_161",
+      "canonical_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "after_id": "rb_160"
+    },
+    {
+      "source_text_profile_id": "rb_159",
+      "canonical_id": "rb_159",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_162",
+      "canonical_id": "rb_162",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_163",
+      "canonical_id": "rb_163",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_164",
+      "canonical_id": "rb_164",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_165",
+      "canonical_id": "family_application_lists",
+      "family_id": "family_application_lists",
+      "after_id": "rb_164"
+    },
+    {
+      "source_text_profile_id": "rb_166",
+      "canonical_id": "family_application_lists",
+      "family_id": "family_application_lists",
+      "after_id": "rb_165"
+    },
+    {
+      "source_text_profile_id": "rb_167",
+      "canonical_id": "rb_167",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_168",
+      "canonical_id": "rb_168",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_169",
+      "canonical_id": "rb_169",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_170",
+      "canonical_id": "rb_170",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_171",
+      "canonical_id": "rb_171",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_172",
+      "canonical_id": "rb_172",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_173",
+      "canonical_id": "rb_173",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_174",
+      "canonical_id": "rb_174",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_175",
+      "canonical_id": "rb_175",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_176",
+      "canonical_id": "rb_176",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_177",
+      "canonical_id": "rb_177",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_178",
+      "canonical_id": "rb_178",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_179",
+      "canonical_id": "rb_179",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_180",
+      "canonical_id": "rb_180",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_181",
+      "canonical_id": "rb_181",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_182",
+      "canonical_id": "rb_182",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_183",
+      "canonical_id": "rb_183",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_185",
+      "canonical_id": "rb_185",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_186",
+      "canonical_id": "rb_186",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_187",
+      "canonical_id": "rb_187",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_188",
+      "canonical_id": "rb_188",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_189",
+      "canonical_id": "rb_189",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_190",
+      "canonical_id": "rb_190",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_191",
+      "canonical_id": "rb_191",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_192",
+      "canonical_id": "rb_192",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_193",
+      "canonical_id": "rb_193",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_194",
+      "canonical_id": "rb_194",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_195",
+      "canonical_id": "rb_195",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_196",
+      "canonical_id": "rb_196",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_197",
+      "canonical_id": "rb_197",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_198",
+      "canonical_id": "rb_198",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_199",
+      "canonical_id": "rb_199",
+      "family_id": null
+    },
+    {
+      "source_text_profile_id": "rb_200",
+      "canonical_id": "rb_200",
+      "family_id": null
+    }
+  ],
+  "same_family_multiple_view_entity_scope_obligations_must_be_preserved": true,
+  "private_default_values_copied": false
+}

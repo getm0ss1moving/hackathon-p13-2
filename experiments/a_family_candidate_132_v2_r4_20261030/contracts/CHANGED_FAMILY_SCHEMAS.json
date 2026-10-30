@@ -1,0 +1,823 @@
+{
+  "changed_family_count": 12,
+  "families": [
+    {
+      "item_id": "family_f03_spec",
+      "family_id": "family_f03_spec",
+      "module": "families/family_f03_spec/candidate.py",
+      "module_sha256": "3a3d12fcf7910af549aafe3b9691abe025ea5d3d87fd4a62a25cf08560f6e566",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "vm_status_size": {
+            "required_filters": [
+              "name"
+            ],
+            "columns": [
+              "vm_name",
+              "status",
+              "vcpuSize",
+              "ramSize",
+              "diskSize"
+            ],
+            "join": "INNER",
+            "order": "none"
+          },
+          "tenant_specs": {
+            "required_filters": [
+              "tenantName",
+              "logicalRegionName"
+            ],
+            "columns": [
+              "vm_name",
+              "status",
+              "flavor_name",
+              "vcpuSize",
+              "ramSize",
+              "diskSize"
+            ],
+            "join": "INNER",
+            "order": "none"
+          },
+          "tenant_specs_by_az": {
+            "required_filters": [
+              "tenantName",
+              "logicalRegionName"
+            ],
+            "columns": [
+              "azoneName",
+              "vm_name",
+              "flavor_name",
+              "status"
+            ],
+            "join": "INNER",
+            "order": "azoneName"
+          },
+          "scoped_vm_ip_flavor": {
+            "required_filters": [
+              "logicalRegionName",
+              "status"
+            ],
+            "columns": [
+              "vm_name",
+              "private_ips",
+              "flavor_name"
+            ],
+            "join": "LEFT",
+            "order": "none"
+          },
+          "flavor_topk": {
+            "columns": [
+              "flavor_name",
+              "vcpuSize",
+              "ramSize",
+              "diskSize",
+              "count"
+            ],
+            "join": "INNER",
+            "order": "count DESC",
+            "COUNT_business_gate": "BLOCKED_UNCHANGED",
+            "keys": [
+              "view",
+              "filters",
+              "required_filters",
+              "top_k"
+            ],
+            "allowed_filter_sets": [
+              [],
+              [
+                "logicalRegionName"
+              ]
+            ],
+            "required_filters": "unique exact filter-key set",
+            "top_k": {
+              "type": "integer_not_boolean",
+              "allowed_values": [
+                10
+              ]
+            }
+          },
+          "tenant_flavor_distribution": {
+            "columns": [
+              "tenantName",
+              "flavor_name",
+              "vcpuSize",
+              "ramSize",
+              "count"
+            ],
+            "join": "INNER",
+            "order": "none",
+            "COUNT_business_gate": "BLOCKED_UNCHANGED",
+            "required_filters": [
+              "logicalRegionName"
+            ],
+            "exact_filter_keys": [
+              "logicalRegionName"
+            ]
+          }
+        },
+        "per_view_keys": {
+          "vm_status_size": [
+            "view",
+            "filters",
+            "required_filters"
+          ],
+          "tenant_specs": [
+            "view",
+            "filters",
+            "required_filters"
+          ],
+          "tenant_specs_by_az": [
+            "view",
+            "filters",
+            "required_filters"
+          ],
+          "scoped_vm_ip_flavor": [
+            "view",
+            "filters",
+            "required_filters"
+          ],
+          "flavor_topk": [
+            "view",
+            "filters",
+            "required_filters",
+            "top_k"
+          ],
+          "tenant_flavor_distribution": [
+            "view",
+            "filters",
+            "required_filters"
+          ]
+        }
+      },
+      "metadata_adapter_required": true
+    },
+    {
+      "item_id": "family_f22_listener",
+      "family_id": "family_f22_listener",
+      "module": "families/family_f22_listener/candidate.py",
+      "module_sha256": "b32842251051405fa50cabfd427830f4eced2396e4305d9e010bbbae3a325fc8",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "view": {
+          "region_listener_rows": {
+            "required_filter_keys": [
+              "logicalRegionName"
+            ],
+            "columns": [
+              "elb_name",
+              "elb_id",
+              "listener_name",
+              "listener_protocol",
+              "listener_port"
+            ]
+          },
+          "named_listener_rows": {
+            "required_filter_keys": [
+              "name"
+            ],
+            "columns": [
+              "elb_name",
+              "listener_name",
+              "protocol",
+              "port"
+            ]
+          },
+          "named_listener_ports": {
+            "required_filter_keys": [
+              "name"
+            ],
+            "columns": [
+              "listener_name",
+              "protocol",
+              "port"
+            ]
+          },
+          "listener_protocol_distribution": {
+            "columns": [
+              "protocol",
+              "count"
+            ],
+            "join": "INNER",
+            "order": "none",
+            "COUNT_business_gate": "BLOCKED_UNCHANGED",
+            "required_filter_keys": [
+              "logicalRegionName"
+            ],
+            "exact_filter_keys": [
+              "logicalRegionName"
+            ]
+          }
+        },
+        "filters": {
+          "logicalRegionName": "equal",
+          "name": "contain"
+        },
+        "required_filters": "unique array exactly matching filter keys"
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_cce_children",
+      "family_id": "family_cce_children",
+      "module": "families/family_cce_children/candidate.py",
+      "module_sha256": "ac28bfa5c80586fff7a33a9a0023cec9ef5f61e110948d79f902d6e71a30b8a8",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "top_level_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "view": [
+          "node_address_status",
+          "pod_managed_status",
+          "node_managed_cpu"
+        ],
+        "filters": {
+          "name": {
+            "type": "nonempty original string",
+            "role": "CCE_CLUSTER.name",
+            "operator": "equal"
+          }
+        },
+        "required_filters": [
+          "name"
+        ],
+        "implicit_view_defaults": {
+          "节点列表及节点IP": "node_address_status",
+          "Pod列表": "pod_managed_status",
+          "容器节点列表": "node_managed_cpu"
+        },
+        "unsupported": [
+          "count",
+          "OR/negation/non-equality",
+          "child-name filters",
+          "mixed views",
+          "arbitrary projection/order"
+        ]
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_vm_volume",
+      "family_id": "family_vm_volume",
+      "module": "families/family_vm_volume/candidate.py",
+      "module_sha256": "d731befbbebb455cc8bff7dfd1b102caaddc0ba41ebda12467786bd340351760",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "vm_volumes": {
+            "required_filters": [
+              "name"
+            ],
+            "columns": [
+              "volume_name",
+              "size_gb",
+              "bootable",
+              "status"
+            ],
+            "resources": [
+              "VM_NOVA"
+            ],
+            "order": "none",
+            "distinct": false
+          },
+          "vm_bootable_volumes": {
+            "required_filters": [
+              "name"
+            ],
+            "columns": [
+              "bootable",
+              "volume_name",
+              "size"
+            ],
+            "resources": [
+              "VM_NOVA"
+            ],
+            "order": "CLOUD_VOLUME.bootable",
+            "distinct": false
+          },
+          "volume_vms": {
+            "required_filters": [
+              "name"
+            ],
+            "columns": [
+              "volume_name",
+              "size",
+              "status",
+              "vm_name"
+            ],
+            "resources": [
+              "VOLUME"
+            ],
+            "order": "none",
+            "distinct": false
+          }
+        }
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_volume_rows",
+      "family_id": "family_volume_rows",
+      "module": "families/family_volume_rows/candidate.py",
+      "module_sha256": "bb6f0dace53f6ce6d47244c784a15265501a477da123892ffd86e353f23f4138",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "bootable_scoped_rows": {
+            "filters": [
+              "logicalRegionName",
+              "azoneName",
+              "bootable"
+            ],
+            "columns": [
+              "name",
+              "size",
+              "status",
+              "bootable"
+            ]
+          },
+          "vdc_scoped_rows": {
+            "filters": [
+              "vdcName",
+              "logicalRegionName"
+            ],
+            "columns": [
+              "name",
+              "size",
+              "status",
+              "type_name"
+            ]
+          }
+        },
+        "bootable": [
+          "True",
+          "False"
+        ],
+        "operators": [
+          "equal"
+        ]
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_gauss_compute_path",
+      "family_id": "family_gauss_compute_path",
+      "module": "families/family_gauss_compute_path/candidate.py",
+      "module_sha256": "7355fa1829d86714d7ea029abaa210caf3510921be4116ee36915659fd96bc16",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "named_instance_vms": {
+            "required_filters": [
+              "name"
+            ],
+            "operator": "equal",
+            "columns": [
+              "instance_name",
+              "node_name",
+              "vm_name",
+              "vm_ip"
+            ]
+          },
+          "vip_instance_hosts": {
+            "required_filters": [
+              "dataVip"
+            ],
+            "operator": "contain",
+            "columns": [
+              "instance_name",
+              "tenant_name",
+              "host_name"
+            ]
+          }
+        }
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_vm_host_path",
+      "family_id": "family_vm_host_path",
+      "module": "families/family_vm_host_path/candidate.py",
+      "module_sha256": "dc0d1c5f0094500765227ba7607d77093650f9f36f36e6ff0cdcc1454f90e936",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "exact_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "private_ip_host": {
+            "exact_filter_keys": [
+              "privateIps"
+            ],
+            "ordered_columns": [
+              "vm_name",
+              "privateIps",
+              "host_name",
+              "host_ip"
+            ]
+          },
+          "vm_host": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "vm_name",
+              "host_name",
+              "host_ip"
+            ]
+          },
+          "vm_host_server": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "vm_name",
+              "host_name",
+              "host_ip",
+              "server_name",
+              "server_id"
+            ]
+          },
+          "host_vm_total": {
+            "exact_filter_keys": [
+              "name",
+              "status"
+            ],
+            "ordered_columns": [
+              "total"
+            ],
+            "COUNT_business_gate": "BLOCKED_UNCHANGED_NOT_BUSINESS_ACCEPTED"
+          },
+          "host_vm_status_distribution": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "status",
+              "count"
+            ],
+            "COUNT_business_gate": "BLOCKED_UNCHANGED_NOT_BUSINESS_ACCEPTED"
+          }
+        },
+        "filters": "nonempty strings grounded in complete original question; exact roles and source operators",
+        "required_filters": "unique string array equal to filters key set; canonicalized to source order",
+        "prepare_required": true
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_host_hardware",
+      "family_id": "family_host_hardware",
+      "module": "families/family_host_hardware/candidate.py",
+      "module_sha256": "519fd0301e2f2190217195b058da1bf254e46230b89f0d0701639b987a382719",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "exact_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "host_hardware": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "host_name",
+              "cpuModel",
+              "manufacturer",
+              "cpuArch"
+            ]
+          },
+          "host_resources_arch": {
+            "exact_filter_keys": [
+              "logicalRegionName",
+              "azoneName"
+            ],
+            "ordered_columns": [
+              "host_name",
+              "ip_address",
+              "total_vcpu",
+              "allocated_vcpu",
+              "cpu_arch"
+            ]
+          },
+          "architecture_distribution": {
+            "ordered_columns": [
+              "cpu_arch",
+              "count"
+            ],
+            "COUNT_business_gate": "BLOCKED_UNCHANGED_NOT_BUSINESS_ACCEPTED",
+            "exact_filter_key_sets": [
+              [
+                "azoneName"
+              ],
+              [
+                "logicalRegionName",
+                "azoneName"
+              ]
+            ]
+          }
+        },
+        "filters": "nonempty strings grounded in complete original question; exact roles and source operators",
+        "required_filters": "unique string array equal to filters key set; canonicalized to source order",
+        "prepare_required": true
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_deployment_graph",
+      "family_id": "family_deployment_graph",
+      "module": "families/family_deployment_graph/candidate.py",
+      "module_sha256": "bc6b22b4f142e6fc71d1adb3cbcaca76f104d3ce4f5cd22554c209f964e6113b",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "exact_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "service_node_details": {
+            "exact_filter_keys": [
+              "indexName"
+            ],
+            "ordered_columns": [
+              "node_name",
+              "node_id",
+              "host_name",
+              "mgmt_ip"
+            ]
+          },
+          "service_node_kind": {
+            "exact_filter_keys": [
+              "indexName"
+            ],
+            "ordered_columns": [
+              "node_name",
+              "host_class"
+            ]
+          },
+          "node_cloud_services": {
+            "exact_filter_keys": [
+              "mgmtIp"
+            ],
+            "ordered_columns": [
+              "node_name",
+              "node_ip",
+              "cloud_service_name"
+            ]
+          }
+        },
+        "filters": "nonempty strings grounded in complete original question; exact roles and source operators",
+        "required_filters": "unique string array equal to filters key set; canonicalized to source order",
+        "prepare_required": true
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_vm_port_path",
+      "family_id": "family_vm_port_path",
+      "module": "families/family_vm_port_path/candidate.py",
+      "module_sha256": "e056a22b47e69a8ce2d4fc0f79a6e4ead4fcb9fbcd2dc392523980ce26a824bb",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "exact_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "vm_port_subnets": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "port_name",
+              "mac",
+              "ip",
+              "subnet_cidr",
+              "gateway"
+            ]
+          },
+          "vm_port_status": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "port_name",
+              "mac_address",
+              "port_status"
+            ]
+          },
+          "vm_port_security_groups": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "sg_name"
+            ]
+          }
+        },
+        "filters": "nonempty strings grounded in complete original question; exact roles and source operators",
+        "required_filters": "unique string array equal to filters key set; canonicalized to source order",
+        "prepare_required": true
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_application_lists",
+      "family_id": "family_application_lists",
+      "module": "families/family_application_lists/candidate.py",
+      "module_sha256": "bed3c94c9a7fba0de63ff4cfb845daf7c65a2b2f7475a9d226dcc5f1cbe57fc2",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "exact_keys": [
+          "view",
+          "filters",
+          "required_filters"
+        ],
+        "views": {
+          "application_modules": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "module_name",
+              "status"
+            ]
+          },
+          "application_instances_with_module": {
+            "exact_filter_keys": [
+              "name"
+            ],
+            "ordered_columns": [
+              "module_name",
+              "instance_name"
+            ]
+          }
+        },
+        "filters": "nonempty strings grounded in complete original question; exact roles and source operators",
+        "required_filters": "unique string array equal to filters key set; canonicalized to source order",
+        "prepare_required": true
+      },
+      "metadata_adapter_required": false
+    },
+    {
+      "item_id": "family_f02",
+      "family_id": "F02",
+      "module": "families/family_f02/candidate.py",
+      "module_sha256": "6123687bb6d1c2da0d9a033f785359f726c9565642803d3c946ccf1fa63085d0",
+      "entry": "prepare_candidate(question,item,parsed,diagnostics=None)",
+      "parameter_contract_for_prompt": {
+        "scope": [
+          "filtered"
+        ],
+        "profiles": [
+          {
+            "projection": [
+              "name",
+              "privateIps",
+              "tenantName"
+            ],
+            "order": "none",
+            "filters": [
+              "azoneName",
+              "status"
+            ]
+          },
+          {
+            "projection": [
+              "name",
+              "createdAt"
+            ],
+            "order": "none",
+            "filters": [
+              "name"
+            ]
+          },
+          {
+            "projection": [
+              "name",
+              "clusterName",
+              "azoneName"
+            ],
+            "order": "none",
+            "filters": [
+              "name"
+            ]
+          },
+          {
+            "projection": [
+              "name",
+              "privateIps",
+              "status"
+            ],
+            "order": "none",
+            "filters": [
+              "tenantName",
+              "logicalRegionName"
+            ]
+          },
+          {
+            "projection": [
+              "name",
+              "privateIps",
+              "status"
+            ],
+            "order": "none",
+            "filters": [
+              "tenantName",
+              "logicalRegionName",
+              "azoneName"
+            ]
+          },
+          {
+            "projection": [
+              "name",
+              "privateIps",
+              "tenantName"
+            ],
+            "order": "none",
+            "filters": [
+              "logicalRegionName",
+              "azoneName"
+            ]
+          },
+          {
+            "projection": [
+              "tenantName",
+              "name",
+              "privateIps"
+            ],
+            "order": "tenantName",
+            "filters": [
+              "vdcName",
+              "logicalRegionName",
+              "azoneName"
+            ]
+          },
+          {
+            "projection": [
+              "tenant_name",
+              "azone_name",
+              "vm_name",
+              "private_ips"
+            ],
+            "order": "none",
+            "filters": [
+              "logicalRegionName"
+            ]
+          }
+        ],
+        "types": "all filters are nonempty original text; no defaults",
+        "natural_views": [
+          "ecs_creation_time",
+          "ecs_cluster_zone",
+          "ecs_ip_tenant",
+          "ecs_filtered_list",
+          "ecs_tenant_ordered_ip",
+          "ecs_tenant_zone_ip_alias"
+        ]
+      },
+      "metadata_adapter_required": false
+    }
+  ],
+  "ordered_columns_sources": [
+    "spec-listener__OUTPUT_CONTRACTS.json",
+    "host__INTEGRATION_HANDOFF.json",
+    "f02__INTERFACE.json"
+  ],
+  "other_existing_changed_view_columns": "declared in corresponding parameter_contract; closed helper source is authoritative",
+  "never_use_materialize_without_original_question_prepare": true
+}

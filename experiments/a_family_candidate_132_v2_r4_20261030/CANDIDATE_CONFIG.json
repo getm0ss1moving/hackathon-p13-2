@@ -1,0 +1,11 @@
+{
+  "isolated_candidate_enabled_by_default": false,
+  "default_variant_when_explicitly_enabled": "strict",
+  "optional_variant": "enhanced",
+  "selection_reason": "Both pass frozen offline controls; strict uses11 cards and has wider compact serialization headroom. No real-model winner established.",
+  "variant_source": "REVIEW_INTERFACE.json",
+  "root_default198_mutated": false,
+  "required_B_metadata_adapter": "prompt_metadata.py",
+  "B_adapter_installed": false,
+  "official_submission_ready": false
+}
