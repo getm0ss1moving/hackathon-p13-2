@@ -1,0 +1,19 @@
+{
+  "scope": "Public adapted19-case R2 synthetic replay, not an owner archive/full business acceptance",
+  "checks": 19,
+  "passed": 19,
+  "failed": 0,
+  "boundary_subcases_not_added": 94,
+  "source_contract_files_verified": 6,
+  "sources_unchanged": true,
+  "vdc_counts_imported_or_retested": false,
+  "original_35_count_passes_not_added": true,
+  "runtime_N_delta": 0,
+  "production_enabled": false,
+  "model_requests": 0,
+  "service_requests": 0,
+  "B_runtime_calls": 0,
+  "official_executor_or_scorer_calls": 0,
+  "real_empty_schema_provenance_certified": false,
+  "actual_final_envelope_or_official_depth_certified": false
+}

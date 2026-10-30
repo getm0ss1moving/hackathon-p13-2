@@ -1,0 +1,35 @@
+{
+  "status": "ORIGINAL_TWO_COMPATIBILITY_FINDINGS_CLOSED_A_CONDITIONAL_PASS",
+  "independent_checks": 19,
+  "passed": 19,
+  "failed": 0,
+  "table_subcases_not_added": 94,
+  "owner_72_254_not_counted": true,
+  "old_findings": {
+    "F01_tenant_native_zero_pagecount": "CLOSED",
+    "F02_network_native_zero_pagecount": "CLOSED"
+  },
+  "modules": [
+    {
+      "module": "tenant_lists",
+      "revision": "p0-r2-zero-pages",
+      "verdict": "CAN_HAND_TO_B_DEFAULT_DISABLED_WITH_RUNTIME_GATES"
+    },
+    {
+      "module": "vdc_network",
+      "revision": "p0-r2-zero-pages",
+      "verdict": "CAN_HAND_TO_B_DEFAULT_DISABLED_WITH_RUNTIME_GATES"
+    },
+    {
+      "module": "vdc_counts",
+      "revision": "original p0 unchanged",
+      "verdict": "PRIOR_35_OF_35_CONDITIONAL_PASS_REFERENCED_NO_RETEST"
+    }
+  ],
+  "schema_scope": {
+    "nonempty_missing_required_columns_or_placeholder": "independently rejected",
+    "empty_schema_provenance": "not expressible in present local receipts; must be proven by B trusted host; unproven production empty remains blocked"
+  },
+  "runtime_enablement_or_official_acceptance": false,
+  "minimal_closure": "MINIMAL_B_HANDOFF.json"
+}

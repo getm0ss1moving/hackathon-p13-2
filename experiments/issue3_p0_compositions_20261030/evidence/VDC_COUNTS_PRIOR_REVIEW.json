@@ -1,0 +1,150 @@
+{
+  "status": "PRIOR_UNCHANGED_VDC_COUNTS_INDEPENDENT_PASS_NOT_RETESTED",
+  "passed": 35,
+  "failed": 0,
+  "source_results_sha256": "e4824e30e9c34627284f64348015fc02fcd997bcc841a3b5983e9b5948504f89",
+  "source_candidate_sha256": "dca26bf6fdd7296abf76c981373ffc5649038b83db0739cfdce597018e776880",
+  "case_verdicts": [
+    {
+      "id": "C01_independent_counts_no_fanout",
+      "status": "PASS"
+    },
+    {
+      "id": "C02_union_preserves_single_source_buckets",
+      "status": "PASS"
+    },
+    {
+      "id": "C03_NULL_empty_spaces_not_merged",
+      "status": "PASS"
+    },
+    {
+      "id": "C04_unknown_name_identity_not_certified",
+      "status": "PASS"
+    },
+    {
+      "id": "C05_instance_role_not_nodes",
+      "status": "PASS"
+    },
+    {
+      "id": "C06_native_true_empty_totalPageNo0",
+      "status": "PASS"
+    },
+    {
+      "id": "C_wrong_region_VM_NOVA",
+      "status": "PASS"
+    },
+    {
+      "id": "C_missing_group_key_VM_NOVA",
+      "status": "PASS"
+    },
+    {
+      "id": "C_unknown_id_VM_NOVA",
+      "status": "PASS"
+    },
+    {
+      "id": "C_duplicate_id_VM_NOVA",
+      "status": "PASS"
+    },
+    {
+      "id": "C_failed_receipt_VM_NOVA",
+      "status": "PASS"
+    },
+    {
+      "id": "C_wrong_region_VOLUME",
+      "status": "PASS"
+    },
+    {
+      "id": "C_missing_group_key_VOLUME",
+      "status": "PASS"
+    },
+    {
+      "id": "C_unknown_id_VOLUME",
+      "status": "PASS"
+    },
+    {
+      "id": "C_duplicate_id_VOLUME",
+      "status": "PASS"
+    },
+    {
+      "id": "C_failed_receipt_VOLUME",
+      "status": "PASS"
+    },
+    {
+      "id": "C_wrong_region_GAUSSDB_INSTANCE",
+      "status": "PASS"
+    },
+    {
+      "id": "C_missing_group_key_GAUSSDB_INSTANCE",
+      "status": "PASS"
+    },
+    {
+      "id": "C_unknown_id_GAUSSDB_INSTANCE",
+      "status": "PASS"
+    },
+    {
+      "id": "C_duplicate_id_GAUSSDB_INSTANCE",
+      "status": "PASS"
+    },
+    {
+      "id": "C_failed_receipt_GAUSSDB_INSTANCE",
+      "status": "PASS"
+    },
+    {
+      "id": "C_request_binding_even_empty",
+      "status": "PASS"
+    },
+    {
+      "id": "C_empty_schema_unproven_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "C_new_valid_1001_object_paging",
+      "status": "PASS"
+    },
+    {
+      "id": "C_cross_page_overlap_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "C_missing_last_page_not_zero",
+      "status": "PASS"
+    },
+    {
+      "id": "C_no_region_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "C_extra_AZ_obligation_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "C_nodes_substitution_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "C_new_legal_entities_no_historical_allowlist",
+      "status": "PASS"
+    },
+    {
+      "id": "C_identity_NULL_blank_nonstring_matrix",
+      "status": "PASS"
+    },
+    {
+      "id": "C_NULL_missing_region_matrix",
+      "status": "PASS"
+    },
+    {
+      "id": "C_unconfirmed_or_failed_success_never_empty",
+      "status": "PASS"
+    },
+    {
+      "id": "C_missing_objList_not_success_empty",
+      "status": "PASS"
+    },
+    {
+      "id": "C_extra_source_or_obligation_not_silently_ignored",
+      "status": "PASS"
+    }
+  ],
+  "retested_by_R2_or_publisher": false
+}

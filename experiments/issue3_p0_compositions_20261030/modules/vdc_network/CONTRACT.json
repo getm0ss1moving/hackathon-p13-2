@@ -1,0 +1,211 @@
+{
+  "B_steps": [
+    "Check complete original request obligations match this closed profile",
+    "Bind both explicit native scope names, no defaults",
+    "Fetch all pages using plan API scopes and trustworthy status receipts",
+    "Call preflight and preserve diagnostics",
+    "Load projected rows into explicit typed schemas, including zero-row tables",
+    "Execute complete SQL over all three resources; preserve tagged output rows and scalar",
+    "Do not report complete requested values if business_complete false",
+    "Measure actual final official envelope bytes/depth before sending"
+  ],
+  "count_changes": {
+    "actual_default198": 0,
+    "actual_frozen132": 0,
+    "actual_isolated160": 0,
+    "future": "source replacement/family integration conditional on unified acceptance",
+    "new_closed_profiles": 1,
+    "registered_runtime": false
+  },
+  "entrypoints": [
+    "prepare(params)",
+    "build(params)",
+    "preflight(params,receipts)",
+    "collect_pages(pages)",
+    "execute_local(params,receipts)"
+  ],
+  "family_id": "A_P0_VDC_NETWORK_INVENTORY",
+  "identity": {
+    "blank_only": "fixed whitespace codepoint set in candidate; nonblank literal bytes preserved",
+    "cross_CI_same_id": "allowed",
+    "duplicate_ids": "reject any repeated identity within same CI, including identical rows and cross-page overlap",
+    "same_name_distinct_id": "preserved"
+  },
+  "input_schema": {
+    "CLOUD_FLOATING_IPS": {
+      "id": "nonblank string UNIQUE per CI snapshot",
+      "logicalRegionName": "exact requested string",
+      "vdcName": "exact requested string"
+    },
+    "CLOUD_ROUTER": {
+      "id": "nonblank string UNIQUE per CI snapshot",
+      "logicalRegionName": "exact requested string",
+      "name": "string or NULL; key required",
+      "vdcName": "exact requested string"
+    },
+    "CLOUD_SUBNET": {
+      "cidr": "string or NULL; key required",
+      "id": "nonblank string UNIQUE per CI snapshot",
+      "logicalRegionName": "exact requested string",
+      "vdcName": "exact requested string"
+    }
+  },
+  "no_B_or_official_changes": true,
+  "null_missing": {
+    "foreign_or_unknown_scope": "unsupported",
+    "invalid_subnet_cidr": "row preserved; invalid diagnostic; business_complete false",
+    "missing_required_key": "unsupported before SQL, not zero or NULL fabrication",
+    "nonstring_name_or_cidr": "unsupported",
+    "null_blank_subnet_cidr": "row preserved; unknown diagnostic; business_complete false",
+    "null_blank_vpc_name": "row preserved; unknown diagnostic; business_complete false",
+    "null_empty_blank_id": "unsupported",
+    "surrogate_native_values": "unsupported as invalid UTF8 encoding capacity; never raw UnicodeEncodeError"
+  },
+  "output_schema": {
+    "columns": [
+      "resource_type",
+      "resource_id",
+      "resource_name",
+      "cidr",
+      "resource_count"
+    ],
+    "order": [
+      "resource_type",
+      "resource_id"
+    ],
+    "rows": [
+      {
+        "grain": "one scoped ROUTER.id",
+        "tag": "VPC",
+        "values": [
+          "VPC",
+          "id",
+          "name",
+          null,
+          null
+        ]
+      },
+      {
+        "grain": "one scoped SUBNET.id",
+        "tag": "SUBNET",
+        "values": [
+          "SUBNET",
+          "id",
+          null,
+          "cidr",
+          null
+        ]
+      },
+      {
+        "grain": "one scalar over scoped FLOATING_IPS",
+        "tag": "EIP_COUNT",
+        "values": [
+          "EIP_COUNT",
+          null,
+          null,
+          null,
+          "nonnegative integer count"
+        ]
+      }
+    ]
+  },
+  "parameter_schema": {
+    "additionalProperties": false,
+    "properties": {
+      "filters": {
+        "additionalProperties": false,
+        "properties": {
+          "logicalRegionName": {
+            "minLength": 1,
+            "no_C0_DEL_C1": true,
+            "no_surrogate_codepoints": true,
+            "no_unresolved_binding_markers": true,
+            "nonblank": true,
+            "type": "string"
+          },
+          "vdcName": {
+            "minLength": 1,
+            "no_C0_DEL_C1": true,
+            "no_surrogate_codepoints": true,
+            "no_unresolved_binding_markers": true,
+            "nonblank": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "vdcName",
+          "logicalRegionName"
+        ],
+        "type": "object"
+      },
+      "profile": {
+        "const": "vdc_network_inventory"
+      },
+      "required_filters": {
+        "const": [
+          "vdcName",
+          "logicalRegionName"
+        ]
+      }
+    },
+    "required": [
+      "profile",
+      "filters",
+      "required_filters"
+    ],
+    "type": "object"
+  },
+  "profile": "vdc_network_inventory",
+  "projection": "schema-only independent copies; preflight tables are mandatory for B loading; raw receipts and _empty placeholders not interchangeable",
+  "receipt_schema": {
+    "completeness": "all expected pages, stable totals/size, exact batch lengths, no duplicate IDs; retries restart whole snapshot",
+    "contradictions": "success=False or any non-NULL error rejects; optional totalPageNo must be integer0 or1 only for totalNum0 with a successful empty first page and complete singleton page set; nonempty exact ceil(totalNum/pageSize); bool rejects",
+    "numeric_metadata": "exact int; bool rejected; contiguous pageNo>=1; pageSize>0; totalNum>=0",
+    "ok": "must be exact True from trusted fetch layer",
+    "optional": [
+      "success",
+      "error",
+      "totalPageNo"
+    ],
+    "required": [
+      "ok",
+      "pageNo",
+      "pageSize",
+      "totalNum",
+      "objList"
+    ]
+  },
+  "resources": [
+    "ROUTER",
+    "SUBNET",
+    "FLOATING_IPS"
+  ],
+  "scope": {
+    "VDC_meaning": "native vdcName population; no authority claim of unique VDC ID",
+    "filters": "vdcName AND logicalRegionName equal applied to all three APIs, preflight projected rows and all SQL branches",
+    "no_default_region": true,
+    "no_parent_attribution": true
+  },
+  "state": "isolated_owner_candidate_pending_independent_acceptance",
+  "success_empty": "all three verified complete sources required; zero total is typed zero-row table, EIP scalar=0; empty VPC never erases independent SUBNET/EIP",
+  "transport": {
+    "boundary": "compact ensure_ascii=False UTF8 api_call+sql",
+    "excess": "LengthBlocked.details with exact bytes; no truncation",
+    "final_B_envelope": "pending",
+    "official_depth_algorithm": "pending",
+    "provisional_byte_limit": 4096
+  },
+  "truth_limit": "verified local declared receipt snapshot, not live atomic snapshot, B binding or official acceptance",
+  "unsupported": [
+    "VPC child ownership/parent counts",
+    "AZ membership",
+    "EIP binding/VM association",
+    "additional scopes/projection obligations",
+    "implicit/default region",
+    "request failure as empty",
+    "unknown values as complete answer"
+  ],
+  "validation": "VALIDATION.json owner local synthetic only; root independent acceptance pending",
+  "revision": "p0-r2-zero-pages",
+  "revision_scope": "only integer totalPageNo0 accepted for complete successful zero-total single-page empty; all other guards unchanged"
+}

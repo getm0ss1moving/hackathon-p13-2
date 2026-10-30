@@ -1,0 +1,40 @@
+{
+  "tenant_lists": {
+    "original_source_sha256": "00cfc33a65a6a011aa337f223b5273a2c2f353be81e2a75077a91f76cec3facc",
+    "params": {
+      "profile": "tenant_parallel_lists",
+      "resource_set": [
+        "VM_NOVA",
+        "SECURITY_GROUP",
+        "VOLUME"
+      ],
+      "filters": {
+        "tenantName": "fresh-zero-tenant_'x"
+      },
+      "required_filters": [
+        "tenantName"
+      ],
+      "output_columns": [
+        "resource_type",
+        "resource_id",
+        "resource_name"
+      ]
+    },
+    "canonical_plan_sha256": "fa493544d1346bd1d80f4c2ebb145fb8434f4cb5f771660f0e79a794b2a06776"
+  },
+  "vdc_network": {
+    "original_source_sha256": "30e03c1a2b60b2229481977cdfabecf1edccb165f31f8d04d7d2711d04bba631",
+    "params": {
+      "profile": "vdc_network_inventory",
+      "filters": {
+        "vdcName": "fresh-zero-vdc",
+        "logicalRegionName": "fresh-zero-region"
+      },
+      "required_filters": [
+        "vdcName",
+        "logicalRegionName"
+      ]
+    },
+    "canonical_plan_sha256": "6295e899054525302db23649f9672f6cc6ad519eaf67860b4b31eb5d41436562"
+  }
+}

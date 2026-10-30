@@ -14,6 +14,13 @@
 
 本包与132独立，不注册、不改变默认198/B实现、不关闭issue，新增P0三合同未纳入。请保留猜空与真实空/失败的区别，B/官方门禁未因A合同通过解除。
 
+## B阅读待办：Issue3 P0三个组合合同（独立默认关闭包）
+
+- [ ] **B先读[P0三组合交接](handoffs/B_A_ISSUE3_P0_COMPOSITIONS.md)与[六文件闭包/合成复放](../experiments/issue3_p0_compositions_20261030/README.md)**。tenant_lists和vdc_network已修成功真空totalPageNo=0误拒；独立19/19，本次公开复放19/19，94子项不另加。vdc_counts原35/35仅引用，源码未改、未重测。
+- [ ] 核全原文VDC三计数、租户三列表及VDC网络清单义务；可信请求/schema/成功分页、真正typed-empty投影、unknown诊断、最终字节/官方深度仍须B完成，猜空不能当真实空验收。
+
+本包不替换132/198、不改B、不注册、不启新模型测试、不关闭issue，实际N变化0；6文件闭包不冒称原16文件owner归档。
+
 ## B阅读待办：170之后误空原因调查
 
 - [ ] **B阅读[170之后模板合并与误空原因交接](handoffs/A_POST170_FALSE_EMPTY_CAUSES.md)**及49轮廓统计，评审选择卡/view/schema/抽参/prepare语言覆盖与多义务组合；检索器无关的问题交B，本次只给原因，不改B实现。

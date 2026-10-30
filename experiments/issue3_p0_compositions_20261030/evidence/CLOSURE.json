@@ -1,0 +1,73 @@
+{
+  "F01_tenant_native_zero_pagecount": {
+    "status": "CLOSED",
+    "actual": {
+      "columns": [
+        "resource_type",
+        "resource_id",
+        "resource_name"
+      ],
+      "rows": [],
+      "diagnostics": {
+        "resource_rows": {
+          "VM_NOVA": 0,
+          "SECURITY_GROUP": 0,
+          "VOLUME": 0
+        },
+        "empty_resource_lists": [
+          "VM_NOVA",
+          "SECURITY_GROUP",
+          "VOLUME"
+        ],
+        "unknown_resource_name_count": {
+          "VM_NOVA": 0,
+          "SECURITY_GROUP": 0,
+          "VOLUME": 0
+        },
+        "requested_values_complete": true,
+        "identity_complete": true,
+        "selection_semantics": "native tenantName equality; homonymous tenant IDs are not inferred unique",
+        "declared_local_receipts_complete": true,
+        "live_atomic_snapshot_and_fetch_binding": "not proven by local receipt validation"
+      },
+      "scope": "declared_local_receipt_snapshot_only"
+    },
+    "input_sha256": "658e1e17e59c996bc3b066127771eaa19388972157b41480adac12a734927d8a"
+  },
+  "F02_network_native_zero_pagecount": {
+    "status": "CLOSED",
+    "actual": {
+      "columns": [
+        "resource_type",
+        "resource_id",
+        "resource_name",
+        "cidr",
+        "resource_count"
+      ],
+      "rows": [
+        {
+          "resource_type": "EIP_COUNT",
+          "resource_id": null,
+          "resource_name": null,
+          "cidr": null,
+          "resource_count": 0
+        }
+      ],
+      "diagnostics": {
+        "unknown_vpc_name_count": 0,
+        "unknown_subnet_cidr_count": 0,
+        "invalid_subnet_cidr_count": 0,
+        "source_row_counts": {
+          "ROUTER": 0,
+          "SUBNET": 0,
+          "FLOATING_IPS": 0
+        },
+        "snapshot_consistency": "live atomic snapshot and B request binding unproven",
+        "requested_values_complete": true
+      },
+      "business_complete": true,
+      "business_complete_scope": "strictly validated declared local receipt snapshot only; no live/B/official certification"
+    },
+    "input_sha256": "658e1e17e59c996bc3b066127771eaa19388972157b41480adac12a734927d8a"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "source_R2_manifest_sha256": "46db8ee6963c16e4d7f786f8d6da285e612fd8466d469480fc31a1e1297e49fd",
+  "source_R2_minimum_receipt_sha256": "32c76bdb5aff49f533c506f74709b6edd37b850bf8b961b55f9afe71d363566c",
+  "source_R2_review_sha256": "66af84544b40dfcef7cbe853a67c85114007dad6a1369f1815e083e57a2b5c2b",
+  "source_R2_results_sha256": "3fd27ebb894deb889843d94a455df565631ace60370ea994bef940552ee12b53",
+  "source_R2_harness_sha256": "aa6dde1455da0935bc93f5e273fd2cf6aa68dd3296d465f10c238d1d8515de2b",
+  "source_original_review_sha256": "d404d7bebb2b20b0319be373adb7ae3265e1952c6ff79d199682d62955f45124",
+  "source_original_results_sha256": "e4824e30e9c34627284f64348015fc02fcd997bcc841a3b5983e9b5948504f89",
+  "R2_independent": {
+    "checks": 19,
+    "passed": 19,
+    "failed": 0,
+    "nested_boundary_subcases_not_added": 94
+  },
+  "vdc_counts_prior_independent": {
+    "passed": 35,
+    "failed": 0,
+    "source_unchanged": true,
+    "retested_in_R2": false,
+    "retested_by_publisher": false
+  },
+  "original_review_not_relabelled_as_new_full_pass": {
+    "checks": 104,
+    "passed": 102,
+    "failed": 2,
+    "two_zero_page_rejections_closed_by_R2": true
+  },
+  "runtime_N_delta": 0,
+  "source_contract_status_fields_preserved": "Original pending-independent fields remain verbatim as frozen provenance; current independent result is recorded in evidence and README.",
+  "native_records_or_questions_or_answers_copied": false
+}

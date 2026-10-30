@@ -1,0 +1,153 @@
+{
+  "family_id": "NEXT_N28",
+  "profile": "vdc_vm_volume_gaussdb_instance_counts",
+  "status": "isolated_owner_candidate_pending_independent_acceptance",
+  "parameter_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "profile",
+      "resource_set",
+      "group",
+      "layout",
+      "metric",
+      "filters",
+      "required_filters"
+    ],
+    "properties": {
+      "profile": {
+        "const": "vdc_vm_volume_gaussdb_instance_counts"
+      },
+      "resource_set": {
+        "const": [
+          "VM_NOVA",
+          "VOLUME",
+          "GAUSSDB_INSTANCE"
+        ]
+      },
+      "group": {
+        "const": "vdcName"
+      },
+      "layout": {
+        "const": "grouped_counts_wide"
+      },
+      "metric": {
+        "const": "count_rows"
+      },
+      "filters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "logicalRegionName"
+        ],
+        "properties": {
+          "logicalRegionName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "explicit literal nonblank UTF-8, no C0/DEL/C1 controls, Unicode surrogate or unresolved double-brace placeholders; no default; transport-gated"
+          }
+        }
+      },
+      "required_filters": {
+        "const": [
+          "logicalRegionName"
+        ]
+      }
+    }
+  },
+  "inputs": {
+    "resources": [
+      "VM_NOVA",
+      "VOLUME",
+      "GAUSSDB_INSTANCE"
+    ],
+    "tables": [
+      "CLOUD_VM_NOVA",
+      "CLOUD_VOLUME",
+      "CLOUD_GAUSSDB_INSTANCE"
+    ],
+    "columns": {
+      "id": "required nonblank string unique across each complete CI snapshot; preserve exact nonblank bytes",
+      "logicalRegionName": "required exact requested string on every row",
+      "vdcName": "required column; value string or NULL; preserve NULL/empty/whitespace buckets distinctly"
+    },
+    "scope": "one explicit equality applied to all API calls, every preflight row and every SQL aggregate"
+  },
+  "output": {
+    "columns": [
+      "vdc_name",
+      "ecs_count",
+      "volume_count",
+      "gaussdb_instance_count"
+    ],
+    "types": [
+      "TEXT NULL",
+      "INTEGER NOT NULL",
+      "INTEGER NOT NULL",
+      "INTEGER NOT NULL"
+    ],
+    "grain": "one row per exact native vdcName in UNION of all three scoped source grouping domains",
+    "empty": "all complete empty inputs => zero rows, never a fabricated VDC",
+    "independence": "no raw resource joins; separate aggregates joined to UNION domain using NULL-safe IS; zeros only after strict preflight",
+    "identity_limit": "vdcName is not a proven unique authoritative VDC ID; unknown buckets retain diagnostics"
+  },
+  "receipt_contract": {
+    "snapshot_keys": [
+      "resource",
+      "table",
+      "request",
+      "columns",
+      "schema_source",
+      "pages"
+    ],
+    "request_binding": "exact prepare API request; B must supply trustworthy fetch-layer evidence",
+    "required_page_fields": [
+      "ok",
+      "pageNo",
+      "pageSize",
+      "totalNum",
+      "totalPageNo",
+      "objList"
+    ],
+    "success": "ok is True, success not False, error absent/NULL/empty string; bool numeric metadata reject",
+    "pagination": "pageSize1000, contiguous pages, stable total/totalPages, exact expected row counts, all pages; totalPageNo0 or1 accepted for true empty",
+    "identity": "any same CI duplicate id rejected within/across pages; NULL/empty/blank/nonstring id rejected; Unicode surrogate identity/group values rejected before UTF-8/SQLite",
+    "schema": "proven schema required even for empty; every populated row includes all columns; placeholder rejected; extras projected away",
+    "failure": "raises Unsupported, never an executable zero or partial result"
+  },
+  "entrypoints": {
+    "prepare(params)": "pure closed API/SQL/schema constructor",
+    "preflight(params,receipts)": "pure fresh validated typed tables, diagnostics, hashes; no input mutation",
+    "execute_local(params,receipts)": "synthetic in-memory SQLite verification only"
+  },
+  "unknowns": "vdcName NULL and blank buckets retained; named_vdc_identity_complete=false; no exclusive identity claims",
+  "length_gate": {
+    "boundary": "compact ensure_ascii=False UTF-8 {api_call,sql}",
+    "provisional_limit_bytes": 4096,
+    "over_limit": "LengthBlocked exact measured bytes; no truncation",
+    "full_metadata": "separate measurement only",
+    "final_B_envelope": "not constructed or measured",
+    "official_depth_policy": "unconfirmed"
+  },
+  "counts": {
+    "actual_default198_delta": 0,
+    "actual_isolated160_delta": 0,
+    "actual_frozen132_delta": 0,
+    "new_profiles": 1,
+    "new_families": 0,
+    "future_N_change": "conditional after unified acceptance; no source item absorbed here"
+  },
+  "review": "21 owner synthetic methods; independent root acceptance pending",
+  "unsupported": [
+    "extra scope or output obligations",
+    "GAUSSDB_NODE substitution",
+    "VPC AZ or EIP associations",
+    "CCE VM endpoints",
+    "capacity ranking",
+    "authoritative VDC ID mapping",
+    "natural-language routing/binding proof"
+  ],
+  "no_runtime_source_lookup": true,
+  "no_question_or_entity_routing": true,
+  "baseline_candidates_read_only": true
+}

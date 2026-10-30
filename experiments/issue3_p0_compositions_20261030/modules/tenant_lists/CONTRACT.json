@@ -1,0 +1,210 @@
+{
+  "profile": "tenant_parallel_lists",
+  "status": "isolated_owner_validated_pending_independent_acceptance",
+  "entrypoints": {
+    "prepare(params)": "pure closed structure materializer; no natural-language match assertion",
+    "preflight(params,receipts)": "pure strict receipt validator and schema-only projection",
+    "execute_local(params,receipts)": "offline in-memory SQLite synthetic verifier only"
+  },
+  "parameter_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "profile",
+      "resource_set",
+      "filters",
+      "required_filters",
+      "output_columns"
+    ],
+    "properties": {
+      "profile": {
+        "const": "tenant_parallel_lists"
+      },
+      "resource_set": {
+        "const": [
+          "VM_NOVA",
+          "SECURITY_GROUP",
+          "VOLUME"
+        ]
+      },
+      "output_columns": {
+        "const": [
+          "resource_type",
+          "resource_id",
+          "resource_name"
+        ]
+      },
+      "filters": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tenantName"
+            ],
+            "properties": {
+              "tenantName": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tenantName",
+              "logicalRegionName"
+            ],
+            "properties": {
+              "tenantName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "logicalRegionName": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      "required_filters": {
+        "enum": [
+          [
+            "tenantName"
+          ],
+          [
+            "tenantName",
+            "logicalRegionName"
+          ]
+        ]
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "filters": {
+              "required": [
+                "logicalRegionName"
+              ]
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "required_filters": {
+              "const": [
+                "tenantName",
+                "logicalRegionName"
+              ]
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "required_filters": {
+              "const": [
+                "tenantName"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "runtime_string_constraints": "nonblank literal string; rejects Cc/Cs Unicode characters and {{/}} placeholders; opaque nonblank bytes preserved"
+  },
+  "api_scope": "native tenantName equal on every source; optional logicalRegionName equal only if supplied explicitly",
+  "tenant_identity": "native tenantName label selection can include multiple tenantId identities; no inferred unique tenant",
+  "tables": {
+    "VM_NOVA": "CLOUD_VM_NOVA",
+    "SECURITY_GROUP": "CLOUD_SECURITY_GROUP",
+    "VOLUME": "CLOUD_VOLUME"
+  },
+  "outputs": [
+    {
+      "name": "resource_type",
+      "type": "TEXT",
+      "nullable": false
+    },
+    {
+      "name": "resource_id",
+      "type": "TEXT",
+      "nullable": false
+    },
+    {
+      "name": "resource_name",
+      "type": "TEXT",
+      "nullable": true
+    }
+  ],
+  "grain": "one row per native resource ID and CI, UNION ALL independent sources, deterministic type/id ordering",
+  "resource_identity": "unique nonblank string per CI across all pages; duplicate any kind rejects; nonblank opaque IDs never trimmed",
+  "unknown_display_names": "NULL/empty/blank-only names retain rows and original values; unknown_resource_name_count per CI; requested_values_complete=false",
+  "empty": "one verified ok=True zero-total page per CI; typed empty tables; no placeholder row; all lists may be empty",
+  "required_receipt_fields": [
+    "ok",
+    "pageNo",
+    "pageSize",
+    "totalNum",
+    "objList"
+  ],
+  "receipt_guards": [
+    "ok is exactly True",
+    "success=False rejects",
+    "any non-NULL error rejects",
+    "integer metadata excludes bool",
+    "sequential pages starting1",
+    "stable totalNum and pageSize",
+    "optional totalPageNo: exact integer0 or1 only for totalNum0; nonempty exact ceil(totalNum/pageSize); a successful empty first page and complete singleton page set remain mandatory",
+    "exact expected batch length",
+    "all and only expected pages",
+    "unique nonblank IDs within each CI"
+  ],
+  "schema": "all declared fields present on every nonempty row; text or NULL, Unicode surrogate scalars reject before encoding; scope fields exact non-NULL match; missing column is unsupported",
+  "projection": "only id,name,tenantName plus explicit logicalRegionName are copied; B MUST load these projected tables and declared schemas",
+  "diagnostics": [
+    "resource_rows",
+    "empty_resource_lists",
+    "unknown_resource_name_count",
+    "requested_values_complete",
+    "identity_complete",
+    "declared_local_receipts_complete"
+  ],
+  "unsupported": [
+    "missing tenantName",
+    "implicit or inherited region",
+    "extra scopes/resources/projections/count/ranking/relations",
+    "unique tenantId selection from name",
+    "unproven receipt success/pagination/schema"
+  ],
+  "budget": {
+    "encoding": "compact ensure_ascii=False UTF-8 JSON",
+    "boundary": "expanded api_call+sql",
+    "provisional_limit_bytes": 4096,
+    "exceeded": "TransportBlocked with exact measurement; no truncation",
+    "final_B_envelope": "unconstructed/unmeasured",
+    "formal_depth": "official algorithm pending"
+  },
+  "B_gates": [
+    "full original-request obligation grounding",
+    "trusted real-fetch receipt creation and exact request binding",
+    "complete pages and typed projected tables",
+    "propagate unknown display values without full-known-values claim",
+    "final actual envelope and depth checks",
+    "independent acceptance and runtime adoption"
+  ],
+  "actual_count_change": {
+    "default198": 0,
+    "isolated160": 0,
+    "frozen132": 0,
+    "registered_new_templates": 0,
+    "registered_new_families": 0
+  },
+  "proposed_profiles": 1,
+  "conditional_future_count_change": "replace incomplete source:0; register additive entry:+1; unified count must be recomputed at adoption",
+  "no_runtime_or_business_evaluation": true,
+  "revision": "p0-r2-zero-pages",
+  "revision_scope": "only integer totalPageNo0 accepted for complete successful zero-total single-page empty; all other guards unchanged"
+}

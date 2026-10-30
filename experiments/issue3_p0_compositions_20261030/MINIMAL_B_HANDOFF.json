@@ -1,0 +1,53 @@
+{
+  "status": "DEFAULT_DISABLED_THREE_PROFILE_SIX_FILE_SOURCE_CONTRACT_HANDOFF",
+  "source_minimum_receipt_sha256": "32c76bdb5aff49f533c506f74709b6edd37b850bf8b961b55f9afe71d363566c",
+  "source_R2_manifest_sha256": "46db8ee6963c16e4d7f786f8d6da285e612fd8466d469480fc31a1e1297e49fd",
+  "source_contract_file_count": 6,
+  "files": [
+    {
+      "module": "tenant_lists",
+      "sha256": "a4b9007381e42c1803253304b8012b7abab53b5388477a5e47bf2ee17f804cff",
+      "default_disabled_source_contract_handoff_allowed": true,
+      "runtime_enablement_approved": false,
+      "path": "modules/tenant_lists/candidate.py"
+    },
+    {
+      "module": "tenant_lists",
+      "sha256": "dfacfcf8308fb28282b5d54f40119ad4e7b2e0591327c98946d161286001c2d4",
+      "default_disabled_source_contract_handoff_allowed": true,
+      "runtime_enablement_approved": false,
+      "path": "modules/tenant_lists/CONTRACT.json"
+    },
+    {
+      "module": "vdc_network",
+      "sha256": "e8df68a82f3af46d9efbe4f48fcccbb89b8e32bff072b1c6d593db88c1234e3e",
+      "default_disabled_source_contract_handoff_allowed": true,
+      "runtime_enablement_approved": false,
+      "path": "modules/vdc_network/candidate.py"
+    },
+    {
+      "module": "vdc_network",
+      "sha256": "9b96e9c9394b2de2a868b0833d5aa2c256c193ab80fc76bdbbd57c40303421e6",
+      "default_disabled_source_contract_handoff_allowed": true,
+      "runtime_enablement_approved": false,
+      "path": "modules/vdc_network/CONTRACT.json"
+    },
+    {
+      "module": "vdc_counts",
+      "sha256": "dca26bf6fdd7296abf76c981373ffc5649038b83db0739cfdce597018e776880",
+      "status": "unchanged; prior independent35/35 reference only; not retested",
+      "path": "modules/vdc_counts/candidate.py"
+    },
+    {
+      "module": "vdc_counts",
+      "sha256": "22d2fae919b1793eae478baefdef12b431a43b37f24b5e49a02d81d40f62d57b",
+      "status": "unchanged; prior independent35/35 reference only; not retested",
+      "path": "modules/vdc_counts/CONTRACT.json"
+    }
+  ],
+  "production_enabled": false,
+  "B_integration_complete": false,
+  "runtime_N_delta": 0,
+  "candidate132_changed": false,
+  "meaning": "All6 pure source/contract files from the independently reviewed minimum closure; no full owner archive claim or default registration."
+}
