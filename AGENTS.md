@@ -2,7 +2,8 @@
 
 - 所有交流使用中文。只基于本目录的出题者实例工作。
 - 目标仓库为 `https://github.com/getm0ss1moving/hackathon-p13-2.git`；不读取或引入旧 GitHub 仓库的文件。
-- 开发分支为 `simple/official-starter`；保留 `main` 原始基线，不自动合并、强制切换、强推或删除他人工作。
+- 用户于 2026-10-30 要求先合并已有分支，后续直接在现有 `main` 开发和提交，不再为每次提交创建分支。原始基线保留在 Git 历史中；同步时不强推、重置或删除他人工作。
+- 分支合并只包含已提交历史；本地未提交成果不得顺带纳入。B 的业务修改仍须等用户明确要求提交后再暂存、提交和推送。
 - 保留 `implementation/`、`output-server/`、用例和原接口；不新增 `src/tools` 框架、适配层、中间表示或复杂审计系统。
 - 可修改 `runbook_items.py`、`runbook_retriever.py`、`runbook_matcher.py`、`runbook_system.py`、`quick_eval.py`、`blackbox_eval.py` 及协作文档。
 - 不修改 `runbook_executor.py`、`evaluator.py`、数据服务、原数据及测试用例；不通过改评分器提高得分。

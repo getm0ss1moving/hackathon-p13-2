@@ -2,6 +2,8 @@
 
 基于 Runbook 的 CMDB 查询系统，通过 BM25 检索 + LLM 选择 + LLM 参数填充 + SQL 精调 + 通用执行器，将自然语言问题转化为 CMDB 查询结果。
 
+当前协作分支为 `main`：按用户于 2026-10-30 的要求，已有协作分支的已提交历史统一合并，之后直接沿 `main` 工作，不为每次提交新建分支。本地B未提交成果继续等待用户明确提交指令；历史记录中的分支名称保留其原时间含义。
+
 > 接手核验（2026-10-29）：本包缺少 `output-server/README.md` 和黑盒 JSON，实际有 200 条模板。原包评分说明存在差异，见文末“最小分支接手记录”。第二轮已构建本地环境，补 TLS 校验和评估入口检查；当前启动方法见“本地环境与第二轮开工”。
 
 第三轮已完成原入口前20题模型基线（75.5/100，53次HTTP请求）及固定无费用实验；当前状态以[实验合同与结果](experiments/round3/README.md)和下方第三轮记录为准，不能将历史“未运行”记录当作当前状态。
@@ -251,7 +253,7 @@ $env:DEEPSEEK_API_KEY="your-api-key-here"
 set DEEPSEEK_API_KEY=your-api-key-here
 ```
 
-- **SSL（更正）**：当前分支已在 `runbook_matcher.py:get_llm()` 开启证书和主机名校验，可通过 `SSL_CERT_FILE` 指定可信 CA；无效 CA 会在启动时失败。`main` 原实例中的 `verify=False` 保留于基线，当前分支已修正。执行器保持原文件不动，其数据服务地址为本地 HTTP。
+- **SSL（更正）**：当前分支已在 `runbook_matcher.py:get_llm()` 开启证书和主机名校验，可通过 `SSL_CERT_FILE` 指定可信 CA；无效 CA 会在启动时失败。原始基线提交 `d79c316` 中的 `verify=False` 保留于历史，当前分支已修正。执行器保持原文件不动，其数据服务地址为本地 HTTP。
 
 ## 关键文件说明
 
@@ -270,7 +272,7 @@ set DEEPSEEK_API_KEY=your-api-key-here
 
 ### 来源、边界与实际文件
 
-目标仓库为 [hackathon-p13-2](https://github.com/getm0ss1moving/hackathon-p13-2)，首次检出为空仓库。仅从用户指定的本地 `hackathon` 出题者实例复制原文件，未读取旧 GitHub 仓库。244 个原文件逐文件 SHA-256 校验一致，保存为 `main` 基线提交 `d79c316`，再创建 `simple/official-starter`；不自动合回 `main`。首轮提交 `ef1745c` 仅新增 `AGENTS.md`、`TEAM.md` 并补充本 README；第二轮修改见文末。
+目标仓库为 [hackathon-p13-2](https://github.com/getm0ss1moving/hackathon-p13-2)，首次检出为空仓库。仅从用户指定的本地 `hackathon` 出题者实例复制原文件，未读取旧 GitHub 仓库。244 个原文件逐文件 SHA-256 校验一致，保存为原始基线提交 `d79c316`，再创建 `simple/official-starter`；首轮采用“不自动合回main”的历史约定，已被2026-10-30用户要求合并并沿main工作的指令更新。首轮提交 `ef1745c` 仅新增 `AGENTS.md`、`TEAM.md` 并补充本 README；第二轮修改见文末。
 
 - 实际存在：8 个 implementation Python 文件、3 个 output-server Python 文件、白盒 200 题、230 个数据 JSON、`背景知识.md`。
 - 实际缺失：`output-server/README.md`、`CMDB用例集-黑盒100.json`；没有依赖清单文件。`blackbox_eval.py` 存在不等于黑盒数据可用。
