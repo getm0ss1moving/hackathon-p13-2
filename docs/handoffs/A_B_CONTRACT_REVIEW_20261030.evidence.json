@@ -1,0 +1,1177 @@
+{
+  "as_of_utc": "2026-10-30T06:29:00.083616+00:00",
+  "source_commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "scope": "Eight listed train150 IDs; general official-resource data only; no sealed/test or all-200 feedback",
+  "request_counts": {
+    "model": 0,
+    "http_data_service": 0
+  },
+  "dictionary_sha256": "df1840ebbfa8893020cc70475cef84b875d6c18a738c5ea101a54bca48136da9",
+  "status_contract": {
+    "vm_global_observed": [
+      {
+        "value": "active",
+        "count": 1981
+      },
+      {
+        "value": "unknown",
+        "count": 861
+      },
+      {
+        "value": "stopped",
+        "count": 58
+      },
+      {
+        "value": "building",
+        "count": 7
+      },
+      {
+        "value": null,
+        "count": 2
+      }
+    ],
+    "vm_region_observed": [
+      {
+        "value": "active",
+        "count": 1902
+      },
+      {
+        "value": "unknown",
+        "count": 861
+      },
+      {
+        "value": "stopped",
+        "count": 58
+      },
+      {
+        "value": "building",
+        "count": 7
+      },
+      {
+        "value": null,
+        "count": 2
+      }
+    ],
+    "lookup_coverage_by_literal_status": {
+      "error": {
+        "rows": 0,
+        "host_id_resolved": 0,
+        "cluster_id_resolved": 0
+      },
+      "stopped": {
+        "rows": 58,
+        "host_id_resolved": 58,
+        "cluster_id_resolved": 58
+      },
+      "active": {
+        "rows": 1902,
+        "host_id_resolved": 1902,
+        "cluster_id_resolved": 1902
+      },
+      "unknown": {
+        "rows": 861,
+        "host_id_resolved": 0,
+        "cluster_id_resolved": 0
+      },
+      "building": {
+        "rows": 7,
+        "host_id_resolved": 0,
+        "cluster_id_resolved": 0
+      }
+    }
+  },
+  "asset_contract": {
+    "ci": "S_Device",
+    "rows": 45,
+    "asset_status_observed": [
+      {
+        "value": "running",
+        "count": 45
+      }
+    ],
+    "class_names": [
+      {
+        "value": "SYS_X86Server",
+        "count": 45
+      }
+    ],
+    "scrapped_rows": 0
+  },
+  "tenant_053": {
+    "literal_tenant_rows_in_region": 4,
+    "azone_counts": [
+      {
+        "value": "【ALTERNATIVE_AZ_SAME_TENANT】",
+        "count": 4
+      }
+    ],
+    "literal_tenant_requested_az_rows": 0,
+    "different_baseline_default_tenant_region_az_rows": 316
+  },
+  "tenant_112": {
+    "literal_tenant_count": 385,
+    "vdc_distribution": [
+      {
+        "value": "【VDC_BUCKET_A】",
+        "count": 289
+      },
+      {
+        "value": "【VDC_BUCKET_B】",
+        "count": 96
+      }
+    ],
+    "same_literal_as_vdc_count": 0
+  },
+  "vpc_287": {
+    "global_router_rows": 1548,
+    "global_router_id_unique": 1548,
+    "global_router_native_id_unique": 774,
+    "eip_rows": 7748,
+    "eip_nonempty_routerId": 7508,
+    "eip_routerId_matches_id": 7508,
+    "eip_routerId_matches_nativeId": 0,
+    "subnet_networkId_matches_router_id": 0,
+    "subnet_networkId_matches_network_id": 2276,
+    "scoped_parent_count": 12,
+    "scoped_parent_native_ids_unique": 12,
+    "scoped_eip_count": 501,
+    "scoped_native_ids_colliding_with_vm_native_ids": 0,
+    "resolved_subnet_memberships_all_port_regions": 82,
+    "resolved_subnet_memberships_exact_port_region": 41,
+    "unresolved_subnet_memberships_exact_port_region": 24
+  },
+  "tenant_261": {
+    "region_vm_rows": 2830,
+    "null_name_bucket": 862,
+    "blank_name_bucket": 647,
+    "unknown_name_total_if_normalized": 1509,
+    "maximum_nonempty_name_count": 320,
+    "null_name_nonempty_tenant_id": 1,
+    "null_name_nonempty_private_ips": 1,
+    "null_name_mount_relations": 2,
+    "null_name_vms_with_mount": 1,
+    "null_name_resolved_volume_refs": 2
+  },
+  "cpu_300": {
+    "region_vm_count": 2830,
+    "resolved_flavor_vm_count": 1933,
+    "unresolved_flavor_vm_count": 897,
+    "known_vcpu_subtotal": 8407,
+    "positive_direct_cpu_on_resolved_vms": 1741,
+    "direct_cpu_disagreements_on_resolved_positive_vms": 0,
+    "positive_direct_cpu_on_unresolved_vms": 31,
+    "direct_cpu_positive_subtotal_on_unresolved_vms": 140,
+    "unresolved_flavorId_missing_or_empty": 863,
+    "unresolved_flavorId_matches_nativeId": 0,
+    "unresolved_flavor_vm_cpuCoreNum_distribution": [
+      {
+        "value": "",
+        "count": 549
+      },
+      {
+        "value": "0",
+        "count": 316
+      },
+      {
+        "value": "4",
+        "count": 15
+      },
+      {
+        "value": "6",
+        "count": 6
+      },
+      {
+        "value": "2",
+        "count": 6
+      },
+      {
+        "value": "8",
+        "count": 4
+      },
+      {
+        "value": null,
+        "count": 1
+      }
+    ],
+    "volume_exact_region_rows": 3095,
+    "volume_exact_region_capacity": 388179,
+    "volume_all_region_rows": 6190,
+    "volume_all_region_capacity": 776358,
+    "gaussdb_nodes_exact_region": 30,
+    "union_vdc_domain_count": 48,
+    "vdc_domain_counts": {
+      "VM_NOVA": 44,
+      "VOLUME": 47,
+      "GAUSSDB_NODE": 8
+    }
+  },
+  "original_query_layer_checks": [
+    {
+      "label": "literal_error",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "【QUESTION_REGION】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "status",
+              "value": "error",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 0,
+      "passed": true
+    },
+    {
+      "label": "literal_stopped",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "【QUESTION_REGION】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "status",
+              "value": "stopped",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 58,
+      "passed": true
+    },
+    {
+      "label": "literal_tenant_az_empty",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "【QUESTION_REGION】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "tenantName",
+              "value": "【QUESTION_TENANT_053】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "azoneName",
+              "value": "【QUESTION_AZ_053】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 0,
+      "passed": true
+    },
+    {
+      "label": "literal_tenant_alternative_az",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "logicalRegionName",
+              "value": "【QUESTION_REGION】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "tenantName",
+              "value": "【QUESTION_TENANT_053】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          },
+          {
+            "simple": {
+              "name": "azoneName",
+              "value": "【ALTERNATIVE_AZ_SAME_TENANT】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 4,
+      "passed": true
+    },
+    {
+      "label": "literal_tenant_not_vdc",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "tenantName",
+              "value": "【QUESTION_TENANT_112】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 385,
+      "passed": true
+    },
+    {
+      "label": "same_string_wrong_role",
+      "ci": "VM_NOVA",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "vdcName",
+              "value": "【QUESTION_TENANT_112】",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 0,
+      "passed": true
+    },
+    {
+      "label": "observed_asset_running",
+      "ci": "S_Device",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "assetStatus",
+              "value": "running",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 45,
+      "passed": true
+    },
+    {
+      "label": "unproved_asset_scrapped",
+      "ci": "S_Device",
+      "condition": {
+        "constraint": [
+          {
+            "simple": {
+              "name": "assetStatus",
+              "value": "scrapped",
+              "operator": "equal"
+            },
+            "logOp": "and"
+          }
+        ]
+      },
+      "observed_rows": 0,
+      "passed": true
+    },
+    {
+      "label": "eip_parent_id",
+      "observed_rows": 261,
+      "passed": true
+    },
+    {
+      "label": "eip_parent_nativeId",
+      "observed_rows": 0,
+      "passed": true
+    },
+    {
+      "label": "empty_parent_in_is_empty",
+      "observed_rows": 0,
+      "passed": true
+    }
+  ],
+  "native_http_not_run": true,
+  "verified_source_files": [
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VM_NOVA-1.json",
+      "bytes": 2982670,
+      "git_blob": "5a27779642fa73e7c14e029741c091197f5c0490",
+      "sha256": "57fd8042907e7faa8d2916292198df31ad840fb15b6494c38dc425f83f14e0a3"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VM_NOVA-2.json",
+      "bytes": 2975545,
+      "git_blob": "70e48a34352447368d9e475599e9e8af7a14a0b9",
+      "sha256": "f61ba2046a7e6f78cdd93d4010431390898d32ceca1a74efddbb375f8cae04b9"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VM_NOVA-3.json",
+      "bytes": 2508341,
+      "git_blob": "7936e1ac3eb602ff0bd748e1c6e34c11a0f165fa",
+      "sha256": "30757ea97ecca0e9bf2f1bb4b0cf6926bdc0f783154e57abe5f27228c73ced86"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/HOST-1.json",
+      "bytes": 212059,
+      "git_blob": "265c969076230dc78c129d0f7d999ba32cfbeafb",
+      "sha256": "87022e0b109325bd59f4ae1899e0b7f7d8c26eba588ebd7814ba5ea6efdb53f7"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/CLUSTER-1.json",
+      "bytes": 20571,
+      "git_blob": "3d53774bc30b11b532dff5176ff479c81c67a997",
+      "sha256": "431679f33a2c7fb69459c3e812f628e86cebadc45d1fa92888ed2f5c856ac4e6"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/S_Device-1.json",
+      "bytes": 42750,
+      "git_blob": "aaefbcf8700981cc04a17f61b02e8748c2b238a4",
+      "sha256": "87b20a4bf0fd708df53490c469f3c2b86609a90a53d6a0b6a4dec503de5906f0"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/ROUTER-1.json",
+      "bytes": 1303362,
+      "git_blob": "2dcd66eee73d642b3a8530f5e528ebba3a02c47f",
+      "sha256": "76b61c7618c2f2bfacb38cc7968fb8549a7b7c5339a036a05527eeb6b14060db"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/ROUTER-2.json",
+      "bytes": 711948,
+      "git_blob": "c09d1a4220d185fa972f49e99d147010a251bbdc",
+      "sha256": "eeca32ae8dcf487fc90d2346e1f8de37a51bde12262d2e15c604b6e1ed9f6a69"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-1.json",
+      "bytes": 1846146,
+      "git_blob": "b011d201b8dc36156aa5c041b8cdbdb4ddc8b59b",
+      "sha256": "fbba40afc0275600489431022b8fee794f18304bda11a80b2634c8a54997c624"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-2.json",
+      "bytes": 1843880,
+      "git_blob": "9665325b8c507f4c7d678fbd425a982c4f8ddfe2",
+      "sha256": "cb1fe6e988bec6dfc8134438e58d9aea4c5ad44fb46e178b2d9e2d0329c35818"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-3.json",
+      "bytes": 1844807,
+      "git_blob": "dbfccf181400d47e77e2fd20387cc83a14bc97af",
+      "sha256": "ec6b77f98568e14c0e95ab8090930eb0fa72376266fac468969fbbb924246e3d"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-4.json",
+      "bytes": 1823009,
+      "git_blob": "e57631c706466b7747879dfc56629a4fe62a39e6",
+      "sha256": "cf87d11f6d0cbe5bfc33b0dd605e86df610bc2cbb72a19ebc68fb31c98497f8a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-5.json",
+      "bytes": 1818322,
+      "git_blob": "29be5de0eb8e6393b3af70f427b47ae54e2087d3",
+      "sha256": "857058e19561ba0c0874c024d0a0499e9356747b715abdb5d0e97286786898a6"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-6.json",
+      "bytes": 1851796,
+      "git_blob": "9064d2e5b0cdd77633409e447f90df6a128a17cb",
+      "sha256": "d90bba0584cf6f8094c3a62eb887337c50d0d7e6d6fa89c880ba622eda99cc9d"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-7.json",
+      "bytes": 1832044,
+      "git_blob": "9ee3e7ec821fdbf4cfa739da77646530d1a29e48",
+      "sha256": "234703d14dc73f293c07bba495a2e5405dfc4de934370fee13e0d04dbbed1317"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLOATING_IPS-8.json",
+      "bytes": 1358862,
+      "git_blob": "43143f5e48885edfab071b86e5f7cb4a3fc8f22e",
+      "sha256": "11169f49603b098aa1ecde3b084f5cc65a975b37e28f21976da16ca5dd44d11e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/SUBNET-1.json",
+      "bytes": 1758524,
+      "git_blob": "7d0a824368b49619a7aabb97c2f1ac88910b4a9b",
+      "sha256": "cd807f672eb4070c67a7de2fae0107da8c4e343641635a6ffdb5de94973aef6c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/SUBNET-2.json",
+      "bytes": 1747690,
+      "git_blob": "a0928e10c60f3fc29be4cebd54e35438a0f3fa84",
+      "sha256": "ea0a6661837793bb6fae243acb5fd7ff703f6d8674465b2172951687284944c8"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/SUBNET-3.json",
+      "bytes": 482006,
+      "git_blob": "a719c8522b58c9bc72aa701d204677ab75e120f2",
+      "sha256": "5267f75430e455b7c51977a7c255019eda1275fe47d23cd584381799df7db79a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/NETWORK-1.json",
+      "bytes": 1730498,
+      "git_blob": "4b11c9e7f0cbc9347a23c3e9fa1c51e8da807bfc",
+      "sha256": "dd08dc29ec72f4e3e4372a8357e416d2c7625c11ea236cd8dc0ecd0e24e7794c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/NETWORK-2.json",
+      "bytes": 1724939,
+      "git_blob": "5ddbaf51ffb54717eb7ed04b118a16e217fcb38c",
+      "sha256": "f5a35b6614bf7b1645dd7f33fc01fd797b101765d0e195e0240039e1be157010"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/NETWORK-3.json",
+      "bytes": 1745767,
+      "git_blob": "259773456eec6467c6b1d8122b6034b2b169306c",
+      "sha256": "cc38db768152e947076b5f2267cf0933c19a2c9175beca53be32b794234d0937"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/NETWORK-4.json",
+      "bytes": 1428696,
+      "git_blob": "16466d379f412bbf973eb0387343751900092d36",
+      "sha256": "4c9cb57b2f6c6d5dd6e41c912be46b798ca6a8c38fbddc2f7145c6977d8cf6ad"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLAVOR-1.json",
+      "bytes": 1782289,
+      "git_blob": "a1d0d9286ec1fee01207e1b34ba10d55eb7b97db",
+      "sha256": "36d01715805447655d0ccf16185417321f1df87b04e40a91b8381fa22695c051"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/FLAVOR-2.json",
+      "bytes": 878523,
+      "git_blob": "674ba1ef83037fb434a907fbb12043631099fc80",
+      "sha256": "e41aa7b4eff382d694780e8128a8432219bbb5c9013aa336fc0b306691e55751"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-1.json",
+      "bytes": 2201370,
+      "git_blob": "6763ca3d6cf7788ae4c664af1567c6958589ccba",
+      "sha256": "5c72bad9030358acc0b19e7c6b681b791f64bba9ffefa8b4ddee91958d6a5d95"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-2.json",
+      "bytes": 2193910,
+      "git_blob": "a7b77289d182464858baf5deca6dd544f1bf16b9",
+      "sha256": "bdd50881e0b918a77006acf2c315f95a1c8750426e50d56cb8c85e8955ea5647"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-3.json",
+      "bytes": 2189722,
+      "git_blob": "5ccb61e027d9e7e4a667ee089ab9034f3dbf9b15",
+      "sha256": "554bcf208d25cecf3e07e0e2f27bd5b0edca3ad32384d6454784f2f88877363c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-4.json",
+      "bytes": 2175927,
+      "git_blob": "2607168d6a0b76550fed1449d837a45807b041fe",
+      "sha256": "79941140e35c86ea8fb7051d33d442ac6591f50fa7d19bb6e568522ac9a693fa"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-5.json",
+      "bytes": 2118338,
+      "git_blob": "6c2bfbd28a0a51943cbfc7961c3f58d3842f26bb",
+      "sha256": "982a53229b5745ba017374625b84515e750e74428597dc214cfa74051c09c891"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-6.json",
+      "bytes": 2118066,
+      "git_blob": "f3d1629e4b16180e9917269ff75a3896471c0e56",
+      "sha256": "84f0ddeadbdf67d696611286c9c69fc7a979ba3590837ebbc818000806d2c4e6"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/VOLUME-7.json",
+      "bytes": 402244,
+      "git_blob": "ad094272aef76d8d5995889286048da06ccd019f",
+      "sha256": "39f5c12fc640fef0054a2978968c103f067677ba94ca5171bf195177ab2ecb7f"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_VOLUME_MOUNTON_VM-1.json",
+      "bytes": 519748,
+      "git_blob": "e2bee29b7b145be9172c1722fc0f1dd75f4fc055",
+      "sha256": "d0ce53e7762be8c12b7d1aae5965303b09760fc62cb14869f4e268a44eb1e173"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_VOLUME_MOUNTON_VM-2.json",
+      "bytes": 519267,
+      "git_blob": "7a0689828c375ecff691ed29325ede380c4c0c10",
+      "sha256": "b80c486977901b3f53ead5de8c292821effd5e86380f3b1b1fdbd6c598c8cc1a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_VOLUME_MOUNTON_VM-3.json",
+      "bytes": 519177,
+      "git_blob": "bb825b6351d1accefcc0f8e7ed073a6a724030a4",
+      "sha256": "bb3c3e3fecd1bdf6c0104b21cd6f09c433e1ff9619e9cd05417368f787ed9f8c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_VOLUME_MOUNTON_VM-4.json",
+      "bytes": 519548,
+      "git_blob": "513298ea3399b05dda485f7bec4c7bb19ab5e6db",
+      "sha256": "6badb6d5ce8c127ff1450c398234c5672f5d96b03bf0ced1ba4ca98f14363350"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_VOLUME_MOUNTON_VM-5.json",
+      "bytes": 283450,
+      "git_blob": "93d4c9e17e65a2d4f6b16062c4c299db38f763de",
+      "sha256": "e95b525a2c7663266ae74eaf34cc87261c295fce5736a0fef547cc879c4a1415"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/GAUSSDB_NODE-1.json",
+      "bytes": 57495,
+      "git_blob": "20821d842f43eb0b5fd4cce081989a1f8c149c49",
+      "sha256": "860d541b3606a7cdb45021be6d906edfe06440e877ea057b9c721b210b36771f"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-1.json",
+      "bytes": 2034076,
+      "git_blob": "0a6d94a7e932d5629668f03ade72c0f2f6571762",
+      "sha256": "a2d526bcfeab821275a64da2d2d4f544b63cad91acf8df2a0851758f84e4f8ce"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-10.json",
+      "bytes": 2051040,
+      "git_blob": "9dda4c93ff4c830e98bf145cd81c59ec5f8d125f",
+      "sha256": "501a0c5a062c067091ab83ed2291a7ccdcda40929ccb5dda5140539067b6cec2"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-11.json",
+      "bytes": 2052591,
+      "git_blob": "4237f2be684bf932850a8e9e56c65882ea01debe",
+      "sha256": "da73c4891fdc1ca97ee110793d08788f4b1cd7cb50a505fe3564ea0af4989575"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-12.json",
+      "bytes": 2049859,
+      "git_blob": "a75de7d5695f61d62a5e8d02ee1ede1e88c4196c",
+      "sha256": "cb53e00382fa31efd4b0b4b1af08dec9548403ac6757682af67f37f6a951aab1"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-13.json",
+      "bytes": 2056260,
+      "git_blob": "843305bcf776a8914f60442cc134a2785ec5f22a",
+      "sha256": "e36cb6366807f7b02c1aff55dd52f798bb94d68a88fa84b24f4568471323fbc5"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-14.json",
+      "bytes": 2060346,
+      "git_blob": "3a5fe668f45f095e1db45e23850131a63ab02e44",
+      "sha256": "918a020e53c8b0cfc04d0c08fb6a6cdc705f399fb3131f707c35c4bba4e6a749"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-15.json",
+      "bytes": 2048485,
+      "git_blob": "9572bb62168b4fb13c5d7e1d303c26c56dcfefbd",
+      "sha256": "64b52a7e6889286e3003e45c31fb84bdf341523864bd8b3975292fa72c35f736"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-16.json",
+      "bytes": 2041146,
+      "git_blob": "ab1bb76eaa0ca39ffa29c0ee261e7eb5a0458d43",
+      "sha256": "8e2e1d5d79e69e43d6be4c2f9e331cf5a4f41aa460eb033385d4f1289ff79c20"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-17.json",
+      "bytes": 2038787,
+      "git_blob": "8d48dea07b150bb23182ee62f21ccba02044eec5",
+      "sha256": "a05b8be5d428d10b87650bbbbd8c2cc9e58e410bd4c48837f313cbcf1006740e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-18.json",
+      "bytes": 2031524,
+      "git_blob": "69ba295e5c3adbcfce078a533dfe7cfcb967b392",
+      "sha256": "bd4d3e87fdf75324558b82a732183d7a688fe13958c2c7a806db9658b1243fef"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-19.json",
+      "bytes": 2035441,
+      "git_blob": "d84b0f70abeaea885a66c4ad2875e7d56a20c9c9",
+      "sha256": "a497bf159ca2e022c516c05a41c04b2bf5f7f38254d0e7757535b9ff9c5668b8"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-2.json",
+      "bytes": 2039395,
+      "git_blob": "00d219254811d6626e0cee24e551470c7f12482c",
+      "sha256": "f40fce2ae6f8684f13ce8ed9a02f028464096be5a3bd191b7a3b355f18f0815e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-20.json",
+      "bytes": 2033361,
+      "git_blob": "0d6d6b61fde41bcaf1210fcfd636fd28796c28e5",
+      "sha256": "79efc6c4ed4d433962c57d67364d392429f5f1a3d3b5988b88d3ab3b99294277"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-21.json",
+      "bytes": 2040518,
+      "git_blob": "24bbf5b9f78ede323a7929cad52f43d32f1bc048",
+      "sha256": "05c3a68cff9a8f2a71294249ed2d56c70677050443e2e254ed9a9e5dfdcd8b76"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-22.json",
+      "bytes": 2030135,
+      "git_blob": "0daf4df4e129384e6459662b2a129fe8e95e6271",
+      "sha256": "210b5d6108c08a265b0ccf7b3a3104165e5495ba7c96d4e3753e0b823df3e9ba"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-23.json",
+      "bytes": 2031738,
+      "git_blob": "60eda54947756849b0bad859f605e966d7393d16",
+      "sha256": "11f410abf69468fb1359a35873f59b6281e7878bf11529e2bd7854f256a7e08a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-24.json",
+      "bytes": 2037421,
+      "git_blob": "0c24d905362864d2f90c7dd1e37190484060cbc0",
+      "sha256": "fc34400838e69db5a924c3342cd2ca37208133870a0974d46c21b00cc6fe9866"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-25.json",
+      "bytes": 2042500,
+      "git_blob": "79675aec3ec2b5efc516ab557ec7f03f57d813fa",
+      "sha256": "07741cc8efc5c93dc8507b8460e7570e7b314c480bdcfa0ececd06f3a82f062d"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-26.json",
+      "bytes": 2039744,
+      "git_blob": "db0bf07ef8fa167360eeba0510f4741f7e908e69",
+      "sha256": "e248f2aa7abb0533444b721e278aead438f46362c21ccda18ac73dee3e6cda69"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-27.json",
+      "bytes": 2028809,
+      "git_blob": "f4caba550e903ac1d589bb37654c720fda2d6416",
+      "sha256": "26e106ecc7cff87f73c734e111f9cc66278d2571088f8177dd217c793649ea07"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-28.json",
+      "bytes": 2035722,
+      "git_blob": "833a3cdd194d5a02e295ce5abbcb07a1de8bab5f",
+      "sha256": "35ed7d1d07ad42a907e02d7da048cde97a9cb7ae991ba77d9208d9e9c7b14c75"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-29.json",
+      "bytes": 2045836,
+      "git_blob": "ffb2ef39338853d52aeb9809ac8b6f720c4027d1",
+      "sha256": "be5111ed59d5f7b237e66cf3ada9a7e26b87a3308362df79515702fb1b25a649"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-3.json",
+      "bytes": 2053042,
+      "git_blob": "9d6e7e3f14a407c66efe752deee321cf8fa2a3b6",
+      "sha256": "d32aa5e022870f8deae3fd8060a84128f8ed20e05f2f3b17f2a86105dd1c56ad"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-30.json",
+      "bytes": 2050271,
+      "git_blob": "a79c851d8e75dc648521009265c94998481ede80",
+      "sha256": "16ca9efc695dbd6082ea1854cd3cb37a719f0da8a007be14dcd3242d658569e7"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-31.json",
+      "bytes": 2046475,
+      "git_blob": "a7704b52d99eae11a18fc7a85e6ab2b20e28c620",
+      "sha256": "19d43bab7470a20518272df71fe6db67eed115737ddffbba1406ee2e0c2ee834"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-32.json",
+      "bytes": 2040514,
+      "git_blob": "d95a1e5e2b6ce713cc751eaeb523a7f375e7e560",
+      "sha256": "92eb79b5c7354d6b994a0c76eb6407d03c8be6800f8d194fae8ade20514f4386"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-33.json",
+      "bytes": 2043416,
+      "git_blob": "7b8f4d2dd0b34dc1fd2ca0efaa5c0839777fd190",
+      "sha256": "aba475958a83737f2cf9436057459c0a66afb44dec452c3491f7d251dc587fb5"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-34.json",
+      "bytes": 2043204,
+      "git_blob": "efa3c95ee7166c57a6e81c11b4753800675851a2",
+      "sha256": "8b548b0e1b76b2776f184d1e96491cfb3531737db0396e1778462914b5e7fe8e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-35.json",
+      "bytes": 2042472,
+      "git_blob": "a6d4f68f1d27c6517960d169d46020999dd062fa",
+      "sha256": "23baee20a43f08a5d9fb5b12756f8e17f58bc4e264a2653186dd83abffbcaae4"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-36.json",
+      "bytes": 2042806,
+      "git_blob": "46e3e513488c74e361f2506f17849d20a639d511",
+      "sha256": "29fe538cf1fcf2251596934ae24377cdaf81df3eac5af56cce08585d2e3083c5"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-37.json",
+      "bytes": 2037566,
+      "git_blob": "1124b51d9ce1e0e842c2fec2a08242b19201bd8c",
+      "sha256": "90f7fb7c26cfc3d4e19de69ce1dad5b04dbdc7dac9114fe916aa54852bf1683e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-38.json",
+      "bytes": 2041437,
+      "git_blob": "eebbc95d36b16e173e9c9d979ca4d859c7a90562",
+      "sha256": "384186c7e8736e399cc121dbf9732632525665ab71669d7827a69b1a88f6ced8"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-39.json",
+      "bytes": 654038,
+      "git_blob": "3bae4aff0c09da195aa88c8625c33e660c46f055",
+      "sha256": "ac6773cb2b4d5a9469de50daf2dbb998edaaf3711018bff70cdb377295d2dd0c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-4.json",
+      "bytes": 2051948,
+      "git_blob": "14b337fff633ccdd18fcbfcecae5976db892cc50",
+      "sha256": "3df2df4bd977d62bc794a407c2168ae2e3fdfd16b315cc816cb1532246b918f7"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-5.json",
+      "bytes": 2046028,
+      "git_blob": "554f90da944987103fe2a4f11817bdbae4509ca0",
+      "sha256": "50cab9f2c85df7bc00e40b3aeb0d30136da57715e3720ef16c8067606381b184"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-6.json",
+      "bytes": 2043864,
+      "git_blob": "cec9abde1b43e482de36ae3735bc6508badd6913",
+      "sha256": "9e4c03745f9a68ab78104e29e14cdea1b30fbccb30a53f3b655108e055449bac"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-7.json",
+      "bytes": 2042143,
+      "git_blob": "059932991bbf1fbf6d205156b96ad4799444cfb2",
+      "sha256": "de607edb1f30d4ac1aa1a9ac3531bd6a7f1a4e43b3c958b8d7bbfe2a6f1a51fc"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-8.json",
+      "bytes": 2061896,
+      "git_blob": "5bd00c0b72f022528a1796b18fa254a40d39c657",
+      "sha256": "4b79a237a8be5dbb80fdfd79ab1a7d63b3f01465c916dff7b952482867d845fc"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/PORT-9.json",
+      "bytes": 2063875,
+      "git_blob": "15623a3630aeaf7dc30e26cb8e789bf3c3e2db3a",
+      "sha256": "84a5dfcdf5ea2fff79a93ebe099b0645871d553caf73d8bd962f69b4d710cdca"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-1.json",
+      "bytes": 474508,
+      "git_blob": "801fc9529b164f6c6d18bf3790792613eb21573f",
+      "sha256": "26646f5d68e43a36d404192e722729b2addd8128ab530bfed0a2050005111a0e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-10.json",
+      "bytes": 476307,
+      "git_blob": "4a20593980386844595720cea069c464586f2f78",
+      "sha256": "4cd24a9d2a6dee9e346dbb24083911111695273d995aa1fa1f23131416f117a8"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-11.json",
+      "bytes": 477662,
+      "git_blob": "1a7750c7815074e49c09377b6b1e944749e21df1",
+      "sha256": "5c93cd109d5520c357e7cbd72ad43531e7dcf3126c231005663b74017deabfe4"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-12.json",
+      "bytes": 474103,
+      "git_blob": "b82dbb741ac2db252add17ce8557c41585fed034",
+      "sha256": "b36d92aa805039ab1a0d7a5df230c2d5e0291401f4dcee36b2ab27e150837b91"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-13.json",
+      "bytes": 473860,
+      "git_blob": "763d77e263962a82357ba13db00d73c682101f5b",
+      "sha256": "04aab14e1d7aeddb8d2f876491b940e7f3e1d839ea5d8762588abfc91a471d75"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-14.json",
+      "bytes": 475892,
+      "git_blob": "0452821c8a55c5402533b284b2208c790d9623a5",
+      "sha256": "d5fd162520085ab57613a645d84156f513677ba56ff319bdb19313a2cd1b5146"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-15.json",
+      "bytes": 477277,
+      "git_blob": "fe1ee3ed760570bb73bdff9614211df85e45c06b",
+      "sha256": "867a4019525b5cb06b6139756ba990cd61ba7aafcc2da538f0fb90dd8c198803"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-16.json",
+      "bytes": 476013,
+      "git_blob": "84a563cb1184da277b19c79b938b0c06f7ace1c3",
+      "sha256": "0a89b8562fc52e03eb4319e2540f2dcb060cd933abb0157c42c943ec2cb0a56b"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-17.json",
+      "bytes": 475113,
+      "git_blob": "3615d7a4da6d0dce5ac523c59f06025474d6445f",
+      "sha256": "bd316b5f3123e379de4e2f8a7e756bfe80fea1ed17ac97cc3fae5f60870d06bd"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-18.json",
+      "bytes": 474993,
+      "git_blob": "9e39cd87acb3eecfdae3ae6c1e1db934a1a9e166",
+      "sha256": "afe79df4a5d14614bc0f3b7017780d8aed0929432a548272c7183720c679d6e7"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-19.json",
+      "bytes": 477331,
+      "git_blob": "6ec323919d8531acbafe85cde505a6012f01b6c3",
+      "sha256": "49247d5a374852cef0f603904a93da7e5f2cc5f0461ec4b97a24a82e3d1c182a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-2.json",
+      "bytes": 474242,
+      "git_blob": "53a132b5ea00229f607aefb18d13e71b55d905b0",
+      "sha256": "627c8566604ab4d3c5c817b5131d7992b2401ad889fba54ebb3e1d42e33d5a9b"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-20.json",
+      "bytes": 472621,
+      "git_blob": "e0ddbd88b5437da9f8216e3327bf9515f536f2a5",
+      "sha256": "16b9fd0fe647a194934592144dec02971f981831426d893f6b18a30b9d679042"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-21.json",
+      "bytes": 472447,
+      "git_blob": "af563cff862603d34a35e3b5493b0408355aa1e3",
+      "sha256": "1cedc0e46e6ee05e6ca52ae4ca037e9cded97e24e8427edfd87b46bb8ed7b9cd"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-22.json",
+      "bytes": 471812,
+      "git_blob": "1090be04446ed12af364f93ef097e5bda86b1339",
+      "sha256": "9b9b5f0e6b306af7043f50ea6f7141751a5b2fba9ea061d6e62c8f1e1369ccb5"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-23.json",
+      "bytes": 470951,
+      "git_blob": "eeb9e1fe58b561367ff3d88df3b69fbe066a8264",
+      "sha256": "3afa477dac5990bb84b8ff302dcf3659c31e4da9fc6acedccfb393a6d95f3f75"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-24.json",
+      "bytes": 471124,
+      "git_blob": "35ffc17d7c733c082eb7462f9cc79c5b1ecd1656",
+      "sha256": "b78135c5a0c689091b92b0423aea025e7cd626d48a0fd66c91a144b43d25c068"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-25.json",
+      "bytes": 472336,
+      "git_blob": "9357081359d05869de5e2b294b7b51e2efbd91a2",
+      "sha256": "c0af0b731b75b479817b48fa86f0a8461469600abcf001933d43b0c80900ad6c"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-26.json",
+      "bytes": 472565,
+      "git_blob": "96d877cbb53b568f25d907b9d7f8be645b69cd84",
+      "sha256": "a38ee169f845d07584db90dbbc9d633fba996b9440b87430c11cf12173d0b33e"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-27.json",
+      "bytes": 472952,
+      "git_blob": "c1851530d45c3d867c765918a6ae8017206f1db7",
+      "sha256": "e72d09d85960574a47be120e258a381cdf71bb2c4ebf61976aaedd468b4f61bd"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-28.json",
+      "bytes": 472815,
+      "git_blob": "c9edbb5fddfdf4d93e6646f11c88d1178dcf48da",
+      "sha256": "93c3e312d58278e83d4ae8d9804e980cfd7453c68821c7f150c957ee3951d4c3"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-29.json",
+      "bytes": 473006,
+      "git_blob": "644f25ce7694597071baf8c3c4087b6e2e08729d",
+      "sha256": "1eccf6c0d68083b1fd0f1e9d65fa4f78e5e177486de4eb7de39fb34d8801d545"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-3.json",
+      "bytes": 473024,
+      "git_blob": "900f30160176d1bafb6380477a6f4b4546ddef8e",
+      "sha256": "cfe93e41ecae96d33c7ac69adce42bd6b93a40c0974a3077d224b6badb0d3042"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-30.json",
+      "bytes": 472506,
+      "git_blob": "e1052d57ee561f637b69dc65989587f554760f1f",
+      "sha256": "03cc0d39451817652b7260dc1b396d7a26f7f092c62641ff3034f123a6531111"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-31.json",
+      "bytes": 472918,
+      "git_blob": "768d2e8c0dc5f7d20f1f49a06cba5979bfdd4ff0",
+      "sha256": "a81653d4b1b6120c5f82cd3d439879fedfc672a1686dd971df37d4dff01d7220"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-32.json",
+      "bytes": 473044,
+      "git_blob": "ee756b351ba194bfd9bf4f2c2dc5183e0d992507",
+      "sha256": "2fb0e3b4319831bdc62900046f23005ca78ff026693ef50ad82696e286fdf2bc"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-33.json",
+      "bytes": 472261,
+      "git_blob": "ee102fbc8e34cdaaa071adcdd20a8f4b7b6bb210",
+      "sha256": "b51d0ce66472432677d05e9bb87d06f31b4ca3478a85ea1c3796ba1e9a650155"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-34.json",
+      "bytes": 471857,
+      "git_blob": "745139512094192bf5abdeb56e91178518b780d5",
+      "sha256": "7f1668474051fbaeac09b9e5ad7993e5e4d68db9bc784c9224bccaed49f7cc21"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-35.json",
+      "bytes": 473615,
+      "git_blob": "a7b020b08c494694b3a21ee8c034f60545da748c",
+      "sha256": "82042a77dde55e83c447a2a05f3b61cf0ed5a59064ffe4659cdbbb9b96f8cbef"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-36.json",
+      "bytes": 472083,
+      "git_blob": "eb72208ce7ca29bbce7ab1bbd41bd700da24164f",
+      "sha256": "1b1c91b711a8bffdbcab870934ec6bafe7eab7f7b5512cb12607057a2bce77b2"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-37.json",
+      "bytes": 473209,
+      "git_blob": "4de9b7acc58a56b7d73c7b17ec49e7764312d48b",
+      "sha256": "5d6b72876e20737e0c98ccc71d5a792a0304d0a9d3065505c371438ab8c4aa29"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-38.json",
+      "bytes": 472661,
+      "git_blob": "70d9d5d5b1cd6eb3e78bd963f83e6f004505bfab",
+      "sha256": "ed74af9e07145d5290bda0ecd7a8c6c7279f28b9bbe4e9cb99bb16201bad8c5b"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-39.json",
+      "bytes": 472086,
+      "git_blob": "7275dc1cde8f37676c97a4c4a57071ac81d4877c",
+      "sha256": "e92ddd292a07cedde41bd7f1bceb109ba1cd5aacf5f8eeebfeaecbf4e8a844fa"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-4.json",
+      "bytes": 474944,
+      "git_blob": "3038367c2843bf088b6042ce879e85b3e3135d3f",
+      "sha256": "d9ef69d2884470054489ed595b5331f264f98100e410654b9e6eac5620e3a0ed"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-40.json",
+      "bytes": 471244,
+      "git_blob": "ab3f4cbf86bfc4b7772d6f4dab3b629444c8c2e3",
+      "sha256": "404146da49651947a2f10bdda804d5cf6a9a5a66ec12ba11159370d297a29618"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-41.json",
+      "bytes": 473206,
+      "git_blob": "d93d7a72644ec5ca0ba4ed368c42c160edecd243",
+      "sha256": "7b473d8bf6e1c0f6ab505360ae07ffa5cebd81bfbcb5e57863c6482016b38dbb"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-42.json",
+      "bytes": 473560,
+      "git_blob": "94d55c2baeb208485d06f57e92dd14099a161d35",
+      "sha256": "26ed28ed66eef068124d03d02cb7203b1de69b2929824b2bc0927b6ca804d9dc"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-43.json",
+      "bytes": 471715,
+      "git_blob": "2a27134ae5d357ba4d91e2a567d6b2a01dae1aa9",
+      "sha256": "9cd7bbe18264397f529a68964b96cf4aef4e28949427ae1b8f9791ed820bc290"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-44.json",
+      "bytes": 361193,
+      "git_blob": "6842db7ea712ed016f90b692a5f5adb8ccab4205",
+      "sha256": "d882d420f9e1cd10d0ba409c6a615d8ad08bb31f1ec9750963932552577ff4e4"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-5.json",
+      "bytes": 474165,
+      "git_blob": "bc1cdb96fe31614a7eb6c5fb98791facc64ecc36",
+      "sha256": "d88aaac55f2b73ea44bcb7e626ec4f792ce62050b1e97b962a0e18b7006b09e4"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-6.json",
+      "bytes": 476574,
+      "git_blob": "b0686024380e336b8f7de34045d3273183c9a4aa",
+      "sha256": "aa49388f7eb5527d987a6fb19db21589e287cdc7c178e6beb44190efaacfb52a"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-7.json",
+      "bytes": 475609,
+      "git_blob": "967c4bd435ad4595489b5993e88cb78a584bae6a",
+      "sha256": "4621422e6aa4b4765736d2def95d0706abe108773d874dbc3a2e7ed516502451"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-8.json",
+      "bytes": 477887,
+      "git_blob": "59b3a42764ade49439ea46a232b1ad223a351e43",
+      "sha256": "e87582aad869e71b75fc172e36034f0eb99cd34806467149fc383522da085245"
+    },
+    {
+      "path": "output-server/CI+md数据-脱敏-最终-0924/R_PORT_IN_SUBNET-9.json",
+      "bytes": 475645,
+      "git_blob": "607c94aa797fb3aa2df7160e7644ddd233eeeeb4",
+      "sha256": "b96cc1820e5a1e1ed60deb74701efa94c3bda7506411bb3311b8088ceef9fe72"
+    },
+    {
+      "path": "背景知识.md",
+      "bytes": 24688,
+      "git_blob": "56ec87f5f84c2d6aee634e4e7eee001d485d3fb9",
+      "sha256": "df1840ebbfa8893020cc70475cef84b875d6c18a738c5ea101a54bca48136da9"
+    },
+    {
+      "path": "output-server/data_server.py",
+      "bytes": 11961,
+      "git_blob": "5a6f5d61475c95e4565ff709abc78139996db1d1",
+      "sha256": "8cdb84922267446e7632d763e236eca9120fd5f1d84fd255b0d5ec590b002fa7"
+    }
+  ],
+  "publication_scope": "Field contracts, necessary aggregate evidence, eleven existing offline controls and relative-path source manifest only. Per-VPC and per-VDC object details omitted. Entity literals are placeholders. Original source artifacts remain unchanged.",
+  "source_artifact_sha256": {
+    "README.md": "ae6d2b4559dee2408980573987fe5b0055b9e2c50540e5c0b4e520f8bef618d3",
+    "CONTRACTS.json": "0d02c695f4703ba57f20d725a8cd2cc75598d6987d37d9eb6ea7eb278c9dfc58",
+    "EVIDENCE.json": "73426139b48f03053d705b3cc848383f22da5d6c53cabcb625cb67a372372d9d"
+  },
+  "publication_verification": {
+    "source_manifest_entries": 123,
+    "frozen_git_blob_and_size_matches": 123,
+    "verification_reads_resource_record_contents": false,
+    "original_offline_controls_recorded_passed": 11,
+    "offline_controls_rerun_for_publication": false,
+    "model_requests_for_publication": 0,
+    "http_service_requests_for_publication": 0,
+    "sealed_inputs_accessed_for_publication": false,
+    "full_train_json_refetched_for_publication": false,
+    "reference_disputes_adjudicated": false,
+    "production_modified": false
+  }
+}

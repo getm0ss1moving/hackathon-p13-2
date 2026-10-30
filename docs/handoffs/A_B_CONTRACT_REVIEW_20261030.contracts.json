@@ -1,0 +1,588 @@
+{
+  "artifact_type": "DATA_CONTRACT_REVIEW_NOT_RUNTIME_TEMPLATES",
+  "source_commit": "099b5bfc5545d98f81e46a4a7b6244623c29ef8c",
+  "case_identifiers_are_evidence_labels_only": true,
+  "runtime_routing_by_case_id_forbidden": true,
+  "trained_case_ids_verified_against_plan": [
+    "CMDB-028",
+    "CMDB-259",
+    "CMDB-102",
+    "CMDB-053",
+    "CMDB-112",
+    "CMDB-287",
+    "CMDB-261",
+    "CMDB-300"
+  ],
+  "sealed_accessed": false,
+  "model_requests": 0,
+  "http_service_requests": 0,
+  "production_modified": false,
+  "reference_limit": "Only target training-case V18 records, handoff claims, frozen template definitions and verified official resource data were inspected; full train.json/reference answers were not reread.",
+  "contracts": [
+    {
+      "training_case_reference": "CMDB-028",
+      "topic": "VM异常状态",
+      "decision": "BLOCKED_ENUM_POLICY",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VM_NOVA",
+          "field": "status",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "explicit_literal_or_authoritative_resource_specific_enum",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "join": "VM_NOVA.hostId = HOST.id",
+          "scope": "many VM to one HOST; missing lookup preserves VM"
+        }
+      ],
+      "output": {
+        "grain": "one row per VM, ordered/sectioned by AZ; no lossy GROUP BY azoneName",
+        "identity": "VM_NOVA.id; name is display only",
+        "columns": [
+          "azoneName",
+          "vm_name",
+          "privateIps",
+          "tenantName",
+          "host_name"
+        ]
+      },
+      "null_policy": [
+        "Keep qualifying VM when HOST/CLUSTER/tenant/IP is unavailable; report NULL explicitly.",
+        "Explicitly requested error with zero records is a valid empty scope, not evidence for replacing error with stopped."
+      ],
+      "positive_control": {
+        "condition": "logicalRegionName=【QUESTION_REGION】 AND status=stopped",
+        "observed_rows": 58,
+        "resolved_hosts": 58
+      },
+      "negative_control": {
+        "condition": "same region AND status=error",
+        "observed_rows": 0
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/status_contract; original query-layer checks; dictionary VM status line 101",
+      "unknown": [
+        "The Chinese generic label 异常 does not specify an authoritative VM state set. error means 故障; stopped means 已停止.",
+        "Current frozen template defaults to stopped, while v18 emitted error. Neither a template default nor a score establishes the disputed business definition."
+      ],
+      "B_action": "Support explicit literal/status-dictionary terms; keep generic 异常 unresolved until a policy is approved. Do not route by training case ID."
+    },
+    {
+      "training_case_reference": "CMDB-259",
+      "topic": "VM异常状态",
+      "decision": "BLOCKED_ENUM_POLICY",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VM_NOVA",
+          "field": "status",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "explicit_literal_or_authoritative_resource_specific_enum",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "join": "VM_NOVA.hostId = HOST.id",
+          "scope": "many VM to one HOST; missing lookup preserves VM"
+        },
+        {
+          "join": "VM_NOVA.clusterId = CLUSTER.id",
+          "scope": "many VM to one CLUSTER; missing lookup preserves VM"
+        }
+      ],
+      "output": {
+        "grain": "one row per VM, ordered/sectioned by AZ; no lossy GROUP BY azoneName",
+        "identity": "VM_NOVA.id; name is display only",
+        "columns": [
+          "azoneName",
+          "vm_name",
+          "privateIps",
+          "tenantName",
+          "cluster_name",
+          "host_name"
+        ]
+      },
+      "null_policy": [
+        "Keep qualifying VM when HOST/CLUSTER/tenant/IP is unavailable; report NULL explicitly.",
+        "Explicitly requested error with zero records is a valid empty scope, not evidence for replacing error with stopped."
+      ],
+      "positive_control": {
+        "condition": "logicalRegionName=【QUESTION_REGION】 AND status=stopped",
+        "observed_rows": 58,
+        "resolved_hosts": 58
+      },
+      "negative_control": {
+        "condition": "same region AND status=error",
+        "observed_rows": 0
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/status_contract; original query-layer checks; dictionary VM status line 101",
+      "unknown": [
+        "The Chinese generic label 异常 does not specify an authoritative VM state set. error means 故障; stopped means 已停止.",
+        "Current frozen template defaults to stopped, while v18 emitted error. Neither a template default nor a score establishes the disputed business definition."
+      ],
+      "B_action": "Support explicit literal/status-dictionary terms; keep generic 异常 unresolved until a policy is approved. Do not route by training case ID."
+    },
+    {
+      "training_case_reference": "CMDB-102",
+      "topic": "设备报废枚举",
+      "decision": "BLOCKED_AUTHORITATIVE_ENUM",
+      "fields": [
+        {
+          "ci": "S_Device",
+          "field": "assetStatus",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "authoritative_asset_enum; currently unavailable",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [],
+      "output": {
+        "grain": "one row per class_Name plus total count if requested",
+        "columns": [
+          "class_Name",
+          "count"
+        ],
+        "scope": "S_Device snapshot; subclass completeness is not independently established"
+      },
+      "null_policy": [
+        "Missing or unmapped asset status is unknown, not running/scrapped/zero."
+      ],
+      "positive_control": {
+        "literal": "running",
+        "rows": 45,
+        "meaning": "Observed raw value only; not a translation for 报废."
+      },
+      "negative_control": {
+        "literal": "scrapped",
+        "rows": 0,
+        "meaning": "No positive record; does not prove it is or is not a legal enum."
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/asset_contract; frozen rb_068 default=running; v18 rule value=scrapped",
+      "unknown": [
+        "Need the authoritative assetStatus label/code table and at least one real scrapped example. No numeric code is inferred."
+      ],
+      "B_action": "Keep 报废 unmapped/refuse that unresolved capability; do not substitute the template default running."
+    },
+    {
+      "training_case_reference": "CMDB-053",
+      "topic": "显式租户/区域/AZ三重范围",
+      "decision": "READY_LITERAL_SCOPE_WITH_REFERENCE_DISPUTE",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "tenantName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VM_NOVA",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VM_NOVA",
+          "field": "azoneName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [],
+      "output": {
+        "grain": "one row per scoped VM",
+        "identity": "VM_NOVA.id",
+        "columns": [
+          "name",
+          "privateIps",
+          "status"
+        ]
+      },
+      "null_policy": [
+        "AND all three explicit strings; missing extraction stops instead of deleting a constraint.",
+        "Successful zero rows retains the output column contract. Do not substitute another tenant or AZ."
+      ],
+      "positive_control": {
+        "tenantName": "【QUESTION_TENANT_053】",
+        "logicalRegionName": "【QUESTION_REGION】",
+        "azoneName": "【ALTERNATIVE_AZ_SAME_TENANT】",
+        "rows": 4
+      },
+      "negative_control": {
+        "same_tenant_and_region_requested_az": "【QUESTION_AZ_053】",
+        "rows": 0,
+        "wrong_default_tenant_same_region_az_rows": 316
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/tenant_053; original query-layer checks; v18 literal parameters and frozen rb_038 defaults differ",
+      "unknown": [
+        "C/organizer must reconcile the reference with the stated tenant and AZ. This review does not adjudicate the expected answer."
+      ],
+      "B_action": "Continue literal tenant/region/AZ binding; distinguish verified empty results from swallowed SQL/API errors."
+    },
+    {
+      "training_case_reference": "CMDB-112",
+      "topic": "tenantName与vdcName角色",
+      "decision": "READY_TENANT_ROLE_WITH_REFERENCE_DISPUTE",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "tenantName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "relation": "tenantName -> observed vdcName values",
+          "cardinality": "one requested tenant spans two VDC names in this snapshot; not identity/equivalence"
+        }
+      ],
+      "output": {
+        "grain": "one row per VM",
+        "identity": "VM_NOVA.id",
+        "columns": [
+          "name",
+          "status",
+          "nativeId"
+        ],
+        "do_not_require": "VDC condition when the question only states tenant"
+      },
+      "null_policy": [
+        "Names ending in _VDC remain tenant literals when introduced as 租户.",
+        "A future additional VDC must not be silently excluded by a frozen list derived from this sample."
+      ],
+      "positive_control": {
+        "literal_tenant_count": 385,
+        "vdc_distribution": [
+          {
+            "value": "【VDC_BUCKET_A】",
+            "count": 289
+          },
+          {
+            "value": "【VDC_BUCKET_B】",
+            "count": 96
+          }
+        ],
+        "same_literal_as_vdc_count": 0
+      },
+      "negative_control": {
+        "vdcName_equals_same_literal": "【QUESTION_TENANT_112】",
+        "rows": 0
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/tenant_112; v18 runtime returns 385 but scores -1; original query-layer checks",
+      "unknown": [
+        "Reference coverage mismatch remains a C/organizer question. The full train150 reference file was not reread."
+      ],
+      "B_action": "Bind explicit role to tenantName; treat derived VDC filtering as a separate proven optimization, never a semantic replacement."
+    },
+    {
+      "training_case_reference": "CMDB-287",
+      "topic": "逐VPC子网/EIP关系与范围",
+      "decision": "PARTIAL_FK_PROVEN_SUBNET_COVERAGE_INCOMPLETE",
+      "fields": [
+        {
+          "ci": "ROUTER",
+          "field": "vdcName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "ROUTER",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "FLOATING_IPS",
+          "field": "routerId",
+          "operator": "in",
+          "value_type": "nonempty string",
+          "parameter_source": "verified scoped ROUTER.id values",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "PORT",
+          "field": "devNativeId",
+          "operator": "in",
+          "value_type": "nonempty string",
+          "parameter_source": "verified scoped ROUTER.nativeId values",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "PORT",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "verified parent region",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "join": "FLOATING_IPS.routerId = ROUTER.id",
+          "coverage": "7508/7508 nonempty references; nativeId matches 0; 240 EIPs have no routerId"
+        },
+        {
+          "join": "ROUTER.nativeId = PORT.devNativeId AND equal logical region",
+          "coverage": "ROUTER.nativeId is globally nonunique (1548 rows/774 nativeIds); scoped 12 are unique"
+        },
+        {
+          "join": "PORT.id = R_PORT_IN_SUBNET.portId; R_PORT_IN_SUBNET.subnetId = SUBNET.id",
+          "coverage": "Scoped exact-region port path: 41 resolved subnet memberships and 24 unresolved memberships across 12 parents; not a global unique-subnet total."
+        },
+        {
+          "rejected_join": "SUBNET.networkId = ROUTER.id",
+          "reason": "0 matches; networkId matches NETWORK.id for all 2276 subnet objects"
+        }
+      ],
+      "output": {
+        "grain": "exactly one row per scoped ROUTER.id, including zero-child VPCs",
+        "columns": [
+          "vpc_id",
+          "vpc_name",
+          "resolved_subnet_count",
+          "referenced_subnet_count",
+          "unresolved_subnet_count",
+          "known_eip_count"
+        ],
+        "aggregation": "Aggregate EIPs and distinct subnet references separately before LEFT JOIN to parent list; avoid child×child multiplication."
+      },
+      "null_policy": [
+        "Empty parent result is an empty answer and no downstream request.",
+        "Blank child FK is unattributed; dangling subnet reference is unknown, not zero or an invented subnet.",
+        "Full subnet total is not certified where unresolved_subnet_count>0. Preserve all 12 VPCs."
+      ],
+      "positive_control": {
+        "scoped_vpcs": 12,
+        "known_eips": 501,
+        "largest_parent_known_eips": 261
+      },
+      "negative_control": {
+        "router_nativeId_as_eip_routerId_matches": 0,
+        "empty_parent_in_rows": 0,
+        "cross_region_native_only_resolved_memberships": 82,
+        "exact_region_resolved_memberships": 41
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/vpc_287; unchanged original query-layer FK controls; pinned B runbook_vpc_subnets.py and raw relationship data",
+      "unknown": [
+        "Need authoritative confirmation of router/port device-role and region namespace policy plus treatment of invisible subnet references.",
+        "The reference global subnet-name list reported by B does not itself establish a per-VPC count contract."
+      ],
+      "B_action": "EIP FK is usable for a guarded scoped candidate. Extend parent filtering and output contracts explicitly; do not claim full 287 completion from current partial subnet coverage."
+    },
+    {
+      "training_case_reference": "CMDB-261",
+      "topic": "最大租户与未知桶",
+      "decision": "BLOCKED_RANKING_UNKNOWNS_POLICY",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VM_NOVA",
+          "field": "tenantId",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "resolved tenant identity, if available",
+          "required_for_this_intent": false,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "join": "VM_NOVA.id = R_VOLUME_MOUNTON_VM.vmId; relation.volumeId = VOLUME.id",
+          "cardinality": "VM to volumes is zero-to-many; preserve unmounted VMs"
+        }
+      ],
+      "output": {
+        "grain": "maximal identified tenant(s), then one row per VM/volume attachment; retain VM identity and unmounted rows",
+        "columns": [
+          "tenant_identity",
+          "tenantName",
+          "ecs_count",
+          "vm_id",
+          "privateIps",
+          "volume_id"
+        ],
+        "ties": "All tied maxima unless a documented tiebreaker is requested; do not silently LIMIT 1."
+      },
+      "null_policy": [
+        "NULL name is not one identified tenant. Blank name is a separate raw bucket; do not merge them and label the result a tenant.",
+        "API equal NULL becomes an empty string in the data server; it cannot distinguish the raw missing/NULL bucket from empty-name records.",
+        "If an overall maximum cannot be certified because ownership is unknown, expose the limitation or refuse; named-only maximum must be labeled as such."
+      ],
+      "positive_control": {
+        "maximum_nonempty_name_count": 320
+      },
+      "negative_control": {
+        "region_vm_rows": 2830,
+        "null_name_bucket": 862,
+        "blank_name_bucket": 647,
+        "unknown_name_total_if_normalized": 1509,
+        "maximum_nonempty_name_count": 320,
+        "null_name_nonempty_tenant_id": 1,
+        "null_name_nonempty_private_ips": 1,
+        "null_name_mount_relations": 2,
+        "null_name_vms_with_mount": 1,
+        "null_name_resolved_volume_refs": 2
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/tenant_261; original data server _to_str/_build_where; dictionary VM-volume relation",
+      "unknown": [
+        "Organizer must define whether unidentified records participate in ranking, what identifies a tenant, and tie handling."
+      ],
+      "B_action": "Do not turn the 862-row NULL group into a recognized tenant or imply that all 862 VMs share the two observed volume relations."
+    },
+    {
+      "training_case_reference": "CMDB-300",
+      "topic": "各VDC三资源汇总与未知CPU",
+      "decision": "READY_EXACT_SCOPE_PARTIAL_CPU_ONLY",
+      "fields": [
+        {
+          "ci": "VM_NOVA",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "VOLUME",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        },
+        {
+          "ci": "GAUSSDB_NODE",
+          "field": "logicalRegionName",
+          "operator": "equal",
+          "value_type": "nonempty string",
+          "parameter_source": "question_literal",
+          "required_for_this_intent": true,
+          "entity_default_allowed": false
+        }
+      ],
+      "relations": [
+        {
+          "join": "VM_NOVA.flavorId = FLAVOR.id",
+          "value": "FLAVOR.vcpuSize; documented vCPU count string, parsed as validated positive integer"
+        },
+        {
+          "candidate_field": "VM_NOVA.cpuCoreNum",
+          "status": "needs authoritative semantic and zero policy; do not silently treat it as FLAVOR.vcpuSize"
+        }
+      ],
+      "output": {
+        "grain": "one row per agreed VDC grouping key; union of all three scoped resource domains",
+        "columns": [
+          "vdc_key",
+          "known_vcpu",
+          "unknown_cpu_vm_count",
+          "total_vcpu_if_complete",
+          "total_volume_size",
+          "gaussdb_node_count"
+        ],
+        "aggregation": "Aggregate each resource before combining; do not join raw VM×volume×node rows.",
+        "domain_count_note": "48 observed vdcName grouping buckets, not proof of 48 distinct identified VDCs."
+      },
+      "null_policy": [
+        "Unresolved flavor preserves VM and increments unknown_cpu_vm_count; full CPU total remains NULL where unknowns exist.",
+        "A VDC with no VMs has true zero CPU; a VDC with unknown VM CPU does not.",
+        "Keep VDCs appearing only in volumes or nodes and preserve unknown VDC buckets transparently.",
+        "Do not merge 【QUESTION_REGION】 and 【OTHER_REGION_NOT_PROVEN_EQUIVALENT】 without an authoritative equivalence policy."
+      ],
+      "positive_control": {
+        "region_vm_count": 2830,
+        "resolved_flavor_vm_count": 1933,
+        "unresolved_flavor_vm_count": 897,
+        "known_vcpu_subtotal": 8407,
+        "positive_direct_cpu_on_resolved_vms": 1741,
+        "direct_cpu_disagreements_on_resolved_positive_vms": 0,
+        "positive_direct_cpu_on_unresolved_vms": 31,
+        "direct_cpu_positive_subtotal_on_unresolved_vms": 140,
+        "unresolved_flavorId_missing_or_empty": 863,
+        "unresolved_flavorId_matches_nativeId": 0,
+        "volume_exact_region_rows": 3095,
+        "volume_exact_region_capacity": 388179,
+        "volume_all_region_rows": 6190,
+        "volume_all_region_capacity": 776358,
+        "gaussdb_nodes_exact_region": 30,
+        "union_vdc_domain_count": 48,
+        "vdc_domain_counts": {
+          "VM_NOVA": 44,
+          "VOLUME": 47,
+          "GAUSSDB_NODE": 8
+        }
+      },
+      "negative_control": {
+        "unfiltered_volume_capacity": 776358,
+        "exact_region_volume_capacity": 388179,
+        "unknown_cpu_cannot_be_zeroed": 897
+      },
+      "evidence": "A_B_CONTRACT_REVIEW_20261030.evidence.json/cpu_300; background lines 82-84 and 496; pinned V18 blocker note",
+      "unknown": [
+        "cpuCoreNum has positive values on 31 unmatched-flavor VMs (sum 140), and agrees with vcpuSize on 1741 matched positive rows. This is consistency evidence, not a complete authoritative fallback.",
+        "316 unmatched-flavor VMs have literal string 0, 549 blank, 1 missing; zero semantics needs confirmation.",
+        "C/organizer must resolve reference scope and missing-CPU policy; no effective record may be dropped to match the reference."
+      ],
+      "B_action": "Use exact resource scopes and transparent partial CPU coverage; consider cpuCoreNum only as a separately gated candidate after its semantics is confirmed."
+    }
+  ],
+  "publication_note": "Eight frozen review contracts for B only; entity literals are placeholders, not runtime defaults. Case labels locate training evidence and must not route queries. No new audit, model score, HTTP/service or sealed evaluation was run for publication.",
+  "evidence_file": "A_B_CONTRACT_REVIEW_20261030.evidence.json"
+}
