@@ -1,6 +1,6 @@
 # CMDB 智能查询系统 — Hackathon
 
-**B160接入与简单修复已整合：** [接入/验证摘要](experiments/a160_runtime_port_20261030/README.md) · [训练结果](docs/training/A160_V33.md) · [A/C交接](docs/handoffs/B_A160_V33_STATUS.md) · [最新评分器两处修订](docs/training/EVALUATOR_ALIAS_REVISION_20261030.md)。旧ratio1版连续150题为626.8→632.8/750；最新别名版仅三题15/15，尚无新版完整150成绩。默认库仍198，160以本地候选显式启用；整体业务限制保留，stage2不启。
+**B160接入与简单修复已整合：** [接入/验证摘要](experiments/a160_runtime_port_20261030/README.md) · [训练结果](docs/training/A160_V33.md) · [A/C交接](docs/handoffs/B_A160_V33_STATUS.md) · [最新评分器合并修订](docs/training/EVALUATOR_COMBINED_REVISION_20261030.md)。旧ratio1版连续150题为626.8→632.8/750；旧别名版三题15/15。当前评分器已同时保留别名/额外列修改及ratio1数值修复，尚无当前版本完整150成绩。默认库仍198，160以本地候选显式启用；整体业务限制保留，stage2不启。
 
 拉取后在仓库根用一条命令复建并启用同一份160（全程离线，不调用模型；输出目录须为新的仓库外路径）：
 

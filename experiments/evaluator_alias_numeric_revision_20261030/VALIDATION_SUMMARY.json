@@ -1,0 +1,17 @@
+{
+  "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+  "evaluator_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+  "tests": 506,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "network_calls": 0,
+  "fixed_training_standard_self_comparisons": 150,
+  "self_comparison_differences": 0,
+  "numeric_ratio_threshold": 1.0,
+  "hundredfold_errors_rejected": true,
+  "alias_and_extra_columns_revision_preserved": true,
+  "official_executor_quick_black_unchanged": true,
+  "model_requests": 0,
+  "historical_results_rewritten": false
+}

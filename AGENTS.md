@@ -6,7 +6,7 @@
 - 用户于2026-10-30明确要求将B与根目录合并并提交推送GitHub；本轮已授权纳入B最新本地实现、必要工具和训练证据。之后每轮遵循当次提交授权，不顺带加入无关本地文件。
 - 保留 `implementation/`、`output-server/`、用例和原接口；不新增 `src/tools` 框架、适配层、中间表示或复杂审计系统。
 - 可修改 `runbook_items.py`、`runbook_retriever.py`、`runbook_matcher.py`、`runbook_system.py`、自有训练/诊断工具及协作文档。
-- 官方测试文件保持只读：`implementation/quick_eval.py`、`blackbox_eval.py`、`runbook_executor.py`以官方快照`d79c316`核验；`evaluator.py`采用用户2026-10-30最新版方案：以最初版`d79c316`为基线，仅完整替换`_tuples_match`及在`available_keys`后增加别名/额外列值匹配兜底。严格遵照“仅两处”，保留最初版ratio阈值100.0，不叠加此前1.0修订；旧成绩按原冻结评分版本保留。修订记录和精确哈希见`baseline_manifest.json`及`scripts/check_official_integrity.py`。历史C增强入口保留在`C/`，不得写回官方入口。
+- 官方测试文件保持只读：`implementation/quick_eval.py`、`blackbox_eval.py`、`runbook_executor.py`以官方快照`d79c316`核验；`evaluator.py`采用用户2026-10-30最新补充方案：以最初版为基线，保留`_tuples_match`及`available_keys`后的别名/额外列两处修改，并叠加`abs(ratio - 100.0) < 0.1`改为`abs(ratio - 1.0) < 0.1`。当前为三处授权修改，不再保留100.0阈值；旧成绩按原冻结评分版本保留。修订记录和精确哈希见`baseline_manifest.json`及`scripts/check_official_integrity.py`。历史C增强入口保留在`C/`，不得写回官方入口。
 - 除已确认的主办方修订外，不修改 `runbook_executor.py`、`evaluator.py`、数据服务、原数据及测试用例；不通过改评分器提高得分。
 - 保留原有 SQL 精调及 `api_call + sql` 执行链路；检索沿用 BM25 词袋家族，不引入向量或神经网络检索。
 - 不新增题号、测试实体或答案硬编码，不按题号/完整问题查答案。已有示例和默认值属于基线，后续按实体替换表现逐步泛化。

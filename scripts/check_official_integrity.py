@@ -7,14 +7,14 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parents[1]
 OFFICIAL_COMMIT = "d79c316"
 OFFICIAL_SHA256 = {
-    "implementation/evaluator.py": "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75",
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
     "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
     "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
 }
 
 
-ACCEPTED_REVISIONS = {'implementation/evaluator.py': {'revision_id': 'alias_extra_columns_original_20261030', 'authority': '用户提供的最新版评分器修订方案，2026-10-30：以最初版为基线，仅两处修改', 'base_commit': 'd79c316', 'changes': ['_tuples_match完整替换', 'available_keys之后增加别名及额外列值匹配兜底'], 'numeric_ratio_threshold': 100.0, 'previous_ratio1_patch_included': False}}
+ACCEPTED_REVISIONS = {'implementation/evaluator.py': {'revision_id': 'alias_extra_columns_numeric_ratio_20261030', 'authority': '用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0', 'base_commit': 'd79c316', 'changes': ['_tuples_match允许系统额外值', '别名不完全一致时按行值兜底', 'abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1'], 'numeric_ratio_threshold': 1.0, 'alias_and_extra_columns_revision_included': True}}
 
 
 def verify_official_files(root=HERE):

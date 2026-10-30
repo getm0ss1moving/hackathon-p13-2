@@ -8,7 +8,7 @@
   "readonly_files": {
     "CMDB用例集-白盒200.json": "971b703ac02ec080aa1aae987d89aeb86192b42563392ae58799db078591f0a0",
     "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
-    "implementation/evaluator.py": "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75",
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
     "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
     "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
     "implementation/runbook_items.py": "9799b9fd6007e80f08610aa3d62d8495b3e85efe4924328477343c967a158465",
@@ -366,6 +366,26 @@
       "previous_ratio1_patch_included": false,
       "historical_results_rewritten": false,
       "model_requests": 0
+    },
+    {
+      "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+      "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+      "file": "implementation/evaluator.py",
+      "base_commit": "d79c316",
+      "previous_deployed_sha256": "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75",
+      "revised_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+      "changes": [
+        "_tuples_match允许系统额外值",
+        "别名不完全一致时按行值兜底",
+        "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+      ],
+      "numeric_ratio_threshold": 1.0,
+      "alias_and_extra_columns_revision_included": true,
+      "supersedes": [
+        "alias_extra_columns_original_20261030"
+      ],
+      "historical_results_rewritten": false,
+      "model_requests": 0
     }
   ],
   "training_acceptance": {
@@ -380,5 +400,5 @@
     "handoff_evidence": "experiments/v18_remote_integration_handoff.json",
     "full_real_score": "not measured on combined main; historical v18=640/750 only at pinned B source"
   },
-  "active_evaluator_revision": "alias_extra_columns_original_20261030"
+  "active_evaluator_revision": "alias_extra_columns_numeric_ratio_20261030"
 }

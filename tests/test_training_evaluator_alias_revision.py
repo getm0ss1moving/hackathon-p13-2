@@ -1,4 +1,4 @@
-"""用户最新两处评分修订；仅合成输入及固定150标准答案自比，无模型/留出。"""
+"""用户合并版评分修订；仅合成输入及固定150标准答案自比，无模型/留出。"""
 import ast
 import hashlib
 from pathlib import Path
@@ -52,17 +52,23 @@ class AliasExtraColumnRevisionTests(unittest.TestCase):
         one_match = result(["alias", "extra"], [{"alias": "alpha", "extra": "x"}, {"alias": "beta", "extra": "x"}])
         self.assertEqual(evaluator._compare_answers(duplicate_standard, one_match), (False, 0.5))
 
-    def test_only_two_functions_differ_from_original_and_numeric_rule_is_original(self):
+    def test_exactly_three_functions_differ_from_original_with_authorized_ratio1(self):
         source = subprocess.check_output(["git", "show", "d79c316:implementation/evaluator.py"], cwd=ROOT)
         original = {node.name: ast.dump(node, include_attributes=False) for node in ast.parse(source).body
                     if isinstance(node, ast.FunctionDef)}
         revised = {node.name: ast.dump(node, include_attributes=False) for node in ast.parse((ROOT / "implementation/evaluator.py").read_text()).body
                    if isinstance(node, ast.FunctionDef)}
         self.assertEqual(set(original), set(revised))
-        self.assertEqual({name for name in original if original[name] != revised[name]}, {"_tuples_match", "_compare_answers"})
-        self.assertEqual(original["_vals_equal"], revised["_vals_equal"])
+        self.assertEqual({name for name in original if original[name] != revised[name]}, {"_vals_equal", "_tuples_match", "_compare_answers"})
         self.assertEqual(hashlib.sha256((ROOT / "implementation/evaluator.py").read_bytes()).hexdigest(),
-                         "7b28151b8679124900c466dbe6f127c534c7a83867397934c8ba470f83b1df75")
+                         "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b")
+
+    def test_numeric_fix_also_applies_inside_renamed_extra_column_fallback(self):
+        standard = result(["expected"], [{"expected": 2}])
+        hundredfold = result(["alias", "extra"], [{"alias": 200, "extra": "ignored"}])
+        close = result(["alias", "extra"], [{"alias": 2.1, "extra": "ignored"}])
+        self.assertFalse(evaluator._compare_answers(standard, hundredfold)[0])
+        self.assertEqual(evaluator._compare_answers(standard, close), (True, 1.0))
 
     def test_original_and_revised_fixed_training_standard_self_comparisons_agree(self):
         source = subprocess.check_output(["git", "show", "d79c316:implementation/evaluator.py"], cwd=ROOT)
