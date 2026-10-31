@@ -48,6 +48,7 @@ TRAINING_FLAGS = {
     'RUNBOOK_ISSUE4_NETWORK':'--issue4-network',
     'RUNBOOK_ISSUE4_VM_LINKS':'--issue4-vm-links',
     'RUNBOOK_ISSUE4_AZ_COUNTS':'--issue4-az-counts',
+    'RUNBOOK_ISSUE4_ADDRESS':'--issue4-address',
 }
 
 
@@ -56,7 +57,9 @@ def training_arguments(environment, first, last):
         'RUNBOOK_PRESERVE_LITERAL_LABELS','RUNBOOK_PRUNE_UNUSED_LOOKUPS','RUNBOOK_GROUND_ENUM_LABELS')]
     if len(set(grouped))!=1 or grouped[0] not in {'0','1'}:
         raise ValueError('候选保护参数必须一起启停')
-    result=['--a132-candidate','--thinking-mode',environment['RUNBOOK_THINKING_MODE']]
+    copy_mode=environment.get('RUNBOOK_JSON_COPY_MODE','fast')
+    if copy_mode not in {'standard','fast'}:raise ValueError('invalid JSON copy mode')
+    result=['--a132-candidate','--thinking-mode',environment['RUNBOOK_THINKING_MODE'],'--json-copy-mode',copy_mode]
     if grouped[0]=='1':result.append('--candidate-flags')
     for name,flag in TRAINING_FLAGS.items():
         value=environment.get(name,'0')
@@ -157,6 +160,7 @@ def main():
     parser.add_argument('--plan-only',action='store_true',help='只冻结连续分批计划、源码和配置；不调用模型')
     parser.add_argument('--batch-size',type=int,default=20,help='超过150题或--plan-only时每批题数，1至150，默认20')
     parser.add_argument('--output-dir',type=Path,help='连续分批结果的新目录；不覆盖旧结果')
+    parser.add_argument('--json-copy-mode',choices=['standard','fast'],help='显式覆盖公共配置中的复制实现')
     args = parser.parse_args()
     if not 1 <= args.cases <= 200:
         parser.error("题数必须在1至200之间")
@@ -216,6 +220,7 @@ def main():
             "RUNBOOK_ISSUE4_NETWORK_FAMILIES": json.dumps(['hierarchy']),
             "RUNBOOK_ISSUE4_VM_LINKS": "1",
             "RUNBOOK_ISSUE4_AZ_COUNTS": "1",
+            "RUNBOOK_JSON_COPY_MODE":args.json_copy_mode or environment.get('RUNBOOK_JSON_COPY_MODE','fast'),
         })
         if not environment.get("DEEPSEEK_API_KEY", "").strip():
             raise ValueError("本机未配置DEEPSEEK_API_KEY，请在.env.local配置；不要发送密钥")

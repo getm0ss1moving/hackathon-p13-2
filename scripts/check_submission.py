@@ -36,7 +36,9 @@ def main():
         retriever=RunbookRetriever(RUNBOOK_ITEMS)
         report.update(python=sys.version.split()[0],template_count=len(RUNBOOK_ITEMS),retriever=variant,
             indexed=True,package_files=len(manifest['files']),API_key_configured=bool(os.environ.get('DEEPSEEK_API_KEY')),
-            model=os.environ.get('DEEPSEEK_MODEL'),thinking=os.environ.get('RUNBOOK_THINKING_MODE'))
+            model=os.environ.get('DEEPSEEK_MODEL'),thinking=os.environ.get('RUNBOOK_THINKING_MODE'),
+            json_copy_mode=os.environ.get('RUNBOOK_JSON_COPY_MODE','standard'),
+            address_membership_enabled=os.environ.get('RUNBOOK_ISSUE4_ADDRESS','0')=='1')
         if args.server:
             from runbook_issue3 import NativeReader,_local_readonly_identity
             diagnostics={};reader=NativeReader(diagnostics,max_http=2)

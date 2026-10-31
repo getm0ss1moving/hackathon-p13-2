@@ -478,6 +478,9 @@ def _recover_a132_parameters(question, item, parsed, entry):
         for view,spec in contract.get('views',{}).items() if isinstance(contract.get('views'),dict) else []:
             if not isinstance(spec,dict):continue
             key_sets=([spec['exact_filter_keys']] if 'exact_filter_keys' in spec else spec.get('exact_filter_key_sets',[]))
+            if not key_sets and isinstance(spec.get('required_filters'),list):
+                # 旧view元数据只声明required_filters；它只是候选，仍须完整prepare证明。
+                key_sets=[spec['required_filters']]
             for keys in key_sets:
                 if not isinstance(keys,list) or not keys or not all(isinstance(k,str) for k in keys):continue
                 rules={};_auto_fill_params(question,rules,keys,item)
@@ -2339,6 +2342,32 @@ def _ground_obs_parameters(question: str, parameters: dict) -> dict:
             'explicit_columns': columns}
 
 
+def _recover_obs_parameters(question, item, parsed):
+    """枚举OBS已有两种输出，完整消费原问题；不覆盖模型给出的冲突实体。"""
+    if item.get('family_id')!='F27':return []
+    if parsed is not None:
+        if (not isinstance(parsed,dict) or set(parsed)!={'scope','view','filters','required_filters'}
+                or parsed['scope']!='filtered' or not isinstance(parsed['filters'],dict)
+                or set(parsed['filters'])!={'logicalRegionName'}
+                or parsed['required_filters']!=['logicalRegionName']):return []
+    values={};_auto_fill_params(question,values,['logicalRegionName'],item)
+    region=values.get('logicalRegionName')
+    if not isinstance(region,str) or not region:return []
+    if parsed is not None:
+        previous=parsed['filters']['logicalRegionName']
+        if not _missing_parameter(previous) and previous!=region:return []
+    accepted=[]
+    for view in _FAMILY_SPECS['F27']['axes']['view']:
+        trial={'scope':'filtered','view':view,'filters':{'logicalRegionName':region},
+               'required_filters':['logicalRegionName']}
+        try:
+            evidence=_ground_obs_parameters(question,trial)
+            ordinary=_materialize_family(item,trial)
+        except (ValueError,TypeError):continue
+        accepted.append((ordinary,trial,evidence))
+    return accepted
+
+
 def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
     """F27-only path; R5 functions, executor and official output stay unchanged."""
     prompt = (
@@ -2350,13 +2379,23 @@ def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
         "明确按租户统计桶数量是tenant_count，固定tenantName分组COUNT(*)。"
         "固定租户分组不是筛选，不输出group/metrics/列参数；不支持容量、唯一桶、其他筛选或输出列。"
         "问题：" + question)
+    extracted=None
     try:
         answer = llm_ask(prompt, stage='family_fill')
         if not isinstance(answer, str):
             raise ValueError('invalid_family_response')
         parameters = _parse_family_response(answer)
-        selected = _materialize_family(item, parameters)
-        evidence = _ground_obs_parameters(question, parameters)
+        extracted=copy.deepcopy(parameters)
+        try:
+            selected = _materialize_family(item, parameters)
+            evidence = _ground_obs_parameters(question, parameters)
+        except (ValueError,TypeError) as original_error:
+            alternatives=_recover_obs_parameters(question,item,parameters)
+            if len(alternatives)!=1:raise original_error
+            selected,parameters,evidence=alternatives[0]
+            if diagnostics is not None:
+                diagnostics['obs_parameter_recovery']={'reason':'unique_complete_original_question_contract',
+                    'original_error':str(original_error),'additional_model_requests':0}
     except (ValueError, TypeError) as exc:
         if diagnostics is not None:
             diagnostics['family_status'] = 'invalid_or_ungrounded_parameters'
@@ -2366,7 +2405,7 @@ def _match_obs_candidate(question: str, item: dict, diagnostics: dict = None):
     if diagnostics is not None:
         diagnostics.update(family_resource_coverage=coverage, resource_coverage=coverage,
                            obs_contract_evidence=evidence, parameter_mode='family_llm')
-        diagnostics['parameters'] = {'placeholders': [], 'llm_extracted': copy.deepcopy(parameters),
+        diagnostics['parameters'] = {'placeholders': [], 'llm_extracted': extracted,
                                      'final': copy.deepcopy(parameters), 'sources': {'family': 'llm_grounded'},
                                      'changes': [], 'unfilled': []}
     original_sql = selected['sql']
@@ -2510,13 +2549,17 @@ def _closed_supported_selection(question,candidates):
     if proof or os.environ.get('RUNBOOK_A132_CANDIDATE')!='1':return offered,proof
     entry=_a132_module('unified_prepare');proven=[]
     for item in candidates:
+        if item.get('family_id')=='F27':
+            alternatives=_recover_obs_parameters(question,item,None)
+            if len(alternatives)==1:proven.append((item,alternatives[0][1]))
+            continue
         if not entry.handles_item(item):continue
         alternatives=_recover_a132_parameters(question,item,None,entry)
         if len(alternatives)==1 and not _resource_coverage(question,alternatives[0][0])['unsupported']:
             proven.append((item,alternatives[0][1]))
     if len(proven)!=1:return candidates,None
     item,params=proven[0]
-    return [item],{'reason':'unique_offered_A_contract_consumes_complete_original_question',
+    return [item],{'reason':'unique_offered_closed_contract_consumes_complete_original_question',
         'selected_id':item['id'],'parameters':params,'original_offered_ids':[x['id'] for x in candidates]}
 
 
@@ -2532,6 +2575,22 @@ def _repair_explicit_count_dimension(question,family,parameters):
     if len(accepted)!=1 or accepted[0]['group']==parameters.get('group'):return parameters,None
     return accepted[0],{'from':parameters.get('group'),'to':accepted[0]['group'],
         'reason':'unique_explicit_question_dimension','metrics_and_entity_values_unchanged':True}
+
+
+def _restore_default_count_label(question,family,parameters):
+    """恢复已声明的单ECS/VDC计数默认标签，仅限无额外投影的完整简单问法。"""
+    if (family!='F01' or parameters.get('group')!='vdcName' or parameters.get('metrics')!='count'
+            or parameters.get('label','none')!='none' or not isinstance(parameters.get('filters'),dict)
+            or set(parameters['filters'])!={'logicalRegionName'}):return parameters,None
+    region=parameters['filters']['logicalRegionName']
+    if not isinstance(region,str) or not region:return parameters,None
+    pattern=(r'\s*(?:请\s*)?(?:查询|查看|统计)?\s*(?:区域|地区|地域|logicalRegionName)\s*'
+             +re.escape(region)+r'\s*(?:下|中|内)\s*(?:的)?\s*(?:各个|每个|各)\s*VDC\s*(?:的)?\s*'
+             r'(?:ECS(?:实例)?|虚拟机)\s*(?:的)?\s*(?:数量|数目|计数)\s*[。?？]*\s*')
+    if re.fullmatch(pattern,question,re.I) is None:return parameters,None
+    restored=copy.deepcopy(parameters);restored['label']='ECS'
+    return restored,{'from':parameters.get('label','none'),'to':'ECS',
+                     'reason':'declared_default_for_complete_single_VM_VDC_count'}
 
 
 def _match_a160_candidate(question, selected, diagnostics):
@@ -2909,6 +2968,8 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
             if added and diagnostics is not None:
                 diagnostics['family_missing_filter_recovery']={'fields':sorted(added),'source':'complete_question_role_evidence'}
         _ground_family_parameters(question, family, parameters)
+        parameters,label_repair=_restore_default_count_label(question,family,parameters)
+        if label_repair and diagnostics is not None:diagnostics['family_label_recovery']=label_repair
         selected = _materialize_family(item, parameters)
     except (ValueError, TypeError) as exc:
         if diagnostics is not None:
@@ -3220,6 +3281,15 @@ def match_runbook(user_question: str, runbook_items: list,
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if os.environ.get('RUNBOOK_ISSUE4_ADDRESS')=='1':
+        from runbook_issue4_address import prepare
+        ordinary=prepare(user_question,selected,_schema_columns)
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',issue4_address_contract=ordinary['_issue3']['parameters'],
+                               sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
     if os.environ.get('RUNBOOK_ISSUE4_AZ_COUNTS')=='1':
         from runbook_issue4_az import prepare
         try:ordinary=prepare(user_question,selected,_schema_columns)

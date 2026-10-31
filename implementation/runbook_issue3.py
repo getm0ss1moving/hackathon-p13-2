@@ -240,7 +240,7 @@ def prepare_selected(question,selected,items,diagnostics,*,enabled_profiles=None
 
 class NativeReader:
     """从真实HTTP取得schema、状态、精确请求及完整分页；不接受模型提供的回执。"""
-    def __init__(self,diagnostics,*,session=None,base_url=None,max_http=128,max_records=1000000,seconds=90,raw_duplicate_resources=()):
+    def __init__(self,diagnostics,*,session=None,base_url=None,max_http=128,max_records=1000000,seconds=90,raw_duplicate_resources=(),contain_fields=()):
         import runbook_executor as executor
         self.base=(base_url or executor.BASE_URL).rstrip('/')
         target=urlsplit(self.base)
@@ -254,11 +254,15 @@ class NativeReader:
         self.deadline=time.perf_counter()+seconds;self.max_http=max_http;self.max_records=max_records
         self.raw_duplicate_resources=frozenset(raw_duplicate_resources)
         if not self.raw_duplicate_resources<= {'PORT'}:raise Unsupported('unsupported_raw_duplicate_resource')
+        self.contain_fields=frozenset(contain_fields)
+        if not self.contain_fields<={('VM_NOVA','privateIps')}:raise Unsupported('unsupported_native_contain_field')
+        self._like=sqlite3.connect(':memory:') if self.contain_fields else None
         self.diag=diagnostics;self.schemas={};self.cache={};self.actual_calls=[];self.total_records=0
         self.diag.update(http_requests=0,steps=[],source_schemas={},sql_executed=False)
 
     def close(self):
         if self.owned:self.session.close()
+        if self._like is not None:self._like.close();self._like=None
 
     def get(self,url,params=None):
         if self.diag['http_requests']>=self.max_http or time.perf_counter()>=self.deadline:
@@ -302,9 +306,14 @@ class NativeReader:
         if not isinstance(constraints,list):raise Unsupported('unverified_native_condition')
         for entry in constraints:
             simple=entry.get('simple',{}) if isinstance(entry,dict) else {}
+            operator=simple.get('operator','equal')
             if (entry.get('logOp','and')!='and' or simple.get('name') not in columns
-                    or simple.get('operator','equal')!='equal' or type(simple.get('value')) not in {str,int,bool}
+                    or operator not in {'equal','contain'} or type(simple.get('value')) not in {str,int,bool}
                     or '{{' in str(simple.get('value'))):raise Unsupported('unverified_native_scope:'+ci)
+            if operator=='contain' and ((ci,simple['name']) not in self.contain_fields
+                    or not isinstance(simple['value'],str) or not simple['value']
+                    or any(ord(ch)<32 for ch in simple['value'])):
+                raise Unsupported('unverified_native_contain:'+ci)
         key=digest({'resource':ci,'condition':condition,'pageSize':size})
         if key in self.cache:return self.cache[key]
         pages=[];native=[];rows=[];seen=set();state=None;page=1
@@ -327,7 +336,13 @@ class NativeReader:
                 seen.add(row['id'])
                 for entry in constraints:
                     simple=entry['simple']
-                    if row.get(simple['name'])!=simple['value']:raise Unsupported('native_wrong_scope_row:'+ci)
+                    actual=row.get(simple['name'])
+                    if simple.get('operator','equal')=='contain':
+                        # 原服务使用SQLite LIKE；这里仅核实候选超集，不当作精确成员。
+                        valid=isinstance(actual,str) and bool(self._like.execute(
+                            'SELECT ? LIKE ?', (actual,'%'+simple['value']+'%')).fetchone()[0])
+                    else:valid=actual==simple['value']
+                    if not valid:raise Unsupported('native_wrong_scope_row:'+ci)
             native.append(copy.deepcopy(body))
             normalized=copy.deepcopy(body);normalized.update(ok=True,pageNo=body['currentPage'])
             pages.append(normalized);rows.extend(batch)
@@ -418,8 +433,14 @@ def execute_plan(plan,items,diagnostics,*,reader=None):
     """真实分页→A预检投影→typed表→原合同SQL。失败不转业务0，不写官方缓存。"""
     kind=plan['_issue3']['kind'];params=plan['_issue3']['parameters']
     owned=reader is None
-    reader=reader or NativeReader(diagnostics,raw_duplicate_resources={'PORT'} if kind.startswith('issue4_') else ())
+    reader=reader or NativeReader(diagnostics,
+        raw_duplicate_resources={'PORT'} if kind.startswith('issue4_') else (),
+        contain_fields={('VM_NOVA','privateIps')} if kind=='issue4_address' else (),
+        max_http=1024 if kind=='issue4_address' else 128)
     try:
+        if kind=='issue4_address':
+            from runbook_issue4_address import execute
+            return execute(plan,diagnostics,reader)
         if kind=='issue4_az_counts':
             from runbook_issue4_az import execute
             return execute(plan,diagnostics,reader)

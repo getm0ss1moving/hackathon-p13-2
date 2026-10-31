@@ -162,6 +162,7 @@ def main(argv=None):
     parser.add_argument('--issue4-network-family',action='append',choices=['hierarchy','named_vpc'],help='只启用指定新网络合同，可重复')
     parser.add_argument('--issue4-vm-links',action='store_true',help='A consumer/provider与真实租户VM/EIP筛选，默认关闭')
     parser.add_argument('--issue4-az-counts',action='store_true',help='A区域AZ独立人口和VPC未知桶，默认关闭')
+    parser.add_argument('--issue4-address',action='store_true',help='A地址完整token成员管线，不认证所有权，默认关闭')
     parser.add_argument("--ground-sql-measures", action="store_true", help="拒绝SQL时钟/随机伪造业务测量，默认关闭")
     parser.add_argument("--partial-storage-pools", action="store_true", help="存储池明细/容量与明确磁盘类型缺项，默认关闭")
     parser.add_argument("--preserve-sparse-nulls", action="store_true", help="保留已审稀疏NULL投影候选；参考范围冲突未解决，默认关闭")
@@ -171,6 +172,7 @@ def main(argv=None):
         'vdc_counts','network','capacity','tenant_vm_rank','tenant_volume_rank'),help='只开启指定A合同，可重复；须同时指定--issue3-contracts')
     parser.add_argument("--thinking-mode", choices=("provider_default", "disabled"), default="disabled",
                         help="固定思考模式；默认disabled显式关闭thinking，provider_default不传额外参数")
+    parser.add_argument('--json-copy-mode',choices=['standard','fast'],default='fast',help='B JSON复制实现；standard用于冻结收据对照')
     parser.add_argument("--case-id", action="append", help="可重复指定固定训练成员；最终按原train顺序运行")
     parser.add_argument("--phase", choices=("failure_probe", "passed_regression"), help="子集实验阶段，必须显式指定")
     parser.add_argument("--sealed-validation-freeze", type=Path, help="用户本轮明确解封的固定50验证；必须先冻结运行时")
@@ -195,6 +197,8 @@ def main(argv=None):
             raise ValueError('VM/EIP合同须同时启用issue3原生执行层')
         if args.issue4_az_counts and not args.issue3_contracts:
             raise ValueError('AZ合同须同时启用issue3原生执行层')
+        if args.issue4_address and not args.issue3_contracts:
+            raise ValueError('地址合同须同时启用issue3原生执行层')
         if args.issue4_network_family and (not args.issue4_network or len(set(args.issue4_network_family))!=len(args.issue4_network_family)):
             raise ValueError('新网络合同family要求显式开启且不能重复')
         official_integrity = require_official_files(HERE)
@@ -280,6 +284,7 @@ def main(argv=None):
     flags['RUNBOOK_ISSUE4_NETWORK_FAMILIES']=json.dumps(sorted(args.issue4_network_family) if args.issue4_network_family else None,separators=(',',':'))
     flags['RUNBOOK_ISSUE4_VM_LINKS']='1' if args.issue4_vm_links else '0'
     flags['RUNBOOK_ISSUE4_AZ_COUNTS']='1' if args.issue4_az_counts else '0'
+    flags['RUNBOOK_ISSUE4_ADDRESS']='1' if args.issue4_address else '0'
     flags["RUNBOOK_GROUND_SQL_MEASURES"] = "1" if args.ground_sql_measures else "0"
     flags["RUNBOOK_PARTIAL_STORAGE_POOLS"] = "1" if args.partial_storage_pools else "0"
     flags["RUNBOOK_PRESERVE_SPARSE_NULLS"] = '1' if args.preserve_sparse_nulls else '0'
@@ -288,6 +293,7 @@ def main(argv=None):
     flags['RUNBOOK_A132_NATIVE_BOOTABLE']='1' if args.native_bootable else '0'
     flags['RUNBOOK_ISSUE3_PROFILES']=json.dumps(sorted(args.issue3_profile) if args.issue3_profile else None,separators=(',',':'))
     flags["RUNBOOK_THINKING_MODE"] = args.thinking_mode
+    flags['RUNBOOK_JSON_COPY_MODE']=args.json_copy_mode
     thinking_extra_body = {"thinking": {"type": "disabled"}} if args.thinking_mode == "disabled" else None
     os.environ.update(flags)
     os.environ["RUNBOOK_MAX_LLM_CALLS"] = str(max_requests)
@@ -387,6 +393,7 @@ def main(argv=None):
     sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py", "scripts/check_official_integrity.py", "baseline_manifest.json"] + ["implementation/"+name for name in
                ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "evaluator.py", "runbook_executor.py"]]
     sources.append("implementation/runbook_aggregates.py")
+    sources+=['implementation/runbook_copy.py','experiments/b_issue4_copy_runtime_20261031/SOURCE_MANIFEST.json']
     sources+=['implementation/runbook_defaults.py','configs/whitebox200_a132.env']
     sources.append("scripts/training_raw_output.py")
     sources.append('implementation/runbook_bootable_native.py')
@@ -409,7 +416,8 @@ def main(argv=None):
     sources.append('implementation/runbook_issue4.py')
     sources.append('implementation/runbook_issue4_vm_links.py')
     sources.append('implementation/runbook_issue4_az.py')
-    if args.issue4_network or args.issue4_vm_links or args.issue4_az_counts:
+    sources.append('implementation/runbook_issue4_address.py')
+    if args.issue4_network or args.issue4_vm_links or args.issue4_az_counts or args.issue4_address:
         from runbook_issue4 import sources as issue4_sources
         sources+=list(issue4_sources()[1])
     if args.cluster_rank_details:

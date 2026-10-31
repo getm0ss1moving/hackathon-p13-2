@@ -145,6 +145,8 @@ class RawOutputLiveHookTests(unittest.TestCase):
                 with contextlib.redirect_stdout(buffer): self.assertEqual(train_live.main([]),0)
                 plan = json.loads(buffer.getvalue()); self.assertEqual(plan["raw_output_policy"],RAW_OUTPUT_POLICY)
                 self.assertIn("scripts/training_raw_output.py",plan["source_sha256"])
+                self.assertEqual(plan['feature_flags']['RUNBOOK_JSON_COPY_MODE'],'fast')
+                self.assertIn('implementation/runbook_copy.py',plan['source_sha256'])
                 path = root/"plan.json"; path.write_text(json.dumps(plan))
                 with contextlib.redirect_stdout(io.StringIO()):
                     self.assertEqual(train_live.main(["--run","--expected-plan",str(path),"--output",str(trace)]),0)

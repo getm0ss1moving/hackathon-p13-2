@@ -7,6 +7,7 @@ import re
 import time
 
 import runbook_issue4 as shared
+import runbook_copy as copying
 
 _MODULE=None
 OUTPUT=['floating_ip','status','eip_id','row_kind','relation_state','vm_host_columns_json','vm_host_rows_json']
@@ -19,7 +20,7 @@ def module():
         path=package/'consumer/consumer.py'
         spec=importlib.util.spec_from_file_location('_B_issue4_consumer',path)
         _MODULE=importlib.util.module_from_spec(spec);spec.loader.exec_module(_MODULE)
-    return _MODULE
+    return copying.bind(_MODULE)
 
 
 def parameters(question):
@@ -68,7 +69,7 @@ def raw_receipt(snapshot,request,consumer,capture,role):
         stamps={'ok':True,'http_status':200,'request':expected,'capture_id':capture['capture_id'],'receipt_kind':'raw_http'}
         if any(k in source and consumer.encoded(source[k])!=consumer.encoded(value) for k,value in stamps.items()):
             raise ValueError('consumer_contradictory_raw_metadata')
-        pages.append(dict(copy.deepcopy(source),**stamps))
+        pages.append(dict(copying.copy_value(source),**stamps))
     return {'ok':True,'http_status':200,'receipt_kind':'raw_http','capture_id':capture['capture_id'],
         'receipt_id':capture['capture_id']+':'+role,'request':copy.deepcopy(request),
         'schema_verified':True,'schema_source':snapshot['schema_source'],'schema':snapshot['columns'],'pages':pages}
@@ -128,6 +129,7 @@ def execute(plan,diagnostics,reader):
     if before!=_local_readonly_identity(reader.base):raise ValueError('consumer_native_source_drift_after_execution')
     counts=Counter(r['relation_state'] for r in result['rows'])
     diagnostics.update(sql_executed=True,executed_api_calls=reader.actual_calls,source_snapshot=before,
+        copy_execution_variant=copying.mode(),
         answer_completeness='partial_with_explicit_unknowns',business_complete=False,
         full_original_question_certified=False,full_eip_objects_binding_complete=False,
         A_diagnostics=prepared['diagnostics'],canonical_receipts=prepared['canonical_receipts'],

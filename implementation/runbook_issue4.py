@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import sqlite3
 import sys
+import runbook_copy as copying
 
 ROOT=Path(__file__).resolve().parents[1]
 BINDING='experiments/b_issue4_runtime_20261031/SOURCE_MANIFEST.json'
@@ -25,6 +26,7 @@ def sources():
         if f.is_symlink() or not f.resolve().is_relative_to(ROOT) or sha(f)!=record['sha256'] or f.stat().st_size!=record['bytes']:
             raise ValueError('issue4_A_source_drift:'+relative)
         files[relative]=record['sha256']
+    files.update(copying.sources())
     return path.parent,files
 
 
@@ -41,7 +43,8 @@ def module():
         finally:
             if old is None:sys.modules.pop('shared_policy',None)
             else:sys.modules['shared_policy']=old
-    return _MODULE
+    copying.bind(_MODULE.policy)
+    return copying.bind(_MODULE)
 
 
 def parameters(question):
@@ -102,7 +105,7 @@ def prepare(question,item,schemas,*,enabled_families=None):
 def receipt(snapshot,request,policy):
     return {'ok':True,'http_status':200,'request':copy.deepcopy(request),
         'schema_verified':True,'schema_source':snapshot['schema_source'],'schema':snapshot['columns'],
-        'pages':[dict(copy.deepcopy(page),ok=True,http_status=200,request=policy.page_request(request,i))
+        'pages':[dict(copying.copy_value(page),ok=True,http_status=200,request=policy.page_request(request,i))
                  for i,page in enumerate(snapshot['native_pages'],1)]}
 
 
@@ -146,6 +149,7 @@ def execute(plan,diagnostics,reader):
     sources()
     if before!=_local_readonly_identity(reader.base):raise ValueError('issue4_source_drift_after_execution')
     diagnostics.update(sql_executed=True,executed_api_calls=reader.actual_calls,
+        copy_execution_variant=copying.mode(),
         answer_completeness='partial_with_explicit_unknowns',business_complete=False,
         source_snapshot=before,A_diagnostics=prepared['diagnostics'],canonical_receipts=prepared['canonical_receipts'],
         A_detail_rows=native['row_count'],all_A_details_retained=True,projection_loaded_not_raw=True,

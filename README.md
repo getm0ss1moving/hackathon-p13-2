@@ -1,8 +1,8 @@
 # CMDB 智能查询系统 — Hackathon
 
-**最新B提交候选（2026-10-31，132 strict＋R5）：** [提交包与评测机运行说明](docs/SUBMISSION_README.md) · [GitHub下载页](https://github.com/getm0ss1moving/hackathon-p13-2/releases/tag/b132-r5-report-v1-20261031) · [发布核验摘要](experiments/b_submission_release_20261031/VERIFICATION_SUMMARY.json)。本次将此前未推送的B修复统一接入main：新增三条已验收A合同路径、集群/CCE完整明细、六项选择/填参修复、本地CTE识别，以及直接导入入口的默认配置加载。数组仍132、检索仍strict R5，r6与未经裁定的候选保持原状态。
+**最新B完整交付 v2（2026-10-31，132 strict＋R5）：** [运行说明](docs/SUBMISSION_README.md) · [GitHub下载页](https://github.com/getm0ss1moving/hackathon-p13-2/releases/tag/b132-r5-submission-v2-20261031) · [版本交接](docs/handoffs/B_SUBMISSION_V2_20261031.md)。main保留完整源码、诊断/测试工具、配置和脱敏证据；Release提供不含密钥、题集、答案或原始数据库的运行ZIP。v2包含v1全部修复，以及OBS/GaussDB参数恢复、ECS计数默认标签和已验证复制优化。057地址成员已完成原生验收，保留显式候选、默认关闭；原参考及所有权边界仍待核。数组仍132、检索仍strict R5，r6与其他未经裁定的候选不自动启用。
 
-报告中的011/030/069/086/130/163本轮各5分（18请求0失败）；后续194/252/256/289与控制005/033各5分（13请求0失败），题目阶段HTTP404为0。最终51项免费检查通过，提交ZIP在无Git的解压目录完成069真实试跑5分、3请求0失败。各阶段分别冻结，不能拼接成新的200题总分；尚未在真实评测机验收。密钥、原始模型日志、训练原始输出及本机环境不上传；Release ZIP也不含题集或原始数据库。
+v1中011/030/069/086/130/163各5分，后续CTE四题及控制各5分；v2补充小集066/148/150/156/158各5分，15请求0失败，相关离线42项通过。地址及共享读取器50项、最终入口/预算/恢复16项分别通过；不能将不同冻结阶段拼成新的200题成绩，也不将重叠检查相加为业务覆盖。正式ZIP从发布提交重新构建，并在无Git解压目录检查来源、索引、配置和本机只读服务；实际核验文件随Release提供。尚未在真实评测机验收。
 
 ```bash
 git pull --ff-only origin main

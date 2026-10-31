@@ -13,6 +13,13 @@ import run_a132_eval as entry
 
 
 class A132BudgetEntryTests(unittest.TestCase):
+    def test_copy_mode_is_explicit_in_frozen_child_arguments(self):
+        for mode in ['standard','fast']:
+            arguments=entry.training_arguments({**self.environment,'RUNBOOK_JSON_COPY_MODE':mode},1,1)
+            self.assertEqual(arguments[arguments.index('--json-copy-mode')+1],mode)
+        with self.assertRaises(ValueError):
+            entry.training_arguments({**self.environment,'RUNBOOK_JSON_COPY_MODE':'unbound'},1,1)
+
     def setUp(self):
         temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup)
         self.root=Path(temp.name);(self.root/'scripts').mkdir()
@@ -82,6 +89,7 @@ class A132BudgetEntryTests(unittest.TestCase):
             self.assertIn('--issue4-network',flags)
             self.assertIn('--issue4-vm-links',flags)
             self.assertIn('--issue4-az-counts',flags)
+            self.assertIn('--issue4-address',flags)
             self.assertEqual(flags[flags.index('--issue4-network-family')+1],'hierarchy')
             self.assertNotIn('named_vpc',flags)
 

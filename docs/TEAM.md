@@ -2,8 +2,8 @@
 
 ## B当前接入状态（2026-10-31）
 
-- 最新可交付版本见[提交包说明](SUBMISSION_README.md)及[发布核验](../experiments/b_submission_release_20261031/VERIFICATION_SUMMARY.json)。当前代码含hierarchy、VM/EIP和AZ部分人口合同，及集群/CCE明细；unknown和business_complete=false不因白盒满分删除。根模板数组/R5不改。
-- 六项报告P0小集各5分、18请求；CTE四题及两个控制各5分、13请求，题目HTTP404为0。包最终51项免费检查及解压目录069试跑通过；各阶段是不同冻结记录，没有新全200总分。057地址成员语义、r6真实组合验收及A/C未裁定问题仍待后续。
+- 最新完整交付v2见[提交包说明](SUBMISSION_README.md)、[版本交接](handoffs/B_SUBMISSION_V2_20261031.md)及[v2发布页](https://github.com/getm0ss1moving/hackathon-p13-2/releases/tag/b132-r5-submission-v2-20261031)。含v1全部修复、新增OBS/GaussDB恢复、默认计数标签及复制快路径；根模板数组132/R5不改。
+- 小集066/148/150/156/158各5分，15请求；相关离线42项通过。地址及共享读取器50项、最终入口/预算/恢复16项分别通过。057原生433次contain、441次HTTP验证已完成，保留地址未知及所有权未认证，默认不启用；旧满分空结果不能证明地址成员语义正确。详见[原生摘要](../experiments/b_address_membership_20261031/VALIDATION_SUMMARY.json)。旧阶段及本轮结果不拼新全200分数。
 - 下列旧“当前”“未接入”和分数仅保留原阶段含义，请以本条和提交说明为准。
 - 根运行库为132 strict＋A R5（A基线50638fe）；[B最新交付与复现](handoffs/B_R5_CURRENT_20261031.md)。下方R4/198及“尚未接入”状态保留历史含义。
 - 已修复R5 AND义务跨度边缘空白、受合同约束的缺省view/参数键恢复，以及云硬盘/租户/独立资源明细遗漏；bootable原生合同已接入，management-VM仍未默认启用。

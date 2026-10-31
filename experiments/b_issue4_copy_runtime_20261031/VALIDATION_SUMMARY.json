@@ -1,0 +1,821 @@
+{
+  "status": "local_optimization_offline_verified_not_published",
+  "base_commit": "4abe75e496a14255b122d42cf99e80033d4db43d",
+  "execution_variant": "B_JSON_container_deepcopy_v1",
+  "A_original_public_manifest_unchanged": true,
+  "A_policy_changed": false,
+  "runtime_copy_mode_default": "fast",
+  "standard_mode_available": true,
+  "pairs": [
+    {
+      "path": "161",
+      "wall_standard": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_hierarchy",
+        "profile_enabled": false,
+        "execution_seconds": 13.546074249781668,
+        "capture_load_and_digest_seconds": 2.807149041444063,
+        "copy_mode": "standard",
+        "peak_process_mib": 1856.765625,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1,
+        "preserved": {
+          "A_detail_rows": 20391,
+          "all_A_details_retained": true,
+          "business_complete": false
+        },
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 5,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "c0aa9a20d111e784090c264d30c1b461be23260785a8432959475e58a0f755cc",
+          "result.json.gz": "aa104316fc521d92c9e14a2899268d95527af0aa04d069e26600ff319165dbee",
+          "plan.json": "3a8614f352259fba223bd4548655fe9421d71a5cc4c18c9cca6a2e806398dd9b",
+          "summary.json": "1e29c3f2b59ce4903730a796bea773c971227c6e4a070d9ec5123b79b96c117c"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "wall_fast": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_hierarchy",
+        "profile_enabled": false,
+        "execution_seconds": 10.619905999861658,
+        "capture_load_and_digest_seconds": 2.541231917217374,
+        "copy_mode": "fast",
+        "peak_process_mib": 1844.265625,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1,
+        "preserved": {
+          "A_detail_rows": 20391,
+          "all_A_details_retained": true,
+          "business_complete": false
+        },
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 5,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "c0aa9a20d111e784090c264d30c1b461be23260785a8432959475e58a0f755cc",
+          "result.json.gz": "aa104316fc521d92c9e14a2899268d95527af0aa04d069e26600ff319165dbee",
+          "plan.json": "3a8614f352259fba223bd4548655fe9421d71a5cc4c18c9cca6a2e806398dd9b",
+          "summary.json": "1e29c3f2b59ce4903730a796bea773c971227c6e4a070d9ec5123b79b96c117c"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "strict_confirmation": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_hierarchy",
+        "profile_enabled": false,
+        "execution_seconds": 10.493392624892294,
+        "capture_load_and_digest_seconds": 2.8437984585762024,
+        "copy_mode": "fast",
+        "peak_process_mib": 1751.390625,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1,
+        "preserved": {
+          "A_detail_rows": 20391,
+          "all_A_details_retained": true,
+          "business_complete": false
+        },
+        "strict_output_sha256": "77a395d17910c9e63ea702deaf82c1e96259dd98ca4ac25e1d2ca2411b7da409",
+        "expected_output_sha256": "77a395d17910c9e63ea702deaf82c1e96259dd98ca4ac25e1d2ca2411b7da409",
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 5,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "c0aa9a20d111e784090c264d30c1b461be23260785a8432959475e58a0f755cc",
+          "result.json.gz": "aa104316fc521d92c9e14a2899268d95527af0aa04d069e26600ff319165dbee",
+          "plan.json": "3a8614f352259fba223bd4548655fe9421d71a5cc4c18c9cca6a2e806398dd9b",
+          "summary.json": "1e29c3f2b59ce4903730a796bea773c971227c6e4a070d9ec5123b79b96c117c"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "reduction_percent": 21.6015961227082,
+      "paired_repeats": 1
+    },
+    {
+      "path": "298",
+      "wall_standard": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_vm_links",
+        "profile_enabled": false,
+        "execution_seconds": 42.15293641667813,
+        "capture_load_and_digest_seconds": 2.4472925001755357,
+        "copy_mode": "standard",
+        "peak_process_mib": 2213.765625,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1182,
+        "preserved": {
+          "A_detail_rows": 429,
+          "all_A_details_retained": true,
+          "business_complete": false,
+          "full_eip_objects_binding_complete": false,
+          "relation_state_counts": {
+            "catalog_only_binding_unproven": 754,
+            "known_port_link": 428
+          },
+          "selected_tenant_EIP_catalog_count": 1182
+        },
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 6,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "1fbd372f239d0a61498505539d9f873b55e1a94543e1e720ae3894143b728121",
+          "result.json.gz": "d186703fb94b39f8bc47d974527ff933aad1ee592ae84d337eb42b2470e936c2",
+          "plan.json": "bc7ddbec2b8cfcc7209ad5ba2bd0a2b79a423a2a3e5a53937f81978d75a0dcfa",
+          "summary.json": "72c66ed7548fe69664bd7323e2e35ce9671e4d5f563d874d8a70e9d7d0ec5514"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "wall_fast": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_vm_links",
+        "profile_enabled": false,
+        "execution_seconds": 34.53638237528503,
+        "capture_load_and_digest_seconds": 2.383291833102703,
+        "copy_mode": "fast",
+        "peak_process_mib": 2167.421875,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1182,
+        "preserved": {
+          "A_detail_rows": 429,
+          "all_A_details_retained": true,
+          "business_complete": false,
+          "full_eip_objects_binding_complete": false,
+          "relation_state_counts": {
+            "catalog_only_binding_unproven": 754,
+            "known_port_link": 428
+          },
+          "selected_tenant_EIP_catalog_count": 1182
+        },
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 6,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "1fbd372f239d0a61498505539d9f873b55e1a94543e1e720ae3894143b728121",
+          "result.json.gz": "d186703fb94b39f8bc47d974527ff933aad1ee592ae84d337eb42b2470e936c2",
+          "plan.json": "bc7ddbec2b8cfcc7209ad5ba2bd0a2b79a423a2a3e5a53937f81978d75a0dcfa",
+          "summary.json": "72c66ed7548fe69664bd7323e2e35ce9671e4d5f563d874d8a70e9d7d0ec5514"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "strict_confirmation": {
+        "status": "offline_replay_complete_output_equal",
+        "kind": "issue4_vm_links",
+        "profile_enabled": false,
+        "execution_seconds": 34.733734583482146,
+        "capture_load_and_digest_seconds": 2.3738554576411843,
+        "copy_mode": "fast",
+        "peak_process_mib": 2078.703125,
+        "full_output_equal": true,
+        "raw_receipts_unchanged": true,
+        "output_rows": 1182,
+        "preserved": {
+          "A_detail_rows": 429,
+          "all_A_details_retained": true,
+          "business_complete": false,
+          "full_eip_objects_binding_complete": false,
+          "relation_state_counts": {
+            "catalog_only_binding_unproven": 754,
+            "known_port_link": 428
+          },
+          "selected_tenant_EIP_catalog_count": 1182
+        },
+        "strict_output_sha256": "3b9677ee5a351295948e0e6a74036c83c9a9840286b72167de07876a9e2bf44f",
+        "expected_output_sha256": "3b9677ee5a351295948e0e6a74036c83c9a9840286b72167de07876a9e2bf44f",
+        "model_requests": 0,
+        "HTTP_requests": 0,
+        "network_attempts": 0,
+        "fetch_replay_calls": 6,
+        "capture_sha256": {
+          "raw_snapshots.json.gz": "1fbd372f239d0a61498505539d9f873b55e1a94543e1e720ae3894143b728121",
+          "result.json.gz": "d186703fb94b39f8bc47d974527ff933aad1ee592ae84d337eb42b2470e936c2",
+          "plan.json": "bc7ddbec2b8cfcc7209ad5ba2bd0a2b79a423a2a3e5a53937f81978d75a0dcfa",
+          "summary.json": "72c66ed7548fe69664bd7323e2e35ce9671e4d5f563d874d8a70e9d7d0ec5514"
+        },
+        "source_sha256": {
+          "implementation/runbook_issue3.py": "8112cba2b80c8aa1de085184a6e476e8558c66b99e9277a09895dd3e599d76db",
+          "implementation/runbook_issue4.py": "81562e3840c30dcd2a6b895791eb65d7a389ccc1dfdf20a81f06c2331af867f9",
+          "implementation/runbook_issue4_vm_links.py": "9ad3b5f2cb31b981b0858a3231a12b3cc5374132f67bd6d7add2300d6e41f438",
+          "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+        },
+        "official_integrity": {
+          "official_commit": "d79c316",
+          "unchanged": true,
+          "files": [
+            {
+              "file": "implementation/evaluator.py",
+              "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/runbook_executor.py",
+              "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/quick_eval.py",
+              "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+              "unchanged": true
+            },
+            {
+              "file": "implementation/blackbox_eval.py",
+              "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+              "unchanged": true
+            }
+          ],
+          "accepted_revisions": {
+            "implementation/evaluator.py": {
+              "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+              "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+              "base_commit": "d79c316",
+              "changes": [
+                "_tuples_match允许系统额外值",
+                "别名不完全一致时按行值兜底",
+                "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+              ],
+              "numeric_ratio_threshold": 1.0,
+              "alias_and_extra_columns_revision_included": true
+            }
+          },
+          "scripts_executed": false,
+          "model_requests": 0
+        },
+        "meaning": "new offline replay of independent native snapshot, not reconstructed historical live output or new model score"
+      },
+      "reduction_percent": 18.068857566894327,
+      "paired_repeats": 1
+    }
+  ],
+  "checks": {
+    "fast_checks": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "socket_attempts": 0,
+      "model_requests": 0,
+      "success": true,
+      "command": [
+        "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031/../hackathon-p13-2/.venv/bin/python",
+        "scripts/run_training_checks.py",
+        "--output-dir",
+        "reports/b_a_feedback_profile_20261031/fast_checks",
+        "--test-module",
+        "test_training_json_copy",
+        "--test-module",
+        "test_training_issue4_network",
+        "--test-module",
+        "test_training_issue4_vm_links",
+        "--test-module",
+        "test_training_issue4_az"
+      ],
+      "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031"
+    },
+    "final_checks": {
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "socket_attempts": 0,
+      "model_requests": 0,
+      "success": true,
+      "command": [
+        "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031/../hackathon-p13-2/.venv/bin/python",
+        "scripts/run_training_checks.py",
+        "--output-dir",
+        "reports/b_a_feedback_profile_20261031/final_checks",
+        "--test-module",
+        "test_training_json_copy",
+        "--test-module",
+        "test_training_issue4_network",
+        "--test-module",
+        "test_training_issue4_vm_links",
+        "--test-module",
+        "test_training_issue4_az",
+        "--test-module",
+        "test_training_raw_output",
+        "--test-module",
+        "test_training_submission",
+        "--test-module",
+        "test_training_a132_budget_entry"
+      ],
+      "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031"
+    },
+    "launcher_checks": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "socket_attempts": 0,
+      "model_requests": 0,
+      "success": true,
+      "command": [
+        "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031/../hackathon-p13-2/.venv/bin/python",
+        "scripts/run_training_checks.py",
+        "--output-dir",
+        "reports/b_a_feedback_profile_20261031/launcher_checks",
+        "--test-module",
+        "test_training_a132_budget_entry"
+      ],
+      "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-report-20261031"
+    }
+  },
+  "check_counts_overlap_do_not_add": true,
+  "tenant261": {
+    "scope": "frozen_native_receipt_audit_only_not_model_run",
+    "HTTP_requests": 0,
+    "model_requests": 0,
+    "VM_population": 2830,
+    "tenant_identity_name_cross_counts": [
+      {
+        "tenantId": "empty",
+        "tenantName": "empty",
+        "objects": 615
+      },
+      {
+        "tenantId": "missing",
+        "tenantName": "empty",
+        "objects": 1
+      },
+      {
+        "tenantId": "missing",
+        "tenantName": "missing",
+        "objects": 861
+      },
+      {
+        "tenantId": "present",
+        "tenantName": "empty",
+        "objects": 31
+      },
+      {
+        "tenantId": "present",
+        "tenantName": "missing",
+        "objects": 1
+      },
+      {
+        "tenantId": "present",
+        "tenantName": "present",
+        "objects": 1321
+      }
+    ],
+    "unknown_tenantId_count": 1477,
+    "null_tenantName_count": 862,
+    "known_leader_VM_count": 320,
+    "output_detail_rows": 646,
+    "VM_detail_multiplicity_histogram": {
+      "1": 52,
+      "2": 234,
+      "3": 18,
+      "4": 8,
+      "5": 8
+    },
+    "detail_extra_rows_over_VM_count": 326,
+    "detail_mount_states": {
+      "resolved": 611,
+      "no_mount": 35
+    },
+    "relation_raw_rows": 4546,
+    "distinct_vm_volume_endpoint_pairs": 4546,
+    "selected_distinct_mount_pairs": 611,
+    "unresolved_mounts_all_region_VM_pairs": 1843,
+    "unresolved_mounts_selected_leader_pairs": 0,
+    "unresolved_mount_count_grain": "distinct(vmId,volumeId) pairs whose VM is in full region VM context and volume absent from region volume context; not VM count, not only leader population",
+    "full_winner_certified": false,
+    "business_complete": false,
+    "source_sha256": {
+      "raw_snapshots.json.gz": "1ddcef2eb74e4ce88546b810404c9487988537e54c64d1878eb4883b0fe89db4",
+      "result.json.gz": "dd298625d98af75b6f893beab04698f0ab4dd361a3b56f17dc59bd25e3d25173"
+    }
+  },
+  "named192": {
+    "scope": "independent_frozen_native_join_grain_audit_no_rescore",
+    "HTTP_requests": 0,
+    "model_requests": 0,
+    "selected_parent_count": 154,
+    "unscoped_nativeId_join_rows": 1078,
+    "same_parent_PORT_SUBNET_region_rows": 539,
+    "cross_region_rows": 539,
+    "unique_parent_port_relation_subnet_keys": 539,
+    "unique_parent_port_subnet_keys": 539,
+    "unique_parent_subnet_keys": 462,
+    "extra_rows_from_repeated_raw_PORT_observations_in_selected_join": 0,
+    "extra_relation_edges_for_same_parent_port_subnet": 0,
+    "extra_distinct_PORT_links_for_same_parent_subnet": 77,
+    "parent_subnet_join_multiplicity_histogram": {
+      "1": 385,
+      "2": 77
+    },
+    "join_keys": [
+      "ROUTER.nativeId=PORT.devNativeId",
+      "PORT.id=R_PORT_IN_SUBNET.portId",
+      "R_PORT_IN_SUBNET.subnetId=SUBNET.id"
+    ],
+    "scoped_predicates": [
+      "ROUTER.logicalRegionName=PORT.logicalRegionName",
+      "ROUTER.logicalRegionName=SUBNET.logicalRegionName"
+    ],
+    "identity_key": "(ROUTER.id,SUBNET.id)",
+    "resolved_parent_subnet_pairs": 462,
+    "unresolved_parent_subnet_pairs": 308,
+    "referenced_parent_subnet_pairs": 770,
+    "meaning": "1078=539 cross-region+539 same-region join rows; 539-462 decomposed above; no claim that regions are duplicates or that 2 raw PORT duplicates explain77",
+    "raw_capture_sha256": "bbdc98c629b38e3904d551f9315bd700a80c842223dc9ed42c21757532e76f5c"
+  },
+  "raw_capture_lineage": {
+    "first_published_commit": "4abe75e496a14255b122d42cf99e80033d4db43d",
+    "first_live_runs_before_publish_had_dirty_B_source_at_base72": true,
+    "raw_capture_runs": [
+      {
+        "run_id": "b_final_integration_20261031/case161",
+        "case_id": "CMDB-161",
+        "plan_base": "72e6062ef1928ac79187383086fb97bdb04b580c",
+        "created_at_UTC": "2026-10-31T06:26:19.515331+08:00",
+        "raw_output_policy": {
+          "format": "query-output-json-gzip-v1",
+          "complete_query_output": true,
+          "overwrite": false,
+          "capture": "system.query return value before scoring"
+        },
+        "capture_implementation_sha256": "3dbb496c98e3ec9f5c71b53c200c5082ad6cf7fd03d86f31be5a9f3ffed94a27",
+        "raw_output_sha256": "905a4a1c08a69cadcc3a81609e9b3a3e8853b1bcddbc708a92852d18b67f38a1",
+        "raw_output_bytes": 683049,
+        "source_zip_sha256": "bd723f4af676e8a81012db0a6693ea5e5c3086f3d4db41b520801c3bb59f5d17"
+      },
+      {
+        "run_id": "b_final_integration_20261031/case251",
+        "case_id": "CMDB-251",
+        "plan_base": "72e6062ef1928ac79187383086fb97bdb04b580c",
+        "created_at_UTC": "2026-10-31T06:26:20.190440+08:00",
+        "raw_output_policy": {
+          "format": "query-output-json-gzip-v1",
+          "complete_query_output": true,
+          "overwrite": false,
+          "capture": "system.query return value before scoring"
+        },
+        "capture_implementation_sha256": "3dbb496c98e3ec9f5c71b53c200c5082ad6cf7fd03d86f31be5a9f3ffed94a27",
+        "raw_output_sha256": "f69eed1c09c6375eaa14d2f224d8e701747bdc7791f6c56862f79a18cdcbc2c2",
+        "raw_output_bytes": 5560,
+        "source_zip_sha256": "37e9379d1fb7914b7d82fd3e242a8f11548426711ac977ceeb6bb6cc74ff8c0a"
+      },
+      {
+        "run_id": "b_final_integration_20261031/case298",
+        "case_id": "CMDB-298",
+        "plan_base": "72e6062ef1928ac79187383086fb97bdb04b580c",
+        "created_at_UTC": "2026-10-31T06:26:20.853241+08:00",
+        "raw_output_policy": {
+          "format": "query-output-json-gzip-v1",
+          "complete_query_output": true,
+          "overwrite": false,
+          "capture": "system.query return value before scoring"
+        },
+        "capture_implementation_sha256": "3dbb496c98e3ec9f5c71b53c200c5082ad6cf7fd03d86f31be5a9f3ffed94a27",
+        "raw_output_sha256": "7f2268a2cbffc26a997b6764c952891fbba3ee0eeb243a24a90695d6a43a8cbb",
+        "raw_output_bytes": 408820,
+        "source_zip_sha256": "effe5dd1271a33155d30822b123ec16476d5f3cee5b4ee61ffc2302c3c6e630a"
+      }
+    ],
+    "legacy_preview_only_runs_reconstructed": false
+  },
+  "model_requests": 0,
+  "business_HTTP_requests": 0,
+  "new_scoring_calls": 0,
+  "new_full200_score": null,
+  "official_integrity": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "statistical_significance_claimed": false,
+  "evaluation_machine_verified": false,
+  "formal_memory_limit_met": false,
+  "published_v1_archive_unchanged": true,
+  "code_committed": false,
+  "code_pushed": false,
+  "local_candidate": {
+    "zip": "/Users/phyll1s0/contest/hackathon/releases/b132_r5_copy_candidate_20261031/submission.zip",
+    "sha256": "3a0256bc27f53b351265e8fb3a51b57f66d4d321af8e4ec446b9f9477f9ffc4c",
+    "bytes": 957146,
+    "runtime_files": 250,
+    "model_requests": 0
+  },
+  "issue_feedback": {
+    "id": 6537169819,
+    "url": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/4#issuecomment-6537169819",
+    "body_sha256": "03776a174a0cef14a1579c5991812ba8a4cf95335a8074de662e5f03fbeeaaaf"
+  }
+}

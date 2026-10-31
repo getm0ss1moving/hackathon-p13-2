@@ -41,7 +41,10 @@ def main():
     (stage/'README.md').write_bytes((stage/'docs/SUBMISSION_README.md').read_bytes())
     files['README.md']=hashlib.sha256((stage/'README.md').read_bytes()).hexdigest()
     manifest={'base_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-        'variant':'132-strict-r5-B-report-P0-and-local-CTE','files':files,'contains_credentials':False,
+        'variant':'132-strict-r5-B-submission-v2-console-recovery-address-isolated','files':files,'contains_credentials':False,
+        'source_identity':'base_commit plus exact archived file hashes; working-tree bytes are authoritative',
+        'git_worktree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),
+        'address_membership_default_enabled':False,
         'contains_reference_cases':False,'new_full200_score':None,'status':'candidate_for_evaluation_machine_smoke'}
     (stage/'SUBMISSION_MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     archive=out/'submission.zip'

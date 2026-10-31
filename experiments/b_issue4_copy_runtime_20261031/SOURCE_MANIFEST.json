@@ -1,0 +1,10 @@
+{
+  "variant": "B_JSON_container_deepcopy_v1",
+  "policy_change": false,
+  "A_source_unchanged": true,
+  "A_public_manifest_sha256": "3b57f82f507aef860f7c141d07647c3eb583db96ce230d12fc0af2ef34fc4cb1",
+  "files": {
+    "implementation/runbook_copy.py": "9865faa18b53dbe698995e8296adb48a287b28693944f569bf89aa8c85cd38f0"
+  },
+  "meaning": "B-owned explicitly selected execution primitive; not a new A publication; original A source pins and all prepare/recheck validations retained"
+}
