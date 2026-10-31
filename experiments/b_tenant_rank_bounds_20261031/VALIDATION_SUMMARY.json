@@ -1,0 +1,108 @@
+{
+  "status": "native_verified_profile_disabled_after_live_regression",
+  "baseline": "2c6ddfd",
+  "new_model_requests": 2,
+  "new_full200_score": null,
+  "last_full200_quality": 823.9,
+  "full_score_not_backfilled": true,
+  "runtime_changes": [
+    "tenant A prepared projection recheck",
+    "exact A/B row multiset guard",
+    "finite unknown-owner ranking identity bound, detail completeness separate"
+  ],
+  "default_profiles_unchanged": true,
+  "candidate_tenant_volume_profile_enabled": false,
+  "reference_conflict": {
+    "case_id": "CMDB-270",
+    "reference_row_count": 6190,
+    "reference_exactly_global_raw_projection": true,
+    "regional_rows": 3095,
+    "known_leader_rows": 858,
+    "unknown_tenant_volume_count": 20,
+    "diagnostic_original_evaluator_quality": -1
+  },
+  "live_budget": {
+    "status": "closed",
+    "maximum": 3,
+    "used": 2,
+    "failed": 0,
+    "unused_closed": 1,
+    "SDK_retries": 0,
+    "plan_sha256": "17176be6f57bad8ea40d3f5dec0862e8f2925cfff319dcdfec3698206d1927e4",
+    "trace_sha256": "8da5d51a053981c132386e393233eccaaa3986a061e90555e9ad327795ade5f7",
+    "child_exit_code": 0,
+    "prior_balance_reused": false
+  },
+  "free_checks": {
+    "tests": 22,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--output-dir",
+      "reports/b_r5_followup_20261031/tenant_bound_checks",
+      "--test-module",
+      "test_training_issue3",
+      "--test-module",
+      "test_training_tenant_ranking_bounds"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "new_runtime_native_validation": {
+    "http_requests": 5,
+    "model_requests": 0,
+    "row_count": 858,
+    "business_complete": false,
+    "bounds": {
+      "ranking_metric": "volume_count",
+      "ranked_resource": "VOLUME",
+      "input_object_count": 3095,
+      "unknown_owner_object_count": 20,
+      "observed_leader_identities": [
+        "8fa72e1296c244eeb09a9b7ab03baeb2"
+      ],
+      "observed_leader_count_lower_bound": 858,
+      "observed_leader_count_upper_bound": 878,
+      "largest_other_known_tenant_count": 156,
+      "new_unknown_tenant_count_upper_bound": 20,
+      "leader_identity_certified": true,
+      "certificate": "strict_unknown_mass_gap",
+      "leader_detail_population_complete": false,
+      "limitation": "Identity bound only: unknown objects may belong to a known leader; it does not certify complete IP, mount, display fields or business policy."
+    },
+    "source_sha256": "f1e45acc9b6c0daef239e00dc7e6304d67378816600f4dea085a4e01aa9096f5"
+  },
+  "original_A_source_and_protected_files_unchanged": true,
+  "protected_sha256": {
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+    "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+    "implementation/runbook_retriever.py": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6"
+  },
+  "artifacts_sha256": {
+    "reports/b_r5_followup_20261031/TENANT270_REFERENCE_EVIDENCE.json": "7fccc67f70849bc98a77911675203d0717000d2769a31b921c0ed266875aaa63",
+    "reports/b_r5_followup_20261031/tenant270_live/plan.json": "17176be6f57bad8ea40d3f5dec0862e8f2925cfff319dcdfec3698206d1927e4",
+    "reports/b_r5_followup_20261031/tenant270_live/live.jsonl": "8da5d51a053981c132386e393233eccaaa3986a061e90555e9ad327795ade5f7",
+    "reports/b_r5_followup_20261031/tenant_volume_B_native/summary.json": "3949a735f9941f37a128325580fe479505c5d5feb5c9247015522a929895a985",
+    "reports/b_r5_followup_20261031/tenant_bound_checks/summary.json": "daad6f64ed326f9eea28cc1e003456f8d57e349fd4ae308e585c39bb2354e574"
+  },
+  "runtime_source_sha256": {
+    "implementation/runbook_issue3.py": "f1e45acc9b6c0daef239e00dc7e6304d67378816600f4dea085a4e01aa9096f5",
+    "scripts/probe_a_tenant_rank_native.py": "8a382a6a0194dae7b44190c374add358705c352d464d08c2ca969705e16e59ea",
+    "tests/test_training_tenant_ranking_bounds.py": "0e9388fe0ceccd562a936fa9334ef1234ca7c05bc269fb1bdaa332cb04c6b971"
+  },
+  "new_runtime_model_retest": false,
+  "code_staged_committed_pushed": false,
+  "A_issue_update": {
+    "id": 6533479058,
+    "url": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/4#issuecomment-6533479058",
+    "body_sha256": "b80c7ba936bd8794db55ba27c8a67d6cf23859f752d3cd72b1f53471673f6867"
+  }
+}

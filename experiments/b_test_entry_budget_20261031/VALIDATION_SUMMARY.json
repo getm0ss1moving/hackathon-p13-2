@@ -1,0 +1,166 @@
+{
+  "status": "verified_preflight_not_live",
+  "new_model_requests": 0,
+  "new_full200_score": null,
+  "last_full200_quality": 823.9,
+  "last_full200_not_backfilled": true,
+  "baseline": "2c6ddfd532d5ee7990d6f642d577af1a18b8aa55",
+  "remote_main": "2c6ddfd532d5ee7990d6f642d577af1a18b8aa55",
+  "code_committed_or_pushed": false,
+  "production_query_logic_changed_by_budget_fix": false,
+  "original_risk": "old B launcher defaults200 but process request limit450; last full200 needed483 requests",
+  "fix": "continuous fresh bounded processes; exact frozen source and ledger validation; no final score on any incomplete batch",
+  "preflight_path": "reports/b_r5_next_20261031/budget_entry_preflight200_v2",
+  "wrapper_sha256": {
+    "scripts/run_a132_eval.py": "62488669a7aabd851e7a7edf409a41e756b9c1936df6091b3b23b5834a174f06",
+    "scripts/run_saved_training.py": "fec0bf1fdc7c331ebf9a00cb0122aefe15e1c2a15539edb81321dfe46a5cef98",
+    "scripts/analyze_whitebox_batches.py": "156de8ef3193f816aadb4f42bae49a8dc5348bbe41f62c9969061b4e15d3615b"
+  },
+  "frozen_source_files_per_batch": 174,
+  "batches": [
+    {
+      "range": [
+        1,
+        20
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "c5abfe8f111e6d181c4febdeb87e31dc2a50c1d40c5ed4d85a3debe512c1550a",
+      "source_zip_sha256": "300316d270272ba851ef1d39e3c6665a78c040dfda0df5d1a237f92a57285fd2"
+    },
+    {
+      "range": [
+        21,
+        40
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "bad477b0220d5ce8d8ae598d5d4970f6de4d6331febf92f1f4e238a1f08929f7",
+      "source_zip_sha256": "a2d268824879697d4c7aadaf8440a931caad06f89ab7a0ede7836989fe0b3c87"
+    },
+    {
+      "range": [
+        41,
+        60
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "c994f0e343f9d3abd74b37b6871d834951d2ab5285dd35fd4b7358e0cfb9dec2",
+      "source_zip_sha256": "35118f699e2e93eabd51a5bd4f7091560b70d202bb58e2f420d2b3b6ce029d7a"
+    },
+    {
+      "range": [
+        61,
+        80
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "4e644f46c9ea75d735ee0628b7d0204e93fd92c5bc511c9fc1de2d2df51b7d90",
+      "source_zip_sha256": "42bb76ee6991221a254f8bc7e2457751a2edb51c00dce491324a70b94d1e6eff"
+    },
+    {
+      "range": [
+        81,
+        100
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "a74c297414eb7e1599158837f6b235da4cdd95c5fcd29a1431a4cb9a0208ffbe",
+      "source_zip_sha256": "f65e9ec4b843bab71154d5d575fff4f4c0487f58272bc093e59dc290a8292e20"
+    },
+    {
+      "range": [
+        101,
+        120
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "881a9c6e3240c3078d14f5b6277053206be771c9f65c3709c8173d5ef6869ec2",
+      "source_zip_sha256": "4378ebe3dc6448a67328d3a350014236892efa7aa30fe5ef3208ebb7b470128a"
+    },
+    {
+      "range": [
+        121,
+        140
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "c260c592ef7fa34bb983e0e0a8297d01b7043bf3b0b85aca669ebf5bf7e85db1",
+      "source_zip_sha256": "ad661789f6bae7860b8bda5fb0657deb2df4b0f6ab4dd8f4451826c49bbebc21"
+    },
+    {
+      "range": [
+        141,
+        160
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "c92c90cf2fc3e73b03a7c42e0ca7e6f29801f4abbdade7c1a8580eeda7b53bb6",
+      "source_zip_sha256": "acb1594c0fdc13fe04aae48e143078b7c05c484d074b4ad1c8bd8e5fc4f3c670"
+    },
+    {
+      "range": [
+        161,
+        180
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "02139b8a9efbaee55caf83a39faf6fee360c453d928615dc203e87c218b8a859",
+      "source_zip_sha256": "c99524662aac3c0e18eeab7d14784c9b4bf2dfa9d199dd41a1943704ea11ce32"
+    },
+    {
+      "range": [
+        181,
+        200
+      ],
+      "maximum": 60,
+      "case_count": 20,
+      "plan_sha256": "b48dcf202a0732bd95d0ad41d3cedc46501748e5a597580060342cc2d5b2388a",
+      "source_zip_sha256": "69d6cce249c42b88154238c44f1256d094f66a24957bceaefdcd2acc66383d63"
+    }
+  ],
+  "covered_cases": 200,
+  "maximum_total_requests": 600,
+  "maximum_requests_per_batch": 60,
+  "tests": {
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true,
+    "command": [
+      "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031/../hackathon-p13-2/.venv/bin/python",
+      "scripts/run_training_checks.py",
+      "--output-dir",
+      "reports/b_r5_next_20261031/budget_entry_checks_v2",
+      "--test-module",
+      "test_training_a132_budget_entry",
+      "--test-module",
+      "test_training_whitebox_batches",
+      "--test-module",
+      "test_training_whitebox_scope",
+      "--test-module",
+      "test_training_thinking"
+    ],
+    "project": "/Users/phyll1s0/contest/hackathon/hackathon-p13-2-132-20261031"
+  },
+  "protected_unchanged_vs_2c6ddfd": {
+    "implementation/evaluator.py": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+    "implementation/runbook_executor.py": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+    "implementation/quick_eval.py": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+    "implementation/blackbox_eval.py": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+    "implementation/runbook_items.py": "6e2fc4a1050e61b24744d8ae4e7ea93f7795d84d674a916d6b17453f0c80970c",
+    "implementation/runbook_retriever.py": "b5a1c943fcf4785aa40c39e4905fbbdba2719eed9d458b391c127657b348f3d6"
+  },
+  "A_issue_nullable_proposals": {
+    "id": 6533134007,
+    "html_url": "https://github.com/getm0ss1moving/hackathon-p13-2/issues/4#issuecomment-6533134007",
+    "body_sha256": "e8d39c758b2e09d60ca5ed8430690ce53fe7e4fcbd25f98f6aea5b954d0249cb",
+    "production_enabled": false,
+    "model_requests": 0
+  },
+  "nullable_negative_controls_blocked": 14,
+  "A_proposals_applied": false
+}

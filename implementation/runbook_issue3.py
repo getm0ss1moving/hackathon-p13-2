@@ -1,5 +1,6 @@
 """B接入A已交付的有限组合合同；普通api_call+sql，A源码及官方组件只读。"""
 import copy
+from collections import Counter
 from contextlib import closing
 import hashlib
 import importlib.util
@@ -39,6 +40,31 @@ _MINIMUM={
 
 
 class Unsupported(ValueError):pass
+
+
+def tenant_ranking_bounds(mod,params,prepared):
+    """未知归属只贡献有限对象数量；身份可确定不等于其完整明细已知。"""
+    checked=mod.execute_prepared(params,prepared)
+    if checked.get('status')!='local_sql_ok_policy_conditional':
+        raise Unsupported('A_tenant_validated_projection_recheck_failed')
+    ci='VM_NOVA' if params['metric']=='vm_count' else 'VOLUME'
+    rows=prepared['tables'][ci]
+    counts=Counter(row['tenantId'] for row in rows if row['tenantId'] is not None)
+    unknown=sum(row['tenantId'] is None for row in rows)
+    maximum=max(counts.values(),default=0)
+    leaders=sorted(key for key,count in counts.items() if count==maximum)
+    runner_up=max((count for key,count in counts.items() if key not in leaders),default=0)
+    complete=unknown==0
+    certified=bool(leaders) and (complete or len(leaders)==1 and maximum>runner_up+unknown)
+    return {'ranking_metric':params['metric'],'ranked_resource':ci,'input_object_count':len(rows),
+        'unknown_owner_object_count':unknown,'observed_leader_identities':leaders,
+        'observed_leader_count_lower_bound':maximum,'observed_leader_count_upper_bound':maximum+unknown,
+        'largest_other_known_tenant_count':runner_up,'new_unknown_tenant_count_upper_bound':unknown,
+        'leader_identity_certified':certified,
+        'certificate':('complete_owner_population' if certified and complete else
+                       'strict_unknown_mass_gap' if certified else 'not_certified'),
+        'leader_detail_population_complete':complete,
+        'limitation':'Identity bound only: unknown objects may belong to a known leader; it does not certify complete IP, mount, display fields or business policy.'},checked
 
 
 def digest(value):
@@ -214,7 +240,7 @@ def prepare_selected(question,selected,items,diagnostics,*,enabled_profiles=None
 
 class NativeReader:
     """从真实HTTP取得schema、状态、精确请求及完整分页；不接受模型提供的回执。"""
-    def __init__(self,diagnostics,*,session=None,base_url=None,max_http=128,max_records=1000000,seconds=90):
+    def __init__(self,diagnostics,*,session=None,base_url=None,max_http=128,max_records=1000000,seconds=90,raw_duplicate_resources=()):
         import runbook_executor as executor
         self.base=(base_url or executor.BASE_URL).rstrip('/')
         target=urlsplit(self.base)
@@ -226,6 +252,8 @@ class NativeReader:
             self.session.mount('http://',requests.adapters.HTTPAdapter(max_retries=0))
             self.session.mount('https://',requests.adapters.HTTPAdapter(max_retries=0))
         self.deadline=time.perf_counter()+seconds;self.max_http=max_http;self.max_records=max_records
+        self.raw_duplicate_resources=frozenset(raw_duplicate_resources)
+        if not self.raw_duplicate_resources<= {'PORT'}:raise Unsupported('unsupported_raw_duplicate_resource')
         self.diag=diagnostics;self.schemas={};self.cache={};self.actual_calls=[];self.total_records=0
         self.diag.update(http_requests=0,steps=[],source_schemas={},sql_executed=False)
 
@@ -293,7 +321,8 @@ class NativeReader:
             if state is not None and state!=(total,count):raise Unsupported('native_page_total_drift:'+ci)
             state=(total,count)
             for row in batch:
-                if not isinstance(row,dict) or not isinstance(row.get('id'),str) or not row['id'].strip() or row['id'] in seen:
+                if (not isinstance(row,dict) or not isinstance(row.get('id'),str) or not row['id'].strip()
+                        or row['id'] in seen and ci not in self.raw_duplicate_resources):
                     raise Unsupported('native_duplicate_or_missing_identity:'+ci)
                 seen.add(row['id'])
                 for entry in constraints:
@@ -389,9 +418,21 @@ def execute_plan(plan,items,diagnostics,*,reader=None):
     """真实分页→A预检投影→typed表→原合同SQL。失败不转业务0，不写官方缓存。"""
     kind=plan['_issue3']['kind'];params=plan['_issue3']['parameters']
     owned=reader is None
-    reader=reader or NativeReader(diagnostics)
+    reader=reader or NativeReader(diagnostics,raw_duplicate_resources={'PORT'} if kind.startswith('issue4_') else ())
     try:
-        complete=True;extension_sources={}
+        if kind=='issue4_az_counts':
+            from runbook_issue4_az import execute
+            return execute(plan,diagnostics,reader)
+        if kind=='issue4_vm_links':
+            from runbook_issue4_vm_links import execute
+            return execute(plan,diagnostics,reader)
+        if kind.startswith('issue4_'):
+            from runbook_issue4 import execute
+            return execute(plan,diagnostics,reader)
+        if kind=='cluster_rank_details':
+            from runbook_cluster_rank_details import execute
+            return execute(plan,diagnostics,reader)
+        complete=True;extension_sources={};tenant_checked=None
         if kind=='namespace_counts':
             sql,tables,schemas,complete=_execute_namespace(plan,items,reader,diagnostics)
         else:
@@ -439,6 +480,8 @@ def execute_plan(plan,items,diagnostics,*,reader=None):
                     declared=prepared.get('required_schema') or prepared.get('schemas')
                     schemas={_table(ci):list(declared[ci]) for ci in raw}
                     if kind!='tenant_lists':
+                        bounds,tenant_checked=tenant_ranking_bounds(mod,params,prepared)
+                        diagnostics['tenant_ranking_bounds']=bounds
                         complete=prepared.get('ranking_population')=='complete_ranked_resource_population' and prepared.get('complete_mount_details') is True
                         diagnostics['ranking_policy']={'tie_policy':'all_ties','unknown_policy':'exclude_with_diagnostic',
                             'population':prepared.get('ranking_population'),'external_business_acceptance':False}
@@ -472,6 +515,10 @@ def execute_plan(plan,items,diagnostics,*,reader=None):
             if ci is None or not set(columns)<=set(reader.schemas[ci]):
                 raise Unsupported('typed_schema_not_proven_by_native_endpoint:'+table)
         result=_typed_sql(sql,tables,schemas)
+        if tenant_checked is not None:
+            if (result['columns']!=tenant_checked['columns'] or
+                    Counter(digest(row) for row in result['rows'])!=Counter(digest(row) for row in tenant_checked['rows'])):
+                raise Unsupported('B_tenant_SQL_changed_A_row_multiset')
         if kind=='capacity':
             complete=all(row['unknown_cpu_vm_count']==0 and row['unknown_volume_count']==0 for row in result['rows'])
         if result['columns']!=plan['_expected_result_columns']:raise Unsupported('A_contract_output_schema_drift')

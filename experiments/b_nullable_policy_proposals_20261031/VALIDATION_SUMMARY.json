@@ -1,0 +1,290 @@
+{
+  "mode": "UNPUBLISHED_REVIEW_PROPOSALS_NOT_PRODUCTION",
+  "model_requests_this_turn": 0,
+  "production_enabled": false,
+  "A_source_files_changed": false,
+  "raw_inputs_changed": false,
+  "new_model_score": null,
+  "last_full200_quality": 823.9,
+  "code_committed_or_pushed": false,
+  "proposals": {
+    "vm": {
+      "summary": {
+        "mode": "UNPUBLISHED_ISOLATED_SOURCE_PROPOSAL_NOT_A_RELEASE",
+        "model_requests": 0,
+        "production_enabled": false,
+        "A_source_file_changed": false,
+        "source_sha256": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4",
+        "original_receipts_sha256": "2e40083218663727c0c5ea8b35ab28cf7a0b572f46be98428d06fc8df5ea2dbf",
+        "only_added_declared_nullable_field": "VM_NOVA.floatingIp",
+        "changed_rows": 0,
+        "raw_input_unchanged": true,
+        "results": {
+          "declared_native_view": {
+            "status": "counterfactual_sql_passed",
+            "row_count": 385,
+            "diagnostics": {
+              "selected_vm_count": 385,
+              "unknown_host_reference_vm_count": 0,
+              "unresolved_host_vm_count": 65,
+              "unknown_vm_tenant_count": 0,
+              "preflight_passed": true,
+              "receipt_basis": "B trusted normalized request/schema/page assertions only; not server authenticity or live atomic proof",
+              "full_eip_binding_status": "unsupported_authority_and_coverage",
+              "full_eip_objects_binding_complete": false,
+              "business_complete": false,
+              "business_complete_scope": "Original full EIP-binding obligation is never certified by either declared view.",
+              "parent_population_complete_in_declared_snapshot": true,
+              "requested_display_unknown_counts": {
+                "vm_name": 0,
+                "private_ips_raw": 0,
+                "native_floating_ip_raw": 352,
+                "host_name": 0,
+                "host_ip": 0
+              },
+              "requested_display_values_complete": false,
+              "declared_view_values_complete": false,
+              "declared_complete_limit": "Only the declared native-attribute/host or known-link local view; never complete EIP-object binding, live snapshot or final B adoption."
+            }
+          }
+        },
+        "proposal_sha256": "3b9dea018b71ccd5163084936392440a09bd5a8e7ada172d600ceaf759cce640",
+        "input_rows_modified": 0,
+        "omitted_nullable_rows_handled": 1,
+        "negative_controls": {
+          "missing_identity": {
+            "status": "blocked",
+            "reason": "VM_NOVA: missing row schema key"
+          },
+          "HTTP503": {
+            "status": "blocked",
+            "reason": "VM_NOVA: HTTP success not proven"
+          },
+          "missing_declared_schema": {
+            "status": "blocked",
+            "reason": "VM_NOVA: verified declared schema required, even when empty"
+          },
+          "wrong_scope": {
+            "status": "blocked",
+            "reason": "VM_NOVA: wrong explicit request scope"
+          },
+          "invalid_nullable_type": {
+            "status": "blocked",
+            "reason": "VM_NOVA: declared fields must be text or NULL (isInternal also bool)"
+          },
+          "duplicate_identity": {
+            "status": "blocked",
+            "reason": "VM_NOVA: unique nonblank id required; repeated identities may hide missing objects"
+          },
+          "missing_page": {
+            "status": "blocked",
+            "reason": "VM_NOVA: missing pages"
+          }
+        }
+      },
+      "patch": "experiments/b_nullable_policy_proposals_20261031/VM_NULLABLE_PROPOSAL.patch",
+      "patch_sha256": "d3652696bb338191f4ad2d936e343bda4ab2baacf27c2587844461e9c144543c"
+    },
+    "capacity": {
+      "summary": {
+        "mode": "UNPUBLISHED_ISOLATED_SOURCE_PROPOSAL_NOT_A_RELEASE",
+        "model_requests": 0,
+        "production_enabled": false,
+        "A_source_file_changed": false,
+        "source_sha256": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+        "original_receipts_sha256": "0810aa219ccd7e27b918a4a22d09815223880d7d761fcc8ef8595899b4774c27",
+        "only_added_declared_nullable_field": "VOLUME.vdcName",
+        "changed_rows": 0,
+        "raw_input_unchanged": true,
+        "results": {
+          "reject": {
+            "status": "blocked",
+            "reason": "unknown_vdc_identity",
+            "unknown_owner_volume_count": 1825,
+            "unknown_size_volume_count": 0
+          },
+          "known_only": {
+            "status": "local_sql_ok_policy_conditional",
+            "diagnostics": {
+              "unknown_owner_volume_count": 1825,
+              "unknown_size_volume_count": 0,
+              "unknown_backend_volume_count": 0,
+              "unresolved_backend_volume_count": 0,
+              "ranking_basis": "complete_sizes_within_known_owner_population",
+              "population": "known_vdc_ids_owning_in_scope_volumes",
+              "scope_max_certified": false,
+              "business_policy_accepted": false,
+              "input_volume_count": 3095,
+              "no_volume_population": false,
+              "pool_capacity_meaning": "whole pool capacities, not exclusive VDC allocation",
+              "winner_unknown_backend_volume_count": 0,
+              "winner_unresolved_backend_volume_count": 0,
+              "pool_link_complete": true,
+              "attribute_values_complete": true,
+              "complete_winner_pool_details": true,
+              "complete_winner_pool_details_semantics": "deprecated link-coverage alias only; does not assert attribute values present",
+              "winner_claim": "known_lower_bound_leaders_only",
+              "full_answer_certified": false
+            },
+            "row_count": 2,
+            "leaders": [
+              {
+                "vdc_id": "f5231b8a-26ac-444e-bef8-6d533c33f13c",
+                "vdc_name": "AdvanceService_Manage_VDC",
+                "known_volume_size_source_units": "171500",
+                "total_volume_size_if_complete_source_units": null
+              },
+              {
+                "vdc_id": "f5231b8a-26ac-444e-bef8-6d533c33f13c",
+                "vdc_name": "AdvanceService_Manage_VDC",
+                "known_volume_size_source_units": "171500",
+                "total_volume_size_if_complete_source_units": null
+              }
+            ]
+          }
+        },
+        "proposal_sha256": "12f46d77d45bb76c7c7d222964747d10d6c4750cabb0b026797e224eadab5b44",
+        "input_rows_modified": 0,
+        "omitted_nullable_rows_handled": 1825,
+        "negative_controls": {
+          "missing_identity": {
+            "status": "blocked",
+            "reason": "missing_row_schema",
+            "resource": "VOLUME"
+          },
+          "HTTP503": {
+            "status": "blocked",
+            "reason": "request_outcome_unconfirmed",
+            "resource": "VOLUME"
+          },
+          "missing_declared_schema": {
+            "status": "blocked",
+            "reason": "missing_schema",
+            "resource": "VOLUME"
+          },
+          "wrong_scope": {
+            "status": "blocked",
+            "reason": "scope_leak",
+            "resource": "VOLUME"
+          },
+          "invalid_nullable_type": {
+            "status": "blocked",
+            "reason": "invalid_text_field",
+            "resource": "VOLUME"
+          },
+          "duplicate_identity": {
+            "status": "blocked",
+            "reason": "duplicate_identity",
+            "resource": "VOLUME"
+          },
+          "missing_page": {
+            "status": "blocked",
+            "reason": "incomplete_or_out_of_order_pages",
+            "resource": "VOLUME"
+          }
+        }
+      },
+      "patch": "experiments/b_nullable_policy_proposals_20261031/CAPACITY_NULLABLE_PROPOSAL.patch",
+      "patch_sha256": "a664cb3ed9fc72168047d5aa437256c3e77104509e71c4d4915ca0b5ad025550"
+    }
+  },
+  "original_native_validation": {
+    "vm": {
+      "mode": "isolated_A_native_preflight_not_B_query_or_model_score",
+      "model_requests": 0,
+      "production_enabled": false,
+      "parameters": {
+        "view": "native_ip_host_rows",
+        "tenantName": "AdvanceService_System_VDC"
+      },
+      "A_candidate_sha256": "1e750166c9c6040ae0f5c2caf5407605476e29f05bf450c6b90b6a6a18ab15c4",
+      "native_capture_complete": true,
+      "status": "blocked",
+      "reason": "VM_NOVA: missing row schema key",
+      "error_type": "Unsupported",
+      "field_audit": {
+        "VM_NOVA": {
+          "rows": 385,
+          "schema_missing": [],
+          "absent_fields": {
+            "floatingIp": 1
+          },
+          "null_fields": {
+            "id": 0,
+            "name": 0,
+            "tenantName": 0,
+            "logicalRegionName": 0,
+            "privateIps": 0,
+            "floatingIp": 1,
+            "hostId": 0
+          }
+        },
+        "HOST": {
+          "rows": 68,
+          "schema_missing": [],
+          "absent_fields": {},
+          "null_fields": {
+            "id": 0,
+            "name": 0,
+            "ipAddress": 0,
+            "logicalRegionName": 0
+          }
+        }
+      },
+      "HTTP_requests": 4
+    },
+    "capacity": {
+      "mode": "isolated_A_native_preflight_SQL_not_B_model_score",
+      "model_requests": 0,
+      "production_enabled": false,
+      "A_candidate_sha256": "35c53fe7fa1bba7413355ab4f0142e98d9c14ed0c2922a0d59974a16ffe53443",
+      "parameters": {
+        "logicalRegionName": "region_guian4",
+        "tie_policy": "all_ties",
+        "unknown_owner_policy": "reject",
+        "unknown_size_policy": "reject"
+      },
+      "byte_boundaries": {
+        "encoding": "UTF8 compact JSON ensure_ascii=False",
+        "static_api_sql_template_bytes": 2234,
+        "expanded_wire_bytes": 2210,
+        "expanded_wire_limit_bytes": 4096,
+        "full_plan_bytes": 4540,
+        "full_plan_limit_bytes": null,
+        "final_B_envelope": "must measure actual outgoing wrapper separately",
+        "formal_depth4_gate": "unresolved, not passed"
+      },
+      "native_field_audit": {
+        "VOLUME": {
+          "rows": 3095,
+          "missing_schema": [],
+          "absent_fields": {
+            "vdcName": 1825
+          }
+        },
+        "STORAGE_POOL": {
+          "rows": 3,
+          "missing_schema": [],
+          "absent_fields": {}
+        }
+      },
+      "native_capture_complete": true,
+      "policy_results": {
+        "reject": {
+          "status": "blocked",
+          "reason": "missing_row_schema",
+          "resource": "VOLUME"
+        },
+        "known_only": {
+          "status": "blocked",
+          "reason": "missing_row_schema",
+          "resource": "VOLUME"
+        }
+      },
+      "status": "native_policy_comparison_completed",
+      "HTTP_requests": 7
+    }
+  },
+  "verification": "Original published candidates remain blocked; only isolated variants executed the unmodified original receipts. Seven protective controls per variant (14 total) remain blocked. No template registration, model scoring or production adoption.",
+  "protective_controls_blocked": 14
+}

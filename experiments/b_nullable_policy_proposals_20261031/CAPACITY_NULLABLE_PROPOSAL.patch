@@ -1,0 +1,28 @@
+--- a/experiments/issue3_next_capabilities_20261030/modules/ranked_vdc_pool_http_r2/candidate.py
++++ b/experiments/issue3_next_capabilities_20261030/modules/ranked_vdc_pool_http_r2/candidate.py
+@@ -89,7 +89,7 @@
+       'blocked_reason':{'boundary':'expanded_api_call+sql','measured_bytes':n,'limit_bytes':4096,'reason':'utf8_json_budget_exceeded'} if n>4096 else None,
+       'params':dict(params),'parameter_schema':deepcopy(PARAMETER_SCHEMA),'output_columns':list(OUTPUT_COLUMNS),
+       'required_schema':deepcopy(SCHEMA),'prepared_schema':deepcopy(PREPARED),
+-      'requires_validated_projection':True,'projection_contract':'volume-capacity-vdc-pool-v3-source-rechecked',
++      'requires_validated_projection':True,'projection_contract':'volume-capacity-vdc-pool-v4-nullable-display-proposal',
+       'size_scale':SCALE,'size_unit':'source_raw_unconverted','byte_boundaries':{
+        'encoding':'UTF8 compact JSON ensure_ascii=False','static_api_sql_template_bytes':compact(_render(static)),
+        'expanded_wire_bytes':n,'expanded_wire_limit_bytes':4096,'full_plan_bytes':0,'full_plan_limit_bytes':None,
+@@ -134,13 +134,13 @@
+    batch=page.get('objList')
+    if not isinstance(batch,list) or len(batch)!=min(ps,max(0,total-(index-1)*ps)):return blocked('truncated_page',resource=ci)
+    for raw in batch:
+-    if not isinstance(raw,dict) or any(k not in raw for k in SCHEMA[ci]):return blocked('missing_row_schema',resource=ci)
++    if not isinstance(raw,dict) or any(k not in raw for k in set(SCHEMA[ci])-({'vdcName'} if ci=='VOLUME' else set())):return blocked('missing_row_schema',resource=ci)
+     if not isinstance(raw['id'],str) or blank(raw['id']):return blocked('missing_identity',resource=ci)
+     if raw['id'] in seen:return blocked('duplicate_identity',resource=ci)
+     seen.add(raw['id'])
+     if raw['logicalRegionName']!=region:return blocked('scope_leak',resource=ci)
+-    if any(raw[k] is not None and not isinstance(raw[k],str) for k in SCHEMA[ci] if k!='size'):return blocked('invalid_text_field',resource=ci)
+-    row={k:deepcopy(raw[k]) for k in SCHEMA[ci]}
++    if any(raw.get(k) is not None and not isinstance(raw.get(k),str) for k in SCHEMA[ci] if k!='size'):return blocked('invalid_text_field',resource=ci)
++    row={k:deepcopy(raw.get(k)) for k in SCHEMA[ci]}
+     if ci=='VOLUME':
+      row['vdcId']=None if blank(row['vdcId']) else row['vdcId']
+      row['attachBackendId']=None if blank(row['attachBackendId']) else row['attachBackendId']

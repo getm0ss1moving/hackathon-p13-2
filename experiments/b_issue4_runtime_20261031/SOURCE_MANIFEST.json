@@ -1,0 +1,12 @@
+{
+  "A_commit": "72e6062",
+  "A_manifest": "experiments/a_issue4_r1_20261031/PUBLIC_MANIFEST.json",
+  "A_manifest_sha256": "3b57f82f507aef860f7c141d07647c3eb583db96ce230d12fc0af2ef34fc4cb1",
+  "activated_families": [
+    "hierarchy",
+    "named_vpc"
+  ],
+  "default_enabled": false,
+  "template_count": 132,
+  "retriever": "strict_r5"
+}

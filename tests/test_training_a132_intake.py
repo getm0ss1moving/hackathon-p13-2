@@ -70,6 +70,26 @@ class A132IntakeTests(unittest.TestCase):
         self.assertIn('ecs_tenant_zone_ip_alias', prompt)
         self.assertIn('tenant_name', result['sql']);self.assertIn('private_ips', result['sql'])
 
+    def test_singular_view_enum_repairs_wrong_known_view_without_changing_cluster_filter(self):
+        params={'view':'node_managed_cpu','filters':{'name':'synthetic-cce-cluster'},'required_filters':['name']}
+        result,details,_=self.fill('family_cce_children','查询CCE集群synthetic-cce-cluster下的容器节点列表及节点IP',params)
+        self.assertIsNotNone(result,details)
+        self.assertIn('privateIP',result['sql'])
+        self.assertEqual(details['parameters']['effective']['view'],'node_address_status')
+        self.assertEqual(details['parameters']['effective']['filters'],params['filters'])
+        for question in ['查询CCE集群synthetic-cce-cluster下的容器节点列表及节点IP和管理员密码',
+                         '查询CCE集群different-cluster下的容器节点列表及节点IP']:
+            result,_,_=self.fill('family_cce_children',question,params)
+            self.assertIsNone(result)
+
+    def test_null_closed_view_recovers_only_explicit_complete_required_filters(self):
+        question='查询CCE集群synthetic-cce-cluster下的容器节点列表及节点IP'
+        result,details,_=self.fill('family_cce_children',question,None)
+        self.assertIsNotNone(result,details);self.assertIn('privateIP',result['sql'])
+        self.assertEqual(details['parameters']['effective']['filters'],{'name':'synthetic-cce-cluster'})
+        for q in [question+'和管理员密码','查询指定CCE集群下的容器节点列表及节点IP']:
+            result,_,_=self.fill('family_cce_children',q,None);self.assertIsNone(result)
+
     def test_polite_wrappers_keep_supported_volume_query_and_do_not_drop_extra_obligation(self):
         parameters = {'view':'vm_volumes','filters':{'name':'demo_vm'},'required_filters':['name']}
         base = '查询ECS实例demo_vm挂载的云硬盘列表'

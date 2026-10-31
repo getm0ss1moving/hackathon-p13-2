@@ -88,6 +88,18 @@ def _extract_sql_tables(sql):
     return tables
 
 
+def _sql_relation_roles(sql):
+    """区分现有生成SQL的远端CI与本地CTE；未知名字不发到远端猜测。"""
+    structure=_sql_structure(sql)
+    declared={m[1].casefold() for m in re.finditer(
+        r'(?:\bWITH(?:\s+RECURSIVE)?|,)\s*([A-Za-z_]\w*)\s*(?:\([^()]*\)\s*)?AS\s*(?:(?:NOT\s+)?MATERIALIZED\s*)?\(',structure,re.I)}
+    known={name.casefold():name for name in _ORIG_TO_DESENS}
+    referenced={name.casefold():name for name in _extract_sql_tables(structure) if name.casefold()!='select'}
+    return {'remote':{key:known[key] for key in referenced if key in known and key not in declared},
+        'local_ctes':sorted(declared),'unknown':sorted(key for key in referenced if key not in declared and key not in known),
+        'remote_name_shadowed':sorted(declared&set(known))}
+
+
 _schema_cache = {}
 _schema_values = {}
 _schema_columns = {}
@@ -142,7 +154,7 @@ def _warm_schema_cache():
 
 
 def _get_table_schemas(sql):
-    tables = _extract_sql_tables(sql)
+    tables = set(_sql_relation_roles(sql)['remote'].values())
     if not tables:
         return ""
     schemas = []
@@ -461,12 +473,34 @@ def _recover_a132_parameters(question, item, parsed, entry):
     contract = item.get('parameter_contract', {})
     trials = []
     expected_signature = None
+    if parsed is None and item.get('family_id')!='F02':
+        # 每view已有的精确字段集合也是闭合合同；从完整原文提取后仍交A prepare验证。
+        for view,spec in contract.get('views',{}).items() if isinstance(contract.get('views'),dict) else []:
+            if not isinstance(spec,dict):continue
+            key_sets=([spec['exact_filter_keys']] if 'exact_filter_keys' in spec else spec.get('exact_filter_key_sets',[]))
+            for keys in key_sets:
+                if not isinstance(keys,list) or not keys or not all(isinstance(k,str) for k in keys):continue
+                rules={};_auto_fill_params(question,rules,keys,item)
+                rules=_ground_params(question,rules,item)
+                if set(rules)==set(keys):
+                    trials.append({'view':view,'filters':rules,'required_filters':keys.copy()})
+        declared=contract.get('views',contract.get('view',{}))
+        fields=contract.get('filters');required=contract.get('required_filters')
+        if (isinstance(fields,dict) and isinstance(required,list) and required
+                and all(isinstance(k,str) for k in required) and len(set(required))==len(required)
+                and set(required)==set(fields) and isinstance(declared,(list,dict))):
+            rules={}
+            _auto_fill_params(question,rules,required,item)
+            rules=_ground_params(question,rules,item)
+            if set(rules)==set(required):
+                trials.extend({'view':view,'filters':rules.copy(),'required_filters':required.copy()}
+                              for view in declared if isinstance(view,str))
     if (isinstance(parsed,dict) and set(parsed) in ({'filters','required_filters'},{'view','filters','required_filters'})
             and isinstance(parsed.get('filters'),dict) and isinstance(parsed.get('required_filters'),list)
             and all(isinstance(k,str) for k in parsed['required_filters'])
             and len(set(parsed['required_filters']))==len(parsed['required_filters'])
             and set(parsed['required_filters'])==set(parsed['filters'])):
-        views=contract.get('natural_views',{}) if item.get('family_id')=='F02' else contract.get('views',{})
+        views=contract.get('natural_views',{}) if item.get('family_id')=='F02' else contract.get('views',contract.get('view',{}))
         view_specs=views.items() if isinstance(views,dict) else ((view,{}) for view in views) if isinstance(views,list) else []
         for view,spec in view_specs:
             if 'view' not in parsed:
@@ -521,7 +555,7 @@ def _recover_a132_parameters(question, item, parsed, entry):
           and all(isinstance(k, str) for k in parsed['required_filters'])
           and len(set(parsed['required_filters'])) == len(parsed['required_filters'])
           and set(parsed['required_filters']) == set(parsed['filters'])):
-        views = contract.get('natural_views') if item.get('family_id') == 'F02' else contract.get('views', {})
+        views = contract.get('natural_views') if item.get('family_id') == 'F02' else contract.get('views', contract.get('view', {}))
         if views and parsed['view'] in views:
             # 模型错配view时只改结构枚举，原筛选与值逐字不动；完整原文仍须唯一证明。
             trials.extend(dict(parsed, view=view) for view in views if view != parsed['view'])
@@ -553,7 +587,12 @@ def _recover_a132_parameters(question, item, parsed, entry):
                           else _FIELD_LABELS.get(key, []))
                 role_prefix = (isinstance(old, str) and isinstance(new, str) and old in question
                                and any(re.fullmatch(label+r'\s*'+re.escape(new), old, re.I) for label in labels))
-                if not (enum_alias or enum_case or role_prefix):
+                # 不透明IP仅在模型值确为原文完整token的内部片段时恢复；另一完整实体仍拒绝。
+                ip_fragment = (key in {'privateIps','fixedIpAddress'} and isinstance(old,str)
+                    and isinstance(new,str) and bool(old) and old in new
+                    and new==_explicit_ip_literal(question,key)
+                    and re.search(r'(?<![A-Za-z0-9_@./:#%+\-])'+re.escape(old)+r'(?![A-Za-z0-9_@./:#%+\-])',question) is None)
+                if not (enum_alias or enum_case or role_prefix or ip_fragment):
                     conflict = True
             if not conflict:
                 trials.append(dict(parsed, filters=rules, required_filters=list(parsed['filters'])))
@@ -926,13 +965,31 @@ def _preposed_cluster_name(question):
     return _one(values)
 
 
+def _explicit_region_value(question):
+    """保留显式区域的完整原文字面值，不从名称子串或环境猜区域。"""
+    values = re.findall(r"(?<![A-Za-z0-9_])region_[A-Za-z0-9_\-]+", question)
+    role = r"(?:区域|地区|地域|logicalRegionName)\s*(?:(?:名称|名字|名)\s*)?(?:(?:为|是|=|:|：)\s*)?"
+    quoted = r'''(?:"([^"\n]+)"|'([^'\n]+)'|“([^”\n]+)”|「([^」\n]+)」)'''
+    for match in re.finditer(role + quoted, question, re.I):
+        values.append(next(value for value in match.groups() if value is not None))
+    visible = re.sub(r'''"[^"\n]*"|'[^'\n]*'|“[^”\n]*”|「[^」\n]*」''', ' ', question)
+    if not re.search(r'不是|不为|不在|排除|除了|!=|<>|或者|或|\bOR\b', visible, re.I):
+        # 中文名称须由明确范围介词和查询对象限定；“区域内蒙古中所有...”
+        # 中第一个“内”不是范围终点，不能截成空值或名称前缀。
+        end = r"(?=\s*(?:(?:下|内|中)(?:部)?(?:的)?\s*(?:所有|全部|各|ECS|VM|物理|虚拟|宿主|服务器|云硬盘|集群|部署|网络|VPC|可用区)|(?:可用区|azoneName)\s*[A-Za-z0-9_]))"
+        for match in re.finditer(role + r"([\u4e00-\u9fff][\u4e00-\u9fffA-Za-z0-9_.\-]*?)" + end, visible, re.I):
+            if re.search(r'[\u4e00-\u9fff]', match[1]):
+                values.append(match[1])
+    return _one(values)
+
+
 def _auto_fill_params(user_question: str, values: dict, placeholders: list, item: dict = None):
     """只从问题中的显式实体或字段语义补参，不使用示例中的实体默认值。"""
     item = item or {}
     for parameter in placeholders:
         value = None
         if parameter == "logicalRegionName":
-            value = _one(re.findall(r"(?<![A-Za-z0-9_])region_[A-Za-z0-9_\-]+", user_question))
+            value = _explicit_region_value(user_question)
         elif parameter == "azoneName":
             value = _one(re.findall(r"(?<![A-Za-z0-9_])az(?:\d+\.dc\d+|_[A-Za-z0-9_.\-]+)", user_question))
         elif parameter == "name":
@@ -2434,6 +2491,49 @@ def _candidate_unavailable_resource(question, item):
     return None
 
 
+def _closed_count_selection(question, candidates):
+    """已有闭合COUNT族完整消费原问题时，排除只能回答部分义务的选择。"""
+    import runbook_family_count as helper
+    try:
+        parsed=helper.parse_count_request(question)
+    except (ValueError,TypeError):
+        return candidates,None
+    proven=[item for item in candidates if item.get('family_id')=='NEXT_N28'
+            and helper.prepare_count_candidate(question,item,parsed) is not None]
+    if len(proven)!=1:return candidates,None
+    return proven,{'reason':'unique_offered_closed_count_contract_for_complete_original_question',
+        'selected_id':proven[0]['id'],'parameters':parsed,'original_offered_ids':[x['id'] for x in candidates]}
+
+
+def _closed_supported_selection(question,candidates):
+    offered,proof=_closed_count_selection(question,candidates)
+    if proof or os.environ.get('RUNBOOK_A132_CANDIDATE')!='1':return offered,proof
+    entry=_a132_module('unified_prepare');proven=[]
+    for item in candidates:
+        if not entry.handles_item(item):continue
+        alternatives=_recover_a132_parameters(question,item,None,entry)
+        if len(alternatives)==1 and not _resource_coverage(question,alternatives[0][0])['unsupported']:
+            proven.append((item,alternatives[0][1]))
+    if len(proven)!=1:return candidates,None
+    item,params=proven[0]
+    return [item],{'reason':'unique_offered_A_contract_consumes_complete_original_question',
+        'selected_id':item['id'],'parameters':params,'original_offered_ids':[x['id'] for x in candidates]}
+
+
+def _repair_explicit_count_dimension(question,family,parameters):
+    if family!='F01' or parameters.get('metrics')!='count':return parameters,None
+    accepted=[]
+    for group in _FAMILY_SPECS[family]['axes']['group']:
+        if group=='none':continue
+        trial=copy.deepcopy(parameters);trial.update(group=group,count_alias='count')
+        try:evidence=_family_question_evidence(question,family,trial)
+        except (ValueError,TypeError):continue
+        if evidence['dimensions']=={group}:accepted.append(trial)
+    if len(accepted)!=1 or accepted[0]['group']==parameters.get('group'):return parameters,None
+    return accepted[0],{'from':parameters.get('group'),'to':accepted[0]['group'],
+        'reason':'unique_explicit_question_dimension','metrics_and_entity_values_unchanged':True}
+
+
 def _match_a160_candidate(question, selected, diagnostics):
     family = selected["family_id"]
     schema, detail = _a160_parameter_contract(selected)
@@ -2502,6 +2602,15 @@ def _match_a160_candidate(question, selected, diagnostics):
         else:
             import runbook_family_count as helper
             ordinary = helper.prepare_count_candidate(question, selected, parsed, helper_diagnostics)
+            if ordinary is None:
+                recovered=helper.parse_count_request(question)
+                recovery_evidence={}
+                recovered_item=helper.prepare_count_candidate(question,selected,recovered,recovery_evidence)
+                if recovered_item is not None:
+                    diagnostics['family_parameter_recovery']={'reason':'unchanged_complete_original_question_count_parser',
+                        'llm_parameters':copy.deepcopy(parsed),'effective_parameters':copy.deepcopy(recovered),
+                        'additional_model_requests':0}
+                    ordinary,parsed,helper_diagnostics=recovered_item,recovered,recovery_evidence
             columns = []
             if ordinary is not None:
                 if parsed["layout"] == "labeled_rows":
@@ -2784,6 +2893,8 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
         parameters = _parse_family_response(answer)
         if not isinstance(parameters, dict):
             raise ValueError("invalid_family_response")
+        parameters,group_repair=_repair_explicit_count_dimension(question,family,parameters)
+        if group_repair and diagnostics is not None:diagnostics['family_group_recovery']=group_repair
         if (isinstance(parameters.get('filters'),dict) and isinstance(parameters.get('required_filters'),list)
                 and all(isinstance(k,str) for k in parameters['required_filters'])
                 and len(set(parameters['required_filters'])) == len(parameters['required_filters'])
@@ -2792,7 +2903,7 @@ def _match_family_candidate(question: str, item: dict, diagnostics: dict = None)
             added=[]
             for field in evidence['required_filters']:
                 values=evidence['values'].get(field,[])
-                if field in spec['filters'] and field not in parameters['filters'] and len(set(values)) == 1:
+                if field in spec['filters'] and _missing_parameter(parameters['filters'].get(field)) and len(set(values)) == 1:
                     parameters['filters'][field]=values[0];added.append(field)
             parameters['required_filters']=list(parameters['filters'])
             if added and diagnostics is not None:
@@ -3074,6 +3185,9 @@ def match_runbook(user_question: str, runbook_items: list,
     candidate_items = admissible
     if not candidate_items:
         return reject('no_candidate_covers_requested_attribute')
+    candidate_items,selection_proof=_closed_supported_selection(user_question,candidate_items)
+    if selection_proof:
+        diagnostics['closed_count_selection_contract']=selection_proof
     diagnostics["selection"] = {"offered_ids": [item["id"] for item in candidate_items]}
 
     # 2. LLM 选择
@@ -3090,17 +3204,88 @@ def match_runbook(user_question: str, runbook_items: list,
     try:
         index = int(answer)
     except ValueError:
-        logger.error("模型未返回有效选择编号")
-        return reject("invalid_selection")
+        if not selection_proof:
+            logger.error("模型未返回有效选择编号")
+            return reject("invalid_selection")
+        index=0
 
     diagnostics["selection"].update(model_index=index, method="llm")
     if index <= 0 or index > len(candidate_items):
-        return reject("selector_refused" if index == 0 else "invalid_selection")
+        if not selection_proof:
+            return reject("selector_refused" if index == 0 else "invalid_selection")
+        index=1
+        diagnostics['selection'].update(method='unique_complete_closed_contract_recovery',effective_index=1)
     selected = copy.deepcopy(candidate_items[index - 1])
     diagnostics["selected_template"] = selected["id"]
     diagnostics["selection"]["selected_id"] = selected["id"]
     diagnostics["template_sql"] = selected.get("sql")
     diagnostics["sql"] = {"template": selected.get("sql")}
+    if os.environ.get('RUNBOOK_ISSUE4_AZ_COUNTS')=='1':
+        from runbook_issue4_az import prepare
+        try:ordinary=prepare(user_question,selected,_schema_columns)
+        except ValueError as error:
+            diagnostics['issue4_AZ_preparation_error']=str(error)
+            return reject('issue4_AZ_contract_blocked')
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',issue4_AZ_contract=ordinary['_issue3']['parameters'],sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if os.environ.get('RUNBOOK_ISSUE4_VM_LINKS')=='1':
+        from runbook_issue4_vm_links import prepare
+        try:ordinary=prepare(user_question,selected,_schema_columns)
+        except ValueError as error:
+            diagnostics['issue4_VM_preparation_error']=str(error)
+            return reject('issue4_VM_contract_blocked')
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',issue4_VM_contract=ordinary['_issue3']['parameters'],sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if os.environ.get('RUNBOOK_ISSUE4_NETWORK')=='1':
+        from runbook_issue4 import prepare
+        try:
+            ordinary=prepare(user_question,selected,_schema_columns,
+                enabled_families=json.loads(os.environ.get('RUNBOOK_ISSUE4_NETWORK_FAMILIES','null')))
+        except ValueError as error:
+            diagnostics['issue4_preparation_error']=str(error)
+            return reject('issue4_contract_blocked')
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',issue4_contract=ordinary['_issue3'],sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if os.environ.get('RUNBOOK_CLUSTER_RANK_DETAILS')=='1':
+        from runbook_cluster_rank_details import prepare
+        try:
+            ordinary=prepare(user_question,selected,_schema_columns)
+        except ValueError as error:
+            diagnostics['cluster_rank_preparation_error']=str(error)
+            return reject('cluster_rank_contract_blocked')
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',cluster_rank_contract=ordinary['_issue3']['parameters'],sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if os.environ.get('RUNBOOK_VDC_RESOURCE_COUNTS') == '1':
+        from runbook_vdc_counts import prepare
+        ordinary=prepare(user_question,selected,_schema_columns)
+        if ordinary is not None:
+            sql=ordinary['sql'];proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',vdc_counts_contract=ordinary['_vdc_resource_counts'],sql_before_refine=sql,sql_after_refine=sql)
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
+    if os.environ.get('RUNBOOK_COMPLETE_CCE_DETAILS') == '1':
+        from runbook_cce_details import prepare
+        ordinary = prepare(user_question,selected,_schema_columns)
+        if ordinary is not None:
+            sql=ordinary['sql']
+            proposal=_refine_sql(user_question,sql,_get_table_schemas(sql),diagnostics=diagnostics)
+            diagnostics.update(reason='matched',sql_before_refine=sql,sql_after_refine=sql,
+                cce_details_contract={'relation_source':'背景知识.md','missing_vm_policy':'NULL complete count; retain known count and unresolved node count',
+                    'refinement_kept':proposal.strip().rstrip(';')==sql.strip().rstrip(';')})
+            diagnostics['sql'].update(before_refine=sql,after_refine=proposal,final=sql)
+            return ordinary
     if os.environ.get('RUNBOOK_ISSUE3_CONTRACTS') == '1':
         from runbook_issue3 import prepare_selected,Unsupported
         phase='A_contract_preparation'
@@ -3711,6 +3896,40 @@ def _recover_grouped_identity_columns(original, refined, question):
     return result, restored
 
 
+def _count_population_contract(sql):
+    """识别平面投影中COUNT是否逐行计数；不推断列非空或CASE必真。"""
+    from runbook_measurement_guard import _tokens, _paren_map
+    try:
+        tokens = _tokens(sql)
+        pairs = _paren_map(tokens)
+    except ValueError:
+        return {}
+    if sum(t.kind == 'ident' and t.value.casefold() == 'select' for t in tokens) != 1:
+        return {}
+    result = {}
+    select = re.match(r'\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b', sql, re.I | re.S)
+    if not select:
+        return {}
+    for pos, expression in enumerate(_split_sql_expressions(select[1])):
+        try:
+            parts = _tokens(expression); brackets = _paren_map(parts)
+        except ValueError:
+            return {}
+        modes = []
+        for index, token in enumerate(parts[:-1]):
+            if (token.kind != 'ident' or token.value.casefold() != 'count'
+                    or parts[index+1].value != '(' or index+1 not in brackets):
+                continue
+            args = parts[index+2:brackets[index+1]]
+            row_count = (len(args) == 1 and (args[0].kind in {'number', 'string'}
+                         or args[0].kind == 'punct' and args[0].value == '*'))
+            modes.append('rows' if row_count else 'nullable_expression')
+        if modes:
+            alias = re.search(r'\s+AS\s+(\w+)\s*$', expression, re.I)
+            result[alias[1].casefold() if alias else '@'+str(pos)] = tuple(modes)
+    return result
+
+
 def _row_semantics_contract(original, refined, question):
     before, after = _sql_structure(original), _sql_structure(refined)
     explicit_unique = bool(re.search(r"去重|不重复|唯一|distinct", question, re.I))
@@ -3735,6 +3954,14 @@ def _row_semantics_contract(original, refined, question):
     if not explicit_unique and not explicit_duplicates and changed_count:
         return {"reject": True, "reason": "changed_count_distinct_contract"}
     if os.environ.get("RUNBOOK_PRESERVE_AGGREGATE_GRAIN") == "1":
+        old_population, new_population = _count_population_contract(original), _count_population_contract(refined)
+        shared_counts = old_population.keys() & new_population.keys()
+        population_changed = any(old_population[k] != new_population[k] for k in shared_counts)
+        if not shared_counts and len(old_population) == len(new_population) == 1:
+            population_changed = next(iter(old_population.values())) != next(iter(new_population.values()))
+        explicit_population = re.search(r'非空|不为空|非\s*NULL|条件计数|仅统计|只统计|COUNT\s*\(', question, re.I)
+        if population_changed and not explicit_population:
+            return {"reject": True, "reason": "changed_count_null_population"}
         def value_contracts(text):
             select = re.match(r"\s*SELECT\s+(?:DISTINCT\s+)?(.+?)\s+FROM\b", text, re.I | re.S)
             if not select or len(re.findall(r"\bSELECT\b", text, re.I)) != 1:

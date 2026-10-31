@@ -1,0 +1,6 @@
+{
+  "A_manifest": "experiments/issue3_next_capabilities_20261030/MANIFEST.json",
+  "A_manifest_sha256": "67f112f21ed0d34c1201e6b9918e4e547db61f2c163c79e33d940eedb357d4d8",
+  "candidate_path": "modules/cluster_ranked_hosts/candidate.py",
+  "kind": "B layout and native binding, unchanged A candidate"
+}

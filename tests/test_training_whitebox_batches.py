@@ -70,5 +70,15 @@ class WhiteboxBatchReportTests(unittest.TestCase):
             archive.writestr('runtime/CMDB用例集-白盒200.json','changed')
         with self.assertRaisesRegex(ValueError,'source archive'):combine_batches([self.one,self.two])
 
+    def test_explicit_prefix_never_claims_full200(self):
+        report,rows=combine_batches([self.one],expected_count=100)
+        self.assertEqual(len(rows),100)
+        self.assertTrue(report['requested_coverage_verified'])
+        self.assertFalse(report['full_coverage_verified'])
+        self.assertEqual(report['scope'],'whitebox200_prefix_development')
+        for count in [True,0,99,101,201]:
+            with self.subTest(count=count),self.assertRaises(ValueError):
+                combine_batches([self.one],expected_count=count)
+
 
 if __name__=='__main__':unittest.main()

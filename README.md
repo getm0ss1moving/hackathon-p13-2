@@ -1,5 +1,18 @@
 # CMDB 智能查询系统 — Hackathon
 
+**最新B提交候选（2026-10-31，132 strict＋R5）：** [提交包与评测机运行说明](docs/SUBMISSION_README.md) · [GitHub下载页](https://github.com/getm0ss1moving/hackathon-p13-2/releases/tag/b132-r5-report-v1-20261031) · [发布核验摘要](experiments/b_submission_release_20261031/VERIFICATION_SUMMARY.json)。本次将此前未推送的B修复统一接入main：新增三条已验收A合同路径、集群/CCE完整明细、六项选择/填参修复、本地CTE识别，以及直接导入入口的默认配置加载。数组仍132、检索仍strict R5，r6与未经裁定的候选保持原状态。
+
+报告中的011/030/069/086/130/163本轮各5分（18请求0失败）；后续194/252/256/289与控制005/033各5分（13请求0失败），题目阶段HTTP404为0。最终51项免费检查通过，提交ZIP在无Git的解压目录完成069真实试跑5分、3请求0失败。各阶段分别冻结，不能拼接成新的200题总分；尚未在真实评测机验收。密钥、原始模型日志、训练原始输出及本机环境不上传；Release ZIP也不含题集或原始数据库。
+
+```bash
+git pull --ff-only origin main
+python -B scripts/build_submission_bundle.py --output-dir ../submission-build-new
+python -B ../submission-build-new/submission/scripts/check_submission.py
+python -B ../submission-build-new/submission/scripts/check_submission.py --server
+```
+
+上述命令不调用模型。模型和原CMDB服务由评测环境提供，安装、环境变量及`lsof`/本地来源核验要求见提交说明。下面所有较早的“当前”“默认”及分数按其历史版本解释。
+
 **当前 B 发布（2026-10-31）：132 strict（26族＋106固定项）已接入 A 的 R5 检索器（基线 `50638fe`）。** [最新交接与复现说明](docs/handoffs/B_R5_CURRENT_20261031.md) · [R5 已完成验证摘要](experiments/b_r5_intake_20261031/VALIDATION_SUMMARY.json) · [此前 R4 全200结果](experiments/b_all200_r4_20261031/VALIDATION_SUMMARY.json)。本轮包含原文义务跨度校验、封闭参数恢复、完整明细输出及 bootable 原生合同修复；Issue3 仅默认启用已验收的 namespace_counts、tenant_lists、vdc_network。
 
 本轮相关离线检查76项通过；R5相关7题实测30/35、17次请求、0失败；R5前100题质量411.4/500、计时405.4/500、263次请求、0失败，后100题待完成，尚无R5全200总分。此前冻结R4两批连续覆盖200题质量813.9/1000、计时812.9/1000，不能当作当前R5成绩。全部200题现在按用户要求用于开发，原50题已曝光。官方四文件本次未改，evaluator保持三处已授权修订。

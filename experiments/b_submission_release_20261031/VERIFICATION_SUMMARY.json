@@ -1,0 +1,148 @@
+{
+  "status": "frozen_candidate_verified_for_upload",
+  "base_commit": "72e6062ef1928ac79187383086fb97bdb04b580c",
+  "release_tag": "b132-r5-report-v1-20261031",
+  "archive": {
+    "name": "submission.zip",
+    "sha256": "3d87b77fb6246635e059e53458f16bda7c8b71e6b381df98d243969b54db8fe5",
+    "bytes": 953824,
+    "runtime_files": 248
+  },
+  "runtime_matches_verified_ZIP": true,
+  "template_count": 132,
+  "retriever": "strict_r5",
+  "official_integrity": {
+    "official_commit": "d79c316",
+    "unchanged": true,
+    "files": [
+      {
+        "file": "implementation/evaluator.py",
+        "expected_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "actual_sha256": "f936c85a3490bc4d927c65736aa0860b6cc03c3141a540e896859909eb28808b",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/runbook_executor.py",
+        "expected_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "actual_sha256": "4febd1933699a4f17d36507dcb297250989ddfa1ce4900bafe191e12f37b4b92",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/quick_eval.py",
+        "expected_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "actual_sha256": "41c28aa77be441451c440e3ab8f7b4bfbb6172cb5d87dc016a68c0f23fca7324",
+        "unchanged": true
+      },
+      {
+        "file": "implementation/blackbox_eval.py",
+        "expected_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "actual_sha256": "4f20375597dad1927fa12a0c72d14c31021bbcd3bc4d059629804b9d9469198c",
+        "unchanged": true
+      }
+    ],
+    "accepted_revisions": {
+      "implementation/evaluator.py": {
+        "revision_id": "alias_extra_columns_numeric_ratio_20261030",
+        "authority": "用户2026-10-30补充修订：在别名/额外列版之上同时将ratio100.0改为1.0",
+        "base_commit": "d79c316",
+        "changes": [
+          "_tuples_match允许系统额外值",
+          "别名不完全一致时按行值兜底",
+          "abs(ratio - 100.0) < 0.1 -> abs(ratio - 1.0) < 0.1"
+        ],
+        "numeric_ratio_threshold": 1.0,
+        "alias_and_extra_columns_revision_included": true
+      }
+    },
+    "scripts_executed": false,
+    "model_requests": 0
+  },
+  "free_checks": {
+    "tests": 51,
+    "failures": 0,
+    "errors": 0,
+    "socket_attempts": 0,
+    "model_requests": 0,
+    "success": true
+  },
+  "P0_small_runs": {
+    "case_ids": [
+      "CMDB-011",
+      "CMDB-030",
+      "CMDB-069",
+      "CMDB-086",
+      "CMDB-130",
+      "CMDB-163"
+    ],
+    "quality": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "requests": 18,
+    "failed_requests": 0
+  },
+  "CTE_affected_and_control_small_runs": {
+    "case_ids": [
+      "CMDB-194",
+      "CMDB-252",
+      "CMDB-256",
+      "CMDB-289",
+      "CMDB-005",
+      "CMDB-033"
+    ],
+    "quality": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "requests": 13,
+    "failed_requests": 0,
+    "case_HTTP_404": 0,
+    "initialization_volume_type_404_per_process": 1
+  },
+  "extracted_ZIP_live_smoke": {
+    "case_id": "CMDB-069",
+    "quality": 5,
+    "timed_score": 5,
+    "elapsed": 2.4093972500413656,
+    "requests": 3,
+    "failed_requests": 0,
+    "models": [
+      {
+        "requested": "deepseek-flash",
+        "returned": "deepseek-flash"
+      },
+      {
+        "requested": "deepseek-flash",
+        "returned": "deepseek-flash"
+      },
+      {
+        "requested": "deepseek-flash",
+        "returned": "deepseek-flash"
+      }
+    ],
+    "archive_sha256": "3d87b77fb6246635e059e53458f16bda7c8b71e6b381df98d243969b54db8fe5",
+    "status": "passed",
+    "raw_output_sha256": "7c03b5375d68f8049023957d8f61b8e3839f7badbbc87958b93fb7ceed2ae17f",
+    "new_full200_score": null
+  },
+  "offline_package_check_passed": true,
+  "local_server_check_passed": true,
+  "real_evaluation_machine_tested": false,
+  "new_full200_score": null,
+  "small_run_scores_stitched": false,
+  "known_remaining": [
+    "057 exact address membership semantics",
+    "r6 real multi-obligation evaluation",
+    "A/C authority and reference scope rulings"
+  ],
+  "release_ZIP_contains_credentials": false,
+  "release_ZIP_contains_cases_or_raw_database": false
+}

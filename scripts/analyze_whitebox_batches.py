@@ -6,6 +6,7 @@ from pathlib import Path
 import zipfile
 
 from analyze_full_whitebox import group,reason,sha
+from training_raw_output import RAW_OUTPUT_POLICY, verify_raw_output
 
 
 def require(condition,message):
@@ -36,15 +37,20 @@ def read_batch(directory):
     require([r['case_id'] for r in rows]==plan['case_ids']==[r['case_id'] for r in expected],'identity/order mismatch')
     require([r['case_index'] for r in rows]==list(range(first,last+1)),'original index mismatch')
     require(all(r['question']==c['question'] for r,c in zip(rows,expected)),'question text mismatch')
+    if plan.get('raw_output_policy') is not None:
+        require(plan['raw_output_policy']==RAW_OUTPUT_POLICY,'unsupported raw output policy')
+        for row in rows:
+            verify_raw_output(directory,row)
     measured=group(rows)
     require(measured['timed_score']==summary['total_score'] and measured['untimed_score']==summary['untimed_score'],'score summary mismatch')
     return {'directory':str(directory),'plan':plan,'dataset':dataset,'rows':rows,'requests':requests,
             'summary':summary,'budget':budget,'trace_sha256':sha(directory/'live.jsonl'),'source_zip_sha256':sha(directory/'source.zip')}
 
 
-def combine_batches(directories):
+def combine_batches(directories, expected_count=200):
+    require(type(expected_count) is int and 1<=expected_count<=200,'invalid expected case count')
     batches=[read_batch(path) for path in directories]
-    require(len(batches)>=2,'need original-order bounded batches')
+    require(len(batches)>=1,'need original-order bounded batches')
     reference=batches[0];end=0;rows=[];requests=[]
     same=['source_sha256','feature_flags','template_count','model','base_url','thinking_mode',
           'thinking_extra_body','max_output_tokens','sdk_max_retries','scoring_revision','evaluation_sha256']
@@ -52,21 +58,23 @@ def combine_batches(directories):
         plan=batch['plan'];first,last=plan['whitebox_range']
         require(first==end+1,'overlap, gap or reordering between batches')
         require(batch['dataset']==reference['dataset'] and all(plan[k]==reference['plan'][k] for k in same),'query source/dataset/options changed between batches')
+        require(plan.get('raw_output_policy')==reference['plan'].get('raw_output_policy'),'raw output policy changed between batches')
         rows+=batch['rows'];requests+=batch['requests'];end=last
-    require(end==len(rows)==200 and [r['case_id'] for r in rows]==[c['case_id'] for c in reference['dataset']],'full200 coverage not proven')
+    require(end==len(rows)==expected_count and [r['case_id'] for r in rows]==[c['case_id'] for c in reference['dataset'][:expected_count]],'requested coverage not proven')
     failures=[{'case_id':r['case_id'],'case_index':r['case_index'],'question':r['question'],
                'score':r['score'],'untimed_score':r['score_without_time_penalty'],'scorer_reason':r['reason'],
                'cause':reason(r),'selected_template':(r.get('diagnostics') or {}).get('selected_template'),
                'empty_guess':bool((r.get('diagnostics') or {}).get('empty_answer_fallback')),
                'api_call':r.get('api_call'),'sql':r.get('sql'),'result':r.get('result')}
               for r in rows if r['score_without_time_penalty']!=5]
-    report={'scope':'whitebox200_all_development','status':'complete','run_mode':'same frozen candidate, consecutive batches; fresh process/cache per batch',
-            'single_process_round':False,'full_coverage_verified':True,'source_rows_rescored':False,
+    report={'scope':('whitebox200_all_development' if expected_count==200 else 'whitebox200_prefix_development'),'status':'complete','run_mode':'same frozen candidate, consecutive batches; fresh process/cache per batch',
+            'single_process_round':False,'full_coverage_verified':expected_count==200,'requested_coverage_verified':True,'case_count':expected_count,'source_rows_rescored':False,
             'template_count':reference['plan']['template_count'],'overall':group(rows),
             'first170':group(rows[:170]),'last30':group(rows[170:]),
             'original_train150_members':group([r for r in rows if r.get('training_case_index') is not None]),
             'original_validation50_members':group([r for r in rows if r.get('training_case_index') is None]),
             'generation_requests':len(requests),'failed_requests':sum(r['status']!='ok' for r in requests),
+            'raw_output_policy':reference['plan'].get('raw_output_policy'),
             'source_sha256':reference['plan']['source_sha256'],'feature_flags':reference['plan']['feature_flags'],
             'batches':[{k:b[k] for k in ['directory','summary','budget','trace_sha256','source_zip_sha256']} for b in batches],
             'limitation':'all200 exposed development questions; not unseen holdout or official weighted score; interrupted150 run excluded',

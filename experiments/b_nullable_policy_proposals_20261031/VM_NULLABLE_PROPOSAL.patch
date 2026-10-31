@@ -1,0 +1,13 @@
+--- a/experiments/issue3_next_capabilities_20261030/modules/vm_eip_host/candidate.py
++++ b/experiments/issue3_next_capabilities_20261030/modules/vm_eip_host/candidate.py
+@@ -76,8 +76,8 @@
+   batch=page.get('objList')
+   if not isinstance(batch,list) or len(batch)!=min(z,max(t-len(rows),0)):raise Unsupported(resource+': truncated or extra page')
+   for raw in batch:
+-   if not isinstance(raw,dict) or any(k not in raw for k in columns):raise Unsupported(resource+': missing row schema key')
+-   row={k:raw[k] for k in columns};identity=row['id']
++   if not isinstance(raw,dict) or any(k not in raw for k in set(columns)-({'floatingIp'} if resource=='VM_NOVA' else set())):raise Unsupported(resource+': missing row schema key')
++   row={k:raw.get(k) for k in columns};identity=row['id']
+    if not isinstance(identity,str) or blank(identity) or identity in seen:raise Unsupported(resource+': unique nonblank id required; repeated identities may hide missing objects')
+    seen.add(identity)
+    for key,value in row.items():

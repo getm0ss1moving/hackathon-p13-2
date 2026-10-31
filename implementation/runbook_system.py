@@ -22,6 +22,9 @@ from urllib.parse import quote
 
 import requests
 
+from runbook_defaults import apply_defaults
+apply_defaults()
+
 import runbook_executor as executor
 import runbook_matcher as matcher
 from runbook_retriever import RunbookRetriever
@@ -84,9 +87,15 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
     total_received = 0
     sql = item.get("sql", "")
     structure = matcher._sql_structure(sql).strip().rstrip(";").strip()
-    if not re.match(r"^SELECT\b", structure, re.I) or ";" in structure or "{{" in sql or matcher._get_placeholders(item):
+    if not re.match(r"^(?:SELECT|WITH)\b", structure, re.I) or ";" in structure or "{{" in sql or matcher._get_placeholders(item):
         raise _APIPlanRefusal("unsupported_or_unfilled_sql")
-    sql_tables = {table.casefold(): table for table in matcher._extract_sql_tables(structure)}
+    roles=matcher._sql_relation_roles(sql)
+    if roles['unknown'] or roles['remote_name_shadowed']:
+        raise _APIPlanRefusal('unknown_or_shadowed_sql_relation')
+    if re.search(r'\b(?:INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|ALTER|PRAGMA|ATTACH|DETACH)\b',structure,re.I):
+        raise _APIPlanRefusal('non_readonly_sql')
+    sql_tables=roles['remote']
+    diagnostics['local_sql_relations']=roles['local_ctes']
     if not sql_tables:
         raise _APIPlanRefusal("sql_has_no_resource_table")
     calls = item.get("api_call") or []
@@ -230,6 +239,8 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
                 quote_name = lambda text: '"' + text.replace('"', '""') + '"'
                 connection.execute("CREATE TABLE " + quote_name(name) + " (" + ",".join(quote_name(c) + " TEXT" for c in columns) + ")")
             connection.set_progress_handler(lambda: int(time.perf_counter() >= deadline), 1000)
+            connection.set_authorizer(lambda action,*args:sqlite3.SQLITE_OK if action in {
+                sqlite3.SQLITE_SELECT,sqlite3.SQLITE_READ,sqlite3.SQLITE_FUNCTION,sqlite3.SQLITE_RECURSIVE} else sqlite3.SQLITE_DENY)
             try:
                 cursor = connection.execute(sql)
                 columns = [column[0] for column in cursor.description]
@@ -338,6 +349,18 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
                     else:
                         by_id[identity] = record
                         combined.append(record)
+            if item.get('_cce_cluster_details'):
+                from runbook_cce_details import validate_rows
+                try:
+                    combined=validate_rows(ci,combined,item['_cce_cluster_details']['region'])
+                except (ValueError,KeyError) as error:
+                    raise _APIPlanRefusal(str(error)) from error
+            if item.get('_vdc_resource_counts'):
+                from runbook_vdc_counts import normalize
+                try:
+                    combined=normalize(ci,combined,item['_vdc_resource_counts']['region'])
+                except ValueError as error:
+                    raise _APIPlanRefusal(str(error)) from error
             tables[table_name(ci)] = combined  # 后一逻辑步骤覆盖同名表，保持原执行器语义。
             previous, previous_table = combined, table_name(ci)
             diagnostics["steps"].append({"step": step, "ci": ci, "batches": len(planned), "rows": len(combined)})
@@ -366,6 +389,12 @@ def _execute_bounded_api(item, diagnostics, *, session=None, request_line_limit=
             if ci is None:
                 raise _APIPlanRefusal("unsupported_sql_resource")
             tables[table_name(ci)] = fetch(ci, [])
+        if item.get('_cce_cluster_details'):
+            from runbook_cce_details import validate_population
+            try:
+                diagnostics['cce_population']=validate_population(tables)
+            except (ValueError,KeyError) as error:
+                raise _APIPlanRefusal(str(error)) from error
         return sql_result()
     finally:
         if own_session:
@@ -608,6 +637,8 @@ class RunbookQuerySystem:
                            and _dependent_count_eligibility(runbook_item))
         independent_count = (os.environ.get("RUNBOOK_TYPED_EMPTY_ROOT") == "1"
                              and runbook_item.get("_closed_independent_count") is True)
+        relation_roles=matcher._sql_relation_roles(runbook_item.get('sql',''))
+        local_cte=bool(relation_roles['local_ctes'] and not relation_roles['unknown'] and not relation_roles['remote_name_shadowed'])
         if semijoin:
             execution = diagnostics.setdefault("sg_rule_semijoin", {})
         elif bounded:
@@ -618,6 +649,12 @@ class RunbookQuerySystem:
             execution = diagnostics.setdefault("typed_independent_count", {})
         elif runbook_item.get('_bounded_rule_details') is True:
             execution = diagnostics.setdefault('bounded_rule_details',{})
+        elif runbook_item.get('_cce_cluster_details'):
+            execution = diagnostics.setdefault('cce_cluster_details',{})
+        elif runbook_item.get('_vdc_resource_counts'):
+            execution = diagnostics.setdefault('vdc_resource_counts',{})
+        elif local_cte:
+            execution = diagnostics.setdefault('local_cte_execution',{})
         elif direct_empty and direct_empty["eligible"]:
             diagnostics["typed_empty_root_eligibility"] = direct_empty
             execution = diagnostics.setdefault("typed_empty_root", {})
@@ -637,9 +674,9 @@ class RunbookQuerySystem:
                 options = {"lookup_sources": sources}
                 if semijoin:
                     options["sg_rule_semijoin"] = True
-                elif runbook_item.get('_bounded_rule_details') is True:
+                elif runbook_item.get('_bounded_rule_details') is True or runbook_item.get('_cce_cluster_details') or runbook_item.get('_vdc_resource_counts'):
                     options.update(request_line_limit=4096,seconds_limit=60)
-                elif not bounded and not dependent_count and not independent_count:
+                elif not bounded and not dependent_count and not independent_count and not local_cte:
                     options["empty_root_only"] = True
                 result = _execute_bounded_api(runbook_item, execution, **options)
             except _APIPlanRefusal as error:

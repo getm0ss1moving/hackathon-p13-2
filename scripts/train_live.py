@@ -9,9 +9,13 @@ import subprocess
 import sys
 import time
 import traceback
+from urllib.parse import urlsplit
+
+import requests
 
 from training_data import load_training, sha, SPLIT
 from run_whitebox import now, result_preview, peak_memory_mib, percentile
+from training_raw_output import RAW_OUTPUT_POLICY, save_raw_output
 
 HERE = Path(__file__).resolve().parents[1]
 V2_HISTORY_FILES = ("train150_v2_live.jsonl", "train150_v2_resume_live.jsonl")
@@ -151,6 +155,13 @@ def main(argv=None):
     parser.add_argument("--typed-empty-root", action="store_true", help="单CI真实空集按正确空表执行，COUNT为0，默认关闭")
     parser.add_argument("--no-empty-answer-fallback", action="store_true", help="关闭用户默认启用的拒答/错误猜空策略，用于原行为对照")
     parser.add_argument("--detail-count", action="store_true", help="同范围原明细与对象总数完整输出，默认关闭")
+    parser.add_argument("--cce-cluster-details", action="store_true", help="原CCE列表补节点与已证VM统计，未知VM计数为NULL，默认关闭")
+    parser.add_argument('--vdc-resource-counts',action='store_true',help='同区域三资源原生VDC标签计数，缺失保留NULL，候选默认关闭')
+    parser.add_argument('--cluster-rank-details',action='store_true',help='A已知集群排名、全部审计计数与未知诊断，候选默认关闭')
+    parser.add_argument('--issue4-network',action='store_true',help='A72e6062原生PORT政策和网络组合合同，候选默认关闭')
+    parser.add_argument('--issue4-network-family',action='append',choices=['hierarchy','named_vpc'],help='只启用指定新网络合同，可重复')
+    parser.add_argument('--issue4-vm-links',action='store_true',help='A consumer/provider与真实租户VM/EIP筛选，默认关闭')
+    parser.add_argument('--issue4-az-counts',action='store_true',help='A区域AZ独立人口和VPC未知桶，默认关闭')
     parser.add_argument("--ground-sql-measures", action="store_true", help="拒绝SQL时钟/随机伪造业务测量，默认关闭")
     parser.add_argument("--partial-storage-pools", action="store_true", help="存储池明细/容量与明确磁盘类型缺项，默认关闭")
     parser.add_argument("--preserve-sparse-nulls", action="store_true", help="保留已审稀疏NULL投影候选；参考范围冲突未解决，默认关闭")
@@ -176,6 +187,16 @@ def main(argv=None):
             raise ValueError('全200分批必须显式启用并完整指定起终点')
         if args.issue3_profile and (not args.issue3_contracts or len(set(args.issue3_profile))!=len(args.issue3_profile)):
             raise ValueError('A合同profile要求显式启用且不能重复')
+        if args.cluster_rank_details and not args.issue3_contracts:
+            raise ValueError('集群排名接入须同时启用已冻结的issue3原生执行层')
+        if args.issue4_network and not args.issue3_contracts:
+            raise ValueError('新网络合同须同时启用issue3原生执行层')
+        if args.issue4_vm_links and not args.issue3_contracts:
+            raise ValueError('VM/EIP合同须同时启用issue3原生执行层')
+        if args.issue4_az_counts and not args.issue3_contracts:
+            raise ValueError('AZ合同须同时启用issue3原生执行层')
+        if args.issue4_network_family and (not args.issue4_network or len(set(args.issue4_network_family))!=len(args.issue4_network_family)):
+            raise ValueError('新网络合同family要求显式开启且不能重复')
         official_integrity = require_official_files(HERE)
     except ValueError as exc:
         parser.error(str(exc))
@@ -252,6 +273,13 @@ def main(argv=None):
     flags["RUNBOOK_TYPED_EMPTY_ROOT"] = "1" if args.typed_empty_root else "0"
     flags["RUNBOOK_EMPTY_ANSWER_FALLBACK"] = "0" if args.no_empty_answer_fallback else "1"
     flags["RUNBOOK_COMPLETE_DETAIL_COUNT"] = "1" if args.detail_count else "0"
+    flags['RUNBOOK_COMPLETE_CCE_DETAILS'] = '1' if args.cce_cluster_details else '0'
+    flags['RUNBOOK_VDC_RESOURCE_COUNTS']='1' if args.vdc_resource_counts else '0'
+    flags['RUNBOOK_CLUSTER_RANK_DETAILS']='1' if args.cluster_rank_details else '0'
+    flags['RUNBOOK_ISSUE4_NETWORK']='1' if args.issue4_network else '0'
+    flags['RUNBOOK_ISSUE4_NETWORK_FAMILIES']=json.dumps(sorted(args.issue4_network_family) if args.issue4_network_family else None,separators=(',',':'))
+    flags['RUNBOOK_ISSUE4_VM_LINKS']='1' if args.issue4_vm_links else '0'
+    flags['RUNBOOK_ISSUE4_AZ_COUNTS']='1' if args.issue4_az_counts else '0'
     flags["RUNBOOK_GROUND_SQL_MEASURES"] = "1" if args.ground_sql_measures else "0"
     flags["RUNBOOK_PARTIAL_STORAGE_POOLS"] = "1" if args.partial_storage_pools else "0"
     flags["RUNBOOK_PRESERVE_SPARSE_NULLS"] = '1' if args.preserve_sparse_nulls else '0'
@@ -359,6 +387,8 @@ def main(argv=None):
     sources = ["scripts/train_live.py", "scripts/training_data.py", "scripts/run_whitebox.py", "scripts/check_official_integrity.py", "baseline_manifest.json"] + ["implementation/"+name for name in
                ["runbook_matcher.py", "runbook_system.py", "runbook_items.py", "runbook_retriever.py", "evaluator.py", "runbook_executor.py"]]
     sources.append("implementation/runbook_aggregates.py")
+    sources+=['implementation/runbook_defaults.py','configs/whitebox200_a132.env']
+    sources.append("scripts/training_raw_output.py")
     sources.append('implementation/runbook_bootable_native.py')
     if args.native_bootable:
         from runbook_bootable_native import sources as bootable_sources
@@ -373,6 +403,20 @@ def main(argv=None):
     sources.append("implementation/runbook_sg_rule_semijoin.py")
     sources.append("implementation/runbook_empty_root.py")
     sources.append("implementation/runbook_detail_count.py")
+    sources.append('implementation/runbook_cce_details.py')
+    sources.append('implementation/runbook_vdc_counts.py')
+    sources.append('implementation/runbook_cluster_rank_details.py')
+    sources.append('implementation/runbook_issue4.py')
+    sources.append('implementation/runbook_issue4_vm_links.py')
+    sources.append('implementation/runbook_issue4_az.py')
+    if args.issue4_network or args.issue4_vm_links or args.issue4_az_counts:
+        from runbook_issue4 import sources as issue4_sources
+        sources+=list(issue4_sources()[1])
+    if args.cluster_rank_details:
+        from runbook_cluster_rank_details import sources as rank_sources
+        sources+=list(rank_sources()[1])
+    if args.cce_cluster_details:
+        sources.append('背景知识.md')
     sources.append("implementation/runbook_measurement_guard.py")
     sources.append("implementation/runbook_storage_pool_partial.py")
     sources += ["implementation/quick_eval.py", "implementation/blackbox_eval.py"]
@@ -398,6 +442,8 @@ def main(argv=None):
         sources += ['scripts/validation_data.py', 'CMDB用例集-白盒200.json']
     plan = {"type": "validation_plan" if validation else "training_plan", "created_at": now(), "split_id": manifest["split_id"],
             "record_format": 2,
+            "raw_output_policy": RAW_OUTPUT_POLICY,
+            "data_http_capture_policy": "requests.Session.send; localhost:8080; method/path/status only; initialization separated",
             "case_count": case_count, "case_ids": [case["case_id"] for case in cases], "phase": phase,
             "phase_reference": phase_reference,
             "repeats": 1, "case_order": ("original whitebox file order" if args.whitebox200 else
@@ -475,6 +521,22 @@ def main(argv=None):
             stream.flush()
 
         write(plan)
+        original_send=requests.Session.send
+        data_http_events=[];current_case_id=None
+        def capture_send(session,request,**options):
+            url=urlsplit(request.url)
+            if url.hostname not in {'127.0.0.1','localhost'} or url.port!=8080:
+                return original_send(session,request,**options)
+            event={'type':'data_http_request','case_id':current_case_id,'method':request.method,'path':url.path,
+                   'phase':'case' if current_case_id else 'initialization','status':None}
+            try:
+                response=original_send(session,request,**options);event['status']=response.status_code
+                return response
+            except Exception as error:
+                event['error_type']=type(error).__name__;raise
+            finally:
+                data_http_events.append(event);write(event)
+        requests.Session.send=capture_send
         try:
             frozen()
             system = system_module.RunbookQuerySystem()
@@ -521,12 +583,16 @@ def main(argv=None):
             matcher.llm_ask = ask
             for index, case in enumerate(cases):
                 frozen()
+                current_case_id=case['case_id']
                 t0 = time.perf_counter()
                 output = system.query(case["question"])
                 elapsed = time.perf_counter()-t0
                 frozen()
+                case_index = index+(args.whitebox_first if batched_whitebox else 1)
+                raw_output = save_raw_output(args.output, case_index, case["case_id"], output)
                 scored, untimed = evaluate_case(case, output, elapsed), evaluate_case(case, output, 0)
-                row = {"type": "case", "case_index": index+(args.whitebox_first if batched_whitebox else 1), **scored, "question": case["question"],
+                row = {"type": "case", "case_index": case_index, **scored, "question": case["question"],
+                       "raw_output": raw_output,
                        "training_case_index": training_indices.get(case["case_id"]),
                        "score_without_time_penalty": untimed["score"], "matched_runbook": output.get("matched_runbook"),
                        "api_call": output.get("api_call"), "sql": output.get("sql"), "result": result_preview(output.get("result")),
@@ -553,6 +619,9 @@ def main(argv=None):
                        "empty_answer_guesses": sum(bool((row.get("diagnostics") or {}).get("empty_answer_fallback")) for row in records),
                        "scorer_abstentions": sum(row["score_without_time_penalty"] == 0 for row in records),
                        "generation_requests": len(events), "failed_requests": sum(row["status"] != "ok" for row in events),
+                       "data_HTTP_requests":len(data_http_events),
+                       "data_HTTP_404":sum(e['status']==404 for e in data_http_events),
+                       "case_data_HTTP_404":sum(e['status']==404 and e['case_id'] is not None for e in data_http_events),
                        "max_requests": max_requests,
                        "model_identity_mismatches": mismatch, "holdout_evaluated": validation,
                        "wall_seconds": round(time.perf_counter()-started, 3), "peak_evaluation_process_mib": peak_memory_mib(),
@@ -561,6 +630,7 @@ def main(argv=None):
             write(summary)
             print(json.dumps(summary, ensure_ascii=False), flush=True)
             matcher.llm_ask = original_ask
+            requests.Session.send=original_send
             if matcher._llm_client is not None:
                 if original_create is not None:
                     matcher._llm_client.chat.completions.create = original_create
